@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 28 Mar 2026 20:02:02 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Mar 2026 21:01:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Sequels Are Never As Good, But We're Still In Pain (Citrix NetScaler CVE-2026-3055 Memory Overread)</title>
+      <link>https://labs.watchtowr.com/the-sequels-are-never-as-good-but-were-still-in-pain-citrix-netscaler-cve-2026-3055-memory-overread/</link>
+      <description>Watchtowr Labs analyzes CVE-2026-3055, another Citrix NetScaler memory overread vulnerability affecting appliances configured as SAML IdPs. CVSS 9.3 flaw echoes previous CitrixBleed incidents with session data disclosure potential.
+
+Technical breakdown:
+• CVE-2026-3055 affects NetScaler ADC/Gateway versions before 14.1-26.x when configured as SAML Identity Provider
+• Vulnerability triggered by sending minimal SAML AuthnRequest without AssertionConsumerServiceURL parameter
+• Memory disclosure occurs in NSC_TASS cookie containing fragments like 0xdeadbeef markers and previous request data
+• Exploitation leaves verbose logs in /var/log/ns.log with malformed ProtocolBinding entries
+• Patched versions return "Parsing of presented Assertion failed" error instead of cookies
+
+Attack vector requires POST to /saml/login endpoint with crafted base64-encoded XML payload missing specific SAML parameters. Memory disclosure limited to ~100 bytes per attempt, terminated by NULL bytes.
+
+Detection opportunity: Monitor for NSC_TASS cookies issued after malformed SAML requests and unusual /var/log/ns.log entries with truncated ProtocolBinding values.
+
+Hunt for appliances returning cookies instead of parsing errors when processing minimal SAML requests. Watchtowr provides detection payload in their analysis.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037998644322783310</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2037998644322783310">DFIR Radar</source>
+      <pubDate>Sat, 28 Mar 2026 21:01:56 +0000</pubDate>
+      <guid isPermaLink="false">2037998644322783310</guid>
+    </item>
     <item>
       <title>Azure Blob Storage Misconfigurations: Attacker’s Gateway to Data</title>
       <link>https://infosecwriteups.com/azure-blob-storage-misconfigurations-attackers-gateway-to-data-b7d8e957440e?source=rss----7b722bfd1b8d---4</link>
@@ -1390,17 +1414,6 @@ Hunt for curl POST requests from CI runners to external domains with application
       <source url="https://x.com/DFIR_Radar/status/2036292622965182923">DFIR Radar</source>
       <pubDate>Tue, 24 Mar 2026 04:02:49 +0000</pubDate>
       <guid isPermaLink="false">2036292622965182923</guid>
-    </item>
-    <item>
-      <title>Detecting Sliver C2: When Advanced Beaconing Tries to Hide in Plain Sight by Lucie Cardiet</title>
-      <link>https://www.vectra.ai/blog/detecting-sliver-c2-when-advanced-beaconing-tries-to-hide-in-plain-sight</link>
-      <description>Sliver C2's procedural data jitter rotates encoders and HTTP paths to create multiple traffic patterns instead of single beacon clusters, breaking traditional detection algorithms.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036277100794261995</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2036277100794261995">DFIR Radar</source>
-      <pubDate>Tue, 24 Mar 2026 03:01:08 +0000</pubDate>
-      <guid isPermaLink="false">2036277100794261995</guid>
     </item>
   </channel>
 </rss>
