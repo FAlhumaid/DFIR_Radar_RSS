@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 29 Mar 2026 22:02:11 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2026 23:02:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Please, We Beg, Just One Weekend Free Of Appliances (Citrix NetScaler CVE-2026-3055 Memory Overread Part 2)</title>
+      <link>https://labs.watchtowr.com/please-we-beg-just-one-weekend-free-of-appliances-citrix-netscaler-cve-2026-3055-memory-overread-part-2/</link>
+      <description>CVE-2026-3055 reveals multiple memory overread bugs in Citrix NetScaler affecting /saml/login and /wsfed/passive endpoints. In-the-wild exploitation confirmed since March 27th, 2026.
+
+Technical details:
+• CVE-2026-3055 encompasses at least TWO distinct memory overread vulnerabilities
+• Second variant targets GET /wsfed/passive?wctx (missing = symbol triggers buffer overrun)
+• Leaked memory appears base64-encoded in NSC_TASS cookie responses
+• Only exploitable when NetScaler configured as SAML Identity Provider
+• Memory disclosure reveals HTTP headers, session IDs, and administrative tokens
+
+Attack methodology:
+• Simple GET request to /wsfed/passive?wctx (no value, no equals sign)
+• Vulnerable appliances return kilobytes of leaked memory content
+• Multiple requests yield different memory chunks each time
+• Administrative session hijacking possible via leaked session cookies
+
+DFIR artifacts:
+• Monitor for requests to /wsfed/passive?wctx and /saml/login endpoints
+• Large NSC_TASS cookie values (base64-encoded leaked memory)
+• 302 redirects with abnormally long Set-Cookie headers
+• Citrix-ns-orig-srcip headers in leaked memory indicate internal requests
+
+Hunt for GET requests to these endpoints without proper query parameters. Detection script and IOCs available in watchTowr Labs report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038391296839004222</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2038391296839004222">DFIR Radar</source>
+      <pubDate>Sun, 29 Mar 2026 23:02:11 +0000</pubDate>
+      <guid isPermaLink="false">2038391296839004222</guid>
+    </item>
     <item>
       <title>iOS Lockdown mode and forensic analysis: a technical perspective</title>
       <link>https://andreafortuna.org/2026/03/29/ios-lockdown-mode-forensics/</link>
@@ -1415,31 +1447,6 @@ Hunt for certificate templates with msPKI-Certificate-Name-Flag=1, client authen
       <source url="https://x.com/DFIR_Radar/status/2036397957998686439">DFIR Radar</source>
       <pubDate>Tue, 24 Mar 2026 11:01:22 +0000</pubDate>
       <guid isPermaLink="false">2036397957998686439</guid>
-    </item>
-    <item>
-      <title>TeamPCP expands: Supply chain compromise spreads from Trivy to Checkmarx GitHub Actions</title>
-      <link>https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions</link>
-      <description>TeamPCP threat actor expands supply chain attack from Trivy to Checkmarx GitHub Actions, using stolen credentials to cascade compromise across CI/CD pipelines. Second wave uses identical stealer payload with vendor-specific typosquat domains.
-
-Key technical details:
-• Initial Trivy compromise (March 19) harvested credentials via /proc/*/mem scraping, IMDS queries to 169.254.169.254, and webhook enumeration
-• Checkmarx wave (March 23) used stolen PATs to poison ast-github-action v2.3.28 with identical tpcp.tar.gz payload
-• Exfiltration to typosquats: scan.aquasecurtiy[.]org (45.148.10.212) and checkmarx[.]zone using AES-256+RSA-4096 encryption
-• Same kill chain: Runner.Worker → bash → setup script → curl POST with identical headers and binary upload pattern
-
-Attack methodology:
-• Force-pushed 75/76 version tags in compromised repositories to redirect to malicious commits
-• Memory extraction targets GitHub PATs, AWS/GCP credentials, and webhook URLs from runner processes
-• Cascading compromise: stolen credentials enable poisoning additional actions in accessible repos
-• Vendor-specific domains reduce detection likelihood in CI/CD logs
-
-Hunt for curl POST requests from CI runners to external domains with application/octet-stream content-type and tpcp.tar.gz filenames in process arguments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036382898211651749</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2036382898211651749">DFIR Radar</source>
-      <pubDate>Tue, 24 Mar 2026 10:01:32 +0000</pubDate>
-      <guid isPermaLink="false">2036382898211651749</guid>
     </item>
   </channel>
 </rss>
