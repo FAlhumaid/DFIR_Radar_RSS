@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 30 Mar 2026 13:02:37 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2026 14:02:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Keitaro TDS abused to deliver AutoIT-based loader targeting German speakers · Blog · Sublime Security</title>
+      <link>https://proxied2.sublime.security/blog/keitaro-tds-abused-to-delivery-autoit-based-loader-targeting-german-speakers</link>
+      <description>German 🇩🇪-targeted romance scam campaign leverages Keitaro TDS for geo-filtering and delivers 300MB AutoIT-based loader via password-protected ISO files. Campaign uses explicit content lures with sophisticated evasion techniques including AV detection and scheduled task persistence.
+
+Technical breakdown:
+• Initial vector: Romance-themed emails with malicious links to tradesurp[.]com and privatephotos[.]online domains
+• Keitaro TDS performs geo-filtering (German locales only) + delivers oversized ISO (300MB) from Russia 🇷🇺-based infrastructure
+• ISO contains AutoIT interpreter + heavily obfuscated 11,500-line script (SHA256: 551f05395664da2e8385366b95266af9bb3f953d022e737f3defecf7f0289bc4)
+• Batch script (Burden.mil.bat) detects AV services (bdservicehost, SophosHealth, AvastUI) and modifies execution flow accordingly
+• Persistence via scheduled task "DragonMapper" in %LocalAppData%\Ecovision Solutions\ (T1053.005)
+• Keitaro TDS identified by Base64 cookie "3f06b" - key indicator for this platform
+
+Hunt for scheduled tasks containing "DragonMapper", oversized ISO files in Downloads, and AutoIT3.exe processes spawned from %LocalAppData%. Full IOC list includes file hashes and network indicators.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038617850340917450</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2038617850340917450">DFIR Radar</source>
+      <pubDate>Mon, 30 Mar 2026 14:02:26 +0000</pubDate>
+      <guid isPermaLink="false">2038617850340917450</guid>
+    </item>
     <item>
       <title>AITM phishing with Russian infrastructure and detection evasion from a lapsed domain · Blog · Sublime Security</title>
       <link>https://proxied2.sublime.security/blog/aitm-phishing-with-russian-infrastructure-and-detection-evasion-from-a-lapsed-domain</link>
@@ -1457,28 +1478,6 @@ Hunt for litellm_init.pth files, outbound traffic to models.litellm[.]cloud, and
       <source url="https://x.com/DFIR_Radar/status/2036533856069640213">DFIR Radar</source>
       <pubDate>Tue, 24 Mar 2026 20:01:23 +0000</pubDate>
       <guid isPermaLink="false">2036533856069640213</guid>
-    </item>
-    <item>
-      <title>Threat Actors Abuse Railway.com PaaS as Microsoft 365 Token Attack Infrastructure</title>
-      <link>https://www.huntress.com/blog/railway-paas-m365-token-replay-campaign</link>
-      <description>Threat actors exploit Railway.com PaaS to launch massive Microsoft 365 device code phishing campaign targeting 344+ organizations across construction, legal, and finance sectors. EvilTokens PhaaS platform identified as attribution.
-
-Campaign weaponizes OAuth device flow with unprecedented scale and automation:
-• EvilTokens PhaaS offers "Office 365 Capture Link" with AI-powered lure generation, custom branding, and vulnerable URL redirection chains
-• Railway IPs (162.220.234.41, 162.220.234.66, 162.220.232.57) serve as clean reputation token harvesting infrastructure 
-• Multi-hop redirect chains abuse Cisco/Trend Micro/Mimecast URL rewriters → compromised sites → workers.dev endpoints
-• Device codes rendered directly on landing pages eliminate email-based code delivery, streamlining victim interaction
-• Synthetic iPhone UA strings (iOS 18.7 + Version/26.3) provide high-fidelity detection signatures
-
-Attack bypasses MFA entirely - victims authenticate legitimately but under attacker-controlled conditions. Tokens remain valid 90 days post-compromise, surviving password resets.
-
-Hunt for successful logins from Railway CIDR blocks (162.220.232.0/22, 162.220.234.0/22) in SigninLogs where ResultType == 0. Block device code flows via Conditional Access and revoke all refresh tokens for affected users immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036518861411909902</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2036518861411909902">DFIR Radar</source>
-      <pubDate>Tue, 24 Mar 2026 19:01:48 +0000</pubDate>
-      <guid isPermaLink="false">2036518861411909902</guid>
     </item>
   </channel>
 </rss>
