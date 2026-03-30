@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 30 Mar 2026 15:03:20 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2026 16:02:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>TeamPCP’s Telnyx Attack Marks a Shift in Tactics Beyond LiteLLM</title>
+      <link>https://www.trendmicro.com/en_us/research/26/c/teampcp-telnyx-attack-marks-a-shift-in-tactics.html</link>
+      <description>TeamPCP evolves beyond LiteLLM with Telnyx PyPI compromise, introducing WAV steganography and Windows persistence. Attack exposed 700K+ downloads for 6.5 hours before PyPI quarantine.
+
+Technical evolution from LiteLLM:
+• Split-file injection across 3 locations in _client.py evades visual inspection
+• WAV steganography hides credential harvester in audio files (hangup.wav, ringtone.wav) 
+• Windows support adds %APPDATA%\Startup\msbuild.exe persistence with CREATE_NO_WINDOW flag
+• Infrastructure shift from HTTPS domains to plaintext HTTP 83[.]142[.]209[.]203:8080
+• Anti-replay mechanism via msbuild.exe.lock with 12-hour cooldown
+
+Attack chain:
+• Malicious Telnyx 4.87.1/4.87.2 published to PyPI without GitHub commits
+• Import triggers Base64 decode wrapper _d() and platform detection
+• Downloads WAV files containing XOR-encrypted payloads (8-byte rotating key)
+• Establishes persistence and exfiltrates via tpcp.tar.gz HTTP POST
+
+DFIR artifacts:
+• WAV downloads from non-media IPs over port 8080
+• Unexpected msbuild.exe in user Startup folders
+• X-Filename: tpcp.tar.gz headers in HTTP traffic
+• Hidden .lock files via attrib +h commands
+
+Hunt for WAV file downloads to port 8080 and msbuild.exe processes with suppressed windows. Full IOCs and hunting queries available in Trend Micro report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038648041868284363</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2038648041868284363">DFIR Radar</source>
+      <pubDate>Mon, 30 Mar 2026 16:02:24 +0000</pubDate>
+      <guid isPermaLink="false">2038648041868284363</guid>
+    </item>
     <item>
       <title>Professional Networks Under Attack: Vietnam-Linked Actors Deploy PXA Stealer in Global Infostealer Campaign</title>
       <link>https://cyble.com/blog/professional-networks-under-attack-by-infostealer/</link>
@@ -1476,17 +1508,6 @@ Hunt for litellm_init.pth files, outbound traffic to models.litellm[.]cloud, and
       <source url="https://x.com/DFIR_Radar/status/2036564018727387279">DFIR Radar</source>
       <pubDate>Tue, 24 Mar 2026 22:01:14 +0000</pubDate>
       <guid isPermaLink="false">2036564018727387279</guid>
-    </item>
-    <item>
-      <title>Tax Search Ads Deliver ScreenConnect Malware Using Huawei Driver to Disable EDR</title>
-      <link>https://thehackernews.com/2026/03/tax-search-ads-deliver-screenconnect.html</link>
-      <description>Tax-themed malvertising campaign serves weaponized ScreenConnect installers with HwAudKiller tool that exploits Huawei drivers to disable EDR solutions via BYOVD technique. Active since January targeting US 🇺🇸 tax searches through Google Ads.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036548869161427335</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2036548869161427335">DFIR Radar</source>
-      <pubDate>Tue, 24 Mar 2026 21:01:02 +0000</pubDate>
-      <guid isPermaLink="false">2036548869161427335</guid>
     </item>
   </channel>
 </rss>
