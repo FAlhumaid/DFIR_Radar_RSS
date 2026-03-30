@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 30 Mar 2026 08:02:14 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 30 Mar 2026 09:02:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threats based on Clipboards actions (+ KQL Query)</title>
+      <link>https://detect.fyi/threats-based-on-clipboards-actions-kql-query-93615eef79b7?source=rss----d5fd8f494f6a---4</link>
+      <description>New analysis reveals clipboard-based data theft techniques using PowerShell cmdlets to silently harvest sensitive information from compromised endpoints. Simple .cmd scripts can run for days collecting passwords, tokens, and other copied data.
+
+Key technical details:
+• Threat actors abuse Get-Clipboard, Set-Clipboard PowerShell cmdlets for persistent data collection (T1115)
+• Malicious scripts log all Ctrl+C activity to text files: Add-Content -Path 'clipboard_log.txt' -Value "[$timestamp] $current"
+• Set-Clipboard -AsOSC52 enables remote clipboard injection over SSH/RDP sessions
+• Windows Clipboard History (Win+V) stores multiple items accessible via GetClipboardData APIs
+• Registry keys and cbdhsvc.exe process activity indicate clipboard monitoring
+
+Attack methodology:
+• Deploy .cmd wrapper executing PowerShell clipboard monitoring loop
+• Script runs silently collecting copied passwords, cryptocurrency addresses, tokens
+• Data exfiltration triggered after sufficient information gathered
+• Persistence through background execution, minimal system footprint
+
+DFIR artifacts:
+• ProcessCommandLine events containing "clipboard" + "powershell.exe"
+• Registry modifications enabling Clipboard History feature
+• cbdhsvc.exe and svchost.exe API call patterns in EDR logs
+• Clipboard_log.txt or similar output files in temp directories
+
+Use this KQL query for detection: DeviceProcessEvents | where ProcessCommandLine contains "clipboard" | where FileName has "powershell.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038542312947519824</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2038542312947519824">DFIR Radar</source>
+      <pubDate>Mon, 30 Mar 2026 09:02:17 +0000</pubDate>
+      <guid isPermaLink="false">2038542312947519824</guid>
+    </item>
     <item>
       <title>Resoker: A Telegram Based Remote Access Trojan</title>
       <link>https://labs.k7computing.com/index.php/resoker-a-telegram-based-remote-access-trojan/</link>
@@ -1445,17 +1477,6 @@ Hunt for certificate templates with msPKI-Certificate-Name-Flag=1, client authen
       <source url="https://x.com/DFIR_Radar/status/2036443376732573925">DFIR Radar</source>
       <pubDate>Tue, 24 Mar 2026 14:01:51 +0000</pubDate>
       <guid isPermaLink="false">2036443376732573925</guid>
-    </item>
-    <item>
-      <title>Common Entra ID Security Assessment Findings – Part 1: Foreign Enterprise Applications With Privileged API Permissions</title>
-      <link>https://blog.compass-security.com/2026/03/common-entra-id-security-assessment-findings-part-1-foreign-enterprise-applications-with-privileged-api-permissions/</link>
-      <description>Foreign Entra ID enterprise applications with privileged API permissions pose significant risk—credentials controlled in external tenants can bypass Conditional Access and enable tenant-wide data exfiltration or privilege escalation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036413088509862296</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2036413088509862296">DFIR Radar</source>
-      <pubDate>Tue, 24 Mar 2026 12:01:30 +0000</pubDate>
-      <guid isPermaLink="false">2036413088509862296</guid>
     </item>
   </channel>
 </rss>
