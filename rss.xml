@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Mar 2026 16:03:11 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 17:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside the Axios supply chain compromise - one RAT to rule them all</title>
+      <link>https://www.elastic.co/security-labs/axios-one-rat-to-rule-them-all</link>
+      <description>Massive supply chain compromise: Axios npm package backdoored with cross-platform RAT reaching ~100 million weekly downloads. Compromised maintainer account deployed identical C2 protocol across Windows, macOS, and Linux systems.
+
+Campaign details:
+• Compromised jasonsaayman maintainer account published axios@1.14.1 (latest) and axios@0.30.4 (legacy) with malicious plain-crypto-js dependency
+• Postinstall hook automatically downloads platform-specific RAT implants from sfrclak[.]com:8000 (T1195.002)
+• Stage-2 payloads: PowerShell (Windows), C++ (macOS), Python (Linux) - all implementing identical C2 protocol and command set
+• Anti-forensic cleanup: dropper self-deletes and swaps package.json to remove postinstall evidence (T1070.004)
+• Attribution overlap with WAVESHAPER/UNC1069 (DPRK-linked) based on macOS binary analysis
+
+Key artifacts:
+• Hardcoded User-Agent: "mozilla/4.0 (compatible; msie 8.0; windows nt 5.1; trident/4.0)" - anomalous on macOS/Linux
+• C2 communications: Base64-encoded JSON over HTTP POST every 60 seconds
+• Windows persistence: Registry Run key + hidden batch file
+• Command types: kill, peinject, runscript, rundir with platform-native execution
+
+Hunt for IE8/Windows XP user-agent strings from macOS/Linux hosts and npm packages with recent postinstall hooks. Full IOCs and detection rules available from Elastic Security Labs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039025796812361733</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2039025796812361733">DFIR Radar</source>
+      <pubDate>Tue, 31 Mar 2026 17:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2039025796812361733</guid>
+    </item>
     <item>
       <title>WhatsApp malware campaign delivers VBS payloads and MSI backdoors</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/03/31/whatsapp-malware-campaign-delivers-vbs-payloads-msi-backdoors/</link>
@@ -1580,17 +1606,6 @@ Hunt for unauthorized .pth files in Python environments and audit LLM provider a
       <source url="https://x.com/DFIR_Radar/status/2036986970728260080">DFIR Radar</source>
       <pubDate>Thu, 26 Mar 2026 02:01:54 +0000</pubDate>
       <guid isPermaLink="false">2036986970728260080</guid>
-    </item>
-    <item>
-      <title>Bubble AI app builder abused to steal Microsoft account credentials</title>
-      <link>https://www.bleepingcomputer.com/news/security/bubble-ai-app-builder-abused-to-steal-microsoft-account-credentials/</link>
-      <description>Threat actors bypass email security by abusing Bubble.io's legitimate domain to host phishing redirects targeting Microsoft credentials. AI-generated apps create complex JavaScript that evades automated analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036971878875562289</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2036971878875562289">DFIR Radar</source>
-      <pubDate>Thu, 26 Mar 2026 01:01:56 +0000</pubDate>
-      <guid isPermaLink="false">2036971878875562289</guid>
     </item>
   </channel>
 </rss>
