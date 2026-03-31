@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Mar 2026 20:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 21:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Latest Xloader Obfuscation Methods and Network Protocol</title>
+      <link>https://www.zscaler.com/blogs/security-research/latest-xloader-obfuscation-methods-and-network-protocol</link>
+      <description>Zscaler's deep dive into Xloader v8.7 reveals sophisticated new obfuscation techniques that significantly complicate automated analysis and detection. The info-stealer now uses randomized parameter construction, enhanced code obfuscation, and 65 decoy C2 servers to mask operations.
+
+Key technical details:
+• Enhanced function decryption: Parameters built out-of-order byte-by-byte instead of consistent patterns, breaking traditional automation tools
+• Multi-layer RC4 encryption with 5 different keys (PKT2, HTTP GET, C2 URL hash, derived seeds) plus Base64 encoding variations  
+• Network protocol uses "XLNG" magic header, supports 9 command types including PowerShell/DLL execution, credential theft, system shutdown (T1529)
+• Decoy infrastructure: Randomly selects 16 from 65 encrypted C2 IPs per communication cycle to evade sandbox detection
+
+DFIR artifacts:
+• HTTP traffic with modified Base64 chars (+ / = become - _ .) in POST requests
+• User-Agent varies: "Windows Explorer" (WinINet) vs browser mimicry (raw sockets)
+• Query parameters: random alphanumeric names with "&amp;dat=" prefix and "&amp;wn=1" flag
+
+Hunt for HTTP POST requests with modified Base64 encoding patterns and multiple RC4-encrypted layers. Monitor for PowerShell execution following suspicious HTTP GET requests to multiple IPs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039086021091197066</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2039086021091197066">DFIR Radar</source>
+      <pubDate>Tue, 31 Mar 2026 21:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2039086021091197066</guid>
+    </item>
     <item>
       <title>Axios Hijacked: npm Account Takeover Deploys Cross-Platform RAT to Millions</title>
       <link>https://securityboulevard.com/2026/03/axios-hijacked-npm-account-takeover-deploys-cross-platform-rat-to-millions/</link>
@@ -1639,17 +1663,6 @@ Hunt for unauthorized .pth files in Python environments and audit LLM provider a
       <source url="https://x.com/DFIR_Radar/status/2037038834051916261">DFIR Radar</source>
       <pubDate>Thu, 26 Mar 2026 05:27:59 +0000</pubDate>
       <guid isPermaLink="false">2037038834051916261</guid>
-    </item>
-    <item>
-      <title>Malicious LiteLLM versions linked to TeamPCP supply chain attack</title>
-      <link>https://securityaffairs.com/189948/hacking/malicious-litellm-versions-linked-to-teampcp-supply-chain-attack.html</link>
-      <description>TeamPCP compromised LiteLLM v1.82.7-1.82.8 on PyPI with credential harvester targeting SSH keys, cloud tokens, and Kubernetes secrets. Attack likely originated from Trivy CI/CD breach, part of multi-ecosystem campaign.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037032786163347509</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2037032786163347509">DFIR Radar</source>
-      <pubDate>Thu, 26 Mar 2026 05:03:57 +0000</pubDate>
-      <guid isPermaLink="false">2037032786163347509</guid>
     </item>
   </channel>
 </rss>
