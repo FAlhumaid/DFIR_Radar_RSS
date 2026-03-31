@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Mar 2026 15:03:47 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 16:03:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>WhatsApp malware campaign delivers VBS payloads and MSI backdoors</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/03/31/whatsapp-malware-campaign-delivers-vbs-payloads-msi-backdoors/</link>
+      <description>Microsoft Security tracks sophisticated WhatsApp malware campaign using VBS scripts and cloud hosting to deploy MSI backdoors. Multi-stage infection chain combines social engineering with renamed Windows utilities and UAC bypass techniques.
+
+Key technical details:
+• Initial access via WhatsApp-delivered VBS files creating hidden folders in C:\ProgramData, dropping renamed curl.exe/bitsadmin.exe as netapi.dll/sc.exe
+• Stage 2 retrieves secondary payloads (auxs.vbs, WinUpdate_KB5034231.vbs) from AWS S3, Tencent Cloud, and Backblaze B2
+• UAC bypass attempts modify HKLM\Software\Microsoft\Win registry entries, continuously retry cmd.exe elevation
+• Final payload: Unsigned MSI installers (Setup.msi, WinRAR.msi, AnyDesk.msi) enabling persistent remote access
+• PE metadata discrepancy detection: Renamed binaries retain original OriginalFileName field (curl.exe/bitsadmin.exe)
+
+DFIR artifacts:
+• Monitor ProcessCommandLine with ProgramData + downloader flags (-K, -s, -L, -o, https:)
+• Hunt renamed executables where InitiatingProcessVersionInfoOriginalFileName != actual filename
+• Registry changes under HKLM\Software\Microsoft\Win + ConsentPromptBehaviorAdmin modifications
+
+Detection opportunity: Flag files where PE OriginalFileName metadata doesn't match actual filename - attackers retain original metadata when renaming legitimate tools.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039010625415004491</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2039010625415004491">DFIR Radar</source>
+      <pubDate>Tue, 31 Mar 2026 16:03:11 +0000</pubDate>
+      <guid isPermaLink="false">2039010625415004491</guid>
+    </item>
     <item>
       <title>Elastic releases detections for the Axios supply chain compromise</title>
       <link>https://www.elastic.co/security-labs/axios-supply-chain-compromise-detections</link>
@@ -1566,17 +1591,6 @@ Hunt for unauthorized .pth files in Python environments and audit LLM provider a
       <source url="https://x.com/DFIR_Radar/status/2036971878875562289">DFIR Radar</source>
       <pubDate>Thu, 26 Mar 2026 01:01:56 +0000</pubDate>
       <guid isPermaLink="false">2036971878875562289</guid>
-    </item>
-    <item>
-      <title>Cisco Products: CVSS (Max): 8.6</title>
-      <link>http://portal.auscert.org.au/bulletins/ESB-2026.2955/</link>
-      <description>Critical IKEv2 DoS flaw (CVE-2026-20012, CVSS 8.6) affects Cisco IOS/XE, ASA, and FTD devices. Unauthenticated attackers can crash routers or exhaust firewall memory with crafted packets—no workarounds available.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036957184722882651</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2036957184722882651">DFIR Radar</source>
-      <pubDate>Thu, 26 Mar 2026 00:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2036957184722882651</guid>
     </item>
   </channel>
 </rss>
