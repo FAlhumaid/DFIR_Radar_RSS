@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Mar 2026 08:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 09:02:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Axios Supply Chain Attack Exposes Developers to Hidden Malware</title>
+      <link>https://thecyberexpress.com/axios-supply-chain-attack-npm-malware/</link>
+      <description>Axios npm supply chain attack deploys cross-platform RAT through compromised maintainer account. Malicious versions 1.14.1 and 0.30.4 used phantom dependency "plain-crypto-js" to bypass detection and target 300M+ weekly users.
+
+Key technical details:
+• Attacker hijacked core maintainer npm account, changed email to ProtonMail, bypassed GitHub Actions CI/CD
+• Injected fake dependency plain-crypto-js@4.2.1 with post-install script contacting C2 at sfrclak.com:8000/6202033
+• Cross-platform payloads: macOS (AppleScript + /Library/Caches), Windows (VBScript/PowerShell), Linux (Python /tmp/ld.py)
+• Anti-forensics: XOR/base64 obfuscation, self-deletion after 36 seconds, replaced package.json with clean decoy
+• Attack window: ~3 hours for malicious Axios versions, 4+ hours for poisoned dependency
+
+Attack methodology:
+• Manual npm publish bypassed trusted publisher metadata and OIDC authentication (T1195.002)
+• Phantom dependency never referenced in source code but auto-executed during npm install
+• C2 traffic disguised as legitimate npm registry activity to evade network detection
+• Platform-specific RAT variants with tailored persistence mechanisms
+
+Hunt for npm packages with manual publishing records lacking GitHub Actions metadata, unusual dependency additions in recent versions, and outbound connections to low-reputation domains during package installation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038904758485033043</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2038904758485033043">DFIR Radar</source>
+      <pubDate>Tue, 31 Mar 2026 09:02:30 +0000</pubDate>
+      <guid isPermaLink="false">2038904758485033043</guid>
+    </item>
     <item>
       <title>The Axios npm Compromise: How the Internet’s Most Popular HTTP Client Became a Trojan Horse</title>
       <link>https://infosecwriteups.com/the-axios-npm-compromise-how-the-internets-most-popular-http-client-became-a-trojan-horse-c80c6f73f52d?source=rss----7b722bfd1b8d---4</link>
@@ -1475,36 +1501,6 @@ Hunt for unsigned modules with AMD descriptions on non-AMD systems, ftrace hooks
       <source url="https://x.com/DFIR_Radar/status/2036866277134725540">DFIR Radar</source>
       <pubDate>Wed, 25 Mar 2026 18:02:18 +0000</pubDate>
       <guid isPermaLink="false">2036866277134725540</guid>
-    </item>
-    <item>
-      <title>TeamPCP’s Checkmarx GitHub Actions Attack: What You Need to Know</title>
-      <link>https://socradar.io/blog/teampcp-checkmarx-github-actions-attack/</link>
-      <description>TeamPCP's sophisticated supply chain attack cascaded from Trivy to Checkmarx, weaponizing GitHub Actions and CI/CD credentials to spread across multiple vendors. The campaign demonstrates how stolen CI tokens enable lateral movement between trusted ecosystems.
-
-Key technical details:
-- CVE-2026-33634: Malicious v0.69.4 Trivy tag pushed using spoofed commits and backdated timestamps
-- Compromised Actions: checkmarx/ast-github-action, checkmarx/kics-github-action harvest runner secrets to tpcp.tar.gz
-- C2 Infrastructure: checkmarx[.]zone, scan.aquasecurtiy[.]org (45.148.10.212), Cloudflare tunnels
-- Fallback exfiltration creates docs-tpcp repos using victim's GITHUB_TOKEN
-- Malicious OpenVSX extensions: ast-results v2.53.0, cx-dev-assist v1.7.0 via compromised ast-phoenix account
-
-Attack methodology:
-- Initial access via February 27 "Pwn Request" exposed Trivy service account token
-- March 19-24 escalation: poisoned GitHub releases → stolen CI credentials → cross-vendor pivot
-- CanisterWorm auto-propagated across 28+ npm packages using stolen publish tokens
-- Iran 🇮🇷-targeted destructive payload: rm -rf / on systems matching Asia/Tehran timezone
-
-DFIR artifacts:
-- Hunt systemd services: pgmon.service, pgmonitor.service, internal-monitor.service
-- K8s DaemonSets: host-provisioner-std, host-provisioner-iran in kube-system namespace
-- Process memory scraping via /proc/[pid]/mem targeting Runner.Worker processes
-- Steganography in v3.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036851127723905408</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2036851127723905408">DFIR Radar</source>
-      <pubDate>Wed, 25 Mar 2026 17:02:06 +0000</pubDate>
-      <guid isPermaLink="false">2036851127723905408</guid>
     </item>
   </channel>
 </rss>
