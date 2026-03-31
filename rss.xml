@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Mar 2026 21:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 22:02:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Axios supply chain attack chops away at npm trust</title>
+      <link>https://www.malwarebytes.com/blog/news/2026/03/axios-supply-chain-attack-chops-away-at-npm-trust</link>
+      <description>Supply chain attack compromises Axios npm packages with RAT payload. Attackers used maintainer credentials to publish malicious versions reaching 100M weekly downloads, targeting developer environments with credential-stealing malware.
+
+Technical details:
+• Malicious packages: axios@1.14.1, axios@0.30.4, and dependency plain-crypto-js@4.2.1
+• Postinstall script (setup.js) downloads platform-specific RAT for macOS/Windows/Linux (T1195.002)
+• C2 domain: sfrclak[.]com (142.11.206.73) - blocked by security vendors
+• Dropper self-destructs leaving no traces in node_modules inspection or npm audit
+
+Attack chain:
+• Compromised maintainer credentials used to publish poisoned packages to npm
+• Auto-execution via postinstall hooks during npm install (T1072)
+• Targets developer secrets: cloud keys, deploy tokens, API credentials
+• Persistence files: /Library/Caches/com.apple.act.mond (macOS), /tmp/ld.py (Linux), %PROGRAMDATA%\wt (Windows)
+
+DFIR impact:
+• Any environment that installed affected versions should be treated as fully compromised
+• Rotate all secrets accessible to build/deploy pipelines immediately
+• Check for persistence files and C2 communications in developer workstations
+
+Hunt for npm postinstall script executions with network connections to suspicious domains and check build environments for the listed file paths.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039101170975748436</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2039101170975748436">DFIR Radar</source>
+      <pubDate>Tue, 31 Mar 2026 22:02:59 +0000</pubDate>
+      <guid isPermaLink="false">2039101170975748436</guid>
+    </item>
     <item>
       <title>Latest Xloader Obfuscation Methods and Network Protocol</title>
       <link>https://www.zscaler.com/blogs/security-research/latest-xloader-obfuscation-methods-and-network-protocol</link>
@@ -1635,34 +1665,6 @@ Hunt for litellm_init.pth files in site-packages directories and monitor for sys
       <source url="https://x.com/DFIR_Radar/status/2037047543738081390">DFIR Radar</source>
       <pubDate>Thu, 26 Mar 2026 06:02:36 +0000</pubDate>
       <guid isPermaLink="false">2037047543738081390</guid>
-    </item>
-    <item>
-      <title>LiteLLM Supply Chain Compromise</title>
-      <link>https://www.netspi.com/blog/executive-blog/ai-ml-pentesting/litellm-supply-chain-compromise/</link>
-      <description>LiteLLM supply chain compromise targeting AI infrastructure exposes critical weakness in LLM proxy frameworks. Malicious PyPI packages v1.82.7 and v1.82.8 exfiltrated credentials from 95M+ installations through sophisticated .pth file execution.
-
-Key technical details:
-• Attack vector: Compromised maintainer GitHub account → CI/CD pipeline injection → malicious PyPI wheel distribution
-• Execution: litellm_init.pth file (34,628 bytes) auto-executes on Python startup, bypassing import monitoring
-• Payload: Double base64-encoded reconnaissance harvesting env vars, SSH keys, AWS/GCP/Azure creds, K8s secrets, CI/CD tokens
-• Exfiltration: AES-256-CBC encrypted data with RSA-4096 OAEP to https://models.litellm.cloud/ (typosquatting litellm.ai)
-• Scope: Complete credential exposure across entire LLM provider surface area due to proxy architecture
-
-DFIR artifacts:
-• Search site-packages/ directories for litellm_init.pth
-• Monitor outbound connections to models.litellm.cloud
-• Check pip logs for litellm==1.82.7 or 1.82.8 installations
-• Review proxy_server.py modifications in v1.82.7
-
-Impact: AI/ML infrastructure compromise affects credential aggregation points handling API keys for OpenAI, Anthropic, Azure, AWS Bedrock simultaneously.
-
-Hunt for unauthorized .pth files in Python environments and audit LLM provider access logs for credential misuse patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037038834051916261</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2037038834051916261">DFIR Radar</source>
-      <pubDate>Thu, 26 Mar 2026 05:27:59 +0000</pubDate>
-      <guid isPermaLink="false">2037038834051916261</guid>
     </item>
   </channel>
 </rss>
