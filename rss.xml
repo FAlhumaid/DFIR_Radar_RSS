@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Mar 2026 12:03:14 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 13:03:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Axios Supply Chain Attack: Analysis &amp; Incident Response</title>
+      <link>https://www.invictus-ir.com/news/the-poisoned-pipeline-axios-supply-chain-attack</link>
+      <description>Active supply chain compromise: Axios npm package trojanized with cross-platform RAT targeting developer environments and CI/CD pipelines. Malicious versions 1.14.1 and 0.30.4 published March 30-31, 2026 using compromised maintainer account.
+
+Key technical details:
+• RAT deploys across Windows, macOS, Linux with 60-second C2 beaconing via base64-encoded JSON over HTTP POST
+• Windows persistence via registry run key "MicrosoftUpdate" pointing to %PROGRAMDATA%\system.bat
+• Memory-only .NET reflective loading on Windows evades disk-based detection
+• C2 infrastructure: sfrclak[.]com and callnrwise[.]com, created &lt;24hrs before attack
+• Possible overlap with DPRK-nexus WAVESHAPER malware family (UNC1069)
+
+Attack methodology:
+• Compromised lead maintainer npm account to publish trojanized versions
+• Introduces dependency "plain-crypto-js" as delivery mechanism
+• Enumerates Documents, Desktop, config paths for high-value data targeting
+• Legacy User-Agent: mozilla/4.0 suggests evasion tactics
+
+DFIR artifacts:
+• Windows: %PROGRAMDATA%\wt.exe, system.bat, registry persistence under HKCU Run keys
+• macOS: /Library/Caches/com.apple.act.mond, /tmp/.XXXXXX.scpt
+• Linux: /tmp/ld.py
+• Network: Outbound HTTP POST to C2 domains with base64 JSON payloads
+
+Immediate actions: Check package-lock.json for axios@1.14.1/0.30.4, downgrade to 1.40.0, rotate all exposed secrets/tokens, hunt for persistence mechanisms and C2 communication patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038965444036403318</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2038965444036403318">DFIR Radar</source>
+      <pubDate>Tue, 31 Mar 2026 13:03:39 +0000</pubDate>
+      <guid isPermaLink="false">2038965444036403318</guid>
+    </item>
     <item>
       <title>Axios NPM Distribution Compromised in Supply Chain Attack</title>
       <link>https://www.wiz.io/blog/axios-npm-compromised-in-supply-chain-attack</link>
@@ -1522,17 +1554,6 @@ Hunt for unauthorized .pth files in Python environments and audit LLM provider a
       <source url="https://x.com/DFIR_Radar/status/2036926580078125413">DFIR Radar</source>
       <pubDate>Wed, 25 Mar 2026 22:01:56 +0000</pubDate>
       <guid isPermaLink="false">2036926580078125413</guid>
-    </item>
-    <item>
-      <title>How we built high speed threat hunting for email security · Blog · Sublime Security</title>
-      <link>https://proxied2.sublime.security/blog/how-we-built-high-speed-threat-hunting-for-email-security</link>
-      <description>Sublime Security details their high-speed threat hunting architecture using Message Query Language (MQL) with candidate selection and evaluation phases, processing millions of emails through optimized warm/cold storage splits and parallel proce...
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036911472916259099</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2036911472916259099">DFIR Radar</source>
-      <pubDate>Wed, 25 Mar 2026 21:01:54 +0000</pubDate>
-      <guid isPermaLink="false">2036911472916259099</guid>
     </item>
   </channel>
 </rss>
