@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Mar 2026 10:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 31 Mar 2026 11:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Common Entra ID Security Assessment Findings – Part 2: Privileged Unprotected Groups</title>
+      <link>https://blog.compass-security.com/2026/03/common-entra-id-security-assessment-findings-part-2-privileged-unprotected-groups/</link>
+      <description>Compass Security identifies critical privilege escalation risks in Entra ID environments where unprotected groups are used for sensitive access controls and Azure role assignments.
+
+Key findings:
+• Unprotected groups lack role-assignable properties, RMAU membership, or on-premises sync - allowing lower-tier admins (Groups Administrator, User Administrator, etc.) to modify membership
+• Issue 1: Conditional Access policies using unprotected groups enable MFA bypass through group membership manipulation
+• Issue 2: PIM for Groups allows non-role-assignable groups as eligible members, creating escalation paths to Global Administrator
+• Issue 3: Azure role assignments via unprotected groups can grant cloud-to-on-premises privilege escalation through Azure Arc command execution
+
+Attack chain example:
+• Compromised service principal with Group.ReadWrite.All adds itself to unprotected group
+• Group has Owner role on Azure subscription containing Arc-connected domain controller
+• Attacker executes commands as SYSTEM on DC via New-AzConnectedMachineRunCommand
+• Results in full Active Directory compromise from cloud identity
+
+Use EntraFalcon tool to identify Finding ID GRP-005 for privileged unprotected groups. Remediate by placing sensitive groups in Restricted Management Administrative Units or converting to role-assignable groups.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038935072280068473</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2038935072280068473">DFIR Radar</source>
+      <pubDate>Tue, 31 Mar 2026 11:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2038935072280068473</guid>
+    </item>
     <item>
       <title>Axios npm Hijack 2026: Everything You Need to Know – IOCs, Impact &amp; Remediation</title>
       <link>https://socradar.io/blog/axios-npm-supply-chain-attack-2026-ciso-guide/</link>
@@ -1498,27 +1523,6 @@ Hunt for unauthorized .pth files in Python environments and audit LLM provider a
       <source url="https://x.com/DFIR_Radar/status/2036896374260674716">DFIR Radar</source>
       <pubDate>Wed, 25 Mar 2026 20:01:54 +0000</pubDate>
       <guid isPermaLink="false">2036896374260674716</guid>
-    </item>
-    <item>
-      <title>Illuminating VoidLink: Technical analysis of the VoidLink rootkit framework</title>
-      <link>https://www.elastic.co/security-labs/illuminating-voidlink</link>
-      <description>Chinese 🇨🇳 threat actor's VoidLink rootkit exposed through leaked source code. Hybrid LKM-eBPF design evolved through 4 generations, showing sophisticated AI-assisted development that hides processes, network connections, and files across CentOS 7 to Ubuntu 22.04.
-
-Technical details:
-• LKM component uses ftrace hooks on __x64_sys_getdents64, vfs_read for process/file hiding; masquerades as "amd_mem_encrypt" AMD driver
-• eBPF companion exploits bpf_probe_write_user() to manipulate Netlink buffers, hiding connections from ss utility by "swallowing" SOCK_DIAG_BY_FAMILY messages
-• ICMP C2 channel uses magic value 0xC0DE, XOR key 0x42, supports 10 commands including privilege escalation (GIVE_ROOT) and self-destruct
-• Advanced evasion: 3-second delayed hook installation, anti-debugging timer scanning for strace/gdb/bpftool, kill protection for designated PIDs
-
-Infrastructure artifacts link to Alibaba Cloud 🇨🇳 IPs 8.149.128[.]10 and 116.62.172[.]147. Source code annotations in Simplified Chinese show phase-numbered development matching LLM conversation patterns.
-
-Hunt for unsigned modules with AMD descriptions on non-AMD systems, ftrace hooks on syscall functions, and eBPF programs using bpf_probe_write_user helper.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2036881330353442886</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2036881330353442886">DFIR Radar</source>
-      <pubDate>Wed, 25 Mar 2026 19:02:08 +0000</pubDate>
-      <guid isPermaLink="false">2036881330353442886</guid>
     </item>
   </channel>
 </rss>
