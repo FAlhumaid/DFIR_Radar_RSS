@@ -5,30 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Apr 2026 06:03:05 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Apr 2026 07:02:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting CVE-2026-20929: Kerberos Authentication Relay via CNAME Abuse</title>
+      <link>https://www.crowdstrike.com/en-us/blog/detecting-kerberos-relay-attack-via-dns-cname-abuse/</link>
+      <description>CVE-2026-20929 (CVSS 7.5) enables Kerberos authentication relay to AD CS via DNS CNAME abuse, bypassing NTLM protections. CrowdStrike detection monitors for anomalous cert-based auth + unusual AD CS access patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039236907607994458</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2039236907607994458">DFIR Radar</source>
+      <pubDate>Wed, 01 Apr 2026 07:02:21 +0000</pubDate>
+      <guid isPermaLink="false">2039236907607994458</guid>
+    </item>
     <item>
       <title>A laughing RAT: CrystalX combines spyware, stealer, and prankware features</title>
       <link>https://securelist.com/crystalx-rat-with-prankware-features/119283/</link>
-      <description>New MaaS platform CrystalX RAT discovered with unusual combination of spyware, stealer, and "prankware" capabilities. Active campaign since January 2026 targeting victims globally through Telegram promotion.
+      <description>Kaspersky discovers CrystalX RAT - a unique MaaS combining traditional spyware with "prankware" features designed to troll victims. Active since January 2026, this Go-based malware targets credentials, cryptocurrency, and includes anti-analysis evasion.
 
 Technical breakdown:
-• Written in Go, uses WebSocket C2 with ChaCha20 encryption and zlib compression
-• Anti-analysis: VM detection, AMSI/ETW patching, anti-attach loops, process blacklisting
-• Stealer targets Steam, Discord, Telegram, Chromium browsers via ChromeElevator utility
-• Clipper injects malicious browser extensions targeting crypto wallets (Bitcoin, Monero, etc.)
-• VNC capabilities with input blocking, microphone/camera capture
-• Unique "prankware" features: screen rotation, mouse remapping, cursor chaos, system disruption
+• Encryption: zlib compression + ChaCha20 with hardcoded 32-byte key and 12-byte nonce
+• Anti-analysis: VM detection, MITM checks, debug loops, and stealth patches for AMSI/ETW bypass
+• Stealer: Extracts Steam/Discord/Telegram credentials, uses ChromeElevator utility dropped to %TEMP%\svc[rndInt].exe
+• Clipper: Injects malicious extension into Chrome/Edge via %LOCALAPPDATA%\Microsoft\Edge\ExtSvc directory
+• Unique "Rofl" panel: Desktop rotation, mouse remapping, cursor shake, BSoD simulation, peripheral disruption
 
-DFIR artifacts: Extension files in %LOCALAPPDATA%\Microsoft\Edge\ExtSvc, ChromeElevator drops in %TEMP%\svc[rndInt].exe, clipboard modification events.
+C2 communication via WebSocket protocol sends data in JSON plaintext. VNC functionality enables remote desktop control with input blocking capabilities.
 
-Hunt for WebSocket connections to webcrystal[.]lol/sbs and crystalxrat[.]top domains, unsigned executables with Go compilation artifacts.
+Hunt for suspicious files in %TEMP% matching pattern svc[digits].exe and monitor Chrome DevTools CDP protocol usage for unauthorized extension loading.
 
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039221993602457784</description>
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039221850283065379</description>
       <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2039221993602457784">DFIR Radar</source>
-      <pubDate>Wed, 01 Apr 2026 06:03:05 +0000</pubDate>
-      <guid isPermaLink="false">2039221993602457784</guid>
+      <source url="https://x.com/DFIR_Radar/status/2039221850283065379">DFIR Radar</source>
+      <pubDate>Wed, 01 Apr 2026 06:02:31 +0000</pubDate>
+      <guid isPermaLink="false">2039221850283065379</guid>
     </item>
     <item>
       <title>Initial Access Brokers have Shifted to High-Value Targets and Premium Pricing</title>
@@ -1682,34 +1692,6 @@ Hunt for unusual BPF syscalls, processes mimicking bare-metal hardware services 
       <source url="https://x.com/DFIR_Radar/status/2037168338401374612">DFIR Radar</source>
       <pubDate>Thu, 26 Mar 2026 14:02:35 +0000</pubDate>
       <guid isPermaLink="false">2037168338401374612</guid>
-    </item>
-    <item>
-      <title>Kubernetes forensics 1/3 : what the container ?</title>
-      <link>https://www.synacktiv.com/en/publications/kubernetes-forensics-13-what-the-container.html</link>
-      <description>Synacktiv breaks down container forensics fundamentals as Kubernetes attacks surge in 2025. Essential primer on analyzing Docker vs Podman environments, OverlayFS artifacts, and containerized threat hunting techniques.
-
-Container architecture deep dive:
-• Containers = Linux processes with namespaces, cgroups, seccomp isolation (not VMs)
-• Docker uses daemon + containerd + runc stack; Podman is daemonless with conmon + crun
-• OCI specifications enable cross-platform compatibility (Runtime, Image, Distribution specs)
-• OverlayFS layers: UpperDir (runtime changes), LowerDir (base image), MergedDir (combined view)
-
-Key forensic artifacts:
-• Docker: /var/lib/docker/overlay2/, /var/lib/docker/containers/&lt;id&gt;/&lt;id&gt;.log, config.v2.json
-• Podman rootless: ~/.local/share/containers/storage/, journalctl CONTAINER_ID_FULL=&lt;id&gt;
-• Engine logs via journalctl -xeu docker.service or podman events --since &lt;date&gt;
-
-Investigation tools:
-• Live: docker/podman export, save, diff, cp commands for container extraction
-• Postmortem: wagoodman/dive for layer analysis, diffoci for image comparison, docker-explorer for mounting
-
-Hunt for unauthorized files in UpperDir layers and compare suspicious images against known-good baselines using diffoci to identify tampering.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037153116282290316</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2037153116282290316">DFIR Radar</source>
-      <pubDate>Thu, 26 Mar 2026 13:02:06 +0000</pubDate>
-      <guid isPermaLink="false">2037153116282290316</guid>
     </item>
   </channel>
 </rss>
