@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Apr 2026 11:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Apr 2026 12:03:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2025-53521: F5 BIG-IP APM Flaw Reclassified as Unauthenticated RCE</title>
+      <link>https://socradar.io/blog/cve-2025-53521-f5-big-ip-apm-flaw-rce/</link>
+      <description>CVE-2025-53521: Critical F5 BIG-IP APM vulnerability reclassified from DoS to unauthenticated RCE (CVSS 9.8). Initially dismissed as service disruption, now confirmed as pre-auth code execution with active exploitation.
+
+Key technical details:
+• Affects BIG-IP APM when access policy configured on virtual server
+• Vulnerable versions: 15.1.0-15.1.10, 16.1.0-16.1.6, 17.1.0-17.1.2, 17.5.0-17.5.1
+• Exploitation via crafted traffic to APM-enabled virtual servers
+• CISA KEV-listed with confirmed active exploitation campaigns
+• Memory-only webshell behavior complicates artifact detection
+
+IOCs to hunt:
+• Suspicious files: /run/bigtlog.pipe, /run/bigstart.ltm  
+• Modified system binaries: /usr/bin/umount, /usr/sbin/httpd
+• iControl REST activity from localhost
+• HTTP 201 responses with CSS content-type camouflage
+• SELinux disable attempts
+
+Impact assessment required:
+• Priority: Internet-facing virtual servers with APM policies
+• Cross-reference process behavior, config changes, audit logs
+• Consider rebuild over cleanup if compromise window unclear
+
+Hunt for unusual /mgmt/shared/identified-devices/config/device-info access and correlate multiple indicators since file-based IOCs may be absent.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039312596826755394</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2039312596826755394">DFIR Radar</source>
+      <pubDate>Wed, 01 Apr 2026 12:03:07 +0000</pubDate>
+      <guid isPermaLink="false">2039312596826755394</guid>
+    </item>
     <item>
       <title>Hackers Hijack Axios npm Package to Spread RATs</title>
       <link>https://www.infosecurity-magazine.com/news/hackers-hijack-axios-npm-package/</link>
@@ -1645,31 +1677,6 @@ Hunt for recent Mach-O binaries in /tmp/ with KAY headers, unsigned executables 
       <source url="https://x.com/DFIR_Radar/status/2037243810363642016">DFIR Radar</source>
       <pubDate>Thu, 26 Mar 2026 19:02:30 +0000</pubDate>
       <guid isPermaLink="false">2037243810363642016</guid>
-    </item>
-    <item>
-      <title>Elastic Security Labs uncovers BRUSHWORM and BRUSHLOGGER</title>
-      <link>https://www.elastic.co/security-labs/brushworm-targets-financial-services</link>
-      <description>Elastic Security Labs discovers BRUSHWORM backdoor and BRUSHLOGGER keylogger targeting South Asian 🇮🇳 financial institution. Custom malware pair features USB worm capabilities, broad file theft, and system-wide keystroke capture.
-
-Key technical details:
-• BRUSHWORM (paint.exe): Modular backdoor with AES-CBC encrypted config, scheduled task persistence (MSGraphics), anti-analysis checks (screen resolution, hypervisor detection), and USB propagation using social engineering filenames
-• BRUSHLOGGER (libcurl.dll): DLL side-loading keylogger with system-wide WH_KEYBOARD_LL hook, XOR encryption (key 0x43), mutex "Windows-Updates-KB852654856"
-• C2 infrastructure: resources.dawnnewsisl[.]com/updtdll with Let's Encrypt SSL certificate
-• File theft targets 40+ extensions including .doc, .xls, .ppt, .pdf, .pst, .py across removable/optical drives
-• Installation paths: C:\ProgramData\Photoes\Pics\ (main), C:\Users\Public\Libraries\ (modules), staging in C:\Users\Public\Systeminfo\
-
-DFIR artifacts:
-• Scheduled tasks: MSGraphics, MSRecorder using COM Task Scheduler
-• Registry persistence indicators and file hash tracking in C:\Users\Public\AppData\Roaming\NuGet\hashconfig
-• Multiple development versions (V1.exe, V2.exe, V4.exe) found on VirusTotal indicate active toolset refinement
-
-Hunt for scheduled tasks executing from unusual paths, monitor USB autorun creation, and baseline normal DLL side-loading behavior in your environment.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037232281123803164</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2037232281123803164">DFIR Radar</source>
-      <pubDate>Thu, 26 Mar 2026 18:02:37 +0000</pubDate>
-      <guid isPermaLink="false">2037232281123803164</guid>
     </item>
   </channel>
 </rss>
