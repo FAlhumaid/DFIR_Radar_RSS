@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Apr 2026 01:02:31 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Apr 2026 02:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers compromise Axios npm package to drop cross-platform malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-compromise-axios-npm-package-to-drop-cross-platform-malware/</link>
+      <description>Major supply chain attack: Hackers compromised Axios npm package (400M monthly downloads) to deliver cross-platform RATs. North Korean 🇰🇵 UNC1069 suspected behind the sophisticated attack targeting developers worldwide.
+
+Key technical details:
+• Malicious versions axios@1.14.1 and axios@0.30.4 injected plain-crypto-js@^4.2.1 dependency
+• Post-install script (setup.js) contacted C2 sfrclak.com for OS-specific payloads
+• Windows: PowerShell copied to %PROGRAMDATA%\wt.exe for persistence (T1036.003)
+• macOS: Binary dropped to /Library/Caches/com.apple.act.mond via AppleScript
+• Linux: Python payload at /tmp/ld.py executed with nohup
+• Self-destruction mechanism replaced package.json with clean copy post-infection
+
+Attack methodology:
+• Compromised maintainer Jason Saayman's npm and GitHub accounts
+• Email changed to ifstap@proton.me, removed compromise reports
+• 18-hour advance staging indicates planned operation, not opportunistic
+• RAT capabilities: command execution, file enumeration, base64 binary deployment
+
+DFIR artifacts: Check for plain-crypto-js presence, monitor %PROGRAMDATA%\wt.exe, /Library/Caches/com.apple.act.mond, /tmp/ld.py. Rotate all credentials on affected systems - potential data exfiltration includes API keys and tokens.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039161507603419270</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2039161507603419270">DFIR Radar</source>
+      <pubDate>Wed, 01 Apr 2026 02:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2039161507603419270</guid>
+    </item>
     <item>
       <title>Supply chain attack on Axios npm package: Scope, impact, and remediations</title>
       <link>https://www.tenable.com/blog/supply-chain-attack-on-axios-npm-package-scope-impact-and-remediations</link>
@@ -1664,31 +1691,6 @@ Hunt for Base64-encoded Python files executing at interpreter startup and unusua
       <source url="https://x.com/DFIR_Radar/status/2037092923121016924">DFIR Radar</source>
       <pubDate>Thu, 26 Mar 2026 09:02:55 +0000</pubDate>
       <guid isPermaLink="false">2037092923121016924</guid>
-    </item>
-    <item>
-      <title>Exploring windows artifacts notepad files | u0041</title>
-      <link>https://u0041.co/posts/articals/exploring-windows-artifacts-notepad-files/</link>
-      <description>New Windows 11 Notepad artifacts reveal detailed user activity including file content, editing history, and unsaved changes. TabState files in %LOCALAPPDATA%\Packages\Microsoft.WindowsNotepad_8wekyb3d8bbwe\LocalState contain comprehensive forensic evidence.
-
-Key technical details:
-• Files stored as &lt;GUID&gt;.bin in TabState folder with complete structure documented
-• Contains full file paths, SHA256 hashes, last write times, and complete file content (even 500MB+ files)
-• UnsavedChunk structures track every keystroke with cursor positions and CRC32 checksums
-• Recent Notepad v11.2508.38.0 removes file content/hashes from saved files but retains formatting metadata
-
-DFIR opportunities:
-• Recovers content from deleted files if Notepad was used to view them
-• Detailed editing timeline through UnsavedChunk sequences showing character-by-character changes
-• File access evidence via full paths and timestamps even for temporarily viewed files
-• Text encoding detection (ANSI, UTF-8, UTF-16) and carriage return analysis
-
-Hunt for TabState artifacts using glob pattern: C:\Users\*\AppData\Local\Packages\Microsoft.WindowsNotepad_8wekyb3d8bbwe\LocalState\TabState\????????-????-????-????-????????????.bin
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037087415777538529</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2037087415777538529">DFIR Radar</source>
-      <pubDate>Thu, 26 Mar 2026 08:41:02 +0000</pubDate>
-      <guid isPermaLink="false">2037087415777538529</guid>
     </item>
   </channel>
 </rss>
