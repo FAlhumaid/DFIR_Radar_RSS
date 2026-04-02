@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Apr 2026 17:02:39 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 18:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cookie-controlled PHP webshells: A stealthy tradecraft in Linux hosting environments</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/04/02/cookie-controlled-php-webshells-tradecraft-linux-hosting-environments/</link>
+      <description>Microsoft uncovers cookie-controlled PHP webshells targeting Linux hosting environments. Threat actors use HTTP cookies as execution gates, keeping malicious code dormant during normal traffic and activating only when specific cookie conditions are met.
+
+Key technical details:
+• Webshells parse $_COOKIE superglobal for execution triggers instead of URL parameters or POST bodies
+• Multi-stage loaders use base64 decoding + runtime function reconstruction (eval, include, system calls built character-by-character)
+• Persistence via cron jobs that recreate webshells if deleted: "echo &lt;blob&gt; | base64 -d &gt; file.php" patterns
+• Self-healing mechanism through scheduled tasks in cPanel/jailshell environments (T1053.003)
+• Advanced variants segment cookie data into function identifiers, file paths, and decoding routines
+
+Attack methodology:
+• Initial access through compromised hosting accounts or web app exploitation (T1190)
+• Deploy obfuscated PHP loaders to web-accessible directories via web processes (php-fpm spawning shells)
+• Establish persistence through legitimate control panel cron scheduling
+• Cookie-gated activation reduces logging visibility while maintaining RCE capability
+
+DFIR artifacts and detection opportunities:
+• Monitor web server processes (php-fpm, httpd, nginx) spawning shell interpreters (bash, sh, dash)
+• Hunt for base64 decode operations writing .php files: ProcessCommandLine contains "base64" AND ".php"
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039765551061344695</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2039765551061344695">DFIR Radar</source>
+      <pubDate>Thu, 02 Apr 2026 18:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2039765551061344695</guid>
+    </item>
     <item>
       <title>New Whitepaper: Stealthy BPFDoor Variants are a Needle That Looks Like Hay</title>
       <link>https://www.rapid7.com/blog/post/tr-new-whitepaper-stealthy-bpfdoor-variants</link>
@@ -1824,17 +1852,6 @@ Hunt for appliances returning cookies instead of parsing errors when processing 
       <source url="https://x.com/DFIR_Radar/status/2037745142262616536">DFIR Radar</source>
       <pubDate>Sat, 28 Mar 2026 04:14:36 +0000</pubDate>
       <guid isPermaLink="false">2037745142262616536</guid>
-    </item>
-    <item>
-      <title>Researchers release tool to detect stealthy BPFDoor implants in critical infrastructure networks</title>
-      <link>https://www.helpnetsecurity.com/2026/03/26/telecom-bpfdoor-detection-script/</link>
-      <description>Rapid7 releases scanning script to detect BPFDoor implants used by Chinese 🇨🇳 Red Menshen APT targeting global telecommunications infrastructure. Critical tool for telcos facing persistent nation-state threats.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037741840233816497</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2037741840233816497">DFIR Radar</source>
-      <pubDate>Sat, 28 Mar 2026 04:01:29 +0000</pubDate>
-      <guid isPermaLink="false">2037741840233816497</guid>
     </item>
   </channel>
 </rss>
