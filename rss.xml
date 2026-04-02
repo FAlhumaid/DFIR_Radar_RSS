@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Apr 2026 14:03:13 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 15:02:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>vSphere and BRICKSTORM Malware: A Defender's Guide</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/vsphere-brickstorm-defender-guide/</link>
+      <description>Mandiant's comprehensive analysis reveals BRICKSTORM malware campaign exploiting vSphere infrastructure, establishing undetected persistence at the hypervisor layer where traditional EDR agents cannot operate.
+
+Technical breakdown:
+• Targets VMware vCenter Server Appliance (VCSA) and ESXi hypervisors running on Photon Linux OS
+• Exploits weak identity architecture and limited visibility gaps rather than product vulnerabilities
+• Persistence achieved through /etc/rc.local.d modifications and startup script tampering
+• BRICKSTEAL credential harvester intercepts passwords in memory during administrative sessions
+• Campaign active for average 393 days dwell time, operating beneath guest OS security controls
+
+Attack methodology:
+• Phase 1: Compromise VCSA through weak authentication (vsphere.local accounts lack MFA support)
+• Phase 2: Leverage vpxuser account to pivot from management plane to ESXi host shell access
+• Phase 3: Establish persistence via startup script modification and binary injection using sed commands
+• Phase 4: Data exfiltration through VM cloning/export capabilities bypassing OS-level permissions
+
+DFIR artifacts and detection opportunities:
+• Enable auditd remote logging: grep "execpriv\|privileged-priv-change" in SIEM for privilege escalation
+• Configure AIDE file integrity monitoring for /root/.ssh, /etc/rc.local.d, and /lib64 directories
+• Monitor VmClonedEvent and VmNetworkAdapterAddedEvent in vCenter logs for unauthorized VM operations
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039720224354865214</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2039720224354865214">DFIR Radar</source>
+      <pubDate>Thu, 02 Apr 2026 15:02:53 +0000</pubDate>
+      <guid isPermaLink="false">2039720224354865214</guid>
+    </item>
     <item>
       <title>New Whitepaper: Stealthy BPFDoor Variants are a Needle That Looks Like Hay</title>
       <link>https://www.rapid7.com/blog/post/new-whitepaper-stealthy-bpfdoor-variants-are-a-needle-that-looks-like-hay</link>
@@ -1781,17 +1810,6 @@ Hunt for appliances returning cookies instead of parsing errors when processing 
       <source url="https://x.com/DFIR_Radar/status/2037711697100648524">DFIR Radar</source>
       <pubDate>Sat, 28 Mar 2026 02:01:42 +0000</pubDate>
       <guid isPermaLink="false">2037711697100648524</guid>
-    </item>
-    <item>
-      <title>Digital Forensics: Analyzing Fake Software</title>
-      <link>https://hackers-arise.com/digital-forensics-analyzing-fake-software/</link>
-      <description>Analysis of fake Sysinternals software reveals multi-stage info stealer using VMware-themed persistence via Windows service. Amcache registry shows publisher inconsistencies—genuine Microsoft tools never reference "Sysinternals, Inc."
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037696671446950178</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2037696671446950178">DFIR Radar</source>
-      <pubDate>Sat, 28 Mar 2026 01:02:00 +0000</pubDate>
-      <guid isPermaLink="false">2037696671446950178</guid>
     </item>
   </channel>
 </rss>
