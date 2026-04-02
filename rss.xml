@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Apr 2026 10:03:08 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 11:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>UAT-10608: Inside a large-scale automated credential harvesting operation targeting web applications</title>
+      <link>https://blog.talosintelligence.com/uat-10608-inside-a-large-scale-automated-credential-harvesting-operation-targeting-web-applications/</link>
+      <description>UAT-10608 cluster exploits React2Shell (CVE-2025-55182) to harvest credentials from 766 Next.js applications via automated NEXUS Listener framework. Operation captured 10,120 files including AWS keys, SSH private keys, and live Stripe tokens across multiple cloud providers.
+
+Technical breakdown:
+• CVE-2025-55182: Pre-auth RCE in React Server Components via malicious serialized payloads to Server Function endpoints
+• Multi-phase harvesting script drops to /tmp/.{random}.sh, executes via nohup, exfiltrates to C2:8080
+• Collection phases: environ, jsenv, ssh, tokens, history, cloud_meta, k8s, docker, cmdline, proc_all
+• NEXUS Listener v3 web GUI provides searchable database of stolen credentials with statistics dashboard
+• 91.5% had database creds, 78.2% SSH keys, 25.6% AWS creds, 11.4% live Stripe keys
+
+Attack chain enables lateral movement via compromised SSH keys, cloud infrastructure takeover through IAM credentials, and supply chain attacks via package registry tokens. Automated scanning likely uses Shodan/Censys to identify vulnerable Next.js deployments.
+
+Hunt for nohup processes spawning from /tmp/ with dot-prefixed randomized names and unexpected HTTP callbacks to port 8080. Full IOC list available on Cisco Talos GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039659848497799481</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2039659848497799481">DFIR Radar</source>
+      <pubDate>Thu, 02 Apr 2026 11:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2039659848497799481</guid>
+    </item>
     <item>
       <title>Qilin EDR killer infection chain</title>
       <link>https://blog.talosintelligence.com/qilin-edr-killer/</link>
@@ -1733,17 +1755,6 @@ Hunt for appliances returning cookies instead of parsing errors when processing 
       <source url="https://x.com/DFIR_Radar/status/2037651176766812336">DFIR Radar</source>
       <pubDate>Fri, 27 Mar 2026 22:01:13 +0000</pubDate>
       <guid isPermaLink="false">2037651176766812336</guid>
-    </item>
-    <item>
-      <title>PolyKG Discovers Previously Unreported OilRig Samples Using Stolen Cert</title>
-      <link>https://blog.polyswarm.io/polykg-discovers-previously-unreported-oilrig-samples-using-stolen-cert</link>
-      <description>Iranian 🇮🇷 OilRig APT using stolen Entrust EV certificate from Thai 🇹🇭 IT vendor MOSCII to sign Karkoff backdoor and other payloads. EGAT energy sector themes suggest supply chain compromise targeting Thailand's 🇹🇭 critical infrastructure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037636148558758177</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2037636148558758177">DFIR Radar</source>
-      <pubDate>Fri, 27 Mar 2026 21:01:30 +0000</pubDate>
-      <guid isPermaLink="false">2037636148558758177</guid>
     </item>
   </channel>
 </rss>
