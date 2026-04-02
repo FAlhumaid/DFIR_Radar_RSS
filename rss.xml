@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Apr 2026 16:03:26 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 17:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Whitepaper: Stealthy BPFDoor Variants are a Needle That Looks Like Hay</title>
+      <link>https://www.rapid7.com/blog/post/tr-new-whitepaper-stealthy-bpfdoor-variants</link>
+      <description>Rapid7 uncovers 7 new BPFDoor variants targeting global telecom infrastructure with kernel-level Berkeley Packet Filter evasion. Advanced httpShell and icmpShell variants use stateless C2 and ICMP relay to bypass enterprise security stacks.
+
+Key technical findings:
+• httpShell uses "magic ruler" padding (26th byte offset) to survive WAF interference and kernel-level decapsulation for GRE/GTP tunnels
+• icmpShell implements PID-bound mutation with dynamic BPF filters, making static firewall rules ineffective (T1205, T1095)
+• Hidden IP (HIP) field with -1 flag enables stateless C2 - malware sends reverse shell to magic packet source IP
+• Variant H actively beacons to ntpussl.instanthq.com masquerading as NTP-over-SSL traffic on port 443
+• Multi-threaded variant G spawns separate threads for TCP/UDP/ICMP protocol monitoring with triple-redundant packet capture
+
+Detection opportunities:
+• Monitor AF_PACKET socket creation with SOCK_RAW/SOCK_DGRAM parameters
+• Hunt for hardcoded ICMP sequence number 1234 and invalid ICMP Code 1
+• Flag processes with non-existent executable paths and root-level daemon spoofing
+
+Use Rapid7's triage script to identify active BPF filters and validate masqueraded processes. Full YARA rules and Suricata signatures available in the research.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039750364480602273</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2039750364480602273">DFIR Radar</source>
+      <pubDate>Thu, 02 Apr 2026 17:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2039750364480602273</guid>
+    </item>
     <item>
       <title>ghostsurf: From NTLM Relay to Browser Session Hijacking</title>
       <link>https://specterops.io/blog/2026/04/02/ghostsurf-from-ntlm-relay-to-browser-session-hijacking/</link>
@@ -1810,17 +1835,6 @@ Hunt for appliances returning cookies instead of parsing errors when processing 
       <source url="https://x.com/DFIR_Radar/status/2037741840233816497">DFIR Radar</source>
       <pubDate>Sat, 28 Mar 2026 04:01:29 +0000</pubDate>
       <guid isPermaLink="false">2037741840233816497</guid>
-    </item>
-    <item>
-      <title>Unpatchable Vulnerabilities of Kubernetes: CVE-2020-8561</title>
-      <link>https://securitylabs.datadoghq.com/articles/unpatchable-kubernetes-vulnerabilities-cve-2020-8561/</link>
-      <description>CVE-2020-8561 enables SSRF attacks by chaining validatingwebhookconfigurations with debug log manipulation on Kubernetes API servers. Particularly dangerous in managed cloud environments where attackers can probe CSP networks from control plane.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037726691972301088</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2037726691972301088">DFIR Radar</source>
-      <pubDate>Sat, 28 Mar 2026 03:01:17 +0000</pubDate>
-      <guid isPermaLink="false">2037726691972301088</guid>
     </item>
   </channel>
 </rss>
