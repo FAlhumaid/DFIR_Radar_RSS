@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Apr 2026 18:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 19:03:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cutting Through the Noise: A Technique-Based Approach to Hunting Web-Delivered Malware</title>
+      <link>https://censys.com/blog/technique-based-approach-hunting-web-delivered-malware/</link>
+      <description>Censys researchers develop scalable technique-based hunting methodology that reduces entire observable web to 42 actionable results, discovering live ClickFix campaign on compromised Turkish 🇹🇷 medical site delivering XWorm V5.6 via PhantomVAI MaaS loader.
+
+Key technical details:
+• Query combines PowerShell + obfuscation indicators (atob(), eval(), navigator.clipboard) with layered negation filtering across 200+ patterns
+• Attack chain: ClickFix page → HTA with Unicode emoji obfuscation → steganographic JPEG on archive.org → PhantomVAI loader → XWorm V5.6
+• C2: 86.106.85[.]194:9000 with self-signed cert CN=WIN-3O8L0TLB135
+• Static payload recovery achieved without sandbox - PhantomVAI uses simple string reversal + base64 (no crypto)
+• XWorm config AES-encrypted with MD5(mutex) key: UGUHrsQaOFvrEntr
+
+Attack methodology:
+• Compromised orcanmedikal[.]com[.]tr serves identical ClickFix pages across subdomains (body hash c52314cea...)
+• PowerShell -EncodedCommand launches mshta.exe with -Verb RunAs for UAC bypass
+• 5-stage chain uses steganographic hiding in JPEG images, process hollowing into RegAsm.exe
+• PhantomVAI performs VM detection before deploying commodity RATs (T1497, T1055.012)
+
+Hunt for mshta.exe spawning PowerShell processes, RegAsm.exe with network connections, and navigator.clipboard API calls in web responses. Full query structure and IOC list available in report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039780729874161945</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2039780729874161945">DFIR Radar</source>
+      <pubDate>Thu, 02 Apr 2026 19:03:18 +0000</pubDate>
+      <guid isPermaLink="false">2039780729874161945</guid>
+    </item>
     <item>
       <title>Cookie-controlled PHP webshells: A stealthy tradecraft in Linux hosting environments</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/04/02/cookie-controlled-php-webshells-tradecraft-linux-hosting-environments/</link>
@@ -1841,17 +1867,6 @@ Hunt for appliances returning cookies instead of parsing errors when processing 
       <source url="https://x.com/DFIR_Radar/status/2037756871231115487">DFIR Radar</source>
       <pubDate>Sat, 28 Mar 2026 05:01:13 +0000</pubDate>
       <guid isPermaLink="false">2037756871231115487</guid>
-    </item>
-    <item>
-      <title>Metasploit Wrap-Up 03/27/2026</title>
-      <link>https://www.rapid7.com/blog/post/pt-metasploit-wrap-up-03-27-2026</link>
-      <description>Metasploit adds 3 new exploit modules including CVE-2026-23767 (ESC/POS printer RCE), CVE-2025-12548 (Eclipse Che unauthenticated RCE), and CVE-2023-2868 (Barracuda ESG command injection). Enhanced NTLM relay compatibility with Linux smbclient.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2037745142262616536</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2037745142262616536">DFIR Radar</source>
-      <pubDate>Sat, 28 Mar 2026 04:14:36 +0000</pubDate>
-      <guid isPermaLink="false">2037745142262616536</guid>
     </item>
   </channel>
 </rss>
