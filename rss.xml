@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Apr 2026 10:02:48 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Apr 2026 11:02:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Axios npm supply chain incident: fake dependency, real backdoor</title>
+      <link>https://blog.nviso.eu/2026/04/03/the-axios-npm-supply-chain-incident-fake-dependency-real-backdoor/</link>
+      <description>Axios npm supply chain attack: Compromised maintainer account pushed trojanized versions 1.14.1 and 0.30.4 with cross-platform RAT payloads. Malicious dependency "plain-crypto-js" deployed backdoors on developer workstations and Docker containers before removal.
+
+Key technical details:
+• Malicious versions injected plain-crypto-js@4.2.1 dependency with postinstall dropper (setup.js)
+• Windows payload: PowerShell binary copied to C:\ProgramData\wt.exe, triggers MDE alert "System executable renamed and launched"
+• Multi-stage execution: VBS script downloads 6202033.ps1, establishes persistence via Registry Run key "MicrosoftUpdate"
+• Cross-platform RAT capabilities: system recon, remote command execution, file enumeration (T1082, T1083, T1059)
+• C2 infrastructure: sfrclak[.]com:8000, callnrwise[.]com, calltan[.]com with consistent "6202033" naming convention
+
+Attack chain: npm install → postinstall script → OS detection → payload download → persistence setup via Registry Run key → C2 communication
+
+DFIR artifacts:
+• Registry key: HKCU\Software\Microsoft\Windows\CurrentVersion\Run\MicrosoftUpdate
+• File paths: C:\ProgramData\wt.exe, C:\ProgramData\system.bat, 6202033.vbs/ps1
+• Network indicators: Outbound connections to C2 domains on port 8000
+
+Hunt for node.exe spawning file creation events for wt.exe or powershell.exe, and Registry Run key modifications with "MicrosoftUpdate" value. Full KQL queries and IOCs provided in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040022167639773350</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2040022167639773350">DFIR Radar</source>
+      <pubDate>Fri, 03 Apr 2026 11:02:41 +0000</pubDate>
+      <guid isPermaLink="false">2040022167639773350</guid>
+    </item>
     <item>
       <title>CVE-2026-20093: Critical Cisco IMC Flaw Allows Unauthenticated Admin Access to UCS Servers</title>
       <link>https://socradar.io/blog/cve-2026-20093-cisco-imc-flaw/</link>
@@ -1849,26 +1876,6 @@ Use this KQL query for detection: DeviceProcessEvents | where ProcessCommandLine
       <source url="https://x.com/DFIR_Radar/status/2038542312947519824">DFIR Radar</source>
       <pubDate>Mon, 30 Mar 2026 09:02:17 +0000</pubDate>
       <guid isPermaLink="false">2038542312947519824</guid>
-    </item>
-    <item>
-      <title>Resoker: A Telegram Based Remote Access Trojan</title>
-      <link>https://labs.k7computing.com/index.php/resoker-a-telegram-based-remote-access-trojan/</link>
-      <description>K7 Labs dissects ResokerRAT, a new Telegram-controlled Remote Access Trojan that bypasses traditional C2 detection by leveraging the Telegram Bot API for command execution and data exfiltration.
-
-Technical breakdown:
-• Uses mutex "Global\ResokerSystemMutex" for single-instance enforcement and anti-debugging via IsDebuggerPresent API
-• Implements keyboard hooking (T1056.001) to block critical key combinations: Alt+Tab, Ctrl+Shift+Esc, Ctrl+Alt+Del, Windows key
-• Establishes persistence through HKCU\Software\Microsoft\Windows\CurrentVersion\Run registry modification (T1547.001)
-• Executes commands via hidden PowerShell including /screenshot, /download, /block_taskmgr, and UAC manipulation
-• Terminates analysis tools: Taskmgr.exe, Procexp.exe, ProcessHacker.exe using TerminateProcess API
-
-C2 communication uses hardcoded Telegram bot token (8679995457:AAHiI3UDWmJaj4etgI4fAZK_wo4KJfhXLWc) with chat ID 8558596408. Hunt for outbound HTTPS to api.telegram.org with suspicious bot tokens and monitor for PowerShell execution with -WindowStyle Hidden parameter.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038527203655463276</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2038527203655463276">DFIR Radar</source>
-      <pubDate>Mon, 30 Mar 2026 08:02:14 +0000</pubDate>
-      <guid isPermaLink="false">2038527203655463276</guid>
     </item>
   </channel>
 </rss>
