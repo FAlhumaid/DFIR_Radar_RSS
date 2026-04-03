@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Apr 2026 16:02:31 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Apr 2026 17:03:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Axois NPM Supply Chain Incident</title>
+      <link>https://blog.talosintelligence.com/axois-npm-supply-chain-incident/</link>
+      <description>Supply chain attack on Axios npm package exposed 100 million weekly downloads to platform-specific RATs. Malicious versions 1.14.1 and 0.30.4 deployed March 31, 2026 for 3-hour window before detection.
+
+Technical breakdown:
+• Fake dependency "plain-crypto-js" executes post-install, contacts 142[.]11[.]206[.]73 for OS-specific payload delivery
+• Windows: Downloads PS1, copies powershell.exe to %PROGRAMDATA%\wt.exe, executes with bypass flags
+• MacOS: Deploys "com.apple.act.mond" binary via zsh execution
+• Linux: Python-based RAT with remote access capabilities
+• Attack vector: Supply chain compromise (T1195.002) with automatic payload deployment
+
+DFIR teams should immediately:
+- Hunt for plain-crypto-js dependency in package.json/node_modules
+- Monitor for network connections to 142[.]11[.]206[.]73 and sfrclak[.]com
+- Check %PROGRAMDATA%\wt.exe on Windows systems
+- Scan for the provided SHA256 hashes across endpoints
+- Rotate all credentials on affected systems
+
+Organizations using Axios should rollback to v1.14.0/v0.30.3 and assume credential compromise if malicious versions were downloaded. Full IOC list available in Cisco Talos report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040112944583680194</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2040112944583680194">DFIR Radar</source>
+      <pubDate>Fri, 03 Apr 2026 17:03:24 +0000</pubDate>
+      <guid isPermaLink="false">2040112944583680194</guid>
+    </item>
     <item>
       <title>New Phishing Platform Used in Credential Theft Campaigns Against C-Suite Execs</title>
       <link>https://www.infosecurity-magazine.com/news/new-phishing-platform-credential/</link>
@@ -1858,27 +1885,6 @@ Hunt for oversized DLLs (&gt;50MB) loaded by Office processes, Python executable
       <source url="https://x.com/DFIR_Radar/status/2038633176738730411">DFIR Radar</source>
       <pubDate>Mon, 30 Mar 2026 15:03:20 +0000</pubDate>
       <guid isPermaLink="false">2038633176738730411</guid>
-    </item>
-    <item>
-      <title>Keitaro TDS abused to deliver AutoIT-based loader targeting German speakers · Blog · Sublime Security</title>
-      <link>https://proxied2.sublime.security/blog/keitaro-tds-abused-to-delivery-autoit-based-loader-targeting-german-speakers</link>
-      <description>German 🇩🇪-targeted romance scam campaign leverages Keitaro TDS for geo-filtering and delivers 300MB AutoIT-based loader via password-protected ISO files. Campaign uses explicit content lures with sophisticated evasion techniques including AV detection and scheduled task persistence.
-
-Technical breakdown:
-• Initial vector: Romance-themed emails with malicious links to tradesurp[.]com and privatephotos[.]online domains
-• Keitaro TDS performs geo-filtering (German locales only) + delivers oversized ISO (300MB) from Russia 🇷🇺-based infrastructure
-• ISO contains AutoIT interpreter + heavily obfuscated 11,500-line script (SHA256: 551f05395664da2e8385366b95266af9bb3f953d022e737f3defecf7f0289bc4)
-• Batch script (Burden.mil.bat) detects AV services (bdservicehost, SophosHealth, AvastUI) and modifies execution flow accordingly
-• Persistence via scheduled task "DragonMapper" in %LocalAppData%\Ecovision Solutions\ (T1053.005)
-• Keitaro TDS identified by Base64 cookie "3f06b" - key indicator for this platform
-
-Hunt for scheduled tasks containing "DragonMapper", oversized ISO files in Downloads, and AutoIT3.exe processes spawned from %LocalAppData%. Full IOC list includes file hashes and network indicators.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038617850340917450</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2038617850340917450">DFIR Radar</source>
-      <pubDate>Mon, 30 Mar 2026 14:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2038617850340917450</guid>
     </item>
   </channel>
 </rss>
