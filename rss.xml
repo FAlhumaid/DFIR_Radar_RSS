@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Apr 2026 21:03:13 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Apr 2026 22:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Phishing LNK files and GitHub C2 power new DPRK cyber attacks</title>
+      <link>https://securityaffairs.com/190413/uncategorized/phishing-lnk-files-and-github-c2-power-new-dprk-cyber-attacks.html</link>
+      <description>North Korean 🇰🇵 threat actors target South Korean 🇰🇷 organizations using GitHub as C2 infrastructure. Campaign leverages obfuscated LNK files dropping decoy PDFs while silently executing PowerShell scripts for surveillance operations.
+
+Technical breakdown:
+• LNK files embed decoding functions with XOR keys, drop decoy PDFs titled "Hangul Document" while executing PowerShell (T1566.001, T1059.001)
+• PowerShell performs environment checks, creates scheduled task persistence, exfiltrates system data to private GitHub repos (T1053.005, T1041)
+• Multiple GitHub accounts identified: motoralis (primary hub), God0808RAMA, Pigresy80, entire73, pandora0009, brandonleeodd93-blip
+• Keep-alive script uploads network configs to hxxps://api[.]github[.]com/repos/motoralis/singled/contents/jjyun/network/ using PUT method
+• Campaign active since 2024, evolved from simple obfuscation to sophisticated encoding techniques
+
+Forensic artifacts: LNK file metadata analysis, PowerShell execution logs, scheduled tasks in Task Scheduler, temp folder artifacts. Monitor GitHub API calls and unusual PowerShell/VBScript activity targeting Korean orgs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041275622572359765</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2041275622572359765">DFIR Radar</source>
+      <pubDate>Mon, 06 Apr 2026 22:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2041275622572359765</guid>
+    </item>
     <item>
       <title>The Axios Breach: When npm Trust Becomes an APT Attack Vector</title>
       <link>https://blog.polyswarm.io/the-axios-breach-when-npm-trust-becomes-an-apt-attack-vector</link>
@@ -1882,32 +1902,6 @@ DFIR artifacts:
       <source url="https://x.com/DFIR_Radar/status/2038919925784285397">DFIR Radar</source>
       <pubDate>Tue, 31 Mar 2026 10:02:46 +0000</pubDate>
       <guid isPermaLink="false">2038919925784285397</guid>
-    </item>
-    <item>
-      <title>Axios Supply Chain Attack Exposes Developers to Hidden Malware</title>
-      <link>https://thecyberexpress.com/axios-supply-chain-attack-npm-malware/</link>
-      <description>Axios npm supply chain attack deploys cross-platform RAT through compromised maintainer account. Malicious versions 1.14.1 and 0.30.4 used phantom dependency "plain-crypto-js" to bypass detection and target 300M+ weekly users.
-
-Key technical details:
-• Attacker hijacked core maintainer npm account, changed email to ProtonMail, bypassed GitHub Actions CI/CD
-• Injected fake dependency plain-crypto-js@4.2.1 with post-install script contacting C2 at sfrclak.com:8000/6202033
-• Cross-platform payloads: macOS (AppleScript + /Library/Caches), Windows (VBScript/PowerShell), Linux (Python /tmp/ld.py)
-• Anti-forensics: XOR/base64 obfuscation, self-deletion after 36 seconds, replaced package.json with clean decoy
-• Attack window: ~3 hours for malicious Axios versions, 4+ hours for poisoned dependency
-
-Attack methodology:
-• Manual npm publish bypassed trusted publisher metadata and OIDC authentication (T1195.002)
-• Phantom dependency never referenced in source code but auto-executed during npm install
-• C2 traffic disguised as legitimate npm registry activity to evade network detection
-• Platform-specific RAT variants with tailored persistence mechanisms
-
-Hunt for npm packages with manual publishing records lacking GitHub Actions metadata, unusual dependency additions in recent versions, and outbound connections to low-reputation domains during package installation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038904758485033043</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2038904758485033043">DFIR Radar</source>
-      <pubDate>Tue, 31 Mar 2026 09:02:30 +0000</pubDate>
-      <guid isPermaLink="false">2038904758485033043</guid>
     </item>
   </channel>
 </rss>
