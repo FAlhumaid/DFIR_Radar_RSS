@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Apr 2026 15:03:07 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 16:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>API Authentication Bypass in FortiClient EMS 7.4.5-7.4.6–CVE-2026-35616</title>
+      <link>https://bishopfox.com/blog/api-authentication-bypass-in-forticlient-ems-7-4-5-7-4-6-cve-2026-35616</link>
+      <description>Critical authentication bypass in FortiClient EMS 7.4.5-7.4.6 allows complete endpoint fleet takeover through HTTP header spoofing. Bishop Fox confirms active exploitation in the wild.
+
+• CVE-2026-35616 (no CVSS provided) bypasses certificate auth via spoofed X-SSL-CLIENT-VERIFY and X-SSL-CLIENT-CERT headers
+• Django middleware trusts user-controllable headers as equivalent to Apache mod_ssl WSGI variables
+• Certificate validation performs only DN string matching - no cryptographic signature verification required
+• Attacker gains authenticated API access to quarantine endpoints, rotate JWT secrets, download ZTNA keys, export vulnerability data
+• Affects complete endpoint management infrastructure - FortiClient EMS controls organization's entire endpoint fleet
+• 16 cert_chain_approved endpoints across 15 controllers exposed to unauthenticated access
+
+Fortinet hotfix strips malicious headers at Apache layer via RequestHeader unset directives. Code-level fix expected in v7.4.7.
+
+Hunt for unusual EMS API access patterns and verify patching status with Bishop Fox's non-destructive scanner tool.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041547418869887195</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2041547418869887195">DFIR Radar</source>
+      <pubDate>Tue, 07 Apr 2026 16:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2041547418869887195</guid>
+    </item>
     <item>
       <title>The Unknown Stealers: What’s Hidden Below the Radar</title>
       <link>https://socradar.io/blog/the-unknown-stealers-whats-hidden-below-the-radar/</link>
@@ -1790,33 +1812,6 @@ Immediate actions: Downgrade to safe versions (1.14.0/0.30.3), treat affected sy
       <source url="https://x.com/DFIR_Radar/status/2039070978689671269">DFIR Radar</source>
       <pubDate>Tue, 31 Mar 2026 20:03:00 +0000</pubDate>
       <guid isPermaLink="false">2039070978689671269</guid>
-    </item>
-    <item>
-      <title>Fake Installers to Monero: A Multi-Tool Mining Operation</title>
-      <link>https://www.elastic.co/security-labs/fake-installers-to-monero</link>
-      <description>Multi-year cryptomining operation REF1695 generates $9,400+ from fake installers distributing RATs and custom XMRig loaders. Active since late 2023, operator monetizes through both mining and CPA fraud across four distinct campaign variants.
-
-Key technical findings:
-• Consistent Themida/WinLicense + .NET Reactor packing across all campaigns
-• CNB Bot: Previously unreported .NET implant with RSA-2048 task authentication, 10-minute scheduled execution via VBScript wrapper
-• Custom XMRig loader kills mining process when 35+ analysis tools detected (Taskmgr, ProcessHacker, Wireshark, Procmon)
-• WinRing0x64.sys driver enables Ring 0 hardware access for MSR modification, boosting RandomX hash rates
-• Four active Monero wallets: 27.88 XMR paid out, 14 workers still active
-
-Attack chain progression:
-• ISO containers with ReadMe.txt social engineering bypass SmartScreen warnings
-• PowerShell adds broad Defender exclusions (%TEMP%, %LocalAppData%, %AppData%, LOLBins)
-• Multi-stage .NET loaders deploy PureRAT v3.0.1, PureMiner, SilentCryptoMiner, AsyncRAT, PulsarRAT
-• Persistence via scheduled tasks (ONLOGON trigger, HIGHEST privilege) + registry Run keys
-• C2 uses PBKDF2-SHA1 key derivation, AES-256-CBC + HMAC-SHA256 authentication
-
-DFIR artifacts include MLPCInstallHelper.exe in %TEMP%, SVCData\Config directory, HostDataProcess scheduled task, and MTXCNBV11000ERCXSWOLZNBVRGH mutex. Hunt for unsigned .
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039055908194406508</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2039055908194406508">DFIR Radar</source>
-      <pubDate>Tue, 31 Mar 2026 19:03:07 +0000</pubDate>
-      <guid isPermaLink="false">2039055908194406508</guid>
     </item>
   </channel>
 </rss>
