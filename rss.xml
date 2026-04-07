@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Apr 2026 17:02:42 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 18:03:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Milking the last drop of Intego - Time for Windows to get its LPE</title>
+      <link>http://blog.quarkslab.com/milking-the-last-drop-of-intego-time-for-windows-to-get-its-lpe.html</link>
+      <description>Local Privilege Escalation in Intego Windows security software exploits file deletion feature to achieve SYSTEM privileges through Config.msi deletion primitive and directory junction abuse.
+
+Technical details:
+• CVE pending - affects Intego 3.0.0.1 Windows version
+• IavService.exe (SYSTEM) deletes "duplicate" files without validating file types or reparse points
+• Vulnerable functions: IavFileDeleteEx_DeleteFileEx and IavFilesUtil_RemoveFile lack FILE_ATTRIBUTE_REPARSE_POINT checks
+• Time-of-check-time-of-use (TOCTOU) race condition between GetFileAttributesW() and DeleteFileW()
+
+Attack chain:
+• Create duplicate files, initiate Intego optimization scan
+• Replace target file with NT object directory junction to \RPC Control during cleanup window
+• Create NT symlink at \RPC Control\deleteme2.txt → C:\Config.msi
+• std::filesystem::remove() fallback follows symlink, deletes Config.msi as SYSTEM
+• Standard Config.msi rollback technique drops HID.DLL for SYSTEM shell via osk.exe
+
+Monitor for unexpected Config.msi deletion events and NT object manager operations by security software processes. Hunt for SYSTEM file operations on junction/symlink targets outside expected paths.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041577568529478080</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2041577568529478080">DFIR Radar</source>
+      <pubDate>Tue, 07 Apr 2026 18:03:18 +0000</pubDate>
+      <guid isPermaLink="false">2041577568529478080</guid>
+    </item>
     <item>
       <title>SOHO router compromise leads to DNS hijacking and adversary-in-the-middle attacks</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/04/07/soho-router-compromise-leads-to-dns-hijacking-and-adversary-in-the-middle-attacks/</link>
@@ -1782,30 +1808,6 @@ Hunt for npm postinstall script executions with network connections to suspiciou
       <source url="https://x.com/DFIR_Radar/status/2039101170975748436">DFIR Radar</source>
       <pubDate>Tue, 31 Mar 2026 22:02:59 +0000</pubDate>
       <guid isPermaLink="false">2039101170975748436</guid>
-    </item>
-    <item>
-      <title>Latest Xloader Obfuscation Methods and Network Protocol</title>
-      <link>https://www.zscaler.com/blogs/security-research/latest-xloader-obfuscation-methods-and-network-protocol</link>
-      <description>Zscaler's deep dive into Xloader v8.7 reveals sophisticated new obfuscation techniques that significantly complicate automated analysis and detection. The info-stealer now uses randomized parameter construction, enhanced code obfuscation, and 65 decoy C2 servers to mask operations.
-
-Key technical details:
-• Enhanced function decryption: Parameters built out-of-order byte-by-byte instead of consistent patterns, breaking traditional automation tools
-• Multi-layer RC4 encryption with 5 different keys (PKT2, HTTP GET, C2 URL hash, derived seeds) plus Base64 encoding variations  
-• Network protocol uses "XLNG" magic header, supports 9 command types including PowerShell/DLL execution, credential theft, system shutdown (T1529)
-• Decoy infrastructure: Randomly selects 16 from 65 encrypted C2 IPs per communication cycle to evade sandbox detection
-
-DFIR artifacts:
-• HTTP traffic with modified Base64 chars (+ / = become - _ .) in POST requests
-• User-Agent varies: "Windows Explorer" (WinINet) vs browser mimicry (raw sockets)
-• Query parameters: random alphanumeric names with "&amp;dat=" prefix and "&amp;wn=1" flag
-
-Hunt for HTTP POST requests with modified Base64 encoding patterns and multiple RC4-encrypted layers. Monitor for PowerShell execution following suspicious HTTP GET requests to multiple IPs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039086021091197066</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2039086021091197066">DFIR Radar</source>
-      <pubDate>Tue, 31 Mar 2026 21:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2039086021091197066</guid>
     </item>
   </channel>
 </rss>
