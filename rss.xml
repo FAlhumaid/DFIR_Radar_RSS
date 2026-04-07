@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Apr 2026 12:02:24 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 13:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>APT28 exploit routers to enable DNS hijacking operations</title>
+      <link>https://www.ncsc.gov.uk/news/apt28-exploit-routers-to-enable-dns-hijacking-operations</link>
+      <description>Russian 🇷🇺 APT28/GRU exploits SOHO routers for large-scale DNS hijacking campaign, targeting authentication credentials through adversary-in-the-middle attacks. NCSC UK attributes operations to Military Intelligence Unit 26165.
+
+Campaign mechanics:
+• Exploited TP-Link WR841N routers via CVE-2023-50224 to modify DHCP DNS settings (T1584.008, T1588.006)
+• Compromised routers redirect DNS queries for email/login domains to actor-controlled infrastructure
+• Conducted AitM attacks against browser sessions and desktop applications to harvest passwords and OAuth tokens (T1557, T1586)
+• Opportunistic targeting with filtering at each stage to identify high-value intelligence targets
+
+Infrastructure details:
+• Two distinct IP clusters containing 150+ malicious DNS servers and AitM infrastructure
+• Primary DNS set to malicious IPs, secondary to legitimate servers for stealth
+• Interactive operations against MikroTik routers in Ukraine 🇺🇦 for intelligence collection
+• Multiple router models targeted beyond TP-Link WR841N
+
+Hunt for unexpected DNS server changes in DHCP configurations, monitor for authentication traffic to suspicious IPs, and audit router firmware versions against CVE-2023-50224. Full IOC list with 150+ malicious IPs in the advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041501907273851005</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2041501907273851005">DFIR Radar</source>
+      <pubDate>Tue, 07 Apr 2026 13:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2041501907273851005</guid>
+    </item>
     <item>
       <title>What we learned about TEE security from auditing WhatsApp's Private Inference</title>
       <link>https://blog.trailofbits.com/2026/04/07/what-we-learned-about-tee-security-from-auditing-whatsapps-private-inference/</link>
@@ -1820,31 +1845,6 @@ Hunt for IE8/Windows XP user-agent strings from macOS/Linux hosts and npm packag
       <source url="https://x.com/DFIR_Radar/status/2039025796812361733">DFIR Radar</source>
       <pubDate>Tue, 31 Mar 2026 17:03:28 +0000</pubDate>
       <guid isPermaLink="false">2039025796812361733</guid>
-    </item>
-    <item>
-      <title>WhatsApp malware campaign delivers VBS payloads and MSI backdoors</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/03/31/whatsapp-malware-campaign-delivers-vbs-payloads-msi-backdoors/</link>
-      <description>Microsoft Security tracks sophisticated WhatsApp malware campaign using VBS scripts and cloud hosting to deploy MSI backdoors. Multi-stage infection chain combines social engineering with renamed Windows utilities and UAC bypass techniques.
-
-Key technical details:
-• Initial access via WhatsApp-delivered VBS files creating hidden folders in C:\ProgramData, dropping renamed curl.exe/bitsadmin.exe as netapi.dll/sc.exe
-• Stage 2 retrieves secondary payloads (auxs.vbs, WinUpdate_KB5034231.vbs) from AWS S3, Tencent Cloud, and Backblaze B2
-• UAC bypass attempts modify HKLM\Software\Microsoft\Win registry entries, continuously retry cmd.exe elevation
-• Final payload: Unsigned MSI installers (Setup.msi, WinRAR.msi, AnyDesk.msi) enabling persistent remote access
-• PE metadata discrepancy detection: Renamed binaries retain original OriginalFileName field (curl.exe/bitsadmin.exe)
-
-DFIR artifacts:
-• Monitor ProcessCommandLine with ProgramData + downloader flags (-K, -s, -L, -o, https:)
-• Hunt renamed executables where InitiatingProcessVersionInfoOriginalFileName != actual filename
-• Registry changes under HKLM\Software\Microsoft\Win + ConsentPromptBehaviorAdmin modifications
-
-Detection opportunity: Flag files where PE OriginalFileName metadata doesn't match actual filename - attackers retain original metadata when renaming legitimate tools.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039010625415004491</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2039010625415004491">DFIR Radar</source>
-      <pubDate>Tue, 31 Mar 2026 16:03:11 +0000</pubDate>
-      <guid isPermaLink="false">2039010625415004491</guid>
     </item>
   </channel>
 </rss>
