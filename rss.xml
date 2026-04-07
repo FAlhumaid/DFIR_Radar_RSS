@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Apr 2026 23:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 00:06:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Delivered by Trust: What the Axios Supply Chain Attack… | Bishop Fox</title>
+      <link>https://bishopfox.com/blog/delivered-by-trust-what-the-axios-supply-chain-attack-means-for-security-leaders</link>
+      <description>Supply chain compromise: Axios NPM package backdoored with platform-specific RATs affecting versions 1.14.1 and 0.30.4. Attackers gained initial access through social engineering of trusted maintainer account.
+
+Technical breakdown:
+• Malicious versions contain trojanized dependency executing setup.js loader during installation
+• Second-stage connects to sfrclak[.]com and 142[.]11[.]206[.]73:8000 for RAT delivery
+• Attack chain: compromised maintainer → malicious NPM publish → dependency execution → C2 → OS-specific payload
+• IOCs include plain-crypto-js package and [email protected]/[email protected] dependencies
+• Impacts entire development pipeline from workstations to production systems
+
+Hunt priorities:
+• Scan for affected Axios versions (1.14.1, 0.30.4) across all environments
+• Check CI/CD logs for npm install execution during compromise window
+• Monitor network connections to identified C2 infrastructure
+• Validate credential rotation on all affected systems
+
+Roll back to safe versions (1.14.0, 0.30.3), clear node_modules and NPM cache, then implement dependency pinning and SBOM monitoring.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041306546110697552</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2041306546110697552">DFIR Radar</source>
+      <pubDate>Tue, 07 Apr 2026 00:06:21 +0000</pubDate>
+      <guid isPermaLink="false">2041306546110697552</guid>
+    </item>
     <item>
       <title>50,000 WordPress Sites affected by Arbitrary File Upload Vulnerability in Ninja Forms – File Upload WordPress Plugin</title>
       <link>https://www.wordfence.com/blog/2026/04/50000-wordpress-sites-affected-by-arbitrary-file-upload-vulnerability-in-ninja-forms-file-upload-wordpress-plugin/</link>
@@ -1859,31 +1885,6 @@ Hunt for outbound connections to sfrclak.com:8000, Registry entries named "Micro
       <source url="https://x.com/DFIR_Radar/status/2038950240771039737">DFIR Radar</source>
       <pubDate>Tue, 31 Mar 2026 12:03:14 +0000</pubDate>
       <guid isPermaLink="false">2038950240771039737</guid>
-    </item>
-    <item>
-      <title>Common Entra ID Security Assessment Findings – Part 2: Privileged Unprotected Groups</title>
-      <link>https://blog.compass-security.com/2026/03/common-entra-id-security-assessment-findings-part-2-privileged-unprotected-groups/</link>
-      <description>Compass Security identifies critical privilege escalation risks in Entra ID environments where unprotected groups are used for sensitive access controls and Azure role assignments.
-
-Key findings:
-• Unprotected groups lack role-assignable properties, RMAU membership, or on-premises sync - allowing lower-tier admins (Groups Administrator, User Administrator, etc.) to modify membership
-• Issue 1: Conditional Access policies using unprotected groups enable MFA bypass through group membership manipulation
-• Issue 2: PIM for Groups allows non-role-assignable groups as eligible members, creating escalation paths to Global Administrator
-• Issue 3: Azure role assignments via unprotected groups can grant cloud-to-on-premises privilege escalation through Azure Arc command execution
-
-Attack chain example:
-• Compromised service principal with Group.ReadWrite.All adds itself to unprotected group
-• Group has Owner role on Azure subscription containing Arc-connected domain controller
-• Attacker executes commands as SYSTEM on DC via New-AzConnectedMachineRunCommand
-• Results in full Active Directory compromise from cloud identity
-
-Use EntraFalcon tool to identify Finding ID GRP-005 for privileged unprotected groups. Remediate by placing sensitive groups in Restricted Management Administrative Units or converting to role-assignable groups.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038935072280068473</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2038935072280068473">DFIR Radar</source>
-      <pubDate>Tue, 31 Mar 2026 11:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2038935072280068473</guid>
     </item>
   </channel>
 </rss>
