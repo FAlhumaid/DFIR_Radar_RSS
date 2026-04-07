@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Apr 2026 00:06:21 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2026 08:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Common Entra ID Security Assessment Findings – Part 3: Weak Privileged Identity Management Configuration</title>
+      <link>https://blog.compass-security.com/2026/04/common-entra-id-security-assessment-findings-part-3-weak-privileged-identity-management-configuration/</link>
+      <description>New research reveals critical weaknesses in Microsoft Entra ID Privileged Identity Management configurations that attackers can exploit to bypass MFA requirements and maintain persistent privileged access.
+
+Compass Security identifies widespread PIM misconfigurations during assessments:
+
+• **Token Abuse Scenarios**: Attackers with stolen refresh tokens can wait for legitimate users to activate privileged roles, then use FOCI capabilities to obtain elevated access tokens without additional MFA challenges
+
+• **Built-in Azure MFA Bypass**: Stolen tokens containing MFA claims can activate roles directly via PowerShell using Microsoft Graph API calls to `/roleManagement/directory/roleAssignmentScheduleRequests`
+
+• **Authentication Context Limitation**: 5-minute clock skew window allows role activation even with "every time" reauthentication requirements - attackers can exploit fresh tokens within this timeframe
+
+• **Common Misconfigurations**: Permanent assignments allowed, excessive 4+ hour activation durations, missing notifications, and high-privilege roles (Global Admin, Security Admin) not protected by approval workflows
+
+• **Detection Gaps**: Organizations often assume PIM provides complete protection while neglecting Conditional Access policies for device/location restrictions
+
+Hunt for suspicious PIM activations outside business hours and unusual API calls to Graph endpoints. Full technical details and EntraFalcon detection tool available in the research.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041426441867350019</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2041426441867350019">DFIR Radar</source>
+      <pubDate>Tue, 07 Apr 2026 08:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2041426441867350019</guid>
+    </item>
     <item>
       <title>Delivered by Trust: What the Axios Supply Chain Attack… | Bishop Fox</title>
       <link>https://bishopfox.com/blog/delivered-by-trust-what-the-axios-supply-chain-attack-means-for-security-leaders</link>
@@ -1864,27 +1889,6 @@ Immediate actions: Check package-lock.json for axios@1.14.1/0.30.4, downgrade to
       <source url="https://x.com/DFIR_Radar/status/2038965444036403318">DFIR Radar</source>
       <pubDate>Tue, 31 Mar 2026 13:03:39 +0000</pubDate>
       <guid isPermaLink="false">2038965444036403318</guid>
-    </item>
-    <item>
-      <title>Axios NPM Distribution Compromised in Supply Chain Attack</title>
-      <link>https://www.wiz.io/blog/axios-npm-compromised-in-supply-chain-attack</link>
-      <description>Supply chain attack: Compromised axios maintainer published malicious npm versions affecting ~80% of cloud environments. Malicious packages deployed cross-platform RATs with 60-second C2 beaconing to sfrclak.com.
-
-Technical breakdown:
-• Malicious axios v1.14.1 &amp; v0.30.4 added dependency on trojanized plain-crypto-js package (GHSA-fw8c-xr5c-95f9, MAL-2026-2306)
-• Dropper (setup.js) downloads OS-specific payloads from sfrclak.com:8000 then self-deletes
-• Windows: PowerShell RAT persists via Registry Run key "MicrosoftUpdate" (T1547.001)
-• macOS: Self-signing C++ Mach-O binary with code injection capabilities
-• Linux: Python-based RAT with shell execution and system recon
-• 3% execution rate despite hours-long exposure window due to axios prevalence
-
-Hunt for outbound connections to sfrclak.com:8000, Registry entries named "MicrosoftUpdate", and axios package installations with plain-crypto-js dependency during March 31 00:21-01:00 UTC timeframe.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2038950240771039737</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2038950240771039737">DFIR Radar</source>
-      <pubDate>Tue, 31 Mar 2026 12:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2038950240771039737</guid>
     </item>
   </channel>
 </rss>
