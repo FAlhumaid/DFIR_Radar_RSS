@@ -5,8 +5,41 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Apr 2026 09:02:15 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Apr 2026 11:02:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Lua-based malware “LucidRook” observed in targeted attacks against Taiwanese organizations</title>
+      <link>https://blog.talosintelligence.com/new-lua-based-malware-lucidrook/</link>
+      <description>Cisco Talos discovers LucidRook, a sophisticated Lua-based malware targeting Taiwanese 🇹🇼 NGOs and universities. Uses embedded Lua interpreter with Rust libraries for stealthy payload execution.
+
+Key technical details:
+• Two infection chains: LNK-based (LucidPawn dropper) and EXE-based masquerading as Trend Micro antivirus
+• LucidRook embeds Lua 5.4.8 interpreter, downloads encrypted Lua bytecode from compromised FTP servers
+• Geo-targeting anti-analysis: only executes on Traditional Chinese systems (LANGID 0x0404/0x0C04)
+• String obfuscation uses runtime XOR decryption with parallel lookup tables
+• LucidKnight companion tool exfiltrates recon data via Gmail (fexopuboriw972@gmail.com)
+
+Attack methodology:
+• Initial access via spearphishing with password-protected archives
+• DLL sideloading via legitimate DISM executable (T1574.002)
+• Persistence through Startup folder LNK files
+• C2 communication over plaintext FTP to abused Taiwanese 🇹🇼 printing company servers
+• Multi-layer encryption: RSA + password-protected ZIP for data exfiltration
+
+Detection opportunities:
+• Monitor for DISM.exe with unexpected network connections
+• Hunt for DismCore.dll in %APPDATA%\Local\Microsoft\WindowsApps\
+• Track FTP connections to 1.34.253[.]131 and 59.124.71[.]242
+• Alert on DNS queries to digimg[.]store OAST service
+
+Hunt for unsigned DLLs masquerading as system components with embedded interpreters. Full IOC list and ClamAV signatures available in Talos report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041834085245489555</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2041834085245489555">DFIR Radar</source>
+      <pubDate>Wed, 08 Apr 2026 11:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2041834085245489555</guid>
+    </item>
     <item>
       <title>Iran‑Backed Threat Actors Hit US CNI Providers via Internet‑Facing OT Assets</title>
       <link>https://www.infosecurity-magazine.com/news/iranbacked-hackers-cni-ot-assets/</link>
@@ -1681,17 +1714,6 @@ Hunt for unusual /mgmt/shared/identified-devices/config/device-info access and c
       <source url="https://x.com/DFIR_Radar/status/2039297329996669014">DFIR Radar</source>
       <pubDate>Wed, 01 Apr 2026 11:02:26 +0000</pubDate>
       <guid isPermaLink="false">2039297329996669014</guid>
-    </item>
-    <item>
-      <title>Attackers hijack Axios npm account to spread RAT malware</title>
-      <link>https://securityaffairs.com/190221/security/attackers-hijack-axios-npm-account-to-spread-rat-malware.html</link>
-      <description>Attackers compromised Axios npm maintainer account to distribute RAT malware via versions 1.14.1 and 0.30.4, affecting projects with ~400M monthly downloads. Check your dependencies for plain-crypto-js and assume compromise if found.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039282210550026479</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2039282210550026479">DFIR Radar</source>
-      <pubDate>Wed, 01 Apr 2026 10:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2039282210550026479</guid>
     </item>
   </channel>
 </rss>
