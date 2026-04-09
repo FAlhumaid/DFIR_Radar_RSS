@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Apr 2026 15:03:02 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 16:04:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Intent redirection vulnerability in third-party SDK exposed millions of Android wallets to potential risk</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/04/09/intent-redirection-vulnerability-third-party-sdk-android/</link>
+      <description>Microsoft researchers discovered a severe intent redirection flaw in EngageLab's Android SDK affecting 50+ million app installations, with crypto wallets representing 30+ million at-risk users. Vulnerability allows sandbox bypass and unauthorized access to private app data.
+
+Technical breakdown:
+• CVE affects EngageLab SDK versions prior to 5.2.1 - exported MTCommonActivity component in merged manifest creates attack surface
+• Malicious apps can craft intents with URI_ALLOW_UNSAFE flag to gain persistent read/write access to victim app's private storage via content providers
+• Vulnerability leverages trusted app context for privilege escalation (T1055) and data exfiltration from sandboxed environments
+• Attack chain: malicious intent → processIntent() → processPlatformMessage() → JSON parsing → startActivity() with elevated permissions
+• Primary impact on cryptocurrency/wallet apps due to sensitive financial data exposure
+
+Fixed in EngageLab SDK v5.2.1 (Nov 2025). All vulnerable apps removed from Google Play.
+
+Developers: audit merged Android manifests for unexpected exported components when integrating third-party SDKs. Review content provider permissions and validate intent handling code paths.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042272397860937825</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2042272397860937825">DFIR Radar</source>
+      <pubDate>Thu, 09 Apr 2026 16:04:18 +0000</pubDate>
+      <guid isPermaLink="false">2042272397860937825</guid>
+    </item>
     <item>
       <title>How Phishing Is Targeting Germany’s Economy: Active Threats from Finance to Manufacturing</title>
       <link>https://any.run/cybersecurity-blog/german-industries-attack-cases/</link>
@@ -1646,26 +1668,6 @@ Attack chain systematically blinds behavioral detection before ransomware deploy
       <source url="https://x.com/DFIR_Radar/status/2039629571146776816">DFIR Radar</source>
       <pubDate>Thu, 02 Apr 2026 09:02:39 +0000</pubDate>
       <guid isPermaLink="false">2039629571146776816</guid>
-    </item>
-    <item>
-      <title>Axios Just Got Weaponized — And Your npm install Pulled the Trigger</title>
-      <link>https://infosecwriteups.com/axios-just-got-weaponized-and-your-npm-install-pulled-the-trigger-8ba05aac905e?source=rss----7b722bfd1b8d---4</link>
-      <description>Supply chain attack compromises axios npm package via malicious dependency injection. Attackers gained maintainer credentials to push trojanized versions that executed cross-platform RATs during installation.
-
-Key technical details:
-• Malicious axios@1.14.1 and @0.30.4 added plain-crypto-js@4.2.1 dependency with postinstall script executing node setup.js automatically
-• Multi-stage payload drops platform-specific RATs: Windows uses PowerShell + VBScript, Linux deploys Python script to /tmp/ld.py, macOS drops Mach-O binary to /Library/Caches/com.apple.act.mond
-• C2 infrastructure: sfrclak[.]com:8000/6202033 with HTTP POST beacons using User-Agent "mozilla/4.0 (compatible; msie 8.0)"
-• Windows persistence via HKCU\Software\Microsoft\Windows\CurrentVersion\Run\MicrosoftUpdate registry key
-• Self-deletion after execution: fs.unlink(__filename) removes loader, renames package.md to package.json to appear legitimate
-
-Hunt for recent axios installations, monitor %PROGRAMDATA%\wt.exe, /tmp/ld.py, and /Library/Caches/com.apple.act.mond file creation. Check registry Run keys for MicrosoftUpdate entries and network connections to sfrclak[.]com.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039614585079001308</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2039614585079001308">DFIR Radar</source>
-      <pubDate>Thu, 02 Apr 2026 08:03:06 +0000</pubDate>
-      <guid isPermaLink="false">2039614585079001308</guid>
     </item>
   </channel>
 </rss>
