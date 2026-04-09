@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Apr 2026 10:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 11:02:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>This fake Windows support website delivers password-stealing malware</title>
+      <link>https://www.malwarebytes.com/blog/scams/2026/04/this-fake-windows-support-website-delivers-password-stealing-malware</link>
+      <description>French-targeted 🇫🇷 infostealer masquerades as legitimate Windows update via typosquatted Microsoft domain. Multi-layered evasion using Electron wrapper, renamed Python interpreter, and obfuscated JavaScript achieves zero AV detections.
+
+Technical breakdown:
+• Initial vector: microsoft-update[.]support serves fake KB update for Windows 24H2, downloads WindowsUpdate_1.0.0.msi (83MB)
+• Execution chain: MSI → Electron app (WindowsUpdate.exe) → VBS launcher (AppLauncher.vbs) → renamed Python interpreter (_winhost.exe)
+• Persistence: Registry Run key "SecurityHealth" + Startup folder shortcut "Spotify.lnk" for redundancy
+• C2 infrastructure: datawebsync-lvmv[.]onrender[.]com, sync-service[.]system-telemetry[.]workers[.]dev (Cloudflare Workers relay)
+• Data exfiltration via store8[.]gofile[.]io after killing 200+ processes with taskkill.exe
+
+Campaign specifically targets France 🇫🇷 following massive breaches (Free ISP: 19M records, SFR telecom, France Travail: 43M records) providing attacker data for convincing social engineering.
+
+Hunt for Electron processes spawning Python interpreters with suspicious names, outbound connections to .onrender.com/.workers.dev domains, and registry entries mimicking Windows services.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042196471802384602</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2042196471802384602">DFIR Radar</source>
+      <pubDate>Thu, 09 Apr 2026 11:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2042196471802384602</guid>
+    </item>
     <item>
       <title>The long road to your crypto: ClipBanker and its marathon infection chain</title>
       <link>https://securelist.com/clipbanker-malware-distributed-via-trojanized-proxifier/119341/</link>
@@ -1635,26 +1657,6 @@ Hunt for recent axios installations, monitor %PROGRAMDATA%\wt.exe, /tmp/ld.py, a
       <source url="https://x.com/DFIR_Radar/status/2039554048471535940">DFIR Radar</source>
       <pubDate>Thu, 02 Apr 2026 04:02:33 +0000</pubDate>
       <guid isPermaLink="false">2039554048471535940</guid>
-    </item>
-    <item>
-      <title>Hooked on Linux: Rootkit Detection Engineering</title>
-      <link>https://www.elastic.co/security-labs/linux-rootkits-2-caught-in-the-act</link>
-      <description>Elastic Security Labs exposes fundamental flaws in static rootkit detection, showing how trivial binary modifications evade traditional signatures. Research introduces comprehensive behavioral detection framework for Linux rootkits across userland, kernel, eBPF, and io_uring attack vectors.
-
-Key findings:
-• Static detection fails catastrophically: single null byte addition drops detection rates from 36/66 to 21/66 engines for Azazel rootkit
-• Behavioral indicators provide reliable detection: LD_PRELOAD abuse, shared object creation in /tmp/.hidden/, LKM loading via init_module/finit_module syscalls
-• Emerging attack vectors require new telemetry: eBPF rootkits using bpf_probe_write_user helper, io_uring-based stealth techniques bypassing syscall monitoring
-• Persistence mechanisms span multiple layers: shell config modification, udev rule abuse (/etc/udev/rules.d/), kernel module autoload via /etc/modules-load.d/
-• Defense evasion includes process masquerading as kworker/kthreadd, timestomping via touch command, log clearing through dmesg -c
-
-Hunt for unusual shared objects in ephemeral paths, monitor high-numbered kill signals (32+), and implement Auditd rules for init_module/finit_module syscalls. Full detection rules and YARA signatures available in Elastic's detection-rules repository.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039539284336591359</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2039539284336591359">DFIR Radar</source>
-      <pubDate>Thu, 02 Apr 2026 03:03:53 +0000</pubDate>
-      <guid isPermaLink="false">2039539284336591359</guid>
     </item>
   </channel>
 </rss>
