@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Apr 2026 09:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 10:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The long road to your crypto: ClipBanker and its marathon infection chain</title>
+      <link>https://securelist.com/clipbanker-malware-distributed-via-trojanized-proxifier/119341/</link>
+      <description>ClipBanker campaign uses 11-stage infection chain starting from fake Proxifier software on GitHub. Complex fileless deployment evades detection through process injection and PowerShell obfuscation to steal cryptocurrency wallet addresses.
+
+Technical breakdown:
+• Initial vector: Trojanized Proxifier installer on GitHub releases section with bundled legitimate software
+• Evasion: Creates Microsoft Defender exclusions via injected .NET modules (api_updater.exe, proxifierupdater.exe)
+• Persistence: Registry key at HKLM\SOFTWARE\System::Config stores Base64 PowerShell + scheduled task
+• Payload chain: Pastebin → GitHub → 500KB script → shellcode injection into fontdrvhost.exe
+• Final payload: C++ ClipBanker monitoring clipboard for 25+ crypto wallet formats (Bitcoin, Ethereum, Monero, etc.)
+
+The malware uses fileless techniques with process hollowing (T1055) and PowerShell execution (T1059.001). It pings maper[.]info/2X5tF5 for infection confirmation. Over 2000 detections since early 2025, primarily in India 🇮🇳 and Vietnam 🇻🇳.
+
+Hunt for scheduled tasks executing PowerShell with registry content, fontdrvhost.exe with network connections, and suspicious clipboard monitoring behavior. Full IOC list and URLs provided.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042181390720962579</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2042181390720962579">DFIR Radar</source>
+      <pubDate>Thu, 09 Apr 2026 10:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2042181390720962579</guid>
+    </item>
     <item>
       <title>UK NCSC says APT28 exploits routers for DNS hijacking, enabling large-scale traffic interception</title>
       <link>https://industrialcyber.co/critical-infrastructure/uk-ncsc-says-apt28-exploits-routers-for-dns-hijacking-enabling-large-scale-traffic-interception/</link>
@@ -1633,31 +1655,6 @@ Hunt for unusual shared objects in ephemeral paths, monitor high-numbered kill s
       <source url="https://x.com/DFIR_Radar/status/2039539284336591359">DFIR Radar</source>
       <pubDate>Thu, 02 Apr 2026 03:03:53 +0000</pubDate>
       <guid isPermaLink="false">2039539284336591359</guid>
-    </item>
-    <item>
-      <title>Anthropic Claude Code Leak</title>
-      <link>https://www.zscaler.com/blogs/security-research/anthropic-claude-code-leak</link>
-      <description>Anthropic Claude Code source leak weaponized: Threat actors distribute Vidar stealer and GhostSocks proxy malware through fake GitHub repositories masquerading as the leaked AI agent codebase.
-
-Key technical details:
-• Original leak: 59.8MB JavaScript source map exposed 513K lines of TypeScript code via npm package @anthropic-ai/claude-code v2.1.88
-• Malicious repos rank high in Google searches for "leaked Claude Code" 
-• Dropper: ClaudeCode_x64.exe (Rust-based) delivers Vidar v18.7 + GhostSocks proxy tools
-• IOCs: Archive hashes d8256fbc62e85dae85eb8d4b49613774, C2s steamcommunity[.]com/profiles/76561198721263282 and 147.45.197[.]92:443
-• Attack leverages supply chain confusion - thousands of GitHub forks create perfect cover for trojanized versions
-
-DFIR impact:
-• Exposed agent hooks, MCP integrations, OAuth flows enable precise exploitation of legitimate Claude deployments
-• Perfect timing overlap with malicious Axios npm supply chain attack (March 31)
-• Developer workstation compromise via malicious dependencies in fake source builds
-
-Hunt for recent GitHub clones of "leaked-claude-code" repos, unusual Rust executables, and outbound connections to Steam community profiles from developer workstations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039523871116628135</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2039523871116628135">DFIR Radar</source>
-      <pubDate>Thu, 02 Apr 2026 02:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2039523871116628135</guid>
     </item>
   </channel>
 </rss>
