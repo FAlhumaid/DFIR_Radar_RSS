@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Apr 2026 16:04:18 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 17:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>In-Memory Loader Drops ScreenConnect</title>
+      <link>https://www.zscaler.com/blogs/security-research/memory-loader-drops-screenconnect</link>
+      <description>Multi-stage in-memory loader chain abuses legitimate ScreenConnect RMM tool deployment. Attack uses heavy obfuscation, .NET reflection, and UAC bypass via auto-elevated COM objects to evade detection.
+
+Technical breakdown:
+• VBScript loader (Acrobat_Reader_V112_6971.vbs) uses nested Replace() functions and Chr() calls to dynamically construct WScript.Shell objects and commands at runtime
+• PowerShell stage downloads C# source from drive.google[.]com, compiles entirely in-memory via Add-Type -ReferencedAssemblies to avoid disk artifacts
+• .NET loader performs PEB manipulation to masquerade as winhlp32.exe, splits method names ("Lo"+"ad"), uses Assembly.Load() for reflective loading (T1055.002)
+• UAC bypass leverages auto-elevated COM objects with reversed moniker strings, no user prompts required
+• Final payload downloads ScreenConnect.ClientSetup.msi from x0[.]at/qOfN.msi via msiexec installation
+
+Hunt for PowerShell processes with -ExecutionPolicy Bypass downloading from cloud storage, followed by Add-Type compilation and suspicious winhlp32.exe network activity.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042287102763942088</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2042287102763942088">DFIR Radar</source>
+      <pubDate>Thu, 09 Apr 2026 17:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2042287102763942088</guid>
+    </item>
     <item>
       <title>Intent redirection vulnerability in third-party SDK exposed millions of Android wallets to potential risk</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/04/09/intent-redirection-vulnerability-third-party-sdk-android/</link>
@@ -1657,17 +1677,6 @@ Attack chain systematically blinds behavioral detection before ransomware deploy
       <source url="https://x.com/DFIR_Radar/status/2039644788887318919">DFIR Radar</source>
       <pubDate>Thu, 02 Apr 2026 10:03:08 +0000</pubDate>
       <guid isPermaLink="false">2039644788887318919</guid>
-    </item>
-    <item>
-      <title>Inside CVE-2024-4367: Arbitrary JavaScript Execution via PDF.js</title>
-      <link>https://infosecwriteups.com/inside-cve-2024-4367-arbitrary-javascript-execution-via-pdf-js-abb4afff4141?source=rss----7b722bfd1b8d---4</link>
-      <description>CVE-2024-4367 (CVSS 8.8) in PDF.js allows arbitrary JavaScript execution via malicious FontMatrix values in PDFs. Still widely exploitable in 2026 due to AI-generated code using vulnerable versions. Upgrade to 4.2.67+ or disable isEvalSupported.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039629571146776816</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2039629571146776816">DFIR Radar</source>
-      <pubDate>Thu, 02 Apr 2026 09:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2039629571146776816</guid>
     </item>
   </channel>
 </rss>
