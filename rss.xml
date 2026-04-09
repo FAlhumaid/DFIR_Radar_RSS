@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Apr 2026 17:02:44 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Apr 2026 18:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Investigating Storm-2755: “Payroll pirate” attacks targeting Canadian employees</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/04/09/investigating-storm-2755-payroll-pirate-attacks-targeting-canadian-employees/</link>
+      <description>Storm-2755 conducts "payroll pirate" attacks targeting Canadian 🇨🇦 employees using AiTM techniques to hijack authenticated sessions and redirect salary payments to attacker-controlled bank accounts.
+
+Key technical details:
+• Initial access via SEO poisoning/malvertising on bluegraintours[.]com targeting "Office 365" searches
+• AiTM attack leverages Axios/1.7.9 user-agent to replay stolen session tokens, bypassing non-phishing resistant MFA
+• Error pattern: Multiple failed logins → 50199 sign-in interrupt → successful auth with user-agent shift to Axios
+• Persistence via non-interactive OfficeHome sign-ins every ~30 minutes for up to 30 days
+• Discovery focuses on "payroll", "HR", "finance" intranet searches and targeted phishing emails with subject "Question about direct deposit"
+
+Defense evasion:
+• Creates inbox rules to hide emails containing "direct deposit" or "bank" keywords in conversation history
+• Operates during early morning hours (5:00 AM local time) to avoid detection
+• Manual manipulation of HR SaaS platforms like Workday to update banking information
+
+Hunt for Axios user-agent strings with consistent session IDs following 50199 error codes, and monitor inbox rule creation with payroll-related keywords.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042302367169958238</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2042302367169958238">DFIR Radar</source>
+      <pubDate>Thu, 09 Apr 2026 18:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2042302367169958238</guid>
+    </item>
     <item>
       <title>In-Memory Loader Drops ScreenConnect</title>
       <link>https://www.zscaler.com/blogs/security-research/memory-loader-drops-screenconnect</link>
@@ -1657,26 +1682,6 @@ Hunt for nohup processes spawning from /tmp/ with dot-prefixed randomized names 
       <source url="https://x.com/DFIR_Radar/status/2039659848497799481">DFIR Radar</source>
       <pubDate>Thu, 02 Apr 2026 11:02:58 +0000</pubDate>
       <guid isPermaLink="false">2039659848497799481</guid>
-    </item>
-    <item>
-      <title>Qilin EDR killer infection chain</title>
-      <link>https://blog.talosintelligence.com/qilin-edr-killer/</link>
-      <description>Qilin ransomware deploys sophisticated multi-stage EDR killer targeting 300+ security products. Advanced loader uses SEH/VEH-based obfuscation and kernel manipulation to completely disable endpoint detection systems.
-
-Technical breakdown:
-• Stage 1: Malicious msimg32.dll side-loaded via DLL hijacking, implements slot-policy table for syscall evasion and Halo's Gate technique
-• Stage 2-3: Complex VEH-based control flow obfuscation, overwrites ExitProcess IAT entry, maps payload into shell32.dll memory space
-• Stage 4: EDR killer loads rwdrv.sys (abused ThrottleStop driver) for physical memory R/W, hlpdrv.sys for process termination (T1562.001)
-• Kernel manipulation: Unregisters EDR callbacks for process/thread/image events, overwrites CiValidateImageHeader with ArbPreprocessEntry
-• Geo-fencing excludes post-Soviet countries, requires admin privileges for driver loading
-
-Attack chain systematically blinds behavioral detection before ransomware deployment. Hunt for msimg32.dll side-loading, unsigned drivers in system directories, and unexpected ExitProcess IAT modifications.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2039644788887318919</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2039644788887318919">DFIR Radar</source>
-      <pubDate>Thu, 02 Apr 2026 10:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2039644788887318919</guid>
     </item>
   </channel>
 </rss>
