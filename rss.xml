@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Apr 2026 02:02:53 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 11 Apr 2026 13:02:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When deleting Signal is not enough: the FBI, iPhone notifications, and what forensics can reveal</title>
+      <link>https://andreafortuna.org/2026/04/11/signal-fbi-iphone-notifications-forensics/</link>
+      <description>FBI recovers Signal messages from iPhone notification database after app deletion. No encryption broken—iOS preserved incoming message content in system files, demonstrating critical gap between user assumptions and data persistence.
+
+Key technical details:
+• Messages recovered from /private/var/mobile/Library/BulletinBoard/ notification database
+• Only incoming messages accessible (went through Apple Push Notification service)
+• Signal's "notification preview" setting enabled, storing plaintext in iOS system storage
+• Data persists in AFU (After First Unlock) state even after app uninstallation
+• Likely extracted via logical acquisition or encrypted iTunes backup analysis
+
+Attack surface:
+• iOS BulletinBoard framework maintains notification history for system continuity
+• Push notification tokens remain valid briefly after app removal
+• Commercial tools like Cellebrite UFED can access notification artifacts in AFU state
+• iCloud backups may also contain notification database contents when legally compelled
+
+DFIR implications:
+• Notification databases now confirmed high-value artifact for iOS investigations  
+• Check ClearedSections.plist for notification clearing evidence
+• Cross-reference with interactionC.db and sysdiagnose logs for timeline reconstruction
+• Consider notification content settings during mobile device analysis
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042951348774183344</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2042951348774183344">DFIR Radar</source>
+      <pubDate>Sat, 11 Apr 2026 13:02:13 +0000</pubDate>
+      <guid isPermaLink="false">2042951348774183344</guid>
+    </item>
     <item>
       <title>ClickFix finds a new way to infect Macs</title>
       <link>https://www.malwarebytes.com/blog/news/2026/04/clickfix-finds-new-way-to-infect-macs</link>
@@ -1537,26 +1567,6 @@ Organizations using Axios should rollback to v1.14.0/v0.30.3 and assume credenti
       <source url="https://x.com/DFIR_Radar/status/2040082687378022804">DFIR Radar</source>
       <pubDate>Fri, 03 Apr 2026 15:03:10 +0000</pubDate>
       <guid isPermaLink="false">2040082687378022804</guid>
-    </item>
-    <item>
-      <title>Simplifying MBA obfuscation with CoBRA</title>
-      <link>https://securityboulevard.com/2026/04/simplifying-mba-obfuscation-with-cobra/</link>
-      <description>New open-source tool CoBRA simplifies Mixed Boolean-Arithmetic (MBA) obfuscation with 99.86% success rate across 73,000+ expressions. Addresses critical gap where algebraic simplifiers can't handle bitwise logic and Boolean minimizers fail on arithmetic.
-
-Key capabilities:
-• Handles full MBA spectrum: linear, semilinear, polynomial, and mixed expressions using worklist-based orchestrator with 36 discrete passes
-• Three deployment modes: CLI tool, C++ library, and LLVM pass plugin for integration into existing analysis pipelines
-• Worklist classifies expressions and routes to appropriate simplification technique (pattern matching, ANF conversion, interpolation)
-• Verification engine uses random input testing or Z3 theorem proving to confirm every simplification before output
-• Successfully processes expressions like "(x&amp;y)+(x|y)" → "x+y" and complex nested obfuscations
-
-DFIR practitioners can integrate CoBRA into automated malware analysis workflows to recover readable code from MBA-obfuscated samples. Available on GitHub under Apache 2.0 license.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040067567684133352</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2040067567684133352">DFIR Radar</source>
-      <pubDate>Fri, 03 Apr 2026 14:03:06 +0000</pubDate>
-      <guid isPermaLink="false">2040067567684133352</guid>
     </item>
   </channel>
 </rss>
