@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Apr 2026 09:03:32 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2026 10:03:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake Claude AI installer abuses DLL sideloading to deploy PlugX</title>
+      <link>https://securityaffairs.com/190754/malware/fake-claude-ai-installer-abuses-dll-sideloading-to-deploy-plugx.html</link>
+      <description>Fake Claude AI website distributes PlugX RAT via DLL sideloading attack. Campaign exploits AI tool popularity to deliver espionage malware through trojanized installer masquerading as Anthropic's chatbot service.
+
+Technical details:
+• ZIP contains MSI installer dropping VBScript that launches legitimate Claude while copying NOVUpdate.exe, avk.dll, and encrypted .dat file to Startup folder
+• DLL sideloading (T1574.002) abuses legitimate G DATA antivirus updater to load malicious avk.dll 
+• C2 communication to 8[.]217[.]190[.]58 over HTTPS within 22 seconds, hosted on Alibaba Cloud infrastructure
+• Self-deletion mechanism removes VBScript and batch file post-execution, leaving only sideloaded files and running process
+• Registry modification targeting TCP/IP settings to alter network behavior
+
+Detection opportunities:
+• Monitor for NOVUpdate.exe with network connections from non-G DATA installations
+• Hunt for unsigned avk.dll files in Startup folders paired with legitimate signed executables
+• Alert on VBScript execution followed by rapid file deletion and HTTPS connections to cloud infrastructure
+
+IOCs and detection signatures available in the Malwarebytes report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2043993436894708121</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2043993436894708121">DFIR Radar</source>
+      <pubDate>Tue, 14 Apr 2026 10:03:06 +0000</pubDate>
+      <guid isPermaLink="false">2043993436894708121</guid>
+    </item>
     <item>
       <title>Attackers Actively Exploiting Critical Vulnerability in Kali Forms Plugin</title>
       <link>https://www.wordfence.com/blog/2026/04/attackers-actively-exploiting-critical-vulnerability-in-kali-forms-plugin/</link>
@@ -1550,35 +1575,6 @@ Hunt for notepad.exe with network connections, unexpected DLL loads by signed bi
       <source url="https://x.com/DFIR_Radar/status/2040414611854512329">DFIR Radar</source>
       <pubDate>Sat, 04 Apr 2026 13:02:07 +0000</pubDate>
       <guid isPermaLink="false">2040414611854512329</guid>
-    </item>
-    <item>
-      <title>Six Accounts, One Actor: Inside the prt-scan Supply Chain Campaign</title>
-      <link>https://www.wiz.io/blog/six-accounts-one-actor-inside-the-prt-scan-supply-chain-campaign</link>
-      <description>AI-powered campaign exploits GitHub pull_request_target workflows across 500+ malicious PRs, successfully compromising npm packages and stealing cloud credentials. Attack spans six waves from March-April 2026, evolving from basic scripts to sophisticated AI-generated payloads.
-
-Key technical details:
-• Exploits pull_request_target misconfiguration for repository secret access (T1195.002)
-• Branch naming: prt-scan-{12-hex-chars}, consistent "ci: update build configuration" PR titles
-• Multi-language injection: conftest.py, package.json, build.rs, Makefile targeting based on repo stack
-• Five-phase payload: EXFIL (env dump), RECON (API enumeration), DISPATCH (workflow creation), LABEL_BYPASS (gate evasion), DELAYED (/proc scanning)
-• Confirmed compromise of @codfish/eslint-config and @codfish/actions npm packages across 106 versions
-
-Attack methodology:
-• AI-assisted targeting at 7 PRs/hour sustained rate with adaptive framework detection
-• Base64-encoded exfiltration via workflow logs and PR comments for persistence
-• Cloud metadata probing for AWS/Azure/GCP SSRF opportunities
-• Stolen credentials include AWS keys, Cloudflare API tokens, Netlify auth tokens
-
-DFIR artifacts:
-• GitHub audit logs for pull_request_target workflow triggers from external contributors
-• Workflow execution logs containing base64-encoded environment dumps
-• PR comments with ==PRT_DELAYED_START_{NONCE}== markers containing compressed secrets
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040369392207233314</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2040369392207233314">DFIR Radar</source>
-      <pubDate>Sat, 04 Apr 2026 10:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2040369392207233314</guid>
     </item>
   </channel>
 </rss>
