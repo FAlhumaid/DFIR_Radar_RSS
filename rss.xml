@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Apr 2026 10:03:06 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2026 11:03:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Common Entra ID Security Assessment Findings – Part 4: Weak Conditional Access Policies</title>
+      <link>https://blog.compass-security.com/2026/04/common-entra-id-security-assessment-findings-part-4-weak-conditional-access-policies/</link>
+      <description>Compass Security reveals critical gaps in Entra ID Conditional Access deployments that leave organizations vulnerable despite having policies in place. Common misconfigurations create exploitable bypasses for attackers with compromised credentials.
+
+Key vulnerabilities identified:
+• Incomplete user targeting: MFA policies scoped to groups often miss users, leaving accounts unprotected. Role-based targeting fails with scoped assignments (Administrative Units not included in role conditions)
+• Resource targeting gaps: "Microsoft Admin Portals" protection doesn't cover Graph API access. Attackers can bypass portal restrictions using ROPC flow with first-party OAuth clients like Modern Workplace Customer API Native
+• Missing security info registration policies: Attackers with passwords can register their own MFA factors before general MFA policies activate, effectively bypassing multi-factor requirements
+• Built-in bypasses: Microsoft Intune Company Portal client (9ba1a5c7-f17a-4de9-a1f1-6178c8d51223) can bypass compliant device requirements while maintaining Graph API access with Device.Read.All permissions
+
+Detection opportunities:
+• Monitor for Graph API tokens issued outside admin portals (check client_app_id in sign-in logs)
+• Alert on MFA registration from unusual locations/devices
+• Track ROPC authentication flows in audit logs
+• Review Conditional Access policy evaluation results for unexpected bypasses
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044008523760115799</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2044008523760115799">DFIR Radar</source>
+      <pubDate>Tue, 14 Apr 2026 11:03:03 +0000</pubDate>
+      <guid isPermaLink="false">2044008523760115799</guid>
+    </item>
     <item>
       <title>Fake Claude AI installer abuses DLL sideloading to deploy PlugX</title>
       <link>https://securityaffairs.com/190754/malware/fake-claude-ai-installer-abuses-dll-sideloading-to-deploy-plugx.html</link>
@@ -1553,28 +1576,6 @@ Hunt for ComfyUI instances with /object_info endpoints containing FL_CodeNode or
       <source url="https://x.com/DFIR_Radar/status/2040444767771750600">DFIR Radar</source>
       <pubDate>Sat, 04 Apr 2026 15:01:57 +0000</pubDate>
       <guid isPermaLink="false">2040444767771750600</guid>
-    </item>
-    <item>
-      <title>Uffizi cyberattack: BabLock TTPs, IOCs and attribution gaps</title>
-      <link>https://andreafortuna.org/2026/04/04/uffizi-bablock-ttp-ioc/</link>
-      <description>BabLock ransomware analysis following Uffizi Galleries 🇮🇹 attack reveals 4.5-minute encryption capability via notepad.exe injection and GPO propagation. Eastern European attribution suspected but unconfirmed.
-
-Technical breakdown:
-• Initial access via Zimbra exploitation (T1190), followed by DLL side-loading into signed executables (T1574.002)
-• Process injection into notepad.exe with direct syscalls to evade user-mode monitoring (T1055, T1106) 
-• Domain Controller compromise enables GPO creation for enterprise-wide distribution (T1484.001)
-• Aggressive recovery impairment: shadow copy deletion, service stops, log clearing (T1490, T1489, T1070.001)
-• IOCs: cy.exe, winutils.dll, _r_e_a_d_m_e.txt, k1k2k3 extensions with 00-99 suffixes
-
-Also linked to La Sapienza University 🇮🇹 attack. Critical detection window is domain privilege escalation—once achieved, full enterprise encryption occurs within minutes.
-
-Hunt for notepad.exe with network connections, unexpected DLL loads by signed binaries, and unauthorized GPO creation. Full TTP mapping and defensive countermeasures in the analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040414611854512329</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2040414611854512329">DFIR Radar</source>
-      <pubDate>Sat, 04 Apr 2026 13:02:07 +0000</pubDate>
-      <guid isPermaLink="false">2040414611854512329</guid>
     </item>
   </channel>
 </rss>
