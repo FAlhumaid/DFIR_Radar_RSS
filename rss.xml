@@ -5,8 +5,59 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Apr 2026 07:58:59 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Apr 2026 09:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Actively Exploiting Critical Vulnerability in Kali Forms Plugin</title>
+      <link>https://www.wordfence.com/blog/2026/04/attackers-actively-exploiting-critical-vulnerability-in-kali-forms-plugin/</link>
+      <description>Critical RCE in Kali Forms WordPress plugin actively exploited since patch disclosure. Attackers bypass authentication via function injection, escalate to admin access, then deploy malware through theme files.
+
+Key technical details:
+• CVE-2026-3584 (CVSS 9.8) affects Kali Forms ≤2.4.9, patched in v2.4.10
+• Vulnerability in prepare_post_data() function allows overwriting placeholders like {entryCounter}
+• Exploitation via call_user_func() enables execution of wp_set_auth_cookie(1) for admin bypass
+• POST to /wp-admin/admin-ajax.php with action=kaliforms_form_process and crafted entryCounter parameter
+
+Attack progression:
+• Mass exploitation began March 20, 2026 (disclosure day) with 312K+ blocked attempts
+• Peak activity April 4-10 coinciding with free Wordfence protection rollout  
+• Top attacking IPs: 209[.]146[.]60[.]26 (152K attempts), 49[.]156[.]40[.]126 (50K attempts)
+• Post-compromise: attackers edit functions.php to inject persistent malware
+
+Hunt for POST requests to admin-ajax.php containing "kaliforms_form_process" action with suspicious entryCounter values. Review admin login logs for unusual authentication around March 20-April 10 timeframe.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2043978448276795631</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2043978448276795631">DFIR Radar</source>
+      <pubDate>Tue, 14 Apr 2026 09:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2043978448276795631</guid>
+    </item>
+    <item>
+      <title>JanelaRAT: a financial threat targeting users in Latin America</title>
+      <link>https://securelist.com/janelarat-financial-threat-in-latin-america/119332/</link>
+      <description>JanelaRAT version 33 emerges as an evolved banking Trojan specifically targeting Brazilian 🇧🇷 and Mexican 🇲🇽 financial institutions with advanced session hijacking capabilities and daily C2 rotation.
+
+Key technical details:
+• MSI dropper sideloads legitimate nevasca.exe + malicious PixelPaint.dll (JanelaRAT payload)
+• Protected with Eazfuscator obfuscation, uses AES encryption with MD5-derived keys
+• Dynamic C2 construction: concatenates obfuscated string + current date + DDNS suffix on port 443
+• Targets 25+ Brazilian banks via hardcoded window title detection with 12-second delay
+• Full-screen overlay system mimics banking interfaces to harvest MFA tokens and credentials
+
+Attack methodology:
+• Initial vector: phishing emails with fake invoice PDFs leading to malicious website downloads
+• Persistence via LNK shortcut in Startup folder pointing to renamed legitimate executable
+• User activity tracking with 10-minute inactivity monitoring for optimal remote operation timing
+• Real-time banking session manipulation including keystroke injection, mouse simulation, screenshot capture
+
+DFIR artifacts: Monitor for nevasca.exe with network connections to DDNS services, LNK files in Startup folders, and PowerShell execution with PixelPaint.dll references. Hunt for processes checking banking software presence.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2043963182885024005</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2043963182885024005">DFIR Radar</source>
+      <pubDate>Tue, 14 Apr 2026 08:02:53 +0000</pubDate>
+      <guid isPermaLink="false">2043963182885024005</guid>
+    </item>
     <item>
       <title>JitterDropper</title>
       <link>https://research.openanalysis.net/jitterdropper/dropper/rust/srdi/donut/pixeldrain/2026/04/13/jitterdropper.html</link>
@@ -26,6 +77,29 @@ The 32-byte Lemire mod 1000 reduction pattern from rustc is compiler-generated, 
       <source url="https://x.com/DFIR_Radar/status/2043962204861423846">DFIR Radar</source>
       <pubDate>Tue, 14 Apr 2026 07:58:59 +0000</pubDate>
       <guid isPermaLink="false">2043962204861423846</guid>
+    </item>
+    <item>
+      <title>Phantom in the vault: Obsidian abused to deliver PhantomPulse RAT</title>
+      <link>https://www.elastic.co/security-labs/phantom-in-the-vault</link>
+      <description>Novel campaign exploits Obsidian note-taking app to deliver PHANTOMPULSE RAT via weaponized community plugins. Cross-platform attack targets financial/crypto sectors through elaborate LinkedIn and Telegram social engineering.
+
+Key technical details:
+• REF6598 campaign abuses Shell Commands and Hider plugins in shared Obsidian vaults for initial access
+• PHANTOMPULSE RAT features blockchain-based C2 resolution via Ethereum transaction data parsing from wallet 0xc117688c530b660e15085bF3A2B664117d8672aA
+• Windows chain: PHANTOMPULL loader uses AES-256-CBC decryption, timer queue callbacks, and reflective PE loading entirely in memory
+• macOS payload deploys obfuscated AppleScript with Telegram dead-drop fallback (t[.]me/ax03bot)
+• C2 weakness identified: anyone can hijack infrastructure by sending competing transactions to monitored wallet
+• IOCs: 195.3.222[.]251 staging server, panel.fefea22134[.]net C2 panel
+
+Attack requires victim to manually enable community plugin sync after receiving shared vault credentials, then plugins auto-execute on vault open.
+
+Hunt for child processes (PowerShell, bash) spawning from Obsidian with network connections. Monitor for obsidian-shellcommands directory creation and anomalous process execution from trusted applications. Full YARA rules and IOCs in report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2043961641029775493</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2043961641029775493">DFIR Radar</source>
+      <pubDate>Tue, 14 Apr 2026 07:56:45 +0000</pubDate>
+      <guid isPermaLink="false">2043961641029775493</guid>
     </item>
     <item>
       <title>OT Reconnaissance with Wireshark and GrassMarlin</title>
@@ -1505,61 +1579,6 @@ DFIR artifacts:
       <source url="https://x.com/DFIR_Radar/status/2040369392207233314">DFIR Radar</source>
       <pubDate>Sat, 04 Apr 2026 10:02:26 +0000</pubDate>
       <guid isPermaLink="false">2040369392207233314</guid>
-    </item>
-    <item>
-      <title>Supply Chain Attacks Surge in March 2026</title>
-      <link>https://securityboulevard.com/2026/04/supply-chain-attacks-surge-in-march-2026/</link>
-      <description>Supply chain attacks surge: North Korean 🇰🇵 actors compromise Axios NPM package, TeamPCP group targets AI infrastructure via malicious PyPI packages. Five major attacks hit critical developer tools in March 2026 alone.
-
-Key incidents:
-• Axios compromise: Account takeover bypassed CI/CD, injected plain-crypto-js@4.2.1 dependency with cross-platform RAT targeting Windows/macOS/Linux via sfrclak[.]com C2
-• LiteLLM attack: TeamPCP published malicious v1.82.7-1.82.8 with credential harvesting payloads targeting AWS/GCP/Azure tokens and SSH keys (3.4M daily downloads affected)
-• Attack vectors: Maintainer account takeovers, .pth file abuse for Python startup execution, postinstall scripts in package.json dependencies
-• Additional targets: Trivy scanner, KICS analysis tool, Telnyx communication library all compromised by TeamPCP group
-• Detection gaps: Malicious packages passed hash verification, remained live 3+ hours before quarantine
-
-Hunt for unexpected dependencies in package.json/requirements.txt, connections to checkmarx[.]zone or models[.]litellm[.]cloud, and .pth files in Python site-packages directories.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040233677578285310</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2040233677578285310">DFIR Radar</source>
-      <pubDate>Sat, 04 Apr 2026 01:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2040233677578285310</guid>
-    </item>
-    <item>
-      <title>Supply Chain Attacks Surge in March 2026</title>
-      <link>https://www.zscaler.com/blogs/security-research/supply-chain-attacks-surge-march-2026</link>
-      <description>Major NPM and PyPI supply chain attacks hit critical packages in March 2026. North Korean 🇰🇵 actors compromised Axios (1.6M+ daily downloads) while TeamPCP group poisoned AI library LiteLLM, both targeting developer credentials and CI/CD systems.
-
-Key attacks analyzed:
-• **Axios compromise**: Account takeover bypassed CI/CD, injected plain-crypto-js@4.2.1 dependency with cross-platform RAT dropper contacting sfrclak[.]com (142.11.206[.]73)
-• **LiteLLM attack**: TeamPCP deployed credential harvester via .pth file (v1.82.8) and Base64 payload (v1.82.7) targeting AWS/GCP/Azure tokens, SSH keys, K8s creds
-• **Affected versions**: axios@1.14.1, axios@0.30.4, litellm@1.82.7-1.82.8
-• **Attack duration**: LiteLLM packages quarantined within 3 hours; Axios discovered March 30
-
-DFIR artifacts:
-• Package.json modifications, postinstall script execution logs
-• Network connections to C2 domains: sfrclak[.]com, checkmarx[.]zone, models[.]litellm[.]cloud
-• File system indicators: litellm_init.pth in site-packages/, modified proxy_server.py
-
-Hunt for recent NPM/PyPI installs with network beaconing and review lockfiles for compromised package versions. Full IOC hashes and detection signatures available.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040218610761699816</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2040218610761699816">DFIR Radar</source>
-      <pubDate>Sat, 04 Apr 2026 00:03:17 +0000</pubDate>
-      <guid isPermaLink="false">2040218610761699816</guid>
-    </item>
-    <item>
-      <title>UNC1069 Social Engineering of Axios Maintainer Led to npm Supply Chain Attack</title>
-      <link>https://thehackernews.com/2026/04/unc1069-social-engineering-of-axios.html</link>
-      <description>North Korean 🇰🇵 UNC1069 compromised Axios npm package through targeted social engineering of maintainer Jason Saayman. Attackers impersonated company founder to gain trust before executing supply chain attack.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2040142923803566318</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2040142923803566318">DFIR Radar</source>
-      <pubDate>Fri, 03 Apr 2026 19:02:32 +0000</pubDate>
-      <guid isPermaLink="false">2040142923803566318</guid>
     </item>
   </channel>
 </rss>
