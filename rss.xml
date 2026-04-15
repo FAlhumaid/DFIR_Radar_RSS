@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Apr 2026 14:08:47 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2026 15:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Slowburn: Looking through AMD Platform Configuration Blobs infrastructure</title>
+      <link>https://swarm.ptsecurity.com/slowburn-looking-through-amd-platform-configuration-blobs-infrastructure/</link>
+      <description>Researcher discovers critical SMM callout vulnerability in AMD Platform Configuration Blocks, affecting massive surface of AMD Athlon, EPYC, and Ryzen processors with potential for persistent system compromise.
+
+Deep technical analysis reveals SMM Callout vulnerability (CVE-2025-54502) in AMD's APCB infrastructure:
+
+• AmdApcbSmmV3 SMM driver registers ACPI SMI handler (GUID 6D7F690C-AAFA-4036-AB61D230DC2EA675) enabling external communication with SMM context
+• Command 0xA1CB0010 triggers APCB::Core::PurgeTypeData service which calls LocateProtocol from EFI_BOOT_SERVICES table inside SMM - classic SMM callout violation
+• Vulnerability occurs in APCB::Memory::AllocatePool and FreePool functions that improperly call boot services while executing in SMM context
+• APCB (AMD Platform Configuration Block) stores critical hardware configurations in SPI ROM with groups for PSP, memory, north bridge, and token management
+• Attack requires crafting EFI_MM_COMMUNICATE_HEADER with handler GUID and priority level ≤3 to trigger vulnerable code path
+
+Exploitation scenarios include arbitrary SMRAM read/write primitives or misconfigured TSEG settings. Hunt for unusual SMM communication patterns and validate SMM drivers don't invoke boot services within SMM context.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044431447449067993</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2044431447449067993">DFIR Radar</source>
+      <pubDate>Wed, 15 Apr 2026 15:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2044431447449067993</guid>
+    </item>
     <item>
       <title>Black Shrantac exposes industrial environments to stealth ransomware risk through LOTL, double extortion tactics</title>
       <link>https://industrialcyber.co/industrial-cyber-attacks/black-shrantac-exposes-industrial-environments-to-stealth-ransomware-risk-through-lotl-double-extortion-tactics/</link>
@@ -1530,34 +1551,6 @@ Hunt for unsigned DLLs masquerading as system components with embedded interpret
       <source url="https://x.com/DFIR_Radar/status/2041607721775198624">DFIR Radar</source>
       <pubDate>Tue, 07 Apr 2026 20:03:07 +0000</pubDate>
       <guid isPermaLink="false">2041607721775198624</guid>
-    </item>
-    <item>
-      <title>Russia Hacked Routers to Steal Microsoft Office Tokens</title>
-      <link>https://krebsonsecurity.com/2026/04/russia-hacked-routers-to-steal-microsoft-office-tokens/</link>
-      <description>Russian 🇷🇺 GRU hackers exploited vulnerable routers to mass-harvest Microsoft Office authentication tokens from 18,000+ networks. Forest Blizzard (APT28) used DNS hijacking to intercept OAuth tokens without deploying malware, affecting 200+ organizations.
-
-Technical breakdown:
-• Targeted end-of-life SOHO routers (primarily MikroTik, TP-Link) using known vulnerabilities
-• Modified router DNS settings to redirect traffic through attacker-controlled servers
-• Intercepted OAuth tokens post-authentication, bypassing MFA entirely (T1557.001)
-• Peak activity December 2025: 18,000 routers, 5,000 consumer devices compromised
-• Primary targets: government ministries, law enforcement, third-party email providers
-
-Attack chain:
-• Router exploitation → DNS server modification → network-wide DNS poisoning
-• Users authenticate normally to Microsoft services
-• Tokens automatically intercepted via adversary-in-the-middle on TLS connections
-• Direct account access without credential theft or phishing
-
-DFIR artifacts: Monitor DNS server changes on edge devices, unusual OAuth token requests from unfamiliar IP ranges, and TLS certificate anomalies on Microsoft domains.
-
-Hunt for recent DNS configuration changes on SOHO devices and correlate with suspicious OAuth activity in Microsoft 365 logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041592523177472286</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2041592523177472286">DFIR Radar</source>
-      <pubDate>Tue, 07 Apr 2026 19:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2041592523177472286</guid>
     </item>
   </channel>
 </rss>
