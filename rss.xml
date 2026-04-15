@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Apr 2026 16:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2026 17:04:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-39987 update: How attackers weaponized marimo to deploy a blockchain botnet via HuggingFace</title>
+      <link>https://webflow.sysdig.com/blog/cve-2026-39987-update-how-attackers-weaponized-marimo-to-deploy-a-blockchain-botnet-via-huggingface</link>
+      <description>Critical RCE in marimo Python notebook platform actively exploited 3 days post-disclosure. Attackers deploy novel NKAbuse variant via typosquatted HuggingFace Space, conduct credential harvesting and lateral movement to databases.
+
+Technical details:
+• CVE-2026-39987: Pre-auth RCE in marimo, 9h41m disclosure-to-exploit gap
+• 11 unique IPs from 10 countries generated 662 exploit events (April 11-14)
+• Novel NKAbuse Go backdoor uses NKN blockchain for C2, hosted on vsccode-modetx[.]hf[.]space
+• Dropper SHA256: 25e4b2c4bb37f125b693a9c57b0e743eab2a3d98234f7519cd389e788252fd13
+
+Attack chain:
+• Initial access via marimo WebSocket terminal exploitation
+• Credential extraction targeting AWS keys, DATABASE_URL, API tokens from env vars
+• Lateral movement to PostgreSQL (159[.]100[.]6[.]251) and Redis honeypots using leaked creds
+• Multiple reverse shell techniques: bash, Python, netcat across TCP/UDP ports
+
+DFIR artifacts:
+• ~/.kagent/ directory and systemd user service kagent.service
+• Process name "kagent" (typosquats legitimate Kubernetes tool)
+• NKN protocol traffic patterns for blockchain-based C2
+• Database enumeration queries in PostgreSQL/Redis logs
+
+Hunt for kagent processes, ~/.kagent persistence, and monitor fd redirection to network sockets. Runtime detection catches reverse shells at syscall level regardless of obfuscation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044461777937960976</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2044461777937960976">DFIR Radar</source>
+      <pubDate>Wed, 15 Apr 2026 17:04:07 +0000</pubDate>
+      <guid isPermaLink="false">2044461777937960976</guid>
+    </item>
     <item>
       <title>Signed Adware Operation Disables Antivirus Across 23,000 Hosts</title>
       <link>https://www.infosecurity-magazine.com/news/dragon-boss-adware-disables/</link>
@@ -1553,17 +1584,6 @@ Hunt for unsigned DLLs masquerading as system components with embedded interpret
       <source url="https://x.com/DFIR_Radar/status/2041637967882514555">DFIR Radar</source>
       <pubDate>Tue, 07 Apr 2026 22:03:18 +0000</pubDate>
       <guid isPermaLink="false">2041637967882514555</guid>
-    </item>
-    <item>
-      <title>Fast-moving Storm-1175 uses new exploits to breach networks and drop Medusa</title>
-      <link>https://securityaffairs.com/190440/cyber-crime/fast-moving-storm-1175-uses-new-exploits-to-breach-networks-and-drop-medusa.html</link>
-      <description>Chinese 🇨🇳 Storm-1175 weaponizes 16+ CVEs within days of disclosure, deploying Medusa ransomware in under 24 hours across US 🇺🇸, UK 🇬🇧, and Australian 🇦🇺 healthcare, finance, and education sectors. IOCs available in Microsoft report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041622883143647738</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2041622883143647738">DFIR Radar</source>
-      <pubDate>Tue, 07 Apr 2026 21:03:21 +0000</pubDate>
-      <guid isPermaLink="false">2041622883143647738</guid>
     </item>
   </channel>
 </rss>
