@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Apr 2026 13:03:24 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2026 14:08:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Black Shrantac exposes industrial environments to stealth ransomware risk through LOTL, double extortion tactics</title>
+      <link>https://industrialcyber.co/industrial-cyber-attacks/black-shrantac-exposes-industrial-environments-to-stealth-ransomware-risk-through-lotl-double-extortion-tactics/</link>
+      <description>Black Shrantac ransomware group weaponizes legitimate admin tools and CVE-2024-3400 for stealth attacks across industrial sectors. Active since September 2025, combining LOTL tactics with double extortion to evade detection.
+
+Technical breakdown:
+• Initial access via CVE-2024-3400 (CVSS 10.0) in EOL Palo Alto PAN-OS 11.0.0 devices, plants trojanized GlobalProtect MSI in firewall update portal
+• Persistence through SimpleHelp remote access service, Net Monitor for Employees Agent, and new AD domain accounts with elevated privileges
+• Credential harvesting using native klist[.]exe for Kerberos ticket enumeration and pass-the-ticket attacks (T1558.003)
+• Lateral movement via RDP, PSExec, MightyViewer VNC, and SSHFS-Win mounted drives - all legitimate tools mimicking admin activity
+• Defense evasion by disabling Defender via PowerShell, using vendor uninstall utilities, clearing event logs, renaming encryptor binaries
+
+Hunt for scheduled tasks created by non-SYSTEM accounts pointing to user directories, and monitor Event ID 4769/4624 for Kerberos anomalies across multiple hosts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044417652861354223</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2044417652861354223">DFIR Radar</source>
+      <pubDate>Wed, 15 Apr 2026 14:08:47 +0000</pubDate>
+      <guid isPermaLink="false">2044417652861354223</guid>
+    </item>
     <item>
       <title>MiningDropper – A Global Modular Android Malware Campaign Operating at Scale</title>
       <link>https://cyble.com/blog/miningdropper-global-modular-android-malware/</link>
@@ -1538,32 +1558,6 @@ Hunt for recent DNS configuration changes on SOHO devices and correlate with sus
       <source url="https://x.com/DFIR_Radar/status/2041592523177472286">DFIR Radar</source>
       <pubDate>Tue, 07 Apr 2026 19:02:43 +0000</pubDate>
       <guid isPermaLink="false">2041592523177472286</guid>
-    </item>
-    <item>
-      <title>Milking the last drop of Intego - Time for Windows to get its LPE</title>
-      <link>http://blog.quarkslab.com/milking-the-last-drop-of-intego-time-for-windows-to-get-its-lpe.html</link>
-      <description>Local Privilege Escalation in Intego Windows security software exploits file deletion feature to achieve SYSTEM privileges through Config.msi deletion primitive and directory junction abuse.
-
-Technical details:
-• CVE pending - affects Intego 3.0.0.1 Windows version
-• IavService.exe (SYSTEM) deletes "duplicate" files without validating file types or reparse points
-• Vulnerable functions: IavFileDeleteEx_DeleteFileEx and IavFilesUtil_RemoveFile lack FILE_ATTRIBUTE_REPARSE_POINT checks
-• Time-of-check-time-of-use (TOCTOU) race condition between GetFileAttributesW() and DeleteFileW()
-
-Attack chain:
-• Create duplicate files, initiate Intego optimization scan
-• Replace target file with NT object directory junction to \RPC Control during cleanup window
-• Create NT symlink at \RPC Control\deleteme2.txt → C:\Config.msi
-• std::filesystem::remove() fallback follows symlink, deletes Config.msi as SYSTEM
-• Standard Config.msi rollback technique drops HID.DLL for SYSTEM shell via osk.exe
-
-Monitor for unexpected Config.msi deletion events and NT object manager operations by security software processes. Hunt for SYSTEM file operations on junction/symlink targets outside expected paths.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041577568529478080</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2041577568529478080">DFIR Radar</source>
-      <pubDate>Tue, 07 Apr 2026 18:03:18 +0000</pubDate>
-      <guid isPermaLink="false">2041577568529478080</guid>
     </item>
   </channel>
 </rss>
