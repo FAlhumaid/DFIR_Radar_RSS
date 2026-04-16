@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Apr 2026 18:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2026 19:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Into The Rainbow: Google’s NTLMv1 Rainbow Tables Explained in a Bit Too Much Detail</title>
+      <link>https://specterops.io/blog/2026/04/16/into-the-rainbow-googles-ntlmv1-rainbow-tables-explained-in-a-bit-too-much-detail/</link>
+      <description>SpecterOps breaks down Google's 8.8TB NTLMv1 rainbow tables that enable offline NT hash recovery from legacy authentication responses. New tooling makes this attack accessible to more practitioners.
+
+Technical breakdown:
+• 4,096 rainbow tables (2.147GB each) cover 99.9% of DES key space using precompute-lookup-check methodology
+• Tables target static challenge 1122334455667788, splitting NT hash into three 7-byte DES keys for recovery
+• Recovery process: precompute generates endpoints, lookup finds candidates in tables, check verifies actual ciphertext presence
+• Works with DumpGuard to obtain NTLMv1 responses from Credential Guard-enabled systems
+• Performance: ~1 hour per ciphertext on RTX 3080 Ti + NVMe drives (12min precompute, 45min lookup, 12min check)
+
+New open-source tooling includes gpu_lookup, precompute, candidate_lookup, and candidate_check applications. Anonymous lookup possible by separating precompute/check phases from table lookup.
+
+Hunt for NTLMv1 authentication events in network traffic and Windows logs - this dramatically lowers the barrier for NT hash recovery from legacy protocols.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044854071228543017</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2044854071228543017">DFIR Radar</source>
+      <pubDate>Thu, 16 Apr 2026 19:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2044854071228543017</guid>
+    </item>
     <item>
       <title>Attackers Actively Exploiting Critical Vulnerability in Ninja Forms – File Upload Plugin</title>
       <link>https://www.wordfence.com/blog/2026/04/attackers-actively-exploiting-critical-vulnerability-in-ninja-forms-file-upload-plugin/</link>
@@ -1666,28 +1688,6 @@ Hunt for Electron processes spawning Python interpreters with suspicious names, 
       <source url="https://x.com/DFIR_Radar/status/2042196471802384602">DFIR Radar</source>
       <pubDate>Thu, 09 Apr 2026 11:02:36 +0000</pubDate>
       <guid isPermaLink="false">2042196471802384602</guid>
-    </item>
-    <item>
-      <title>The long road to your crypto: ClipBanker and its marathon infection chain</title>
-      <link>https://securelist.com/clipbanker-malware-distributed-via-trojanized-proxifier/119341/</link>
-      <description>ClipBanker campaign uses 11-stage infection chain starting from fake Proxifier software on GitHub. Complex fileless deployment evades detection through process injection and PowerShell obfuscation to steal cryptocurrency wallet addresses.
-
-Technical breakdown:
-• Initial vector: Trojanized Proxifier installer on GitHub releases section with bundled legitimate software
-• Evasion: Creates Microsoft Defender exclusions via injected .NET modules (api_updater.exe, proxifierupdater.exe)
-• Persistence: Registry key at HKLM\SOFTWARE\System::Config stores Base64 PowerShell + scheduled task
-• Payload chain: Pastebin → GitHub → 500KB script → shellcode injection into fontdrvhost.exe
-• Final payload: C++ ClipBanker monitoring clipboard for 25+ crypto wallet formats (Bitcoin, Ethereum, Monero, etc.)
-
-The malware uses fileless techniques with process hollowing (T1055) and PowerShell execution (T1059.001). It pings maper[.]info/2X5tF5 for infection confirmation. Over 2000 detections since early 2025, primarily in India 🇮🇳 and Vietnam 🇻🇳.
-
-Hunt for scheduled tasks executing PowerShell with registry content, fontdrvhost.exe with network connections, and suspicious clipboard monitoring behavior. Full IOC list and URLs provided.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042181390720962579</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2042181390720962579">DFIR Radar</source>
-      <pubDate>Thu, 09 Apr 2026 10:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2042181390720962579</guid>
     </item>
   </channel>
 </rss>
