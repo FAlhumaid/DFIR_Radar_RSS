@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Apr 2026 10:02:29 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2026 11:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PowMix botnet targets Czech workforce</title>
+      <link>https://blog.talosintelligence.com/powmix-botnet-targets-czech-workforce/</link>
+      <description>Cisco Talos uncovers PowMix botnet targeting Czech 🇨🇿 workforce since December 2025. Uses AMSI bypass, randomized C2 beaconing, and mimics legitimate REST API calls to evade network detection.
+
+Technical breakdown:
+• Initial access via phishing ZIP containing malicious LNK file executing PowerShell loader
+• AMSI bypass through reflection technique targeting AmsiUtils.amsiInitFailed field
+• Persistence via scheduled task with randomized hex names (e.g., "289c2e236761") executing daily at 11:00 AM
+• C2 communication uses jittered intervals (0-261s, then 1075-1450s) with encrypted heartbeat data in URL paths
+• Bot ID generation via CRC32 checksum of Windows ProductID + config hash
+
+Attack artifacts:
+• ZIP marker delimiter "zAswKoK" for payload extraction
+• Registry query: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion (ProductID)
+• Mutex creation: "Global\[BotID]" prevents multiple instances
+• XOR keys: HpSWSb, qDQyxQE, bKUxmhyAe, HymzqLse, KsEYwmgSF, ujCPOEPU
+• Commands: (self-delete), (C2 migration)
+
+Hunt for scheduled tasks with hex-only names executing explorer.exe with LNK arguments, and PowerShell processes with AMSI bypass indicators. Full IOCs and detection rules available.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044733320651559042</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2044733320651559042">DFIR Radar</source>
+      <pubDate>Thu, 16 Apr 2026 11:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2044733320651559042</guid>
+    </item>
     <item>
       <title>A fake Slack download is giving attackers a hidden desktop on your machine</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/04/a-fake-slack-download-is-giving-attackers-a-hidden-desktop-on-your-machine</link>
@@ -1553,30 +1580,6 @@ Hunt for scheduled tasks executing PowerShell with registry content, fontdrvhost
       <source url="https://x.com/DFIR_Radar/status/2041970218298204332">DFIR Radar</source>
       <pubDate>Wed, 08 Apr 2026 20:03:33 +0000</pubDate>
       <guid isPermaLink="false">2041970218298204332</guid>
-    </item>
-    <item>
-      <title>A framework for securely collecting forensic artifacts into S3 buckets</title>
-      <link>https://aws.amazon.com/blogs/security/a-framework-for-securely-collecting-forensic-artifacts-into-s3-buckets/</link>
-      <description>AWS Security Blog publishes comprehensive framework for securely collecting forensic artifacts into S3 buckets using least privilege access controls and time-limited credentials. Addresses critical security gaps in evidence collection workflows.
-
-Key technical implementation:
-• IAM session policies + AWS STS AssumeRole API generate temporary credentials scoped to specific S3 object prefixes (e.g., CASE-0001/*)
-• ForensicsUploadRole with customer-managed KMS key encryption requires both S3 and KMS permissions for artifact access
-• Automated Step Functions workflow integrates with Systems Manager for remote collection from EC2 instances
-• Evidence bucket configured with CloudTrail data events, S3 versioning, and MFA delete protection
-• 1-hour default credential lifetime with programmatic credential vending via SQS/Lambda triggers
-
-Architecture supports both AWS and non-AWS systems through existing forensic tools that accept AWS credentials. Session policies restrict uploads to case-specific prefixes while maintaining compatibility with third-party collection software.
-
-Chain of custody preserved through comprehensive audit logging and immutable storage protections.
-
-Deploy the AWS CDK solution from the collect-forensic-artifacts repository. Test credential scoping with: aws sts assume-role --policy restricting access to your case prefix.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041954929493889053</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2041954929493889053">DFIR Radar</source>
-      <pubDate>Wed, 08 Apr 2026 19:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2041954929493889053</guid>
     </item>
   </channel>
 </rss>
