@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Apr 2026 05:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2026 06:02:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From RAM to revelation: how Windows manages memory and how Volatility reads it</title>
+      <link>https://andreafortuna.org/2026/04/16/windows-memory-volatility/</link>
+      <description>Deep dive into Windows memory management fundamentals reveals how kernel structures enable memory forensics and why Volatility can reconstruct system state from RAM dumps.
+
+Technical architecture breakdown:
+• Virtual memory uses multi-level page tables with CR3 register storing page directory base, enabling per-process address space isolation
+• Page Table Entries exist in multiple forensic states: valid (in RAM), transition (evicted but recoverable), demand-zero, pagefile, and prototype
+• VAD (Virtual Address Descriptor) trees track memory regions - private executable memory without file backing indicates code injection
+• Pool allocations tagged with 4-byte ASCII strings enable structure discovery via pool scanning (e.g., "Proc" for EPROCESS)
+
+Modern Windows complications:
+• Memory compression in Windows 10+ stores evicted pages in MemCompression pseudo-process using undocumented SMKM_STORE structures
+• KASLR randomizes kernel addresses, requiring heuristic scanning for kernel debugger data block (KDBG) signatures
+• Structure layouts change between versions, requiring symbol table updates from Microsoft PDB files
+
+Volatility 3 uses layered architecture with physical→translation→virtual memory mapping, enabling transparent address translation across multiple contexts.
+
+Compare windows.pslist vs windows.psscan output to detect process hiding - any EPROCESS visible in pool scan but missing from active list indicates rootkit activity.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044657647966630273</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2044657647966630273">DFIR Radar</source>
+      <pubDate>Thu, 16 Apr 2026 06:02:26 +0000</pubDate>
+      <guid isPermaLink="false">2044657647966630273</guid>
+    </item>
     <item>
       <title>Critical Nginx-ui MCP Flaw Actively Exploited in the Wild</title>
       <link>https://www.infosecurity-magazine.com/news/nginx-ui-mcp-flaw-actively/</link>
@@ -1560,17 +1586,6 @@ Hunt for SSL VPN configuration changes from external IPs, new administrative acc
       <source url="https://x.com/DFIR_Radar/status/2041894600923574760">DFIR Radar</source>
       <pubDate>Wed, 08 Apr 2026 15:03:04 +0000</pubDate>
       <guid isPermaLink="false">2041894600923574760</guid>
-    </item>
-    <item>
-      <title>Russian hacking group targets home and small office routers to spy on users</title>
-      <link>https://www.malwarebytes.com/blog/news/2026/04/russian-state-sponsored-hackers-hijack-home-and-small-office-routers-for-espionage</link>
-      <description>Russian 🇷🇺 APT28 compromises SOHO routers to manipulate DNS settings, enabling credential theft and interception of Microsoft 365 traffic. Over 200 orgs and 5,000 devices affected. Check your router's DNS settings against ISP documentation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041879473042165902</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2041879473042165902">DFIR Radar</source>
-      <pubDate>Wed, 08 Apr 2026 14:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2041879473042165902</guid>
     </item>
   </channel>
 </rss>
