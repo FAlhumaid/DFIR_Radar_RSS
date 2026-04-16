@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Apr 2026 09:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Apr 2026 10:02:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>A fake Slack download is giving attackers a hidden desktop on your machine</title>
+      <link>https://www.malwarebytes.com/blog/threat-intel/2026/04/a-fake-slack-download-is-giving-attackers-a-hidden-desktop-on-your-machine</link>
+      <description>Fake Slack installer from typosquatting domain deploys invisible HVNC backdoor, creating hidden desktop session for financial fraud operations. Legitimate Slack installation runs as decoy while loader injects into explorer.exe.
+
+Technical breakdown:
+• Dropper `slack-4-49-81.exe` writes two files: `slack.tmp` (legitimate Squirrel installer) and `svc.tmp` (519KB loader with randomized PE sections)
+• Loader contacts C2 at `94[.]232[.]46[.]16:8081`, downloads encrypted HVNC payload to shared memory
+• Section-based injection into explorer.exe using NtCreateSection/NtCreateThreadEx APIs (T1055.011)
+• HVNC creates invisible desktop session for covert browser access and account manipulation
+• Anti-analysis via debugger detection, dynamic API resolution, minimal import table
+
+Forensic artifacts:
+• Registry persistence: `HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\com.squirrel.slack.slack` (matches legitimate Slack)
+• Temp files: `loader_log.txt`, `wmiprvse_*.tmp` pattern for payload storage
+• Process injection into explorer.exe detectable via ETW or memory analysis
+
+Hunt for unsigned executables with randomized section names making network connections during Slack installation timeframe.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044718057847656466</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2044718057847656466">DFIR Radar</source>
+      <pubDate>Thu, 16 Apr 2026 10:02:29 +0000</pubDate>
+      <guid isPermaLink="false">2044718057847656466</guid>
+    </item>
     <item>
       <title>MiningDropper Turns Android Apps Into Multi-Stage Malware Delivery Systems</title>
       <link>https://thecyberexpress.com/miningdropper-android-malware/</link>
@@ -1552,17 +1577,6 @@ Deploy the AWS CDK solution from the collect-forensic-artifacts repository. Test
       <source url="https://x.com/DFIR_Radar/status/2041954929493889053">DFIR Radar</source>
       <pubDate>Wed, 08 Apr 2026 19:02:47 +0000</pubDate>
       <guid isPermaLink="false">2041954929493889053</guid>
-    </item>
-    <item>
-      <title>US operation evicts Russia from hacked SOHO routers used to breach critical infrastructure</title>
-      <link>https://www.cybersecuritydive.com/news/russia-routers-hacking-dns-fbi-disruption/816960/</link>
-      <description>FBI Operation Masquerade evicts Russian 🇷🇺 GRU from compromised TP-Link SOHO routers used for DNS hijacking and AiTM attacks against US 🇺🇸 critical infrastructure. Verify DNS settings and update router firmware immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2041940092852273193</description>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2041940092852273193">DFIR Radar</source>
-      <pubDate>Wed, 08 Apr 2026 18:03:50 +0000</pubDate>
-      <guid isPermaLink="false">2041940092852273193</guid>
     </item>
   </channel>
 </rss>
