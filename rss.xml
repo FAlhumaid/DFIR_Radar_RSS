@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Apr 2026 00:02:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Apr 2026 01:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Lumma Stealer infection with Sectop RAT (ArechClient2), (Fri, Apr 17th)</title>
+      <link>https://isc.sans.edu/diary/rss/32904</link>
+      <description>SANS ISC researcher documents Lumma Stealer infection chain leading to Sectop RAT deployment. Attack uses fake Adobe Premiere Pro 2026 crack distributed through password-protected archives with 806MB inflated executables.
+
+Technical breakdown:
+• Initial delivery via fake software crack sites impersonating MEGA cloud storage
+• Lumma Stealer packed in password-protected 7zip (password: 6919) with null-byte padding evasion
+• SHA256: c7489e3bf546c5f2d958ac833cc7dbca4368dfba03a792849bc99c48a6b2a14f (archive), 4849f76dafbef516df91fecfc23a72afffaf77ade51f805eae5ad552bed88923 (inflated EXE)
+• 9 Lumma C2 domains identified: cankgmr[.]cyou, carytui[.]vu, decrnoj[.]club, genugsq[.]best
+
+Follow-up payload:
+• Sectop RAT (ArechClient2) deployed as NetGui.dll via rundll32 LoadForm export
+• C2 traffic to 91.92.241[.]102:9000 and :443 with custom encryption
+• Persistence established on infected Windows hosts
+
+Hunt for oversized executables (&gt;100MB) with high entropy ratios and rundll32 spawning network connections to non-standard ports. Full IOCs and sandbox analysis links available in SANS report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044944672754217026</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2044944672754217026">DFIR Radar</source>
+      <pubDate>Fri, 17 Apr 2026 01:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2044944672754217026</guid>
+    </item>
     <item>
       <title>Obsidian Plugin Abuse Delivers PHANTOMPULSE RAT in Targeted Finance, Crypto Attacks</title>
       <link>https://thehackernews.com/2026/04/obsidian-plugin-abuse-delivers.html</link>
@@ -1646,28 +1670,6 @@ Hunt for PowerShell processes with -ExecutionPolicy Bypass downloading from clou
       <source url="https://x.com/DFIR_Radar/status/2042287102763942088">DFIR Radar</source>
       <pubDate>Thu, 09 Apr 2026 17:02:44 +0000</pubDate>
       <guid isPermaLink="false">2042287102763942088</guid>
-    </item>
-    <item>
-      <title>Intent redirection vulnerability in third-party SDK exposed millions of Android wallets to potential risk</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/04/09/intent-redirection-vulnerability-third-party-sdk-android/</link>
-      <description>Microsoft researchers discovered a severe intent redirection flaw in EngageLab's Android SDK affecting 50+ million app installations, with crypto wallets representing 30+ million at-risk users. Vulnerability allows sandbox bypass and unauthorized access to private app data.
-
-Technical breakdown:
-• CVE affects EngageLab SDK versions prior to 5.2.1 - exported MTCommonActivity component in merged manifest creates attack surface
-• Malicious apps can craft intents with URI_ALLOW_UNSAFE flag to gain persistent read/write access to victim app's private storage via content providers
-• Vulnerability leverages trusted app context for privilege escalation (T1055) and data exfiltration from sandboxed environments
-• Attack chain: malicious intent → processIntent() → processPlatformMessage() → JSON parsing → startActivity() with elevated permissions
-• Primary impact on cryptocurrency/wallet apps due to sensitive financial data exposure
-
-Fixed in EngageLab SDK v5.2.1 (Nov 2025). All vulnerable apps removed from Google Play.
-
-Developers: audit merged Android manifests for unexpected exported components when integrating third-party SDKs. Review content provider permissions and validate intent handling code paths.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042272397860937825</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2042272397860937825">DFIR Radar</source>
-      <pubDate>Thu, 09 Apr 2026 16:04:18 +0000</pubDate>
-      <guid isPermaLink="false">2042272397860937825</guid>
     </item>
   </channel>
 </rss>
