@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Apr 2026 12:02:24 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Apr 2026 15:02:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cross‑tenant helpdesk impersonation to data exfiltration: A human-operated intrusion playbook</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/04/18/crosstenant-helpdesk-impersonation-data-exfiltration-human-operated-intrusion-playbook/</link>
+      <description>Microsoft details sophisticated cross-tenant Teams impersonation campaign where attackers pose as IT helpdesk staff to gain remote access via Quick Assist, then deploy trusted applications for DLL sideloading and lateral movement to domain controllers.
+
+• **Initial Vector**: External attackers initiate Teams chats impersonating helpdesk, convince users to ignore external warnings and grant Quick Assist remote access (T1566.003)
+
+• **Execution Chain**: DLL sideloading via legitimate signed apps (AcroServicesUpdater2_x64.exe, ADNotificationManager.exe, DlpUserAgent.exe) loading malicious modules (msi.dll, vcruntime140_1.dll, mpclient.dll) from ProgramData
+
+• **Persistence &amp; C2**: Encrypted configuration stored in user registry locations, beaconing to cloud-hosted infrastructure over HTTPS port 443, resembling legitimate update traffic
+
+• **Lateral Movement**: WinRM (TCP 5985) used for credential-backed pivoting to high-value assets including domain controllers, followed by Level RMM deployment for persistent access
+
+• **Data Exfiltration**: Rclone utility transfers business documents to external cloud storage with file-type exclusions to minimize detection
+
+Hunt for Quick Assist processes followed immediately by cmd.exe within 30-120 seconds, registry writes to ASEP locations by non-installer processes, and unsigned DLLs in system directories with recent timestamps.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2045518354153132430</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2045518354153132430">DFIR Radar</source>
+      <pubDate>Sat, 18 Apr 2026 15:02:35 +0000</pubDate>
+      <guid isPermaLink="false">2045518354153132430</guid>
+    </item>
     <item>
       <title>Nexcorium Mirai variant exploits TBK DVR flaw to launch DDoS attacks</title>
       <link>https://securityaffairs.com/190974/malware/nexcorium-mirai-variant-exploits-tbk-dvr-flaw-to-launch-ddos-attacks.html</link>
@@ -1602,32 +1625,6 @@ This reuses February 2026 Lab52-documented technique with fresh AI lure. Hunt fo
       <source url="https://x.com/DFIR_Radar/status/2042649597420384301">DFIR Radar</source>
       <pubDate>Fri, 10 Apr 2026 17:03:09 +0000</pubDate>
       <guid isPermaLink="false">2042649597420384301</guid>
-    </item>
-    <item>
-      <title>Dark Web Profile: TeamPCP</title>
-      <link>https://socradar.io/blog/dark-web-profile-teampcp/</link>
-      <description>TeamPCP executed 2026's most devastating supply chain attack, weaponizing security tools like Trivy and KICS to harvest 500,000 credentials from 1,000+ SaaS environments. The campaign cascaded across GitHub Actions, Docker, npm, PyPI, and OpenVSX ecosystems.
-
-Key technical details:
-• Initial access via CVE-2026-33634 (CVSS 9.4) - incomplete token rotation after Feb 27 Pwn Request attack on Trivy CI/CD
-• Novel steganography: Python payloads embedded as base64 in WAV files with valid RIFF headers to evade detection
-• CanisterWorm: Self-propagating npm malware that auto-infected victim-maintained packages via stolen publish tokens
-• Imposter commits spoofed trusted contributor identities with backdated timestamps (T1036)
-• First documented abuse of Internet Computer Protocol (ICP) blockchain for C2: tdtqy-oyaaa-aaaae-af2dq-cai[.]raw[.]icp0[.]io
-
-Attack methodology:
-• Credential harvesting via /proc/[pid]/mem scraping of GitHub Actions Runner.Worker processes
-• Fallback exfiltration: Created "tpcp-docs" repos in victim orgs, uploaded encrypted archives as release assets
-• Persistence: systemd services (pgmon.service) with Restart=always + privileged Kubernetes DaemonSets
-• Geopolitical targeting: Iran-specific wiper (rm -rf /) while deploying backdoors elsewhere
-
-Major victims include European Commission 🇪🇺 AWS (92GB stolen), Aqua Security, Checkmarx, Palo Alto Networks, Telnyx, and 66+ npm packages. Campaign remains active with Vect Ransomware partnership announced.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042634581925400686</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2042634581925400686">DFIR Radar</source>
-      <pubDate>Fri, 10 Apr 2026 16:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2042634581925400686</guid>
     </item>
   </channel>
 </rss>
