@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Apr 2026 18:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Apr 2026 04:02:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>North Korea-Linked Hackers Use GitHub as C2 Infrastructure to Attack South Korea</title>
+      <link>https://infosecwriteups.com/north-korea-linked-hackers-use-github-as-c2-infrastructure-to-attack-south-korea-1bdcbaf9a9d8?source=rss----7b722bfd1b8d---4</link>
+      <description>North Korea's 🇰🇵 Kimsuky APT weaponizes GitHub as C2 infrastructure in multi-stage campaign targeting South Korean 🇰🇷 organizations. Attack chain uses obfuscated LNK files, PowerShell LOLBins, and legitimate cloud platforms to evade detection while maintaining persistent access.
+
+Technical breakdown:
+• Initial vector: Phishing emails with weaponized LNK files deploying decoy PDFs + hidden PowerShell execution (T1566.001, T1204.002)
+• Anti-analysis: VM/debugger detection with immediate termination if forensic tools detected
+• Persistence: VBScript extraction + scheduled task creation (every 30min execution in hidden window) (T1053.005)
+• Data exfiltration: Host recon results sent to attacker-controlled GitHub repos (motoralis, God0808RAMA, Pigresy80, entire73, pandora0009, brandonleeodd93-blip)
+• C2 infrastructure: Same GitHub repositories serve additional modules and commands (T1102.001)
+
+Related activity includes Python backdoor variants using Dropbox as interim C2 and downloading from quickcon[.]store. Connection to previous Xeno RAT and MoonPeak campaigns confirmed.
+
+Hunt for abnormal GitHub API calls from endpoints, PowerShell with network connections, and scheduled tasks with suspicious VBScript payloads. Enable PowerShell Script Block Logging.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2045714658384892000</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2045714658384892000">DFIR Radar</source>
+      <pubDate>Sun, 19 Apr 2026 04:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2045714658384892000</guid>
+    </item>
     <item>
       <title>Re: lcms2 &lt;= 2.18 CubeSize() integer overflow: stock Ubuntu 24.04 Poppler / evince-thumbnailer / OpenJDK crashers (different triggers), no CVE</title>
       <link>https://seclists.org/oss-sec/2026/q2/172</link>
@@ -1578,29 +1600,6 @@ Hunt for suspicious authentication patterns to trusted cloud domains and impleme
       <source url="https://x.com/DFIR_Radar/status/2042695415225815176">DFIR Radar</source>
       <pubDate>Fri, 10 Apr 2026 20:05:13 +0000</pubDate>
       <guid isPermaLink="false">2042695415225815176</guid>
-    </item>
-    <item>
-      <title>Inside Predator’s kernel engine</title>
-      <link>https://www.jamf.com/blog/predator-spyware-ios-kernel-exploitation-engine/</link>
-      <description>Commercial spyware Predator achieves full iOS kernel access through ARM NEON vector registers and defeats Apple's Pointer Authentication with a sophisticated JavaScriptCore gadget hunt. Analysis reveals previously undocumented kernel exploitation engine.
-
-Technical deep dive:
-• FDGuardNeonRW primitive channels 528 bytes per read through NEON V0-V31 registers via thread_get_state/thread_set_state Mach APIs
-• PAC bypass hunts 20-byte PACIA X16,X17 gadget in JSC::JSArrayBuffer::isShared() within JavaScriptCore framework
-• 256-entry pre-computed PAC signing cache enables microsecond hook callbacks without cryptographic latency
-• RWTransfer mechanism shares kernel R/W between processes via guarded file descriptors and Mach port manipulation
-• callFunc framework hijacks thread state through Mach exception messages for remote function execution
-• Supports 21 iPhone models (XS through 14 Pro Max) across 5 device classes with precise kernel offset configurations
-
-Key artifacts: Exception messages with msgh_id 2406, trojan threads at breakpoints, TaskROPDevOff.h source references, and uname() XOR comparisons for device fingerprinting.
-
-Hunt for unsigned threads with continuous Mach exceptions and JavaScriptCore dlopen/dlsym patterns in suspicious processes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2042679901828841849</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2042679901828841849">DFIR Radar</source>
-      <pubDate>Fri, 10 Apr 2026 19:03:35 +0000</pubDate>
-      <guid isPermaLink="false">2042679901828841849</guid>
     </item>
   </channel>
 </rss>
