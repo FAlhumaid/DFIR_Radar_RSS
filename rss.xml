@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Apr 2026 16:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2026 17:03:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside An AWS Cloud Threat Detection SOC Lab: Simulating and Detecting Real Cloud Attacks</title>
+      <link>https://detect.fyi/inside-an-aws-cloud-threat-detection-soc-lab-simulating-and-detecting-real-cloud-attacks-a11e0ea98430?source=rss----d5fd8f494f6a---4</link>
+      <description>Comprehensive AWS threat detection lab demonstrates how to simulate real cloud attacks using Stratus Red Team and detect them through CloudTrail, VPC Flow Logs, and Splunk SIEM integration.
+
+Key technical components:
+• Infrastructure deployed via Terraform: CloudTrail, VPC Flow Logs, S3 buckets, SQS queues for signal-based ingestion
+• Splunk indexes (aws_cloudtrail, aws_config, aws_vpcflow) with SQS-based S3 inputs for near real-time telemetry
+• Attack simulations target privilege escalation (CreateUser, AttachUserPolicy), S3 exposure (PutBucketPolicy), and defense evasion (DeleteFlowLogs)
+• Detection queries focus on IAM events: CreateAccessKey, AddUserToGroup, PutUserPolicy, AttachRolePolicy with 5-minute time bins
+
+DFIR artifacts generated:
+• CloudTrail captures API activity with src_user, src_ip, eventName, userAgent fields for timeline reconstruction
+• VPC Flow Logs provide network visibility for lateral movement detection
+• S3→SQS→Splunk pipeline ensures reliable ingestion without polling overhead
+
+Build detection rules for suspicious IAM activity clustering within short timeframes. Query: `index="aws_cloudtrail" eventName IN ("CreateUser","AttachUserPolicy","CreateAccessKey") | bin _time span=5m | stats count by _time src_user src_ip`.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046636035245809893</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2046636035245809893">DFIR Radar</source>
+      <pubDate>Tue, 21 Apr 2026 17:03:50 +0000</pubDate>
+      <guid isPermaLink="false">2046636035245809893</guid>
+    </item>
     <item>
       <title>Kyber Ransomware Double Trouble: Windows and ESXi Attacks Explained</title>
       <link>https://www.rapid7.com/blog/post/tr-kyber-ransomware-double-trouble-windows-esxi-attacks-explained</link>
@@ -1640,17 +1664,6 @@ Hunt for CRYPTBASE.dll outside C:\Windows\System32, monitor CPUID applications s
       <source url="https://x.com/DFIR_Radar/status/2044189818666561931">DFIR Radar</source>
       <pubDate>Tue, 14 Apr 2026 23:03:27 +0000</pubDate>
       <guid isPermaLink="false">2044189818666561931</guid>
-    </item>
-    <item>
-      <title>Omnistealer uses the blockchain to steal everything it can</title>
-      <link>https://www.malwarebytes.com/blog/news/2026/04/omnistealer-uses-the-blockchain-to-steal-everything-it-can</link>
-      <description>Omnistealer uses blockchain transactions on TRON, Aptos, and BSC to store encrypted staging code, creating undeletable C2 infrastructure. Targets 60+ crypto wallets, password managers, and cloud storage via fake coding gigs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044174916417630215</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2044174916417630215">DFIR Radar</source>
-      <pubDate>Tue, 14 Apr 2026 22:04:14 +0000</pubDate>
-      <guid isPermaLink="false">2044174916417630215</guid>
     </item>
   </channel>
 </rss>
