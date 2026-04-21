@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Apr 2026 09:03:16 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2026 10:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Bad Apples: Weaponizing native macOS primitives for movement and execution</title>
+      <link>https://blog.talosintelligence.com/bad-apples-weaponizing-native-macos-primitives-for-movement-and-execution/</link>
+      <description>Cisco Talos unveils comprehensive macOS "living-off-the-land" attack techniques that bypass traditional security controls. Research documents weaponization of Remote Application Scripting, Spotlight metadata abuse, and native protocols for stealth execution and lateral movement.
+
+Technical findings:
+• Remote Application Scripting (RAS) bypasses -10016 Handler Error using Terminal.app as execution proxy with Base64 encoding (T1072)
+• Spotlight metadata abuse stores payloads in Finder comments field, evading static file analysis and EDR detection
+• Native protocol toolkit: SMB, Git, TFTP, SNMP traps, socat for tool transfer without SSH telemetry (T1570)
+• Process lineage detection signature: launchd → AppleEventsD → Terminal → sh/bash indicates suspicious activity
+
+Attack chain methodology:
+• Stage 1: Establish remote execution via "eppc://" protocol targeting Terminal.app
+• Stage 2: Deploy payloads through kMDItemFinderComment metadata field
+• Stage 3: Achieve persistence via LaunchAgent referencing metadata-stored scripts
+• Stage 4: Lateral movement using native macOS protocols operating outside SSH monitoring
+
+Key DFIR artifacts:
+• Monitor TCP port 3031 traffic (eppc protocol) and unusual SNMP/TFTP on internal segments
+• Hunt for base64 --decode commands from GUI applications
+• Track mdls calls and writes to com.apple.metadata:kMDItemFinderComment
+• Analyze osascript executions containing "of machine eppc://" strings
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046530130613522473</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2046530130613522473">DFIR Radar</source>
+      <pubDate>Tue, 21 Apr 2026 10:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2046530130613522473</guid>
+    </item>
     <item>
       <title>New Lazarus APT Campaign: “Mach-O Man” macOS Malware Kit Hits Businesses</title>
       <link>https://any.run/cybersecurity-blog/lazarus-macos-malware-mach-o-man/</link>
@@ -1593,29 +1622,6 @@ Parse recovered drone storage with mavlogdump.py and correlate .plan intentions 
       <source url="https://x.com/DFIR_Radar/status/2044084334936658403">DFIR Radar</source>
       <pubDate>Tue, 14 Apr 2026 16:04:17 +0000</pubDate>
       <guid isPermaLink="false">2044084334936658403</guid>
-    </item>
-    <item>
-      <title>Low-Level Extraction for iOS 17 and 18</title>
-      <link>https://blog.elcomsoft.com/2026/04/low-level-extraction-for-ios-17-and-18/</link>
-      <description>ElcomSoft releases iOS Forensic Toolkit 10.0 with agent-based extraction now supporting iOS 17.0-17.7.8 and iOS 18.0-18.7.1, breaking through the previous iOS 16.6.1 barrier that had blocked low-level acquisition for months.
-
-Key technical advances:
-• Agent targets A11-A18 SoCs (iPhone 8 through iPhone 16) using exploit chains for privilege escalation and sandbox escape
-• Covers remaining iOS 16.7-16.7.15 builds plus full iOS 17/18 branches for comprehensive keychain and filesystem access
-• A11 devices (iPhone 8/X) require agent method due to SEP patch blocking checkm8 if passcode ever configured
-• M-series iPads remain capped at iPadOS 16.6.1 pending future update
-
-Certificate validation now requires internet connection for developer accounts created after June 6, 2021 🇺🇸 due to Apple's 🇺🇸 Provisioning Profile Queue requirements. iOS 17.3+ with Stolen Device Protection needs biometric auth for device trust.
-
-Enhanced checkm8 support adds iOS 15.8.7, iPadOS 16.7.15, and iPadOS 18.7.5 coverage.
-
-Route certificate validation through strict firewall allowing only PPQ traffic. Enable Developer Mode post-install on iOS 16+.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044069005506248924</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2044069005506248924">DFIR Radar</source>
-      <pubDate>Tue, 14 Apr 2026 15:03:23 +0000</pubDate>
-      <guid isPermaLink="false">2044069005506248924</guid>
     </item>
   </channel>
 </rss>
