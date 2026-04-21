@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Apr 2026 22:02:42 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2026 06:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Apple Watch forensics: acquisition techniques and evidentiary artifacts</title>
+      <link>https://andreafortuna.org/2026/04/21/apple-watch-forensics/</link>
+      <description>New comprehensive guide reveals Apple Watch as critical forensic source with unique acquisition paths and artifacts that often exceed iPhone capabilities. Legacy models (Series 0-3) allow full filesystem extraction via checkm8 exploit.
+
+Key technical details:
+• Series 0-3: checkm8 bootrom exploit enables complete data extraction without passcode using Elcomsoft iOS Forensic Toolkit
+• Series 4+: Logical extraction only, requires unlocked device and established pairing trust
+• Primary data sources: watch device, paired iPhone's Health database (/private/var/mobile/Library/Health/healthdb_secure.sqlite), and iCloud Health container
+• Critical artifacts: GPS-precise workout routes, continuous heart rate data, ECG waveforms, sleep tracking, deleted messages retained ~30 days
+
+DFIR opportunities:
+• Health database in encrypted iPhone backups contains watch sensor data with device attribution
+• Workout route data stored in healthdb_secure.hdf with sub-second GPS coordinates
+• watchOS diagnostic logs (.logarchive format) include app launches and Siri interactions
+• Wrist detection creates automatic lock after removal - enable airplane mode immediately upon seizure
+
+Prioritize encrypted iPhone backup over direct watch extraction for most comprehensive data recovery. Full acquisition methodology and artifact locations detailed in source.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046469662729232784</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2046469662729232784">DFIR Radar</source>
+      <pubDate>Tue, 21 Apr 2026 06:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2046469662729232784</guid>
+    </item>
     <item>
       <title>(TLP:CLEAR) WaterISAC Notification – CISA Issues Cyber Alert ​​for Supply Chain Compromise Impacting Axios Node Package Manager​</title>
       <link>https://www.waterisac.org/tlpclear-waterisac-notification-cisa-issues-cyber-alert-for-supply-chain-compromise-impacting-axios-node-package-manager</link>
@@ -1600,29 +1625,6 @@ Important limitation: Modern EFI firmware writes random bytes across entire RAM 
       <source url="https://x.com/DFIR_Radar/status/2044023600420712743">DFIR Radar</source>
       <pubDate>Tue, 14 Apr 2026 12:02:57 +0000</pubDate>
       <guid isPermaLink="false">2044023600420712743</guid>
-    </item>
-    <item>
-      <title>Common Entra ID Security Assessment Findings – Part 4: Weak Conditional Access Policies</title>
-      <link>https://blog.compass-security.com/2026/04/common-entra-id-security-assessment-findings-part-4-weak-conditional-access-policies/</link>
-      <description>Compass Security reveals critical gaps in Entra ID Conditional Access deployments that leave organizations vulnerable despite having policies in place. Common misconfigurations create exploitable bypasses for attackers with compromised credentials.
-
-Key vulnerabilities identified:
-• Incomplete user targeting: MFA policies scoped to groups often miss users, leaving accounts unprotected. Role-based targeting fails with scoped assignments (Administrative Units not included in role conditions)
-• Resource targeting gaps: "Microsoft Admin Portals" protection doesn't cover Graph API access. Attackers can bypass portal restrictions using ROPC flow with first-party OAuth clients like Modern Workplace Customer API Native
-• Missing security info registration policies: Attackers with passwords can register their own MFA factors before general MFA policies activate, effectively bypassing multi-factor requirements
-• Built-in bypasses: Microsoft Intune Company Portal client (9ba1a5c7-f17a-4de9-a1f1-6178c8d51223) can bypass compliant device requirements while maintaining Graph API access with Device.Read.All permissions
-
-Detection opportunities:
-• Monitor for Graph API tokens issued outside admin portals (check client_app_id in sign-in logs)
-• Alert on MFA registration from unusual locations/devices
-• Track ROPC authentication flows in audit logs
-• Review Conditional Access policy evaluation results for unexpected bypasses
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044008523760115799</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2044008523760115799">DFIR Radar</source>
-      <pubDate>Tue, 14 Apr 2026 11:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2044008523760115799</guid>
     </item>
   </channel>
 </rss>
