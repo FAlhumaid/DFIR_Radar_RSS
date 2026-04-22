@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 22 Apr 2026 05:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Apr 2026 06:03:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New NGate variant hides in a trojanized NFC payment app</title>
+      <link>https://www.welivesecurity.com/en/eset-research/new-ngate-variant-hides-in-a-trojanized-nfc-payment-app/</link>
+      <description>ESET discovers new NGate variant trojanizing legitimate HandyPay NFC app with AI-generated malicious code. Brazilian 🇧🇷 users targeted through fake lottery and Google Play sites for NFC payment card fraud since November 2025.
+
+Key technical details:
+• Targets HandyPay (legitimate NFC relay app) instead of NFCGate, patched with code showing AI-generated characteristics (emojis in logs typical of LLM output)
+• Two distribution vectors: fake Rio de Prêmios lottery site and phishing Google Play page for "Proteção Cartão" app
+• Steals payment card PINs via GUI input capture (T1417.002) and exfiltrates over HTTP to 108[.]165[.]230[.]223
+• Relays NFC data to attacker-controlled devices for ATM cash-outs and unauthorized contactless payments
+• Uses hardcoded email addresses to route all NFC traffic exclusively to threat actors
+
+Attack methodology:
+• Victims manually install trojanized app outside Google Play after "winning" fake lottery
+• App requests default payment app status but doesn't require additional permissions
+• Captures PIN input and NFC card data when victim taps card to phone
+• Data forwarded through HandyPay infrastructure plus separate HTTP exfiltration channel
+
+Hunt for HandyPay installations from non-Play Store sources and monitor HTTP traffic to protecaocart[.]com domain. Full IOCs available in ESET's GitHub repository.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046832171126518119</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2046832171126518119">DFIR Radar</source>
+      <pubDate>Wed, 22 Apr 2026 06:03:13 +0000</pubDate>
+      <guid isPermaLink="false">2046832171126518119</guid>
+    </item>
     <item>
       <title>Nightmare-Eclipse Tooling Seen in Real-World Intrusion</title>
       <link>https://www.huntress.com/blog/nightmare-eclipse-intrusion</link>
@@ -1641,30 +1667,6 @@ Hunt for scheduled tasks created by non-SYSTEM accounts pointing to user directo
       <source url="https://x.com/DFIR_Radar/status/2044417652861354223">DFIR Radar</source>
       <pubDate>Wed, 15 Apr 2026 14:08:47 +0000</pubDate>
       <guid isPermaLink="false">2044417652861354223</guid>
-    </item>
-    <item>
-      <title>MiningDropper – A Global Modular Android Malware Campaign Operating at Scale</title>
-      <link>https://cyble.com/blog/miningdropper-global-modular-android-malware/</link>
-      <description>Cyble uncovers MiningDropper, a sophisticated Android malware framework combining crypto mining with multi-payload delivery. Over 1,500 samples detected with 50%+ showing minimal AV detection, targeting India 🇮🇳, Europe, and LATAM through trojanized apps.
-
-Technical breakdown:
-• Multi-stage architecture: XOR-obfuscated native code → AES-encrypted DEX payloads → split APK reconstruction
-• Trojanizes open-source LumoLight app, uses anti-emulation checks and filename-derived AES keys
-• Delivers BTMOB RAT (full device control, keylogging, WebView injections) or infostealers via configuration-driven payload selection
-• Distribution via phishing sites impersonating RTO services, banks (ICICI, SBI, HDFC), and telecom providers
-
-Key artifacts:
-• Native library: librequisitionerastomous.so with XOR string obfuscation
-• Asset files: x7bozjy2pg4ckfhn (first stage), jajmanpongids (installer ZIP)
-• MITRE: T1660 (Phishing), T1575 (Native API), T1406 (Obfuscation), T1633 (Sandbox Evasion)
-
-Hunt for Android apps with suspicious asset files using filename-derived AES patterns and native libraries performing XOR string deobfuscation. Full IOC list available on Cyble's GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044401197403058332</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2044401197403058332">DFIR Radar</source>
-      <pubDate>Wed, 15 Apr 2026 13:03:24 +0000</pubDate>
-      <guid isPermaLink="false">2044401197403058332</guid>
     </item>
   </channel>
 </rss>
