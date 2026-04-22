@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 22 Apr 2026 00:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Apr 2026 01:05:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>&amp;#x5b;Guest Diary&amp;#x5d; Beyond Cryptojacking: Telegram tdata as a Credential Harvesting Vector, Lessons from a Honeypot Incident, (Wed, Apr 22nd)</title>
+      <link>https://isc.sans.edu/diary/rss/32888</link>
+      <description>Honeypot analysis reveals sophisticated attack chain combining cryptomining reconnaissance with Telegram session theft. Threat actors now prioritize persistent credential access over simple resource hijacking.
+
+Key technical findings:
+• Attack began via weak SSH credentials, followed by system enumeration (ifconfig, uname -a, /proc/cpuinfo)
+• Threat actor searched for competing miners using `ps | grep '[Mm]iner'` before deployment
+• Primary target: Telegram Desktop tdata directory containing authentication tokens
+• Secondary reconnaissance: modem devices (/dev/ttyGSM*, /dev/ttyUSB-mod*) for SMS 2FA bypass
+• Session theft bypasses 2FA - copying tdata folder grants immediate account access on any system
+
+Attack progression follows clear MITRE ATT&amp;CK chain:
+• T1110.001 (credential brute force) → T1082/T1083 (system discovery) → T1555/T1005 (credential harvesting) → T1078 (valid accounts)
+
+Critical artifacts for detection:
+• File access attempts to ~/.local/share/TelegramDesktop/tdata
+• Process enumeration with miner-specific regex patterns
+• Modem device enumeration indicating 2FA bypass preparation
+• Unusual directory traversal with wildcard searches (/home/*/...)
+
+Monitor for tdata directory access, implement file integrity monitoring on Telegram session folders, and audit active Telegram sessions regularly in Privacy &amp; Security settings.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046757339647164780</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2046757339647164780">DFIR Radar</source>
+      <pubDate>Wed, 22 Apr 2026 01:05:52 +0000</pubDate>
+      <guid isPermaLink="false">2046757339647164780</guid>
+    </item>
     <item>
       <title>CVE-2026-38526 in Krayin CRM Enables RCE</title>
       <link>https://socradar.io/blog/cve-2026-38526-krayin-crm-rce/</link>
@@ -1670,17 +1699,6 @@ Monitor for \\.\PhysicalDrive0 access, unexpected driver loads, partition layout
       <source url="https://x.com/DFIR_Radar/status/2044325911668154727">DFIR Radar</source>
       <pubDate>Wed, 15 Apr 2026 08:04:14 +0000</pubDate>
       <guid isPermaLink="false">2044325911668154727</guid>
-    </item>
-    <item>
-      <title>JanaWare Ransomware Targets Turkish Users Through Adwind RAT Campaign</title>
-      <link>https://thecyberexpress.com/janaware-ransomware-hits-turkish-users/</link>
-      <description>Turkish 🇹🇷-focused JanaWare ransomware operates since 2020 using geofenced Adwind RAT with polymorphic capabilities. Targets home users via phishing with $200-400 demands, staying under the radar through regional restrictions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044310581830922254</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2044310581830922254">DFIR Radar</source>
-      <pubDate>Wed, 15 Apr 2026 07:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2044310581830922254</guid>
     </item>
   </channel>
 </rss>
