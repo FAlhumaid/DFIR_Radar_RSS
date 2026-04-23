@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Apr 2026 15:04:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 16:03:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>UAT-4356's Targeting of Cisco Firepower Devices</title>
+      <link>https://blog.talosintelligence.com/uat-4356-firestarter/</link>
+      <description>State-sponsored UAT-4356 exploits n-day Cisco Firepower vulnerabilities to deploy FIRESTARTER backdoor. Campaign leverages transient persistence mechanism that survives graceful reboots but removed by hard power cycles.
+
+Key technical details:
+• Exploits CVE-2025-20333 and CVE-2025-20362 to compromise Cisco FXOS devices
+• FIRESTARTER injects into LINA process, replaces WebVPN XML handler with malicious Stage 2 shellcode
+• Persistence via CSP_MOUNT_LIST manipulation: copies to `/opt/cisco/platform/logs/var/log/svc_samcore.log` during reboot
+• Shellcode execution triggered by XML requests with custom magic byte prefixes (T1055.001, T1546.004)
+• Technical overlap with RayInitiator's Stage 3 capabilities confirms UAT-4356 attribution
+
+DFIR artifacts:
+• Process: `lina_cs` in kernel process list
+• Files: `/usr/bin/lina_cs`, `/opt/cisco/platform/logs/var/log/svc_samcore.log`
+• Memory: searches for byte sequence 0x1,0x2,0x3,0x4,0x5 in LINA process space
+
+Hunt with `show kernel process | include lina_cs` and verify file presence on affected Firepower devices. Hard reboot removes implant; reimaging recommended for complete remediation. Full IOCs in Cisco Security Advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047345676762128713</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2047345676762128713">DFIR Radar</source>
+      <pubDate>Thu, 23 Apr 2026 16:03:42 +0000</pubDate>
+      <guid isPermaLink="false">2047345676762128713</guid>
+    </item>
     <item>
       <title>Snow Flurries: How UNC6692 Employed Social Engineering to Deploy a Custom Malware Suite</title>
       <link>https://cloud.google.com/blog/topics/threat-intelligence/unc6692-social-engineering-custom-malware/</link>
@@ -1633,32 +1658,6 @@ Hunt for recent PHP files in WordPress directories with minimal file sizes (&lt;
       <source url="https://x.com/DFIR_Radar/status/2044838973504123277">DFIR Radar</source>
       <pubDate>Thu, 16 Apr 2026 18:02:57 +0000</pubDate>
       <guid isPermaLink="false">2044838973504123277</guid>
-    </item>
-    <item>
-      <title>Payouts King Takes Aim at the Ransomware Throne</title>
-      <link>https://www.zscaler.com/blogs/security-research/payouts-king-takes-aim-ransomware-throne</link>
-      <description>Payouts King ransomware emerges from BlackBasta's ashes as former affiliates pivot to new operation. Analysis reveals sophisticated evasion techniques including direct syscalls, custom obfuscation algorithms, and selective file encryption targeting high-value data.
-
-Key technical details:
-• Uses 4,096-bit RSA + 256-bit AES-CTR encryption with custom CRC32 algorithm (poly: 0xBDC65592) for string obfuscation
-• Implements direct syscalls to bypass EDR hooks when terminating 131+ AV/EDR processes (ZwTerminateProcess, ZwOpenProcess)
-• Persistence via Mozilla-themed scheduled tasks: \Mozilla\UpdateTask and \Mozilla\ElevateTask (T1053.005)
-• Partial encryption strategy: files &gt;10MB split into 13 blocks with 50% encrypted per block for performance
-• Anti-sandbox evasion requires -i parameter with valid CRC checksum to execute encryption
-
-Attack methodology:
-• Initial access via spam bombing + vishing calls impersonating IT staff (T1566.001)
-• Victims tricked into Microsoft Teams calls and Quick Assist remote access (T1219)
-• Drops .ZWIAAW extension on encrypted files, readme_locker.txt ransom note
-• Clears shadow copies, event logs, and recycle bin for anti-forensics (T1070)
-
-Hunt for schtasks.exe creating Mozilla-named tasks, SetFileInformationByHandle API calls for file renaming, and processes making direct syscalls to ntdll without standard API wrappers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044823891101515794</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2044823891101515794">DFIR Radar</source>
-      <pubDate>Thu, 16 Apr 2026 17:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2044823891101515794</guid>
     </item>
   </channel>
 </rss>
