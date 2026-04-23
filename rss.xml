@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Apr 2026 12:03:16 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 13:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Agent ID Administrator scope overreach: Service Principal takeover in Entra ID</title>
+      <link>https://www.silverfort.com/blog/agent-id-administrator-scope-overreach-service-principal-takeover-in-entra-id/</link>
+      <description>Microsoft fixed Agent ID Administrator role vulnerability that allowed takeover of any service principal in Entra ID, not just agent identities. Silverfort disclosed this privilege escalation path affecting 99% of tenants with privileged service principals.
+
+Key technical details:
+• CVE not assigned - fixed via cloud update after responsible disclosure to MSRC
+• Agent ID Administrator could add themselves as owner of non-agent service principals
+• Attack chain: become owner → add credentials → authenticate as hijacked principal
+• Affected arbitrary service principals with directory roles or high-impact Graph permissions
+• Role shown as non-privileged in Entra UI despite documentation stating otherwise
+
+DFIR artifacts and detection opportunities:
+• Monitor AuditLogs for "Add owner to service principal" events by Agent ID Administrator users
+• Alert on credential additions to service principals, especially those with privileged roles
+• Query role assignments: `roleDefinitionId eq 'db506228-d27e-4b7d-95e5-295956d6615f'`
+• Track ownership changes on service principals with Directory.ReadWrite.All, RoleManagement.ReadWrite.Directory permissions
+
+Hunt for Agent ID Administrator role assignments and correlate with service principal ownership changes. Full detection queries and enumeration scripts provided in the research.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047300116986593579</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2047300116986593579">DFIR Radar</source>
+      <pubDate>Thu, 23 Apr 2026 13:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2047300116986593579</guid>
+    </item>
     <item>
       <title>Defending against China-nexus covert networks of compromised devices</title>
       <link>https://www.ncsc.gov.uk/news/defending-against-china-nexus-covert-networks-of-compromised-devices</link>
@@ -1652,37 +1678,6 @@ DFIR artifacts:
       <source url="https://x.com/DFIR_Radar/status/2044793645463933236">DFIR Radar</source>
       <pubDate>Thu, 16 Apr 2026 15:02:51 +0000</pubDate>
       <guid isPermaLink="false">2044793645463933236</guid>
-    </item>
-    <item>
-      <title>ClickFix Phishing Campaign Masquerading as a Claude Installer</title>
-      <link>https://www.rapid7.com/blog/post/ve-clickfix-phishing-campaign-fake-claude-installer</link>
-      <description>New ClickFix campaign targets EU/US organizations using fake Claude AI installer, delivering multi-stage PowerShell payload through sophisticated obfuscation layers. Rapid7 MDR detected initial compromise via Windows Run utility monitoring, preventing full infection chain.
-
-Key technical details:
-• Initial vector: mshta execution via `download-version[.]1-5-8[.]com/claude.msixbundle`
-• Masquerades as MSIX bundle but contains embedded HTA with VBS obfuscation
-• Multi-stage PowerShell chain: AMSI bypass → process injection → encrypted shellcode
-• Uses MD5 hash of COMPUTERNAME+USERNAME for C2 URL generation
-• Final payload: Information stealer targeting stored credentials
-
-Attack methodology:
-• Leverages ClickFix social engineering to trick users into running malicious commands
-• Commands stored in RunMRU registry key (tracks last 26 Run utility executions)  
-• PowerShell stages progressively deobfuscate using custom routines and XOR encryption
-• Process injection via .NET interop: NtAllocateVirtualMemory → NtCreateThreadEx
-
-DFIR artifacts:
-• Monitor HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
-• Look for mshta with suspicious URLs in process command lines
-• PowerShell execution with AMSI bypass attempts (amsiContext overwrite)
-
-IOCs: claude.msixbundle (SHA256: 2b99ade9...), domains oakenfjrod[.]ru, download-version[.]1-5-8[.]com. Hunt for mshta processes with external URLs and review user clipboard history for ClickFix indicators.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044778534581715177</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2044778534581715177">DFIR Radar</source>
-      <pubDate>Thu, 16 Apr 2026 14:02:48 +0000</pubDate>
-      <guid isPermaLink="false">2044778534581715177</guid>
     </item>
   </channel>
 </rss>
