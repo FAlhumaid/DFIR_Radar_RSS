@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Apr 2026 08:02:50 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 11:03:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AIはクラウドを攻撃できるのか?自律型クラウド攻撃型マルチエージェント システムの構築から得られた教訓</title>
+      <link>https://unit42.paloaltonetworks.com/autonomous-ai-cloud-attacks/</link>
+      <description>Palo Alto's Unit 42 built "Zealot," an autonomous multi-agent AI system that successfully executed end-to-end cloud attacks in GCP. The PoC demonstrates AI can chain SSRF, metadata service abuse, and BigQuery exfiltration with minimal human guidance.
+
+Key technical details:
+• Multi-agent architecture: Supervisor coordinates Infrastructure, Application Security, and Cloud Security agents using LangGraph framework
+• Attack chain: SSRF exploitation → GCP metadata service credential theft (T1552.005) → service account impersonation (T1078.004) → BigQuery data exfiltration (T1537)
+• Autonomous capabilities: AI discovered VPC peering, exploited misconfigurations, and self-granted storage.objectAdmin role without human direction
+• Speed advantage: Operations complete in seconds vs. hours for human attackers, exploiting well-known cloud misconfigurations at machine speed
+
+DFIR implications:
+• Detection alerts available for cloud infrastructure enumeration, unusual IMDS access, IAM enumeration sequences, and cross-project data transfers
+• Behavioral analytics required to catch agent-based operations moving faster than human attack patterns
+• Shared AttackState object maintains persistent memory across attack phases
+
+Hunt for unusual metadata service access patterns, rapid IAM enumeration sequences, and cross-service privilege escalations within minutes rather than typical human timeframes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047270105042534419</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2047270105042534419">DFIR Radar</source>
+      <pubDate>Thu, 23 Apr 2026 11:03:24 +0000</pubDate>
+      <guid isPermaLink="false">2047270105042534419</guid>
+    </item>
     <item>
       <title>Microsoft Graph API misused by new GoGra Linux malware for hidden communication</title>
       <link>https://securityaffairs.com/191153/uncategorized/microsoft-graph-api-misused-by-new-gogra-linux-malware-for-hidden-communication.html</link>
@@ -1670,27 +1694,6 @@ Block execution of LNK, HTA, JS files and restrict mshta.exe, powershell.exe, ws
       <source url="https://x.com/DFIR_Radar/status/2044763404213329957">DFIR Radar</source>
       <pubDate>Thu, 16 Apr 2026 13:02:40 +0000</pubDate>
       <guid isPermaLink="false">2044763404213329957</guid>
-    </item>
-    <item>
-      <title>BlobPhish: The Phantom Phishing Campaign Hiding in Browser Memory</title>
-      <link>https://any.run/cybersecurity-blog/evasive-blob-phishing-detection/</link>
-      <description>BlobPhish campaign uses browser blob objects to deliver phishing pages entirely in memory, evading traditional detection. Active since October 2024, targeting Microsoft 365 and major US 🇺🇸 financial institutions with sophisticated evasion techniques.
-
-Key technical details:
-• JavaScript loader decodes Base64 payload, creates blob object with `window.URL.createObjectURL()`, forces navigation via hidden anchor, then destroys evidence
-• Targets Chase, Capital One, E*TRADE, Charles Schwab, American Express alongside Microsoft 365/OneDrive/SharePoint
-• Exfiltration endpoints follow patterns: `/res.php`, `/tele.php`, `/panel.php` with form-data POST requests
-• Loader variants: `blob.html`, `blom.html`, `bloji.html`, `emailandpasssss.html` hosted on compromised WordPress sites
-
-Attack chain bypasses URL reputation, proxy logs, and cache-based detection since phishing page exists only as `blob:https://` scheme in browser memory. Campaign spans 18+ months with infrastructure rotation across compromised legitimate sites.
-
-Hunt for POST requests to `*/res.php` or `*/tele.php` endpoints with form-data containing credentials, and monitor for `blob:https://` URLs in browser history. Full YARA rules and IOC list available in report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044748401846161769</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2044748401846161769">DFIR Radar</source>
-      <pubDate>Thu, 16 Apr 2026 12:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2044748401846161769</guid>
     </item>
   </channel>
 </rss>
