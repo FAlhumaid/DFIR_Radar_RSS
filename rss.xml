@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Apr 2026 16:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 17:03:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Checkmarx supply-chain breach affects KICS analysis tool</title>
+      <link>https://www.bleepingcomputer.com/news/security/new-checkmarx-supply-chain-breach-affects-kics-analysis-tool/</link>
+      <description>Supply chain attack compromises Checkmarx KICS analysis tool across Docker, VSCode extensions. Malware harvested sensitive developer credentials including GitHub tokens, cloud keys, and SSH credentials during 84-minute window.
+
+Technical details:
+• Compromised Docker images from checkmarx/kics repository on DockerHub (2026-04-22 14:17:59 to 15:41:31 UTC)
+• VSCode/Open VSX extensions downloaded hidden 'MCP addon' feature via hardcoded GitHub URL
+• Malware (mcpAddon.js) targeted AWS/Azure/GCP credentials, npm tokens, environment variables
+• Data encrypted and exfiltrated to audit[.]checkmarx[.]cx (94[.]154[.]172[.]43)
+• Automatic creation of public GitHub repositories for additional data exfiltration
+
+Impact scope:
+• Affects developers using infrastructure-as-code security scanning tools
+• Particularly dangerous as KICS processes sensitive configuration files containing secrets
+• TeamPCP hackers claimed responsibility (same group behind Trivy/LiteLLM compromises)
+
+Immediately block audit[.]checkmarx[.]cx and rotate all secrets if you pulled KICS Docker images or extensions during the compromise window. Revert to safe versions: KICS v2.1.20, VSCode extension v2.64.0.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047360700792643763</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2047360700792643763">DFIR Radar</source>
+      <pubDate>Thu, 23 Apr 2026 17:03:24 +0000</pubDate>
+      <guid isPermaLink="false">2047360700792643763</guid>
+    </item>
     <item>
       <title>UAT-4356's Targeting of Cisco Firepower Devices</title>
       <link>https://blog.talosintelligence.com/uat-4356-firestarter/</link>
@@ -1628,36 +1653,6 @@ Hunt for NTLMv1 authentication events in network traffic and Windows logs - this
       <source url="https://x.com/DFIR_Radar/status/2044854071228543017">DFIR Radar</source>
       <pubDate>Thu, 16 Apr 2026 19:02:57 +0000</pubDate>
       <guid isPermaLink="false">2044854071228543017</guid>
-    </item>
-    <item>
-      <title>Attackers Actively Exploiting Critical Vulnerability in Ninja Forms – File Upload Plugin</title>
-      <link>https://www.wordfence.com/blog/2026/04/attackers-actively-exploiting-critical-vulnerability-in-ninja-forms-file-upload-plugin/</link>
-      <description>Critical file upload flaw in Ninja Forms WordPress plugin enables unauthenticated RCE. Mass exploitation began same day as disclosure with 118,600+ blocked attempts across 50,000 installations.
-
-Key technical details:
-• CVE-2026-0740, CVSS 9.8 - affects Ninja Forms File Upload ≤3.3.26, patched in 3.3.27
-• Missing destination filename validation in NF_FU_AJAX_Controllers_Uploads::handle_upload function
-• Attackers upload disguised PHP webshells (PDF/JPG headers) + .htaccess files via path traversal
-• Exploitation via POST to /wp-admin/admin-ajax.php?action=nf_fu_upload with malicious multipart form data
-
-Attack methodology:
-• Valid file headers (PDF-1.4, GIF89a) bypass source validation while storing as .php extensions
-• Path traversal (../../) places shells in webroot outside upload directories  
-• Webshells use php_uname(), shell_exec(), system() for reconnaissance and command execution
-• .htaccess modification forces .txt files to execute as PHP for steganography
-
-DFIR artifacts:
-• Check /wp-content/uploads/ and webroot for suspicious .php files with recent timestamps
-• Review access logs for nf_fu_upload action from IPs: 124[.]248[.]183[.]139, 152[.]42[.]221[.]239, 124[.]108[.]54[.]86
-• Hunt multipart POST requests with mismatched Content-Type headers and destination filenames
-
-Hunt for recent PHP files in WordPress directories with minimal file sizes (&lt;5KB) containing php_uname() or shell_exec() functions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044838973504123277</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2044838973504123277">DFIR Radar</source>
-      <pubDate>Thu, 16 Apr 2026 18:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2044838973504123277</guid>
     </item>
   </channel>
 </rss>
