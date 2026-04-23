@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Apr 2026 04:02:36 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2026 05:02:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Android pattern of life: hidden artifacts that reconstruct a user’s daily routine</title>
+      <link>https://andreafortuna.org/2026/04/23/android-pattern-of-life-hidden-artifacts-reconstruct-daily-routine/</link>
+      <description>Android pattern of life analysis requires examining multiple scattered databases - UsageStats, Digital Wellbeing, appops.xml - unlike iOS's centralized knowledgeC.db. Google's 2024 shift to local Timeline storage fundamentally changes location forensics approach.
+
+Key technical details:
+• UsageStats at /data/system/usagestats/ provides millisecond app usage timestamps in daily/weekly/monthly XML buckets, retains ~6 months
+• Digital Wellbeing's dwbCommon.db tracks granular events: screen on/off (15/16), unlock (18), notifications (23) - Samsung Rubin may supplement missing data
+• appops.xml logs exact timestamps when apps accessed sensitive permissions (camera, mic, location, SMS) - critical for surveillance cases
+• File-Based Encryption means all primary artifacts require AFU (After First Unlock) access in CE storage
+
+Attack reconstruction opportunities:
+• Cross-reference app usage spikes with permission access times to identify covert recording or data exfiltration
+• Correlate unlock events with location data to establish presence at crime scenes
+• Identify deleted app remnants in monthly UsageStats buckets for timeline gaps
+
+Use ALEAPP's usagestats.py parser and correlate with Plaso super-timeline. Query: `SELECT package_name, datetime(time/1000, 'unixepoch') as event_time, type FROM usageevents ORDER BY time ASC`
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047179296800637092</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2047179296800637092">DFIR Radar</source>
+      <pubDate>Thu, 23 Apr 2026 05:02:34 +0000</pubDate>
+      <guid isPermaLink="false">2047179296800637092</guid>
+    </item>
     <item>
       <title>BRIDGE:BREAK reveals 22 vulnerabilities in serial-to-IP converters enabling disruption and lateral movement across OT</title>
       <link>https://industrialcyber.co/reports/bridgebreak-reveals-22-vulnerabilities-in-serial-to-ip-converters-enabling-disruption-and-lateral-movement-across-ot/</link>
@@ -1682,17 +1706,6 @@ Hunt for unsigned executables with randomized section names making network conne
       <source url="https://x.com/DFIR_Radar/status/2044703141179031872">DFIR Radar</source>
       <pubDate>Thu, 16 Apr 2026 09:03:12 +0000</pubDate>
       <guid isPermaLink="false">2044703141179031872</guid>
-    </item>
-    <item>
-      <title>Micropatches released for Windows Shell Security Feature Bypass Vulnerability (CVE-2026-21510)</title>
-      <link>https://blog.0patch.com/2026/04/micropatches-released-for-windows-shell.html</link>
-      <description>CVE-2026-21510 allowed malicious Windows shortcuts to execute remote DLLs without security warnings, bypassing mark-of-the-web protections. 0patch releases micropatches for legacy Windows systems after wild exploitation confirmed.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044688020171854168</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2044688020171854168">DFIR Radar</source>
-      <pubDate>Thu, 16 Apr 2026 08:03:07 +0000</pubDate>
-      <guid isPermaLink="false">2044688020171854168</guid>
     </item>
   </channel>
 </rss>
