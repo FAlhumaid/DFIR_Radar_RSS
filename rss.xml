@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Apr 2026 23:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 24 Apr 2026 00:03:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026-04-23: SmartApeSG activity</title>
+      <link>https://www.malware-traffic-analysis.net/2026/04/23/index.html</link>
+      <description>SmartApeSG campaign uses fake CAPTCHA pages with ClickFix social engineering to deliver malware via DLL side-loading. Active campaign compromising legitimate websites and deploying persistent backdoors through multi-stage infection chain.
+
+Key technical details:
+• Initial compromise via injected scripts on legitimate but compromised sites (ibharcan[.]com, nexaflowlab[.]top)
+• Fake CAPTCHA leads victims to copy/paste malicious PowerShell commands into Run dialog
+• Downloads 96MB ZIP containing legitimate software + malicious DLL for side-loading (T1574.002)
+• Extracts to %LocalAppData%\E3SDNLPITGYVGW0K-E65490DD-939D-4CC9-9AE8-BADD134270DD\
+• Establishes persistence via Registry Run keys and scheduled tasks (T1053.005, T1547.001)
+
+Post-infection C2 traffic:
+• Beacons to 89.110.110[.]119:443 using encrypted TCP (non-HTTPS)
+• Custom encryption suggests advanced backdoor capabilities
+
+Hunt for recent ZIP extractions to %LocalAppData% with GUID-like folder names and monitor for non-browser processes connecting to port 443 without TLS handshakes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047466326688506177</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2047466326688506177">DFIR Radar</source>
+      <pubDate>Fri, 24 Apr 2026 00:03:07 +0000</pubDate>
+      <guid isPermaLink="false">2047466326688506177</guid>
+    </item>
     <item>
       <title>CVE-2026-33824: Remote Code Execution in Windows IKEv2</title>
       <link>https://www.thezdi.com/blog/2026/4/22/cve-2026-33824-remote-code-execution-in-windows-ikev2</link>
@@ -1633,30 +1657,6 @@ Hunt for suspicious oplock usage, unexpected writes to System32, and systems wit
       <source url="https://x.com/DFIR_Radar/status/2044960141582204961">DFIR Radar</source>
       <pubDate>Fri, 17 Apr 2026 02:04:26 +0000</pubDate>
       <guid isPermaLink="false">2044960141582204961</guid>
-    </item>
-    <item>
-      <title>Lumma Stealer infection with Sectop RAT (ArechClient2), (Fri, Apr 17th)</title>
-      <link>https://isc.sans.edu/diary/rss/32904</link>
-      <description>SANS ISC researcher documents Lumma Stealer infection chain leading to Sectop RAT deployment. Attack uses fake Adobe Premiere Pro 2026 crack distributed through password-protected archives with 806MB inflated executables.
-
-Technical breakdown:
-• Initial delivery via fake software crack sites impersonating MEGA cloud storage
-• Lumma Stealer packed in password-protected 7zip (password: 6919) with null-byte padding evasion
-• SHA256: c7489e3bf546c5f2d958ac833cc7dbca4368dfba03a792849bc99c48a6b2a14f (archive), 4849f76dafbef516df91fecfc23a72afffaf77ade51f805eae5ad552bed88923 (inflated EXE)
-• 9 Lumma C2 domains identified: cankgmr[.]cyou, carytui[.]vu, decrnoj[.]club, genugsq[.]best
-
-Follow-up payload:
-• Sectop RAT (ArechClient2) deployed as NetGui.dll via rundll32 LoadForm export
-• C2 traffic to 91.92.241[.]102:9000 and :443 with custom encryption
-• Persistence established on infected Windows hosts
-
-Hunt for oversized executables (&gt;100MB) with high entropy ratios and rundll32 spawning network connections to non-standard ports. Full IOCs and sandbox analysis links available in SANS report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2044944672754217026</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2044944672754217026">DFIR Radar</source>
-      <pubDate>Fri, 17 Apr 2026 01:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2044944672754217026</guid>
     </item>
   </channel>
 </rss>
