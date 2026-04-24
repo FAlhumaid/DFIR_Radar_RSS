@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 24 Apr 2026 07:04:05 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 24 Apr 2026 08:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PhantomRPC: A new privilege escalation technique in Windows RPC</title>
+      <link>https://securelist.com/phantomrpc-rpc-vulnerability/119428/</link>
+      <description>Kaspersky researchers discover PhantomRPC, a new Windows privilege escalation technique exploiting RPC architectural weaknesses. Enables escalation from service accounts to SYSTEM across all Windows versions without requiring patches.
+
+Technical details:
+• Targets RPC calls to unavailable servers (TermService, DHCP Client, W32Time) with high impersonation levels
+• Attack deploys malicious RPC server mimicking legitimate endpoints like ncalrpc:[TermSrvApi] or \PIPE\W32TIME
+• Requires SeImpersonatePrivilege but works from Network Service/Local Service contexts (T1134.001)
+• Five exploitation paths identified: gpupdate coercion, Edge startup, WDI background service, ipconfig execution, w32tm.exe timing
+
+Attack methodology:
+• Attacker compromises service running under Network/Local Service account
+• Deploys fake RPC server with same UUID/endpoint as legitimate disabled service
+• Legitimate high-privilege process makes RPC call expecting real server
+• Malicious server calls RpcImpersonateClient() to assume SYSTEM/Admin context
+• ETW monitoring reveals pattern: Event ID 1 with RPC_S_SERVER_UNAVAILABLE (0x800706BA)
+
+Microsoft classified as moderate severity, no CVE assigned, no immediate patch planned. Monitor RPC failures via ETW Event IDs 1 and 5, reduce SeImpersonatePrivilege usage where possible.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047587124707213700</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2047587124707213700">DFIR Radar</source>
+      <pubDate>Fri, 24 Apr 2026 08:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2047587124707213700</guid>
+    </item>
     <item>
       <title>Cato traces large-scale Modbus/TCP activity targeting PLCs, exposing persistent gaps in OT security</title>
       <link>https://industrialcyber.co/industrial-cyber-attacks/cato-traces-large-scale-modbus-tcp-activity-targeting-plcs-exposing-persistent-gaps-in-ot-security/</link>
@@ -1660,28 +1686,6 @@ Hunt for unsigned PE files with suspicious certificate issuers resembling DGA do
       <source url="https://x.com/DFIR_Radar/status/2045156167349879168">DFIR Radar</source>
       <pubDate>Fri, 17 Apr 2026 15:03:22 +0000</pubDate>
       <guid isPermaLink="false">2045156167349879168</guid>
-    </item>
-    <item>
-      <title>BlueHammer, RedSun, and UnDefend: Three Windows Defender Zero-Days Exploited in the Wild</title>
-      <link>https://socradar.io/blog/bluehammer-redsun-undefend-windows-defender-0days/</link>
-      <description>Three Windows Defender zero-days disclosed as PoC exploits are now being actively exploited in the wild. BlueHammer enables privilege escalation via race conditions, RedSun abuses cloud file rollback, UnDefend silently degrades AV protection.
-
-Key technical details:
-• BlueHammer (CVE-2026-33825, CVSS 7.8) exploits race condition in threat remediation - uses oplock + NTFS junction to redirect privileged writes to C:\Windows\System32 (PATCHED April 2026)
-• RedSun abuses Defender's cloud file rollback mechanism, overwrites TieringEngineService.exe for SYSTEM access - affects all systems with cldapi.dll (UNPATCHED)
-• UnDefend blocks definition updates as standard user, gradually blinds AV over time (UNPATCHED)
-• All three confirmed in real attacks since April 10, observed via compromised SSLVPN credentials
-• Attack pattern: manual enumeration with `whoami /priv`, `cmdkey /list`, `net group` commands
-
-Huntress Labs confirmed active exploitation across Windows 10/11 and Server 2016-2025. Attackers chain these for initial SYSTEM access + persistent AV evasion.
-
-Hunt for suspicious oplock usage, unexpected writes to System32, and systems with stale Defender definitions. Prioritize SSLVPN credential monitoring and network isolation capabilities.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2045141097291432117</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2045141097291432117">DFIR Radar</source>
-      <pubDate>Fri, 17 Apr 2026 14:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2045141097291432117</guid>
     </item>
   </channel>
 </rss>
