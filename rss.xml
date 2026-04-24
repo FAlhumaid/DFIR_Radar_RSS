@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 24 Apr 2026 15:03:33 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 24 Apr 2026 16:03:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Analyzing GLOBAL GROUP (BlackLock) Artifacts</title>
+      <link>https://detect.fyi/analyzing-global-group-blacklock-artifacts-72dabc14c500?source=rss----d5fd8f494f6a---4</link>
+      <description>GLOBAL GROUP (BlackLock) ransomware deploys new LNK dropper campaign targeting ESXi hypervisors. Active domains paksecurity[.]org and techoption[.]org host Fragtor loader leading to hypervisor encryption attacks.
+
+Key technical details:
+• LNK dropper: 9b2637b8fefeedf8dca8a0ace491de05b6d937ea7463b48562cd1a0f25abb9f5 (FAKE_CAPTCHA.lnk)
+• Fragtor loader: 9d7e12eae6b593e582d8b2c3af3154a989977309dcffc7a85aedf0e047d4ca0b 
+• C2 domains resolve to 104[.]21[.]25[.]86 and 23[.]62[.]168[.]204
+• Uses CVE-2024-37085 to create "ESX Admins" AD group for instant hypervisor access (T1098)
+
+Attack methodology:
+• Social engineering via phishing LNK → PowerShell execution (T1566.001)
+• Fragtor establishes persistence through scheduled tasks (T1053)
+• Lateral movement via Pass-the-Hash to domain-joined ESXi hosts (T1550.002)
+• Go-based encryptor targets /vmfs/volumes/, kills VMs with esxcli commands (T1486)
+
+DFIR artifacts:
+• Monitor for .lnk execution spawning PowerShell from explorer.exe
+• Alert on "ESX Admins" AD group creation via net group commands
+• Hunt mutex "Global\Fxo16jmdgujs437" in process memory
+• Watch for esxcli vm process kill from non-admin SSH sessions
+
+Impact: 2026 data shows 43% of ransomware incidents now target virtualization infrastructure, up from 29% in 2025. Single ESXi compromise can encrypt entire virtualized estates in minutes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047707907211370762</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2047707907211370762">DFIR Radar</source>
+      <pubDate>Fri, 24 Apr 2026 16:03:05 +0000</pubDate>
+      <guid isPermaLink="false">2047707907211370762</guid>
+    </item>
     <item>
       <title>Tropic Trooper Uses Trojanized SumatraPDF and GitHub to Deploy AdaptixC2</title>
       <link>https://thehackernews.com/2026/04/tropic-trooper-uses-trojanized.html</link>
@@ -1720,17 +1751,6 @@ Hunt for Quick Assist processes followed immediately by cmd.exe within 30-120 se
       <source url="https://x.com/DFIR_Radar/status/2045276681808629783">DFIR Radar</source>
       <pubDate>Fri, 17 Apr 2026 23:02:15 +0000</pubDate>
       <guid isPermaLink="false">2045276681808629783</guid>
-    </item>
-    <item>
-      <title>Walking Through an Attack Path with ForceHound</title>
-      <link>https://www.netspi.com/blog/technical-blog/web-application-pentesting/walking-through-an-attack-path-with-forcehound/</link>
-      <description>New ForceHound tool maps Salesforce privilege escalation paths through BloodHound graphs. Demonstrates how standard users with ManageUsers or AssignPermissionSets permissions can achieve ModifyAllData access via transitive escalation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2045261492019138875</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2045261492019138875">DFIR Radar</source>
-      <pubDate>Fri, 17 Apr 2026 22:01:54 +0000</pubDate>
-      <guid isPermaLink="false">2045261492019138875</guid>
     </item>
   </channel>
 </rss>
