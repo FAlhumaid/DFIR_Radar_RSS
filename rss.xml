@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Apr 2026 13:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Apr 2026 16:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat actor uses Microsoft Teams to deploy new “Snow” malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/threat-actor-uses-microsoft-teams-to-deploy-new-snow-malware/</link>
+      <description>UNC6692 deploys multi-stage "Snow" malware suite via Microsoft Teams social engineering, combining email bombing with fake IT helpdesk calls to achieve domain takeover and credential theft.
+
+Key technical details:
+• Initial access: Email bombing + Teams impersonation → fake patch link drops AutoHotkey-based loader
+• SnowBelt: Malicious Chrome extension runs on headless Edge, establishes persistence via scheduled tasks
+• SnowGlaze: WebSocket tunneler masks C2 comms, enables SOCKS proxy for arbitrary TCP routing
+• SnowBasin: Python backdoor with HTTP server, executes CMD/PowerShell, supports file ops and screenshots
+• Post-compromise: LSASS dumping, pass-the-hash lateral movement, AD database extraction via FTK Imager
+
+Attack chain leverages legitimate tools (Quick Assist, AutoHotkey, FTK Imager) and LimeWire for exfiltration, making detection challenging through process name alone.
+
+Hunt for headless Edge processes with network connections, unexpected AutoHotkey execution, and WebSocket traffic patterns. Full IOCs and YARA rules available in the Mandiant report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2048070472982573251</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2048070472982573251">DFIR Radar</source>
+      <pubDate>Sat, 25 Apr 2026 16:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2048070472982573251</guid>
+    </item>
     <item>
       <title>Trust but Verify: Amcache’s OriginalFilename Field Isn’t Always Accurate</title>
       <link>https://thinkdfir.com/2026/04/25/trust-but-verify-amcaches-originalfilename-field-isnt-always-accurate/</link>
@@ -1678,32 +1700,6 @@ Hunt for suspicious purchase order emails with executable attachments. Cross-ref
       <source url="https://x.com/DFIR_Radar/status/2046243278635307238">DFIR Radar</source>
       <pubDate>Mon, 20 Apr 2026 15:03:10 +0000</pubDate>
       <guid isPermaLink="false">2046243278635307238</guid>
-    </item>
-    <item>
-      <title>DFIR Report – The Gentlemen &amp; SystemBC: A Sneak Peek Behind the Proxy</title>
-      <link>https://research.checkpoint.com/2026/dfir-report-the-gentlemen/</link>
-      <description>The Gentlemen RaaS has surged to over 320 victims in early 2026, deploying multi-platform Go-based lockers with built-in lateral movement and GPO mass deployment. SystemBC proxy malware reveals a 1,570+ victim botnet likely targeting corporate environments.
-
-Key technical details:
-• Multi-OS lockers for Windows/Linux/NAS/BSD (Go) + ESXi (C) with XChaCha20 encryption using ephemeral X25519 keys
-• SystemBC C2 45[.]86[.]230[.]112 provides SOCKS5 tunneling; Cobalt Strike beacon 91[.]107[.]247[.]163
-• Lateral movement via --spread flag: PsExec, WMI, remote sched tasks across AD-enumerated hosts
-• GPO deployment copies locker to NETLOGON share, creates domain-wide scheduled tasks for mass encryption
-• Defense evasion: PowerShell disables Defender, adds C:\ exclusions, stops firewall/mpssvc service
-
-Attack chain progression:
-• Initial DC compromise → credential validation → Cobalt Strike deployment via ADMIN$ shares
-• Failed SystemBC deployment blocked by EDR → AnyDesk persistence (password: Camry@12345)
-• Internal staging server hosts grand[.]exe → PowerShell download to c:\programdata\r[.]exe
-• GPO-based ransomware deployment with --password VvO8EtUh across domain
-
-Hunt for unsigned DLLs in system directories, monitor regsvr32[.]exe with suspicious parent processes, and detect PowerShell Set-MpPreference commands. Full IOC list and YARA rules available in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046228140544962986</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2046228140544962986">DFIR Radar</source>
-      <pubDate>Mon, 20 Apr 2026 14:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2046228140544962986</guid>
     </item>
   </channel>
 </rss>
