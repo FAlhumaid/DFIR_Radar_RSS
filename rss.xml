@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Apr 2026 17:03:22 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Apr 2026 19:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-42208: Targeted SQL injection against LiteLLM's authentication path discovered 36 hours following vulnerability disclosure</title>
+      <link>https://webflow.sysdig.com/blog/cve-2026-42208-targeted-sql-injection-against-litellms-authentication-path-discovered-36-hours-following-vulnerability-disclosure</link>
+      <description>Critical pre-auth SQL injection in LiteLLM AI gateway exploited within 36 hours of disclosure. Attackers targeted high-value tables containing provider credentials and API keys with surgical precision.
+
+Technical details:
+• CVE-2026-42208 in LiteLLM versions 1.81.16-1.83.6 allows arbitrary SELECT queries via Authorization header
+• Attacker used `sk-litellm' UNION SELECT` payloads targeting litellm_credentials, LiteLLM_VerificationToken, and litellm_config tables
+• Exploitation from IPs 65[.]111[.]27[.]132 and 65[.]111[.]25[.]67 using Python/3.12 aiohttp/3.9.1 user-agent
+• Operator demonstrated schema knowledge, switching from lowercase to PascalCase table names when queries failed
+
+Attack methodology:
+• Phase 1: Direct targeting of three highest-value tables containing OpenAI/Anthropic credentials
+• Phase 2: Column-count enumeration using varying NULL placeholders (T1190, T1552.001)
+• No generic SQLmap patterns - deliberate, customized exploitation suggesting prior schema analysis
+• IP rotation between phases indicates sophisticated tooling to evade rate limits
+
+DFIR opportunities:
+• Web logs showing POST /chat/completions with `Authorization: Bearer sk-litellm'` patterns
+• Requests containing UNION SELECT, table names litellm_credentials, "LiteLLM_VerificationToken"
+• Python aiohttp user-agent combined with SQL injection indicators
+• Upstream provider billing anomalies from unexpected IP ranges
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2048840511490839014</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2048840511490839014">DFIR Radar</source>
+      <pubDate>Mon, 27 Apr 2026 19:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2048840511490839014</guid>
+    </item>
     <item>
       <title>The Meta 2FA Trap: From Verified Badge to Account Takeover</title>
       <link>https://cofense.com/blog/the-meta-2fa-trap-from-verified-badge-to-account-takeover</link>
@@ -1649,26 +1678,6 @@ Mitigation priority: Patch immediately (Lantronix 2.0.0R1/3.2.0.0R2, Silex updat
       <source url="https://x.com/DFIR_Radar/status/2046560449525584083">DFIR Radar</source>
       <pubDate>Tue, 21 Apr 2026 12:03:29 +0000</pubDate>
       <guid isPermaLink="false">2046560449525584083</guid>
-    </item>
-    <item>
-      <title>Vect formalizes BreachForums and TeamPCP alliance to push model for industrialized ransomware, scale RaaS operations</title>
-      <link>https://industrialcyber.co/ransomware/vect-formalizes-breachforums-and-teampcp-alliance-to-push-model-for-industrialized-ransomware-scale-raas-operations/</link>
-      <description>Vect ransomware group formalizes unprecedented alliance with BreachForums marketplace and TeamPCP hackers, creating industrialized RaaS model that mobilizes 300,000 forum users as affiliates while leveraging supply chain compromises for mass deployment.
-
-Key developments:
-• Vect distributes affiliate keys through BreachForums, converting entire cybercrime forum into ransomware distribution network - no prior operation attempted this scale
-• TeamPCP supplies access via poisoned open-source tools (Trivy, Checkmarx KICS, LiteLLM, Telnyx SDK) embedded in CI/CD pipelines during March 2026
-• Custom C++ ransomware uses ChaCha20-Poly1305 encryption, targets Windows/Linux/ESXi, evades via Safe Mode manipulation and process termination
-• Confirmed victims: Guesty (700GB stolen), USHA International Limited, S&amp;P Global listed on leak site
-• Multi-platform lateral movement via SMB/WinRM with automated LAN scanning capabilities
-
-Organizations using affected tools in March 2026 CI/CD pipelines: immediately rotate all credentials (cloud access keys, API tokens, SSH keys). Monitor for bcdedit execution and SafeBoot registry modifications - key Vect deployment indicators.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046545288488263698</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2046545288488263698">DFIR Radar</source>
-      <pubDate>Tue, 21 Apr 2026 11:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2046545288488263698</guid>
     </item>
   </channel>
 </rss>
