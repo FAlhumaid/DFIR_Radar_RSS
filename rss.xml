@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Apr 2026 20:27:21 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 15:46:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>VECT: Ransomware by design, Wiper by accident</title>
+      <link>https://research.checkpoint.com/2026/vect-ransomware-by-design-wiper-by-accident/</link>
+      <description>Check Point Research discovers critical flaw in VECT 2.0 ransomware that permanently destroys files larger than 128KB instead of encrypting them, making recovery impossible even after ransom payment.
+
+Technical breakdown:
+• Nonce-handling bug affects all three variants (Windows, Linux, ESXi) - generates 4 random nonces for large files but only saves the final one to disk
+• First three chunks of any file &gt;131,072 bytes are permanently unrecoverable due to discarded decryption nonces 
+• Uses raw ChaCha20-IETF cipher (not ChaCha20-Poly1305 AEAD as misreported) with no authentication or integrity protection
+• Identical flawed encryption engine across platforms built on libsodium confirms single codebase
+
+Additional implementation failures:
+• Thread scheduler spawns 6x more threads than CPUs, degrading performance instead of improving it
+• Anti-analysis routines compiled but never executed due to disabled conditional compilation flag
+• Advertised --fast/--medium/--secure encryption modes parsed but completely ignored
+• Double XOR "obfuscation" cancels itself out, leaving plaintext strings in Linux variant
+
+This effectively makes VECT a wiper masquerading as ransomware for virtually all enterprise data. Hunt for .vect file extensions and monitor for excessive thread creation patterns during encryption phases.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049153318082011545</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2049153318082011545">DFIR Radar</source>
+      <pubDate>Tue, 28 Apr 2026 15:46:37 +0000</pubDate>
+      <guid isPermaLink="false">2049153318082011545</guid>
+    </item>
     <item>
       <title>STX RAT: A new RAT in 2026 with Infostealer Capabilities | eSentire</title>
       <link>https://www.esentire.com/blog/stx-rat-a-new-rat-in-2026-with-infostealer-capabilities</link>
@@ -1668,17 +1693,6 @@ Session cookie theft enables immediate account takeover without 2FA bypass. Hunt
       <source url="https://x.com/DFIR_Radar/status/2046605855752171956">DFIR Radar</source>
       <pubDate>Tue, 21 Apr 2026 15:03:55 +0000</pubDate>
       <guid isPermaLink="false">2046605855752171956</guid>
-    </item>
-    <item>
-      <title>Darktrace identifies ZionSiphon malware engineered for OT disruption in Israeli water sector environments</title>
-      <link>https://industrialcyber.co/ransomware/darktrace-identifies-zionsiphon-malware-engineered-for-ot-disruption-in-israeli-water-sector-environments/</link>
-      <description>ZionSiphon malware targets Israeli 🇮🇱 water infrastructure with Modbus sabotage logic to manipulate chlorine dosing and pressure controls. Sample includes broken targeting code suggesting development build or intentionally defanged version.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046590658719125636</description>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2046590658719125636">DFIR Radar</source>
-      <pubDate>Tue, 21 Apr 2026 14:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2046590658719125636</guid>
     </item>
   </channel>
 </rss>
