@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 28 Apr 2026 17:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 18:02:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Enemy Already Inside — Hunt Forward Lab #002: LOLBAS Detection</title>
+      <link>https://infosecwriteups.com/the-enemy-already-inside-hunt-forward-lab-002-lolbas-detection-0732c8a77627?source=rss----7b722bfd1b8d---4</link>
+      <description>New Hunt Forward lab demonstrates LOLBAS-based insider threat detection using legitimate Windows tools. Contractor used PowerShell, certutil, wmic, and robocopy for data exfiltration, highlighting the challenge of detecting authorized users abusing trusted binaries.
+
+Technical breakdown:
+• Four-stage attack chain: Base64-encoded PowerShell → certutil file encoding → wmic network drive mapping → robocopy bulk transfer
+• Off-hours execution (6:47 AM badge-in, 6:52 AM PowerShell start) provides temporal context for detection
+• External staging server 185[.]220[.]101[.]55 used for persistent data exfiltration
+• ES|QL queries provided for each detection technique (T1218, T1047, T1059.001)
+
+Detection opportunities:
+• PowerShell -EncodedCommand usage outside business hours
+• certutil -encode operations on document file types (.pdf, .docx, .xlsx)
+• wmic process spawning with external IP targets
+• robocopy /MIR operations to non-internal destinations
+
+Hunt for legitimate Windows binaries operating outside normal baselines: unusual timing, external destinations, sequential tool usage patterns. The lab includes full ES|QL detection queries and timeline reconstruction techniques.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049187537894412453</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2049187537894412453">DFIR Radar</source>
+      <pubDate>Tue, 28 Apr 2026 18:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2049187537894412453</guid>
+    </item>
     <item>
       <title>Securing the git push pipeline: Responding to a critical remote code execution vulnerability</title>
       <link>https://github.blog/security/securing-the-git-push-pipeline-responding-to-a-critical-remote-code-execution-vulnerability/</link>
@@ -1672,30 +1697,6 @@ Microsoft Defender for Cloud Apps provides specific detections: "Possible Jasper
       <source url="https://x.com/DFIR_Radar/status/2046651115773501581">DFIR Radar</source>
       <pubDate>Tue, 21 Apr 2026 18:03:46 +0000</pubDate>
       <guid isPermaLink="false">2046651115773501581</guid>
-    </item>
-    <item>
-      <title>Inside An AWS Cloud Threat Detection SOC Lab: Simulating and Detecting Real Cloud Attacks</title>
-      <link>https://detect.fyi/inside-an-aws-cloud-threat-detection-soc-lab-simulating-and-detecting-real-cloud-attacks-a11e0ea98430?source=rss----d5fd8f494f6a---4</link>
-      <description>Comprehensive AWS threat detection lab demonstrates how to simulate real cloud attacks using Stratus Red Team and detect them through CloudTrail, VPC Flow Logs, and Splunk SIEM integration.
-
-Key technical components:
-• Infrastructure deployed via Terraform: CloudTrail, VPC Flow Logs, S3 buckets, SQS queues for signal-based ingestion
-• Splunk indexes (aws_cloudtrail, aws_config, aws_vpcflow) with SQS-based S3 inputs for near real-time telemetry
-• Attack simulations target privilege escalation (CreateUser, AttachUserPolicy), S3 exposure (PutBucketPolicy), and defense evasion (DeleteFlowLogs)
-• Detection queries focus on IAM events: CreateAccessKey, AddUserToGroup, PutUserPolicy, AttachRolePolicy with 5-minute time bins
-
-DFIR artifacts generated:
-• CloudTrail captures API activity with src_user, src_ip, eventName, userAgent fields for timeline reconstruction
-• VPC Flow Logs provide network visibility for lateral movement detection
-• S3→SQS→Splunk pipeline ensures reliable ingestion without polling overhead
-
-Build detection rules for suspicious IAM activity clustering within short timeframes. Query: `index="aws_cloudtrail" eventName IN ("CreateUser","AttachUserPolicy","CreateAccessKey") | bin _time span=5m | stats count by _time src_user src_ip`.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046636035245809893</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2046636035245809893">DFIR Radar</source>
-      <pubDate>Tue, 21 Apr 2026 17:03:50 +0000</pubDate>
-      <guid isPermaLink="false">2046636035245809893</guid>
     </item>
   </channel>
 </rss>
