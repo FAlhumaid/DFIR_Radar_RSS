@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 28 Apr 2026 15:46:37 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 16:02:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Securing GitHub: Wiz Research uncovers Remote Code Execution in GitHub.com and GitHub Enterprise Server (CVE-2026-3854)</title>
+      <link>https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854</link>
+      <description>Critical RCE in GitHub infrastructure allows any authenticated user to execute commands on backend servers via single git push. AI-assisted research uncovered injection flaw in internal X-Stat protocol affecting both GitHub.com and Enterprise Server.
+
+Technical breakdown:
+• CVE-2026-3854 (CVSS 8.7) - injection in X-Stat header through unsanitized git push options containing semicolons
+• Exploitation chain: bypass sandbox (rails_env injection) → redirect hook directory (custom_hooks_dir) → path traversal in hook definitions
+• Attack works via standard git client: `git push -o 'malicious;rails_env=dev;custom_hooks_dir=/tmp' origin main`
+• On GitHub.com: RCE on shared storage nodes with access to millions of repositories across tenants
+• 88% of GHES instances remain unpatched despite available fixes
+
+Critical finding: This represents first major vulnerability discovered in closed-source binaries using AI-augmented reverse engineering (IDA MCP), enabling analysis previously too resource-intensive for manual review.
+
+GHES administrators must upgrade immediately to version 3.19.3+ or apply patches for older versions. Monitor for suspicious git push options in logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049157358849265894</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2049157358849265894">DFIR Radar</source>
+      <pubDate>Tue, 28 Apr 2026 16:02:41 +0000</pubDate>
+      <guid isPermaLink="false">2049157358849265894</guid>
+    </item>
     <item>
       <title>VECT: Ransomware by design, Wiper by accident</title>
       <link>https://research.checkpoint.com/2026/vect-ransomware-by-design-wiper-by-accident/</link>
@@ -1673,26 +1695,6 @@ Hunt for esxcli process kill commands, simultaneous VSS deletion + service termi
       <source url="https://x.com/DFIR_Radar/status/2046620895330869542">DFIR Radar</source>
       <pubDate>Tue, 21 Apr 2026 16:03:41 +0000</pubDate>
       <guid isPermaLink="false">2046620895330869542</guid>
-    </item>
-    <item>
-      <title>Fake Google Antigravity downloads are stealing accounts in minutes</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/04/fake-google-antigravity-downloads-are-stealing-accounts-in-minutes</link>
-      <description>Sophisticated supply chain attack: Fake Google Antigravity installer delivers fully functional software while secretly deploying stealer malware. Campaign uses typosquat domains and genuine software repackaging to evade detection.
-
-Technical breakdown:
-• Trojanized installer (Antigravity_v1.22.2.0.exe) contains complete legitimate Google Antigravity app plus one malicious MSI custom action named "wefasgsdfg"
-• Drops PowerShell downloader cradle (scr5020.ps1) that contacts opus-dsn[.]com for second-stage payload
-• Stage 2 disables Windows Defender via Add-MpPreference exclusions for %ProgramData%, .exe/.dll files, and key processes
-• Deploys encrypted .NET stealer as fake PNG (C:\ProgramData\MicrosoftEdgeUpdate.png) with persistence via scheduled task mimicking Edge updater
-• Targets browser credentials, session cookies, Discord tokens, crypto wallets using reflective loading (T1055.001, T1539, T1552.001)
-
-Session cookie theft enables immediate account takeover without 2FA bypass. Hunt for MSI custom actions with random names and PowerShell connections to CDN infrastructure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046605855752171956</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2046605855752171956">DFIR Radar</source>
-      <pubDate>Tue, 21 Apr 2026 15:03:55 +0000</pubDate>
-      <guid isPermaLink="false">2046605855752171956</guid>
     </item>
   </channel>
 </rss>
