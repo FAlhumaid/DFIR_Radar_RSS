@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 28 Apr 2026 19:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 20:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CI/CD pipeline abuse: the problem no one is watching</title>
+      <link>https://www.elastic.co/security-labs/detecting-cicd-pipeline-abuse-with-llm-augmented-analysis</link>
+      <description>Elastic Security Labs releases open-source CI/CD pipeline abuse detector after documenting widespread attacks targeting developer credentials and workflow files to harvest secrets at scale.
+
+Key technical details:
+• Tool extracts 50+ regex signals (secrets_context, pull_request_target, double_base64, ld_preload) then uses Claude LLM for structured threat analysis
+• Validates against real attack tools: Nord Stream payload templates, ArtiPACKED artifact race conditions, Contagious Interview IDE configs, GITHUB_ENV injection techniques
+• Supports GitHub Actions, GitLab CI, Azure DevOps with Elasticsearch integration for cross-platform correlation via logs-cicd.abuse-* data stream
+• Maps to MITRE ATT&amp;CK: T1552 (Unsecured Credentials), T1195.002 (Supply Chain Compromise), T1059 (Command/Scripting), T1070.006 (Timestomp)
+
+Attack methodology:
+• Stolen developer credentials → Modified workflow files → Harvested CI secrets (AWS creds, npm tokens, signing keys, OIDC tokens) → Lateral movement to production
+• GhostAction campaign: 327 GitHub 🇺🇸 users compromised, 817 repos, 3,325 secrets stolen through injected workflows
+• Shai-Hulud npm worm: Self-propagating via GitHub PATs, published 46,000+ malicious packages in first wave
+
+Hunt for unsigned workflow modifications with recent timestamps, pull_request_target triggers with checkout actions, and base64 double-encoding patterns in CI files.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049217945394405386</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2049217945394405386">DFIR Radar</source>
+      <pubDate>Tue, 28 Apr 2026 20:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2049217945394405386</guid>
+    </item>
     <item>
       <title>Simplifying AWS defense with Microsoft Sentinel UEBA</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/04/28/simplifying-aws-defense-microsoft-sentinel-ueba/</link>
@@ -1658,37 +1682,6 @@ Monitor for tdata directory access, implement file integrity monitoring on Teleg
       <source url="https://x.com/DFIR_Radar/status/2046666115766464657">DFIR Radar</source>
       <pubDate>Tue, 21 Apr 2026 19:03:22 +0000</pubDate>
       <guid isPermaLink="false">2046666115766464657</guid>
-    </item>
-    <item>
-      <title>Same packet, different magic: Mustang Panda hits India&amp;#39;s banking sector and Korea geopolitics</title>
-      <link>https://www.acronis.com/en/tru/posts/same-packet-different-magic-mustang-panda-hits-indias-banking-sector-and-korea-geopolitics/</link>
-      <description>Mustang Panda evolves LOTUSLITE backdoor v1.1 for India 🇮🇳 banking sector and South Korean 🇰🇷 diplomatic targets. Campaign uses DLL sideloading with Microsoft-signed binaries, dynamic DNS C2, and impersonates Victor Cha for credential harvesting operations.
-
-Technical evolution from v1.0:
-• Changed magic packet value from 0x8899AABB to 0xB2EBCFDF to evade network detection
-• New export table with DnxMain→HDFCBankMain routing, mutex "mdseccoUK" 
-• API resolution via ntdll.dll chain (LdrLoadDll) to avoid static analysis flagging
-• Execution flag rotated from --DATA to --ZoneMAX
-
-Attack chain specifics:
-• Initial vector: CHM file "Request for Support.chm" via spearphishing
-• JavaScript dropper music.js from cosmosmusic[.]com extracts Microsoft_DNX.exe + malicious DLL
-• DLL sideloading abuses legitimate signed Microsoft DNX binary (T1574.002)
-• C2: editor[.]gleeze[.]com over HTTPS port 443 using Dynu Systems infrastructure
-
-DFIR artifacts:
-• Persistence: HKCU Run key via SHSetValueA to C:\ProgramData\Microsoft_DNX\
-• Residual KugouMain export links directly to original LOTUSLITE codebase
-• Developer message "goldenjackel12" references security researcher tracking them
-• Fake Gmail victorcha707@gmail.com impersonates CSIS Senior VP Victor Cha
-
-Hunt for Microsoft_DNX.exe with suspicious DLLs, outbound HTTPS to dynamic DNS providers, and registry Run keys under C:\ProgramData paths.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046659104739938685</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2046659104739938685">DFIR Radar</source>
-      <pubDate>Tue, 21 Apr 2026 18:35:30 +0000</pubDate>
-      <guid isPermaLink="false">2046659104739938685</guid>
     </item>
   </channel>
 </rss>
