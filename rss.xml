@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 28 Apr 2026 16:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 17:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Securing the git push pipeline: Responding to a critical remote code execution vulnerability</title>
+      <link>https://github.blog/security/securing-the-git-push-pipeline-responding-to-a-critical-remote-code-execution-vulnerability/</link>
+      <description>GitHub patched CVE-2026-3854, a critical RCE flaw allowing any authenticated user with push access to execute arbitrary commands on GitHub servers via crafted git push options. Fixed within 2 hours of disclosure with no evidence of exploitation.
+
+Technical details:
+• Vulnerability in internal metadata handling between GitHub services during git push operations
+• Attackers could inject malicious values through unsanitized push option parameters using delimiter character injection
+• Exploitation bypassed sandboxing protections and overrode execution environments (T1068, T1055)
+• Affected github.com, Enterprise Cloud, and Enterprise Server (CVE-2026-3854)
+• Attack vector required authenticated push access to any repository
+
+DFIR artifacts:
+• Exploitation triggers anomalous code path never used in normal operations - creates detectable telemetry signature
+• GitHub's logs showed only researcher testing activity, confirming no wild exploitation
+• For GHES: Check /var/log/github-audit.log for push operations containing ";" in push options
+
+Immediate patching implemented input sanitization + removed unnecessary code paths as defense-in-depth. GHES customers should upgrade to latest patch releases (3.14.25+ through 3.20.0+) immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049172532323049597</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2049172532323049597">DFIR Radar</source>
+      <pubDate>Tue, 28 Apr 2026 17:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2049172532323049597</guid>
+    </item>
     <item>
       <title>Securing GitHub: Wiz Research uncovers Remote Code Execution in GitHub.com and GitHub Enterprise Server (CVE-2026-3854)</title>
       <link>https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854</link>
@@ -1671,30 +1696,6 @@ Build detection rules for suspicious IAM activity clustering within short timefr
       <source url="https://x.com/DFIR_Radar/status/2046636035245809893">DFIR Radar</source>
       <pubDate>Tue, 21 Apr 2026 17:03:50 +0000</pubDate>
       <guid isPermaLink="false">2046636035245809893</guid>
-    </item>
-    <item>
-      <title>Kyber Ransomware Double Trouble: Windows and ESXi Attacks Explained</title>
-      <link>https://www.rapid7.com/blog/post/tr-kyber-ransomware-double-trouble-windows-esxi-attacks-explained</link>
-      <description>Kyber ransomware deploys coordinated dual-platform attacks targeting Windows and VMware ESXi simultaneously, using shared C2 infrastructure but different encryption schemes. March 2026 incident revealed both variants active in single environment.
-
-Key technical details:
-• ESXi variant (C++): Uses ChaCha8 + RSA-4096 despite claiming "post-quantum" Kyber1024, targets /vmfs/volumes datastores, gracefully terminates VMs via esxcli before encryption
-• Windows variant (Rust): Actually implements advertised AES-256-CTR + Kyber1024 hybrid scheme, includes "experimental" Hyper-V targeting via PowerShell Get-VM
-• Shared IOCs: Campaign ID 5176[REDACTED], Tor infrastructure mlnmlnnrdhcaddwll4zqvfd2vyqsgtgj473gjoehwna2v4sizdukheyd[.]onion
-• Anti-recovery arsenal: 11 elevated commands including VSS deletion, event log clearing, service termination (msexchange, vss, backup, veeam, sql patterns)
-
-Attack methodology:
-• ESXi: SSH access → esxcli vm process kill → recursive /vmfs/volumes encryption → defaces motd and web UI index pages
-• Windows: Terminates services → executes anti-recovery commands → modifies ACLs for file access → encrypts with .#~~~ extension
-• Mutex artifact: boomplay[.]com/songs/182988982 (Windows variant)
-
-Hunt for esxcli process kill commands, simultaneous VSS deletion + service termination patterns, and unusual entropy generation via RDRAND. Full MITRE ATT&amp;CK mappings (T1486, T1485, T1489) and IOC list in report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2046620895330869542</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2046620895330869542">DFIR Radar</source>
-      <pubDate>Tue, 21 Apr 2026 16:03:41 +0000</pubDate>
-      <guid isPermaLink="false">2046620895330869542</guid>
     </item>
   </channel>
 </rss>
