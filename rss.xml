@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 30 Apr 2026 02:02:54 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2026 06:02:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Living off the orchard: understanding LOOBins and native macOS attack techniques</title>
+      <link>https://andreafortuna.org/2026/04/29/living-off-the-orchard-understanding-loobins-macos-attack-techniques/</link>
+      <description>Cisco Talos research exposes LOOBins (Living Off the Orchard): attackers weaponizing native macOS automation features for execution and lateral movement. 45% of enterprises now use macOS, yet detection for these techniques lags significantly behind Windows coverage.
+
+Key findings:
+• Remote Application Scripting via eppc:// protocol enables command execution through Terminal.app proxy, bypassing standard process spawning detection (T1072)
+• Spotlight metadata (kMDItemFinderComment) can store Base64 payloads entirely in extended attributes, evading file-based scanning
+• Native tools like osascript, nscurl, and TFTP/SNMP services enable complete attack chains without custom binaries
+• Techniques abuse legitimate DevOps automation features that security teams rarely monitor
+
+Detection gaps:
+• Process lineage: launchd → AppleEventsD → Terminal → bash indicates Remote Application Scripting abuse
+• Network: Inbound TCP/3031 (eppc) traffic should be rare on most enterprise networks
+• Metadata: Monitor mdls queries for kMDItemFinderComment attribute access patterns
+
+Hunt for unusual parent-child relationships involving Terminal.app/osascript with network activity, and implement TCC automation restrictions via MDM.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049731169185390619</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2049731169185390619">DFIR Radar</source>
+      <pubDate>Thu, 30 Apr 2026 06:02:48 +0000</pubDate>
+      <guid isPermaLink="false">2049731169185390619</guid>
+    </item>
     <item>
       <title>AI-powered honeypots: Turning the tables on malicious AI agents</title>
       <link>https://blog.talosintelligence.com/ai-powered-honeypots-turning-the-tables-on-malicious-ai-agents/</link>
@@ -1636,32 +1660,6 @@ DFIR artifacts:
       <source url="https://x.com/DFIR_Radar/status/2047088900460449943">DFIR Radar</source>
       <pubDate>Wed, 22 Apr 2026 23:03:22 +0000</pubDate>
       <guid isPermaLink="false">2047088900460449943</guid>
-    </item>
-    <item>
-      <title>Oluomo: Microsoft OAuth AiTM Phishing Using a Naturalization-Form Lure</title>
-      <link>https://censys.com/blog/oluomo-microsoft-oauth-aitm-phishing-using-a-naturalization-form-lure/</link>
-      <description>Active AiTM phishing campaign exploits compromised domains across seven countries and Azure Web Apps to steal Microsoft credentials using a stolen U.S. naturalization petition as lure. Sophisticated trust-chain attack leverages legitimate infrastructure at every stage.
-
-Technical details:
-• Two-stage architecture: compromised domains in Chile 🇨🇱, Australia 🇦🇺, New Zealand 🇳🇿, Singapore 🇸🇬, Ecuador 🇪🇨, Peru 🇵🇪, Belarus 🇧🇾 host lures, Azure Web Apps proxy real Microsoft OAuth flow
-• Service worker (SHA-256: 3c971ef...) intercepts all requests, serializes credentials to /lNv1pC9AWPUY4gbidyBO endpoint
-• Credential routing through lookalike domain portal.microsoftonline.com.orgid[.]com impersonates Microsoft portal
-• Stolen naturalization form image hosted on Imgur shows 15K+ views across four variants since November 2025
-• Targets OAuth app "Orgid Migrated Apps" with tracking parameters Amethyst=Sachiel1, Chamuel=Azrael2
-
-DFIR artifacts:
-• localStorage key "userIdentity" stores victim email addresses
-• Distinctive CSS variables --accent-dark: in first-stage HTML
-• Subdomain pattern: alphanumeric.domain[.]tld across compromised sites
-• Service worker bypasses /view-blacklist, /clear-blacklist admin panel paths
-
-Hunt for Azure Web Apps with service workers intercepting Microsoft login flows and suspicious OAuth callback domains containing "orgid." Full IOC list with 40+ compromised domains in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047073720653828166</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047073720653828166">DFIR Radar</source>
-      <pubDate>Wed, 22 Apr 2026 22:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2047073720653828166</guid>
     </item>
   </channel>
 </rss>
