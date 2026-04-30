@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 30 Apr 2026 19:03:29 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2026 20:04:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-31431: “Copy Fail” Linux kernel flaw lets local users gain root in seconds</title>
+      <link>https://webflow.sysdig.com/blog/cve-2026-31431-copy-fail-linux-kernel-flaw-lets-local-users-gain-root-in-seconds</link>
+      <description>CVE-2026-31431 "Copy Fail": Critical Linux kernel flaw allows any local user to gain root access in seconds via AF_ALG socket abuse. Public exploits available for all major enterprise distributions.
+
+Key technical details:
+• CVSS 7.8 HIGH - affects Linux kernel 4.14 through 7.0-rc, introduced by 2017 commit 72548b093ee3
+• algif_aead crypto interface flaw allows 4-byte write to page cache of setuid binaries via authencesn algorithm scratch space
+• Exploitation chain: AF_ALG socket → splice() /usr/bin/su pages → recvmsg() with controlled AAD bytes → corrupted cached binary executes shellcode
+• Unlike Dirty Pipe, operates as straight-line logic flaw without races or timing windows
+• Attack uses only standard syscalls (socket, setsockopt, splice, sendmsg, recvmsg) available in default configurations
+
+Fixed in Linux 7.0, 6.19.12, 6.18.22. Public PoC at theori-io/copy-fail-CVE-2026-31431 works across Ubuntu 24.04, Amazon Linux 2023, RHEL 10.1, SUSE 16.
+
+Hunt for unexpected AF_ALG SOCK_SEQPACKET socket creation outside known crypto tools (cryptsetup, systemd-cryptse). Monitor domain=38 and socket type=5/2053/524293/526341. Full Falco detection rule provided in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049942894450987368</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2049942894450987368">DFIR Radar</source>
+      <pubDate>Thu, 30 Apr 2026 20:04:07 +0000</pubDate>
+      <guid isPermaLink="false">2049942894450987368</guid>
+    </item>
     <item>
       <title>lightning PyPI Compromise: A Bun-Based Credential Stealer in Python</title>
       <link>https://snyk.io/blog/lightning-pypi-compromise-bun-based-credential-stealer/</link>
@@ -1677,17 +1699,6 @@ Hunt for Agent ID Administrator role assignments and correlate with service prin
       <source url="https://x.com/DFIR_Radar/status/2047300116986593579">DFIR Radar</source>
       <pubDate>Thu, 23 Apr 2026 13:02:40 +0000</pubDate>
       <guid isPermaLink="false">2047300116986593579</guid>
-    </item>
-    <item>
-      <title>Defending against China-nexus covert networks of compromised devices</title>
-      <link>https://www.ncsc.gov.uk/news/defending-against-china-nexus-covert-networks-of-compromised-devices</link>
-      <description>NCSC UK guidance addresses China-nexus 🇨🇳 covert networks using compromised SOHO routers and IoT devices for initial access.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047285168197501281</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047285168197501281">DFIR Radar</source>
-      <pubDate>Thu, 23 Apr 2026 12:03:16 +0000</pubDate>
-      <guid isPermaLink="false">2047285168197501281</guid>
     </item>
   </channel>
 </rss>
