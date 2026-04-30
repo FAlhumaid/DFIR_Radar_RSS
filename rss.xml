@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 30 Apr 2026 06:02:48 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2026 07:03:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Silver Fox uses the new ABCDoor backdoor to target organizations in Russia and India</title>
+      <link>https://securelist.com/silver-fox-tax-notification-campaign/119575/</link>
+      <description>Silver Fox APT deploys new ABCDoor Python backdoor via tax-themed phishing targeting Russia 🇷🇺 and India 🇮🇳. Campaign leveraged modified RustSL loader and ValleyRAT to install previously undocumented remote access tool with screen broadcasting capabilities.
+
+Technical breakdown:
+• Modified RustSL loader with custom steganography.rs module for payload decryption and guard.rs for geofencing (Russia 🇷🇺, India 🇮🇳, Indonesia 🇮🇩, South Africa 🇿🇦, Cambodia 🇰🇭, Japan 🇯🇵)
+• Phishing emails impersonated tax authorities with PDF attachments containing download links to abc.haijing88[.]com
+• Attack chain: RustSL loader → ValleyRAT Online module → ABCDoor via custom plugins (保86.dll)
+• ABCDoor compiled with Cython, uses Socket.IO for C2 comms, mimics Tailscale VPN in C:\ProgramData\Tailscale
+• Persistence via registry Run key and scheduled task "AppClient" running every minute
+
+ABCDoor creates distinctive artifacts: HKCU:\Software\CarEmu:FirstInstallTime registry value, %LOCALAPPDATA%\applogs\device.log file, and exception logs. Hunt for pythonw.exe with network connections to domains containing "abc" subdomain and unusual registry persistence patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049746396241338723</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2049746396241338723">DFIR Radar</source>
+      <pubDate>Thu, 30 Apr 2026 07:03:18 +0000</pubDate>
+      <guid isPermaLink="false">2049746396241338723</guid>
+    </item>
     <item>
       <title>Living off the orchard: understanding LOOBins and native macOS attack techniques</title>
       <link>https://andreafortuna.org/2026/04/29/living-off-the-orchard-understanding-loobins-macos-attack-techniques/</link>
@@ -1629,37 +1649,6 @@ Use ALEAPP's usagestats.py parser and correlate with Plaso super-timeline. Query
       <source url="https://x.com/DFIR_Radar/status/2047103828198048088">DFIR Radar</source>
       <pubDate>Thu, 23 Apr 2026 00:02:41 +0000</pubDate>
       <guid isPermaLink="false">2047103828198048088</guid>
-    </item>
-    <item>
-      <title>Tropic Trooper Pivots to AdaptixC2 and Custom Beacon Listener</title>
-      <link>https://www.zscaler.com/blogs/security-research/tropic-trooper-pivots-adaptixc2-and-custom-beacon-listener</link>
-      <description>Tropic Trooper pivots to AdaptixC2 with custom GitHub C2 listener, targeting Chinese-speaking individuals in Taiwan 🇹🇼, South Korea 🇰🇷, and Japan 🇯🇵. Campaign uses trojanized SumatraPDF to deploy novel GitHub-based command infrastructure.
-
-Key technical details:
-• TOSHIS loader hijacks _security_init_cookie function in trojanized SumatraPDF (T1036.001)
-• Custom AdaptixC2 Beacon agent uses GitHub Issues API for bidirectional C2 (T1102.002)
-• Multi-stage chain: ZIP lures → trojanized PDF reader → encrypted shellcode → AdaptixC2 → VS Code tunnels
-• Staging server 158.247.193[.]100 hosts EntryShell backdoor and CobaltStrike Beacon (watermark "520")
-• Rapid beacon deletion within 10 seconds destroys session keys to prevent analysis
-
-Attack methodology:
-• Military-themed documents target defense/government personnel
-• AES-128 CBC decryption with hardcoded key seed "424986c3a4fddcb6"
-• RC4 session keys encrypt C2 using RtlRandomEx(GetTickCount())
-• GitHub repo "cvaS23uchsahs/rss" serves as C2 infrastructure
-• Agent queries ipinfo[.]io for external IP inclusion in beacons
-
-DFIR artifacts:
-• Scheduled tasks: \MSDNSvc and \MicrosoftUDN for persistence (T1053.005)
-• File paths: %localappdata%\microsoft\windows\Burn\v.zip, C:\Users\Public\Documents\
-• Commands: "z.txt" output files from VS Code tunnel setup
-• Network: GitHub API calls to /repos/cvaS23uchsahs/rss/issues endpoints
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047088900460449943</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047088900460449943">DFIR Radar</source>
-      <pubDate>Wed, 22 Apr 2026 23:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2047088900460449943</guid>
     </item>
   </channel>
 </rss>
