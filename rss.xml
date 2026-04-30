@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 30 Apr 2026 14:04:30 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2026 15:03:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ARP Around and Find Out: Hijacking GPO UNC Paths for Code Execution and NTLM Relay</title>
+      <link>https://trustedsec.com/blog/arp-around-and-find-out-hijacking-gpo-unc-paths-for-code-execution-and-ntlm-relay</link>
+      <description>TrustedSec researchers demonstrate a novel Active Directory attack combining WriteGPLink permissions with ARP spoofing to hijack Group Policy UNC paths for code execution and NTLM relay attacks.
+
+Attack methodology:
+• Requires WriteGPLink permission on target OU and network access to computers in that OU
+• Attacker links malicious GPO containing UNC path to attacker-controlled share
+• ARP spoofing redirects GPO UNC path traffic to attacker's machine during policy refresh
+• Enables both code execution via malicious scripts and NTLM credential harvesting (T1557.002)
+• Works against any computer account within the targeted OU scope
+
+Key artifacts: Monitor for unexpected GPO links in Active Directory, ARP table anomalies, and SMB connections to non-domain file shares during policy refresh cycles.
+
+Hunt for recent GPO modifications combined with ARP spoofing indicators: `Get-GPO | Where-Object {$_.ModificationTime -gt (Get-Date).AddDays(-7)}` and review network logs for ARP reply floods.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049867310869987515</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2049867310869987515">DFIR Radar</source>
+      <pubDate>Thu, 30 Apr 2026 15:03:46 +0000</pubDate>
+      <guid isPermaLink="false">2049867310869987515</guid>
+    </item>
     <item>
       <title>SAP Ecosystem Targeted: The Mini Shai-Hulud Supply Chain Attack</title>
       <link>https://socradar.io/blog/sap-mini-shai-hulud-supply-chain-attack/</link>
@@ -1669,30 +1691,6 @@ Hunt for suspicious files by correlating imphash values and entropy anomalies. T
       <source url="https://x.com/DFIR_Radar/status/2047194464309973350">DFIR Radar</source>
       <pubDate>Thu, 23 Apr 2026 06:02:50 +0000</pubDate>
       <guid isPermaLink="false">2047194464309973350</guid>
-    </item>
-    <item>
-      <title>Android pattern of life: hidden artifacts that reconstruct a user’s daily routine</title>
-      <link>https://andreafortuna.org/2026/04/23/android-pattern-of-life-hidden-artifacts-reconstruct-daily-routine/</link>
-      <description>Android pattern of life analysis requires examining multiple scattered databases - UsageStats, Digital Wellbeing, appops.xml - unlike iOS's centralized knowledgeC.db. Google's 2024 shift to local Timeline storage fundamentally changes location forensics approach.
-
-Key technical details:
-• UsageStats at /data/system/usagestats/ provides millisecond app usage timestamps in daily/weekly/monthly XML buckets, retains ~6 months
-• Digital Wellbeing's dwbCommon.db tracks granular events: screen on/off (15/16), unlock (18), notifications (23) - Samsung Rubin may supplement missing data
-• appops.xml logs exact timestamps when apps accessed sensitive permissions (camera, mic, location, SMS) - critical for surveillance cases
-• File-Based Encryption means all primary artifacts require AFU (After First Unlock) access in CE storage
-
-Attack reconstruction opportunities:
-• Cross-reference app usage spikes with permission access times to identify covert recording or data exfiltration
-• Correlate unlock events with location data to establish presence at crime scenes
-• Identify deleted app remnants in monthly UsageStats buckets for timeline gaps
-
-Use ALEAPP's usagestats.py parser and correlate with Plaso super-timeline. Query: `SELECT package_name, datetime(time/1000, 'unixepoch') as event_time, type FROM usageevents ORDER BY time ASC`
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047179296800637092</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2047179296800637092">DFIR Radar</source>
-      <pubDate>Thu, 23 Apr 2026 05:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2047179296800637092</guid>
     </item>
   </channel>
 </rss>
