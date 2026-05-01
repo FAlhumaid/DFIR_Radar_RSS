@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 01 May 2026 20:04:03 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2026 21:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malicious Ad for Homebrew Leads to MacSync Stealer, (Fri, May 1st)</title>
+      <link>https://isc.sans.edu/diary/rss/32942</link>
+      <description>MacSync Stealer distributed through malicious Google ads impersonating Homebrew package manager. Active campaign using fake installation scripts to harvest macOS credentials and system data.
+
+Technical breakdown:
+• Malicious ads redirect to fake Homebrew site at sites.google[.]com/view/brewpage
+• Victims copy/paste shell script that downloads MacSync payload from glowmedaesthetics[.]com
+• Multi-stage infection: initial script (SHA256: a4fcfecc5ac8...) downloads zsh executable (SHA256: 0d58616c...)
+• Stealer collects system info, saves to /tmp/osalogging.zip, exfiltrates to C2
+• Requests password via popup, uses Terminal permissions for Finder access
+
+DFIR artifacts:
+• Monitor /tmp/ for osalogging.zip creation and deletion
+• Network traffic to glowmedaesthetics[.]com domain
+• Shell history for curl commands to suspicious domains
+• Process execution of zsh scripts from non-standard locations
+
+Hunt for recent Terminal.app permission requests and outbound connections from zsh processes. Full IOC hashes and network indicators in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050320106622697709</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2050320106622697709">DFIR Radar</source>
+      <pubDate>Fri, 01 May 2026 21:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2050320106622697709</guid>
+    </item>
     <item>
       <title>Komari Red: The Monitoring Tool with a Built-in Reverse Shell</title>
       <link>https://www.huntress.com/blog/komari-c2-agent-abuse</link>
@@ -1652,17 +1678,6 @@ Hunt for Go-compiled executables with network connections to collaboration platf
       <source url="https://x.com/DFIR_Radar/status/2047541824978628832">DFIR Radar</source>
       <pubDate>Fri, 24 Apr 2026 05:03:07 +0000</pubDate>
       <guid isPermaLink="false">2047541824978628832</guid>
-    </item>
-    <item>
-      <title>Revisiting Weird-ness: Investigating DNS NOTIFY at Scale</title>
-      <link>https://zeek.org/2026/04/revisiting-weird-ness-investigating-dns-notify-at-scale/</link>
-      <description>ESnet identified DNS NOTIFY messages (opcode 4) causing 90% of Zeek weird.log alerts—3M+ daily false positives. Simple parser fix dropped total weirds from 4.2M to 1.3M/day, reducing SIEM costs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047526698032533995</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2047526698032533995">DFIR Radar</source>
-      <pubDate>Fri, 24 Apr 2026 04:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2047526698032533995</guid>
     </item>
   </channel>
 </rss>
