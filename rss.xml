@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 01 May 2026 18:04:43 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2026 20:04:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Komari Red: The Monitoring Tool with a Built-in Reverse Shell</title>
+      <link>https://www.huntress.com/blog/komari-c2-agent-abuse</link>
+      <description>Huntress uncovers live intrusion where threat actor deployed Komari monitoring tool as persistence mechanism. Tool ships with built-in reverse shell capabilities by default, creating legitimate C2 channel without weaponization.
+
+Attack chain breakdown:
+• Initial access via compromised FortiGate SSLVPN credentials from 45.153.34[.]132 (VMHeaven hosting)
+• Lateral movement using customized Impacket smbexec.py with randomized service names
+• Registry dumping attempt blocked by Defender (Behavior:Win32/RegDump.SA quarantine)
+• RDP enablement via registry modification and firewall rules (T1021.001)
+• Komari agent installed as "Windows Update Service" using NSSM wrapper for persistence
+
+Key forensic artifacts:
+• Komari-agent.exe (SHA256: 039e659ade3aa8ee7758c11fdb8fbfffd2491920046d638413cea2042f6d584c) in C:\Windows\System32\
+• NSSM service registration in HKLM\System\CurrentControlSet\Services\Windows Update Service
+• PowerShell spawning from komari-agent.exe for command execution and system enumeration
+• Long-lived WebSocket connections to operator C2 infrastructure on TCP/25774
+
+Detection opportunity: Hunt for processes maintaining persistent outbound WebSockets to unknown infrastructure, especially when spawning PowerShell children not user-initiated. Monitor NSSM service registrations with suspicious DisplayName/AppParameters combinations.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050305266919284868</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2050305266919284868">DFIR Radar</source>
+      <pubDate>Fri, 01 May 2026 20:04:03 +0000</pubDate>
+      <guid isPermaLink="false">2050305266919284868</guid>
+    </item>
     <item>
       <title>DFIR: From alert to root cause using Osquery without leaving Elastic Security</title>
       <link>https://www.elastic.co/security-labs/dfir-osquery-elastic-security</link>
@@ -1637,17 +1663,6 @@ Hunt for Go-compiled executables with network connections to collaboration platf
       <source url="https://x.com/DFIR_Radar/status/2047526698032533995">DFIR Radar</source>
       <pubDate>Fri, 24 Apr 2026 04:03:01 +0000</pubDate>
       <guid isPermaLink="false">2047526698032533995</guid>
-    </item>
-    <item>
-      <title>UNC6692 Impersonates IT Helpdesk via Microsoft Teams to Deploy SNOW Malware</title>
-      <link>https://thehackernews.com/2026/04/unc6692-impersonates-it-helpdesk-via.html</link>
-      <description>UNC6692 impersonates IT helpdesk staff via Microsoft Teams chat invitations to deploy custom SNOW malware suite. Social engineering continues to be a primary initial access vector through trusted collaboration platforms.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047511602413650424</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047511602413650424">DFIR Radar</source>
-      <pubDate>Fri, 24 Apr 2026 03:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2047511602413650424</guid>
     </item>
   </channel>
 </rss>
