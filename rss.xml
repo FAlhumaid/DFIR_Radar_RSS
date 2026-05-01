@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 30 Apr 2026 23:03:44 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2026 00:04:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Claude adds malware to crypto agent</title>
+      <link>https://www.reversinglabs.com/blog/claude-promptmink-malware-crypto</link>
+      <description>North Korean 🇰🇵 group Famous Chollima uses AI-generated malware to trick Claude Opus into adding malicious crypto packages. PromptMink campaign leverages LLM optimization to deceive AI coding agents more effectively than human developers.
+
+Technical breakdown:
+• Core malicious package @validate-sdk/v2 masquerades as data validation tool while exfiltrating .env files, crypto wallets, SSH keys, and entire project source code
+• Two-layer attack: "bait" packages (@solana-launchpad/sdk) appear legitimate but import malicious "payload" packages as dependencies 
+• Evolution from obfuscated JS → SEA (Single Executable Applications) → compiled Rust binaries to evade detection
+• C2 infrastructure: validator[.]uno domain with endpoints /api/validate/files, /api/validate/project-env, /api/validate/system-info
+• SSH backdoor deployment: drops attacker public keys to ~/.ssh/authorized_keys (Linux) and C:\Users\{USERNAME}\.ssh (Windows)
+
+Real-world impact: Claude Opus co-authored Feb 28 commit adding malicious dependency to openpaw-graveyard crypto trading agent, demonstrating successful AI agent manipulation.
+
+Monitor package.json changes for crypto-themed dependencies with recent publish dates and typosquatted names. Full IOC list with 300+ package versions and SHA1 hashes available in report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050003388662686089</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2050003388662686089">DFIR Radar</source>
+      <pubDate>Fri, 01 May 2026 00:04:30 +0000</pubDate>
+      <guid isPermaLink="false">2050003388662686089</guid>
+    </item>
     <item>
       <title>Critical cPanel and WHM bug exploited as a zero-day, PoC now available</title>
       <link>https://www.bleepingcomputer.com/news/security/critical-cpanel-and-whm-bug-exploited-as-a-zero-day-poc-now-available/</link>
@@ -1645,31 +1667,6 @@ Immediately block audit[.]checkmarx[.]cx and rotate all secrets if you pulled KI
       <source url="https://x.com/DFIR_Radar/status/2047360700792643763">DFIR Radar</source>
       <pubDate>Thu, 23 Apr 2026 17:03:24 +0000</pubDate>
       <guid isPermaLink="false">2047360700792643763</guid>
-    </item>
-    <item>
-      <title>UAT-4356's Targeting of Cisco Firepower Devices</title>
-      <link>https://blog.talosintelligence.com/uat-4356-firestarter/</link>
-      <description>State-sponsored UAT-4356 exploits n-day Cisco Firepower vulnerabilities to deploy FIRESTARTER backdoor. Campaign leverages transient persistence mechanism that survives graceful reboots but removed by hard power cycles.
-
-Key technical details:
-• Exploits CVE-2025-20333 and CVE-2025-20362 to compromise Cisco FXOS devices
-• FIRESTARTER injects into LINA process, replaces WebVPN XML handler with malicious Stage 2 shellcode
-• Persistence via CSP_MOUNT_LIST manipulation: copies to `/opt/cisco/platform/logs/var/log/svc_samcore.log` during reboot
-• Shellcode execution triggered by XML requests with custom magic byte prefixes (T1055.001, T1546.004)
-• Technical overlap with RayInitiator's Stage 3 capabilities confirms UAT-4356 attribution
-
-DFIR artifacts:
-• Process: `lina_cs` in kernel process list
-• Files: `/usr/bin/lina_cs`, `/opt/cisco/platform/logs/var/log/svc_samcore.log`
-• Memory: searches for byte sequence 0x1,0x2,0x3,0x4,0x5 in LINA process space
-
-Hunt with `show kernel process | include lina_cs` and verify file presence on affected Firepower devices. Hard reboot removes implant; reimaging recommended for complete remediation. Full IOCs in Cisco Security Advisory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047345676762128713</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047345676762128713">DFIR Radar</source>
-      <pubDate>Thu, 23 Apr 2026 16:03:42 +0000</pubDate>
-      <guid isPermaLink="false">2047345676762128713</guid>
     </item>
   </channel>
 </rss>
