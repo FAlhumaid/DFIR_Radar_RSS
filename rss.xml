@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 01 May 2026 13:04:05 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2026 17:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Copy Fail: 5 YARA Rules for Detection</title>
+      <link>https://www.reversinglabs.com/blog/copy-fail-5-yara-rules</link>
+      <description>CVE-2026-31431 "Copy Fail" is a critical Linux kernel flaw allowing any local user to gain root privileges in seconds using a 732-byte Python script. Affects all major distributions since 2017.
+
+• Logic bug in kernel's authencesn cryptographic template accessible via AF_ALG socket interface
+• Exploit combines AF_ALG socket + splice() + sendmsg() for controlled 4-byte write into page cache of setuid binaries like /usr/bin/su
+• Bypasses VFS write path - corrupts in-memory pages without touching disk, evading file integrity checks
+• Affects kernel versions 4.14-7.0-rc across Ubuntu, RHEL, Amazon Linux, SUSE
+• Exploit requires no special privileges, works reliably without race conditions
+
+ReversingLabs detected original PoC (SHA1: 83194d17...) plus variants within 24 hours of disclosure. Key detection anchor: `authencesn(hmac(sha256),cbc(aes))` string - cannot be substituted without breaking the primitive.
+
+Additional compiled ELF samples observed containing embedded shellcode for setuid(0) + execve syscalls. Blasty's C reimplementation adds cache cleanup via `echo 3 &gt;/proc/sys/vm/drop_caches`.
+
+Hunt for the authencesn algorithm string combined with os.splice usage and AF_ALG socket operations - this combination has no legitimate use outside kernel testing. Full 5-tier YARA ruleset available covering exact PoCs to broad hunting signals.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050259859417825400</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2050259859417825400">DFIR Radar</source>
+      <pubDate>Fri, 01 May 2026 17:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2050259859417825400</guid>
+    </item>
     <item>
       <title>Copy.Fail: Universal Linux Local Privilege Escalation Vulnerability</title>
       <link>https://www.wiz.io/blog/copyfail-cve-2026-31431-linux-privilege-escalation-vulnerability</link>
@@ -1614,26 +1637,6 @@ Hunt for Go-compiled executables with network connections to collaboration platf
       <source url="https://x.com/DFIR_Radar/status/2047496567771558330">DFIR Radar</source>
       <pubDate>Fri, 24 Apr 2026 02:03:17 +0000</pubDate>
       <guid isPermaLink="false">2047496567771558330</guid>
-    </item>
-    <item>
-      <title>Hacking Safari with GPT 5.4</title>
-      <link>https://www.imperva.com/blog/hacking-safari-with-gpt-5-4/</link>
-      <description>CVE-2026-20664: Safari Same-Origin Policy bypass allows cross-origin data theft from any website via WebAssembly memory corruption and Fetch API abuse. AI-assisted exploit development demonstrates new threat model for browser security.
-
-Technical breakdown:
-• Bug in WebAssembly.Memory refresh logic leaves stale pointer to freed Gigacage allocation after memory.grow()
-• Response.clone() during loading bypasses opaque response checks, materializing cross-origin data into renderer ArrayBuffers
-• Exploit chain: create stale WASM buffer → trigger cross-origin fetch with credentials → clone response → reclaim freed pages → read sensitive data
-• about:blank popup context bypasses Safari's cookie blocking for reliable credential inclusion
-• Affects all websites - visiting malicious page can leak tokens, session data from victim domains
-
-Patched in iOS/iPadOS 26.4 and macOS Tahoe 26.4. Hunt for unusual WebAssembly usage patterns combined with cross-origin requests, especially from popup contexts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047482149801001339</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2047482149801001339">DFIR Radar</source>
-      <pubDate>Fri, 24 Apr 2026 01:06:00 +0000</pubDate>
-      <guid isPermaLink="false">2047482149801001339</guid>
     </item>
   </channel>
 </rss>
