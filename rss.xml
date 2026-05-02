@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 02 May 2026 00:03:30 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 02 May 2026 10:03:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Copy Fail and the forensic blind spot hiding in Linux memory</title>
+      <link>https://andreafortuna.org/2026/05/02/copy-fail-cve-2026-31431/</link>
+      <description>Copy Fail (CVE-2026-31431) exploits Linux kernel memory management to corrupt binaries in page cache without touching disk, creating a forensic blind spot where traditional file integrity monitoring fails completely.
+
+Key technical details:
+• 9-year-old optimization in algif_aead.c allows in-place AEAD operations, but authencesn implementation writes scratch data at offset assoclen+cryptlen into chained page cache pages
+• Attack path: AF_ALG socket → splice() target binary pages → sendmsg/recvmsg loop to inject shellcode into cached /usr/bin/su → execute for root shell
+• Affects kernels 4.14-7.0 (essentially all Linux since 2017), including LTS branches 6.12.x, 6.6.x, 5.15.x, 5.10.x
+• In containerized environments, page cache sharing enables container-to-host privilege escalation bypassing all pod security policies
+
+DFIR implications:
+• File integrity monitors see clean disk while memory contains corrupted executable
+• Standard audit trails show normal su execution with no suspicious file writes
+• Syscall-level detection required: monitor AF_ALG SOCK_SEQPACKET socket creation outside disk-encryption tools (cryptsetup, veritysetup)
+• Post-incident forensics limited without real-time syscall capture of socket/splice/sendmsg operations
+
+Deploy auditd rules for AF_ALG socket monitoring and Falco detection rules. Page cache corruption is invisible after reboot without preserved memory dumps.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050516440873136188</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2050516440873136188">DFIR Radar</source>
+      <pubDate>Sat, 02 May 2026 10:03:11 +0000</pubDate>
+      <guid isPermaLink="false">2050516440873136188</guid>
+    </item>
     <item>
       <title>ClickFix Removes Your Background but Leaves the Malware</title>
       <link>https://www.huntress.com/blog/clickfix-castleloader-backgroundfix</link>
@@ -1665,32 +1690,6 @@ Hunt for curl/wget commands with X-QT-SR headers, subprocess spawning from Pytho
       <source url="https://x.com/DFIR_Radar/status/2047602283483897908">DFIR Radar</source>
       <pubDate>Fri, 24 Apr 2026 09:03:22 +0000</pubDate>
       <guid isPermaLink="false">2047602283483897908</guid>
-    </item>
-    <item>
-      <title>PhantomRPC: A new privilege escalation technique in Windows RPC</title>
-      <link>https://securelist.com/phantomrpc-rpc-vulnerability/119428/</link>
-      <description>Kaspersky researchers discover PhantomRPC, a new Windows privilege escalation technique exploiting RPC architectural weaknesses. Enables escalation from service accounts to SYSTEM across all Windows versions without requiring patches.
-
-Technical details:
-• Targets RPC calls to unavailable servers (TermService, DHCP Client, W32Time) with high impersonation levels
-• Attack deploys malicious RPC server mimicking legitimate endpoints like ncalrpc:[TermSrvApi] or \PIPE\W32TIME
-• Requires SeImpersonatePrivilege but works from Network Service/Local Service contexts (T1134.001)
-• Five exploitation paths identified: gpupdate coercion, Edge startup, WDI background service, ipconfig execution, w32tm.exe timing
-
-Attack methodology:
-• Attacker compromises service running under Network/Local Service account
-• Deploys fake RPC server with same UUID/endpoint as legitimate disabled service
-• Legitimate high-privilege process makes RPC call expecting real server
-• Malicious server calls RpcImpersonateClient() to assume SYSTEM/Admin context
-• ETW monitoring reveals pattern: Event ID 1 with RPC_S_SERVER_UNAVAILABLE (0x800706BA)
-
-Microsoft classified as moderate severity, no CVE assigned, no immediate patch planned. Monitor RPC failures via ETW Event IDs 1 and 5, reduce SeImpersonatePrivilege usage where possible.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047587124707213700</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2047587124707213700">DFIR Radar</source>
-      <pubDate>Fri, 24 Apr 2026 08:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2047587124707213700</guid>
     </item>
   </channel>
 </rss>
