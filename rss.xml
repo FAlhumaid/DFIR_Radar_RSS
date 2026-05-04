@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 04 May 2026 17:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 04 May 2026 18:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>TeamPCP Weekly Analysis: 2026-W18 (2026-04-27 through 2026-05-03), (Mon, May 4th)</title>
+      <link>https://isc.sans.edu/diary/rss/32950</link>
+      <description>Multi-ecosystem supply chain worm "Mini Shai-Hulud" compromised SAP, PyTorch Lightning, and Intercom packages across npm, PyPI, and Packagist in 36 hours. TeamPCP demonstrated first-ever cross-ecosystem worm propagation while their Vect ransomware was exposed as an accidental data wiper.
+
+Key campaign details:
+• Compromised 9 packages total: 4 SAP npm packages (500K+ weekly downloads), 2 PyTorch Lightning PyPI versions (2.1M weekly), 2 intercom-client npm versions, 1 intercom-php Packagist package
+• Created ~1,800 GitHub repos using stolen credentials during April 29-30 window
+• First supply chain attack targeting AI coding agent configs (.claude/settings.json, .vscode/tasks.json) for persistence
+• C2: hxxps://zero[.]masscan[.]cloud:443/v1/telemetry with PBKDF2 salt "ctf-scramble-v2"
+
+Vect ransomware critical flaw:
+• ChaCha20-IETF nonce reuse bug makes files &gt;128KB unrecoverable even with ransom payment
+• Effectively converts ransomware to wiper for VM disks, databases, documents
+• Check Point published 6 SHA-256 hashes for Windows, Linux, ESXi variants
+
+Hunt for Bun runtime downloads to unusual locations, monitor package manager preinstall hooks executing external scripts, and review AI coding agent configuration modifications in developer environments.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051362113604473340</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2051362113604473340">DFIR Radar</source>
+      <pubDate>Mon, 04 May 2026 18:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2051362113604473340</guid>
+    </item>
     <item>
       <title>Breaking the code: Multi-stage ‘code of conduct’ phishing campaign leads to AiTM token compromise</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/05/04/breaking-the-code-multi-stage-code-of-conduct-phishing-campaign-leads-to-aitm-token-compromise/</link>
@@ -1672,37 +1696,6 @@ Hunt using Velociraptor artifact provided in the research to identify discrepanc
       <source url="https://x.com/DFIR_Radar/status/2047858901089914992">DFIR Radar</source>
       <pubDate>Sat, 25 Apr 2026 02:03:04 +0000</pubDate>
       <guid isPermaLink="false">2047858901089914992</guid>
-    </item>
-    <item>
-      <title>CISA reports persistent FIRESTARTER backdoor on Cisco ASA device in federal network</title>
-      <link>https://securityaffairs.com/191241/hacking/cisa-reports-persistent-firestarter-backdoor-on-cisco-asa-device-in-federal-network.html</link>
-      <description>CISA reveals FIRESTARTER backdoor infected federal Cisco ASA device in Sept 2025, persisting through security patches. Malware survives firmware updates by hooking into LINA engine and maintaining persistence across reboots.
-
-Key technical details:
-• Exploits CVE-2025-20333 (missing authorization) and CVE-2025-20362 (buffer overflow) for initial compromise
-• Embeds in LINA network processing engine via XML handler hooks, enabling shellcode execution
-• Maintains persistence by intercepting termination signals and writing to reboot-persistent log locations
-• Used alongside LINE VIPER post-exploitation implant in coordinated APT campaign
-• Activates only after verifying victim-specific identifiers in WebVPN traffic
-
-Attack methodology:
-• Initial access through VPN credential exploitation or unauthenticated HTTP requests
-• Installs hooks in libstdc++ shared libraries and manipulates system files for persistence
-• Survives firmware updates unless full power cycle performed - patches don't remove existing infections
-• Self-reinstalls under new persistent paths while cleaning traces of previous installation
-
-DFIR artifacts:
-• YARA rules available from CISA for detecting malware in disk images and core dumps
-• Monitor for suspicious LINA process activity and unexpected XML handler modifications
-• Check reboot-persistent log locations for unauthorized binaries
-
-Complete device reimaging required for remediation. CISA Emergency Directive 25-03 mandates federal compliance.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047843906096713757</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047843906096713757">DFIR Radar</source>
-      <pubDate>Sat, 25 Apr 2026 01:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2047843906096713757</guid>
     </item>
   </channel>
 </rss>
