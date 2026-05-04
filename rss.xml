@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 04 May 2026 11:02:14 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 04 May 2026 12:02:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Evaluating our Threat Hunting Detection Rules (+ KQL Query Evaluation)</title>
+      <link>https://detect.fyi/evaluating-our-threat-hunting-detection-rules-kql-query-evaluation-5e8b6a77f2a2?source=rss----d5fd8f494f6a---4</link>
+      <description>Security teams often create thousands of detection rules without proper lifecycle management, leading to alert fatigue and duplicated coverage. New DOVE model provides framework to evaluate detection overlap and value across four key dimensions.
+
+Key methodology:
+• DOVE Model assesses Detection Type (IOC vs IOA behaviors), System Coverage (mainstream vs niche), Threat Recency (emerging vs known), and Source Provider (native vs custom)
+• IOC-based detections have shorter lifecycles and higher duplication risk compared to behavioral IOA detections
+• Mainstream technologies (Windows, M365, macOS) show higher overlap probability with built-in SIEM detections
+• Custom detections may become redundant as platforms evolve and add native coverage
+
+KQL evaluation approach:
+• Query identifies alerts targeting same assets within 1-hour windows to detect potential overlap
+• Groups by DateHour, AccountUpn, DeviceName, RemoteIP, and other pivots
+• Filters for multiple detection sources including custom rules
+• Three scenarios: enrichment (valuable), chain identification (valuable), duplication (remove)
+
+Run daily correlation queries to identify detection rules that evolved from useful signals into pure noise. Prioritize IOA-based detections over IOCs for longer-term value.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051271267383488783</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2051271267383488783">DFIR Radar</source>
+      <pubDate>Mon, 04 May 2026 12:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2051271267383488783</guid>
+    </item>
     <item>
       <title>“Legitimate” phishing: how attackers weaponize Amazon SES to bypass email security</title>
       <link>https://securelist.com/amazon-ses-phishing-and-bec-attacks/119623/</link>
@@ -1652,25 +1677,6 @@ Complete device reimaging required for remediation. CISA Emergency Directive 25-
       <source url="https://x.com/DFIR_Radar/status/2047783676428324878">DFIR Radar</source>
       <pubDate>Fri, 24 Apr 2026 21:04:09 +0000</pubDate>
       <guid isPermaLink="false">2047783676428324878</guid>
-    </item>
-    <item>
-      <title>Supply chain attacks hit Checkmarx and Bitwarden developer tools</title>
-      <link>https://www.sophos.com/en-us/blog/supply-chain-attacks-hit-checkmarx-and-bitwarden-developer-tools</link>
-      <description>Coordinated supply chain attack compromises Checkmarx KICS scanner and Bitwarden CLI within hours, targeting developer credentials via shared C2 infrastructure. Both tools weaponized to steal GitHub tokens, cloud keys, and AI assistant configs from development environments.
-
-Key technical details:
-• Checkmarx: Malicious Docker images, VS Code extensions, and GitHub Actions pushed April 22. Modified Go binary exfiltrated scan reports; mcpAddon.js payload swept for secrets via Bun runtime
-• Bitwarden: Trojanized npm package (v2026.4.0) live 90 minutes. Preinstall hook downloaded Bun, executed obfuscated bw1.js payload targeting same credential types
-• Shared C2: audit[.]checkmarx[.]cx (94[.]154[.]172[.]43) used by both payloads for AES-256-GCM encrypted exfiltration
-• Bitwarden payload weaponized stolen GitHub tokens in-line: injected malicious workflows into victim repos, created public repos as encrypted data dead drops
-
-DFIR artifacts: Monitor for Bun runtime downloads, mcpAddon.js/bw1.js execution, outbound connections to audit[.]checkmarx[.]cx, and unexpected GitHub workflow modifications. Full IOC list and Sophos detections (JS/Steal-EAP, JS/Agent-BLZZ, Linux/Agnt-HZ) available in advisory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047768421962830184</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047768421962830184">DFIR Radar</source>
-      <pubDate>Fri, 24 Apr 2026 20:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2047768421962830184</guid>
     </item>
   </channel>
 </rss>
