@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 04 May 2026 13:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 04 May 2026 14:02:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[local] Linux Kernel proc_readdir_de() 6.18-rc5 - Local Privilege Escalation</title>
+      <link>https://www.exploit-db.com/exploits/52550</link>
+      <description>CVE-2025-40271 exploits Linux kernel proc_readdir_de() use-after-free in kernels ~3.14+ through 6.18-rc5. Race condition in /proc filesystem allows local privilege escalation via rb-tree traversal of freed proc entries.
+
+Technical details:
+• remove_proc_entry() calls rb_erase() without RB_CLEAR_NODE(), leaving stale rb-tree links
+• Concurrent getdents64() on /proc/self/net/dev_snmp6/ can traverse freed proc_dir_entry structs
+• UAF triggered by racing directory reads against network device removal (veth deletion)
+• Freed 192-byte proc_dir_entry objects sprayed with msg_msg via msgsnd() for heap manipulation
+• Kernel heap pointer leaked through d_ino field enables KASLR bypass
+
+Attack methodology:
+• Creates user namespace for CAP_NET_ADMIN capability
+• Populates /proc/self/net/dev_snmp6/ with veth pairs to create target proc entries  
+• Races getdents64() against rapid veth deletion to trigger stale pointer dereference
+• Sprays kmalloc-192 cache with msg_msg to reclaim freed slots
+• Detects UAF via anomalous d_ino values (0xffff... kernel addresses)
+
+Fixed in stable kernels 5.10.247, 6.1.159, 6.12.73, 6.18-rc6 via commit adding pde_erase() helper. Hunt for unusual d_ino patterns in getdents syscalls and monitor veth creation/deletion patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051301444754555267</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2051301444754555267">DFIR Radar</source>
+      <pubDate>Mon, 04 May 2026 14:02:31 +0000</pubDate>
+      <guid isPermaLink="false">2051301444754555267</guid>
+    </item>
     <item>
       <title>U.S. CISA adds a flaw in Linux Kernel to its Known Exploited Vulnerabilities catalog</title>
       <link>https://securityaffairs.com/191629/hacking/u-s-cisa-adds-a-flaw-in-linux-kernel-to-its-known-exploited-vulnerabilities-catalog.html</link>
@@ -1666,17 +1693,6 @@ Complete device reimaging required for remediation. CISA Emergency Directive 25-
       <source url="https://x.com/DFIR_Radar/status/2047813649859784755">DFIR Radar</source>
       <pubDate>Fri, 24 Apr 2026 23:03:15 +0000</pubDate>
       <guid isPermaLink="false">2047813649859784755</guid>
-    </item>
-    <item>
-      <title>Executive Summary: Defending against China-nexus covert networks of compromised devices</title>
-      <link>https://www.ncsc.gov.uk/news/executive-summary-defending-against-china-nexus-covert-networks-of-compromised-devices</link>
-      <description>Chinese 🇨🇳 APT groups pivot to large-scale botnets of compromised routers and edge devices for all attack phases, causing "IOC extinction" as indicators disappear faster than discovery.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2047798463518122423</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2047798463518122423">DFIR Radar</source>
-      <pubDate>Fri, 24 Apr 2026 22:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2047798463518122423</guid>
     </item>
   </channel>
 </rss>
