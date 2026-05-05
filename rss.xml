@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 05 May 2026 16:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2026 17:03:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Linux Investigation (Part 2)</title>
+      <link>https://righteousit.com/2026/05/05/linux-investigation-part-2/</link>
+      <description>Linux memory analysis reveals cryptocurrency mining operation using LD_PRELOAD rootkit, SSH tunneling, and process hiding via GID marking. Investigation uncovers complete attack chain from initial compromise through tunnel establishment.
+
+Key technical findings:
+• Suspicious process hierarchy: sh (PID 939) spawned directly from SSH daemon, bypassing normal authentication
+• Command history recovered from memory shows attacker staging XMRig miner in /dev/shm/kit, renaming to "top"
+• SSH tunnel established to 192[.]168[.]5[.]95:22 with local port 3333 for mining pool communication
+• All malicious processes marked with GID 7823 - likely rootkit hiding mechanism
+• LD_PRELOAD rootkit (libymv.so.3) enables pre-authentication SSH daemon compromise
+
+Attack methodology:
+• Initial access via compromised "worker" account from jump host 192[.]168[.]4[.]35
+• Rootkit deployment during legitimate session, SSH daemon restart triggers persistence
+• Post-exploitation: pty.spawn() for interactive shell, PATH manipulation for execution
+• Cryptocurrency mining via XMRig disguised as legitimate "top" process
+• Cleanup: /dev/shm/kit directory removed post-execution
+
+Hunt for GID anomalies in process lists and monitor /dev/shm for staging directories. Check for LD_PRELOAD modifications and unexpected SSH daemon child processes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051709303325929514</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2051709303325929514">DFIR Radar</source>
+      <pubDate>Tue, 05 May 2026 17:03:11 +0000</pubDate>
+      <guid isPermaLink="false">2051709303325929514</guid>
+    </item>
     <item>
       <title>Malicious OpenClaw Skill Distributes Remcos RAT and GhostLoader</title>
       <link>https://www.zscaler.com/blogs/security-research/malicious-openclaw-skill-distributes-remcos-rat-and-ghostloader</link>
@@ -1684,36 +1711,6 @@ DFIR opportunities:
       <source url="https://x.com/DFIR_Radar/status/2048719710749962740">DFIR Radar</source>
       <pubDate>Mon, 27 Apr 2026 11:03:37 +0000</pubDate>
       <guid isPermaLink="false">2048719710749962740</guid>
-    </item>
-    <item>
-      <title>CISA, NCSC warn Firestarter malware enabling persistent backdoor access to exposed Cisco firewall infrastructure</title>
-      <link>https://industrialcyber.co/ransomware/cisa-ncsc-warn-firestarter-malware-enabling-persistent-backdoor-access-to-exposed-cisco-firewall-infrastructure/</link>
-      <description>CISA and NCSC 🇬🇧 release detailed analysis of FIRESTARTER backdoor targeting Cisco Firepower/ASA devices. APT actors exploit CVE-2025-20333/CVE-2025-20362, deploy persistent malware that survives firmware updates and reboots.
-
-Technical details:
-• Linux ELF backdoor hooks into LINA processing engine, enables arbitrary shell code execution
-• Maintains persistence through automatic relaunching, requires full power cycle to remove  
-• Deployed alongside LINE VIPER implant for unauthorized VPN session creation bypassing authentication
-• Active since September 2025, observed activity as recent as March 2026 despite patching efforts
-• Emergency Directive 25-03 mandates FCEB agencies collect core dumps for CISA analysis
-
-Attack methodology:
-• Initial access via exploitation of Cisco ASA/FTD zero-day vulnerabilities before patches available
-• LINE VIPER creates unauthorized VPN sessions using dormant valid accounts
-• FIRESTARTER deployed as persistence mechanism, survives firmware updates
-• Full device configuration exposed including admin credentials, certificates, private keys
-
-DFIR artifacts:
-• Suspicious network connections to compromised Firepower devices during monitoring
-• Core dumps contain malware samples for forensic analysis
-• VPN session logs showing unauthorized authentication bypasses
-• Configuration changes indicating credential/certificate compromise
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2048704687550218728</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2048704687550218728">DFIR Radar</source>
-      <pubDate>Mon, 27 Apr 2026 10:03:56 +0000</pubDate>
-      <guid isPermaLink="false">2048704687550218728</guid>
     </item>
   </channel>
 </rss>
