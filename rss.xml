@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 05 May 2026 11:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2026 12:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Danger of Multi-SSO AWS Cognito User Pools</title>
+      <link>https://blog.doyensec.com/2026/05/05/cloudsectidbits-masso-cognito-sso.html</link>
+      <description>Doyensec reveals critical security flaws in multi-tenant AWS Cognito deployments where external IdPs can inject ghost identities, bypass authentication controls, and hijack domain routing through malicious SSO configurations.
+
+Key vulnerabilities identified:
+
+• JIT Ghost Identity Injection: PreSignUp_ExternalProvider trigger fires before user persistence, allowing attackers to create durable ghost accounts even when domain checks fail in PostConfirmation
+
+• Trigger Source Confusion: Developers miss triggerSource values like PreSignUp_ExternalProvider vs InboundFederation_ExternalProvider, creating authentication bypass paths between first and subsequent logins
+
+• Sub-Splitting Attacks: Federated username format `&lt;ProviderName&gt;_&lt;sub&gt;` vulnerable to parsing differentials when Lambda functions use `split("_")` with positional indices on attacker-controlled sub claims
+
+• IdP Routing Hijacks: Platforms allowing self-service IdpIdentifier registration without domain ownership validation enable attackers to redirect authentication flows (e.g., claiming gmail.com)
+
+• Provider Name Collision: Cognito accepts visually similar but byte-distinct provider names using homoglyphs, creating confusion in audit logs and potential identity conflicts
+
+Implement security gates in PreSignUp with proper triggerSource branching. Use `split("_", 1)` for username parsing. Tool release: maSSO weaponized IdP for testing available on GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051633915685732817</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2051633915685732817">DFIR Radar</source>
+      <pubDate>Tue, 05 May 2026 12:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2051633915685732817</guid>
+    </item>
     <item>
       <title>CloudZ RAT potentially steals OTP messages using Pheno plugin</title>
       <link>https://blog.talosintelligence.com/cloudz-pheno-infostealer/</link>
@@ -1665,31 +1690,6 @@ Hunt for consistent outbound connections with minimal byte variance (&lt;10%) an
       <source url="https://x.com/DFIR_Radar/status/2048266484179259719">DFIR Radar</source>
       <pubDate>Sun, 26 Apr 2026 05:02:40 +0000</pubDate>
       <guid isPermaLink="false">2048266484179259719</guid>
-    </item>
-    <item>
-      <title>Malware Analysis: payloadfinal.bin (Agent Tesla)</title>
-      <link>https://infosecwriteups.com/malware-analysis-payloadfinal-bin-agent-tesla-c38cb9bc8c88?source=rss----7b722bfd1b8d---4</link>
-      <description>Deep technical breakdown of Agent Tesla variant reveals sophisticated multi-layer evasion techniques including 5 distinct anti-analysis checks and credential harvesting across browsers, email clients, and FTP applications.
-
-Key technical details:
-• Sample: 93abf66a95006e4ddecd527d6522a80ddf010e5ab35126d872c16ee51b8d83ce (.NET VB executable with control flow obfuscation)
-• Multi-stage evasion: CheckRemoteDebuggerPresent API, ip-api[.]com hosting detection, sleep timing analysis, sandbox DLL checks (SbieDll.dll, SxIn.dll, Sf2.dll), WMI VM detection
-• Credential theft targets browsers, email clients, FTP software - formats stolen data as timestamped HTML reports
-• C2 infrastructure: FTP exfiltration to ftp[.]duct-master[.]com with hardcoded credentials (meicantesdloyd@duct-master[.]com)
-
-Attack methodology:
-• Ensures single instance execution by killing duplicate processes
-• Harvests system info (HWID, username, public IP) before credential theft
-• Bypasses SSL validation for seamless data exfiltration
-• Keylogger/screenlogger modules present but disabled in this build
-
-Hunt for .NET executables with WMI queries to Win32_ComputerSystem + Win32_VideoController, outbound FTP connections, and GetAsyncKeyState API calls. Full MITRE ATT&amp;CK mappings in analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2048251574351274423</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2048251574351274423">DFIR Radar</source>
-      <pubDate>Sun, 26 Apr 2026 04:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2048251574351274423</guid>
     </item>
   </channel>
 </rss>
