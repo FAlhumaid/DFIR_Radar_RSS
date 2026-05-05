@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 05 May 2026 15:05:20 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2026 16:03:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malicious OpenClaw Skill Distributes Remcos RAT and GhostLoader</title>
+      <link>https://www.zscaler.com/blogs/security-research/malicious-openclaw-skill-distributes-remcos-rat-and-ghostloader</link>
+      <description>Novel AI-targeted attack: Threat actors weaponized OpenClaw framework "skills" to trick autonomous AI agents into downloading Remcos RAT and GhostLoader malware through poisoned installation instructions.
+
+Campaign exploits emerging AI agentic workflows through deceptive "DeepSeek-Claw" skill:
+• Windows path: PowerShell downloads remote MSI containing legitimate GoToMeeting exe + malicious g2m.dll for DLL sideloading (T1574.002)
+• Shellcode loader patches ETW/AMSI, uses TEA encryption in CBC mode, performs extensive anti-analysis checks including temporal latency detection
+• Cross-platform path: Node.js payload deploys GhostLoader via npm lifecycle scripts, harvests SSH keys, Keychain data, crypto wallets
+• C2: tcp+tls://146[.]19[.]24[.]131:2404 for Remcos, hxxps://trackpipe[.]dev for GhostLoader
+
+Hunt for msiexec with /q /i flags downloading from external domains, unsigned DLLs in GoToMeeting directories, and npm install processes spawning unexpected child processes. Full IOCs and MITRE mappings available.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051694330654388461</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2051694330654388461">DFIR Radar</source>
+      <pubDate>Tue, 05 May 2026 16:03:42 +0000</pubDate>
+      <guid isPermaLink="false">2051694330654388461</guid>
+    </item>
     <item>
       <title>North Korean APT Targets Yanbian Gamers via Trojanized Platform</title>
       <link>https://www.infosecurity-magazine.com/news/scarcruft-birdcall-android-yanbian/</link>
@@ -1695,30 +1714,6 @@ DFIR artifacts:
       <source url="https://x.com/DFIR_Radar/status/2048704687550218728">DFIR Radar</source>
       <pubDate>Mon, 27 Apr 2026 10:03:56 +0000</pubDate>
       <guid isPermaLink="false">2048704687550218728</guid>
-    </item>
-    <item>
-      <title>The Quiet Signal — Hunt Forward Lab #001: C2 Beaconing Detection</title>
-      <link>https://infosecwriteups.com/the-quiet-signal-hunt-forward-lab-001-c2-beaconing-detection-2ac84f976e8a?source=rss----7b722bfd1b8d---4</link>
-      <description>Hunt Forward releases hands-on C2 beaconing detection lab with live Elastic SIEM environment. Features systematic KQL queries to identify clockwork timing patterns, byte consistency analysis, and lateral movement tracking through real network logs.
-
-Key technical details:
-• Three beacon signatures: 60-second intervals, consistent ~150-byte payloads, unknown external destinations (203[.]0[.]113[.]42:8080)
-• Detection methods: connection frequency analysis, NXDOMAIN storm identification for DGA behavior, SMB lateral movement tracking (port 445)
-• MITRE ATT&amp;CK mappings: T1071.001 (Web Protocols), T1566.001 (spearphishing), T1055.012 (process hollowing)
-• Lab dataset: 739 Zeek network logs covering 6-hour compromise window with two infected hosts (192[.]168[.]1[.]100, 192[.]168[.]1[.]105)
-
-DFIR artifacts covered:
-• Zeek connection logs showing beacon regularity and byte variance analysis
-• DNS logs revealing DGA domain generation patterns and successful C2 resolution to update-svc[.]ddns[.]net
-• Internal network scanning evidence via SMB connections indicating successful lateral movement
-
-Hunt for consistent outbound connections with minimal byte variance (&lt;10%) and regular timing intervals. Cross-reference with DNS NXDOMAIN spikes and internal SMB scanning activity for full compromise scope.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2048644179635659026</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2048644179635659026">DFIR Radar</source>
-      <pubDate>Mon, 27 Apr 2026 06:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2048644179635659026</guid>
     </item>
   </channel>
 </rss>
