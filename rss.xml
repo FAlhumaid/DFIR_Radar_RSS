@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 06 May 2026 14:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 May 2026 15:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Muddying the Tracks: The State-Sponsored Shadow Behind Chaos Ransomware</title>
+      <link>https://www.rapid7.com/blog/post/tr-muddying-tracks-state-sponsored-shadow-behind-chaos-ransomware</link>
+      <description>Iranian 🇮🇷 state-sponsored group MuddyWater masqueraded as Chaos ransomware in false flag operation, combining social engineering via Microsoft Teams with data exfiltration instead of encryption. Campaign targeting US 🇺🇸 organizations reveals growing convergence of APT and cybercriminal tactics.
+
+Key technical details:
+• Initial access via Teams screen-sharing sessions to harvest credentials and manipulate MFA (T1566, T1556)
+• Custom Game.exe RAT masquerading as WebView2, using AES-256-GCM encrypted config and anti-VM checks
+• "Donald Gay" code-signing certificate previously linked to MuddyWater's Operation Olalampo
+• C2 infrastructure: moonzonet[.]com, uploadfiler[.]com, with persistence via DWAgent/AnyDesk (T1219)
+• No file encryption despite ransomware branding - primary goal was espionage/data theft
+
+Attack methodology:
+• Interactive Teams sessions for credential harvesting into local text files (credentials.txt, cred.txt)
+• Deployment of ms_upd.exe downloader via curl from 172[.]86[.]126[.]208:443
+• Multi-stage payload delivery: WebView2Loader.dll, Game.exe, visualwincomp.txt config
+• Lateral movement via compromised accounts and RDP sessions
+
+Hunt for unsigned executables in C:\ProgramData\visualwincomp-* directories, monitor Teams external chat requests with screen-sharing, and check for DWAgent service installations. Full YARA rules and IOCs in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052041485575467102</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2052041485575467102">DFIR Radar</source>
+      <pubDate>Wed, 06 May 2026 15:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2052041485575467102</guid>
+    </item>
     <item>
       <title>TCLBANKER: Brazilian Banking Trojan Spreading via WhatsApp and Outlook</title>
       <link>https://www.elastic.co/security-labs/tclbanker-brazilian-banking-trojan</link>
@@ -1638,38 +1664,6 @@ Immediately audit package-lock.json for affected versions, search CI logs for se
       <source url="https://x.com/DFIR_Radar/status/2049399235305447573">DFIR Radar</source>
       <pubDate>Wed, 29 Apr 2026 08:03:48 +0000</pubDate>
       <guid isPermaLink="false">2049399235305447573</guid>
-    </item>
-    <item>
-      <title>How to Detect DNS Tunneling with Elastic SIEM: SOC Analyst Hands-On Lab | Hunt Forward Lab #003</title>
-      <link>https://infosecwriteups.com/how-to-detect-dns-tunneling-with-elastic-siem-soc-analyst-hands-on-lab-hunt-forward-lab-003-774f0fbf932c?source=rss----7b722bfd1b8d---4</link>
-      <description>New hands-on lab demonstrates hunting DNS tunneling attacks using Elastic SIEM with ES|QL queries. Lab covers detecting Base64-encoded data exfiltration through anomalous subdomain patterns and high-frequency queries to attacker domains.
-
-Key techniques covered:
-• Subdomain length analysis to identify Base64 encoding (legitimate avg 12-15 chars vs tunnel 50+ chars)
-• Query frequency detection for sustained high-rate DNS queries (200+ per hour to single domain)
-• Volume estimation using LENGTH(subdomain) * 6/8 formula to calculate exfiltrated bytes
-• Attribution correlation linking tunnels to specific hosts/users via source.ip and user.name fields
-• Blast radius assessment across entire environment using tunnel scoring algorithm
-
-Attack methodology:
-• Malware breaks stolen data into chunks, Base64 encodes as DNS subdomains
-• Queries attacker-controlled domain (exfil-c2[.]net) with encoded data as subdomain
-• Firewall allows DNS traffic, missing data exfiltration disguised as legitimate queries
-• Pattern generates hundreds of unique subdomains over sustained timeframe
-
-DFIR artifacts:
-• DNS query logs showing abnormal subdomain lengths and frequencies
-• Timeline reconstruction via DATE_TRUNC hourly bucketing in ES|QL
-• User attribution through correlated host.name and user.name fields
-• Volume estimates enabling scope assessment for legal proceedings
-
-Hunt for DNS queries with avg subdomain length &gt;30 chars and &gt;50 queries/hour to single domains.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049384161014657168</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2049384161014657168">DFIR Radar</source>
-      <pubDate>Wed, 29 Apr 2026 07:03:55 +0000</pubDate>
-      <guid isPermaLink="false">2049384161014657168</guid>
     </item>
   </channel>
 </rss>
