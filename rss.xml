@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 06 May 2026 21:03:02 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 May 2026 22:03:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Your Redis Server Looks Fine. That’s the Problem.</title>
+      <link>https://www.imperva.com/blog/your-redis-server-looks-fine-thats-the-problem/</link>
+      <description>Automated botnet targets exposed Redis servers with five-stage attack chain, then meticulously erases forensic evidence. Only artifact: persistent SSH key planted in authorized_keys for permanent root access.
+
+Technical breakdown:
+• Attack tests multiple RCE vectors: cron injection, Lua sandbox escape (CVE-2022-0543), SSH key planting, replication hijacking, direct module execution
+• Post-compromise cleanup: SLAVEOF NO ONE, MODULE UNLOAD system, rm malicious files, restores original dbfilename
+• Two distinct operations observed: sophisticated SSH Key Operator (1,200+ attempts/month) and MGLNDD botnet roll-call checks
+• Attack sequence: FLUSHDB → exploit attempts → system compromise → forensic cleanup in seconds
+• Persistence via /root/.ssh/authorized_keys survives malware removal and system restarts
+
+Hunt for CONFIG SET, MODULE LOAD, SLAVEOF commands in Redis logs. Monitor /root/.ssh/authorized_keys with file integrity monitoring for unauthorized key additions.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052147198574387402</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2052147198574387402">DFIR Radar</source>
+      <pubDate>Wed, 06 May 2026 22:03:14 +0000</pubDate>
+      <guid isPermaLink="false">2052147198574387402</guid>
+    </item>
     <item>
       <title>CloudZ Malware Abuses Phone Link to Steal SMS OTPs</title>
       <link>https://www.infosecurity-magazine.com/news/cloudz-rat-pheno-phone-link-otp/</link>
@@ -1680,31 +1700,6 @@ Search GitHub for "A Mini Shai-Hulud has Appeared" repos and audit for unexpecte
       <source url="https://x.com/DFIR_Radar/status/2049535049163591939">DFIR Radar</source>
       <pubDate>Wed, 29 Apr 2026 17:03:29 +0000</pubDate>
       <guid isPermaLink="false">2049535049163591939</guid>
-    </item>
-    <item>
-      <title>Supply Chain Campaign Targets SAP npm Packages with Credential-Stealing Malware</title>
-      <link>https://www.wiz.io/blog/mini-shai-hulud-supply-chain-sap-npm</link>
-      <description>New supply chain attack "mini Shai Hulud" compromises SAP npm packages with credential-stealing malware. TeamPCP operation targets developer environments and CI/CD pipelines through malicious preinstall scripts.
-
-Technical breakdown:
-- Malicious versions of @cap-js/sqlite, @cap-js/postgres contain preinstall scripts executing setup.mjs
-- Downloads Bun runtime, executes obfuscated execution.js payload during npm install
-- Steals GitHub tokens, npm creds, cloud secrets (AWS/Azure/GCP), K8s tokens, GitHub Actions secrets
-- Exfiltrates via encrypted payloads posted to attacker-controlled GitHub repositories
-- Includes propagation logic to infect additional repos and packages
-
-Attribution markers:
-- Russian 🇷🇺 language check causes payload termination (anti-CIS guardrail)
-- Same __decodeScrambled cipher from previous TeamPCP campaigns
-- Matches encoding patterns and operational security from Shai-Hulud variants
-
-Immediately audit package-lock.json for affected versions, search CI logs for setup.mjs/execution.js, rotate all developer tokens if exposure suspected.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049520114609848541</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2049520114609848541">DFIR Radar</source>
-      <pubDate>Wed, 29 Apr 2026 16:04:08 +0000</pubDate>
-      <guid isPermaLink="false">2049520114609848541</guid>
     </item>
   </channel>
 </rss>
