@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 06 May 2026 17:03:34 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 May 2026 18:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Accidental C2: Exploring Dev Tunnels for Remote Access</title>
+      <link>https://specterops.io/blog/2026/05/06/dev-tunnels-the-accidental-c2/</link>
+      <description>SpecterOps researchers dissect Visual Studio Code Dev Tunnels protocol, revealing a multi-layered C2 framework disguised as legitimate developer tooling. New attack paths exploit OAuth2 flows and Microsoft's Family of Client IDs (FOCI).
+
+Technical breakdown:
+• 4-layer protocol stack: REST API management → WebSocket tunnel → SSH connection → MsgPack RPC messaging
+• RPC methods enable full remote access: spawn (command execution), fs_read/write (file operations), sys_kill (process termination)
+• Authentication via GitHub (client ID: 01ab8ac9400c4e429b23) or Azure (client ID: aebc6443-996d-45c2-90f0-388ff96faa56)
+• FOCI exploitation: 49 Microsoft clients can pivot tokens to access dev tunnels, including Teams and Azure Portal
+• Device code phishing viable against both GitHub and Azure OAuth flows
+
+Attack surface expansion:
+• Persistence: Deploy tunnels from compromised hosts for long-term access
+• Lateral movement: Pivot through existing dev tunnel infrastructure 
+• Initial access: Exploit FOCI/BroCI token relationships for tunnel hijacking
+• Credential harvesting: Tokens stored in VS Code's state.vscdb database
+
+Hunt for unexpected WebSocket connections to `*.devtunnels.ms` domains and monitor OAuth token requests to the specified client IDs. Full Ouroboros C2 tool available at the researchers' GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052086660016243050</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2052086660016243050">DFIR Radar</source>
+      <pubDate>Wed, 06 May 2026 18:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2052086660016243050</guid>
+    </item>
     <item>
       <title>ClickFix campaign uses fake macOS utilities lures to deliver infostealers</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/05/06/clickfix-campaign-uses-fake-macos-utilities-lures-deliver-infostealers/</link>
@@ -1679,17 +1705,6 @@ Immediately audit package-lock.json for affected versions, search CI logs for se
       <source url="https://x.com/DFIR_Radar/status/2049444434228719850">DFIR Radar</source>
       <pubDate>Wed, 29 Apr 2026 11:03:25 +0000</pubDate>
       <guid isPermaLink="false">2049444434228719850</guid>
-    </item>
-    <item>
-      <title>Atlas Lion Threat Profile: History, Tactics &amp; Defenses</title>
-      <link>https://www.invictus-ir.com/news/atlas-lion-tactics-history-defenses</link>
-      <description>Atlas Lion threat group targets Azure/M365 environments via AiTM phishing to commit gift card fraud worth up to $100k daily.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049429439251968360</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2049429439251968360">DFIR Radar</source>
-      <pubDate>Wed, 29 Apr 2026 10:03:50 +0000</pubDate>
-      <guid isPermaLink="false">2049429439251968360</guid>
     </item>
   </channel>
 </rss>
