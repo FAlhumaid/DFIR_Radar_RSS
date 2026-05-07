@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 07 May 2026 11:03:57 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2026 12:03:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Operation HookedWing: 4-Year Multi-Sector Attack Analysis</title>
+      <link>https://socradar.io/blog/operation-hookedwing-4-year-phishing/</link>
+      <description>4-year phishing operation compromises 2,000+ credentials from 500+ organizations across aviation, government, and energy sectors using GitHub-hosted landing pages and compromised C2 infrastructure.
+
+Operation HookedWing technical breakdown:
+• Custom phishing kit uses github[.]io domains with email in URL fragment (@domain[.]com) to bypass server logging
+• Dynamic PHP injection from compromised C2s under /genl/ path - form never stored on distribution layer
+• Targets aviation corridors linking Africa 🇳🇬 🇺🇬 🇸🇳, Persian Gulf, and South Asia 🇳🇵 🇱🇰 with 28% victims in aviation/travel sector
+• Multi-stage evasion: preloader_container_stef namespace, base64-encoded C2 paths in window.stef.srv_loc, fake error forcing credential re-entry
+
+Attack chain spans 4 campaigns sharing infrastructure:
+• HR/Microsoft/Google lures → GitHub landing page → geolocation via ipdata[.]co API → dynamic form injection from /genl/[random].php
+• Persistence through indefinite GitHub page reactivation by updating srv.js
+• 22+ compromised domains across Pakistan 🇵🇰, Brazil 🇧🇷, Chile 🇨🇱, Senegal 🇸🇳, Afghanistan 🇦🇫 hosting credential logs in list.txt
+
+Hunt for GitHub repos with "preloader_container_stef" class, outbound requests to /genl/ endpoints, and ipdata[.]co API calls from corporate networks. Full IOC list available in report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052358541126631757</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2052358541126631757">DFIR Radar</source>
+      <pubDate>Thu, 07 May 2026 12:03:02 +0000</pubDate>
+      <guid isPermaLink="false">2052358541126631757</guid>
+    </item>
     <item>
       <title>Fake Claude AI website delivers new 'Beagle' Windows malware</title>
       <link>https://www.bleepingcomputer.com/news/security/fake-claude-ai-website-delivers-new-beagle-windows-malware/</link>
@@ -1660,26 +1684,6 @@ Detection came from EDR alerting on unexpected quickassist.exe process spawn. Cr
       <source url="https://x.com/DFIR_Radar/status/2049761524533887096">DFIR Radar</source>
       <pubDate>Thu, 30 Apr 2026 08:03:25 +0000</pubDate>
       <guid isPermaLink="false">2049761524533887096</guid>
-    </item>
-    <item>
-      <title>Silver Fox uses the new ABCDoor backdoor to target organizations in Russia and India</title>
-      <link>https://securelist.com/silver-fox-tax-notification-campaign/119575/</link>
-      <description>Silver Fox APT deploys new ABCDoor Python backdoor via tax-themed phishing targeting Russia 🇷🇺 and India 🇮🇳. Campaign leveraged modified RustSL loader and ValleyRAT to install previously undocumented remote access tool with screen broadcasting capabilities.
-
-Technical breakdown:
-• Modified RustSL loader with custom steganography.rs module for payload decryption and guard.rs for geofencing (Russia 🇷🇺, India 🇮🇳, Indonesia 🇮🇩, South Africa 🇿🇦, Cambodia 🇰🇭, Japan 🇯🇵)
-• Phishing emails impersonated tax authorities with PDF attachments containing download links to abc.haijing88[.]com
-• Attack chain: RustSL loader → ValleyRAT Online module → ABCDoor via custom plugins (保86.dll)
-• ABCDoor compiled with Cython, uses Socket.IO for C2 comms, mimics Tailscale VPN in C:\ProgramData\Tailscale
-• Persistence via registry Run key and scheduled task "AppClient" running every minute
-
-ABCDoor creates distinctive artifacts: HKCU:\Software\CarEmu:FirstInstallTime registry value, %LOCALAPPDATA%\applogs\device.log file, and exception logs. Hunt for pythonw.exe with network connections to domains containing "abc" subdomain and unusual registry persistence patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049746396241338723</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2049746396241338723">DFIR Radar</source>
-      <pubDate>Thu, 30 Apr 2026 07:03:18 +0000</pubDate>
-      <guid isPermaLink="false">2049746396241338723</guid>
     </item>
   </channel>
 </rss>
