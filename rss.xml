@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 07 May 2026 09:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2026 11:03:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake Claude AI website delivers new 'Beagle' Windows malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/fake-claude-ai-website-delivers-new-beagle-windows-malware/</link>
+      <description>Threat actors deploy previously undocumented "Beagle" backdoor via fake Claude AI website offering trojanized Claude-Pro installer. Campaign uses sophisticated DLL sideloading and in-memory execution to evade detection.
+
+Technical breakdown:
+• Fake site claude-pro[.]com distributes 505MB Claude-Pro-windows-x64.zip with MSI installer
+• Drops NOVupdate.exe (signed G Data updater), NOVupdate.exe.dat (encrypted), and avk.dll to Startup folder
+• Uses DLL sideloading: legitimate G Data binary loads malicious avk.dll to decrypt/execute DonutLoader from .dat file
+• DonutLoader deploys Beagle backdoor in-memory with 8 commands (cmd, upload, download, mkdir, rename, ls, rm, uninstall)
+• C2 communication to license[.]claude-pro[.]com (8.217.190[.]58) via TCP:443/UDP:8080 with hardcoded AES encryption
+
+Campaign linked to PlugX operators experimenting with new payload. Additional samples since February 2026 impersonate CrowdStrike, SentinelOne, and Trellix update sites using same XOR decryption key.
+
+Hunt for NOVupdate.exe files in Startup folders and G Data binaries with suspicious child processes or network connections to claude-pro[.]com infrastructure.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052343671303938520</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2052343671303938520">DFIR Radar</source>
+      <pubDate>Thu, 07 May 2026 11:03:57 +0000</pubDate>
+      <guid isPermaLink="false">2052343671303938520</guid>
+    </item>
     <item>
       <title>Linux Investigation (Part 4)</title>
       <link>https://righteousit.com/2026/05/07/linux-investigation-part-4/</link>
@@ -1658,30 +1680,6 @@ ABCDoor creates distinctive artifacts: HKCU:\Software\CarEmu:FirstInstallTime re
       <source url="https://x.com/DFIR_Radar/status/2049746396241338723">DFIR Radar</source>
       <pubDate>Thu, 30 Apr 2026 07:03:18 +0000</pubDate>
       <guid isPermaLink="false">2049746396241338723</guid>
-    </item>
-    <item>
-      <title>Living off the orchard: understanding LOOBins and native macOS attack techniques</title>
-      <link>https://andreafortuna.org/2026/04/29/living-off-the-orchard-understanding-loobins-macos-attack-techniques/</link>
-      <description>Cisco Talos research exposes LOOBins (Living Off the Orchard): attackers weaponizing native macOS automation features for execution and lateral movement. 45% of enterprises now use macOS, yet detection for these techniques lags significantly behind Windows coverage.
-
-Key findings:
-• Remote Application Scripting via eppc:// protocol enables command execution through Terminal.app proxy, bypassing standard process spawning detection (T1072)
-• Spotlight metadata (kMDItemFinderComment) can store Base64 payloads entirely in extended attributes, evading file-based scanning
-• Native tools like osascript, nscurl, and TFTP/SNMP services enable complete attack chains without custom binaries
-• Techniques abuse legitimate DevOps automation features that security teams rarely monitor
-
-Detection gaps:
-• Process lineage: launchd → AppleEventsD → Terminal → bash indicates Remote Application Scripting abuse
-• Network: Inbound TCP/3031 (eppc) traffic should be rare on most enterprise networks
-• Metadata: Monitor mdls queries for kMDItemFinderComment attribute access patterns
-
-Hunt for unusual parent-child relationships involving Terminal.app/osascript with network activity, and implement TCC automation restrictions via MDM.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049731169185390619</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2049731169185390619">DFIR Radar</source>
-      <pubDate>Thu, 30 Apr 2026 06:02:48 +0000</pubDate>
-      <guid isPermaLink="false">2049731169185390619</guid>
     </item>
   </channel>
 </rss>
