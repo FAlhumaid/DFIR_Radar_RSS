@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 07 May 2026 12:03:02 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2026 13:03:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Pull the Plug: FIRESTARTER Survives Patches, Reboots, and Your Incident Response Plan</title>
+      <link>https://eclypsium.com/blog/firestarter-cisco-firewall-backdoor-survives-patches/</link>
+      <description>FIRESTARTER backdoor on Cisco ASA/Firepower devices persists through patches and reboots by hooking the LINA firewall process. Only complete power disconnection for 1+ minutes removes it.
+
+Key findings from CISA/NCSC joint analysis:
+• Targets CVE-2025-20333/20362 (patched Sept 2025), but survives post-patch via boot script modification
+• Hooks LINA process memory, triggers via crafted WebVPN requests without new listeners
+• Persistence: writes to /opt/cisco/platform/logs/var/log/svc_samcore.log, modifies CSP_MOUNT_LIST boot script
+• UAT-4356/STORM-1849 actor used it to redeploy LINE VIPER implant in March 2026 on federal agency device
+• Anti-forensic techniques require Cisco TAC disk imaging vs. open-source acquisition
+
+Detection artifacts:
+- /usr/bin/lina_cs (active binary)
+- Modified CSP_MOUNT_LIST with appended persistence commands
+- Shellcode injection before libstdc++.so text segment
+
+Hunt with CISA YARA rules CISA_261290_01/02 against core dumps. Audit VPN sessions for former employee accounts used for credential bypass.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052373703183475083</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2052373703183475083">DFIR Radar</source>
+      <pubDate>Thu, 07 May 2026 13:03:17 +0000</pubDate>
+      <guid isPermaLink="false">2052373703183475083</guid>
+    </item>
     <item>
       <title>Operation HookedWing: 4-Year Multi-Sector Attack Analysis</title>
       <link>https://socradar.io/blog/operation-hookedwing-4-year-phishing/</link>
@@ -1658,32 +1683,6 @@ DFIR value: Honeytokens provide high-signal alerts since legitimate users should
       <source url="https://x.com/DFIR_Radar/status/2049776812373229933">DFIR Radar</source>
       <pubDate>Thu, 30 Apr 2026 09:04:10 +0000</pubDate>
       <guid isPermaLink="false">2049776812373229933</guid>
-    </item>
-    <item>
-      <title>We Got Targeted: How Attackers Used Microsoft Teams to Own an Employee’s Machine, And How We Caught…</title>
-      <link>https://infosecwriteups.com/we-got-targeted-how-attackers-used-microsoft-teams-to-own-an-employees-machine-and-how-we-caught-40fcf202098b?source=rss----7b722bfd1b8d---4</link>
-      <description>First-hand SOC account: Sophisticated attackers combined email bombing with fake Microsoft Teams IT support calls to deploy A0Backdoor malware via Windows Quick Assist. Multi-stage campaign used advanced evasion techniques including time-locked decryption and DNS tunneling.
-
-Attack chain breakdown:
-• Phase 1: Email bombing with hundreds of legitimate newsletter signups created chaos and urgency
-• Phase 2: Fake "IT support" contacted victim via Teams during email flood, offering immediate help
-• Phase 3: Victim shared Quick Assist 6-digit code, granting full remote desktop access
-• Phase 4: Malware delivered via DLL sideloading using legitimate signed executable + malicious hostfxr.dll
-• Phase 5: A0Backdoor deployed with 55-hour time-lock decryption, hidden Unicode chars, and QEMU detection
-
-Advanced evasion techniques:
-• Time-based decryption only works within specific 55-hour window after delivery
-• Requires invisible Unicode space character in command-line args for correct key generation
-• Anti-sandbox: WMI queries detect virtualized environments, spawns junk threads to crash debuggers
-• C2 via DNS tunneling through public resolvers (1[.]1[.]1[.]1, 8[.]8[.]8[.]8) using encoded MX queries
-
-Detection came from EDR alerting on unexpected quickassist.exe process spawn. Cross-reference Teams activity logs with email gateway timestamps to identify similar attack patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049761524533887096</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2049761524533887096">DFIR Radar</source>
-      <pubDate>Thu, 30 Apr 2026 08:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2049761524533887096</guid>
     </item>
   </channel>
 </rss>
