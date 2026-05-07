@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 07 May 2026 20:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2026 21:05:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When prompts become shells: RCE vulnerabilities in AI agent frameworks</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/05/07/prompts-become-shells-rce-vulnerabilities-ai-agent-frameworks/</link>
+      <description>Microsoft discovers critical RCE vulnerabilities in AI agent frameworks where prompt injection bypasses security controls to achieve remote code execution. Two CVEs in Semantic Kernel demonstrate how AI agents transform content risks into execution primitives.
+
+Key technical details:
+• CVE-2026-26030: Unsafe string interpolation in In-Memory Vector Store filter function uses eval() on AI-controlled input, bypassing AST blocklist via Python class hierarchy traversal to invoke os.system()
+• CVE-2026-25592: SessionsPythonPlugin accidentally exposes DownloadFileAsync with [KernelFunction] attribute, enabling arbitrary file writes to host filesystem from sandbox
+• Attack chain: Prompt injection → tool parameter manipulation → code execution (calc.exe spawn demonstrated)
+• Affects Semantic Kernel Python &lt;1.39.4 and .NET &lt;1.71.0
+
+DFIR artifacts:
+• Hunt for suspicious child processes from semantic-kernel parent processes during vulnerable window
+• Monitor for unexpected file writes to Windows Startup folders or system directories  
+• Check endpoint telemetry for agent host processes spawning cmd.exe, powershell.exe, or system utilities
+• Investigate outbound connections and persistence artifacts created by agent processes
+
+Upgrade immediately to patched versions. Treat AI model outputs as attacker-controlled input when designing tool parameter validation. Advanced hunting queries provided in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052495139147284703</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2052495139147284703">DFIR Radar</source>
+      <pubDate>Thu, 07 May 2026 21:05:49 +0000</pubDate>
+      <guid isPermaLink="false">2052495139147284703</guid>
+    </item>
     <item>
       <title>CVE-2026-26956: vm2 Sandbox Escape Enables Host RCE in Node.js 25</title>
       <link>https://socradar.io/blog/cve-2026-26956-vm2-sandbox-escape-rce-node-js-25/</link>
@@ -1662,17 +1687,6 @@ Hunt for unexpected AF_ALG SOCK_SEQPACKET socket creation outside known crypto t
       <source url="https://x.com/DFIR_Radar/status/2049927636369993907">DFIR Radar</source>
       <pubDate>Thu, 30 Apr 2026 19:03:29 +0000</pubDate>
       <guid isPermaLink="false">2049927636369993907</guid>
-    </item>
-    <item>
-      <title>Email threat landscape: Q1 2026 trends and insights</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/04/30/email-threat-landscape-q1-2026-trends-and-insights/</link>
-      <description>Q1 2026 saw 8.3 billion email phishing threats with QR code attacks surging 146% and CAPTCHA-gated phishing doubling in March. Microsoft's Tycoon2FA disruption reduced associated volumes 15% but group adapted with new .
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049912717361005050</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2049912717361005050">DFIR Radar</source>
-      <pubDate>Thu, 30 Apr 2026 18:04:12 +0000</pubDate>
-      <guid isPermaLink="false">2049912717361005050</guid>
     </item>
   </channel>
 </rss>
