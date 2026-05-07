@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 07 May 2026 17:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2026 18:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting Web Server Probing &amp; Fuzzing in Traefik with Automated Cloudflare Response</title>
+      <link>https://www.elastic.co/security-labs/detecting-web-server-probing-and-fuzzing</link>
+      <description>Elastic Security Labs releases comprehensive guide for turning Traefik proxy logs into automated edge defense. Setup detects web server fuzzing via ES|QL rules and auto-blocks attackers through Cloudflare API integration.
+
+Key technical implementation:
+• Custom ingest pipeline maps agent.name to host.name field for ECS compatibility in logs-traefik.access-default datastream
+• Detection threshold: &gt;100 HTTP 404s across &gt;50 distinct URI paths from single source IP (tunable from default 500/250)
+• Automated workflow retrieves existing Cloudflare WAF blocklist, appends new malicious IPs, updates via API call
+• Rule targets common scan patterns: /wp-admin/, /wp-content/plugins/, archive.php paths
+
+Attack methodology breakdown:
+• Scanners probe for misconfigurations and vulnerable endpoints against reverse proxy
+• High-volume 404 responses indicate directory fuzzing or vulnerability scanning (T1595.003)
+• Authelia forward auth prevents access to backend services, but logs capture reconnaissance attempts
+
+DFIR artifacts and detection opportunities:
+• Monitor logs-traefik.access-default for suspicious 404 clustering patterns
+• Correlate with Cloudflare edge logs for comprehensive attack timeline
+• Alert auto-acknowledgment reduces analyst fatigue while maintaining audit trail
+
+Impact assessment:
+• Blocks malicious traffic at Cloudflare edge, preserving local bandwidth
+• Scalable response framework applies to SQL injection, LFI, and other web attack rules
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052449042089607617</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2052449042089607617">DFIR Radar</source>
+      <pubDate>Thu, 07 May 2026 18:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2052449042089607617</guid>
+    </item>
     <item>
       <title>Fake Claude AI Site Drops Beagle Backdoor on Windows Users</title>
       <link>https://www.infosecurity-magazine.com/news/fake-claude-site-beagle-backdoor/</link>
@@ -1667,28 +1698,6 @@ DFIR teams should audit GitHub Actions workflows for AI integrations, monitor fo
       <source url="https://x.com/DFIR_Radar/status/2049882200800207190">DFIR Radar</source>
       <pubDate>Thu, 30 Apr 2026 16:02:56 +0000</pubDate>
       <guid isPermaLink="false">2049882200800207190</guid>
-    </item>
-    <item>
-      <title>ARP Around and Find Out: Hijacking GPO UNC Paths for Code Execution and NTLM Relay</title>
-      <link>https://trustedsec.com/blog/arp-around-and-find-out-hijacking-gpo-unc-paths-for-code-execution-and-ntlm-relay</link>
-      <description>TrustedSec researchers demonstrate a novel Active Directory attack combining WriteGPLink permissions with ARP spoofing to hijack Group Policy UNC paths for code execution and NTLM relay attacks.
-
-Attack methodology:
-• Requires WriteGPLink permission on target OU and network access to computers in that OU
-• Attacker links malicious GPO containing UNC path to attacker-controlled share
-• ARP spoofing redirects GPO UNC path traffic to attacker's machine during policy refresh
-• Enables both code execution via malicious scripts and NTLM credential harvesting (T1557.002)
-• Works against any computer account within the targeted OU scope
-
-Key artifacts: Monitor for unexpected GPO links in Active Directory, ARP table anomalies, and SMB connections to non-domain file shares during policy refresh cycles.
-
-Hunt for recent GPO modifications combined with ARP spoofing indicators: `Get-GPO | Where-Object {$_.ModificationTime -gt (Get-Date).AddDays(-7)}` and review network logs for ARP reply floods.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2049867310869987515</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2049867310869987515">DFIR Radar</source>
-      <pubDate>Thu, 30 Apr 2026 15:03:46 +0000</pubDate>
-      <guid isPermaLink="false">2049867310869987515</guid>
     </item>
   </channel>
 </rss>
