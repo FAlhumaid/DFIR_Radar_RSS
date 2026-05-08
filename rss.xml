@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2026 20:01:48 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2026 21:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unmanaged PowerShell Execution: Hunting Beyond powershell.exe</title>
+      <link>https://detect.fyi/unmanaged-powershell-execution-hunting-beyond-powershell-exe-1356689fb88f?source=rss----d5fd8f494f6a---4</link>
+      <description>Attackers increasingly bypass powershell.exe monitoring by executing PowerShell through alternative processes like rundll32.exe. New hunting methods focus on DLL loads and named pipe creation to catch unmanaged PowerShell execution.
+
+Key technical details:
+• Threat actors load System.Management.Automation.dll into non-PowerShell processes (rundll32.exe, custom binaries)
+• Tools like PowerShdll and SharpPick enable PowerShell execution without spawning powershell.exe process
+• APT35 🇮🇷 known to leverage unmanaged PowerShell execution techniques in campaigns
+• PowerShell runtime creates internal IPC named pipes during runspace communication, exposing hidden execution
+
+Detection opportunities:
+• Hunt Sysmon Event ID 7 (Image Load) for System.Management.Automation.dll loads by unexpected processes
+• Monitor Sysmon Event ID 17 for PowerShell-related named pipe creation outside powershell.exe
+• Elastic Endpoint queries can identify suspicious DLL loading patterns
+• Cross-reference process lineage with PowerShell automation library loads
+
+Hunt for processes loading System.Management.Automation.dll where parent process ≠ powershell.exe|pwsh.exe. Sigma rules available in official repository for both DLL loads and named pipe detection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052856782251233696</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2052856782251233696">DFIR Radar</source>
+      <pubDate>Fri, 08 May 2026 21:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2052856782251233696</guid>
+    </item>
     <item>
       <title>Active attack: Dirty Frag Linux vulnerability expands post-compromise risk</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/05/08/active-attack-dirty-frag-linux-vulnerability-expands-post-compromise-risk/</link>
@@ -1627,31 +1652,6 @@ Deploy auditd rules for AF_ALG socket monitoring and Falco detection rules. Page
       <source url="https://x.com/DFIR_Radar/status/2050365527227257203">DFIR Radar</source>
       <pubDate>Sat, 02 May 2026 00:03:30 +0000</pubDate>
       <guid isPermaLink="false">2050365527227257203</guid>
-    </item>
-    <item>
-      <title>AL26-010 – Cyber Criminals Social‑Engineering‑Enabled Compromise of Enterprise SaaS Environments</title>
-      <link>https://cyber.gc.ca/en/alerts-advisories/al26-010-cyber-criminals-social-engineering-enabled-compromise-enterprise-saas-environments</link>
-      <description>Canadian cyber authorities warn of financially motivated criminals shifting to social engineering attacks targeting SaaS platforms since mid-2025. Attackers bypass technical defenses using vishing, credential harvesting, and help desk abuse to steal data without deploying malware.
-
-Key attack vectors:
-• Voice phishing campaigns impersonate IT staff to trick users into authenticating to attacker-controlled OAuth portals, creating "Support Tool" or "Data Loader" connected apps
-• AiTM phishing frameworks capture SSO credentials and MFA codes in real-time, creating concurrent sessions from different IPs within minutes
-• Subdomain impersonation (e.g., organizationsso[.]com) bypasses newly-registered domain controls and email security filters
-• Help desk manipulation convinces support staff to reset MFA or enroll attacker devices, exploiting human trust over technical vulnerabilities
-
-Post-compromise TTPs:
-• Lateral movement across SaaS platforms using single SSO identity (T1078.004)
-• Data exfiltration via legitimate APIs and export functions to blend with normal user behavior
-• "Golden token" theft from third-party vendors enables persistent access bypassing MFA
-• Aggressive extortion operations threatening data disclosure on leak sites
-
-Hunt for OAuth tokens created during unverifiable support calls, concurrent user sessions from different regions, and API activity from IPs not associated with known vendor infrastructure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050350518099185989</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2050350518099185989">DFIR Radar</source>
-      <pubDate>Fri, 01 May 2026 23:03:52 +0000</pubDate>
-      <guid isPermaLink="false">2050350518099185989</guid>
     </item>
   </channel>
 </rss>
