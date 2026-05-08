@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2026 15:02:35 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2026 18:03:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hunting ClickFix Win + X Variants</title>
+      <link>https://detect.fyi/hunting-clickfix-win-x-variants-ff06e4c62bd9?source=rss----d5fd8f494f6a---4</link>
+      <description>New ClickFix variants bypass Run prompt defenses by abusing Windows Power User Menu (Win + X) and Terminal launches. Threat actors trade user experience friction for evasion of RunMRU registry artifacts that defenders commonly monitor.
+
+Key technical details:
+• Process trees differ by launch method: Win+X shows explorer.exe→wt.exe→WindowsTerminal.exe→powershell.exe vs direct Terminal showing explorer.exe→WindowsTerminal.exe→powershell.exe
+• Attackers use wt.exe as LOLBin to fragment execution across multiple PowerShell instances, splitting download/persistence/execution into separate processes under WindowsTerminal.exe parent
+• Terminal customization features (Host.UI.RawUI.WindowTitle, Clear-Host, ANSI colors) improve social engineering credibility by hiding malicious commands post-execution
+• Default Windows 11 installations vulnerable as Terminal ships by default (22H2+), expanding wt.exe attack surface from limited Windows 10 presence
+
+DFIR artifacts and detection opportunities:
+• Monitor for explorer.exe spawning wt.exe without -p profile parameter as Win+X indicator
+• Hunt for WindowsTerminal.exe as parent process of shells with network connections within 2-minute window
+• Detect nested shell execution patterns: WindowsTerminal.exe→shell1→shell2 with network activity
+• Look for Terminal appearance modification keywords in command lines
+
+Hunt for explorer.exe→wt.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052811602483687645</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2052811602483687645">DFIR Radar</source>
+      <pubDate>Fri, 08 May 2026 18:03:20 +0000</pubDate>
+      <guid isPermaLink="false">2052811602483687645</guid>
+    </item>
     <item>
       <title>Quasar Linux RAT Steals Developer Credentials for Software Supply Chain Compromise</title>
       <link>https://thehackernews.com/2026/05/quasar-linux-rat-steals-developer.html</link>
@@ -1635,32 +1660,6 @@ Hunt for recent Terminal.app permission requests and outbound connections from z
       <source url="https://x.com/DFIR_Radar/status/2050320106622697709">DFIR Radar</source>
       <pubDate>Fri, 01 May 2026 21:03:01 +0000</pubDate>
       <guid isPermaLink="false">2050320106622697709</guid>
-    </item>
-    <item>
-      <title>Komari Red: The Monitoring Tool with a Built-in Reverse Shell</title>
-      <link>https://www.huntress.com/blog/komari-c2-agent-abuse</link>
-      <description>Huntress uncovers live intrusion where threat actor deployed Komari monitoring tool as persistence mechanism. Tool ships with built-in reverse shell capabilities by default, creating legitimate C2 channel without weaponization.
-
-Attack chain breakdown:
-• Initial access via compromised FortiGate SSLVPN credentials from 45.153.34[.]132 (VMHeaven hosting)
-• Lateral movement using customized Impacket smbexec.py with randomized service names
-• Registry dumping attempt blocked by Defender (Behavior:Win32/RegDump.SA quarantine)
-• RDP enablement via registry modification and firewall rules (T1021.001)
-• Komari agent installed as "Windows Update Service" using NSSM wrapper for persistence
-
-Key forensic artifacts:
-• Komari-agent.exe (SHA256: 039e659ade3aa8ee7758c11fdb8fbfffd2491920046d638413cea2042f6d584c) in C:\Windows\System32\
-• NSSM service registration in HKLM\System\CurrentControlSet\Services\Windows Update Service
-• PowerShell spawning from komari-agent.exe for command execution and system enumeration
-• Long-lived WebSocket connections to operator C2 infrastructure on TCP/25774
-
-Detection opportunity: Hunt for processes maintaining persistent outbound WebSockets to unknown infrastructure, especially when spawning PowerShell children not user-initiated. Monitor NSSM service registrations with suspicious DisplayName/AppParameters combinations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050305266919284868</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2050305266919284868">DFIR Radar</source>
-      <pubDate>Fri, 01 May 2026 20:04:03 +0000</pubDate>
-      <guid isPermaLink="false">2050305266919284868</guid>
     </item>
   </channel>
 </rss>
