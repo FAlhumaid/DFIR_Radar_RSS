@@ -5,8 +5,19 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2026 22:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2026 23:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026-05-08: macOS Shub Stealer infection</title>
+      <link>https://www.malware-traffic-analysis.net/2026/05/08/index.html</link>
+      <description>New macOS Shub Stealer campaign uses Google Drive-hosted docs with malicious terminal scripts. Victims directed to fake download pages that execute stealer via copy-paste commands. PCAP and IOCs available.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052886923148943627</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2052886923148943627">DFIR Radar</source>
+      <pubDate>Fri, 08 May 2026 23:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2052886923148943627</guid>
+    </item>
     <item>
       <title>VU#260001: Linux kernel contains local privilege escalation vulnerability (Copy Fail)</title>
       <link>https://kb.cert.org/vuls/id/260001</link>
@@ -1627,31 +1638,6 @@ Start small: implement feasibility validation and pre-production testing. Build 
       <source url="https://x.com/DFIR_Radar/status/2050546595301618121">DFIR Radar</source>
       <pubDate>Sat, 02 May 2026 12:03:01 +0000</pubDate>
       <guid isPermaLink="false">2050546595301618121</guid>
-    </item>
-    <item>
-      <title>Copy Fail and the forensic blind spot hiding in Linux memory</title>
-      <link>https://andreafortuna.org/2026/05/02/copy-fail-cve-2026-31431/</link>
-      <description>Copy Fail (CVE-2026-31431) exploits Linux kernel memory management to corrupt binaries in page cache without touching disk, creating a forensic blind spot where traditional file integrity monitoring fails completely.
-
-Key technical details:
-• 9-year-old optimization in algif_aead.c allows in-place AEAD operations, but authencesn implementation writes scratch data at offset assoclen+cryptlen into chained page cache pages
-• Attack path: AF_ALG socket → splice() target binary pages → sendmsg/recvmsg loop to inject shellcode into cached /usr/bin/su → execute for root shell
-• Affects kernels 4.14-7.0 (essentially all Linux since 2017), including LTS branches 6.12.x, 6.6.x, 5.15.x, 5.10.x
-• In containerized environments, page cache sharing enables container-to-host privilege escalation bypassing all pod security policies
-
-DFIR implications:
-• File integrity monitors see clean disk while memory contains corrupted executable
-• Standard audit trails show normal su execution with no suspicious file writes
-• Syscall-level detection required: monitor AF_ALG SOCK_SEQPACKET socket creation outside disk-encryption tools (cryptsetup, veritysetup)
-• Post-incident forensics limited without real-time syscall capture of socket/splice/sendmsg operations
-
-Deploy auditd rules for AF_ALG socket monitoring and Falco detection rules. Page cache corruption is invisible after reboot without preserved memory dumps.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050516440873136188</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2050516440873136188">DFIR Radar</source>
-      <pubDate>Sat, 02 May 2026 10:03:11 +0000</pubDate>
-      <guid isPermaLink="false">2050516440873136188</guid>
     </item>
   </channel>
 </rss>
