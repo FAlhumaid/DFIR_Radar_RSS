@@ -5,8 +5,41 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2026 18:03:20 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2026 19:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dirty Frag (CVE-2026-43284 and CVE-2026-43500): Detecting unpatched local privilege escalation via Linux Kernel ESP and RxRPC</title>
+      <link>https://webflow.sysdig.com/blog/dirty-frag-cve-2026-43284-and-cve-2026-43500-detecting-unpatched-local-privilege-escalation-via-linux-kernel-esp-and-rxrpc</link>
+      <description>Critical Linux privilege escalation "Dirty Frag" (CVE-2026-43284, CVE-2026-43500) exploits IPsec ESP and RxRPC in-place decryption to corrupt page cache. Zero-day PoC public, patches pending.
+
+Technical details:
+• Affects Linux 4.10-7.0 via ESP (2017 commit) and RxRPC (2023) fast-path decryption flaws
+• Attacker uses vmsplice() + splice() to redirect decryption output into /usr/bin/su page cache
+• Chains AF_KEY/XFRM netlink (ESP) or AF_RXRPC sockets (RxRPC) for deterministic root shell
+• Unlike DirtyPipe race conditions, this is deterministic with 192-byte shellcode injection
+
+Exploitation chain:
+• Opens pipe, attaches /usr/bin/su cache page as fragment via vmsplice()
+• Configures XFRM SA with attacker key, splices pipe into UDP socket for ESP encapsulation  
+• Sends crafted ESP packet to loopback, kernel decrypts in-place over su binary cache
+• Executes modified /usr/bin/su for instant root access
+
+Container impact:
+• Default Docker/Kubernetes inherit host kernel exposure via AF_KEY/XFRM/AF_RXRPC sockets
+• Standard syscalls only - no special privileges needed beyond socket creation
+
+DFIR artifacts:
+• Monitor socket(AF_RXRPC, SOCK_DGRAM) calls from non-AFS processes
+• Track vmsplice/splice syscalls preceding XFRM netlink or AF_KEY operations  
+• Watch for unexpected setuid binary modifications or privilege transitions
+• AWS bulletin 2026-027 lists additional vulnerable modules: xfrm_user, ipcomp4/6
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052826654272012322</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2052826654272012322">DFIR Radar</source>
+      <pubDate>Fri, 08 May 2026 19:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2052826654272012322</guid>
+    </item>
     <item>
       <title>Hunting ClickFix Win + X Variants</title>
       <link>https://detect.fyi/hunting-clickfix-win-x-variants-ff06e4c62bd9?source=rss----d5fd8f494f6a---4</link>
@@ -1634,32 +1667,6 @@ With 1M+ cPanel instances exposed, hunt for post-compromise indicators: new sche
       <source url="https://x.com/DFIR_Radar/status/2050335430328164728">DFIR Radar</source>
       <pubDate>Fri, 01 May 2026 22:03:55 +0000</pubDate>
       <guid isPermaLink="false">2050335430328164728</guid>
-    </item>
-    <item>
-      <title>Malicious Ad for Homebrew Leads to MacSync Stealer, (Fri, May 1st)</title>
-      <link>https://isc.sans.edu/diary/rss/32942</link>
-      <description>MacSync Stealer distributed through malicious Google ads impersonating Homebrew package manager. Active campaign using fake installation scripts to harvest macOS credentials and system data.
-
-Technical breakdown:
-• Malicious ads redirect to fake Homebrew site at sites.google[.]com/view/brewpage
-• Victims copy/paste shell script that downloads MacSync payload from glowmedaesthetics[.]com
-• Multi-stage infection: initial script (SHA256: a4fcfecc5ac8...) downloads zsh executable (SHA256: 0d58616c...)
-• Stealer collects system info, saves to /tmp/osalogging.zip, exfiltrates to C2
-• Requests password via popup, uses Terminal permissions for Finder access
-
-DFIR artifacts:
-• Monitor /tmp/ for osalogging.zip creation and deletion
-• Network traffic to glowmedaesthetics[.]com domain
-• Shell history for curl commands to suspicious domains
-• Process execution of zsh scripts from non-standard locations
-
-Hunt for recent Terminal.app permission requests and outbound connections from zsh processes. Full IOC hashes and network indicators in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050320106622697709</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2050320106622697709">DFIR Radar</source>
-      <pubDate>Fri, 01 May 2026 21:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2050320106622697709</guid>
     </item>
   </channel>
 </rss>
