@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 09 May 2026 00:02:35 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 09 May 2026 12:02:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Copy Fail and DirtyFrag: Linux Page Cache Bugs in the Wild</title>
+      <link>https://www.elastic.co/security-labs/copy-fail-dirtyfrag-linux-page-bugs-in-the-wild</link>
+      <description>Copy Fail (CVE-2026-31431) and DirtyFrag exploit Linux page cache corruption bugs for reliable privilege escalation. Both vulnerabilities chain kernel crypto interfaces with splice() to corrupt setuid binaries in memory without touching disk.
+
+Key technical details:
+• Copy Fail uses AF_ALG + splice() for controlled 4-byte writes into page cache of readable files like /usr/bin/su
+• DirtyFrag expands attack surface via ESP/XFRM (AF_NETLINK) and RxRPC (AF_RXRPC) networking paths  
+• Exploitation requires socket(AF_ALG/AF_RXRPC), splice() syscalls, and namespace creation via unshare(CLONE_NEWUSER|CLONE_NEWNET)
+• Public exploits available in Python (732 bytes), Go, Rust, C, and Metasploit modules
+• DirtyFrag bypasses algif_aead module blocking, targeting networking stack instead
+
+DFIR artifacts and detection:
+• Auditd syscall monitoring for socket() with a0 values "26" (AF_ALG) or "21" (AF_RXRPC) 
+• Burst patterns of interleaved socket(AF_ALG) and splice() calls from same PID
+• Suspicious SUID binary execution: effective UID 0 from non-root parent with minimal arguments
+• Namespace creation followed by privilege escalation within 30-second window
+
+Hunt for non-root processes combining AF_ALG/AF_RXRPC socket creation with high-volume splice() syscalls (≥10 calls). Full EQL queries and auditd rules provided in Elastic's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2053083289846485371</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2053083289846485371">DFIR Radar</source>
+      <pubDate>Sat, 09 May 2026 12:02:56 +0000</pubDate>
+      <guid isPermaLink="false">2053083289846485371</guid>
+    </item>
     <item>
       <title>Re: Re: Dirty Frag: Universal Linux LPE</title>
       <link>https://seclists.org/oss-sec/2026/q2/452</link>
@@ -1627,17 +1653,6 @@ Start small: implement feasibility validation and pre-production testing. Build 
       <source url="https://x.com/DFIR_Radar/status/2050622170804437022">DFIR Radar</source>
       <pubDate>Sat, 02 May 2026 17:03:19 +0000</pubDate>
       <guid isPermaLink="false">2050622170804437022</guid>
-    </item>
-    <item>
-      <title>ConsentFix v3 attacks target Azure with automated OAuth abuse</title>
-      <link>https://www.bleepingcomputer.com/news/security/consentfix-v3-attacks-target-azure-with-automated-oauth-abuse/</link>
-      <description>ConsentFix v3 automates OAuth abuse against Azure using Pipedream webhooks to instantly exchange authorization codes for tokens. Attack bypasses MFA by tricking victims into pasting localhost URLs from legitimate Microsoft login flows.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050592015885414662</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2050592015885414662">DFIR Radar</source>
-      <pubDate>Sat, 02 May 2026 15:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2050592015885414662</guid>
     </item>
   </channel>
 </rss>
