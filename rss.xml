@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 09 May 2026 17:02:09 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 10 May 2026 11:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GhostLock: when ransomware impact requires no ransomware</title>
+      <link>https://andreafortuna.org/2026/05/10/ghostlock/</link>
+      <description>New attack bypasses all ransomware detection: GhostLock achieves full file unavailability across enterprise NAS using Windows API calls with zero encryption, writes, or forensic artifacts.
+
+Breakthrough findings:
+• Uses CreateFileW with dwShareMode=0x00000000 to hold exclusive handles on hundreds of thousands of files simultaneously
+• 32-thread parallel discovery maps 500K files in 6 minutes, locks 498K+ files in under 3 minutes with 99.6% success rate
+• Bypasses canary files, write-rate detection, behavioral AI, EDR, NDR - appears identical to document indexing
+• Victims get STATUS_SHARING_VIOLATION (0xC0000043) errors, complete application failure across ERP/document systems
+• Recovery requires storage admin to terminate SMB sessions - not covered in most IR runbooks
+
+Key technical details:
+• Leverages legitimate Win32 API behavior documented since Windows NT 3.1
+• SMB2 CREATE requests use ShareAccess=0x00000000 per MS-SMB2 specification
+• No writes, renames, or entropy changes - zero disk forensic artifacts
+• Python PoC available on GitHub with exponential backoff for transient locks
+• Session persistence survives credential revocation for 15-60 minutes
+
+Primary detection opportunity: Monitor NAS session telemetry for &gt;500 simultaneous exclusive handles per session. This metric exists in storage management APIs but isn't ingested into SIEMs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2053430523809485253</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2053430523809485253">DFIR Radar</source>
+      <pubDate>Sun, 10 May 2026 11:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2053430523809485253</guid>
+    </item>
     <item>
       <title>Digital Forensics: Making Log Analysis Interesting with Zircolite</title>
       <link>https://hackers-arise.com/digital-forensics-making-log-analysis-interesting-with-zircolite/</link>
@@ -1619,27 +1646,6 @@ Essential artifacts: plists with RunAtLoad keys, modified dylibs, shell configs,
       <source url="https://x.com/DFIR_Radar/status/2050924102261608677">DFIR Radar</source>
       <pubDate>Sun, 03 May 2026 13:03:05 +0000</pubDate>
       <guid isPermaLink="false">2050924102261608677</guid>
-    </item>
-    <item>
-      <title>When the firefighter starts the fire: IR professionals who joined BlackCat</title>
-      <link>https://andreafortuna.org/2026/05/03/ir-professionals-blackcat-insider-threat/</link>
-      <description>Three cybersecurity professionals sentenced for BlackCat ransomware affiliate activities. Former IR specialists Ryan Goldberg and Kevin Martin each received 4-year sentences; negotiator Angelo Martino leaked client insurance data to maximize ransoms.
-
-Key details from DOJ case:
-• Goldberg (ex-Sygnia), Martin (ex-DigitalMint) operated as BlackCat affiliates April-Dec 2023, splitting 80% revenue share after successful $1.2M Bitcoin extortion
-• Martino exploited IR negotiator role at DigitalMint, passing five clients' insurance limits and negotiation positions to BlackCat operators for payment calibration
-• Investigation traced cryptocurrency transactions and communications between conspirators and BlackCat C2 infrastructure
-• All three leveraged specialized cybersecurity knowledge to execute attacks they were professionally trained to prevent
-
-Case exposes structural risk in IR engagement model: single vendors often consolidate negotiation, forensics, and payment under one contract, creating dangerous information concentration. IR professionals routinely access victim insurance coverage, critical systems inventory, and internal decision thresholds—exactly what ransomware operators need to maximize payouts.
-
-Implement separation of duties between IR negotiation and payment processes. Audit privileged access for external responders using same zero-trust principles applied to internal users.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2050833516045156866</description>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2050833516045156866">DFIR Radar</source>
-      <pubDate>Sun, 03 May 2026 07:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2050833516045156866</guid>
     </item>
   </channel>
 </rss>
