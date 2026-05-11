@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 11 May 2026 12:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 May 2026 14:04:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake Claude Code Page Pushes PowerShell Stealer at Devs</title>
+      <link>https://www.infosecurity-magazine.com/news/fake-claude-code-installer/</link>
+      <description>New PowerShell stealer targets developers via fake Claude Code installer, exploiting Chrome 144's IElevator2 interface to bypass App-Bound Encryption and harvest browser credentials from compromised workstations.
+
+Technical breakdown:
+• Campaign uses lookalike install pages with altered PowerShell commands, domains registered April 2026
+• 600KB obfuscated loader targets Chromium browsers (Chrome, Edge, Brave, Vivaldi, Arc)  
+• 4608-byte native helper reflectively injected into browser processes to invoke IElevator2 COM interface
+• Transcription error in Edge IElevator2 IID (Data3 field) creates unique detection signature
+• Persistence via scheduled task polling C2 every minute, excludes Iran 🇮🇷/Russia 🇷🇺/CIS regions
+
+Detection strategy:
+• Helper binary contains no network/file/crypto imports - all malicious activity in PowerShell layer
+• Monitor for PowerShell spawning native code injection into browser processes
+• Alert on IElevator2 interface calls from non-browser processes
+
+Enable PowerShell Constrained Language Mode and script block logging. Filter newly registered domains at web proxy.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2053838634223009811</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2053838634223009811">DFIR Radar</source>
+      <pubDate>Mon, 11 May 2026 14:04:24 +0000</pubDate>
+      <guid isPermaLink="false">2053838634223009811</guid>
+    </item>
     <item>
       <title>Using the Extraction Agent in 2026: Compatibility, Signing, Firewall, and Extraction Tips</title>
       <link>https://blog.elcomsoft.com/2026/05/using-the-extraction-agent-in-2026-compatibility-signing-firewall-and-extraction-tips/</link>
@@ -1585,33 +1610,6 @@ Hunt for emails from sender domains in IOC list and PDF hashes: 5DB1ECBBB2C90C51
       <source url="https://x.com/DFIR_Radar/status/2051316596933575122">DFIR Radar</source>
       <pubDate>Mon, 04 May 2026 15:02:43 +0000</pubDate>
       <guid isPermaLink="false">2051316596933575122</guid>
-    </item>
-    <item>
-      <title>[local] Linux Kernel proc_readdir_de() 6.18-rc5 - Local Privilege Escalation</title>
-      <link>https://www.exploit-db.com/exploits/52550</link>
-      <description>CVE-2025-40271 exploits Linux kernel proc_readdir_de() use-after-free in kernels ~3.14+ through 6.18-rc5. Race condition in /proc filesystem allows local privilege escalation via rb-tree traversal of freed proc entries.
-
-Technical details:
-• remove_proc_entry() calls rb_erase() without RB_CLEAR_NODE(), leaving stale rb-tree links
-• Concurrent getdents64() on /proc/self/net/dev_snmp6/ can traverse freed proc_dir_entry structs
-• UAF triggered by racing directory reads against network device removal (veth deletion)
-• Freed 192-byte proc_dir_entry objects sprayed with msg_msg via msgsnd() for heap manipulation
-• Kernel heap pointer leaked through d_ino field enables KASLR bypass
-
-Attack methodology:
-• Creates user namespace for CAP_NET_ADMIN capability
-• Populates /proc/self/net/dev_snmp6/ with veth pairs to create target proc entries  
-• Races getdents64() against rapid veth deletion to trigger stale pointer dereference
-• Sprays kmalloc-192 cache with msg_msg to reclaim freed slots
-• Detects UAF via anomalous d_ino values (0xffff... kernel addresses)
-
-Fixed in stable kernels 5.10.247, 6.1.159, 6.12.73, 6.18-rc6 via commit adding pde_erase() helper. Hunt for unusual d_ino patterns in getdents syscalls and monitor veth creation/deletion patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051301444754555267</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2051301444754555267">DFIR Radar</source>
-      <pubDate>Mon, 04 May 2026 14:02:31 +0000</pubDate>
-      <guid isPermaLink="false">2051301444754555267</guid>
     </item>
   </channel>
 </rss>
