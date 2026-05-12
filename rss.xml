@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 12 May 2026 11:02:24 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 May 2026 12:04:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Shai Hulud attack ships signed malicious TanStack, Mistral npm packages</title>
+      <link>https://www.bleepingcomputer.com/news/security/shai-hulud-attack-ships-signed-malicious-tanstack-mistral-npm-packages/</link>
+      <description>TeamPCP threat group's Shai-Hulud campaign compromised 416+ npm/PyPI packages including TanStack and Mistral AI, using stolen OIDC tokens to publish malware with valid SLSA Build Level 3 attestations. Attack exploited legitimate CI/CD pipelines to appear cryptographically authentic.
+
+Technical breakdown:
+• Chained 3 vulns: risky pull_request-target workflow, GitHub Actions cache poisoning, OIDC token theft from runner memory
+• Clever Git trick: orphaned commit in TanStack/router fork accessed via malicious optional dependency, auto-executing during npm install
+• Targets 100+ credential types: GitHub PATs, AWS IAM, Kubernetes tokens, HashiCorp Vault, SSH keys, VS Code configs, .env files
+• Exfiltration via Session P2P network mimicking encrypted messenger traffic to evade detection
+• Persistence through Claude Code hooks and VS Code auto-run tasks survives package removal
+
+Self-propagation: steals GitHub/npm creds → enumerates linked packages → injects payload into tarballs → republishes malicious versions with valid signatures.
+
+Incident responders should audit IDE directories for router_runtime.js/setup.mjs artifacts, rotate all dev credentials, and block C2 infrastructure: api[.]masscan[.]cloud, git-tanstack[.]com, *[.]getsession[.]org.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054170932260794473</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2054170932260794473">DFIR Radar</source>
+      <pubDate>Tue, 12 May 2026 12:04:50 +0000</pubDate>
+      <guid isPermaLink="false">2054170932260794473</guid>
+    </item>
     <item>
       <title>State-sponsored actors, better known as the friends you don’t want</title>
       <link>https://blog.talosintelligence.com/state-sponsored-actors-better-known-as-the-friends-you-dont-want/</link>
@@ -1554,33 +1576,6 @@ Hunt for unknown PHP files in /wp-content/cache/breeze-extra/gravatars/ and susp
       <source url="https://x.com/DFIR_Radar/status/2051724641471750419">DFIR Radar</source>
       <pubDate>Tue, 05 May 2026 18:04:09 +0000</pubDate>
       <guid isPermaLink="false">2051724641471750419</guid>
-    </item>
-    <item>
-      <title>Linux Investigation (Part 2)</title>
-      <link>https://righteousit.com/2026/05/05/linux-investigation-part-2/</link>
-      <description>Linux memory analysis reveals cryptocurrency mining operation using LD_PRELOAD rootkit, SSH tunneling, and process hiding via GID marking. Investigation uncovers complete attack chain from initial compromise through tunnel establishment.
-
-Key technical findings:
-• Suspicious process hierarchy: sh (PID 939) spawned directly from SSH daemon, bypassing normal authentication
-• Command history recovered from memory shows attacker staging XMRig miner in /dev/shm/kit, renaming to "top"
-• SSH tunnel established to 192[.]168[.]5[.]95:22 with local port 3333 for mining pool communication
-• All malicious processes marked with GID 7823 - likely rootkit hiding mechanism
-• LD_PRELOAD rootkit (libymv.so.3) enables pre-authentication SSH daemon compromise
-
-Attack methodology:
-• Initial access via compromised "worker" account from jump host 192[.]168[.]4[.]35
-• Rootkit deployment during legitimate session, SSH daemon restart triggers persistence
-• Post-exploitation: pty.spawn() for interactive shell, PATH manipulation for execution
-• Cryptocurrency mining via XMRig disguised as legitimate "top" process
-• Cleanup: /dev/shm/kit directory removed post-execution
-
-Hunt for GID anomalies in process lists and monitor /dev/shm for staging directories. Check for LD_PRELOAD modifications and unexpected SSH daemon child processes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051709303325929514</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2051709303325929514">DFIR Radar</source>
-      <pubDate>Tue, 05 May 2026 17:03:11 +0000</pubDate>
-      <guid isPermaLink="false">2051709303325929514</guid>
     </item>
   </channel>
 </rss>
