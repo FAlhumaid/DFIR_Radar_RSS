@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 12 May 2026 19:02:30 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 May 2026 20:04:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-44338: PraisonAI authentication bypass in under 4 hours and the growing trend of rapid exploitation</title>
+      <link>https://webflow.sysdig.com/blog/cve-2026-44338-praisonai-authentication-bypass-in-under-4-hours-and-the-growing-trend-of-rapid-exploitation</link>
+      <description>CVE-2026-44338 exploited in under 4 hours: PraisonAI authentication bypass demonstrates AI-accelerated exploitation becoming the norm. Scanner labeled CVE-Detector/1.0 probing vulnerable endpoints just 3h44m after GitHub advisory.
+
+Key technical details:
+• CVE-2026-44338 (CVSS not specified): Hard-coded AUTH_ENABLED=False in api_server.py exposes GET /agents and POST /chat endpoints
+• All PyPI releases ≤4.6.33 vulnerable - authentication fails open by design in check_auth() function
+• Scanner from 146[.]190[.]133[.]49 targeted exact vulnerable paths, confirming successful bypass with 200 OK responses
+• POST /chat triggers PraisonAI().run() regardless of message content - impact depends on configured agents.yaml workflow
+
+Attack methodology:
+• Two-pass scanning: generic disclosure paths first, then AI-agent specific endpoints
+• User-Agent "CVE-Detector/1.0" serves as reliable IOC across any targeted infrastructure
+• Validation-focused approach: enumerate agents, confirm bypass, log as exploitable, move to next target
+
+DFIR artifacts:
+• Network logs showing unauthenticated requests to /agents and /chat without Authorization headers
+• Python subprocess spawning and unexpected network egress from agent processes post-exploitation
+• Access attempts to Python fingerprint paths: /pyproject.toml, /poetry.lock, /requirements.txt
+
+Deploy WAF rules blocking unauthenticated access to /agents and /chat endpoints. Hunt for User-Agent "CVE-Detector/1.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054291552340525355</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2054291552340525355">DFIR Radar</source>
+      <pubDate>Tue, 12 May 2026 20:04:08 +0000</pubDate>
+      <guid isPermaLink="false">2054291552340525355</guid>
+    </item>
     <item>
       <title>Anatomy of an Attack: The DINDOOR Backdoor</title>
       <link>https://www.extrahop.com/blog/anatomy-of-an-attack-the-dindoor-backdoor-extrahop</link>
@@ -1601,17 +1630,6 @@ Download from GitHub (MIT license). Test against archived WhatsApp datasets to v
       <source url="https://x.com/DFIR_Radar/status/2051845195625284032">DFIR Radar</source>
       <pubDate>Wed, 06 May 2026 02:03:11 +0000</pubDate>
       <guid isPermaLink="false">2051845195625284032</guid>
-    </item>
-    <item>
-      <title>North Korean hackers targeted ethnic Koreans in China with Android ‘BirdCall’ malware</title>
-      <link>https://therecord.media/north-korean-hackers-target-ethnic-koreans-in-china</link>
-      <description>North Korean 🇰🇵 APT37 deployed Android malware "BirdCall" via compromised card games targeting ethnic Koreans in China's 🇨🇳 Yanbian region. Backdoor records calls, steals data, and likely targets defectors.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051830194907021546</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2051830194907021546">DFIR Radar</source>
-      <pubDate>Wed, 06 May 2026 01:03:34 +0000</pubDate>
-      <guid isPermaLink="false">2051830194907021546</guid>
     </item>
   </channel>
 </rss>
