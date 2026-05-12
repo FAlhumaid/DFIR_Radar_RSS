@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 12 May 2026 03:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 May 2026 07:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Mini Shai-Hulud Strikes Again: TanStack + more npm Packages Compromised</title>
+      <link>https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised</link>
+      <description>TeamPCP executes sophisticated supply chain attack compromising TanStack, UiPath, and Mistral npm packages through GitHub Actions cache poisoning and OIDC token theft. Attack affects millions of weekly downloads and introduces destructive wiper targeting developer machines.
+
+Key technical details:
+• Exploited GitHub Actions pull_request_target workflow to poison pnpm cache, then extracted OIDC tokens from runner memory (`/proc/&lt;pid&gt;/mem`)
+• Malicious packages deploy via optionalDependencies orphan commit and embedded router_init.js (~2.3MB obfuscated)
+• Credential stealer targets CI/CD tokens, cloud credentials (AWS IMDSv2, GCP, Azure), K8s service accounts, HashiCorp Vault
+• Triple C2 exfiltration: typosquat git-tanstack[.]com, Session messenger network, GitHub API dead drops
+
+Attack methodology:
+• Self-propagating worm uses stolen npm/GitHub tokens to publish additional poisoned packages
+• UiPath variant uses preinstall script downloading Bun runtime (same TTPs as previous SAP compromise)
+• Persistent gh-token-monitor daemon polls GitHub every 60s, triggers `rm -rf ~/` on token revocation
+• Avoids Russian-configured systems (geofencing typical of TeamPCP operations)
+
+Check lockfiles for affected versions, search for router_init.js/setup.mjs files, remove gh-token-monitor daemons BEFORE rotating tokens to prevent wiper activation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054095098208739469</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2054095098208739469">DFIR Radar</source>
+      <pubDate>Tue, 12 May 2026 07:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2054095098208739469</guid>
+    </item>
     <item>
       <title>TanStack npm Packages: CVSS (Max): None</title>
       <link>http://portal.auscert.org.au/bulletins/ASB-2026.0102/</link>
@@ -1564,31 +1589,6 @@ Enable via Entra ID Diagnostic Settings. Hunt for high-volume GET requests to le
       <source url="https://x.com/DFIR_Radar/status/2051648996054355990">DFIR Radar</source>
       <pubDate>Tue, 05 May 2026 13:03:33 +0000</pubDate>
       <guid isPermaLink="false">2051648996054355990</guid>
-    </item>
-    <item>
-      <title>The Danger of Multi-SSO AWS Cognito User Pools</title>
-      <link>https://blog.doyensec.com/2026/05/05/cloudsectidbits-masso-cognito-sso.html</link>
-      <description>Doyensec reveals critical security flaws in multi-tenant AWS Cognito deployments where external IdPs can inject ghost identities, bypass authentication controls, and hijack domain routing through malicious SSO configurations.
-
-Key vulnerabilities identified:
-
-• JIT Ghost Identity Injection: PreSignUp_ExternalProvider trigger fires before user persistence, allowing attackers to create durable ghost accounts even when domain checks fail in PostConfirmation
-
-• Trigger Source Confusion: Developers miss triggerSource values like PreSignUp_ExternalProvider vs InboundFederation_ExternalProvider, creating authentication bypass paths between first and subsequent logins
-
-• Sub-Splitting Attacks: Federated username format `&lt;ProviderName&gt;_&lt;sub&gt;` vulnerable to parsing differentials when Lambda functions use `split("_")` with positional indices on attacker-controlled sub claims
-
-• IdP Routing Hijacks: Platforms allowing self-service IdpIdentifier registration without domain ownership validation enable attackers to redirect authentication flows (e.g., claiming gmail.com)
-
-• Provider Name Collision: Cognito accepts visually similar but byte-distinct provider names using homoglyphs, creating confusion in audit logs and potential identity conflicts
-
-Implement security gates in PreSignUp with proper triggerSource branching. Use `split("_", 1)` for username parsing. Tool release: maSSO weaponized IdP for testing available on GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2051633915685732817</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2051633915685732817">DFIR Radar</source>
-      <pubDate>Tue, 05 May 2026 12:03:38 +0000</pubDate>
-      <guid isPermaLink="false">2051633915685732817</guid>
     </item>
   </channel>
 </rss>
