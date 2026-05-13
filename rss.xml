@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 13 May 2026 08:03:34 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 13 May 2026 09:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Detect Persistence Mechanisms with Elastic SIEM: SOC Analyst Hands-On Lab | Hunt Forward Lab…</title>
+      <link>https://infosecwriteups.com/how-to-detect-persistence-mechanisms-with-elastic-siem-soc-analyst-hands-on-lab-hunt-forward-lab-13265ccdd666?source=rss----7b722bfd1b8d---4</link>
+      <description>New hands-on DFIR lab teaches persistence mechanism hunting in Elastic SIEM using realistic CartFlow Commerce breach scenario. Three-week attacker dwell time with registry run keys, scheduled tasks, and startup folder redundancy detected through ES|QL correlation.
+
+Detailed breakdown:
+• Covers MITRE T1547.001 (Registry Run Keys), T1053.005 (Scheduled Tasks), T1060 (Startup Folder) persistence techniques
+• Lab uses 30-day persistence-lab-logs dataset with buried attacker activity across developer workstations
+• Attack timeline: Registry run key April 7th 2AM → scheduled task April 11th → startup folder April 18th
+• ES|QL queries detect off-hours registry writes to HKCU\Run pointing to AppData binaries, shell-spawned schtasks.exe with SYSTEM privileges, executable drops to Windows Startup folders
+
+Hunt patterns include:
+• Time-based analysis: `DATE_EXTRACT("HOUR_OF_DAY", @timestamp)` flags 2AM-5AM activity
+• Path risk scoring: AppData/ProgramData binary locations vs legitimate Program Files
+• Process ancestry: cmd.exe/powershell.exe spawning schtasks.exe indicates manual attacker activity
+• Campaign scope correlation: `COUNT_DISTINCT(mechanism)` across hosts reveals redundant persistence deployment
+
+Complete with Sigma detection rule conversion and GitHub portfolio integration. Hunt notebook templates track IOCs, execution timelines, and affected host risk scoring for incident response prioritization.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054487713420603829</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2054487713420603829">DFIR Radar</source>
+      <pubDate>Wed, 13 May 2026 09:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2054487713420603829</guid>
+    </item>
     <item>
       <title>&amp;#x5b;GUEST DIARY&amp;#x5d; Tearing apart website fraud to see how it works., (Wed, May 13th)</title>
       <link>https://isc.sans.edu/diary/rss/32958</link>
@@ -1530,32 +1555,6 @@ Hunt for CONFIG SET, MODULE LOAD, SLAVEOF commands in Redis logs. Monitor /root/
       <source url="https://x.com/DFIR_Radar/status/2052101861985907193">DFIR Radar</source>
       <pubDate>Wed, 06 May 2026 19:03:05 +0000</pubDate>
       <guid isPermaLink="false">2052101861985907193</guid>
-    </item>
-    <item>
-      <title>The Accidental C2: Exploring Dev Tunnels for Remote Access</title>
-      <link>https://specterops.io/blog/2026/05/06/dev-tunnels-the-accidental-c2/</link>
-      <description>SpecterOps researchers dissect Visual Studio Code Dev Tunnels protocol, revealing a multi-layered C2 framework disguised as legitimate developer tooling. New attack paths exploit OAuth2 flows and Microsoft's Family of Client IDs (FOCI).
-
-Technical breakdown:
-• 4-layer protocol stack: REST API management → WebSocket tunnel → SSH connection → MsgPack RPC messaging
-• RPC methods enable full remote access: spawn (command execution), fs_read/write (file operations), sys_kill (process termination)
-• Authentication via GitHub (client ID: 01ab8ac9400c4e429b23) or Azure (client ID: aebc6443-996d-45c2-90f0-388ff96faa56)
-• FOCI exploitation: 49 Microsoft clients can pivot tokens to access dev tunnels, including Teams and Azure Portal
-• Device code phishing viable against both GitHub and Azure OAuth flows
-
-Attack surface expansion:
-• Persistence: Deploy tunnels from compromised hosts for long-term access
-• Lateral movement: Pivot through existing dev tunnel infrastructure 
-• Initial access: Exploit FOCI/BroCI token relationships for tunnel hijacking
-• Credential harvesting: Tokens stored in VS Code's state.vscdb database
-
-Hunt for unexpected WebSocket connections to `*.devtunnels.ms` domains and monitor OAuth token requests to the specified client IDs. Full Ouroboros C2 tool available at the researchers' GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052086660016243050</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2052086660016243050">DFIR Radar</source>
-      <pubDate>Wed, 06 May 2026 18:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2052086660016243050</guid>
     </item>
   </channel>
 </rss>
