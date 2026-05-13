@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 13 May 2026 10:03:18 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 13 May 2026 11:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Another Crack in the Chain of Trust: Uncovering (Yet Another) Secure Boot Bypass</title>
+      <link>https://www.binarly.io/blog/another-crack-in-the-chain-of-trust</link>
+      <description>Binarly Research exposes CVE-2025-3052 (BRLY-2025-001): memory corruption in Microsoft-signed UEFI module enables arbitrary memory writes and complete Secure Boot bypass on most UEFI systems.
+
+Critical technical details:
+• Affects 14 modules signed with "Microsoft Corporation UEFI CA 2011" certificate - same cert used for Linux shim bootloader
+• Root cause: unsafe handling of IhisiParamBuffer NVRAM variable allows arbitrary memory write primitive
+• Attack overwrites gSecurity2 global variable to disable Secure Boot enforcement during boot process
+• Originally DT Research BIOS flashing tool (Dtbios-efi64-71.22.efi), signed October 2022, discovered on VirusTotal November 2024
+• Insyde-based devices protected due to variable locking, but all other UEFI systems vulnerable
+
+Attack methodology:
+• Privileged attacker sets malicious IhisiParamBuffer value from OS
+• Registers vulnerable module + unsigned payload module in UEFI Boot Manager
+• On reboot, vulnerable module executes during BDS phase, overwrites security checks
+• Unsigned payload executes with Secure Boot appearing enabled to OS
+
+Impact enables bootkit installation before OS loads, bypassing all OS-level defenses. Microsoft added 14 hashes to Secure Boot dbx on June 10, 2025 Patch Tuesday.
+
+Update Secure Boot dbx immediately. Hunt for unexpected UEFI modules in Boot Manager and monitor NVRAM variable modifications.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054517913340575919</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2054517913340575919">DFIR Radar</source>
+      <pubDate>Wed, 13 May 2026 11:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2054517913340575919</guid>
+    </item>
     <item>
       <title>CVE-2026-44843: One Chat Message Steals Your Credentials. Then It Gets Worse!</title>
       <link>https://infosecwriteups.com/cve-2026-44843-one-chat-message-steals-your-credentials-then-it-gets-worse-264146623aec?source=rss----7b722bfd1b8d---4</link>
@@ -1561,17 +1589,6 @@ Hunt for CONFIG SET, MODULE LOAD, SLAVEOF commands in Redis logs. Monitor /root/
       <source url="https://x.com/DFIR_Radar/status/2052132048358535194">DFIR Radar</source>
       <pubDate>Wed, 06 May 2026 21:03:02 +0000</pubDate>
       <guid isPermaLink="false">2052132048358535194</guid>
-    </item>
-    <item>
-      <title>Steal Smarter, Not Harder: Malicious use of Vercel for Credential Phishing</title>
-      <link>https://cofense.com/blog/steal-smarter-not-harder-malicious-use-of-vercel-for-credential-phishing</link>
-      <description>Attackers abuse Vercel's AI web development platform to mass-produce convincing phishing sites spoofing major brands with simple text prompts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052116912029499821</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2052116912029499821">DFIR Radar</source>
-      <pubDate>Wed, 06 May 2026 20:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2052116912029499821</guid>
     </item>
   </channel>
 </rss>
