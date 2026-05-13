@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 13 May 2026 16:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 13 May 2026 17:04:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When IT Support Calls: Dissecting a ModeloRAT Campaign from Teams to Domain Compromise</title>
+      <link>https://www.rapid7.com/blog/post/tr-it-support-dissecting-modelorat-campaign-microsoft-teams-compromise</link>
+      <description>ModeloRAT campaign leverages Microsoft Teams phishing to deploy Python-based RAT, escalate via CVE-2023-36036, and harvest domain credentials through fake lock screen. Two-day progression from initial contact to full domain compromise.
+
+Key technical details:
+• Initial access via fake "IT Support" Teams message from UCICasociacion.onmicrosoft[.]com tenant
+• PowerShell stager downloads portable WinPython + ModeloRAT from Dropbox to %APPDATA%
+• Privilege escalation using CVE-2023-36036 (cldflt.sys heap overflow) - custom exploit targeting Cloud Files driver
+• Credential harvesting via fake Windows lock screen DLL (com6848.dll) deployed after SYSTEM access
+• Multiple C2 channels: HTTP beacons (46.225.231[.]170, 144.172.99[.]68), TCP shells, SOCKS5 proxies
+
+Attack progression:
+• Teams social engineering → PowerShell execution → Python RAT deployment (T1566.003, T1059.001)
+• Host reconnaissance via collector.py saves results to %TEMP%\configA.json
+• CVE-2023-36036 exploit registers fake "PLURIBUS" sync provider, shapes kernel heap via WNF APIs
+• WebDAV credential spraying using davclnt.dll DavSetCookie API for stealthy validation
+• RDP lateral movement + memory dump via DumpIt.exe, exfiltrated through uploadnow[.]io
+
+Hunt for WinPython in %APPDATA%, fake Cloud Files sync providers in Registry (HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SyncRootManager\PLURIBUS), and WebDAV authentication attempts via rundll32.exe davclnt.dll.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054608701886222537</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2054608701886222537">DFIR Radar</source>
+      <pubDate>Wed, 13 May 2026 17:04:22 +0000</pubDate>
+      <guid isPermaLink="false">2054608701886222537</guid>
+    </item>
     <item>
       <title>Symantec uncovers Iran-linked Seedworm espionage campaign targeting airport, government, manufacturing sectors</title>
       <link>https://industrialcyber.co/threats-attacks/symantec-uncovers-iran-linked-seedworm-espionage-campaign-targeting-airport-government-manufacturing-sectors/</link>
@@ -1619,17 +1646,6 @@ Monitor for unexpected Python environments in %APPDATA%, scheduled tasks with sh
       <source url="https://x.com/DFIR_Radar/status/2052222550906741088">DFIR Radar</source>
       <pubDate>Thu, 07 May 2026 03:02:39 +0000</pubDate>
       <guid isPermaLink="false">2052222550906741088</guid>
-    </item>
-    <item>
-      <title>How Do You Know Zeek Is Working? What Practitioners Actually Monitor</title>
-      <link>https://zeek.org/2026/05/how-do-you-know-zeek-is-working-what-practitioners-actually-monitor/</link>
-      <description>Zeek practitioners share three critical monitoring questions: Is Zeek up and generating logs? What's the worker load? How's packet loss?
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052207598598860927</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2052207598598860927">DFIR Radar</source>
-      <pubDate>Thu, 07 May 2026 02:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2052207598598860927</guid>
     </item>
   </channel>
 </rss>
