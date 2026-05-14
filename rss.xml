@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 14 May 2026 18:03:34 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2026 19:02:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Kazuar: Anatomy of a nation-state botnet</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/05/14/kazuar-anatomy-of-a-nation-state-botnet/</link>
+      <description>Microsoft exposes Kazuar's evolution into sophisticated P2P botnet: Russian 🇷🇺 FSB's Secret Blizzard transforms traditional backdoor into modular three-tier architecture for persistent espionage operations.
+
+Technical breakdown:
+- Three-module architecture: Kernel (coordinator), Bridge (C2 proxy), Worker (data collection)
+- P2P leadership election reduces external traffic - single elected Kernel leader communicates via Bridge module
+- IPC via Windows Messaging/Mailslots with AES-encrypted named pipes (\\.\pipe\82760B84F1D703D596C79B88BA4FAC1E pattern)
+- Multiple C2 transports: HTTP, WebSockets, Exchange Web Services for resilience
+- 150+ configuration options including AMSI/ETW/WLDP bypasses, exfiltration timing controls
+- Extensive data collection: system info, screenshots, keylogging, MAPI email monitoring, file harvesting
+
+DFIR artifacts:
+- Working directory with structured staging areas (Peeps, Autos, Result files, Task files, Logs)
+- Window class names matching module names (Bridge/Kernel/Worker)
+- Mailslot names: MD5 hash of "mailslot-" + module name
+- Protobuf message structures for inter-module communication
+
+Hunt for hidden windows with suspicious class names, monitor named pipe creation with MD5-like patterns, and correlate process relationships showing Kernel-Bridge-Worker triads.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055000838989565988</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2055000838989565988">DFIR Radar</source>
+      <pubDate>Thu, 14 May 2026 19:02:35 +0000</pubDate>
+      <guid isPermaLink="false">2055000838989565988</guid>
+    </item>
     <item>
       <title>CVE-2026-20182: Critical authentication bypass in Cisco Catalyst SD-WAN Controller (FIXED)</title>
       <link>https://www.rapid7.com/blog/post/ve-cve-2026-20182-critical-authentication-bypass-cisco-catalyst-sd-wan-controller-fixed</link>
@@ -1664,17 +1691,6 @@ Patch immediately to fixed versions. Hunt for suspicious .rdp files and correlat
       <source url="https://x.com/DFIR_Radar/status/2052660518100271556">DFIR Radar</source>
       <pubDate>Fri, 08 May 2026 08:02:59 +0000</pubDate>
       <guid isPermaLink="false">2052660518100271556</guid>
-    </item>
-    <item>
-      <title>Palo Alto Networks firewall zero-day exploited for nearly a month</title>
-      <link>https://www.bleepingcomputer.com/news/security/pan-os-firewall-rce-zero-day-exploited-in-attacks-since-april-9/</link>
-      <description>CVE-2026-0300 buffer overflow in Palo Alto PAN-OS User-ID portal exploited by suspected state-sponsored actors since April 9. Attackers gain root RCE, deploy tunneling tools, clear logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052615126663287046</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2052615126663287046">DFIR Radar</source>
-      <pubDate>Fri, 08 May 2026 05:02:37 +0000</pubDate>
-      <guid isPermaLink="false">2052615126663287046</guid>
     </item>
   </channel>
 </rss>
