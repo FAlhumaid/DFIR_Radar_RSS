@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 14 May 2026 14:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2026 15:02:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Why AMOS matters: The macOS malware stealing data at scale</title>
+      <link>https://www.sophos.com/en-us/blog/why-amos-matters-the-macos-malware-stealing-data-at-scale</link>
+      <description>AMOS infostealer dominates macOS threat landscape, accounting for 40% of protection updates in 2025. Sophos analysis reveals sophisticated attack chain using ClickFix social engineering, password validation, and comprehensive credential harvesting.
+
+Key technical details:
+• Initial vector: ClickFix ruse tricks users into running Terminal command downloading bootstrap from sphereou[.]com
+• Password capture: Uses `dscl . -authonly` to validate macOS credentials, stores in hidden `/Users/$username/.pass` file
+• Anti-analysis: Checks for QEMU, VMware, KVM via system_profiler queries through osascript
+• Targets: Keychain database, browser credentials (Firefox/Chrome), Apple Notes, crypto wallets (Ledger/Trezor)
+• Persistence: LaunchDaemon at `/Library/LaunchDaemons/com.finder.helper.plist`
+• Exfiltration: Archives stolen data with ditto, POSTs to C2 at 38[.]244[.]158[.]56 and 45[.]94[.]47[.]204
+
+DFIR artifacts:
+• Staging directories under `/tmp/91897/`
+• Hidden executables: `.agent`, `.mainhelper`, `.pass` in user home
+• Outbound curl POST requests with zip attachments
+• Suspicious dscl authentication attempts
+
+Hunt for unsigned binaries executing from dot-prefixed paths in user directories and monitor LaunchDaemon creation events. Full IOCs available on Sophos GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054940412104626432</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2054940412104626432">DFIR Radar</source>
+      <pubDate>Thu, 14 May 2026 15:02:28 +0000</pubDate>
+      <guid isPermaLink="false">2054940412104626432</guid>
+    </item>
     <item>
       <title>LATAM Under Siege: Agent Tesla’s 18-Month Credential Theft Campaign Against Chilean Enterprises</title>
       <link>https://any.run/cybersecurity-blog/agent-tesla-latam-enterprise/</link>
@@ -1606,17 +1633,6 @@ Patch immediately to fixed versions. Hunt for suspicious .rdp files and correlat
       <source url="https://x.com/DFIR_Radar/status/2052569663867965868">DFIR Radar</source>
       <pubDate>Fri, 08 May 2026 02:01:58 +0000</pubDate>
       <guid isPermaLink="false">2052569663867965868</guid>
-    </item>
-    <item>
-      <title>Shift Happens – Uncovering Two Built-in Command Injections in Windows Context Menus</title>
-      <link>https://specterops.io/blog/2026/05/07/shift-happens-uncovering-two-built-in-command-injections-in-windows-context-menus/</link>
-      <description>New research reveals two command injection vulnerabilities in Windows "Open PowerShell window here" context menu.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052555191258378666</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2052555191258378666">DFIR Radar</source>
-      <pubDate>Fri, 08 May 2026 01:04:27 +0000</pubDate>
-      <guid isPermaLink="false">2052555191258378666</guid>
     </item>
   </channel>
 </rss>
