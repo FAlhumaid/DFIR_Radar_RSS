@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 14 May 2026 20:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2026 21:02:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Hidden Security Risk in Microsoft Teams: Detecting AI Note-Taking Bots with KQL</title>
+      <link>https://detect.fyi/hunting-ai-note-taking-bots-in-microsoft-teams-meetings-using-defender-xdr-with-kql-queries-db1fdb64ba51?source=rss----d5fd8f494f6a---4</link>
+      <description>Microsoft Teams lobby admission events in Defender XDR reveal unauthorized AI note-taking bots joining confidential meetings. New KQL queries enable security teams to track which bots accessed meetings and who admitted them from the lobby.
+
+Key technical details:
+• CloudAppEvents table contains "MeetingParticipantDetail" events with IsJoinedFromLobby field and InviterInfo data
+• Query filters for lobby participants using parse_json(RawEventData) to extract participant names, UPNs, join times, and admitter details
+• AI bot detection via has_any filter for "Fireflies", "Spice AI", "read[.]ai", "Cresco AI" participant names
+• Events include ClientIP addresses enabling network-level blocking of known bot infrastructure
+• 8-hour delay between meeting occurrence and event availability in Advanced Hunting logs
+
+DFIR artifacts:
+• MeetingDetailId provides unique meeting correlation across participant events
+• InviteTime vs MeetingParticipantJoinTime shows lobby wait duration
+• MeetingOrganizer field distinguishes between organizer and admitter roles
+
+Hunt for unexpected external participants in sensitive meetings using lobby admission patterns and cross-reference with calendar invite metadata.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055031137672601851</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2055031137672601851">DFIR Radar</source>
+      <pubDate>Thu, 14 May 2026 21:02:59 +0000</pubDate>
+      <guid isPermaLink="false">2055031137672601851</guid>
+    </item>
     <item>
       <title>Backdoored node-ipc npm releases steal developer credentials through DNS queries</title>
       <link>https://securitylabs.datadoghq.com/articles/node-ipc-npm-malware-analysis/</link>
@@ -1676,36 +1701,6 @@ DFIR teams should monitor for rapid, high-volume enumeration patterns against OT
       <source url="https://x.com/DFIR_Radar/status/2052690639293165719">DFIR Radar</source>
       <pubDate>Fri, 08 May 2026 10:02:40 +0000</pubDate>
       <guid isPermaLink="false">2052690639293165719</guid>
-    </item>
-    <item>
-      <title>CVE-2025-68670: discovering an RCE vulnerability in xrdp</title>
-      <link>https://securelist.com/cve-2025-68670/119742/</link>
-      <description>Critical RCE flaw in xrdp remote desktop server allows unauthenticated attackers to execute arbitrary code via crafted UTF-16 domain names that trigger stack buffer overflow.
-
-Key technical details:
-• CVE-2025-68670 (CVSS not specified) affects xrdp versions prior to 0.10.5, 0.9.27, and 0.10.4.1
-• Vulnerability in xrdp_wm_parse_domain_information() function processes 512-byte UTF-8 domain into 256-byte buffer
-• Exploitation occurs during pre-auth Secure Settings Exchange via Client Info PDU (T1210)
-• Attack vector: domain name starting with "_" followed by &gt;256 UTF-8 bytes before "__" delimiter
-
-Attack methodology:
-• Attacker crafts malicious .rdp file with oversized domain field using UTF-16 to UTF-8 conversion differences
-• Uses Cyrillic characters (U+041A) to maximize UTF-8 expansion while staying under 512-byte limit
-• Buffer overflow overwrites stack return address, enabling ROP chain execution
-• Stack canaries provide partial protection but can be bypassed with value leakage
-
-DFIR artifacts:
-• Monitor for unusual .rdp file creation/modification with abnormally long domain fields
-• Check xrdp server logs for domain parsing errors or crashes during connection establishment
-• Examine network traffic for RDP Client Info PDUs with malformed domain strings
-
-Patch immediately to fixed versions. Hunt for suspicious .rdp files and correlate xrdp crashes with connection attempts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052675529195553180</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2052675529195553180">DFIR Radar</source>
-      <pubDate>Fri, 08 May 2026 09:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2052675529195553180</guid>
     </item>
   </channel>
 </rss>
