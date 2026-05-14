@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 13 May 2026 23:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2026 00:04:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Investigating server compromises with cgroups: A Linux DFIR primer</title>
+      <link>https://redcanary.com/blog/threat-detection/linux-cgroups/</link>
+      <description>New Linux DFIR technique: Red Canary researchers demonstrate using cgroups (control groups) as forensic artifacts to track malicious processes and container escapes on compromised servers.
+
+Key findings:
+• Cgroups expose systemd service names, user IDs, login sessions, and container/pod IDs in structured paths like /user.slice/user-1000.slice/session-10.scope
+• Attackers cannot easily evade cgroups since they're kernel-enforced for resource management in systemd and containerized environments
+• Technique helped identify container-to-host escape: malicious activity progressed from Docker containers (5c2c04, ef4b8f) to host system user session
+• Data collection via /proc/$PID/cgroup, /sys/fs/cgroup, or EDR tools like Falco with custom YAML config
+
+Detection opportunities:
+• Anomaly detection for unexpected services (apache.service appearing on nginx-only cluster)
+• Process grouping by cgroup paths to correlate related malicious activities
+• Enhanced context for credential searching, reconnaissance, and lateral movement alerts
+
+Collect cgroups via inode monitoring or eBPF bpf_get_current_cgroup_id(). Layer onto existing detections for improved fidelity and attack timeline reconstruction.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054714349319582175</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2054714349319582175">DFIR Radar</source>
+      <pubDate>Thu, 14 May 2026 00:04:10 +0000</pubDate>
+      <guid isPermaLink="false">2054714349319582175</guid>
+    </item>
     <item>
       <title>Fragnesia: Linux Kernel Local Privilege Escalation via ESP-in-TCP</title>
       <link>https://www.wiz.io/blog/fragnesia-linux-kernel-local-privilege-escalation-via-esp-in-tcp</link>
@@ -1623,30 +1647,6 @@ Hunt with CISA YARA rules CISA_261290_01/02 against core dumps. Audit VPN sessio
       <source url="https://x.com/DFIR_Radar/status/2052373703183475083">DFIR Radar</source>
       <pubDate>Thu, 07 May 2026 13:03:17 +0000</pubDate>
       <guid isPermaLink="false">2052373703183475083</guid>
-    </item>
-    <item>
-      <title>Operation HookedWing: 4-Year Multi-Sector Attack Analysis</title>
-      <link>https://socradar.io/blog/operation-hookedwing-4-year-phishing/</link>
-      <description>4-year phishing operation compromises 2,000+ credentials from 500+ organizations across aviation, government, and energy sectors using GitHub-hosted landing pages and compromised C2 infrastructure.
-
-Operation HookedWing technical breakdown:
-• Custom phishing kit uses github[.]io domains with email in URL fragment (@domain[.]com) to bypass server logging
-• Dynamic PHP injection from compromised C2s under /genl/ path - form never stored on distribution layer
-• Targets aviation corridors linking Africa 🇳🇬 🇺🇬 🇸🇳, Persian Gulf, and South Asia 🇳🇵 🇱🇰 with 28% victims in aviation/travel sector
-• Multi-stage evasion: preloader_container_stef namespace, base64-encoded C2 paths in window.stef.srv_loc, fake error forcing credential re-entry
-
-Attack chain spans 4 campaigns sharing infrastructure:
-• HR/Microsoft/Google lures → GitHub landing page → geolocation via ipdata[.]co API → dynamic form injection from /genl/[random].php
-• Persistence through indefinite GitHub page reactivation by updating srv.js
-• 22+ compromised domains across Pakistan 🇵🇰, Brazil 🇧🇷, Chile 🇨🇱, Senegal 🇸🇳, Afghanistan 🇦🇫 hosting credential logs in list.txt
-
-Hunt for GitHub repos with "preloader_container_stef" class, outbound requests to /genl/ endpoints, and ipdata[.]co API calls from corporate networks. Full IOC list available in report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052358541126631757</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2052358541126631757">DFIR Radar</source>
-      <pubDate>Thu, 07 May 2026 12:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2052358541126631757</guid>
     </item>
   </channel>
 </rss>
