@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 14 May 2026 17:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2026 18:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-20182: Critical authentication bypass in Cisco Catalyst SD-WAN Controller (FIXED)</title>
+      <link>https://www.rapid7.com/blog/post/ve-cve-2026-20182-critical-authentication-bypass-cisco-catalyst-sd-wan-controller-fixed</link>
+      <description>CVE-2026-20182: Critical authentication bypass in Cisco Catalyst SD-WAN Controller allows remote attackers to gain full control-plane access by claiming to be a vHub device type.
+
+Key technical details:
+• CVSS 10.0 critical flaw in vdaemon service (UDP 12346) - no verification for device type 2 (vHub) in vbond_proc_challenge_ack() function
+• Attack: DTLS handshake with any cert → CHALLENGE_ACK with device_info=0x2X (vHub) → authentication bypass → Hello message → authenticated peer status
+• Post-auth primitive: MSG_VMANAGE_TO_PEER injects attacker SSH keys into /home/vmanage-admin/.ssh/authorized_keys for persistent access
+• NETCONF access via SSH port 830 enables arbitrary configuration changes across SD-WAN fabric
+
+Immediate impact: Complete SD-WAN overlay compromise including OMP route manipulation, TLOC table poisoning, and network segmentation bypass.
+
+Hunt for unexpected DTLS sessions to UDP 12346 with device type mismatches and monitor authorized_keys modifications. Metasploit module releasing May 27th.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054985988699554069</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2054985988699554069">DFIR Radar</source>
+      <pubDate>Thu, 14 May 2026 18:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2054985988699554069</guid>
+    </item>
     <item>
       <title>Ongoing exploitation of Cisco Catalyst SD-WAN vulnerabilities</title>
       <link>https://blog.talosintelligence.com/sd-wan-ongoing-exploitation/</link>
@@ -1654,17 +1675,6 @@ Patch immediately to fixed versions. Hunt for suspicious .rdp files and correlat
       <source url="https://x.com/DFIR_Radar/status/2052615126663287046">DFIR Radar</source>
       <pubDate>Fri, 08 May 2026 05:02:37 +0000</pubDate>
       <guid isPermaLink="false">2052615126663287046</guid>
-    </item>
-    <item>
-      <title>Linux Kernel: CVSS (Max): None</title>
-      <link>http://portal.auscert.org.au/bulletins/ASB-2026.0101/</link>
-      <description>"Dirty Frag" zero-day enables universal Linux privilege escalation across all major distributions since 2017. Chains xfrm-ESP and RxRPC vulnerabilities, bypasses existing Copy Fail mitigations. Disable esp4/esp6/rxrpc modules until patches arrive.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052599991517000069</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2052599991517000069">DFIR Radar</source>
-      <pubDate>Fri, 08 May 2026 04:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2052599991517000069</guid>
     </item>
   </channel>
 </rss>
