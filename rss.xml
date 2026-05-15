@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 15 May 2026 06:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 15 May 2026 07:02:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>&amp;#x5b;Guest Diary&amp;#x5d;  New Malware Libraries means New Signatures, (Fri, May 15th)</title>
+      <link>https://isc.sans.edu/diary/rss/32986</link>
+      <description>Eight-year-old Outlaw/Shellbot campaign updates SSH client fingerprint to libssh 0.11.1, potentially evading hassh-based detection rules written against earlier versions while maintaining identical persistence tactics.
+
+Key technical details:
+• New hassh fingerprint: 03a80b21afa810682a776a7d42e5e6fb (SSH-2.0-libssh_0.11.1)
+• Unchanged authorized_keys SHA-256: a8460f446be540410004b1a8db4083773fa46f7fe76fa84219c93daa1669f8f2 
+• Persistent "mdrfckr" comment string in SSH key since 2018
+• 24 source IPs coordinated attack burst within 131-second window (April 19, 2026)
+• Same credential dictionary: steam:Steam29!, postgres:q1, dev:dev5, root:AAAaaa111
+
+Attack methodology:
+• Brute force SSH with common credentials across multiple IPs (T1110.001)
+• Writes persistent SSH key to /root/.ssh/authorized_keys (T1098.004)
+• Executes chattr -ia .ssh; lockr -ia .ssh defensive disarm sequence
+• Competitor cleanup via /tmp/secure.sh script
+
+This represents the third documented libssh version evolution (0.6.x → 0.9.x → 0.11.x). Detection rules relying on older hassh values 51cba57125523ce4b9db67714a90bf6e or f555226df1963d1d3c09daf865abdc9a will miss current activity.
+
+Hunt for the unchanged SHA-256 hash and "mdrfckr" string rather than hassh values. Alert on multiple IPs targeting same accounts within short timeframes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055182013225660773</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2055182013225660773">DFIR Radar</source>
+      <pubDate>Fri, 15 May 2026 07:02:30 +0000</pubDate>
+      <guid isPermaLink="false">2055182013225660773</guid>
+    </item>
     <item>
       <title>Google Launches Android Spyware Forensics Tool for High-Risk Users</title>
       <link>https://www.infosecurity-magazine.com/news/google-launches-android-spyware/</link>
@@ -1683,31 +1711,6 @@ Hunt for non-root processes combining AF_ALG/AF_RXRPC socket creation with high-
       <source url="https://x.com/DFIR_Radar/status/2052871857267765603">DFIR Radar</source>
       <pubDate>Fri, 08 May 2026 22:02:46 +0000</pubDate>
       <guid isPermaLink="false">2052871857267765603</guid>
-    </item>
-    <item>
-      <title>Unmanaged PowerShell Execution: Hunting Beyond powershell.exe</title>
-      <link>https://detect.fyi/unmanaged-powershell-execution-hunting-beyond-powershell-exe-1356689fb88f?source=rss----d5fd8f494f6a---4</link>
-      <description>Attackers increasingly bypass powershell.exe monitoring by executing PowerShell through alternative processes like rundll32.exe. New hunting methods focus on DLL loads and named pipe creation to catch unmanaged PowerShell execution.
-
-Key technical details:
-• Threat actors load System.Management.Automation.dll into non-PowerShell processes (rundll32.exe, custom binaries)
-• Tools like PowerShdll and SharpPick enable PowerShell execution without spawning powershell.exe process
-• APT35 🇮🇷 known to leverage unmanaged PowerShell execution techniques in campaigns
-• PowerShell runtime creates internal IPC named pipes during runspace communication, exposing hidden execution
-
-Detection opportunities:
-• Hunt Sysmon Event ID 7 (Image Load) for System.Management.Automation.dll loads by unexpected processes
-• Monitor Sysmon Event ID 17 for PowerShell-related named pipe creation outside powershell.exe
-• Elastic Endpoint queries can identify suspicious DLL loading patterns
-• Cross-reference process lineage with PowerShell automation library loads
-
-Hunt for processes loading System.Management.Automation.dll where parent process ≠ powershell.exe|pwsh.exe. Sigma rules available in official repository for both DLL loads and named pipe detection.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2052856782251233696</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2052856782251233696">DFIR Radar</source>
-      <pubDate>Fri, 08 May 2026 21:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2052856782251233696</guid>
     </item>
   </channel>
 </rss>
