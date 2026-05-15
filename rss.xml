@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 15 May 2026 11:03:06 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 15 May 2026 12:04:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hack the Elephant One Bite at a Time: JPEG-Related Memory-Safety Bugs in PHP</title>
+      <link>https://swarm.ptsecurity.com/hack-the-elephant-one-bite-at-a-time-jpeg-related-memory-safety-bugs-in-php/</link>
+      <description>New research reveals two critical heap memory bugs in PHP's core JPEG processing functions. Memory disclosure in getimagesize() and buffer overflow in iptcembed() affecting millions of PHP applications worldwide.
+
+Key technical details:
+• CVE-2025-14177: getimagesize() memory disclosure in APP segment reading due to incorrect chunk concatenation in php_read_stream_all_chunks
+• Heap buffer overflow in iptcembed() caused by TOCTOU race condition - buffer sized via fstat() but reads until EOF without bounds checking
+• Affects PHP core ext/standard extension processing JPEG metadata (EXIF, IPTC, APP markers)
+• Triggers on multi-chunk reads when attacker controls stream chunk size (default 8192 bytes)
+• PoCs demonstrate exploitation via php://filter streams and FIFO pipes
+
+Attack methodology:
+• Memory disclosure: Craft JPEG with large APP1 segment spanning multiple read chunks, causing last chunk to overwrite buffer start while tail remains uninitialized
+• Buffer overflow: Use non-regular files (FIFOs) where st_size=0 but actual data exceeds allocated buffer size
+• Both require predictable chunking behavior and knowledge of default chunk sizes
+
+DFIR artifacts:
+• Monitor for getimagesize() calls on untrusted JPEG files with unusual APP segment sizes
+• Look for iptcembed() usage with non-regular file inputs or rapidly growing files
+• Check for heap corruption indicators in PHP error logs
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055257894333911272</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2055257894333911272">DFIR Radar</source>
+      <pubDate>Fri, 15 May 2026 12:04:02 +0000</pubDate>
+      <guid isPermaLink="false">2055257894333911272</guid>
+    </item>
     <item>
       <title>FrostyNeighbor: Fresh mischief and digital shenanigans</title>
       <link>https://www.welivesecurity.com/en/eset-research/frostyneighbor-fresh-mischief-digital-shenanigans/</link>
@@ -1724,32 +1752,6 @@ Primary detection opportunity: Monitor NAS session telemetry for &gt;500 simulta
       <source url="https://x.com/DFIR_Radar/status/2053128524295524795">DFIR Radar</source>
       <pubDate>Sat, 09 May 2026 15:02:40 +0000</pubDate>
       <guid isPermaLink="false">2053128524295524795</guid>
-    </item>
-    <item>
-      <title>Copy Fail and DirtyFrag: Linux Page Cache Bugs in the Wild</title>
-      <link>https://www.elastic.co/security-labs/copy-fail-dirtyfrag-linux-page-bugs-in-the-wild</link>
-      <description>Copy Fail (CVE-2026-31431) and DirtyFrag exploit Linux page cache corruption bugs for reliable privilege escalation. Both vulnerabilities chain kernel crypto interfaces with splice() to corrupt setuid binaries in memory without touching disk.
-
-Key technical details:
-• Copy Fail uses AF_ALG + splice() for controlled 4-byte writes into page cache of readable files like /usr/bin/su
-• DirtyFrag expands attack surface via ESP/XFRM (AF_NETLINK) and RxRPC (AF_RXRPC) networking paths  
-• Exploitation requires socket(AF_ALG/AF_RXRPC), splice() syscalls, and namespace creation via unshare(CLONE_NEWUSER|CLONE_NEWNET)
-• Public exploits available in Python (732 bytes), Go, Rust, C, and Metasploit modules
-• DirtyFrag bypasses algif_aead module blocking, targeting networking stack instead
-
-DFIR artifacts and detection:
-• Auditd syscall monitoring for socket() with a0 values "26" (AF_ALG) or "21" (AF_RXRPC) 
-• Burst patterns of interleaved socket(AF_ALG) and splice() calls from same PID
-• Suspicious SUID binary execution: effective UID 0 from non-root parent with minimal arguments
-• Namespace creation followed by privilege escalation within 30-second window
-
-Hunt for non-root processes combining AF_ALG/AF_RXRPC socket creation with high-volume splice() syscalls (≥10 calls). Full EQL queries and auditd rules provided in Elastic's report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2053083289846485371</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2053083289846485371">DFIR Radar</source>
-      <pubDate>Sat, 09 May 2026 12:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2053083289846485371</guid>
     </item>
   </channel>
 </rss>
