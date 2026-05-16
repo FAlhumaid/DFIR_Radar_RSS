@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 16 May 2026 18:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 16 May 2026 20:02:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>HTB: Pterodactyl</title>
+      <link>https://0xdf.gitlab.io/2026/05/16/htb-pterodactyl.html</link>
+      <description>Critical directory traversal in Pterodactyl Panel v1.11.10 leads to unauthenticated RCE via PHP-PEAR exploitation chain. CVE-2025-49132 combines with PEAR pearcmd technique enabling arbitrary webshell deployment.
+
+Key technical details:
+• Endpoint /locales/locale.json bypasses auth middleware, accepts unsanitized locale/namespace parameters
+• Path traversal: locale=../../../../../usr/share/php/PEAR&amp;namespace=pearcmd enables arbitrary .php file inclusion  
+• PEAR pearcmd.php accepts config-create command via register_argc_argv, writes attacker-controlled content to disk
+• Payload: `&lt;?=system($_REQUEST[0]);?&gt;` creates webshell at /tmp/shell.php accessible via LFI
+
+Attack chain methodology:
+• Initial recon reveals Pterodactyl Panel v1.11.10 with PHP-PEAR enabled
+• Directory traversal to include pearcmd.php with malicious config creation
+• Second request includes written webshell for command execution
+• Database credential extraction leads to bcrypt hash cracking: !QAZ2wsx
+• Privilege escalation via CVE-2025-6018 (PAM environment bypass) + CVE-2025-6019 (libblockdev/udisks XFS mounting)
+
+Hunt for HTTP requests to `/locales/locale.json` with `../` sequences in locale parameter and suspicious namespace values targeting pearcmd.php.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055740797887119471</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2055740797887119471">DFIR Radar</source>
+      <pubDate>Sat, 16 May 2026 20:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2055740797887119471</guid>
+    </item>
     <item>
       <title>Russian APT Turla builds long-term access tool with Kazuar Botnet evolution</title>
       <link>https://securityaffairs.com/192231/apt/russian-apt-turla-builds-long-term-access-tool-with-kazuar-botnet-evolution.html</link>
@@ -1714,31 +1740,6 @@ Check lockfiles for affected versions, search for router_init.js/setup.mjs files
       <source url="https://x.com/DFIR_Radar/status/2053989102891028722">DFIR Radar</source>
       <pubDate>Tue, 12 May 2026 00:02:19 +0000</pubDate>
       <guid isPermaLink="false">2053989102891028722</guid>
-    </item>
-    <item>
-      <title>Inside AD CS Escalation: Unpacking Advanced Misuse Techniques and Tools</title>
-      <link>https://unit42.paloaltonetworks.com/active-directory-certificate-services-exploitation/</link>
-      <description>Unit 42 deep-dive reveals advanced Active Directory Certificate Services exploitation techniques targeting template misconfigurations and shadow credential abuse. Analysis includes behavioral detection strategies for defenders.
-
-Key technical details:
-• Template misconfigurations enable privilege escalation through certificate enrollment abuse (T1649)
-• Shadow credential attacks leverage Key Trust authentication to bypass traditional password controls
-• ESC1-ESC13 escalation scenarios documented with specific registry and certificate store artifacts
-• Attackers target vulnerable certificate templates with overprivileged enrollment permissions
-
-DFIR artifacts:
-• Monitor Certificate Authority logs for unusual enrollment patterns and template modifications
-• Check HKLM\SOFTWARE\Microsoft\Cryptography\Services for suspicious certificate template changes
-• Examine Windows Security Event 4887 (certificate services approved certificate request)
-• Track shadow credential creation via Event ID 4624 with Key Trust logon type
-
-Detection opportunities include monitoring for rapid certificate enrollments from non-standard principals and unusual template permission changes in AD.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2053974497020235863</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2053974497020235863">DFIR Radar</source>
-      <pubDate>Mon, 11 May 2026 23:04:16 +0000</pubDate>
-      <guid isPermaLink="false">2053974497020235863</guid>
     </item>
   </channel>
 </rss>
