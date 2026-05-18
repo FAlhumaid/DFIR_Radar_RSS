@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 18 May 2026 11:03:30 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2026 12:03:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>YellowKey: An Unexpected Backdoor into BitLocker, and Why You Should Be Paying Attention</title>
+      <link>https://blog.elcomsoft.com/2026/05/yellowkey-an-unexpected-backdoor-into-bitlocker-and-why-you-should-be-paying-attention/</link>
+      <description>Critical Windows 11 BitLocker bypass allows attackers to unlock encrypted drives with just a USB stick and keyboard shortcut during boot. No password, recovery key, or TPM tampering required.
+
+A researcher published YellowKey, a zero-day exploiting Windows Recovery Environment to bypass BitLocker protection on Windows 11 and Server 2022/2025. The vulnerability abuses NTFS transaction log replay in WinRE to delete winpeshl.ini, dropping attackers into an unrestricted command prompt with full access to the encrypted system volume.
+
+Key technical details:
+• Exploits System Volume Information\FsTx transaction logs that can modify different volumes during replay
+• Requires physical access and specific key timing (hold Ctrl during WinRE boot)
+• TPM chain of trust remains intact - volume already unlocked when WinRE loads
+• Affects ~50% of devices (others protected by Trusted WIM Boot integrity checks)
+• Works against default Device Encryption on consumer Windows 11 systems
+
+Attack methodology:
+• Place crafted FsTx payload on USB or EFI System Partition
+• Boot into WinRE via Shift+Restart or forced shutdown method
+• Hold Ctrl key during boot to trigger shell access
+• Extract BitLocker recovery key using manage-bde -protectors -get
+
+DFIR opportunities:
+• Enables forensic access to previously unrecoverable BitLocker devices in evidence rooms
+• Use manage-bde to extract 48-digit numerical password protector
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056345040218210340</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2056345040218210340">DFIR Radar</source>
+      <pubDate>Mon, 18 May 2026 12:03:57 +0000</pubDate>
+      <guid isPermaLink="false">2056345040218210340</guid>
+    </item>
     <item>
       <title>The Trojan PR: Achieving Code Execution in GitHub Actions via Pipeline Poisoning</title>
       <link>https://infosecwriteups.com/the-trojan-pr-achieving-code-execution-in-github-actions-via-pipeline-poisoning-a3494bde3f70?source=rss----7b722bfd1b8d---4</link>
@@ -1734,17 +1764,6 @@ Enable comprehensive EKS logging before incidents occur. Query CloudWatch for su
       <source url="https://x.com/DFIR_Radar/status/2054140345496338786">DFIR Radar</source>
       <pubDate>Tue, 12 May 2026 10:03:17 +0000</pubDate>
       <guid isPermaLink="false">2054140345496338786</guid>
-    </item>
-    <item>
-      <title>Microsoft Edge Password Exposure: How a Memory Dump Reveals Your Credentials</title>
-      <link>https://infosecwriteups.com/microsoft-edge-password-exposure-how-a-memory-dump-reveals-your-credentials-c18b1aa7046a?source=rss----7b722bfd1b8d---4</link>
-      <description>New research reveals Microsoft Edge stores all saved passwords in cleartext memory, extractable via simple memory dumps without decryption. Microsoft claims this is by design for "fast, secure experience." POC tool available.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054125514005303504</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2054125514005303504">DFIR Radar</source>
-      <pubDate>Tue, 12 May 2026 09:04:21 +0000</pubDate>
-      <guid isPermaLink="false">2054125514005303504</guid>
     </item>
   </channel>
 </rss>
