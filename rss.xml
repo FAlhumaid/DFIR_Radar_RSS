@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 17 May 2026 15:03:28 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2026 07:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Bridging memory and network forensics with XFRM inspection</title>
+      <link>https://andreafortuna.org/2026/05/18/xfrm-memory-network-bridge/</link>
+      <description>New Volatility 3 plugin bridges memory and network forensics by extracting IPsec VPN keys from Linux kernel memory dumps, enabling retroactive decryption of encrypted network traffic previously invisible to analysts.
+
+Technical breakthrough:
+• XFRM Inspector plugin extracts Security Association (SA) keys from xfrm_state kernel structures in memory dumps
+• Recovers AES-CBC encryption keys and HMAC-SHA256 authentication keys for active IPsec tunnels
+• Enables Wireshark decryption of ESP traffic using extracted cryptographic material
+• Works by parsing kernel hash tables containing active transforms, not relying on heuristics
+
+Methodology:
+• Plugin walks internal kernel networking lists to locate xfrm_state structures systematically
+• Extracts SPI values, source/destination IPs, algorithms, and raw cryptographic keys
+• Output maps directly to Wireshark ESP decryption parameters for automated analysis
+• Requires correct Linux symbol files (ISF) matching exact kernel version for accurate offsets
+
+DFIR impact:
+• Transforms opaque encrypted tunnels into cleartext attack timelines showing exact commands, file transfers, C2 communications
+• Eliminates blind spots where network analysts see ESP packets but cannot inspect payload contents
+• Enables definitive breach scope determination rather than educated guessing about data exfiltration
+
+Extract SA keys with: `python3 vol.py -f memory.raw linux.xfrm_inspector.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056269413934879113</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2056269413934879113">DFIR Radar</source>
+      <pubDate>Mon, 18 May 2026 07:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2056269413934879113</guid>
+    </item>
     <item>
       <title>Tycoon2FA hijacks Microsoft 365 accounts via device-code phishing</title>
       <link>https://www.bleepingcomputer.com/news/security/tycoon2fa-hijacks-microsoft-365-accounts-via-device-code-phishing/</link>
@@ -1729,17 +1759,6 @@ Check lockfiles for affected versions, search for router_init.js/setup.mjs files
       <source url="https://x.com/DFIR_Radar/status/2054095098208739469">DFIR Radar</source>
       <pubDate>Tue, 12 May 2026 07:03:29 +0000</pubDate>
       <guid isPermaLink="false">2054095098208739469</guid>
-    </item>
-    <item>
-      <title>TanStack npm Packages: CVSS (Max): None</title>
-      <link>http://portal.auscert.org.au/bulletins/ASB-2026.0102/</link>
-      <description>Supply chain attack compromised 42 @tanstack/* npm packages via GitHub Actions vulnerabilities. Malicious versions harvest AWS/GCP/K8s credentials and self-propagate via maintainer enumeration.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054034556332687741</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2054034556332687741">DFIR Radar</source>
-      <pubDate>Tue, 12 May 2026 03:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2054034556332687741</guid>
     </item>
   </channel>
 </rss>
