@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 18 May 2026 14:03:27 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2026 15:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dify: When Your AI Platform Becomes the Attack Surface</title>
+      <link>https://www.imperva.com/blog/dify-when-your-ai-platform-becomes-the-attack-surface/</link>
+      <description>Imperva discovers critical flaws in Dify AI platform enabling one-click account takeover and cross-tenant data exposure. Over 10 million Docker pulls affected, silent patches deployed.
+
+Key technical details:
+• CVE not assigned - SVG upload vulnerability allows JavaScript execution via subdomain alias between upload.dify[.]ai and cloud.dify[.]ai
+• Cross-tenant isolation failure in Python sandbox shared filesystem (/tmp) and static UID across executions
+• Weak repeating-key XOR "encryption" (64-byte Vigenere cipher) made source code recovery trivial from leaked wrapper scripts
+• Public file access with predictable paths: hxxps://upload.dify[.]ai/files/tools/&lt;unique-id&gt;/filename.svg
+
+Attack methodology:
+• Attacker uploads malicious SVG with embedded JavaScript to workflow tools
+• File accessible without authentication due to Insecure Direct Object Reference
+• Browser executes payload with full application privileges when accessed via main domain
+• Sandbox executions leak encrypted Python wrappers readable by other tenants
+
+DFIR artifacts:
+• Monitor for SVG uploads to AI platforms and cross-subdomain requests
+• Check for suspicious /tmp file access patterns in containerized environments
+• Hunt for Base64-encoded content in temporary Python scripts with repeating-key XOR patterns
+
+Fixed in Dify v1.13.1+ with Content-Type override and per-execution UID isolation. Verify your deployment version immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056390189941968921</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2056390189941968921">DFIR Radar</source>
+      <pubDate>Mon, 18 May 2026 15:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2056390189941968921</guid>
+    </item>
     <item>
       <title>Click, Install, Compromised: The New Wave of Zoom-Themed Attacks</title>
       <link>https://cofense.com/blog/click-install-compromised-the-new-wave-of-zoom-themed-attacks</link>
@@ -1745,28 +1775,6 @@ DFIR artifacts and detection:
       <source url="https://x.com/DFIR_Radar/status/2054185530904953063">DFIR Radar</source>
       <pubDate>Tue, 12 May 2026 13:02:50 +0000</pubDate>
       <guid isPermaLink="false">2054185530904953063</guid>
-    </item>
-    <item>
-      <title>Shai Hulud attack ships signed malicious TanStack, Mistral npm packages</title>
-      <link>https://www.bleepingcomputer.com/news/security/shai-hulud-attack-ships-signed-malicious-tanstack-mistral-npm-packages/</link>
-      <description>TeamPCP threat group's Shai-Hulud campaign compromised 416+ npm/PyPI packages including TanStack and Mistral AI, using stolen OIDC tokens to publish malware with valid SLSA Build Level 3 attestations. Attack exploited legitimate CI/CD pipelines to appear cryptographically authentic.
-
-Technical breakdown:
-• Chained 3 vulns: risky pull_request-target workflow, GitHub Actions cache poisoning, OIDC token theft from runner memory
-• Clever Git trick: orphaned commit in TanStack/router fork accessed via malicious optional dependency, auto-executing during npm install
-• Targets 100+ credential types: GitHub PATs, AWS IAM, Kubernetes tokens, HashiCorp Vault, SSH keys, VS Code configs, .env files
-• Exfiltration via Session P2P network mimicking encrypted messenger traffic to evade detection
-• Persistence through Claude Code hooks and VS Code auto-run tasks survives package removal
-
-Self-propagation: steals GitHub/npm creds → enumerates linked packages → injects payload into tarballs → republishes malicious versions with valid signatures.
-
-Incident responders should audit IDE directories for router_runtime.js/setup.mjs artifacts, rotate all dev credentials, and block C2 infrastructure: api[.]masscan[.]cloud, git-tanstack[.]com, *[.]getsession[.]org.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054170932260794473</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2054170932260794473">DFIR Radar</source>
-      <pubDate>Tue, 12 May 2026 12:04:50 +0000</pubDate>
-      <guid isPermaLink="false">2054170932260794473</guid>
     </item>
   </channel>
 </rss>
