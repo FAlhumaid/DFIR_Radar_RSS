@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 19 May 2026 21:03:18 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2026 22:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CIRT insights: How to help prevent unauthorized account removals from AWS Organizations</title>
+      <link>https://aws.amazon.com/blogs/security/cirt-insights-how-to-help-prevent-unauthorized-account-removals-from-aws-organizations/</link>
+      <description>AWS CIRT reveals new threat actor tactic: compromising accounts with organizations:LeaveOrganization permissions to remove accounts from AWS Organizations, bypassing SCPs and centralized security controls.
+
+Attack methodology:
+• Threat actors use compromised credentials with organizations:LeaveOrganization permission to call LeaveOrganizations API
+• Once removed, account escapes all organizational SCPs, consolidated billing alerts, and centralized logging
+• CloudTrail organization trails stop capturing events, GuardDuty findings no longer flow to security accounts
+• Results in complete loss of organizational visibility while resources remain accessible
+
+Detection opportunities:
+• Monitor for organizations:AcceptHandshake and organizations:LeaveOrganization CloudTrail events
+• These may be among the last centralized log entries before account isolation
+• Investigate any unexpected organizational membership changes outside approved workflows
+
+MITRE ATT&amp;CK mappings include T1078.004 (Cloud Accounts), T1098 (Account Manipulation), T1666.A002 (Leave AWS Organization), and T1562.008 (Disable Cloud Logs).
+
+Implement the DenyLeaveOrganizationSCP immediately - it's the highest-impact, lowest-effort control against this technique.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056858372360618376</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2056858372360618376">DFIR Radar</source>
+      <pubDate>Tue, 19 May 2026 22:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2056858372360618376</guid>
+    </item>
     <item>
       <title>Microsoft Self-Service Password Reset abused in Azure data theft attacks</title>
       <link>https://www.bleepingcomputer.com/news/security/microsoft-self-service-password-reset-abused-in-azure-data-theft-attacks/</link>
@@ -1753,34 +1779,6 @@ Update Secure Boot dbx immediately. Hunt for unexpected UEFI modules in Boot Man
       <source url="https://x.com/DFIR_Radar/status/2054517913340575919">DFIR Radar</source>
       <pubDate>Wed, 13 May 2026 11:03:36 +0000</pubDate>
       <guid isPermaLink="false">2054517913340575919</guid>
-    </item>
-    <item>
-      <title>CVE-2026-44843: One Chat Message Steals Your Credentials. Then It Gets Worse!</title>
-      <link>https://infosecwriteups.com/cve-2026-44843-one-chat-message-steals-your-credentials-then-it-gets-worse-264146623aec?source=rss----7b722bfd1b8d---4</link>
-      <description>CVE-2026-44843: Single chat message triggers unauthenticated credential exfiltration from LangChain applications via malicious object deserialization in tracer component. CVSS not specified, but enables full workspace takeover.
-
-Key technical details:
-• Exploits broad object deserialization in langchain-core tracer paths (_exit_history, astream_log, astream_events v1) using load(run.inputs, allowed_objects="all")
-• Attack payload: JSON dict with HubRunnable constructor that omits api_key, forcing fallback to LANGSMITH_API_KEY environment variable
-• Vulnerable paths: RunnableWithMessageHistory, astream_log(), astream_events(version="v1") in public LangServe endpoints
-• 94 registered serializable classes were potential gadgets for constructor-based side effects
-
-Attack methodology:
-• Attacker sends structured chat message mimicking LangChain serialized object format
-• Framework preserves dict structure in run.inputs without sanitization  
-• Tracer calls load() during object revival, instantiating HubRunnable
-• Constructor triggers LangSmith client creation with attacker-controlled api_url
-• Client reads production API key from environment, sends in x-api-key header to attacker URL
-
-DFIR artifacts:
-• Outbound HTTP requests to suspicious domains with x-api-key headers containing "lsv2_pt_" tokens
-• Process execution of langsmith-py client with network connections during chat processing
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054502735202881587</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2054502735202881587">DFIR Radar</source>
-      <pubDate>Wed, 13 May 2026 10:03:18 +0000</pubDate>
-      <guid isPermaLink="false">2054502735202881587</guid>
     </item>
   </channel>
 </rss>
