@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 20 May 2026 11:03:59 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 12:03:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When Filenames Become Attack Surfaces: Weaponizing NASA's CFITSIO Extended Filename Syntax</title>
+      <link>https://blog.doyensec.com/2026/05/19/cfitsio-weaponized-filenames.html</link>
+      <description>NASA's CFITSIO library contains a hidden "mini-language" inside filename parameters that enables arbitrary file operations, SSRF attacks, and data exfiltration through documented Extended Filename Syntax (EFS) features.
+
+Technical breakdown:
+• EFS transforms filename strings into powerful operations: file copying via `input.fits(output.fits)` syntax, network downloads from http/ftp URLs, and multi-protocol driver system
+• SSRF primitive with HTTP header injection: unsanitized filename input allows newline injection to craft custom headers for cloud metadata service access (GCP, AWS)
+• File exfiltration via legacy root:// protocol combined with raw binary conversion: `[b500,1]` clause wraps arbitrary files as FITS images for remote transmission
+• Affects any application using default `fits_open_file()` - safe alternatives are `fits_open_diskfile()` or `fits_open_datafile()` for literal paths
+
+Key artifacts: Monitor for unexpected network connections from FITS-processing applications, outbound traffic to port 1094 (rootd), and file copies to web-accessible directories.
+
+Use `fits_open_diskfile()` for untrusted filenames and implement strict input validation before any EFS-enabled calls.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057069630057824704</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057069630057824704">DFIR Radar</source>
+      <pubDate>Wed, 20 May 2026 12:03:13 +0000</pubDate>
+      <guid isPermaLink="false">2057069630057824704</guid>
+    </item>
     <item>
       <title>Built a Linux persistence hunting &amp; artifact collection tool in Bash - persisthunt</title>
       <link>https://www.reddit.com/r/dfir/comments/1tie8pw/built_a_linux_persistence_hunting_artifact/</link>
@@ -1727,17 +1748,6 @@ Collect cgroups via inode monitoring or eBPF bpf_get_current_cgroup_id(). Layer 
       <source url="https://x.com/DFIR_Radar/status/2054699131877134424">DFIR Radar</source>
       <pubDate>Wed, 13 May 2026 23:03:42 +0000</pubDate>
       <guid isPermaLink="false">2054699131877134424</guid>
-    </item>
-    <item>
-      <title>Digital Forensics Round-Up, May 13 2026</title>
-      <link>https://www.forensicfocus.com/news/digital-forensics-round-up-may-13-2026/</link>
-      <description>New open-source BlindSite browser enables safe dark web investigations with encrypted evidence vaults. MalChela v4.1 adds Mac malware analysis, Android gets intrusion logging for spyware cases, and LAVA beta launches for large artifact datasets.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054684215099420898</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2054684215099420898">DFIR Radar</source>
-      <pubDate>Wed, 13 May 2026 22:04:26 +0000</pubDate>
-      <guid isPermaLink="false">2054684215099420898</guid>
     </item>
   </channel>
 </rss>
