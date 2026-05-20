@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 20 May 2026 04:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 07:03:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PowerShell DFIR 2026: from MemProcFS-Analyzer to KAPE-style mini-timeline</title>
+      <link>https://andreafortuna.org/2026/05/20/powershell-dfir-2026/</link>
+      <description>PowerShell-driven DFIR workflows in 2026 combine memory acquisition, automated analysis, and KAPE-style timelines into scripted pipelines that deliver both speed and forensic defensibility for Windows incident response.
+
+Key workflow components:
+• Collect-MemoryDump: Orchestrates tools like Belkasoft Live RAM Capturer and WinPMEM with consistent PowerShell interface, hash verification, and predictable output paths
+• MemProcFS-Analyzer: Mounts RAM dumps as virtual filesystems, runs multi-threaded YARA/ClamAV scans, extracts network artifacts with IP geo-enrichment
+• Get-MiniTimeline: Wraps KAPE collection and EZ Tools parsing into single script, produces filtered Excel slices and full CSV timelines from MFT/EventLogs/Registry
+
+Modern 4-step workflow:
+• Remote deployment via EDR live response shells for memory/triage collection
+• Backend processing with automated mounting, scanning, and artifact extraction to CSV
+• Timeline generation targeting specific incident windows with cross-reference to execution artifacts
+• Correlation with documented script versions, command lines, and chain-of-custody for legal defensibility
+
+Implement runtime baselines and completion criteria in SOPs - CPU/disk pressure can cause incomplete results if analysts interrupt collection prematurely. Hash all artifacts at collection and intake.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056994287020126610</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2056994287020126610">DFIR Radar</source>
+      <pubDate>Wed, 20 May 2026 07:03:50 +0000</pubDate>
+      <guid isPermaLink="false">2056994287020126610</guid>
+    </item>
     <item>
       <title>Critical NGINX Vulnerability CVE-2026-42945 Now Under Active Attack</title>
       <link>https://thecyberexpress.com/nginx-rift-cve-2026-42945-active-exploitation/</link>
@@ -1685,33 +1709,6 @@ Hunt for unauthorized .claude/settings.json SessionStart hooks executing node co
       <source url="https://x.com/DFIR_Radar/status/2054623733562630343">DFIR Radar</source>
       <pubDate>Wed, 13 May 2026 18:04:06 +0000</pubDate>
       <guid isPermaLink="false">2054623733562630343</guid>
-    </item>
-    <item>
-      <title>When IT Support Calls: Dissecting a ModeloRAT Campaign from Teams to Domain Compromise</title>
-      <link>https://www.rapid7.com/blog/post/tr-it-support-dissecting-modelorat-campaign-microsoft-teams-compromise</link>
-      <description>ModeloRAT campaign leverages Microsoft Teams phishing to deploy Python-based RAT, escalate via CVE-2023-36036, and harvest domain credentials through fake lock screen. Two-day progression from initial contact to full domain compromise.
-
-Key technical details:
-• Initial access via fake "IT Support" Teams message from UCICasociacion.onmicrosoft[.]com tenant
-• PowerShell stager downloads portable WinPython + ModeloRAT from Dropbox to %APPDATA%
-• Privilege escalation using CVE-2023-36036 (cldflt.sys heap overflow) - custom exploit targeting Cloud Files driver
-• Credential harvesting via fake Windows lock screen DLL (com6848.dll) deployed after SYSTEM access
-• Multiple C2 channels: HTTP beacons (46.225.231[.]170, 144.172.99[.]68), TCP shells, SOCKS5 proxies
-
-Attack progression:
-• Teams social engineering → PowerShell execution → Python RAT deployment (T1566.003, T1059.001)
-• Host reconnaissance via collector.py saves results to %TEMP%\configA.json
-• CVE-2023-36036 exploit registers fake "PLURIBUS" sync provider, shapes kernel heap via WNF APIs
-• WebDAV credential spraying using davclnt.dll DavSetCookie API for stealthy validation
-• RDP lateral movement + memory dump via DumpIt.exe, exfiltrated through uploadnow[.]io
-
-Hunt for WinPython in %APPDATA%, fake Cloud Files sync providers in Registry (HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SyncRootManager\PLURIBUS), and WebDAV authentication attempts via rundll32.exe davclnt.dll.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054608701886222537</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2054608701886222537">DFIR Radar</source>
-      <pubDate>Wed, 13 May 2026 17:04:22 +0000</pubDate>
-      <guid isPermaLink="false">2054608701886222537</guid>
     </item>
   </channel>
 </rss>
