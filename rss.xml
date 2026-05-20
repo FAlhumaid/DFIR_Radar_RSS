@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 20 May 2026 07:03:50 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 08:04:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake Microsoft Teams Campaign Delivers ValleyRAT via NSIS Installer and DLL Sideloading</title>
+      <link>https://labs.k7computing.com/index.php/fake-microsoft-teams-campaign-delivers-valleyrat-via-nsis-installer-and-dll-sideloading/</link>
+      <description>Chinese 🇨🇳 threat actors distribute ValleyRAT via fake Microsoft Teams sites using NSIS installers, legitimate Tencent GameBox.exe for DLL sideloading, and multi-stage in-memory payload execution.
+
+Key technical details:
+• Fake domains: teams-securecall[.]com, teamszs[.]com delivering zip archives with NSIS installer
+• DLL sideloading: Legitimate GameBox.exe loads malicious utility.dll (18F3E85D7237E3CAC0AD13BDCF513F0F)
+• Evasion: PowerShell commands add Windows Defender exclusions for C:\ProgramData\client
+• Persistence: Creates _CCGDAT service for automatic startup
+• C2 server: 103[.]215[.]77[.]17 with AES + XOR encrypted payloads
+
+Attack chain methodology:
+• Stage 1: NSIS installer drops components including legitimate Teams installer as decoy
+• Stage 2: AES-encrypted user.dat payload decrypted in-memory via BcryptDecrypt
+• Stage 3: XOR-encrypted final payload fetched from C2, uses reflective PE loading
+• Capabilities: Clipboard theft via GetClipboardData API, keystroke logging, data exfiltration
+
+DFIR artifacts:
+• Registry keys: HKCU\SOFTWARE\IpDates_info, HKCU\Console\0\451b464b7a6c2ced348c1866b59c362e
+• Service creation events for _CCGDAT in Windows Event Log
+• PowerShell execution with Add-MpPreference commands
+• TCP connections to C2 infrastructure
+
+Hunt for GameBox.exe processes with network connections and unsigned utility.dll in ProgramData. Full IOC hashes and C2 details available in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057009454047179256</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2057009454047179256">DFIR Radar</source>
+      <pubDate>Wed, 20 May 2026 08:04:06 +0000</pubDate>
+      <guid isPermaLink="false">2057009454047179256</guid>
+    </item>
     <item>
       <title>PowerShell DFIR 2026: from MemProcFS-Analyzer to KAPE-style mini-timeline</title>
       <link>https://andreafortuna.org/2026/05/20/powershell-dfir-2026/</link>
@@ -1689,26 +1721,6 @@ Hunt for processes accessing /dev/vpu with oversized memory mappings. Patched in
       <source url="https://x.com/DFIR_Radar/status/2054638744490098878">DFIR Radar</source>
       <pubDate>Wed, 13 May 2026 19:03:45 +0000</pubDate>
       <guid isPermaLink="false">2054638744490098878</guid>
-    </item>
-    <item>
-      <title>Shai-Hulud Goes Open Source</title>
-      <link>https://securitylabs.datadoghq.com/articles/shai-hulud-open-source-framework-static-analysis/</link>
-      <description>TeamPCP's complete Shai-Hulud offensive framework leaked on GitHub 🇺🇸, revealing a production-grade TypeScript toolkit for supply chain attacks, credential harvesting, and AI development tool persistence. Framework targets CI/CD pipelines, developer workstations, and cloud infrastructure through modular components.
-
-Key technical details:
-• Modular pipeline: TypeScript loaders, credential providers (AWS/K8s/Vault), AES-256-GCM + RSA-4096 hybrid encryption to git-tanstack[.]com C2
-• Advanced persistence: VSCode tasks.json "runOn: folderOpen", Claude Code SessionStart hooks, systemd deadman switch (rm -rf ~/ on token revocation)
-• Supply chain propagation: npm package poisoning via stolen tokens, OIDC abuse with forged Sigstore provenance, GitHub branch injection across all repos
-• Memory extraction: /proc/&lt;pid&gt;/mem reading of Runner.Worker process to bypass GitHub Actions secret masking (T1003)
-• 100+ credential targets: ~/.aws/credentials, ~/.kube/config, .env files, SSH keys, crypto wallets, AI tool configs
-
-Hunt for unauthorized .claude/settings.json SessionStart hooks executing node commands and monitor VSCode tasks.json with suspicious "runOn: folderOpen" configurations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054623733562630343</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2054623733562630343">DFIR Radar</source>
-      <pubDate>Wed, 13 May 2026 18:04:06 +0000</pubDate>
-      <guid isPermaLink="false">2054623733562630343</guid>
     </item>
   </channel>
 </rss>
