@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 20 May 2026 18:03:15 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 19:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>YellowKey: The Unpatched BitLocker Bypass Hidden in Windows Recovery</title>
+      <link>https://eclypsium.com/blog/yellowkey-bitlocker-bypass-windows-recovery-environment/</link>
+      <description>New BitLocker bypass exploits Windows Recovery Environment to decrypt drives using Microsoft's own tools. No patch available despite CVE assignment. Researcher withholding follow-on attack that also defeats startup PIN protection.
+
+Technical details:
+• CVE-2026-45585 affects Windows 11, Server 2022/2025 via malicious System Volume Information\FsTx directory
+• Attack deletes winpeshl.ini through NTFS transaction log replay, dropping WinRE to cmd.exe with decrypted filesystem access
+• Three attack paths: USB insertion, EFI partition modification, or physical drive removal/replacement
+• Bypasses TPM-only BitLocker; researcher claims PIN bypass exists but withheld from public release
+
+Attack methodology:
+• Physical access required but definition broader than typical threat models
+• Force entry to WinRE via SHIFT+Restart + CTRL during reboot
+• Malicious FsTx logs replay during recovery boot, deleting recovery UI control file
+• Volume remains transparently decrypted by TPM while attacker gains administrative shell
+
+DFIR artifacts:
+• Monitor for System Volume Information\FsTx directories on USB media and EFI partitions
+• Check winpeshl.ini modification timestamps in WinRE images
+• No legitimate reason for FsTx directories on removable media or EFI partitions
+
+Impact extends beyond single vulnerability - part of escalating WinRE attack surface trend following BitUnlocker CVEs in 2025. Default TPM-only configurations offer minimal protection against physical access.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057175383137550766</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057175383137550766">DFIR Radar</source>
+      <pubDate>Wed, 20 May 2026 19:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2057175383137550766</guid>
+    </item>
     <item>
       <title>The expendable extension name: Azure VMAccess naming chaos, password resets, and a detection gap</title>
       <link>https://webflow.sysdig.com/blog/the-expendable-extension-name-azure-vmaccess-naming-chaos-password-resets-and-a-detection-gap</link>
@@ -1747,17 +1777,6 @@ Hunt for LogMeIn Hamachi binaries with suspicious network connections and non-st
       <source url="https://x.com/DFIR_Radar/status/2054804642886746548">DFIR Radar</source>
       <pubDate>Thu, 14 May 2026 06:02:58 +0000</pubDate>
       <guid isPermaLink="false">2054804642886746548</guid>
-    </item>
-    <item>
-      <title>Re: Linux kernel LPE ("fragnesia", copyfail 3.0)</title>
-      <link>https://seclists.org/oss-sec/2026/q2/517</link>
-      <description>CVE-2026-46300 "Fragnesia" enables universal Linux privilege escalation via XFRM ESP-in-TCP subsystem. Exploits AES-GCM keystream manipulation to write arbitrary bytes into page cache of read-only files like /usr/bin/su.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054789777916928436</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2054789777916928436">DFIR Radar</source>
-      <pubDate>Thu, 14 May 2026 05:03:54 +0000</pubDate>
-      <guid isPermaLink="false">2054789777916928436</guid>
     </item>
   </channel>
 </rss>
