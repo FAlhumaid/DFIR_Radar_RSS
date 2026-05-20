@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 20 May 2026 09:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 10:04:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How an image could compromise your Mac: understanding an ExifTool vulnerability (CVE-2026-3102)</title>
+      <link>https://securelist.com/exiftool-compromise-mac/119866/</link>
+      <description>Kaspersky discovers critical ExifTool flaw (CVE-2026-3102) enabling command injection via malicious image metadata on macOS 🇺🇸. Attackers can achieve RCE by embedding shell commands in EXIF data, then copying to FileCreateDate tag.
+
+Key technical details:
+• Affects ExifTool v13.49 and earlier on macOS systems only
+• Exploits unsanitized $val parameter in SetMacOSTags function's system() call
+• Requires -n flag (raw output mode) and -tagsFromFile feature to trigger vulnerable code path
+• Attack vector: inject single quotes in DateTimeOriginal tag, copy to FileCreateDate via `-tagsFromFile` operation
+• Bypasses PrintConvInv filter validation through raw value processing
+
+Attack methodology:
+• Craft malicious image with command injection payload in EXIF DateTimeOriginal field
+• Use `exiftool -n -tagsFromFile malicious.jpg "-FileCreateDate&lt;DateTimeOriginal" target.jpg`
+• Payload executes when /usr/bin/setfile command processes unsanitized date string
+• Enables arbitrary command execution with user privileges
+
+DFIR artifacts:
+• Monitor /usr/bin/setfile process creation with unusual parent processes
+• Check ExifTool command line arguments for -n and -tagsFromFile flags
+• Examine EXIF metadata in suspicious images for non-standard datetime formats containing shell metacharacters
+
+Update to ExifTool v13.50+ immediately. Hunt for `exiftool -n -tagsFromFile` in command history and process logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057039817733501143</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057039817733501143">DFIR Radar</source>
+      <pubDate>Wed, 20 May 2026 10:04:45 +0000</pubDate>
+      <guid isPermaLink="false">2057039817733501143</guid>
+    </item>
     <item>
       <title>Microsoft shares mitigation for YellowKey Windows zero-day</title>
       <link>https://www.bleepingcomputer.com/news/microsoft/microsoft-shares-mitigation-for-yellowkey-windows-zero-day/</link>
@@ -1692,17 +1723,6 @@ Collect cgroups via inode monitoring or eBPF bpf_get_current_cgroup_id(). Layer 
       <source url="https://x.com/DFIR_Radar/status/2054668854681346286">DFIR Radar</source>
       <pubDate>Wed, 13 May 2026 21:03:24 +0000</pubDate>
       <guid isPermaLink="false">2054668854681346286</guid>
-    </item>
-    <item>
-      <title>Digital Forensics: Hunting Chinese APTs Abusing Native Windows Tools</title>
-      <link>https://hackers-arise.com/digital-forensics-hunting-chinese-apts-abusing-native-windows-tools/</link>
-      <description>Chinese 🇨🇳 APTs extensively abuse native Windows tools like certutil, nltest, and ntdsutil for reconnaissance and credential theft. New SIGMA rules detect LOLBAS techniques across the attack chain from initial enum to AD database extraction.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054653980140052822</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2054653980140052822">DFIR Radar</source>
-      <pubDate>Wed, 13 May 2026 20:04:17 +0000</pubDate>
-      <guid isPermaLink="false">2054653980140052822</guid>
     </item>
   </channel>
 </rss>
