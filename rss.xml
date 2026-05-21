@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 17:03:14 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 18:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers are bypassing MFA on SonicWall VPNs because something was wrong with previous fix</title>
+      <link>https://securityaffairs.com/192477/hacking/attackers-are-bypassing-mfa-on-sonicwall-vpns-because-something-was-wrong-with-previous-fix.html</link>
+      <description>SonicWall Gen6 VPN authentication bypass (CVE-2024-12802) exploited in the wild despite patches - manual LDAP reconfiguration steps missed. ReliaQuest observed active ransomware-related intrusions exploiting this flaw across multiple organizations.
+
+Technical details:
+• CVE-2024-12802: MFA bypass due to separate UPN/SAM authentication handling in Active Directory integration
+• Firmware patches exist but require 6 additional manual LDAP reconfiguration steps often missed
+• Gen6 devices reached end-of-life April 2026, no future security updates available
+• Attackers brute-force VPN accounts (as few as 13 attempts), bypass MFA, lateral movement in &lt;30 minutes
+
+Attack pattern observed:
+• Initial access via VPN credential brute-force leveraging UPN authentication path
+• Rapid lateral movement to domain-joined file servers via shared local admin passwords
+• Cobalt Strike beacon deployment and BYOVD attempts for EDR evasion
+• Initial access broker behavior: logout, return with different accounts for value assessment
+
+DFIR artifacts:
+• sess='CLI' in VPN authentication logs indicates scripted/automated authentication
+• Event IDs 238 and 1080 worth monitoring alongside VPN login anomalies
+• Successful MFA logs can be deceptive - authentication bypass still appears as normal MFA flow
+• VPN connections from VPS/VPN infrastructure vs expected user geolocations
+
+Hunt for sess='CLI' in SonicWall VPN logs combined with successful authentications for MFA-protected accounts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057522750466478209</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057522750466478209">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 18:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2057522750466478209</guid>
+    </item>
     <item>
       <title>Mini Shai-Hulud: Frequently asked questions about the TeamPCP npm and PyPI supply chain campaign</title>
       <link>https://www.tenable.com/blog/mini-shai-hulud-frequently-asked-questions</link>
@@ -1714,26 +1745,6 @@ Hunt for the unchanged SHA-256 hash and "mdrfckr" string rather than hassh value
       <source url="https://x.com/DFIR_Radar/status/2055136959052267936">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 04:03:28 +0000</pubDate>
       <guid isPermaLink="false">2055136959052267936</guid>
-    </item>
-    <item>
-      <title>Sandworm uses pre-compromised OT environments instead of zero-days to escalate OT, ICS attacks after detection</title>
-      <link>https://industrialcyber.co/control-device-security/sandworm-uses-pre-compromised-ot-environments-instead-of-zero-days-to-escalate-ot-ics-attacks-after-detection/</link>
-      <description>Russian 🇷🇺 state group Sandworm escalates attacks after detection instead of retreating, exploiting pre-compromised industrial environments rather than zero-days. Nozomi analysis of 5.5M alerts across 10 organizations reveals 43-day average warning window before confirmed activity.
-
-Key findings from July 2025-January 2026 dataset:
-• 29 confirmed Sandworm events across manufacturing/transportation in US 🇺🇸, Mexico 🇲🇽, UK 🇬🇧, Germany 🇩🇪, Belgium 🇧🇪, Colombia 🇨🇴, Thailand 🇹🇭
-• Group exploits legacy vulnerabilities: EternalBlue, DoublePulsar, WannaCry, Log4Shell, Cobalt Strike vs zero-days
-• Aggressive lateral movement: single compromised host targeted 405 internal systems, 17 infected machines attempted movement against 923 targets
-• Operations align with Moscow 🇷🇺 working hours, peak Wednesday afternoons - indicating centralized state direction
-• Post-detection escalation targets engineering workstations, HMIs, PLCs, RTUs (Purdue Levels 1-2) for maximum operational disruption
-
-Every infected system showed warning signs 20-155 days before Sandworm activity. Treat commodity malware alerts (Cobalt Strike, RATs, Log4Shell) as strategic indicators requiring immediate investigation and full remediation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055121802867646526</description>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2055121802867646526">DFIR Radar</source>
-      <pubDate>Fri, 15 May 2026 03:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2055121802867646526</guid>
     </item>
   </channel>
 </rss>
