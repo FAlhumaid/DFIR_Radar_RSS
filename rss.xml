@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 07:03:02 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 08:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Pardus Linux Vulnerability Chain Enables Complete System Takeover</title>
+      <link>https://thecyberexpress.com/cve-2026-5140-pardus-linux-root-access-flaw/</link>
+      <description>Critical privilege escalation chain in Pardus Linux allows any local user to gain root access within seconds. CVE-2026-5140 scored CVSS 9.3, affecting Turkish 🇹🇷 government and enterprise systems nationwide.
+
+Technical breakdown:
+• Chain combines Polkit bypass + CRLF injection + untrusted search path in pardus-update package
+• Polkit misconfiguration in /usr/share/polkit-1/actions allows pkexec without authentication
+• SystemSettingsWrite.py vulnerable to \r injection, manipulating /etc/pardus/pardus-update.conf
+• AutoAptUpgrade.py copies attacker-controlled .list files to /etc/apt/sources.list.d/ without validation
+• Exploit creates malicious .deb package with postinst script: chmod +s /bin/bash
+
+Attack artifacts:
+• Monitor pkexec execution of SystemSettingsWrite.py and AutoAptUpgrade.py scripts
+• Check /etc/pardus/pardus-update.conf for unexpected custom_sourcesd_path entries
+• Audit /etc/apt/sources.list.d/ for unauthorized repository files
+• Watch for SUID bit changes on /bin/bash or other system binaries
+
+Hunt for recent pkexec processes with pardus-update arguments and correlate with APT package installations from non-standard repositories.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057371710689583140</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057371710689583140">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 08:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2057371710689583140</guid>
+    </item>
     <item>
       <title>Webworm: New burrowing techniques</title>
       <link>https://www.welivesecurity.com/en/eset-research/webworm-new-burrowing-techniques/</link>
@@ -1705,31 +1731,6 @@ Hunt for unexpected DTLS sessions to UDP 12346 with device type mismatches and m
       <source url="https://x.com/DFIR_Radar/status/2054985988699554069">DFIR Radar</source>
       <pubDate>Thu, 14 May 2026 18:03:34 +0000</pubDate>
       <guid isPermaLink="false">2054985988699554069</guid>
-    </item>
-    <item>
-      <title>Ongoing exploitation of Cisco Catalyst SD-WAN vulnerabilities</title>
-      <link>https://blog.talosintelligence.com/sd-wan-ongoing-exploitation/</link>
-      <description>Authentication bypass in Cisco SD-WAN systems exploited by sophisticated threat actors. Multiple CVEs under active attack with webshells, miners, and credential theft campaigns targeting enterprise networks.
-
-Key technical details:
-• CVE-2026-20182: Authentication bypass in SD-WAN Controller/Manager allows admin access. UAT-8616 actor exploits with SSH key injection and privilege escalation (T1078, T1548)
-• CVE-2026-20133/20128/20122: Vulnerability chain exploited by 10+ threat clusters since March 2026 using ZeroZenX Labs PoC
-• Post-exploitation: JSP webshells (XenShell, Godzilla, Behinder), XMRig miners, AdaptixC2/Sliver implants, credential harvesting tools
-• IOCs include C2 servers at 194[.]163[.]175[.]135, 23[.]27[.]143[.]170, and replit[.]dev-hosted backdoors
-
-Attack methodology:
-• Initial access via unauthenticated exploitation of SD-WAN management interfaces
-• Webshell deployment for persistent access and command execution
-• Secondary payload delivery: red team frameworks, cryptocurrency miners, network scanning tools
-• Credential extraction targeting admin hashdumps, JWT tokens, and AWS keys from vManage
-
-Hunt for JSP files in SD-WAN web directories with recent timestamps, monitor for XMRig processes, and check for SSH key additions to authorized_keys. Snort SIDs 66482-66483 detect CVE-2026-20182 exploitation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054970690910970232</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2054970690910970232">DFIR Radar</source>
-      <pubDate>Thu, 14 May 2026 17:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2054970690910970232</guid>
     </item>
   </channel>
 </rss>
