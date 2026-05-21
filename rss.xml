@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 09:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 10:03:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Can Pure Modbus Break a Reactor? Oldsmar, Stuxnet &amp; FrostyGoop, Tested</title>
+      <link>https://infosecwriteups.com/can-pure-modbus-break-a-reactor-oldsmar-stuxnet-frostygoop-tested-3c35dad8daa7?source=rss----7b722bfd1b8d---4</link>
+      <description>Researcher demonstrates three OT attack classes using pure Modbus commands on chemical reactor simulation, proving data-only attacks can cause physical damage given sufficient time.
+
+Key findings from GRFICSv3 reactor testing:
+
+• **Setpoint Manipulation (Oldsmar-style)**: Single mbtget command changes composition setpoint from ~55295 to 15400 via HR 1026. No authentication, write persists until manual reversion. Mimics Florida 🇺🇸 water plant's 111x lye increase.
+
+• **Parameter Drift (Stuxnet-style)**: Script gradually ramps HR 1025 in 0.17% increments over 60 seconds, evading threshold alarms while accumulating damage. Replicates Iran's 🇮🇷 centrifuge frequency manipulation technique without S7/Profibus complexity.
+
+• **Brute-Force Shutdown (FrostyGoop-style)**: Single coil write to address 40 trips PLC safe-state, opening purge valve and bleeding pressure at ~12 kPa/s. Mirrors Ukraine's 🇺🇦 district heating attack that left 600 buildings without heat.
+
+• **Critical discovery**: Sustained max setpoint holds (hours, not seconds) rupture the reactor model. Single slammed commands appear survivable—that's the deception. Duration, not packet complexity, determines destructive capability.
+
+Monitor for register value pinning duration and rate-of-change anomalies. Point-in-time alarms miss gradual attacks; "pinned at max for 40+ minutes" catches everything.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057401791059202542</description>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057401791059202542">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 10:03:06 +0000</pubDate>
+      <guid isPermaLink="false">2057401791059202542</guid>
+    </item>
     <item>
       <title>How to Detect Lateral Movement with Elastic SIEM: SOC Analyst Hands-On Lab | Hunt Forward Lab #006</title>
       <link>https://infosecwriteups.com/how-to-detect-lateral-movement-with-elastic-siem-soc-analyst-hands-on-lab-hunt-forward-lab-006-4d5f054d8d5b?source=rss----7b722bfd1b8d---4</link>
@@ -1709,33 +1732,6 @@ Hunt for installed packages: grep -R 'node-ipc@' package*.json and check node_mo
       <source url="https://x.com/DFIR_Radar/status/2055016229648171482">DFIR Radar</source>
       <pubDate>Thu, 14 May 2026 20:03:45 +0000</pubDate>
       <guid isPermaLink="false">2055016229648171482</guid>
-    </item>
-    <item>
-      <title>Kazuar: Anatomy of a nation-state botnet</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/05/14/kazuar-anatomy-of-a-nation-state-botnet/</link>
-      <description>Microsoft exposes Kazuar's evolution into sophisticated P2P botnet: Russian 🇷🇺 FSB's Secret Blizzard transforms traditional backdoor into modular three-tier architecture for persistent espionage operations.
-
-Technical breakdown:
-- Three-module architecture: Kernel (coordinator), Bridge (C2 proxy), Worker (data collection)
-- P2P leadership election reduces external traffic - single elected Kernel leader communicates via Bridge module
-- IPC via Windows Messaging/Mailslots with AES-encrypted named pipes (\\.\pipe\82760B84F1D703D596C79B88BA4FAC1E pattern)
-- Multiple C2 transports: HTTP, WebSockets, Exchange Web Services for resilience
-- 150+ configuration options including AMSI/ETW/WLDP bypasses, exfiltration timing controls
-- Extensive data collection: system info, screenshots, keylogging, MAPI email monitoring, file harvesting
-
-DFIR artifacts:
-- Working directory with structured staging areas (Peeps, Autos, Result files, Task files, Logs)
-- Window class names matching module names (Bridge/Kernel/Worker)
-- Mailslot names: MD5 hash of "mailslot-" + module name
-- Protobuf message structures for inter-module communication
-
-Hunt for hidden windows with suspicious class names, monitor named pipe creation with MD5-like patterns, and correlate process relationships showing Kernel-Bridge-Worker triads.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055000838989565988</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2055000838989565988">DFIR Radar</source>
-      <pubDate>Thu, 14 May 2026 19:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2055000838989565988</guid>
     </item>
   </channel>
 </rss>
