@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 18:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 19:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Emulating &amp; Exploiting UEFI: Unveiling Vulnerabilities in Firmware Security</title>
+      <link>https://www.netspi.com/blog/technical-blog/hardware-and-embedded-systems-penetration-testing/emulating-and-exploiting-uefi/</link>
+      <description>NetSPI researchers discover memory safety flaw in UEFI PNG decoder via emulation. Buffer over-read triggered by spoofed IDAT chunk length enables sensitive data leakage during boot process.
+
+Key technical details:
+• Vulnerability bypasses LogoFail mitigations by manipulating PNG IDAT chunk length field to 0x400000 (4MB) while keeping total allocation under 0x7fffffff limit
+• Qiling framework emulation reveals over-read at instruction 0x104106: `mov al, byte ptr [r13+rcx]` attempting to access 0x9076000 when legitimate data ends at 0x9073B07
+• Attack vector: crafted PNG loaded from NVRAM causes decoder to read beyond buffer boundaries into potentially sensitive memory regions
+• Custom heap spacing (0x10000000 bytes) in emulation environment isolates allocations to demonstrate clear evidence of boundary violations
+
+DFIR artifacts:
+• Monitor UEFI boot logs for PNG processing errors or unexpected memory access violations
+• Examine NVRAM-stored image files for manipulated IDAT chunk headers during firmware forensics
+• Over-read could leak assembly code, cryptographic keys, or protected system data visible on screen during boot
+
+Hunt for UEFI modules processing image data with insufficient boundary validation. Check PNG IDAT chunk lengths against actual compressed data size in firmware analysis.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057537773704245498</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057537773704245498">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 19:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2057537773704245498</guid>
+    </item>
     <item>
       <title>Attackers are bypassing MFA on SonicWall VPNs because something was wrong with previous fix</title>
       <link>https://securityaffairs.com/192477/hacking/attackers-are-bypassing-mfa-on-sonicwall-vpns-because-something-was-wrong-with-previous-fix.html</link>
@@ -1734,17 +1758,6 @@ Hunt for the unchanged SHA-256 hash and "mdrfckr" string rather than hassh value
       <source url="https://x.com/DFIR_Radar/status/2055151801020862469">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 05:02:27 +0000</pubDate>
       <guid isPermaLink="false">2055151801020862469</guid>
-    </item>
-    <item>
-      <title>KongTuke hackers now use Microsoft Teams for corporate breaches</title>
-      <link>https://www.bleepingcomputer.com/news/security/kongtuke-hackers-now-use-microsoft-teams-for-corporate-breaches/</link>
-      <description>KongTuke IAB now leverages Microsoft Teams for social engineering, gaining persistent access in under 5 minutes via PowerShell commands that deploy ModeloRAT.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055136959052267936</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2055136959052267936">DFIR Radar</source>
-      <pubDate>Fri, 15 May 2026 04:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2055136959052267936</guid>
     </item>
   </channel>
 </rss>
