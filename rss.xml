@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 00:02:44 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 01:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How a Webmail Log File Became a Root-Level Backdoor</title>
+      <link>https://www.wordfence.com/blog/2026/05/how-a-webmail-log-file-became-a-root-level-backdoor/</link>
+      <description>Attackers turned CyberPanel's SnappyMail webmail logs into a persistent root-level backdoor that survived every WordPress cleanup. 14-second compromise chain exploited three critical misconfigurations to achieve cross-service malware injection.
+
+Technical breakdown:
+• Malware: Double-encoded redirect payload in wp-config.php targeting frontend visitors only, excluding admin/AJAX/REST API requests
+• Attack vector: Default SnappyMail credentials → changed log filename from .txt to .php → injected PHP webshell via login form "username" field
+• Persistence: Log file at `/usr/local/CyberCP/public/snappymail/data/_data_/_default_/logs/shell.php` executable via LiteSpeed on port 8090
+• Privilege escalation: lscpd user has `NOPASSWD: ALL` sudo access, enabling root-level wp-config.php modification every 2-6 hours
+• Evasion: Backdoor exists outside WordPress webroot, invisible to WP security plugins scanning only `/public_html/`
+
+Key artifacts:
+• SnappyMail logs capture complete attack timeline with PHP injection timestamps
+• Webshell accessible at `https://IP:8090/snappymail/data/_data_/_default_/logs/shell.php?c=COMMAND`
+• Typosquat domain: `async[.]gsyndication[.]com` (mimics Google's googlesyndication[.]com)
+
+Hunt for CyberPanel installations with unrestricted port 8090 access and verify SnappyMail log filenames don't use .php extensions. Wordfence CLI detected both backdoors with signature `Obfuscated:PHP/superglobal.func.B.10513`.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057265807952859463</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2057265807952859463">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 01:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2057265807952859463</guid>
+    </item>
     <item>
       <title>TeamPCP GitHub Breach: Internal GitHub Repositories Allegedly Accessed</title>
       <link>https://socradar.io/blog/teampcp-github-breach-internal-github-repository/</link>
@@ -1740,31 +1765,6 @@ Monitor outbound FTP traffic on port 21 for filenames starting with "PW_" patter
       <source url="https://x.com/DFIR_Radar/status/2054925618370826386">DFIR Radar</source>
       <pubDate>Thu, 14 May 2026 14:03:41 +0000</pubDate>
       <guid isPermaLink="false">2054925618370826386</guid>
-    </item>
-    <item>
-      <title>OrBit (Re)turns: Tracking an open-source Linux rootkit across four years of forks and deployments</title>
-      <link>https://intezer.com/blog/orbit-returns/</link>
-      <description>Four-year evolution of OrBit Linux rootkit reveals it's a fork of open-source Medusa toolkit, deployed by state-sponsored UNC3886, eCrime BLOCKADE SPIDER, and RHOMBUS botnet operators.
-
-Deep technical breakdown of OrBit's development reveals sophisticated operator tradecraft:
-
-• **Two parallel lineages identified**: Full-featured "Lineage A" (66+ exports, PAM harvesting, network hiding) and lite "Lineage B" (54 exports, reduced footprint for specific environments)
-
-• **Source attribution confirmed**: OrBit samples contain unstripped symbols (rkld.c, rknet.c, rkload.c) matching Medusa GitHub repo structure exactly. XOR obfuscation scheme (keys 0xA2/0xAA) and build pipeline artifacts prove common origin
-
-• **Multi-actor deployment spanning 2022-2026**: UNC3886 🇨🇳 state espionage (VMware/Juniper infrastructure), BLOCKADE SPIDER eCrime (Embargo ransomware), and RHOMBUS botnet operations with C2 at cf0[.]pw resolving to Russian 🇷🇺 infrastructure
-
-• **2025 capability expansion**: New pam_sm_authenticate hook enables service-side PAM impersonation, two-stage infector architecture adds C2 communication via cron jobs, breaking from purely passive SSH backdoor model
-
-• **Persistence mechanisms**: LD_PRELOAD via patched ld.so, installs to /lib/libseconf/, /lib/locate/, or /lib64/libseconf/ with hidden credential storage in sshpass.txt/sshpass2.txt
-
-Hunt for XOR-decoded string tables in .
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2054910550992146852</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2054910550992146852">DFIR Radar</source>
-      <pubDate>Thu, 14 May 2026 13:03:49 +0000</pubDate>
-      <guid isPermaLink="false">2054910550992146852</guid>
     </item>
   </channel>
 </rss>
