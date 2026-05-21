@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 14:04:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 15:03:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>JOMANGY: INJ3CTOR3’s Self-Healing FreePBX Toll Fraud Campaign</title>
+      <link>https://cyble.com/blog/jomangy-inj3ctor3s-self-healing-freepbx-toll-fraud-campaign/</link>
+      <description>Advanced FreePBX toll fraud campaign deploys JOMANGY, a previously undocumented PHP webshell family with six self-healing persistence channels. Campaign attributed to INJ3CTOR3 actor with high confidence based on forensic overlaps.
+
+Technical details:
+• JOMANGY webshell uses double-layer obfuscation (base64 over ROT13) with watermark string 'trace_e1ebf9066a951be519a24140711839ea'
+• Six independent persistence channels: cron C2 polling (1-3min), shell profile injection, immutable crontab backups, process watchdog, chattr +i webshells, PHP executor
+• 18 backdoor accounts across three tiers: 9 UID-0 accounts, 8 service accounts, 1 FreePBX web panel account injected into MySQL
+• C2 infrastructure: 45[.]95[.]147[.]178 🇳🇱 hosting 3,080-IP target inventory (39% Alibaba Cloud-hosted)
+
+Attack methodology:
+• Suspected CVE-2025-64328 or CVE-2025-57819 exploitation for initial access
+• Competitor eviction removes 50+ webshell families before deploying own infrastructure
+• VoIP toll fraud via asterisk -rx "channel originate" routing calls through victim SIP trunks
+• Self-eviction of prior campaign artifacts indicates intentional botnet migration from Brazilian to Dutch 🇳🇱 infrastructure
+
+Hunt for PHP files containing the JOMANGY watermark string in FreePBX web directories. Monitor for chattr +i usage and cron entries downloading from 45[.]95[.]147[.]178.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057477326146068548</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2057477326146068548">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 15:03:15 +0000</pubDate>
+      <guid isPermaLink="false">2057477326146068548</guid>
+    </item>
     <item>
       <title>[webapps] FUXA  1.2.9 -  RCE</title>
       <link>https://www.exploit-db.com/exploits/52568</link>
@@ -1694,28 +1719,6 @@ DFIR practitioners can now automate tedious manual RDP cache reconstruction. Tes
       <source url="https://x.com/DFIR_Radar/status/2055091653866901524">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 01:03:27 +0000</pubDate>
       <guid isPermaLink="false">2055091653866901524</guid>
-    </item>
-    <item>
-      <title>Inside a Tor Backed Supply Chain Worm</title>
-      <link>https://www.cloudsek.com/blog/inside-a-tor-backed-supply-chain-worm</link>
-      <description>CloudSEK TRIAD exposed sophisticated npm supply chain attack: typosquatted "crypto-javascri" package mimics legitimate crypto-js library, stealing developer credentials and hijacking maintainer accounts to spread trojanized packages across the ecosystem.
-
-Key technical details:
-• Typosquatting attack targets crypto-js (popular cryptography library) via "crypto-javascri" package
-• Steals npm authentication tokens and GitHub credentials from infected developer systems
-• Hijacks legitimate maintainer accounts to republish trojanized versions of existing packages
-• Uses Tor-based C2 infrastructure for anonymity and persistence (T1090.003)
-• Primarily targets Linux development environments and CI/CD pipelines
-
-Attack methodology creates exponential supply chain contamination as compromised maintainer accounts can trojanize multiple downstream dependencies, amplifying impact across the JavaScript ecosystem.
-
-Hunt for unusual npm package installations with typo variations of popular libraries and monitor for unexpected credential access patterns in developer environments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055076519719080359</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2055076519719080359">DFIR Radar</source>
-      <pubDate>Fri, 15 May 2026 00:03:18 +0000</pubDate>
-      <guid isPermaLink="false">2055076519719080359</guid>
     </item>
   </channel>
 </rss>
