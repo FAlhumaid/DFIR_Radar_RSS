@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 13:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 14:04:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[webapps] FUXA  1.2.9 -  RCE</title>
+      <link>https://www.exploit-db.com/exploits/52568</link>
+      <description>FUXA 1.2.9 industrial HMI platform suffers from unauthenticated path traversal leading to arbitrary file write and RCE. Zero-click exploitation bypasses all authentication mechanisms including secure mode.
+
+Key technical details:
+• CVE-2026-25895: POST /api/upload endpoint lacks authentication middleware entirely
+• Path traversal via `destination` parameter: `a/../../../../&lt;target&gt;` escapes appDir containment
+• Node.js path.resolve() vulnerability enables write to any filesystem location
+• Multiple RCE vectors: settings.js replacement, cron injection, SSH key drops, webshell deployment
+
+Attack methodology:
+• Unauthenticated /api/settings leak reveals installation paths and running user context
+• Exploitation works even with secureEnabled=true (JWT bypass)
+• Settings.js replacement executes on next FUXA restart via require() mechanism
+• Cron payloads provide immediate execution when FUXA runs as root (common in containers)
+
+DFIR artifacts and detection opportunities:
+• Monitor POST requests to /api/upload with directory traversal patterns in JSON body
+• Watch for unexpected files in /tmp/, /etc/cron.d/, and FUXA _appdata directories
+• Alert on settings.js modifications and unauthorized SSH key additions
+• Network detection: outbound connections from industrial systems to unexpected ports
+
+Hunt for recent file modifications in FUXA directories, especially settings.js timestamps mismatched with legitimate configuration changes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057462463025598860</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2057462463025598860">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 14:04:12 +0000</pubDate>
+      <guid isPermaLink="false">2057462463025598860</guid>
+    </item>
     <item>
       <title>April 2026 Detection Highlights: 7 New VTIs, AutoUI Support for Fake CAPTCHA Campaigns, and 20+ New YARA Rules</title>
       <link>https://www.vmray.com/april-2026-detection-highlights-7-new-vtis-autoui-support-for-fake-captcha-campaigns-and-20-new-yara-rules/</link>
@@ -1685,34 +1716,6 @@ Hunt for unusual npm package installations with typo variations of popular libra
       <source url="https://x.com/DFIR_Radar/status/2055076519719080359">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 00:03:18 +0000</pubDate>
       <guid isPermaLink="false">2055076519719080359</guid>
-    </item>
-    <item>
-      <title>RDPuzzle: local browser-based RDP bitmap cache reconstruction with neural auto-stitching</title>
-      <link>https://www.reddit.com/r/dfir/comments/1tddfru/rdpuzzle_local_browserbased_rdp_bitmap_cache/</link>
-      <description>New open-source tool RDPuzzle automates reconstruction of RDP bitmap cache fragments using neural networks and edge-similarity scoring. Browser-based workspace transforms 64x64 cache tiles into readable images for incident analysis.
-
-Key capabilities:
-• Processes BMC/BIN-style RDP cache artifacts with manual and semi-automatic tile placement
-• Neural-assisted neighbor suggestions using local ONNX edge-matching model
-• Auto-stitching of adjacent tiles based on edge similarity algorithms
-• Built-in OCR for text recovery from reconstructed images
-• Fully local processing - no data leaves the browser environment
-
-Technical features:
-• Session save/load with undo/redo functionality for complex reconstructions
-• Demo dataset included for training and validation workflows
-• Supports standard RDP cache fragment formats from Windows forensic acquisitions
-• Real-time tile ranking and placement recommendations
-
-DFIR practitioners can now efficiently reconstruct user desktop activity from RDP cache artifacts without manual pixel-perfect alignment. Tool addresses common challenges in remote access investigations where traditional cache viewers fall short.
-
-Test with known RDP cache samples to validate neural matching accuracy before case deployment. Available on GitHub and as live web application.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055061401241374816</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2055061401241374816">DFIR Radar</source>
-      <pubDate>Thu, 14 May 2026 23:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2055061401241374816</guid>
     </item>
   </channel>
 </rss>
