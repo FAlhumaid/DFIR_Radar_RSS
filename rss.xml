@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 22 May 2026 11:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2026 12:03:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to respond to an incident in Kubernetes | GKE | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/incident-response-in-kubernetes-gke</link>
+      <description>GKE provides better default logging than EKS with three log sources enabled out-of-the-box, but critical Data Access audit logs remain disabled by default and cannot be reconstructed post-incident.
+
+Key IR considerations for GKE:
+• Standard vs Autopilot mode determines forensic capabilities - Autopilot blocks node-level access entirely
+• Data Access audit logs capture secret enumeration and kubectl exec activity but require pre-enabling
+• Default logs: Admin Activity (resource modifications), System Logs (container runtime), Application Logs (workload output)
+• Missing by default: API server logs, scheduler logs, controller manager logs, control plane network/SSH events
+• FluentBit vulnerability (GCP-2023-047) chained with Anthos Service Mesh permissions for cluster-admin escalation
+
+Investigation approach:
+• Start with Cloud Logging filtered by affected node and timeframe
+• Query for unusual kubectl exec: `protoPayload.methodName="io.k8s.core.v1.Pod.exec"`
+• Quarantine compromised pods with deny-all NetworkPolicy while preserving for analysis
+• Remove pod labels to stop production traffic routing
+
+Enable Data Access audit logs before incidents occur - they're the most valuable for investigations but cannot be retroactively enabled.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057794560139448520</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2057794560139448520">DFIR Radar</source>
+      <pubDate>Fri, 22 May 2026 12:03:50 +0000</pubDate>
+      <guid isPermaLink="false">2057794560139448520</guid>
+    </item>
     <item>
       <title>INJ3CTOR3 Deploys JOMANGY Webshell in Advanced FreePBX Attacks</title>
       <link>https://thecyberexpress.com/inj3ctor3-jomangy-freepbx/</link>
@@ -1690,33 +1716,6 @@ Hunt for HTTP requests to `/locales/locale.json` with `../` sequences in locale 
       <source url="https://x.com/DFIR_Radar/status/2055363501040807987">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 19:03:41 +0000</pubDate>
       <guid isPermaLink="false">2055363501040807987</guid>
-    </item>
-    <item>
-      <title>Welcome to BlackFile: Inside a Vishing Extortion Operation</title>
-      <link>https://cloud.google.com/blog/topics/threat-intelligence/blackfile-vishing-extortion-operation/</link>
-      <description>UNC6671's BlackFile extortion operation targets cloud environments via vishing calls and AiTM attacks. Active since early 2026, compromising dozens of orgs across North America 🇺🇸, Australia 🇦🇺, and UK 🇬🇧 through sophisticated SSO bypass techniques.
-
-Attack methodology:
-• Vishing calls to personal phones impersonating IT, directing victims to lookalike domains (enrollms[.]com, passkeyms[.]com) for real-time credential harvest
-• AiTM bypass of MFA through live call coordination, immediate attacker device registration for persistence
-• Programmatic data theft via Python/PowerShell scripts targeting M365/Okta, using direct HTTP GET against document URLs with stolen FedAuth cookies
-• FileAccessed events instead of FileDownloaded to evade SOC detection - one case exfiltrated 1M+ files
-
-Key forensic artifacts:
-• User-Agent mismatches: ClientAppId spoofed as "Microsoft Office" but UserAgent shows python-requests/2.28.1 or WindowsPowerShell/5.1
-• Authentication from commercial VPN/hosting provider IPs
-• High-volume file access patterns inconsistent with human browsing
-• system.multifactor.factor.setup events preceded by MFA failures
-
-Extortion escalation includes Gmail spam campaigns, threatening voicemails to C-suite, and swatting tactics. BlackFile DLS shut down April 2026 with message "shutting down... under this name" - likely rebranding rather than cessation.
-
-Hunt for FileAccessed events with scripting User-Agents from suspicious IPs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055348594253672515</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2055348594253672515">DFIR Radar</source>
-      <pubDate>Fri, 15 May 2026 18:04:26 +0000</pubDate>
-      <guid isPermaLink="false">2055348594253672515</guid>
     </item>
   </channel>
 </rss>
