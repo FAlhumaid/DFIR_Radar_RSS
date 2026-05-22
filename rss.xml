@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 22 May 2026 17:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2026 18:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From edge appliance to enterprise compromise: Multi-stage Linux intrusion via F5 and Confluence</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/05/22/from-edge-appliance-to-enterprise-compromise-multi-stage-linux-intrusion-via-f5-and-confluence/</link>
+      <description>Microsoft details a multi-stage attack chain where threat actors compromised an EOL F5 BIG-IP appliance, pivoted to a Linux host, then exploited vulnerable Confluence to conduct Kerberos relay attacks against Active Directory.
+
+Key technical details:
+• Initial access via EOL F5 BIG-IP v15.1.201000 (expired Dec 31, 2024) leading to SSH access on Linux host with privileged account
+• Reconnaissance using Nmap, gowitness, and custom scanning tool (HackTool:Linux/MalPack.B) from 206[.]189[.]27[.]39
+• Lateral movement to unpatched Confluence server, credential theft from server.xml and confluence.cfg.xml config files
+• Kerberos relay attacks using CVE-2025-33073, PetitPotam coercion, and tools like netexec, kerbrute against domain infrastructure
+
+Attack methodology spans network → endpoint → SaaS → identity domains, demonstrating how edge device compromise enables cross-platform privilege escalation through trusted relationships and credential reuse.
+
+DFIR artifacts include SSH logon events correlated with F5 device IPs, Java processes accessing Confluence config files, and chmod operations on /dev/shm for payload staging.
+
+Hunt for SSH logins from network appliances and monitor Java processes reading sensitive config files. Full advanced hunting queries and IOCs provided in Microsoft's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057885045604708628</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2057885045604708628">DFIR Radar</source>
+      <pubDate>Fri, 22 May 2026 18:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2057885045604708628</guid>
+    </item>
     <item>
       <title>Fast and Furious – Nimbus Manticore Operations During the Iranian Conflict</title>
       <link>https://research.checkpoint.com/2026/fast-and-furious-nimbus-manticore-operations-during-the-iranian-conflict/</link>
@@ -1735,17 +1758,6 @@ Hunt for HTTP requests to `/locales/locale.json` with `../` sequences in locale 
       <source url="https://x.com/DFIR_Radar/status/2055453910760878264">DFIR Radar</source>
       <pubDate>Sat, 16 May 2026 01:02:56 +0000</pubDate>
       <guid isPermaLink="false">2055453910760878264</guid>
-    </item>
-    <item>
-      <title>New Fragnesia Flaw Hands Linux Local Users Root Access</title>
-      <link>https://www.infosecurity-magazine.com/news/fragnesia-linux-kernel-lpe-root/</link>
-      <description>CVE-2026-46300 "Fragnesia" allows unprivileged Linux users to gain root by corrupting kernel page cache via ESP decryption, overwriting /usr/bin/su in memory without touching disk. Disable esp4/esp6 modules until patches arrive.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055438734569480403</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2055438734569480403">DFIR Radar</source>
-      <pubDate>Sat, 16 May 2026 00:02:37 +0000</pubDate>
-      <guid isPermaLink="false">2055438734569480403</guid>
     </item>
   </channel>
 </rss>
