@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 22 May 2026 15:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2026 16:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>RemotePE: The Lazarus RAT that lives in memory</title>
+      <link>https://blog.fox-it.com/2026/05/22/remotepe-the-lazarus-rat-that-lives-in-memory/</link>
+      <description>Fox-IT uncovers RemotePE: North Korean 🇰🇵 Lazarus subgroup's sophisticated three-stage memory-resident RAT targeting financial institutions. Entire final payload executes in-memory with environmental keying, leaving zero filesystem artifacts.
+
+Technical breakdown:
+• DPAPILoader → RemotePELoader → RemotePE chain uses DPAPI encryption + XOR 0x8D obfuscation
+• RemotePELoader applies HellsGate syscalls + ETW patching (overwrites EtwEventWrite with XOR RAX, RAX; RET)
+• RemotePE RAT features plugin system, secure file deletion (7-pass overwrite), compression via MSZIP
+• C2 uses AES-GCM encryption with SplitMix64-derived keys, mimics Microsoft telemetry traffic
+• Infrastructure hosted on Namecheap shared hosting across multiple domains
+
+Detection opportunities:
+• DPAPI-encrypted blobs in DeviceMetadataStore directory (C:\ProgramData\Microsoft\Windows\DeviceMetadataStore\en-US*.*)
+• DLL masquerading: Iassvc.dll vs legitimate iassvcs.dll (note extra 's')
+• Windows event 554D5C1F-AABE-49E4-AB57-994D22ECED28 for out-of-band wake-up
+• HTTP cookies: MicrosoftApplicationsTelemetryDeviceId, MSFPC, MUID patterns
+
+Hunt for suspicious DLLs loaded via svchost with DPAPI calls and outbound HTTPS to low-reputation domains. Full YARA rules and IOCs in Fox-IT report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057854900768280782</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2057854900768280782">DFIR Radar</source>
+      <pubDate>Fri, 22 May 2026 16:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2057854900768280782</guid>
+    </item>
     <item>
       <title>Tracking Iranian APT Screening Serpens’ 2026 Espionage Campaigns</title>
       <link>https://unit42.paloaltonetworks.com/tracking-iran-apt-screening-serpens/</link>
@@ -1705,17 +1731,6 @@ Hunt for HTTP requests to `/locales/locale.json` with `../` sequences in locale 
       <source url="https://x.com/DFIR_Radar/status/2055423746630918640">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 23:03:04 +0000</pubDate>
       <guid isPermaLink="false">2055423746630918640</guid>
-    </item>
-    <item>
-      <title>Mustang Panda Linked to Updated FDMTP Backdoor in Asia-Pacific Espionage Campaign</title>
-      <link>https://www.infosecurity-magazine.com/news/mustang-panda-fdmtp-backdoor-apj/</link>
-      <description>Chinese 🇨🇳 Mustang Panda deploys updated FDMTP v3.2.5.1 backdoor via DLL sideloading against Asia-Pacific targets through April 2026.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055408710151807025</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2055408710151807025">DFIR Radar</source>
-      <pubDate>Fri, 15 May 2026 22:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2055408710151807025</guid>
     </item>
   </channel>
 </rss>
