@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 22 May 2026 10:03:36 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2026 11:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>INJ3CTOR3 Deploys JOMANGY Webshell in Advanced FreePBX Attacks</title>
+      <link>https://thecyberexpress.com/inj3ctor3-jomangy-freepbx/</link>
+      <description>INJ3CTOR3 threat actor deploys new JOMANGY PHP webshell family targeting FreePBX systems for VoIP toll fraud. Campaign features self-healing persistence across 6 mechanisms and 18 backdoor accounts with UID-0 privileges.
+
+Key technical details:
+• JOMANGY webshells use double obfuscation (Base64 + ROT13) with watermark trace_e1ebf9066a951be519a24140711839ea
+• 6-layer persistence: cron jobs (1-3min intervals), immutable crontab backups (chattr +i), watchdog processes, shell profile injections
+• Toll fraud via asterisk commands: "asterisk -rx channel originate Local/&lt;num&gt;@&lt;context&gt;"
+• Likely exploits CVE-2025-64328 (FreePBX filestore) or CVE-2025-57819 (Endpoint SQL injection)
+
+Attack methodology:
+• Stage 1: Bash dropper removes competing malware, creates 18 backdoor accounts (9 with UID-0)
+• Stage 2: k.php deploys JOMANGY into /var/www/html/admin/views/ajax.php and legitimate FreePBX directories
+• Stage 3: wr.php installs ZenharR toolkit alongside existing JOMANGY infections
+• C2 reconnaissance file people2.txt contains 3,080 IPs (39% on Alibaba Cloud 🇨🇳🇭🇰🇸🇬)
+
+DFIR artifacts:
+• Hunt for immutable files with chattr +i in crontab directories
+• Monitor asterisk process spawning unexpected channel originate commands
+• Check for accounts named "asterisk", "freepbxuser", "spamfilter", "sangoma" with recent creation dates
+• Examine /var/www/html/admin/views/ajax.php for Base64+ROT13 encoded content
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057779242381767012</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2057779242381767012">DFIR Radar</source>
+      <pubDate>Fri, 22 May 2026 11:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2057779242381767012</guid>
+    </item>
     <item>
       <title>Cloud Atlas activity in the second half of 2025 and early 2026: new tools and a new payload</title>
       <link>https://securelist.com/cloud-atlas-2026/119895/</link>
@@ -1688,17 +1717,6 @@ Hunt for FileAccessed events with scripting User-Agents from suspicious IPs.
       <source url="https://x.com/DFIR_Radar/status/2055348594253672515">DFIR Radar</source>
       <pubDate>Fri, 15 May 2026 18:04:26 +0000</pubDate>
       <guid isPermaLink="false">2055348594253672515</guid>
-    </item>
-    <item>
-      <title>Gremlin Stealer Evolves into Modular Threat with Advanced Evasion Capabilities</title>
-      <link>https://www.infosecurity-magazine.com/news/gremlin-stealer-evolves-into/</link>
-      <description>Gremlin stealer evolves into modular toolkit with crypto clipper functionality and WebSocket session hijacking. New variant uses XOR encoding in .NET resources to evade static analysis and exfiltrates to hxxp://194[.]87[.]92[.]109.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055333233462558989</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2055333233462558989">DFIR Radar</source>
-      <pubDate>Fri, 15 May 2026 17:03:24 +0000</pubDate>
-      <guid isPermaLink="false">2055333233462558989</guid>
     </item>
   </channel>
 </rss>
