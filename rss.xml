@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 23 May 2026 11:03:28 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 23 May 2026 12:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detection Logic Bugs, Developing Context to Bypass MiniPlasma Rules</title>
+      <link>https://detect.fyi/detection-logic-bugs-developing-context-to-bypass-miniplasma-rules-903f1d7c68e8?source=rss----d5fd8f494f6a---4</link>
+      <description>Researcher demonstrates how adversaries can bypass community GreenPlasma/MiniPlasma detection rules through simple process cloning, exposing critical flaws in string-based detection logic.
+
+Key technical details:
+• GreenPlasma exploits UAC desktop switching by pre-planting symbolic links at \Sessions\&lt;N&gt;\BaseNamedObjects\CTF.AsmListCache.FMPWinlogon&lt;N&gt;
+• SYSTEM process follows malicious symlink during Winlogon desktop transition, granting attacker handle to SYSTEM memory
+• Community rules targeting conhost.exe easily bypassed by copying binary to %APPDATA%\conthehost.exe - signature remains valid
+• ADE3-01 Process Cloning bug affects string-matching rules in Splunk Security Content and Cortex XDR platforms
+
+More robust detection focuses on registry artifacts:
+• Monitor volatile REG_LINK creation in CloudFiles\BlockedApps key paths
+• Alert on SymbolicLinkValue pointing to Policies\System within 10-minute window
+• Avoid process.name, binary hash, or parent process filtering
+
+Hunt for REG_LINK registry keys with SymbolicLinkValue data containing "Policies\System" - these artifacts show better signal-to-noise ratio than process-based indicators.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058156663090151806</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2058156663090151806">DFIR Radar</source>
+      <pubDate>Sat, 23 May 2026 12:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2058156663090151806</guid>
+    </item>
     <item>
       <title>Ghostwriter Is Back, Using a Ukrainian Learning Platform as Bait to Hit Government Targets</title>
       <link>https://securityaffairs.com/192538/apt/ghostwriter-is-back-using-a-ukrainian-learning-platform-as-bait-to-hit-government-targets.html</link>
@@ -1775,17 +1799,6 @@ Hunt for HTTP requests to `/locales/locale.json` with `../` sequences in locale 
       <source url="https://x.com/DFIR_Radar/status/2055740797887119471">DFIR Radar</source>
       <pubDate>Sat, 16 May 2026 20:02:55 +0000</pubDate>
       <guid isPermaLink="false">2055740797887119471</guid>
-    </item>
-    <item>
-      <title>Russian APT Turla builds long-term access tool with Kazuar Botnet evolution</title>
-      <link>https://securityaffairs.com/192231/apt/russian-apt-turla-builds-long-term-access-tool-with-kazuar-botnet-evolution.html</link>
-      <description>Russian 🇷🇺 APT Turla evolved Kazuar backdoor into modular P2P botnet with encrypted peer-to-peer comms and single leader node for external C2. Uses Kernel/Bridge/Worker modules for persistent espionage across Europe and Central Asia.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055710564463108514</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2055710564463108514">DFIR Radar</source>
-      <pubDate>Sat, 16 May 2026 18:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2055710564463108514</guid>
     </item>
   </channel>
 </rss>
