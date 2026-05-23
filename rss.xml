@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 23 May 2026 12:02:42 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 23 May 2026 17:01:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Laravel Lang Supply Chain Advisory</title>
+      <link>https://snyk.io/blog/laravel-lang-supply-chain-advisory/</link>
+      <description>Laravel-Lang supply chain attack compromised 700+ historical package versions on Packagist. Attacker exploited GitHub tag resolution to inject credential stealer targeting cloud secrets, SSH keys, and crypto wallets.
+
+Key technical details:
+• Four packages affected: laravel-lang/lang, laravel-lang/http-statuses, laravel-lang/attributes, laravel-lang/actions (all versions compromised)
+• Attack vector: Malicious Git tags pointed to attacker fork, bypassing official repo security
+• Payload delivery: src/helpers.php auto-loaded via composer.json, executes on every PHP request
+• C2 infrastructure: flipboxstudio[.]info for second-stage download and data exfiltration
+• Stealer targets: AWS/GCP/Azure creds, Kubernetes configs, Vault tokens, .env files, browser data, password managers, crypto wallets
+
+Attack chain methodology:
+• Initial compromise through dependency resolution (T1195.002)
+• Persistence via autoload injection ensuring execution on all requests
+• Credential harvesting from filesystem, environment variables, and application configs
+• Data exfiltration to attacker-controlled domain with cleanup attempts
+
+DFIR artifacts and detection opportunities:
+• Infection marker: &lt;tmp&gt;/.laravel_locale/&lt;md5_hash&gt;
+• Windows artifacts: DebugChromium.exe, .vbs launcher scripts in %TEMP%
+• Network indicators: DNS queries/connections to flipboxstudio[.]info
+• Process behavior: Background PHP/cscript execution, reads from /var/run/secrets/ and /proc/[pid]/environ
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058231946073837703</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2058231946073837703">DFIR Radar</source>
+      <pubDate>Sat, 23 May 2026 17:01:51 +0000</pubDate>
+      <guid isPermaLink="false">2058231946073837703</guid>
+    </item>
     <item>
       <title>Detection Logic Bugs, Developing Context to Bypass MiniPlasma Rules</title>
       <link>https://detect.fyi/detection-logic-bugs-developing-context-to-bypass-miniplasma-rules-903f1d7c68e8?source=rss----d5fd8f494f6a---4</link>
@@ -1773,32 +1803,6 @@ Extract SA keys with: `python3 vol.py -f memory.raw linux.xfrm_inspector.
       <source url="https://x.com/DFIR_Radar/status/2056027829192568839">DFIR Radar</source>
       <pubDate>Sun, 17 May 2026 15:03:28 +0000</pubDate>
       <guid isPermaLink="false">2056027829192568839</guid>
-    </item>
-    <item>
-      <title>HTB: Pterodactyl</title>
-      <link>https://0xdf.gitlab.io/2026/05/16/htb-pterodactyl.html</link>
-      <description>Critical directory traversal in Pterodactyl Panel v1.11.10 leads to unauthenticated RCE via PHP-PEAR exploitation chain. CVE-2025-49132 combines with PEAR pearcmd technique enabling arbitrary webshell deployment.
-
-Key technical details:
-• Endpoint /locales/locale.json bypasses auth middleware, accepts unsanitized locale/namespace parameters
-• Path traversal: locale=../../../../../usr/share/php/PEAR&amp;namespace=pearcmd enables arbitrary .php file inclusion  
-• PEAR pearcmd.php accepts config-create command via register_argc_argv, writes attacker-controlled content to disk
-• Payload: `&lt;?=system($_REQUEST[0]);?&gt;` creates webshell at /tmp/shell.php accessible via LFI
-
-Attack chain methodology:
-• Initial recon reveals Pterodactyl Panel v1.11.10 with PHP-PEAR enabled
-• Directory traversal to include pearcmd.php with malicious config creation
-• Second request includes written webshell for command execution
-• Database credential extraction leads to bcrypt hash cracking: !QAZ2wsx
-• Privilege escalation via CVE-2025-6018 (PAM environment bypass) + CVE-2025-6019 (libblockdev/udisks XFS mounting)
-
-Hunt for HTTP requests to `/locales/locale.json` with `../` sequences in locale parameter and suspicious namespace values targeting pearcmd.php.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2055740797887119471</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2055740797887119471">DFIR Radar</source>
-      <pubDate>Sat, 16 May 2026 20:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2055740797887119471</guid>
     </item>
   </channel>
 </rss>
