@@ -5,8 +5,41 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 25 May 2026 11:03:05 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 May 2026 12:03:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Zero-Click WhatsApp Account Takeover Hits iPhone Users Running iOS 16. No Linked Devices, No Warning</title>
+      <link>https://securityaffairs.com/192627/security/zero-click-whatsapp-account-takeover-hits-iphone-users-running-ios-16-no-linked-devices-no-warning.html</link>
+      <description>Zero-click WhatsApp account takeover exploiting iOS 16 vulnerabilities allows attackers to hijack accounts without user interaction or visible linked devices. Italian 🇮🇹 forensics firm documents active campaign targeting unpatched iPhones.
+
+Key technical details:
+• Exploits CVE-2025-43300 (ImageIO out-of-bounds write) + CVE-2025-55177 (WhatsApp URL parsing flaw)
+• Affects iOS versions below 16.7.12 across iPhone 8-14 models
+• Continuous "resync" events in unified logs indicate session competition between victim and attacker
+• Attackers extract cryptographic material for session handshake, instantiate parallel WhatsApp client
+• No linked devices visible in app settings - operates through session contention rather than traditional device pairing
+
+Attack methodology:
+• Zero-click exploitation requires no victim interaction (no QR codes, verification codes, or links)
+• Targets recent chat conversations for money transfer requests
+• Cannot access older/archived chats due to session limitations
+• ImageIO library errors in logs correlate with compromise timing
+
+DFIR artifacts:
+• iOS unified logs show unusual WhatsApp resync event patterns
+• Sysdiagnose data reveals ImageIO processing errors during compromise window
+• Session authentication conflicts create distinctive log signatures
+
+Impact: Active campaign targeting iOS 16 users globally for financial fraud via compromised messaging.
+
+Immediate mitigation: Update iOS beyond 16.7.12.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058881583508070818</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2058881583508070818">DFIR Radar</source>
+      <pubDate>Mon, 25 May 2026 12:03:17 +0000</pubDate>
+      <guid isPermaLink="false">2058881583508070818</guid>
+    </item>
     <item>
       <title>Lazarus Deploys RemotePE Memory-Only RAT Against Financial and Crypto Firms</title>
       <link>https://thehackernews.com/2026/05/lazarus-deploys-remotepe-memory-only.html</link>
@@ -1712,36 +1745,6 @@ Parse with Registry Explorer for timestamps, RegRipper4 for automated extraction
       <source url="https://x.com/DFIR_Radar/status/2056405350061142503">DFIR Radar</source>
       <pubDate>Mon, 18 May 2026 16:03:36 +0000</pubDate>
       <guid isPermaLink="false">2056405350061142503</guid>
-    </item>
-    <item>
-      <title>Dify: When Your AI Platform Becomes the Attack Surface</title>
-      <link>https://www.imperva.com/blog/dify-when-your-ai-platform-becomes-the-attack-surface/</link>
-      <description>Imperva discovers critical flaws in Dify AI platform enabling one-click account takeover and cross-tenant data exposure. Over 10 million Docker pulls affected, silent patches deployed.
-
-Key technical details:
-• CVE not assigned - SVG upload vulnerability allows JavaScript execution via subdomain alias between upload.dify[.]ai and cloud.dify[.]ai
-• Cross-tenant isolation failure in Python sandbox shared filesystem (/tmp) and static UID across executions
-• Weak repeating-key XOR "encryption" (64-byte Vigenere cipher) made source code recovery trivial from leaked wrapper scripts
-• Public file access with predictable paths: hxxps://upload.dify[.]ai/files/tools/&lt;unique-id&gt;/filename.svg
-
-Attack methodology:
-• Attacker uploads malicious SVG with embedded JavaScript to workflow tools
-• File accessible without authentication due to Insecure Direct Object Reference
-• Browser executes payload with full application privileges when accessed via main domain
-• Sandbox executions leak encrypted Python wrappers readable by other tenants
-
-DFIR artifacts:
-• Monitor for SVG uploads to AI platforms and cross-subdomain requests
-• Check for suspicious /tmp file access patterns in containerized environments
-• Hunt for Base64-encoded content in temporary Python scripts with repeating-key XOR patterns
-
-Fixed in Dify v1.13.1+ with Content-Type override and per-execution UID isolation. Verify your deployment version immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056390189941968921</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2056390189941968921">DFIR Radar</source>
-      <pubDate>Mon, 18 May 2026 15:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2056390189941968921</guid>
     </item>
   </channel>
 </rss>
