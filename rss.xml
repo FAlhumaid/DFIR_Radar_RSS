@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 23 May 2026 23:01:38 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 May 2026 06:03:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Exploitation of KnowledgeDeliver via ViewState Deserialization Vulnerability</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/knowledgedeliver-viewstate-deserialization-vulnerability/</link>
+      <description>Critical KnowledgeDeliver LMS zero-day (CVE-2026-5426) exploited via hardcoded ASP.NET machine keys. Threat actors achieved unauthenticated RCE, deployed in-memory web shells, and infected visitors with Cobalt Strike through fake security prompts.
+
+Technical breakdown:
+• Vulnerability: Identical machineKey values across deployments enabled ViewState deserialization attacks (pre-Feb 24, 2026 installs)
+• Post-exploitation: BLUEBEAM web shell in w3wp.exe memory, icacls privilege escalation, JavaScript injection for fake security alerts
+• Attack chain: ViewState RCE → BLUEBEAM deployment → file tampering → Cobalt Strike distribution via social engineering
+• Detection artifacts: Event ID 1316 with "Event code: 4009" indicating ViewState failures, suspicious w3wp.exe child processes (cmd.exe, whoami, powershell)
+• IOCs: Anomalous concatenated User-Agent strings, unauthorized .js/.aspx modifications in web root
+
+Hunt for Event ID 1316 from ASP.NET sources and w3wp.exe spawning system commands. Full detection rules available in Mandiant SecOps rule packs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058790929482326375</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2058790929482326375">DFIR Radar</source>
+      <pubDate>Mon, 25 May 2026 06:03:03 +0000</pubDate>
+      <guid isPermaLink="false">2058790929482326375</guid>
+    </item>
     <item>
       <title>UK Cybercrime Journal: Inside the Cl0p attack on South Staffs Water</title>
       <link>https://blog.bushidotoken.net/2026/05/uk-cybercrime-journal-inside-cl0p.html</link>
@@ -1773,36 +1793,6 @@ DFIR opportunities:
       <source url="https://x.com/DFIR_Radar/status/2056314771578966041">DFIR Radar</source>
       <pubDate>Mon, 18 May 2026 10:03:41 +0000</pubDate>
       <guid isPermaLink="false">2056314771578966041</guid>
-    </item>
-    <item>
-      <title>Bridging memory and network forensics with XFRM inspection</title>
-      <link>https://andreafortuna.org/2026/05/18/xfrm-memory-network-bridge/</link>
-      <description>New Volatility 3 plugin bridges memory and network forensics by extracting IPsec VPN keys from Linux kernel memory dumps, enabling retroactive decryption of encrypted network traffic previously invisible to analysts.
-
-Technical breakthrough:
-• XFRM Inspector plugin extracts Security Association (SA) keys from xfrm_state kernel structures in memory dumps
-• Recovers AES-CBC encryption keys and HMAC-SHA256 authentication keys for active IPsec tunnels
-• Enables Wireshark decryption of ESP traffic using extracted cryptographic material
-• Works by parsing kernel hash tables containing active transforms, not relying on heuristics
-
-Methodology:
-• Plugin walks internal kernel networking lists to locate xfrm_state structures systematically
-• Extracts SPI values, source/destination IPs, algorithms, and raw cryptographic keys
-• Output maps directly to Wireshark ESP decryption parameters for automated analysis
-• Requires correct Linux symbol files (ISF) matching exact kernel version for accurate offsets
-
-DFIR impact:
-• Transforms opaque encrypted tunnels into cleartext attack timelines showing exact commands, file transfers, C2 communications
-• Eliminates blind spots where network analysts see ESP packets but cannot inspect payload contents
-• Enables definitive breach scope determination rather than educated guessing about data exfiltration
-
-Extract SA keys with: `python3 vol.py -f memory.raw linux.xfrm_inspector.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056269413934879113</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2056269413934879113">DFIR Radar</source>
-      <pubDate>Mon, 18 May 2026 07:03:27 +0000</pubDate>
-      <guid isPermaLink="false">2056269413934879113</guid>
     </item>
   </channel>
 </rss>
