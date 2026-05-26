@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 26 May 2026 15:03:58 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2026 16:04:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hunt Before They Hide -From Device Codes to Fake IT Support Detecting Active Microsoft 365 Identity…</title>
+      <link>https://detect.fyi/hunt-before-they-hide-from-device-codes-to-fake-it-support-detecting-active-microsoft-365-identity-17fbfc2ea098?source=rss----d5fd8f494f6a---4</link>
+      <description>Advanced M365 identity attacks now weaponized as PhaaS platforms with FBI-flagged toolkits like Kali365. Storm-2372 🇷🇺, VENOM, and multiple financially motivated groups deploying device code phishing, AiTM proxies, and silent MFA device registration.
+
+Technical breakdown:
+• Device code phishing via microsoft.com/devicelogin bypasses traditional MFA (SMS/OTP) — attackers get OAuth tokens without stealing passwords
+• AiTM proxy attacks capture live session cookies while victims authenticate normally, with VENOM adding persistent MFA device registration during stolen sessions
+• SMS sign-in abuse exploits Microsoft's default-enabled passwordless authentication via SIM swaps, network interception, or social engineering
+• Teams helpdesk impersonation floods inboxes then offers "IT support" to install SNOW malware suite (SNOWBELT, SNOWGLAZE, SNOWBASIN)
+• Post-compromise persistence through silent authenticator app registration survives password resets and session termination
+
+Detection opportunities:
+• Email click followed by device code auth within 15 minutes from different IPs/countries
+• Session tokens used from new IPs after password reset events
+• OAuth grants to CLI tools followed by Graph API enumeration activity
+• External Teams contacts with IT/support naming patterns targeting executives
+
+Critical gap: Standard IR playbooks reset passwords but miss removing attacker-registered MFA devices.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059304554273894523</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059304554273894523">DFIR Radar</source>
+      <pubDate>Tue, 26 May 2026 16:04:01 +0000</pubDate>
+      <guid isPermaLink="false">2059304554273894523</guid>
+    </item>
     <item>
       <title>Researcher's Notebook: Hunting Megalodon Fossils</title>
       <link>https://www.reversinglabs.com/blog/hunting-megalodon-fossils</link>
@@ -1743,30 +1769,6 @@ Hunt for recently signed binaries from untrusted publishers masquerading as popu
       <source url="https://x.com/DFIR_Radar/status/2056707360274702728">DFIR Radar</source>
       <pubDate>Tue, 19 May 2026 12:03:41 +0000</pubDate>
       <guid isPermaLink="false">2056707360274702728</guid>
-    </item>
-    <item>
-      <title>Secrets That Survive Everything</title>
-      <link>https://infosecwriteups.com/secrets-that-survive-everything-28b0c6aa1aa4?source=rss----7b722bfd1b8d---4</link>
-      <description>Security researcher discovers Azure AD credentials hardcoded in client-side JavaScript bundles, enabling full account takeover despite organizations running comprehensive shift-left secret scanning tools.
-
-Key technical findings:
-• Azure AD client secrets (AppID, AppKey, Resource) + APIM subscription keys exposed in production JavaScript bundles served to all visitors
-• CryptoJS-encrypted config blobs with hardcoded decryption keys 3 lines away in same file - encryption provides zero protection
-• Service principals misconfigured with application permissions instead of delegated permissions, granting admin-level access to all user accounts
-• Attack chain: Extract creds from DevTools → Call login.microsoftonline[.]com/oauth2/token → Use bearer token + subscription key → Full user data access
-
-Critical gap identified:
-• Shift-left tools scan committed code but miss build-time credential injection via REACT_APP_* variables and CI/CD pipeline substitution
-• Secrets materialize only in dist/main.js after scanners run, invisible to DAST tools designed for injection vulns
-• Runtime-fetched configs, lazy-loaded chunks, and SSR state blobs containing credentials completely unmonitored
-
-Two studies confirm internet-scale prevalence: Intruder found ~42K exposed tokens across 5M apps, while "Keys on Doormats" research extracted 1,748 credentials from 10M pages with 84% in JavaScript.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056692193843114242</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2056692193843114242">DFIR Radar</source>
-      <pubDate>Tue, 19 May 2026 11:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2056692193843114242</guid>
     </item>
   </channel>
 </rss>
