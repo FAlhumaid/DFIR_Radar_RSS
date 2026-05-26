@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 26 May 2026 20:03:01 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2026 21:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI agent at the wheel: How an attacker used LLMs to move from a CVE to an internal database in 4 pivots</title>
+      <link>https://webflow.sysdig.com/blog/ai-agent-at-the-wheel-how-an-attacker-used-llms-to-move-from-a-cve-to-an-internal-database-in-4-pivots</link>
+      <description>First documented AI agent-driven intrusion: LLM orchestrated complete attack chain from marimo notebook compromise to internal database exfiltration in under one hour, using real-time decision making instead of pre-built scripts.
+
+Attack breakdown:
+• Entry via CVE-2026-39987 (marimo terminal RCE) from 157.66.54.26 (Indonesia 🇮🇩)
+• Agent harvested AWS credentials, used Cloudflare Workers as egress pool across 11 IPs in 22 seconds
+• Four AI signatures: improvised PostgreSQL dump against unknown target, Chinese planning comment leaked into command stream, machine-optimized command structure with echo separators and bounded output captures
+• SSH bastion phase dumped complete internal database schema + contents in 2 minutes using lifted .pgpass credentials
+
+Key forensic artifacts:
+• Commands shaped for machine parsing: `echo '---'` delimiters, `2&gt;&amp;1 | head -N` output caps, `2&gt;/dev/null` stderr suppression
+• Value handoffs from prior tool output (PGPASSWORD from ~/.pgpass, SecretId from ListSecrets)
+• Multi-statement HEREDOC bundling 6 SELECT queries into single psql call
+• Timeline shows 10-second intervals between bash blocks across rotating Worker IPs
+
+This represents cost shift from engineering time to inference budget. Hunt for command patterns with consistent delimiters, bounded output captures, and rapid IP rotation during credential access.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059379891590828166</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059379891590828166">DFIR Radar</source>
+      <pubDate>Tue, 26 May 2026 21:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2059379891590828166</guid>
+    </item>
     <item>
       <title>Kali365 PhaaS: Inside the Attack Infrastructure  | Todyl</title>
       <link>https://www.todyl.com/blog/kali365-phaas-inside-attack-infrastructure</link>
@@ -1798,28 +1823,6 @@ Hunt for SNMP SET requests to OID 1.3.6.1.4.1.37950.* containing newline charact
       <source url="https://x.com/DFIR_Radar/status/2056782750980399346">DFIR Radar</source>
       <pubDate>Tue, 19 May 2026 17:03:16 +0000</pubDate>
       <guid isPermaLink="false">2056782750980399346</guid>
-    </item>
-    <item>
-      <title>Exposing Fox Tempest: A malware-signing service operation</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/05/19/exposing-fox-tempest-a-malware-signing-service-operation/</link>
-      <description>Major disruption: Microsoft's Digital Crimes Unit shut down Fox Tempest's malware-signing-as-a-service operation that enabled ransomware distribution across the cybercrime ecosystem using fraudulent code-signing certificates.
-
-Key technical details:
-• Fox Tempest operated signspace[.]cloud MSaaS since May 2025, creating 1,000+ fraudulent certificates via abused Microsoft Artifact Signing
-• Service charged $5K-$9K for 72-hour certificates, enabling malware to masquerade as legitimate software (Teams, AnyDesk, Putty)
-• Infrastructure evolved to pre-configured VMs on Cloudzy hosting, streamlining malicious binary signing for customers
-• Enabled major ransomware families: Rhysida, INC, Qilin, Akira via groups like Vanilla Tempest, Storm-0501, Storm-2561
-• Attack chain: malvertising → fake software downloads → Fox Tempest-signed malware → Oyster backdoor → ransomware deployment
-
-DFIR artifacts include certificate hashes (dc0acb01e3086ea8a9cb144a5f97810d291020ce, 7e6d9dac619c04ae1b3c8c0906123e752ed66d63), file hashes, and Telegram channel "EV Certs for Sale by SamCodeSign."
-
-Hunt for recently signed binaries from untrusted publishers masquerading as popular software, especially with 72-hour certificate validity periods.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056767640576594390</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2056767640576594390">DFIR Radar</source>
-      <pubDate>Tue, 19 May 2026 16:03:13 +0000</pubDate>
-      <guid isPermaLink="false">2056767640576594390</guid>
     </item>
   </channel>
 </rss>
