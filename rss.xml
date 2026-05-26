@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 26 May 2026 21:03:22 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2026 22:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Phishing Campaign Deploys JavaScript-Driven PureLogs Variant to Steal Sensitive Data</title>
+      <link>https://feeds.fortinet.com/~/957300263/0/fortinet/blog/threat-research~Phishing-Campaign-Deploys-JavaScriptDriven-PureLogs-Variant-to-Steal-Sensitive-Data</link>
+      <description>New PureLogs campaign uses multi-stage JavaScript-to-PowerShell infection chain with process hollowing to deploy fileless stealer targeting credentials, crypto wallets, and Discord tokens.
+
+Technical breakdown:
+• Initial vector: RAR archive (PO 2026-P0803.rar) contains obfuscated JavaScript (kpankocrs.js) that drops encrypted PowerShell to C:\Temp
+• PowerShell performs process hollowing into MsBuild.exe using .NET modules "MAFF" and "Iwnflr.exe" (T1055.012)
+• Downloader retrieves AES-encrypted plugin "\x42\x00" from C2 via /ping then POST requests
+• PureLogs variant (zgSGkYYzqVe.dll) harvests browser data from Edge/Chrome, Discord tokens from %AppData% paths, crypto wallet files
+
+Collection targets:
+• Login Data files: %LocalAppData%\Microsoft\Edge\User Data\Default\Login Data
+• Discord paths: stable, PTB, canary, development builds in %AppData%
+• Cryptocurrency wallets: comprehensive scanning of registry keys and wallet directories
+• Data exfiltration via AES-encrypted POST with random IV in first 16 bytes
+
+Hunt for wscript.exe spawning PowerShell with -ExecutionPolicy Bypass, MsBuild.exe with network connections, and unusual %Temp% .ps1 file creation patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059395012744372606</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059395012744372606">DFIR Radar</source>
+      <pubDate>Tue, 26 May 2026 22:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2059395012744372606</guid>
+    </item>
     <item>
       <title>AI agent at the wheel: How an attacker used LLMs to move from a CVE to an internal database in 4 pivots</title>
       <link>https://webflow.sysdig.com/blog/ai-agent-at-the-wheel-how-an-attacker-used-llms-to-move-from-a-cve-to-an-internal-database-in-4-pivots</link>
@@ -1812,17 +1837,6 @@ Hunt for SNMP SET requests to OID 1.3.6.1.4.1.37950.* containing newline charact
       <source url="https://x.com/DFIR_Radar/status/2056797811107115421">DFIR Radar</source>
       <pubDate>Tue, 19 May 2026 18:03:07 +0000</pubDate>
       <guid isPermaLink="false">2056797811107115421</guid>
-    </item>
-    <item>
-      <title>Mini Shai-Hulud returns, compromising hundreds of npm packages</title>
-      <link>https://cyberscoop.com/mini-shai-hulud-malware-npm-packages-compromised-again/</link>
-      <description>Mini Shai-Hulud worm resurfaces, compromising hundreds of npm packages via self-replicating code that steals tokens, spreads to CI/CD pipelines, and persists through OS-level backdoors even after package removal. Check .vscode/tasks.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056782750980399346</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2056782750980399346">DFIR Radar</source>
-      <pubDate>Tue, 19 May 2026 17:03:16 +0000</pubDate>
-      <guid isPermaLink="false">2056782750980399346</guid>
     </item>
   </channel>
 </rss>
