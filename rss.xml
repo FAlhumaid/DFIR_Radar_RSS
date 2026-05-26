@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 26 May 2026 14:03:32 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2026 15:03:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Researcher's Notebook: Hunting Megalodon Fossils</title>
+      <link>https://www.reversinglabs.com/blog/hunting-megalodon-fossils</link>
+      <description>"Megalodon" supply chain attack compromises numerous GitHub repositories through malicious CI/CD YAML configurations. Campaign pivots from credential theft to cryptomining, demonstrating sustained adversary infrastructure reuse.
+
+Key technical details:
+• Base64-encoded malicious scripts injected into GitHub Actions YAML files starting May 18, 2026
+• Primary C2: hxxp[://]216[.]126[.]225[.]129:8443 (RouterHosting LLC, ASN 14956)
+• Exfiltrated data stored in "/loot" directory on C2 server with "gh_dump" parameter indicating GitHub targeting
+• Historical C2 activity traced to May 8 campaign using hxxp[://]144[.]172[.]116[.]48:8080 with "cp2[.]hostable[.]com" campaign identifier
+
+Attack methodology:
+• Compromise of CI/CD pipelines through GitHub Actions (T1195.001)
+• Credential harvesting from compromised repositories
+• Infrastructure reuse linking current campaign to previous cryptomining operations
+• C2 response content reveals operational parameters and file structure
+
+DFIR artifacts include base64-encoded YAML configurations in .github/workflows/, network connections to identified C2 IPs, and POST requests with specific query parameters (h=, l=, id=, t=).
+
+Hunt for GitHub Actions with base64 content and outbound connections to RouterHosting infrastructure. Full YARA rule and IOC list provided in the analysis.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059289445635907681</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059289445635907681">DFIR Radar</source>
+      <pubDate>Tue, 26 May 2026 15:03:58 +0000</pubDate>
+      <guid isPermaLink="false">2059289445635907681</guid>
+    </item>
     <item>
       <title>Fake software on GitHub and SourceForge distribute Deno RAT</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/05/fake-software-on-github-and-sourceforge-distribute-deno-rat</link>
@@ -1740,26 +1767,6 @@ Two studies confirm internet-scale prevalence: Intruder found ~42K exposed token
       <source url="https://x.com/DFIR_Radar/status/2056692193843114242">DFIR Radar</source>
       <pubDate>Tue, 19 May 2026 11:03:25 +0000</pubDate>
       <guid isPermaLink="false">2056692193843114242</guid>
-    </item>
-    <item>
-      <title>From PDB strings to MaaS: Tracking a commodity BadIIS ecosystem used by Chinese-speaking threat</title>
-      <link>https://blog.talosintelligence.com/from-pdb-strings-to-maas-tracking-a-commodity-badiis-ecosystem/</link>
-      <description>Cisco Talos exposes BadIIS malware-as-a-service ecosystem operated by Chinese-speaking 🇨🇳 threat actor "lwxat", with commodity variants sold to multiple cybercrime groups for SEO fraud and website hijacking campaigns.
-
-Key findings:
-• PDB analysis reveals sustained development from Sept 2021 to Jan 2026, with rapid iterative updates and custom builds targeting Norton AV bypass
-• Recovered builder tool enables threat actors to generate configs, customize payloads for traffic redirection, reverse proxying, and backlink injection
-• Multi-stage installation toolkit includes service-based installers, droppers with custom Base64 encoding, and persistence mechanisms for IIS server restarts
-• Authentication mechanism uses hardcoded "lwxat" string across tools, with custom user-agent "lwxatisme" in HTTP communications
-• Attacks primarily target Asia-Pacific region with some instances in South Africa, Europe, and North America
-
-Hunt for IIS modules with "demo.pdb" strings, suspicious service names like "Winlogin", and HTTP traffic containing "lwxatisme" user-agent. Check for config.txt files with XML-like syntax and Base64-encoded C2 addresses using XOR key 0x3.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056677047645110680</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2056677047645110680">DFIR Radar</source>
-      <pubDate>Tue, 19 May 2026 10:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2056677047645110680</guid>
     </item>
   </channel>
 </rss>
