@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 27 May 2026 21:03:04 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2026 22:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Reconstructing an Akira Ransomware Kill Chain from Perimeter and Endpoint Logs, (Wed, May 27th)</title>
+      <link>https://isc.sans.edu/diary/rss/33024</link>
+      <description>SANS ISC details how to piece together the full Akira ransomware timeline using firewall logs and Windows events before encryption begins. Real forensic value lies in the initial access phase, not post-encryption artifacts.
+
+Key methodology:
+• Correlate perimeter firewall logs with Windows Security events to map initial access vectors
+• Focus on lateral movement patterns and privilege escalation before ransomware deployment
+• Track domain admin compromise timeline through authentication events (4624/4625)
+• Analyze touched systems and reconnaissance activities in pre-impact phase
+
+DFIR teams should establish log correlation playbooks linking network perimeter data with endpoint authentication logs to catch ransomware operators during their dwell time, not after encryption.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059757439960904097</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2059757439960904097">DFIR Radar</source>
+      <pubDate>Wed, 27 May 2026 22:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2059757439960904097</guid>
+    </item>
     <item>
       <title>Welcoming the AWS Customer Incident Response Team</title>
       <link>https://aws.amazon.com/blogs/security/welcoming-the-aws-customer-incident-response-team/</link>
@@ -1778,36 +1797,6 @@ Hunt for Node.
       <source url="https://x.com/DFIR_Radar/status/2057190782734373181">DFIR Radar</source>
       <pubDate>Wed, 20 May 2026 20:04:38 +0000</pubDate>
       <guid isPermaLink="false">2057190782734373181</guid>
-    </item>
-    <item>
-      <title>YellowKey: The Unpatched BitLocker Bypass Hidden in Windows Recovery</title>
-      <link>https://eclypsium.com/blog/yellowkey-bitlocker-bypass-windows-recovery-environment/</link>
-      <description>New BitLocker bypass exploits Windows Recovery Environment to decrypt drives using Microsoft's own tools. No patch available despite CVE assignment. Researcher withholding follow-on attack that also defeats startup PIN protection.
-
-Technical details:
-• CVE-2026-45585 affects Windows 11, Server 2022/2025 via malicious System Volume Information\FsTx directory
-• Attack deletes winpeshl.ini through NTFS transaction log replay, dropping WinRE to cmd.exe with decrypted filesystem access
-• Three attack paths: USB insertion, EFI partition modification, or physical drive removal/replacement
-• Bypasses TPM-only BitLocker; researcher claims PIN bypass exists but withheld from public release
-
-Attack methodology:
-• Physical access required but definition broader than typical threat models
-• Force entry to WinRE via SHIFT+Restart + CTRL during reboot
-• Malicious FsTx logs replay during recovery boot, deleting recovery UI control file
-• Volume remains transparently decrypted by TPM while attacker gains administrative shell
-
-DFIR artifacts:
-• Monitor for System Volume Information\FsTx directories on USB media and EFI partitions
-• Check winpeshl.ini modification timestamps in WinRE images
-• No legitimate reason for FsTx directories on removable media or EFI partitions
-
-Impact extends beyond single vulnerability - part of escalating WinRE attack surface trend following BitUnlocker CVEs in 2025. Default TPM-only configurations offer minimal protection against physical access.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057175383137550766</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057175383137550766">DFIR Radar</source>
-      <pubDate>Wed, 20 May 2026 19:03:27 +0000</pubDate>
-      <guid isPermaLink="false">2057175383137550766</guid>
     </item>
   </channel>
 </rss>
