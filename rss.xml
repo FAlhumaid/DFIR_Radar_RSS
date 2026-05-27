@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 26 May 2026 23:02:29 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2026 00:03:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From poisoned search results to GPU mining: A cryptojacking campaign abusing ScreenConnect and Microsoft .NET utilities</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/05/26/poisoned-search-results-gpu-mining-cryptojacking-campaign-abusing-screenconnect-microsoft-net-utilities/</link>
+      <description>Microsoft identifies sophisticated cryptojacking campaign using AI chatbot poisoning and targeting GPU mining systems. Attackers impersonate trusted utilities, deploy ScreenConnect for persistence, and hollow Microsoft-signed .NET binaries.
+
+Key technical details:
+• Initial access via SEO poisoning + novel AI chatbot manipulation directing users to malicious domains on gleeze[.]com infrastructure
+• Impersonates CrystalDiskInfo, HWMonitor, DDU, FurMark targeting users likely to own high-performance GPUs
+• DLL sideloading (autorun.dll) → silent ScreenConnect deployment → SimpleRunPE dropper with process hollowing (T1055.012)
+• Hollows into Microsoft-signed .NET utilities: InstallUtil.exe, RegAsm.exe, MSBuild.exe, RegSvcs.exe (T1055.012)
+
+Attack artifacts:
+• C2: wss[:]//minemine.gleeze[.]com:8443/ws with hardcoded TLS certificate pinning
+• Persistence: 6 mechanisms including scheduled tasks "Windows System Health*" + registry Run keys
+• Install path: %LocalAppData%\Microsoft\Windows\Caches\D3F4E2A1\RuntimeHost.exe
+• Mutex: Global\D3F4E2A1_Svc (campaign identifier)
+
+Evasion tactics:
+• Adds 13 Defender exclusions via Add-MpPreference PowerShell cmdlet
+• Anti-VM/analysis checks against 40+ analyst tools (dnSpy, x64dbg, IDA, Ghidra, ProcMon)
+• GPU usage monitoring - terminates mining when user activity detected
+
+Hunt for unsigned DLLs named autorun.dll in Downloads/Temp folders followed by silent msiexec activity. Monitor .
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059425307770159177</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059425307770159177">DFIR Radar</source>
+      <pubDate>Wed, 27 May 2026 00:03:50 +0000</pubDate>
+      <guid isPermaLink="false">2059425307770159177</guid>
+    </item>
     <item>
       <title>AI Threat Landscape Digest March-April 2026</title>
       <link>https://research.checkpoint.com/2026/ai-threat-landscape-digest-march-april-2026/</link>
@@ -1804,27 +1834,6 @@ Disable "Skip password when possible" in Google Security settings and implement 
       <source url="https://x.com/DFIR_Radar/status/2056827978265379061">DFIR Radar</source>
       <pubDate>Tue, 19 May 2026 20:02:59 +0000</pubDate>
       <guid isPermaLink="false">2056827978265379061</guid>
-    </item>
-    <item>
-      <title>durabletask: TeamPCP's Latest PyPi Compromise</title>
-      <link>https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack</link>
-      <description>TeamPCP supply chain attackers compromised Microsoft's official DurableTask Python package versions 1.4.1-1.4.3, deploying an evolved credential-stealing worm that targets cloud environments, password managers, and Kubernetes clusters.
-
-Key technical details:
-• Malicious payload "rope.pyz" injected across multiple Python files (__init__.py, task.py, entities/__init__.py)
-• C2 infrastructure: check[.]git-service[.]com (primary), t[.]m-kosche[.]com (backup) 
-• Multi-platform credential theft: AWS/Azure/GCP keys, Vault tokens, K8s service accounts, filesystem passwords
-• Advanced capabilities: AWS SSM lateral movement, Kubernetes propagation, password manager bruteforce (Bitwarden, 1Password, GPG)
-• Infection markers: ~/.cache/.sys-update-check and ~/.cache/.sys-update-check-k8s
-• Self-limiting worm spreads to max 5 targets per infected host
-
-Hunt for /tmp/managed.pyz or /tmp/rope-*.pyz files, check CloudTrail for unusual SSM:SendCommand activity, and audit kubectl exec logs for lateral movement. Full IOC list with file hashes available in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2056812694376734822</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2056812694376734822">DFIR Radar</source>
-      <pubDate>Tue, 19 May 2026 19:02:15 +0000</pubDate>
-      <guid isPermaLink="false">2056812694376734822</guid>
     </item>
   </channel>
 </rss>
