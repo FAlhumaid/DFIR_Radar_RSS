@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 27 May 2026 13:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2026 14:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Investigating suspicious AI workflows in Microsoft Entra Agent ID: Autonomous agents</title>
+      <link>https://redcanary.com/blog/threat-detection/entra-id-ai-workflows/</link>
+      <description>Red Canary releases detailed methodology for investigating suspicious AI agent activity in Microsoft Entra Agent ID environments. Demonstrates how to detect privilege escalation when autonomous agents modify blueprints outside their security model.
+
+Key technical details:
+- Autonomous agent "Agent001" added client secret to "Prod Agent Identity Blueprint" from IP 51[.]3[.]97[.]221
+- Action violated agent security model: agent modified blueprint it wasn't a child of
+- Agent had privileged AgentIdentityBlueprint.AddRemoveCreds.All app role (should be restricted to human admins)
+- PowerShell 7.6.1 user agent suggests automated attack tooling
+- Event logged in AuditLogs table with ActivityDisplayName "Add service principal credentials"
+
+DFIR investigation approach:
+- Monitor for agents with blueprint modification permissions (T1098.001)
+- Baseline expected agent-blueprint relationships to detect inheritance violations
+- Track credential additions to blueprints via Microsoft Graph API calls
+- Cross-reference agent identity authentication logs with blueprint modification events
+
+Hunt for agent identities with AgentIdentityBlueprint.* app roles and correlate with recent credential addition activities in AuditLogs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059636580277502019</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059636580277502019">DFIR Radar</source>
+      <pubDate>Wed, 27 May 2026 14:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2059636580277502019</guid>
+    </item>
     <item>
       <title>How cybersecurity firms took down Glassworm botnet in one shot</title>
       <link>https://securityaffairs.com/192749/cyber-crime/how-cybersecurity-firms-took-down-glassworm-botnet-in-one-shot.html</link>
@@ -1769,32 +1795,6 @@ Use `fits_open_diskfile()` for untrusted filenames and implement strict input va
       <source url="https://x.com/DFIR_Radar/status/2057069630057824704">DFIR Radar</source>
       <pubDate>Wed, 20 May 2026 12:03:13 +0000</pubDate>
       <guid isPermaLink="false">2057069630057824704</guid>
-    </item>
-    <item>
-      <title>Built a Linux persistence hunting &amp; artifact collection tool in Bash - persisthunt</title>
-      <link>https://www.reddit.com/r/dfir/comments/1tie8pw/built_a_linux_persistence_hunting_artifact/</link>
-      <description>New open-source tool: persisthunt automates Linux persistence detection and artifact collection through comprehensive Bash-based hunting across systemd, cron, SSH, eBPF, and process hiding techniques.
-
-Technical capabilities:
-- Detects eBPF-based persistence (bpfdoor-style attacks) and hidden processes
-- Scans systemd services/timers/generators, cron jobs, shell profiles, ld.so.preload
-- Identifies SSH authorized_keys abuse and world-writable SUID/SGID files
-- Flags suspicious references to /tmp, /dev/shm, /dev/tcp, curl, wget, nc in autorun locations
-- Categorizes findings as High/Low/Informational based on confidence levels
-
-Key artifacts hunted:
-- Network listeners and reverse shell indicators
-- Persistence in /etc/profile, ~/.bashrc, ~/.ssh/authorized_keys
-- Modified systemd unit files and timers
-- Suspicious cron entries and at jobs
-
-Lightweight alternative to full disk imaging for rapid triage. Deploy during initial compromise assessment to quickly identify attacker foothold mechanisms.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057054722083721355</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2057054722083721355">DFIR Radar</source>
-      <pubDate>Wed, 20 May 2026 11:03:59 +0000</pubDate>
-      <guid isPermaLink="false">2057054722083721355</guid>
     </item>
   </channel>
 </rss>
