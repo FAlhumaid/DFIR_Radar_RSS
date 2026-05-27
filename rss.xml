@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 27 May 2026 11:03:49 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2026 13:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How cybersecurity firms took down Glassworm botnet in one shot</title>
+      <link>https://securityaffairs.com/192749/cyber-crime/how-cybersecurity-firms-took-down-glassworm-botnet-in-one-shot.html</link>
+      <description>Coordinated takedown dismantles Glassworm botnet targeting software developers through poisoned VS Code extensions, npm packages, and GitHub repos. Multi-organization operation killed all four C2 channels simultaneously on May 26.
+
+Technical breakdown:
+• GlasswormRAT spread via malicious OpenVSX extensions (fake WakaTime), npm/Python packages, and 300+ compromised GitHub repositories
+• Multi-layered C2: Solana blockchain memo fields, BitTorrent DHT, Google Calendar Base64-encoded paths, traditional VPS servers
+• RAT capabilities: credential theft (npm, GitHub, Git), crypto wallet draining, SOCKS proxy, hidden VNC, Unicode steganography
+• Russian 🇷🇺 attribution: CIS locale checks, Russian comments in source code, typical operational security patterns
+• Active since early 2025, evolved from JavaScript to Rust to Zig compilation
+
+DFIR teams should hunt for connections to sinkhole IP 164[.]92[.]88[.]210 - any beacons indicate active Glassworm infection requiring immediate remediation. Full YARA rules available in CrowdStrike report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059621550731473281</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059621550731473281">DFIR Radar</source>
+      <pubDate>Wed, 27 May 2026 13:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2059621550731473281</guid>
+    </item>
+    <item>
+      <title>PureLogs Variant Steals Data via Purchase Order Lures</title>
+      <link>https://www.infosecurity-magazine.com/news/purelogs-phishing-purchase-order/</link>
+      <description>New PureLogs variant spreads via purchase order phishing with RAR archives containing malicious JavaScript. Multi-stage execution uses PowerShell, process hollowing in MsBuild.exe, and targets browser creds, crypto wallets, and Discord tokens.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059606693932417436</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2059606693932417436">DFIR Radar</source>
+      <pubDate>Wed, 27 May 2026 12:04:36 +0000</pubDate>
+      <guid isPermaLink="false">2059606693932417436</guid>
+    </item>
     <item>
       <title>GlassWorm Botnet Disrupted</title>
       <link>https://www.securityweek.com/glassworm-botnet-disrupted/</link>
@@ -1764,48 +1795,6 @@ Lightweight alternative to full disk imaging for rapid triage. Deploy during ini
       <source url="https://x.com/DFIR_Radar/status/2057054722083721355">DFIR Radar</source>
       <pubDate>Wed, 20 May 2026 11:03:59 +0000</pubDate>
       <guid isPermaLink="false">2057054722083721355</guid>
-    </item>
-    <item>
-      <title>How an image could compromise your Mac: understanding an ExifTool vulnerability (CVE-2026-3102)</title>
-      <link>https://securelist.com/exiftool-compromise-mac/119866/</link>
-      <description>Kaspersky discovers critical ExifTool flaw (CVE-2026-3102) enabling command injection via malicious image metadata on macOS 🇺🇸. Attackers can achieve RCE by embedding shell commands in EXIF data, then copying to FileCreateDate tag.
-
-Key technical details:
-• Affects ExifTool v13.49 and earlier on macOS systems only
-• Exploits unsanitized $val parameter in SetMacOSTags function's system() call
-• Requires -n flag (raw output mode) and -tagsFromFile feature to trigger vulnerable code path
-• Attack vector: inject single quotes in DateTimeOriginal tag, copy to FileCreateDate via `-tagsFromFile` operation
-• Bypasses PrintConvInv filter validation through raw value processing
-
-Attack methodology:
-• Craft malicious image with command injection payload in EXIF DateTimeOriginal field
-• Use `exiftool -n -tagsFromFile malicious.jpg "-FileCreateDate&lt;DateTimeOriginal" target.jpg`
-• Payload executes when /usr/bin/setfile command processes unsanitized date string
-• Enables arbitrary command execution with user privileges
-
-DFIR artifacts:
-• Monitor /usr/bin/setfile process creation with unusual parent processes
-• Check ExifTool command line arguments for -n and -tagsFromFile flags
-• Examine EXIF metadata in suspicious images for non-standard datetime formats containing shell metacharacters
-
-Update to ExifTool v13.50+ immediately. Hunt for `exiftool -n -tagsFromFile` in command history and process logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057039817733501143</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057039817733501143">DFIR Radar</source>
-      <pubDate>Wed, 20 May 2026 10:04:45 +0000</pubDate>
-      <guid isPermaLink="false">2057039817733501143</guid>
-    </item>
-    <item>
-      <title>Microsoft shares mitigation for YellowKey Windows zero-day</title>
-      <link>https://www.bleepingcomputer.com/news/microsoft/microsoft-shares-mitigation-for-yellowkey-windows-zero-day/</link>
-      <description>Microsoft shares mitigations for CVE-2026-45585 (YellowKey), a Windows BitLocker zero-day that grants access to protected drives via specially crafted USB files. Switch BitLocker from TPM-only to TPM+PIN mode to block exploitation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057024467331903947</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057024467331903947">DFIR Radar</source>
-      <pubDate>Wed, 20 May 2026 09:03:45 +0000</pubDate>
-      <guid isPermaLink="false">2057024467331903947</guid>
     </item>
   </channel>
 </rss>
