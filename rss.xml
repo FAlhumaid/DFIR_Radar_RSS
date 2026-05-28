@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 27 May 2026 23:02:21 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 00:03:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GitHub internal repositories breached</title>
+      <link>https://www.sophos.com/blog/github-internal-repositories-breached</link>
+      <description>GitHub 🇺🇸 internal breach: TeamPCP (UNC6780) compromised employee device via malicious VS Code extension, cloned ~3,800 internal repositories. Actor demanding $50K+ for stolen proprietary code and deployment scripts on criminal forums.
+
+Attack chain breakdown:
+• Poisoned Nx Console extension (nrwl.angular-console v18.95.0) harvested developer secrets from VS Code environment
+• Python backdoor cat.py uses GitHub Search API as C2, polling api[.]github[.]com/search/commits hourly for "firedalazer" keyword (T1071.001)
+• Extracted RSA-verified commands from public commit messages, executed arbitrary Python payloads
+• Lateral movement via stolen tokens to clone internal repos containing source code and configs (T1078)
+
+DFIR artifacts:
+• cat.py located at /Users/%/.local/share/kitty/cat.py (SHA256: fb5c97557230a27460fdab01fafcfabeaa49590bafd5b6ef30501aa9e0a51142)
+• VS Code child processes spawning Git/credential tools outside business hours
+• Hourly GitHub API requests from non-developer processes indicate C2 activity
+
+Hunt for VS Code extensions with shell integration permissions and audit developer token usage patterns in GitHub audit logs. Full IOC list and Sophos protections available.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059787537359442124</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059787537359442124">DFIR Radar</source>
+      <pubDate>Thu, 28 May 2026 00:03:13 +0000</pubDate>
+      <guid isPermaLink="false">2059787537359442124</guid>
+    </item>
     <item>
       <title>How to Extract Android Data with Android Agent</title>
       <link>https://www.oxygenforensics.com/technical-resources/android-agent/</link>
@@ -1774,29 +1798,6 @@ Hunt for CyberPanel installations with unrestricted port 8090 access and verify 
       <source url="https://x.com/DFIR_Radar/status/2057220577937719624">DFIR Radar</source>
       <pubDate>Wed, 20 May 2026 22:03:02 +0000</pubDate>
       <guid isPermaLink="false">2057220577937719624</guid>
-    </item>
-    <item>
-      <title>Mini Shai Hulud: Compromised @antv npm packages enable CI/CD credential theft</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/05/20/mini-shai-hulud-compromised-antv-npm-packages-enable-ci-cd-credential-theft/</link>
-      <description>Active supply chain attack: Compromised @antv npm maintainer account enables mass CI/CD credential theft across 640+ malicious packages. Threat actor targets GitHub Actions environments with obfuscated payload designed for multi-platform secret extraction.
-
-• **Attack Chain**: Maintainer compromise → malicious @antv package versions → downstream amplification via echarts-for-react (1M+ weekly downloads) → automatic execution via preinstall hooks → Bun runtime deployment → credential harvesting
-
-• **Technical Details**: 499KB obfuscated JavaScript payload with dual-layer encryption (Base64 + PBKDF2/SHA-256), environment gating for GitHub Actions Linux runners, branch filtering to avoid main/master/dependabot branches
-
-• **Credential Targets**: GitHub tokens (GITHUB_TOKEN, PATs, installation tokens), AWS (IMDS, ECS metadata, SecretsManager), Vault (12+ token paths), npm OIDC tokens, Kubernetes service accounts, 1Password CLI with 2FA bypass attempts
-
-• **Memory Scraping**: Direct extraction from Runner.Worker PID via /proc scanning, bypassing GitHub's secret masking with grep patterns targeting runtime secret structures
-
-• **Exfiltration Methods**: Primary HTTPS C2 to t.m-kosche[.]com:443, fallback Git Data API (blobs/trees/commits), tertiary public repo creation with reversed "Shai Hulud" descriptions (2,200+ observed)
-
-Hunt for Node.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057205529794011381</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2057205529794011381">DFIR Radar</source>
-      <pubDate>Wed, 20 May 2026 21:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2057205529794011381</guid>
     </item>
   </channel>
 </rss>
