@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 28 May 2026 20:03:14 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 21:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Mini Shai-Hulud Worm and the New Era of CI/CD Exploitation</title>
+      <link>https://flashpoint.io/blog/mini-shai-hulud-worm-new-era-ci-cd-exploitation/</link>
+      <description>TeamPCP unleashes Mini Shai-Hulud worm targeting CI/CD pipelines, compromising millions of developers through automated npm package poisoning and AI agent hijacking. Four documented attack waves in 2026 culminated in GitHub internal breach and BreachForums co-ownership.
+
+Technical breakdown:
+• 498KB obfuscated script uses Bun runtime for EDR evasion, steals credentials from 130 file paths including npm tokens, GitHub OIDC, cloud keys, SSH keys, and crypto wallets
+• Dead-drop C2 via GitHub commit search API using "firedalazer" string with RSA-PSS signed payloads, persistence daemon "kitty-monitor" with dead-man's switch data wiper
+• AI agent hijacking: modifies Claude Code settings.json SessionStart hooks and VS Code tasks.json "folderOpen" triggers to maintain persistence across development sessions
+• Wave 3 attack: 637 malicious versions across 323 AntV packages published in 22 minutes, creating 2,500+ compromised repos per victim
+• Exfiltrated 3,800 internal GitHub repositories including copilot-api, actions-runtime, and enterprise-crypto codebases
+
+Hunt for Bun runtime processes with network connections to low-reputation domains and monitor for unauthorized changes to IDE configuration files. Full IOCs and MITRE ATT&amp;CK mappings available in Flashpoint Ignite.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060104707243192622</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2060104707243192622">DFIR Radar</source>
+      <pubDate>Thu, 28 May 2026 21:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2060104707243192622</guid>
+    </item>
     <item>
       <title>Canvas attack aftermath: What risks come next</title>
       <link>https://www.sophos.com/blog/canvas-attack-aftermath-what-risks-come-next</link>
@@ -1738,37 +1758,6 @@ Hunt for UEFI modules processing image data with insufficient boundary validatio
       <source url="https://x.com/DFIR_Radar/status/2057537773704245498">DFIR Radar</source>
       <pubDate>Thu, 21 May 2026 19:03:27 +0000</pubDate>
       <guid isPermaLink="false">2057537773704245498</guid>
-    </item>
-    <item>
-      <title>Attackers are bypassing MFA on SonicWall VPNs because something was wrong with previous fix</title>
-      <link>https://securityaffairs.com/192477/hacking/attackers-are-bypassing-mfa-on-sonicwall-vpns-because-something-was-wrong-with-previous-fix.html</link>
-      <description>SonicWall Gen6 VPN authentication bypass (CVE-2024-12802) exploited in the wild despite patches - manual LDAP reconfiguration steps missed. ReliaQuest observed active ransomware-related intrusions exploiting this flaw across multiple organizations.
-
-Technical details:
-• CVE-2024-12802: MFA bypass due to separate UPN/SAM authentication handling in Active Directory integration
-• Firmware patches exist but require 6 additional manual LDAP reconfiguration steps often missed
-• Gen6 devices reached end-of-life April 2026, no future security updates available
-• Attackers brute-force VPN accounts (as few as 13 attempts), bypass MFA, lateral movement in &lt;30 minutes
-
-Attack pattern observed:
-• Initial access via VPN credential brute-force leveraging UPN authentication path
-• Rapid lateral movement to domain-joined file servers via shared local admin passwords
-• Cobalt Strike beacon deployment and BYOVD attempts for EDR evasion
-• Initial access broker behavior: logout, return with different accounts for value assessment
-
-DFIR artifacts:
-• sess='CLI' in VPN authentication logs indicates scripted/automated authentication
-• Event IDs 238 and 1080 worth monitoring alongside VPN login anomalies
-• Successful MFA logs can be deceptive - authentication bypass still appears as normal MFA flow
-• VPN connections from VPS/VPN infrastructure vs expected user geolocations
-
-Hunt for sess='CLI' in SonicWall VPN logs combined with successful authentications for MFA-protected accounts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057522750466478209</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057522750466478209">DFIR Radar</source>
-      <pubDate>Thu, 21 May 2026 18:03:45 +0000</pubDate>
-      <guid isPermaLink="false">2057522750466478209</guid>
     </item>
   </channel>
 </rss>
