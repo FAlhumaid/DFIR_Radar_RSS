@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 28 May 2026 17:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 18:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Authenticated RCE via Argument Injection in Gogs (NOT FIXED)</title>
+      <link>https://www.rapid7.com/blog/post/ve-authenticated-rce-via-argument-injection-gogs-unfixed</link>
+      <description>Critical authenticated RCE discovered in Gogs Git service via argument injection in merge operations. CVSSv4 9.4 severity with no patch available. Any registered user can achieve full server compromise.
+
+Key technical details:
+• CVE pending - affects Gogs 0.14.2 and 0.15.0+dev via malicious branch names like `--exec=touch${IFS}/tmp/rce_proof`
+• Exploits git rebase command during "Rebase before merging" without proper argument separation
+• Works on all platforms (Linux/macOS/Windows) and installation methods including Docker
+• Bypass: RevParse validation succeeds because malicious branch refs actually exist before exploitation
+
+Attack methodology:
+• Attacker creates account (open registration default) and repository (no creation limits default)
+• Enables rebase merging in repo settings (single toggle, requires repo owner/admin)
+• Creates pull request with weaponized branch name containing --exec flag injection
+• During merge, git rebase executes arbitrary commands via shell (sh -c on Linux, cmd.exe on Windows)
+
+DFIR artifacts:
+• Server logs show "git checkout '--exec=&lt;payload&gt;': exit status 128" error entries
+• Malicious branch names starting with `--` in repository listings
+• Failed PRs in repository history and corrupted git state (HTTP 500s)
+• Persistent API tokens named `msf_&lt;hex&gt;` from Metasploit module usage
+• On Windows: committed payload files (.abcdef, .abcdef.bat) in git history
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060059379232100475</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2060059379232100475">DFIR Radar</source>
+      <pubDate>Thu, 28 May 2026 18:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2060059379232100475</guid>
+    </item>
     <item>
       <title>The Gentlemen ransomware: Dissecting a self-propagating Go encryptor</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/05/28/the-gentlemen-ransomware-dissecting-a-self-propagating-go-encryptor/</link>
@@ -1769,31 +1799,6 @@ Essential tool for environments using Tailscale - transforms network visibility 
       <source url="https://x.com/DFIR_Radar/status/2057492372577980576">DFIR Radar</source>
       <pubDate>Thu, 21 May 2026 16:03:03 +0000</pubDate>
       <guid isPermaLink="false">2057492372577980576</guid>
-    </item>
-    <item>
-      <title>JOMANGY: INJ3CTOR3’s Self-Healing FreePBX Toll Fraud Campaign</title>
-      <link>https://cyble.com/blog/jomangy-inj3ctor3s-self-healing-freepbx-toll-fraud-campaign/</link>
-      <description>Advanced FreePBX toll fraud campaign deploys JOMANGY, a previously undocumented PHP webshell family with six self-healing persistence channels. Campaign attributed to INJ3CTOR3 actor with high confidence based on forensic overlaps.
-
-Technical details:
-• JOMANGY webshell uses double-layer obfuscation (base64 over ROT13) with watermark string 'trace_e1ebf9066a951be519a24140711839ea'
-• Six independent persistence channels: cron C2 polling (1-3min), shell profile injection, immutable crontab backups, process watchdog, chattr +i webshells, PHP executor
-• 18 backdoor accounts across three tiers: 9 UID-0 accounts, 8 service accounts, 1 FreePBX web panel account injected into MySQL
-• C2 infrastructure: 45[.]95[.]147[.]178 🇳🇱 hosting 3,080-IP target inventory (39% Alibaba Cloud-hosted)
-
-Attack methodology:
-• Suspected CVE-2025-64328 or CVE-2025-57819 exploitation for initial access
-• Competitor eviction removes 50+ webshell families before deploying own infrastructure
-• VoIP toll fraud via asterisk -rx "channel originate" routing calls through victim SIP trunks
-• Self-eviction of prior campaign artifacts indicates intentional botnet migration from Brazilian to Dutch 🇳🇱 infrastructure
-
-Hunt for PHP files containing the JOMANGY watermark string in FreePBX web directories. Monitor for chattr +i usage and cron entries downloading from 45[.]95[.]147[.]178.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057477326146068548</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2057477326146068548">DFIR Radar</source>
-      <pubDate>Thu, 21 May 2026 15:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2057477326146068548</guid>
     </item>
   </channel>
 </rss>
