@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 28 May 2026 10:03:23 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 11:03:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake ChatGPT download site infects Windows and Mac users with malware</title>
+      <link>https://www.malwarebytes.com/blog/threat-intel/2026/05/fake-chatgpt-download-site-infects-windows-and-mac-users-with-malware</link>
+      <description>Fake ChatGPT site delivers dual-platform malware targeting Windows and Mac users. Windows victims get credential stealers while Mac users receive $3K/month AMOS malware designed for cryptocurrency theft.
+
+Key technical details:
+• Fake site openew[.]app mimics OpenAI's official download page with convincing .app TLD and HTTPS certificate
+• Windows payload: Chat_GPT.exe (SHA-256: c9e0e6985dca3a179c9bdea4e7b38f7dc57fe00ecedc2fd634256fc53bf2de2d) uses Inno Setup + Electron, spawns PowerShell with -ExecutionPolicy Unrestricted
+• Mac payload: Atomic Stealer/AMOS (SHA-256: c0919e1999eaee67e67aeda0287722775afb04e9a9a0f727928b4d11265fb70b) steals keychain, browser data, crypto wallets
+• AMOS replaces legitimate Ledger/Trezor apps with trojaned versions for ongoing theft
+• C2 infrastructure: 188[.]137[.]246[.]189, 192[.]253[.]248[.]181, 172[.]94[.]9[.]250
+
+Attack leverages AI hype targeting first-time downloaders who don't know official URLs. Operators invested heavily in Mac-side tooling ($3K/month AMOS vs $250/month Windows stealers) expecting higher cryptocurrency theft returns.
+
+Hunt for Electron apps in %APPDATA%\LeronApplication and PowerShell spawning from non-system processes. Full IOC list available.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059953805022712242</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2059953805022712242">DFIR Radar</source>
+      <pubDate>Thu, 28 May 2026 11:03:54 +0000</pubDate>
+      <guid isPermaLink="false">2059953805022712242</guid>
+    </item>
     <item>
       <title>Pirates in the crosshairs: how one cybercrime gang has been infecting book, movie, and TV show fans for years</title>
       <link>https://securelist.com/video-books-pirates-miners-rat/119943/</link>
@@ -1803,32 +1825,6 @@ Technical artifacts covered:
       <source url="https://x.com/DFIR_Radar/status/2057386853578514778">DFIR Radar</source>
       <pubDate>Thu, 21 May 2026 09:03:45 +0000</pubDate>
       <guid isPermaLink="false">2057386853578514778</guid>
-    </item>
-    <item>
-      <title>Pardus Linux Vulnerability Chain Enables Complete System Takeover</title>
-      <link>https://thecyberexpress.com/cve-2026-5140-pardus-linux-root-access-flaw/</link>
-      <description>Critical privilege escalation chain in Pardus Linux allows any local user to gain root access within seconds. CVE-2026-5140 scored CVSS 9.3, affecting Turkish 🇹🇷 government and enterprise systems nationwide.
-
-Technical breakdown:
-• Chain combines Polkit bypass + CRLF injection + untrusted search path in pardus-update package
-• Polkit misconfiguration in /usr/share/polkit-1/actions allows pkexec without authentication
-• SystemSettingsWrite.py vulnerable to \r injection, manipulating /etc/pardus/pardus-update.conf
-• AutoAptUpgrade.py copies attacker-controlled .list files to /etc/apt/sources.list.d/ without validation
-• Exploit creates malicious .deb package with postinst script: chmod +s /bin/bash
-
-Attack artifacts:
-• Monitor pkexec execution of SystemSettingsWrite.py and AutoAptUpgrade.py scripts
-• Check /etc/pardus/pardus-update.conf for unexpected custom_sourcesd_path entries
-• Audit /etc/apt/sources.list.d/ for unauthorized repository files
-• Watch for SUID bit changes on /bin/bash or other system binaries
-
-Hunt for recent pkexec processes with pardus-update arguments and correlate with APT package installations from non-standard repositories.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057371710689583140</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057371710689583140">DFIR Radar</source>
-      <pubDate>Thu, 21 May 2026 08:03:35 +0000</pubDate>
-      <guid isPermaLink="false">2057371710689583140</guid>
     </item>
   </channel>
 </rss>
