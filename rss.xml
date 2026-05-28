@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 28 May 2026 16:04:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 17:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Gentlemen ransomware: Dissecting a self-propagating Go encryptor</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/05/28/the-gentlemen-ransomware-dissecting-a-self-propagating-go-encryptor/</link>
+      <description>Microsoft dissects "The Gentlemen" ransomware-as-a-service platform operated by Storm-2697, featuring aggressive self-propagation across networks using 21 distinct lateral movement techniques per target host.
+
+Key technical details:
+• Written in Go, obfuscated with Garble, uses Curve25519 + XChaCha20 encryption with per-file ephemeral keys
+• Self-propagation via PsExec, WMIC, scheduled tasks, services, and PowerShell remoting (T1021.002, T1021.003, T1053.005)
+• Disables Defender, deletes shadow copies/event logs, terminates 40+ processes/services before encryption
+• Partial encryption strategy: 3 distributed chunks for files &gt;1MB, full encryption for smaller files
+• Creates hidden SMB share for payload distribution, establishes persistence via registry and scheduled tasks
+
+Attack chain highlights:
+• Password-protected execution with build-specific hardcoded values
+• Privilege escalation to SYSTEM via scheduled task creation
+• Network discovery enables Windows services, modifies firewall rules for maximum visibility
+• 21 execution attempts per target: file copy, PsExec, WMIC, tasks (user/system), services, PS remoting
+
+DFIR artifacts include .umc16h encrypted file extension, README-GENTLEMEN.txt ransom notes, gentlemen.bmp wallpaper, and registry persistence at HKLM/HKCU Run keys.
+
+Hunt for unsigned Go binaries with network discovery commands, unusual scheduled task names (gentlemen_system, UpdateSystem), and SMB shares named "share$".
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060044344552255826</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2060044344552255826">DFIR Radar</source>
+      <pubDate>Thu, 28 May 2026 17:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2060044344552255826</guid>
+    </item>
     <item>
       <title>Download pumping: New npm deception technique for supply chain attacks</title>
       <link>https://www.tenable.com/blog/how-cyberattackers-inflate-malicious-package-npm-download-counts</link>
@@ -1766,37 +1794,6 @@ Hunt for PHP files containing the JOMANGY watermark string in FreePBX web direct
       <source url="https://x.com/DFIR_Radar/status/2057477326146068548">DFIR Radar</source>
       <pubDate>Thu, 21 May 2026 15:03:15 +0000</pubDate>
       <guid isPermaLink="false">2057477326146068548</guid>
-    </item>
-    <item>
-      <title>[webapps] FUXA  1.2.9 -  RCE</title>
-      <link>https://www.exploit-db.com/exploits/52568</link>
-      <description>FUXA 1.2.9 industrial HMI platform suffers from unauthenticated path traversal leading to arbitrary file write and RCE. Zero-click exploitation bypasses all authentication mechanisms including secure mode.
-
-Key technical details:
-• CVE-2026-25895: POST /api/upload endpoint lacks authentication middleware entirely
-• Path traversal via `destination` parameter: `a/../../../../&lt;target&gt;` escapes appDir containment
-• Node.js path.resolve() vulnerability enables write to any filesystem location
-• Multiple RCE vectors: settings.js replacement, cron injection, SSH key drops, webshell deployment
-
-Attack methodology:
-• Unauthenticated /api/settings leak reveals installation paths and running user context
-• Exploitation works even with secureEnabled=true (JWT bypass)
-• Settings.js replacement executes on next FUXA restart via require() mechanism
-• Cron payloads provide immediate execution when FUXA runs as root (common in containers)
-
-DFIR artifacts and detection opportunities:
-• Monitor POST requests to /api/upload with directory traversal patterns in JSON body
-• Watch for unexpected files in /tmp/, /etc/cron.d/, and FUXA _appdata directories
-• Alert on settings.js modifications and unauthorized SSH key additions
-• Network detection: outbound connections from industrial systems to unexpected ports
-
-Hunt for recent file modifications in FUXA directories, especially settings.js timestamps mismatched with legitimate configuration changes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057462463025598860</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057462463025598860">DFIR Radar</source>
-      <pubDate>Thu, 21 May 2026 14:04:12 +0000</pubDate>
-      <guid isPermaLink="false">2057462463025598860</guid>
     </item>
   </channel>
 </rss>
