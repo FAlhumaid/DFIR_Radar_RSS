@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 28 May 2026 03:04:05 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 05:02:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>RVTools Masquerade: How a Signed Fake Installer Deploys a Modular Python RAT</title>
+      <link>https://labs.k7computing.com/index.php/rvtools-masquerade-how-a-signed-fake-installer-deploys-a-modular-python-rat/</link>
+      <description>Sophisticated fake RVTools installer uses valid Sectigo certificate to deploy modular Python RAT targeting VMware administrators. Three-stage attack chain leverages legitimate tools to evade detection and establish persistent C2.
+
+Technical breakdown:
+• Signed MSI (SHA256: d0f5e98fb840fb5656d3f50613b6f1ec60e57392643159841bc1fa95396087a4) bypasses SmartScreen via Xiamen Lunwei Huage Network certificate
+• VBScript custom action (Binary.MyScript.vbs) downloads 33MB WinPython environment from Dropbox containing VS Code, Spyder, Jupyter
+• Collector.py performs AD enumeration via [adsisearcher] PowerShell, creates configA.json in %TEMP% with system fingerprint
+• Pmanager.py establishes dual persistence (Registry Run + scheduled task) with RC4-encrypted C2 every 300 seconds
+• Five hardcoded C2 IPs for resilience, supports remote shell execution and payload deployment
+
+Hunt for MSI installations followed by Python processes spawning hidden PowerShell, outbound connections to unknown IPs, and new Registry Run entries containing Python paths.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059862880975999145</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2059862880975999145">DFIR Radar</source>
+      <pubDate>Thu, 28 May 2026 05:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2059862880975999145</guid>
+    </item>
     <item>
       <title>Critical Ghost CMS Vulnerability Exploited to Hack 700+ Websites</title>
       <link>https://thecyberexpress.com/cve-2026-26980-ghost-cms-vulnerability/</link>
@@ -1773,31 +1793,6 @@ Hunt for processes with OneDrive API calls creating unique victim directories an
       <source url="https://x.com/DFIR_Radar/status/2057281274126233613">DFIR Radar</source>
       <pubDate>Thu, 21 May 2026 02:04:13 +0000</pubDate>
       <guid isPermaLink="false">2057281274126233613</guid>
-    </item>
-    <item>
-      <title>How a Webmail Log File Became a Root-Level Backdoor</title>
-      <link>https://www.wordfence.com/blog/2026/05/how-a-webmail-log-file-became-a-root-level-backdoor/</link>
-      <description>Attackers turned CyberPanel's SnappyMail webmail logs into a persistent root-level backdoor that survived every WordPress cleanup. 14-second compromise chain exploited three critical misconfigurations to achieve cross-service malware injection.
-
-Technical breakdown:
-• Malware: Double-encoded redirect payload in wp-config.php targeting frontend visitors only, excluding admin/AJAX/REST API requests
-• Attack vector: Default SnappyMail credentials → changed log filename from .txt to .php → injected PHP webshell via login form "username" field
-• Persistence: Log file at `/usr/local/CyberCP/public/snappymail/data/_data_/_default_/logs/shell.php` executable via LiteSpeed on port 8090
-• Privilege escalation: lscpd user has `NOPASSWD: ALL` sudo access, enabling root-level wp-config.php modification every 2-6 hours
-• Evasion: Backdoor exists outside WordPress webroot, invisible to WP security plugins scanning only `/public_html/`
-
-Key artifacts:
-• SnappyMail logs capture complete attack timeline with PHP injection timestamps
-• Webshell accessible at `https://IP:8090/snappymail/data/_data_/_default_/logs/shell.php?c=COMMAND`
-• Typosquat domain: `async[.]gsyndication[.]com` (mimics Google's googlesyndication[.]com)
-
-Hunt for CyberPanel installations with unrestricted port 8090 access and verify SnappyMail log filenames don't use .php extensions. Wordfence CLI detected both backdoors with signature `Obfuscated:PHP/superglobal.func.B.10513`.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057265807952859463</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2057265807952859463">DFIR Radar</source>
-      <pubDate>Thu, 21 May 2026 01:02:46 +0000</pubDate>
-      <guid isPermaLink="false">2057265807952859463</guid>
     </item>
   </channel>
 </rss>
