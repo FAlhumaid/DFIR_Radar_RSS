@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 29 May 2026 02:02:31 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2026 06:02:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Typosquatted npm packages used to steal cloud and CI/CD secrets</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/05/28/typosquatted-npm-packages-used-steal-cloud-ci-cd-secrets/</link>
+      <description>Active supply chain attack: 14 typosquatted npm packages targeting OpenSearch/ElasticSearch ecosystem steal AWS, Vault, and CI/CD secrets. Single actor "vpmdhaj" published malicious packages with automatic credential harvesting on install.
+
+Key technical details:
+• Packages abuse npm lifecycle hooks (preinstall/postinstall) for immediate execution during `npm install`
+• Two-stage execution: Gen-1 uses HTTP C2 beacon with X-Supply: 1 header, Gen-2 downloads legitimate Bun runtime as loader
+• 195KB Bun-compiled harvester targets AWS IMDS (169.254.169[.]254), ECS metadata, Vault tokens, GitHub Actions secrets, npm publish tokens
+• Persistence via payload.bin re-execution on every require() call
+• C2 infrastructure: aab.sportsontheweb[.]net for beacon/payload drop
+
+Attack methodology:
+• Typosquat naming (opensearch-setup, elastic-opensearch-helper) + spoofed OpenSearch project metadata
+• Inflated version numbers (1.0.7265+) to suggest maturity
+• AWS credential theft enables cross-region Secrets Manager enumeration across 16+ regions
+• Stolen npm tokens enable downstream supply chain pivoting
+
+Hunt for npm processes with __DAEMONIZED=1 environment variable, X-Supply: 1 HTTP headers in proxy logs, and Node.js connections to AWS IMDS from CI/CD infrastructure.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060240356935962752</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2060240356935962752">DFIR Radar</source>
+      <pubDate>Fri, 29 May 2026 06:02:33 +0000</pubDate>
+      <guid isPermaLink="false">2060240356935962752</guid>
+    </item>
     <item>
       <title>CVE-2026-35616: FortiClient EMS Flaw Actively Exploited in Malware Attacks</title>
       <link>https://securityaffairs.com/192817/malware/cve-2026-35616-forticlient-ems-flaw-actively-exploited-in-malware-attacks.html</link>
@@ -1723,17 +1749,6 @@ Hunt for WinRE tampering via reagentc /info output and check Secure Boot certifi
       <source url="https://x.com/DFIR_Radar/status/2057628396289429624">DFIR Radar</source>
       <pubDate>Fri, 22 May 2026 01:03:33 +0000</pubDate>
       <guid isPermaLink="false">2057628396289429624</guid>
-    </item>
-    <item>
-      <title>Microsoft dismantles Fox Tempest cybercrime platform tied to ransomware attacks on hospitals, critical organizations</title>
-      <link>https://industrialcyber.co/ransomware/microsoft-dismantles-fox-tempest-cybercrime-platform-tied-to-ransomware-attacks-on-hospitals-critical-organizations/</link>
-      <description>Microsoft dismantles Fox Tempest malware-signing-as-a-service platform used by Vanilla Tempest, Rhysida, and other ransomware groups to bypass security controls.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057613239156871172</description>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2057613239156871172">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 00:03:20 +0000</pubDate>
-      <guid isPermaLink="false">2057613239156871172</guid>
     </item>
   </channel>
 </rss>
