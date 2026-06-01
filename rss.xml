@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 15:03:03 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 16:02:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Investigating suspicious AI workflows in Microsoft Entra Agent ID: Agent’s user account</title>
+      <link>https://redcanary.com/blog/threat-detection/entra-id-ai-workflows-teams/</link>
+      <description>Red Canary demonstrates how to investigate suspicious Microsoft Teams messages sent by AI agent users, revealing critical log correlation techniques for DFIR practitioners dealing with autonomous agent threats.
+
+Key investigation workflow:
+• MessageReported event in Purview captures user-reported suspicious content with Message ID for correlation
+• MessageCreatedHasLink/MessageSent events reveal actual malicious URL (hxxps://domoarigato[.]ai/) and sender details
+• MicrosoftGraphActivityLogs shows Graph API usage with PowerShell 7.6.1 user-agent from IP 51[.]3[.]97[.]221
+• AADNonInteractiveUserSignInLogs confirms agent user identity linked to blueprint parent (agentSubjectType == agentIDuser)
+
+Critical correlation fields:
+• AppAccessContext.UniqueTokenId bridges Teams events to Graph Activity and sign-in logs
+• Agent users only generate non-interactive sign-ins, never interactive SigninLogs events
+• IPv6 addresses in Teams logs often reflect Microsoft infrastructure, not true source IPs
+
+Hunt for Graph API Teams message operations from unexpected IPs with PowerShell user-agents, correlating UniqueTokenId across log sources for complete attack timeline.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061478597752483967</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2061478597752483967">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 16:02:53 +0000</pubDate>
+      <guid isPermaLink="false">2061478597752483967</guid>
+    </item>
     <item>
       <title>CVE-2026-0826: Critical unauthenticated stack buffer overflow in HP Poly VVX and Trio VoIP Phones (FIXED)</title>
       <link>https://www.rapid7.com/blog/post/ve-cve-2026-0826-critical-unauthenticated-stack-buffer-overflow-hp-poly-vvx-trio-voip-phones-fixed</link>
@@ -1799,17 +1823,6 @@ Hunt for .pyd/.so files in developer directories, unsigned Python extension modu
       <source url="https://x.com/DFIR_Radar/status/2057930120690577500">DFIR Radar</source>
       <pubDate>Fri, 22 May 2026 21:02:30 +0000</pubDate>
       <guid isPermaLink="false">2057930120690577500</guid>
-    </item>
-    <item>
-      <title>Ghostwriter Targets Ukraine Government Entities with Prometheus Phishing Malware</title>
-      <link>https://thehackernews.com/2026/05/ghostwriter-targets-ukraine-government.html</link>
-      <description>Belarus-aligned Ghostwriter (UAC-0057/UNC1151) targets Ukrainian 🇺🇦 government entities using phishing lures impersonating Prometheus online learning platform. CERT-UA confirms active campaign against government organizations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057915198858530873</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2057915198858530873">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 20:03:12 +0000</pubDate>
-      <guid isPermaLink="false">2057915198858530873</guid>
     </item>
   </channel>
 </rss>
