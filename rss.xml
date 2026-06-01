@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 21:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 22:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>32 Red Hat npm packages backdoored in 72 seconds</title>
+      <link>https://www.reversinglabs.com/blog/red-hat-cloud-service-npm-packages-backdoored-in-72-seconds</link>
+      <description>Coordinated supply chain attack: 32 Red Hat npm packages backdoored in 72-second automated deployment targeting 9.8M downloads with cloud credential stealer.
+
+• Attack vector: Compromised @redhat-cloud-services npm scope credentials enabled simultaneous malicious publishing across RedHatInsights/frontend-components and RedHatInsights/javascript-clients repos
+• Payload structure: 3-layer obfuscation (ROT-N cipher → AES-128-GCM decryption → obfuscator.io), downloads legitimate bun runtime from github[.]com/oven-sh/bun/releases, executes 634KB credential harvester
+• Targets: AWS/Azure/GCP credentials, GitHub tokens, Vault secrets, SSH keys, npm configs. Includes worm propagation capability to publish additional poisoned packages using stolen npm credentials
+• DFIR artifacts: Unique SHA-256 per package (individualized AES keys/IVs defeat hash deduplication), preinstall script execution during npm install, outbound HTTPS from Node.js during package installation
+• Timeline: June 1, 2026 10:54:09-10:55:21 UTC. Malicious versions removed but exposure persists in pinned dependencies
+
+Hunt for Node.js processes with network connections during npm install and check package-lock.json for exact version matches. Full IOC table with 32 SHA-256 hashes available in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061569215635603816</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2061569215635603816">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 22:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2061569215635603816</guid>
+    </item>
     <item>
       <title>Adobe Acrobat Reader Escript.api Use-After-Free Remote Code Execution</title>
       <link>https://blog.exodusintel.com/2026/06/01/adobe-acrobat-reader-escript-api-use-after-free-remote-code-execution/</link>
@@ -1852,30 +1871,6 @@ DFIR artifacts and detection opportunities:
       <source url="https://x.com/DFIR_Radar/status/2058231946073837703">DFIR Radar</source>
       <pubDate>Sat, 23 May 2026 17:01:51 +0000</pubDate>
       <guid isPermaLink="false">2058231946073837703</guid>
-    </item>
-    <item>
-      <title>Detection Logic Bugs, Developing Context to Bypass MiniPlasma Rules</title>
-      <link>https://detect.fyi/detection-logic-bugs-developing-context-to-bypass-miniplasma-rules-903f1d7c68e8?source=rss----d5fd8f494f6a---4</link>
-      <description>Researcher demonstrates how adversaries can bypass community GreenPlasma/MiniPlasma detection rules through simple process cloning, exposing critical flaws in string-based detection logic.
-
-Key technical details:
-• GreenPlasma exploits UAC desktop switching by pre-planting symbolic links at \Sessions\&lt;N&gt;\BaseNamedObjects\CTF.AsmListCache.FMPWinlogon&lt;N&gt;
-• SYSTEM process follows malicious symlink during Winlogon desktop transition, granting attacker handle to SYSTEM memory
-• Community rules targeting conhost.exe easily bypassed by copying binary to %APPDATA%\conthehost.exe - signature remains valid
-• ADE3-01 Process Cloning bug affects string-matching rules in Splunk Security Content and Cortex XDR platforms
-
-More robust detection focuses on registry artifacts:
-• Monitor volatile REG_LINK creation in CloudFiles\BlockedApps key paths
-• Alert on SymbolicLinkValue pointing to Policies\System within 10-minute window
-• Avoid process.name, binary hash, or parent process filtering
-
-Hunt for REG_LINK registry keys with SymbolicLinkValue data containing "Policies\System" - these artifacts show better signal-to-noise ratio than process-based indicators.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058156663090151806</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2058156663090151806">DFIR Radar</source>
-      <pubDate>Sat, 23 May 2026 12:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2058156663090151806</guid>
     </item>
   </channel>
 </rss>
