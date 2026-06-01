@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 14:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 15:03:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-0826: Critical unauthenticated stack buffer overflow in HP Poly VVX and Trio VoIP Phones (FIXED)</title>
+      <link>https://www.rapid7.com/blog/post/ve-cve-2026-0826-critical-unauthenticated-stack-buffer-overflow-hp-poly-vvx-trio-voip-phones-fixed</link>
+      <description>Critical zero-day in HP Poly VoIP phones allows unauthenticated remote code execution with root privileges. CVE-2026-0826 affects VVX and Trio series through stack buffer overflow in SDP parsing.
+
+Technical breakdown:
+• CVE-2026-0826 (CVSS 9.2) exploits stack buffer overflow in ParseICECandidate function at 0xB12780
+• Vulnerability in SDP "a=candidate:" attribute parsing when ICE feature enabled (non-default)
+• 256-byte buffer overflow via memcpy() with no bounds checking in /user/local/root/polyapp
+• Affects VVX 150/250/350/450 and Trio 8300/8500/8800 models running vulnerable firmware
+• Bypasses NX protection using ROP chain leveraging fixed libc addresses (ASLR ineffective on shared libraries)
+
+Attack vector:
+• Malicious SIP INVITE request to UDP port 5060 with oversized candidate attribute
+• Payload structure: 12-byte header + 244 A's + 19 B's + register overwrites + shellcode
+• Achieves immediate root shell without authentication when ICE enabled
+
+Hunt for SIP traffic with abnormally long candidate attributes &gt;256 bytes and non-default ICE configurations. Metasploit module available for testing.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061463540926382181</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2061463540926382181">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 15:03:03 +0000</pubDate>
+      <guid isPermaLink="false">2061463540926382181</guid>
+    </item>
     <item>
       <title>Detecting Nimbus Manticore and their sideloading infection chains</title>
       <link>https://www.nextron-systems.com/2026/06/01/detecting-nimbus-manticore-and-their-sideloading-infection-chains/</link>
@@ -1785,17 +1810,6 @@ Hunt for .pyd/.so files in developer directories, unsigned Python extension modu
       <source url="https://x.com/DFIR_Radar/status/2057915198858530873">DFIR Radar</source>
       <pubDate>Fri, 22 May 2026 20:03:12 +0000</pubDate>
       <guid isPermaLink="false">2057915198858530873</guid>
-    </item>
-    <item>
-      <title>CVE-2026-45585: YellowKey BitLocker Bypass Exposes Encrypted Data on Windows Devices</title>
-      <link>https://socprime.com/blog/cve-2026-45585-yellowkey-bitlocker-bypass/</link>
-      <description>CVE-2026-45585 (CVSS 6.8) "YellowKey" bypasses BitLocker via Windows Recovery Environment using crafted FsTx files on USB/EFI. Affects Windows 11 24H2+ and Server 2025. Apply Microsoft's WinRE mitigation or switch to TPM+PIN authentication.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057900009790509116</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057900009790509116">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 19:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2057900009790509116</guid>
     </item>
   </channel>
 </rss>
