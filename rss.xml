@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 01:04:02 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 02:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Regex Said Safe. The Parser Disagreed, NASA Earth Science Platform had a Critical Vulnerability</title>
+      <link>https://infosecwriteups.com/the-regex-said-safe-the-parser-disagreed-nasa-earth-science-platform-had-a-critical-vulnerability-d79245e81086?source=rss----7b722bfd1b8d---4</link>
+      <description>NASA's 🇺🇸 Earth Science platform bypassed by newline character in regex-based XXE sanitization. CVSS 9.1 critical flaw exposed AWS metadata, enabled SSRF from production infrastructure, and allowed internal service enumeration.
+
+Technical breakdown:
+• Vulnerable regex `#"&lt;!DOCTYPE.*?&gt;"` failed to match multi-line DOCTYPE declarations due to Java's default newline handling
+• XML parser accepted multi-line DOCTYPE that sanitizer missed, enabling external entity resolution
+• Out-of-band XXE extracted ECS metadata including AWS account ID, cluster ARNs, container details, and internal hostnames
+• SSRF primitive allowed internal service enumeration via HTTP response differentials and timing oracles
+• Affected NASA Common Metadata Repository (CMR) - public XML endpoint requiring no authentication
+
+Attack chain:
+• POST malicious XML to `/search/concepts/search` with multi-line DOCTYPE bypassing regex filter
+• External DTD fetched from attacker server, establishing SSRF from `cmr.earthdata.nasa.gov`
+• Parameter entities in external DTD read local files (`/etc/hostname`, `/proc/sys/kernel/osrelease`) and AWS metadata (`169.254.170.2/v2/metadata`)
+• File contents exfiltrated as URL parameters to callback server
+
+DFIR artifacts:
+• Outbound HTTP requests to suspicious domains during XML parsing operations
+• ECS container logs showing `java.net.ConnectException` with 75+ second timeouts
+• Web server access logs with POST requests containing XML DOCTYPE declarations
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061267275605324105</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2061267275605324105">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 02:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2061267275605324105</guid>
+    </item>
     <item>
       <title>Unidentified RAT pushes NetSupport RAT, (Mon, Jun 1st)</title>
       <link>https://isc.sans.edu/diary/rss/33034</link>
@@ -1768,17 +1797,6 @@ Hunt for WinRE tampering via reagentc /info output and check Secure Boot certifi
       <source url="https://x.com/DFIR_Radar/status/2057749204244566286">DFIR Radar</source>
       <pubDate>Fri, 22 May 2026 09:03:36 +0000</pubDate>
       <guid isPermaLink="false">2057749204244566286</guid>
-    </item>
-    <item>
-      <title>CVE-2024-12802: SonicWall SSL-VPN MFA Bypass Persists on Gen6</title>
-      <link>https://socradar.io/blog/cve-2024-12802-sonicwall-ssl-vpn-mfa-bypass-gen6/</link>
-      <description>CVE-2024-12802 (CVSS 9.1) enables MFA bypass on SonicWall SSL-VPN via AD username format confusion. Gen6 devices require manual config changes beyond firmware patches. ReliaQuest confirms active exploitation Feb-Mar 2026.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057733884553409007</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057733884553409007">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 08:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2057733884553409007</guid>
     </item>
   </channel>
 </rss>
