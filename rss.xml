@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 17:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 18:03:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>31 Red Hat npm packages backdoored in 72 seconds</title>
+      <link>https://www.reversinglabs.com/blog/31-red-hat-cloud-service-npm-packages-backdoored-in-72-seconds</link>
+      <description>Supply chain attack: Coordinated 72-second strike compromised 31 Red Hat 🇺🇸 npm packages affecting 9.8M downloads. Attacker used automated tooling to inject credential-stealing malware with worm capabilities across @redhat-cloud-services scope.
+
+Technical breakdown:
+• Scope-level account compromise (not individual repos) enabled batch publishing 10:54:09-10:55:21 UTC
+• Each package modified identically: preinstall script + malicious index.js with unique SHA-256 hashes
+• Triple-layer obfuscation: ROT-N cipher → AES-128-GCM decryption → obfuscator.io payload
+• Payload steals AWS/Azure/GCP/GitHub credentials, targets CI/CD environments, contains worm propagation logic
+• Downloads legitimate Bun runtime from github[.]com to avoid suspicious traffic
+
+Attack chain:
+• preinstall script executes during npm install (T1195.002)
+• Downloads Bun runtime to temp directory for payload execution
+• 634KB payload harvests cloud credentials from env vars and config files
+• Exfiltrates via encrypted GitHub API calls with stolen tokens
+• Self-propagation capability using embedded ROT-N encoder
+
+Hunt for npm packages with preinstall scripts downloading external runtimes and check for unauthorized publishing activity in your organization's npm scopes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061508950235725829</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2061508950235725829">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 18:03:30 +0000</pubDate>
+      <guid isPermaLink="false">2061508950235725829</guid>
+    </item>
     <item>
       <title>CVE-2026-4387: StrongDM State File Reuse</title>
       <link>https://specterops.io/blog/2026/06/01/cve-2026-4387-strongdm-state-file-reuse/</link>
@@ -1832,17 +1859,6 @@ Hunt for .pyd/.so files in developer directories, unsigned Python extension modu
       <source url="https://x.com/DFIR_Radar/status/2057990968867996051">DFIR Radar</source>
       <pubDate>Sat, 23 May 2026 01:04:18 +0000</pubDate>
       <guid isPermaLink="false">2057990968867996051</guid>
-    </item>
-    <item>
-      <title>CVE-2026-27886: Unauthenticated Boolean-Oracle Exfiltration of Administrator Secrets in Strapi</title>
-      <link>https://bishopfox.com/blog/cve-2026-27886-unauthenticated-boolean-oracle-exfiltration-of-administrator-secrets-in-strapi</link>
-      <description>CVE-2026-27886 (CVSS pending) in Strapi 4.0.0-5.36.1 allows unauthenticated boolean-oracle attacks to extract admin password reset tokens character-by-character for account takeover. Over 20,000 internet-facing hosts affected.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057945317253775701</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2057945317253775701">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 22:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2057945317253775701</guid>
     </item>
   </channel>
 </rss>
