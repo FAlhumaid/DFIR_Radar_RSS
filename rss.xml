@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 20:03:20 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 21:02:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Adobe Acrobat Reader Escript.api Use-After-Free Remote Code Execution</title>
+      <link>https://blog.exodusintel.com/2026/06/01/adobe-acrobat-reader-escript-api-use-after-free-remote-code-execution/</link>
+      <description>Adobe Reader Escript.api use-after-free enables RCE via JavaScript prototype pollution. Affects 32/64-bit versions through 25.001.21288, patched April 2026 with CVE-2026-34621/34622/34626.
+
+Technical breakdown:
+• Vulnerability in Escript.api module through __defineGetter__() on Collab.toString property
+• Recursive calls exhaust C++ stack without triggering JS recursion limits, creating exception handler frame accumulation
+• Two independent bookkeeping systems (reference counting + event scope stack) fall out of sync during stack overflow
+• push_event_scope_and_resolve() never reaches cleanup code, leaving dangling pointer in scope stack while reference counter hits zero
+
+Attack chain:
+• Override Collab.toString via __defineGetter__() to create recursive execution pattern
+• util.scand() triggers push_event_scope_and_resolve(), creating scoped object in event scope stack
+• Stack overflow prevents proper cleanup - scope stack entry persists while object reference counter decremented
+• Garbage collection frees object, scope stack retains dangling pointer
+• Subsequent access via removeField() triggers use-after-free
+
+Exploitation methods:
+• 32-bit: Heap spray ArrayBuffers, reclaim freed object with ReadStream, gain OOB R/W, leak module bases, ROP chain to VirtualProtect
+• 64-bit: Requires PartitionAlloc bypass for arbitrary R/W primitive
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061554089356579112</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2061554089356579112">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 21:02:51 +0000</pubDate>
+      <guid isPermaLink="false">2061554089356579112</guid>
+    </item>
     <item>
       <title>Fake BlueWallet steals passwords, accounts, and crypto from Macs</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/06/fake-bluewallet-steals-passwords-accounts-and-crypto-from-macs</link>
@@ -1848,17 +1876,6 @@ Hunt for REG_LINK registry keys with SymbolicLinkValue data containing "Policies
       <source url="https://x.com/DFIR_Radar/status/2058156663090151806">DFIR Radar</source>
       <pubDate>Sat, 23 May 2026 12:02:42 +0000</pubDate>
       <guid isPermaLink="false">2058156663090151806</guid>
-    </item>
-    <item>
-      <title>Ghostwriter Is Back, Using a Ukrainian Learning Platform as Bait to Hit Government Targets</title>
-      <link>https://securityaffairs.com/192538/apt/ghostwriter-is-back-using-a-ukrainian-learning-platform-as-bait-to-hit-government-targets.html</link>
-      <description>Belarus 🇧🇾-nexus Ghostwriter APT targets Ukrainian 🇺🇦 government with phishing emails impersonating Prometheus learning platform. Campaign delivers OYSTERFRESH JS loader leading to Cobalt Strike deployment via multi-stage registry obfuscation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058141755565080821</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2058141755565080821">DFIR Radar</source>
-      <pubDate>Sat, 23 May 2026 11:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2058141755565080821</guid>
     </item>
   </channel>
 </rss>
