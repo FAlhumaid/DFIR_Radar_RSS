@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 07:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 09:03:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Forensic Implications of Apple Stolen Device Protection</title>
+      <link>https://blog.elcomsoft.com/2026/06/forensic-implications-of-apple-stolen-device-protection/</link>
+      <description>Apple's Stolen Device Protection now defaults to ON in iOS 26.4+, requiring Face ID/Touch ID for iPhone pairing even with known passcode. This blocks advanced logical extraction on non-consensual cases.
+
+Technical breakdown:
+• SDP gates "Trust This Computer" behind biometrics when away from familiar locations (home/work)
+• Pre-existing pairing records still work but have limited lifetime and require AFU state
+• Agent sideloading blocked without valid pairing - no biometrics = no extraction agent install
+• Security Delay adds 1-hour wait + dual biometric auth for Apple Account changes, SDP toggle
+• iOS 17.3-18.x: opt-in feature, most devices won't have it enabled
+
+DFIR impact:
+• Triage by iOS version: assume SDP ON for 26.4+, verify settings for 17.3-18.x
+• Seize suspect computers simultaneously - existing lockdown records bypass pairing gate
+• Maintain AFU state with Faraday + pass-through power to prevent BFU reboot
+• For consensual cases: disable SDP at familiar location or budget 1-hour Security Delay
+
+Document exact iOS build and SDP state before extraction. Preserve host lockdown directories from seized computers as primary workaround.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061372982979944520</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2061372982979944520">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 09:03:12 +0000</pubDate>
+      <guid isPermaLink="false">2061372982979944520</guid>
+    </item>
     <item>
       <title>FSB’s matryoshka #1/3 – Gamaredon’s gifts that keeps unpacking – GammaPhish and GammaWorm</title>
       <link>https://blog.sekoia.io/fsbs-matryoshka-1-3-gamaredons-gifts-that-keeps-unpacking-gammaphish-and-gammaworm/</link>
@@ -1743,17 +1769,6 @@ Hunt for suspicious DLLs loaded via svchost with DPAPI calls and outbound HTTPS 
       <source url="https://x.com/DFIR_Radar/status/2057824739536617898">DFIR Radar</source>
       <pubDate>Fri, 22 May 2026 14:03:45 +0000</pubDate>
       <guid isPermaLink="false">2057824739536617898</guid>
-    </item>
-    <item>
-      <title>We hardened zizmor's GitHub Actions static analyzer</title>
-      <link>https://blog.trailofbits.com/2026/05/22/we-hardened-zizmors-github-actions-static-analyzer/</link>
-      <description>Trail of Bits hardened zizmor's GitHub Actions static analyzer after March 2026 Trivy compromise. Fixed 4 YAML anchor bugs and tested against 41,253 real workflows to catch supply-chain misconfigurations before attackers exploit them.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057809431132291255</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2057809431132291255">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 13:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2057809431132291255</guid>
     </item>
   </channel>
 </rss>
