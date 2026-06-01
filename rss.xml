@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 19:02:34 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 20:03:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake BlueWallet steals passwords, accounts, and crypto from Macs</title>
+      <link>https://www.malwarebytes.com/blog/threat-intel/2026/06/fake-bluewallet-steals-passwords-accounts-and-crypto-from-macs</link>
+      <description>Fake BlueWallet site delivers multi-stage credential stealer targeting Mac users via social engineering. Malware bypasses macOS security by tricking victims into manually executing AppleScript, stealing passwords, crypto wallets, and hijacking clipboard for address swapping.
+
+Technical breakdown:
+• Stage 1: AppleScript downloader from update-bluewallet[.]com drops to /tmp/.sysupd.sh, bypasses Gatekeeper via Script Editor execution
+• Stage 2: Comprehensive data theft targeting 50+ crypto wallets, password managers, browsers, and cloud credentials (AWS, SSH, GPG)
+• Persistence via LaunchAgent plist in ~/Library/LaunchAgents with hidden support directory
+• C2 via Telegram Bot API with interactive commands (/exec, /download, /clipboard, /selfdestruct)
+• Clipboard hijacking replaces crypto addresses with attacker wallets: bc1qrmj4ggshddhnxx3rxwvsu8pe9ut6cgx8mx364e (BTC), 0x2B871703122064e45d77146a6D5203da3bD192FA (ETH)
+
+Hunt for Script Editor processes executing base64-encoded shell commands that immediately quit, and monitor /tmp for hidden .sh files downloaded via curl. Full IOC list included in analysis.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061539106320949760</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2061539106320949760">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 20:03:20 +0000</pubDate>
+      <guid isPermaLink="false">2061539106320949760</guid>
+    </item>
     <item>
       <title>Re: CIFSwitch: Linux kernel/cifs-utils local root via forged cifs.spnego upcall</title>
       <link>https://seclists.org/oss-sec/2026/q2/767</link>
@@ -1839,30 +1859,6 @@ Hunt for REG_LINK registry keys with SymbolicLinkValue data containing "Policies
       <source url="https://x.com/DFIR_Radar/status/2058141755565080821">DFIR Radar</source>
       <pubDate>Sat, 23 May 2026 11:03:28 +0000</pubDate>
       <guid isPermaLink="false">2058141755565080821</guid>
-    </item>
-    <item>
-      <title>GENTLEMEN RANSOMWARE LEAKS</title>
-      <link>https://theravenfile.com/2026/05/23/gentlemen-ransomware-leaks/</link>
-      <description>Massive leak exposes internal operations of Gentlemen ransomware group: 15 operator identities, victim attack flows, and 420+ compromises since September 2025. Group specializes in FortiGate exploitation for initial access.
-
-Key technical details from leaked artifacts:
-• Primary attack vector: FortiGate SSL-VPN brute force using common creds (admin/admin123!, root/gentle26) followed by config dumping and LDAP credential theft
-• 15 identified operators with SHA-512 hashed passwords on shared Synology NAS (usernames: 3NT3R, B1d3n, C0CA, zeta88, etc.)
-• MEGA cloud exfiltration infrastructure: primary Russian 🇷🇺 IP 178[.]130[.]46[.]120 across 5 sessions, rclone v1.71.0 for bulk transfers
-• Custom ransomware deployment: "locker.exe --password &lt;pass&gt; --full --ultrafast --keep" via PsExec and GPO distribution
-
-Attack chain methodology:
-• Initial access via FortiGate panel compromise → SSL-VPN tunnel setup → domain credential harvesting → lateral movement with NetExec scanning → ransomware deployment with EDR evasion
-
-Failed operations reveal defensive opportunities: STATUS_TRUSTED_RELATIONSHIP_FAILURE domain errors, ESET EDR blocking GPO-deployed payloads, and manual encryption required for locked cluster files.
-
-Hunt for FortiGate admin panels with recent authentication failures, monitor for MEGAsync/rclone processes on domain controllers, and baseline normal GPO deployment patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058096316807336423</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2058096316807336423">DFIR Radar</source>
-      <pubDate>Sat, 23 May 2026 08:02:54 +0000</pubDate>
-      <guid isPermaLink="false">2058096316807336423</guid>
     </item>
   </channel>
 </rss>
