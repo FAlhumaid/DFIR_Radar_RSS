@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 29 May 2026 07:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 00:04:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malicious npm packages abuse dependency confusion to profile developer environments</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/05/29/33-malicious-npm-packages-abuse-dependency-confusion-profile-developer-environments/</link>
+      <description>Microsoft uncovers active supply chain attack: malicious npm packages deployed across 9 organizational scopes using dependency confusion to profile developer environments and steal credentials. Campaign attributed to single operator across 3 fake maintainer accounts.
+
+Attack details:
+- 45 malicious packages published May 28-29, 2026 targeting internal corporate namespaces (@cloudplatform-single-spa, @wb-track, @data-science, @sber-ecom-core, etc.)
+- Obfuscated postinstall hook downloads reconnaissance payload from oob.moika[.]tech using hardcoded X-Secret header l95HdDaz3kQx1Zsg3WxH6HvKANf51RY1
+- Two-phase architecture: current RECON_ONLY mode for environment fingerprinting, server-side toggle for full exploitation
+- CI/CD bypass checks, cache deduplication at ~/.cache/._&lt;scope&gt;_init/, platform-specific payloads (Windows/macOS/Linux)
+- Actor evolution: bug bounty researcher (2024) → supply chain attacker (2026)
+
+DFIR artifacts:
+- Dropped payloads: ._&lt;scope&gt;_init.js in os.tmpdir()
+- Environment variables: *_RECON_ONLY=1, *_SECRET, *_PKG, *_VER
+- Cache directories: ~/.cache/._&lt;scope&gt;_init/
+- Network: HTTPS to oob.moika[.]tech/payload/&lt;platform&gt;
+
+Hunt for Node.js processes with outbound connections to low-reputation domains and check package-lock.json for affected scopes. Full hunting queries and IOCs in Microsoft's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061237430452420980</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2061237430452420980">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 00:04:34 +0000</pubDate>
+      <guid isPermaLink="false">2061237430452420980</guid>
+    </item>
     <item>
       <title>Kimsuky Deploys HTTPSpy, Expands Arsenal with HelloDoor and VS Code Tunnels</title>
       <link>https://thehackernews.com/2026/05/kimsuky-deploys-httpspy-expands-arsenal.html</link>
@@ -1738,17 +1764,6 @@ Hunt for WinRE tampering via reagentc /info output and check Secure Boot certifi
       <source url="https://x.com/DFIR_Radar/status/2057719042258170218">DFIR Radar</source>
       <pubDate>Fri, 22 May 2026 07:03:45 +0000</pubDate>
       <guid isPermaLink="false">2057719042258170218</guid>
-    </item>
-    <item>
-      <title>How to Use EDR Telemetry in DFIR: 3 Investigation Methods Compared</title>
-      <link>https://www.cybertriage.com/blog/how-to-use-edr-telemetry-in-dfir-3-investigation-methods-compared/</link>
-      <description>New comparison guide breaks down 3 EDR telemetry investigation methods: console queries, Excel exports, and dedicated DFIR platforms. Investigation platforms detect suspicious activity missed by EDR consoles in timeline analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057658386418716678</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2057658386418716678">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 03:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2057658386418716678</guid>
     </item>
   </channel>
 </rss>
