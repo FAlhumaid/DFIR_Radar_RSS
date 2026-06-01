@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 18:03:30 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 19:02:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Re: CIFSwitch: Linux kernel/cifs-utils local root via forged cifs.spnego upcall</title>
+      <link>https://seclists.org/oss-sec/2026/q2/767</link>
+      <description>CVE-2026-46243: CIFSwitch exploit enables unprivileged users to gain root access on Linux systems through forged CIFS SPNEGO upcalls. Affects wide range of distributions including Ubuntu, Debian, SUSE, and enterprise distros.
+
+Technical details:
+• Exploitation requires cifs-utils installed + CIFS kernel module loadable + unprivileged namespaces enabled
+• Attacker calls request_key("cifs.spnego",...) with forged description containing malicious pid/uid/creduid fields
+• cifs.upcall runs as root, trusts attacker-supplied data, switches into malicious mount namespace
+• Private namespace with controlled /etc/nsswitch.conf and libnss_*.so.2 achieves root code execution
+
+Attack chain:
+• User creates private mount namespace with weaponized NSS configuration files
+• Triggers request_key() with forged SPNEGO description pointing to malicious namespace
+• Root helper cifs.upcall performs NSS lookup in attacker-controlled environment
+• Malicious shared libraries execute with root privileges before privilege drop
+
+DFIR artifacts:
+• Monitor for unusual request_key syscalls with "cifs.spnego" type from unprivileged processes
+• Check /proc/*/ns/mnt for suspicious private mount namespaces
+• Audit /etc/nsswitch.conf modifications and non-standard libnss_*.so.2 libraries
+
+Immediate mitigations: Block CIFS module loading, override /etc/request-key.d/cifs.spnego.conf rule, or disable unprivileged namespaces. Kernel fix queued for stable releases.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061523816472318066</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2061523816472318066">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 19:02:34 +0000</pubDate>
+      <guid isPermaLink="false">2061523816472318066</guid>
+    </item>
     <item>
       <title>31 Red Hat npm packages backdoored in 72 seconds</title>
       <link>https://www.reversinglabs.com/blog/31-red-hat-cloud-service-npm-packages-backdoored-in-72-seconds</link>
@@ -1833,32 +1863,6 @@ Hunt for FortiGate admin panels with recent authentication failures, monitor for
       <source url="https://x.com/DFIR_Radar/status/2058096316807336423">DFIR Radar</source>
       <pubDate>Sat, 23 May 2026 08:02:54 +0000</pubDate>
       <guid isPermaLink="false">2058096316807336423</guid>
-    </item>
-    <item>
-      <title>Analyzing Void Dokkaebi’s Cython-Compiled InvisibleFerret Malware</title>
-      <link>https://www.trendmicro.com/en_us/research/26/e/analyzing-void-dokkaebi-invisibleferret-malware.html</link>
-      <description>North Korean 🇰🇵 Void Dokkaebi evolves InvisibleFerret malware from Python scripts to Cython-compiled binaries (.pyd/.so files), targeting cryptocurrency developers with enhanced evasion capabilities while preserving core backdoor, credential theft, and wallet trojanization functions.
-
-Technical evolution details:
-• InvisibleFerret now distributed as mod.pyd (Windows) and mod.so (macOS) rather than readable Python scripts
-• BeaverTail expanded from downloader to full malware suite with 4 variants: gjs (stealer/downloader), njs (backdoor), zjs (browser theft), cjs (wallet trojan)
-• Cython compilation preserves forensic artifacts: PyInit_ exports, embedded file paths, Zlib-compressed string tables with XOR-encoded C2 IPs
-• Chrome browser downgrade attack on macOS to bypass Manifest V3 restrictions for wallet extension tampering
-• Cross-platform targeting maintains same deobfuscation logic: lambda reversal + Base64 decode + Zlib decompress
-
-DFIR artifacts remain recoverable:
-• Export table functions reveal module names (PyInit_mod)
-• Build environment paths: /Users/administrator/Pictures/Work/py_module_work/
-• String tables contain XOR-encoded C2s decodable with embedded keys
-• Python execution scripts (.mod, pad0, brw0) pass runtime arguments including sType identifiers
-
-Hunt for .pyd/.so files in developer directories, unsigned Python extension modules with recent timestamps, and Chrome version downgrades on macOS.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057990968867996051</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2057990968867996051">DFIR Radar</source>
-      <pubDate>Sat, 23 May 2026 01:04:18 +0000</pubDate>
-      <guid isPermaLink="false">2057990968867996051</guid>
     </item>
   </channel>
 </rss>
