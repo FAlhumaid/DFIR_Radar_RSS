@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 01 Jun 2026 16:02:53 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2026 17:03:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-4387: StrongDM State File Reuse</title>
+      <link>https://specterops.io/blog/2026/06/01/cve-2026-4387-strongdm-state-file-reuse/</link>
+      <description>CVE-2026-4387: Critical StrongDM flaw allowed attackers to steal and reuse authentication state files across hosts for persistent access. Plaintext JWT and key pairs in user directories enabled session hijacking without credential theft.
+
+Key technical details:
+• Vulnerable path: C:\Users\&lt;username&gt;\.sdm\state.kv contained JWT + RSA key pairs in plaintext
+• Attack vector: Copy state.kv between hosts, replace victim's file, gain authenticated access to infrastructure
+• Required permissions: User-level access only (no admin rights needed)
+• Affected versions: All prior to Desktop 23.74.0 and CLI 53.77.0
+• Local endpoint http://127.0.0.1:65220/v2/authentication leaked JWTs with simple no-cors header
+
+Attack methodology:
+• Exfiltrate state.kv from authenticated user's workstation
+• Deploy on attacker-controlled host with StrongDM installed
+• Replace local state file after application launch for higher success rate
+• Automatic session refresh provides full access to victim's StrongDM resources
+
+DFIR artifacts:
+• Monitor file access to .sdm\state.kv via Process Monitor or Sysmon Event ID 11
+• Check for unusual StrongDM CLI connections from non-standard hosts/IPs
+• Audit authentication logs for sessions from unexpected geographic locations
+
+Hunt for recent state.kv file modifications and cross-reference with StrongDM process execution outside normal user patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061493777550758318</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2061493777550758318">DFIR Radar</source>
+      <pubDate>Mon, 01 Jun 2026 17:03:12 +0000</pubDate>
+      <guid isPermaLink="false">2061493777550758318</guid>
+    </item>
     <item>
       <title>Investigating suspicious AI workflows in Microsoft Entra Agent ID: Agent’s user account</title>
       <link>https://redcanary.com/blog/threat-detection/entra-id-ai-workflows-teams/</link>
@@ -1812,17 +1843,6 @@ Hunt for .pyd/.so files in developer directories, unsigned Python extension modu
       <source url="https://x.com/DFIR_Radar/status/2057945317253775701">DFIR Radar</source>
       <pubDate>Fri, 22 May 2026 22:02:53 +0000</pubDate>
       <guid isPermaLink="false">2057945317253775701</guid>
-    </item>
-    <item>
-      <title>UNC2891 Bank Heist Explained: CAKETAP Rootkit and Raspberry Pi Attack</title>
-      <link>https://www.picussecurity.com/resource/blog/unc2891-bank-heist-explained-caketap-rootkit-and-raspberry-pi-attack</link>
-      <description>UNC2891 physically planted 4G-enabled Raspberry Pi on ATM network switch, then used CAKETAP rootkit to manipulate Payment HSM messages and bypass card verification for fraudulent cash withdrawals.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2057930120690577500</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2057930120690577500">DFIR Radar</source>
-      <pubDate>Fri, 22 May 2026 21:02:30 +0000</pubDate>
-      <guid isPermaLink="false">2057930120690577500</guid>
     </item>
   </channel>
 </rss>
