@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jun 2026 05:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 02 Jun 2026 06:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The KQL Query That Caught 260 Brute Force Attempts in Microsoft Sentinel</title>
+      <link>https://infosecwriteups.com/the-kql-query-that-caught-260-brute-force-attempts-in-microsoft-sentinel-b305b68afb69?source=rss----7b722bfd1b8d---4</link>
+      <description>Custom KQL rule in Microsoft Sentinel successfully caught 260 SSH brute force attempts across 3 attack waves in 28 minutes. Rate-based detection prevented alert fatigue while maintaining 100% detection accuracy.
+
+Technical breakdown:
+• Rule queries Syslog table filtering authpriv facility for "Failed password" and "authentication failure" messages
+• Uses bin(TimeGenerated, 5m) to aggregate events into 5-minute windows, counting failures per timeframe
+• Threshold set at &gt;10 failures per 5-minute window to distinguish automated attacks from legitimate user errors
+• Maps to MITRE T1110.001 (Brute Force: Password Guessing) with High severity auto-incident generation
+• Attack sourced from 10.0.0.100 targeting Ubuntu server with zero successful authentications
+
+Key detection logic:
+```
+Syslog 
+| where Facility == "authpriv"
+| where SyslogMessage contains "Failed password" or SyslogMessage contains "authentication failure"
+| summarize FailedAttempts = count() by Computer, HostName, bin(TimeGenerated, 5m)
+| where FailedAttempts &gt; 10
+```
+
+Hunt for similar patterns using rate-based aggregation instead of per-event alerting. This approach reduces noise while maintaining detection fidelity for automated attacks.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061689950148710718</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2061689950148710718">DFIR Radar</source>
+      <pubDate>Tue, 02 Jun 2026 06:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2061689950148710718</guid>
+    </item>
     <item>
       <title>Unauthenticated Privilege Escalation Vulnerability Patched in Kirki WordPress Plugin</title>
       <link>https://www.wordfence.com/blog/2026/06/unauthenticated-privilege-escalation-vulnerability-patched-in-kirki-wordpress-plugin/</link>
@@ -1832,17 +1861,6 @@ Immediate mitigation: Update iOS beyond 16.7.12.
       <source url="https://x.com/DFIR_Radar/status/2058881583508070818">DFIR Radar</source>
       <pubDate>Mon, 25 May 2026 12:03:17 +0000</pubDate>
       <guid isPermaLink="false">2058881583508070818</guid>
-    </item>
-    <item>
-      <title>Lazarus Deploys RemotePE Memory-Only RAT Against Financial and Crypto Firms</title>
-      <link>https://thehackernews.com/2026/05/lazarus-deploys-remotepe-memory-only.html</link>
-      <description>North Korean 🇰🇵 Lazarus Group deploys new cross-platform RemotePE RAT against financial and crypto firms. Memory-only execution via multi-stage loader chain including DPAPILoader and RemotePELoader.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058866433342275774</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2058866433342275774">DFIR Radar</source>
-      <pubDate>Mon, 25 May 2026 11:03:05 +0000</pubDate>
-      <guid isPermaLink="false">2058866433342275774</guid>
     </item>
   </channel>
 </rss>
