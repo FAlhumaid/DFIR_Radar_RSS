@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jun 2026 06:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 02 Jun 2026 07:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GoDaddy found malware on 1,980 WordPress sites using Steam as C2 infrastructure</title>
+      <link>https://securityaffairs.com/192990/breaking-news/godaddy-found-malware-on-1980-wordpress-sites-using-steam-as-c2-infrastructure.html</link>
+      <description>GoDaddy discovers malware campaign affecting 1,980 WordPress sites that hides C2 instructions in Steam gaming platform profile comments using invisible Unicode encoding. Attackers abuse globally trusted gaming infrastructure for command and control.
+
+Key technical details:
+• Malware uses 6 invisible Unicode chars (U+200C, U+200D, U+2061-2064) embedded in Steam comments that appear as ASCII art
+• Decoding: strips visible chars → maps invisible chars to 0-5 → converts to binary → applies bitwise NOT → optional AES-256-CTR encryption
+• Payload fetches malicious JS from hello-mywordl[.]info masquerading as lodash.core.min.js library
+• Backdoor listens for cookies DEpjndDbNc (ping) and tEcaKKXEsb (code execution via base64 POST parameter new_code)
+
+Attack persistence:
+• JavaScript injected via wp_enqueue_scripts hook with handle "asahi-jquery-min-bundle" 
+• Self-updating capability overwrites plugin/theme files with new malicious code
+• Survives partial cleanup - can reinstall removed components through backdoor
+
+Hunt for outbound connections to steamcommunity[.]com from WordPress servers, invisible Unicode arrays in PHP files, and cryptographic functions in unexpected locations.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061705027912351874</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2061705027912351874">DFIR Radar</source>
+      <pubDate>Tue, 02 Jun 2026 07:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2061705027912351874</guid>
+    </item>
     <item>
       <title>The KQL Query That Caught 260 Brute Force Attempts in Microsoft Sentinel</title>
       <link>https://infosecwriteups.com/the-kql-query-that-caught-260-brute-force-attempts-in-microsoft-sentinel-b305b68afb69?source=rss----7b722bfd1b8d---4</link>
@@ -1828,39 +1852,6 @@ Hunt for recent dependency additions in package.json, requirements.txt, Cargo.to
       <source url="https://x.com/DFIR_Radar/status/2058896637209301228">DFIR Radar</source>
       <pubDate>Mon, 25 May 2026 13:03:06 +0000</pubDate>
       <guid isPermaLink="false">2058896637209301228</guid>
-    </item>
-    <item>
-      <title>Zero-Click WhatsApp Account Takeover Hits iPhone Users Running iOS 16. No Linked Devices, No Warning</title>
-      <link>https://securityaffairs.com/192627/security/zero-click-whatsapp-account-takeover-hits-iphone-users-running-ios-16-no-linked-devices-no-warning.html</link>
-      <description>Zero-click WhatsApp account takeover exploiting iOS 16 vulnerabilities allows attackers to hijack accounts without user interaction or visible linked devices. Italian 🇮🇹 forensics firm documents active campaign targeting unpatched iPhones.
-
-Key technical details:
-• Exploits CVE-2025-43300 (ImageIO out-of-bounds write) + CVE-2025-55177 (WhatsApp URL parsing flaw)
-• Affects iOS versions below 16.7.12 across iPhone 8-14 models
-• Continuous "resync" events in unified logs indicate session competition between victim and attacker
-• Attackers extract cryptographic material for session handshake, instantiate parallel WhatsApp client
-• No linked devices visible in app settings - operates through session contention rather than traditional device pairing
-
-Attack methodology:
-• Zero-click exploitation requires no victim interaction (no QR codes, verification codes, or links)
-• Targets recent chat conversations for money transfer requests
-• Cannot access older/archived chats due to session limitations
-• ImageIO library errors in logs correlate with compromise timing
-
-DFIR artifacts:
-• iOS unified logs show unusual WhatsApp resync event patterns
-• Sysdiagnose data reveals ImageIO processing errors during compromise window
-• Session authentication conflicts create distinctive log signatures
-
-Impact: Active campaign targeting iOS 16 users globally for financial fraud via compromised messaging.
-
-Immediate mitigation: Update iOS beyond 16.7.12.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058881583508070818</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2058881583508070818">DFIR Radar</source>
-      <pubDate>Mon, 25 May 2026 12:03:17 +0000</pubDate>
-      <guid isPermaLink="false">2058881583508070818</guid>
     </item>
   </channel>
 </rss>
