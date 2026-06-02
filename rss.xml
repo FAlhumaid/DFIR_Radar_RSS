@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 02 Jun 2026 08:02:28 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 02 Jun 2026 09:02:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Miasma Malware Targets Red Hat npm Packages in New Supply Chain Attack</title>
+      <link>https://thecyberexpress.com/miasma-shai-hulud-supply-chain-attack/</link>
+      <description>Miasma malware compromises Red Hat npm packages in sophisticated supply chain attack, stealing credentials and spreading through CI/CD pipelines using worm-like behavior. Builds on Shai-Hulud tactics with GitHub abuse for verified malicious commits.
+
+Key technical details:
+• Targets 7 @redhat-cloud-services packages with install-time execution and encrypted exfiltration to api.anthropic[.]com:443/v1/api
+• Abuses GitHub API via stolen tokens to inject malicious workflows in action.yml files using createCommitOnBranch mutations (T1199)
+• Establishes persistence through ~/.claude/settings.json SessionStart hooks and .vscode/tasks.json with "runOn": "folderOpen"
+• Detects EDR products (CrowdStrike, SentinelOne, Carbon Black) before payload execution
+• Attempts privilege escalation by bind-mounting /etc/sudoers.d in containers for passwordless sudo access
+
+Attack originated from compromised Red Hat employee GitHub account used to push malicious orphan commits, bypassing code review processes.
+
+Hunt for unexpected modifications to developer tool configs, orphan commits in repositories, and outbound connections to anthropic[.]com from CI/CD systems. Full package list and IOCs in Socket's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061735239060234576</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2061735239060234576">DFIR Radar</source>
+      <pubDate>Tue, 02 Jun 2026 09:02:41 +0000</pubDate>
+      <guid isPermaLink="false">2061735239060234576</guid>
+    </item>
     <item>
       <title>Uncovering the Blind Spot: Bypassing a Security Patch (CVE-2026–24884) to Achieve Arbitrary File…</title>
       <link>https://infosecwriteups.com/uncovering-the-blind-spot-bypassing-a-security-patch-cve-2026-24884-to-achieve-arbitrary-file-bc385eaa73fa?source=rss----7b722bfd1b8d---4</link>
@@ -1820,38 +1842,6 @@ DFIR practitioners should prioritize volatile WAL artifact preservation in first
       <source url="https://x.com/DFIR_Radar/status/2058942088272658588">DFIR Radar</source>
       <pubDate>Mon, 25 May 2026 16:03:42 +0000</pubDate>
       <guid isPermaLink="false">2058942088272658588</guid>
-    </item>
-    <item>
-      <title>TrapDoor: Malicious npm, PyPI, Crates.io Packages Target Developer Secrets &amp; AI Tooling</title>
-      <link>https://socradar.io/blog/trapdoor-npm-pypi-cratesio-secrets-ai-tooling/</link>
-      <description>Cross-ecosystem supply chain attack TrapDoor deployed 34+ malicious packages across npm, PyPI, and Crates.io targeting developer secrets and AI tooling. Campaign active since May 22, 2026, with 380+ affected versions focusing on crypto/DeFi and Solana developers.
-
-Technical details:
-• Rust packages abuse build.rs scripts for execution during compilation (T1195.001)
-• npm packages drop shared payload "trap-core.js" for modular infection chains
-• Targets environment variables, GitHub tokens, SSH keys, AWS credentials, crypto wallets
-• Persistence via Git hooks, .cursorrules, CLAUDE.md, systemd, cron, SSH mechanisms
-• "AI assistant poisoning" - modifies .cursorrules and CLAUDE.md files to influence AI coding tools
-
-Attack chain:
-• Initial access via legitimate dependency installation during builds
-• Token validation to prioritize high-value credentials before exfiltration
-• SSH-based lateral movement attempts for network expansion
-• Multi-vector persistence beyond single install events
-
-DFIR artifacts:
-• Suspicious packages added May 22-25, 2026 in dependency manifests
-• Unexpected modifications to AI instruction files (.cursorrules, CLAUDE.md)
-• Git hook tampering and shell initialization file changes
-• Outbound connections during build processes from ephemeral environments
-
-Hunt for recent dependency additions in package.json, requirements.txt, Cargo.toml and review AI instruction files for unauthorized modifications.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2058926870188466239</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2058926870188466239">DFIR Radar</source>
-      <pubDate>Mon, 25 May 2026 15:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2058926870188466239</guid>
     </item>
   </channel>
 </rss>
