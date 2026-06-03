@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 03 Jun 2026 13:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jun 2026 14:04:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside the Cross-Platform Propagation of a New Gafgyt Variant C0XMO</title>
+      <link>https://feeds.fortinet.com/~/957685901/0/fortinet/blog/threat-research~Inside-the-CrossPlatform-Propagation-of-a-New-Gafgyt-Variant-CXMO</link>
+      <description>New Gafgyt variant C0XMO exploits DD-WRT routers via CVE-2021-27137, features modular Python-based lateral movement and targets multiple Linux architectures. Advanced botnet shows operational evolution.
+
+Technical breakdown:
+• Exploits stack buffer overflow in DD-WRT UPnP service via malformed SSDP M-SEARCH requests on UDP 1900
+• Multi-stage persistence: copies to /tmp/.sys, /var/tmp/.sys, /dev/shm/.sys with cron jobs every 15 minutes
+• Separates scanning into standalone Python script using paramiko, requests, beautifulsoup4 packages
+• C2 handshake uses magic string 669787761736865726500 + shared secret to 85[.]215[.]131[.]70
+• Supports 19 DDoS attack methods including UDP bypass, TCP floods, NTP amplification, Cloudflare bypass
+
+Attack chain:
+• Initial access via CVE-2021-27137 buffer overflow targeting Japanese 🇯🇵 tech firm from Germany 🇩🇪
+• Downloads architecture-specific binaries (ARM, MIPS, x86_64, PowerPC) to /tmp/.cache
+• Python scanner targets Telnet/SSH weak credentials + HTTP exploits (GLPI, AVTECH, Zyxel)
+• Terminates competing botnets and removes rival persistence mechanisms
+
+Hunt for hidden executables in /tmp/.sys, /var/tmp/.sys with 755 permissions and outbound connections to 85[.]215[.]131[.]70 or 217[.]160[.]125[.]125:15527.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062173503051485436</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2062173503051485436">DFIR Radar</source>
+      <pubDate>Wed, 03 Jun 2026 14:04:11 +0000</pubDate>
+      <guid isPermaLink="false">2062173503051485436</guid>
+    </item>
     <item>
       <title>The sorry state of skill distribution</title>
       <link>https://blog.trailofbits.com/2026/06/03/the-sorry-state-of-skill-distribution/</link>
@@ -1741,30 +1767,6 @@ Hunt for Android apps requesting Accessibility Services permissions combined wit
       <source url="https://x.com/DFIR_Radar/status/2059545897584021910">DFIR Radar</source>
       <pubDate>Wed, 27 May 2026 08:03:01 +0000</pubDate>
       <guid isPermaLink="false">2059545897584021910</guid>
-    </item>
-    <item>
-      <title>eBPF rootkits and the Volatility blind spot in Linux memory forensics</title>
-      <link>https://andreafortuna.org/2026/05/27/ebpf-rootkits/</link>
-      <description>New Volatility 3 plugin exposes eBPF rootkits by walking kernel memory structures directly, bypassing syscall manipulation used by advanced Linux malware like LinkPro to hide from bpftool and live system analysis.
-
-eBPF rootkits exploit kernel primitives designed for security monitoring:
-• Traditional LKM rootkits required unsigned modules (loud), eBPF runs in kernel VM via bpf() syscall (stealthy)
-• LinkPro hides via sys_bpf interception + magic packet activation (TCP window size 54321)
-• Suspicious helpers: bpf_override_return (getdents tampering), bpf_probe_write_user (userspace memory writes)
-• Plugin walks prog_idr radix tree in memory dump, extracts program names/types/helpers for classification
-
-Real-world examples demonstrate operational maturity:
-• TripleCross: backdoor activation, process injection, execution hijacking via eBPF
-• Pamspy: credential harvesting through PAM uprobes without kernel modules
-• LinkPro: layered hiding (kernel-level + userspace fallback via /etc/ld.so.preload)
-
-Memory forensics regains advantage over live analysis. Acquire memory via hypervisor/cloud snapshots before trusting live tools. Run `vol.py linux.ebpf_programs --dump` to extract JIT binaries for disassembly.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059530999609057330</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2059530999609057330">DFIR Radar</source>
-      <pubDate>Wed, 27 May 2026 07:03:49 +0000</pubDate>
-      <guid isPermaLink="false">2059530999609057330</guid>
     </item>
   </channel>
 </rss>
