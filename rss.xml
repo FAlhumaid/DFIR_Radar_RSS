@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 03 Jun 2026 16:03:49 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jun 2026 17:03:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Actively Exploiting Critical Vulnerability in Everest Forms Pro Plugin</title>
+      <link>https://www.wordfence.com/blog/2026/06/attackers-actively-exploiting-critical-vulnerability-in-everest-forms-pro-plugin/</link>
+      <description>Critical RCE in Everest Forms Pro WordPress plugin under mass exploitation since April. Unauthenticated attackers inject PHP code via form fields to create admin accounts and achieve full site compromise.
+
+Key technical details:
+• CVE-2026-3300, CVSS 9.8 - affects versions ≤1.9.12, patched in 1.9.13
+• Flaw in process_filter() function concatenates unsanitized user input into eval() statement
+• Exploits target "Complex Calculation" feature by breaking string quotes with malicious PHP
+• Over 29,300 blocked attempts since disclosure, peak exploitation on May 16th with 17,900 attempts
+
+Attack methodology:
+• Single quote injection in text/email/select/radio fields: `';[malicious_php];//`
+• Most common payload creates "diksimarina" admin account via wp_insert_user()
+• No authentication required, immediate server-side code execution
+• Leads to webshell deployment and persistent backdoors
+
+DFIR artifacts:
+• Check WordPress user tables for suspicious admin accounts, especially "diksimarina"
+• Review web logs for POST requests to /wp-admin/admin-ajax.php with everest_forms parameters
+• Monitor top attacking IPs: 202[.]56[.]2[.]126, 209[.]146[.]60[.]26, 15[.]235[.]166[.]18
+
+Hunt for recently created WordPress admin accounts and correlate with form submission logs containing single quotes followed by PHP function calls.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062218634080997801</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2062218634080997801">DFIR Radar</source>
+      <pubDate>Wed, 03 Jun 2026 17:03:31 +0000</pubDate>
+      <guid isPermaLink="false">2062218634080997801</guid>
+    </item>
     <item>
       <title>Embedded Threats: How Attackers Weaponize Legitimate Emails</title>
       <link>https://cofense.com/blog/embedded-threats-how-attackers-weaponize-legitimate-emails</link>
@@ -1759,17 +1789,6 @@ DFIR teams should hunt for connections to sinkhole IP 164[.]92[.]88[.]210 - any 
       <source url="https://x.com/DFIR_Radar/status/2059591397334798636">DFIR Radar</source>
       <pubDate>Wed, 27 May 2026 11:03:49 +0000</pubDate>
       <guid isPermaLink="false">2059591397334798636</guid>
-    </item>
-    <item>
-      <title>OverlayPhantom Android Banking Trojan Targets 180+ Financial Apps Across 10 Countries</title>
-      <link>https://thecyberexpress.com/overlayphantom-android-banking-trojan/</link>
-      <description>OverlayPhantom Android banking trojan targets 180+ financial apps across 10 countries using phishing overlays, real-time screen streaming, and Accessibility Service abuse. C&amp;C at 199[.]217[.]99[.]122 with multi-port infrastructure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059576263434809733</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2059576263434809733">DFIR Radar</source>
-      <pubDate>Wed, 27 May 2026 10:03:41 +0000</pubDate>
-      <guid isPermaLink="false">2059576263434809733</guid>
     </item>
   </channel>
 </rss>
