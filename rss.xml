@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 03 Jun 2026 04:02:23 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jun 2026 06:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Preinstall to persistence: Inside the Red Hat npm Miasma credential-stealing campaign</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/06/02/preinstall-persistence-inside-red-hat-npm-miasma-credential-stealing-campaign/</link>
+      <description>Microsoft disrupts "Miasma" campaign: massive npm supply chain attack compromised 32 @redhat-cloud-services packages through CI/CD hijacking. Attackers used legitimate GitHub OIDC workflow to publish trojanized packages with authentic provenance signatures.
+
+Key technical details:
+• 4.29MB obfuscated dropper (SHA256: 396cac9e457ec54ff6d3f6311cb5cc1da8054d019ce3ffa1de5741506c7a4ea4) triggers via npm preinstall hook
+• Multi-layer obfuscation: ROT-XX → AES-128-GCM → Obfuscator.io → custom PBKDF2 cipher (200k iterations)
+• Downloads Bun runtime to evade Node.js monitoring, creating process chain: node → shell → bun → payload
+• Harvests credentials from GitHub, AWS, Azure, GCP, HashiCorp Vault, K8s via IMDS and runner memory scraping
+
+Attack methodology:
+• Compromised RedHatInsights/javascript-clients CI/CD pipeline to publish legitimate-looking packages
+• Environment gating prevents execution on systems with limited locale configurations
+• Privilege escalation via passwordless sudo injection: `echo 'runner ALL=(ALL) NOPASSWD:ALL' &gt; /mnt/runner`
+• Memory scraping extracts GitHub Actions secrets: `tr -d '\0' | grep -aoE '"[^"]+":{"value":"[^"]*","isSecret":true}'`
+
+Exfiltration channels:
+• Creates victim-owned GitHub repos named "Miasma: The Spreading Blight" for credential dumps
+• Injects `.github/setup.js` into non-protected branches across victim repositories
+• Forges SLSA provenance attestations through Sigstore for legitimacy
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062052338156679589</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2062052338156679589">DFIR Radar</source>
+      <pubDate>Wed, 03 Jun 2026 06:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2062052338156679589</guid>
+    </item>
     <item>
       <title>One Agent, Five Zero-Days: Turning Past CVEs Into SAST Rules</title>
       <link>https://infosecwriteups.com/one-agent-five-zero-days-turning-past-cves-into-sast-rules-650c32b20032?source=rss----7b722bfd1b8d---4</link>
@@ -1730,36 +1758,6 @@ Hunt for apps requesting Accessibility Service permissions with recent installs,
       <source url="https://x.com/DFIR_Radar/status/2059440167950450928">DFIR Radar</source>
       <pubDate>Wed, 27 May 2026 01:02:53 +0000</pubDate>
       <guid isPermaLink="false">2059440167950450928</guid>
-    </item>
-    <item>
-      <title>From poisoned search results to GPU mining: A cryptojacking campaign abusing ScreenConnect and Microsoft .NET utilities</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/05/26/poisoned-search-results-gpu-mining-cryptojacking-campaign-abusing-screenconnect-microsoft-net-utilities/</link>
-      <description>Microsoft identifies sophisticated cryptojacking campaign using AI chatbot poisoning and targeting GPU mining systems. Attackers impersonate trusted utilities, deploy ScreenConnect for persistence, and hollow Microsoft-signed .NET binaries.
-
-Key technical details:
-• Initial access via SEO poisoning + novel AI chatbot manipulation directing users to malicious domains on gleeze[.]com infrastructure
-• Impersonates CrystalDiskInfo, HWMonitor, DDU, FurMark targeting users likely to own high-performance GPUs
-• DLL sideloading (autorun.dll) → silent ScreenConnect deployment → SimpleRunPE dropper with process hollowing (T1055.012)
-• Hollows into Microsoft-signed .NET utilities: InstallUtil.exe, RegAsm.exe, MSBuild.exe, RegSvcs.exe (T1055.012)
-
-Attack artifacts:
-• C2: wss[:]//minemine.gleeze[.]com:8443/ws with hardcoded TLS certificate pinning
-• Persistence: 6 mechanisms including scheduled tasks "Windows System Health*" + registry Run keys
-• Install path: %LocalAppData%\Microsoft\Windows\Caches\D3F4E2A1\RuntimeHost.exe
-• Mutex: Global\D3F4E2A1_Svc (campaign identifier)
-
-Evasion tactics:
-• Adds 13 Defender exclusions via Add-MpPreference PowerShell cmdlet
-• Anti-VM/analysis checks against 40+ analyst tools (dnSpy, x64dbg, IDA, Ghidra, ProcMon)
-• GPU usage monitoring - terminates mining when user activity detected
-
-Hunt for unsigned DLLs named autorun.dll in Downloads/Temp folders followed by silent msiexec activity. Monitor .
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059425307770159177</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2059425307770159177">DFIR Radar</source>
-      <pubDate>Wed, 27 May 2026 00:03:50 +0000</pubDate>
-      <guid isPermaLink="false">2059425307770159177</guid>
     </item>
   </channel>
 </rss>
