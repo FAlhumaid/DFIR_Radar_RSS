@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Jun 2026 14:03:24 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jun 2026 15:02:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Detection &amp; Response Chronicles: Covert Operations Through QEMU</title>
+      <link>https://blog.nviso.eu/2026/06/04/the-detection-response-chronicles-covert-operations-through-qemu/</link>
+      <description>NVISO investigation reveals adversaries deploying QEMU virtual machines containing malicious payloads to establish covert C2 channels, bypassing host-based AV/EDR detection through VM isolation.
+
+Technical breakdown:
+• QEMU launched with Linux disk image `vault[.]db` containing SSH tunneling scripts and Adaptix C2 beacon
+• Port forwarding enabled via `-netdev user,id=net0,hostfwd=tcp::22022-:22` for SSH access on port 22022
+• Persistence via crontab executing `/sbin/syslogdb.sh` (SSH tunnel) and `/sbin/syslogda.sh` (C2 beacon) at boot
+• SSH tunnel to C2 over TCP 443 with local port forwarding: `-L 127.0.0.1:33443:127.0.0.1:33443`
+• Alternative technique uses QEMU socket networking for tunneling without disk image transfer
+
+MITRE TTPs:
+• T1055.012 (Process Hollowing via VM isolation)
+• T1572 (Protocol Tunneling via SSH over 443)
+• T1053.003 (Cron-based persistence)
+
+Detection opportunities:
+• Monitor QEMU execution from unusual locations (`\Users\`, `\temp\`, `/tmp/`, `/home/`)
+• Hunt for suspicious networking args: `hostfwd=`, `restrict=off`, `listen=`, `connect=`
+• Alert on renamed QEMU binaries with characteristic command-line arguments
+• Flag low memory allocation (`-m &lt;100M`) combined with `-nographic` options
+
+Full KQL hunting queries provided in the report for detecting QEMU abuse across Windows environments.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062550593051226459</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2062550593051226459">DFIR Radar</source>
+      <pubDate>Thu, 04 Jun 2026 15:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2062550593051226459</guid>
+    </item>
     <item>
       <title>The NHS Was Lucky. The Next Victim Might Not Be.</title>
       <link>https://thecyberexpress.com/software-supply-chain-attacks-guidance/</link>
@@ -1776,17 +1807,6 @@ Hunt for VS Code extensions with shell integration permissions and audit develop
       <source url="https://x.com/DFIR_Radar/status/2059787537359442124">DFIR Radar</source>
       <pubDate>Thu, 28 May 2026 00:03:13 +0000</pubDate>
       <guid isPermaLink="false">2059787537359442124</guid>
-    </item>
-    <item>
-      <title>How to Extract Android Data with Android Agent</title>
-      <link>https://www.oxygenforensics.com/technical-resources/android-agent/</link>
-      <description>New Android Agent enhancements support internal memory extraction from unlocked Android 9-14 devices with SPL up to June 2024, plus expanded MTK chipset support. Logical and manual extraction methods available via USB/Wi-Fi.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059772220378096035</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2059772220378096035">DFIR Radar</source>
-      <pubDate>Wed, 27 May 2026 23:02:21 +0000</pubDate>
-      <guid isPermaLink="false">2059772220378096035</guid>
     </item>
   </channel>
 </rss>
