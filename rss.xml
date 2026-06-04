@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Jun 2026 21:03:03 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jun 2026 22:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>VerdantBamboo: Just Another BRICKSTORM in the Firewall</title>
+      <link>https://www.volexity.com/blog/2026/06/04/verdantbamboo-just-another-brickstorm-in-the-firewall/</link>
+      <description>VerdantBamboo (Chinese 🇨🇳 APT) maintains 18+ month persistence on network appliances, deploying three custom malware families including .NET Native AOT backdoor to evade EDR detection.
+
+Key details:
+• BRICKSTORM (Golang RAT) deployed on Egnyte Storage Sync, pfSense firewall, Synology NAS
+• PLENET (.NET Core/Native AOT backdoor) - cross-platform implant compiled to static binary
+• AGENTPSD (Python fallback shell) - PyInstaller-packed reverse shell for persistence
+• Privilege escalation via sudo misconfiguration: egnyteservice account could run /usr/bin/tee as root
+• C2 infrastructure: WebSocket protocol, Cloudflare-fronted domains, DNS-over-HTTPS to 8[.]8[.]8[.]8
+
+Attack methodology:
+• Initial compromise via MSP breach - pfSense firewall compromised 18+ months
+• Living-off-the-land: targets appliances without EDR coverage (firewalls, NAS, storage sync)
+• Persistence: /etc/rc.d/cron modification, monthly cron jobs, manual execution
+• Proxy chains through compromised appliances to access M365, bypass Conditional Access
+• Post-eviction return via exposed firewall admin interface with stolen credentials
+
+Hunt for unsigned binaries in /usr/sbin/ with network connections, monitor sudo tee usage, and check appliance cron configurations. Full IOCs available in Volexity report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062656315952898146</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2062656315952898146">DFIR Radar</source>
+      <pubDate>Thu, 04 Jun 2026 22:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2062656315952898146</guid>
+    </item>
     <item>
       <title>How 56 npm packages used binding.gyp to steal CI/CD secrets</title>
       <link>https://www.reversinglabs.com/blog/npm-bindinggyp-cicd-secrets</link>
@@ -1783,38 +1810,6 @@ Hunt for GoogleUpdateTaskMachineQC service with suspicious ImagePath values and 
       <source url="https://x.com/DFIR_Radar/status/2059938575227982172">DFIR Radar</source>
       <pubDate>Thu, 28 May 2026 10:03:23 +0000</pubDate>
       <guid isPermaLink="false">2059938575227982172</guid>
-    </item>
-    <item>
-      <title>No malware, no alerts, just a USB drive in your office</title>
-      <link>https://andreafortuna.org/2026/05/28/silent-ransom-group-usb-physical-attack-dfir/</link>
-      <description>FBI FLASH alert: Silent Ransom Group abandons malware entirely, sends operatives with USB drives to law firms when remote social engineering fails. Over 100 estimated victims, 38 confirmed data leaks.
-
-SRG's evolution from Conti to physical intrusion:
-• 2022-2024: Callback phishing with legitimate RMM tools (Zoho Assist, AnyDesk, Quick Assist)
-• 2025: Direct vishing impersonating internal IT, spoofed helpdesk domains via GoDaddy
-• Spring 2026: Physical operatives pose as IT support, connect USB drives for direct data theft
-• No malware, encryption, or EDR alerts—just social engineering and removable media
-
-Technical artifacts that survive the "clean" attack:
-• RMM tool execution in Prefetch/Shimcache with timestamps
-• WinSCP logs at %APPDATA%\WinSCP\ recording SFTP transfers over port 22
-• Renamed Rclone binaries making API calls to Google Drive/OneDrive
-• USB device records in Event ID 6416 and USBSTOR registry keys
-• MFT timeline showing mass file access patterns during bulk copy operations
-
-Physical intrusion IOCs from FBI FLASH-20260526-01:
-• Unsolicited calls claiming to be internal IT requiring "urgent maintenance"
-• Unidentified individuals on-premises claiming IT support role
-• External drives connected to workstations without authorization
-• Data exfiltration to business-data-leaks[.]com clearnet leak site
-
-MITRE ATT&amp;CK mapping includes T1052.001 (Physical Media), T1219 (Remote Access Software), T1567 (Web Service Exfiltration), T1598.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059923300919153102</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2059923300919153102">DFIR Radar</source>
-      <pubDate>Thu, 28 May 2026 09:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2059923300919153102</guid>
     </item>
   </channel>
 </rss>
