@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Jun 2026 20:02:29 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jun 2026 21:03:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How 56 npm packages used binding.gyp to steal CI/CD secrets</title>
+      <link>https://www.reversinglabs.com/blog/npm-bindinggyp-cicd-secrets</link>
+      <description>Sophisticated supply chain attack targets CI/CD environments via npm packages using binding.gyp files to bypass security audits. Over 286 malicious versions across 56 packages deployed multi-layered encrypted payloads specifically designed to steal secrets from automated build systems.
+
+Key technical details:
+• Attack vector: binding.gyp files execute `node index.js` via GYP shell expansion during npm install, bypassing preinstall/postinstall script audits
+• Payload structure: 4.6MB obfuscated JS files with Caesar cipher → AES-128-GCM decryption → 720KB final payload encrypted with custom SHA-256 stream cipher
+• CI/CD targeting: Detects 30+ environment variables (GITHUB_ACTIONS, GITLAB_CI, TRAVIS, etc.) before credential enumeration
+• Persistence mechanisms: Installs systemd/LaunchAgent services with dead man's switch - token revocation triggers `rm -rf ~/` command
+• Exfiltration: GitHub API dead-drop repos with python-requests/2.31.0 User-Agent, repository names like "thebeautifulmarchoftime"
+
+Campaign scope spans autotel-*, executable-stories-*, awaitly-*, eslint-plugin-*, and node-env-resolver-* package families. Attack timeline: June 3-4, 2026, 56 packages published in under 10 hours with version bumps above legitimate releases.
+
+Detection opportunity: Pure JavaScript packages containing binding.gyp files alongside multi-megabyte index.js files. Monitor for RegAsm.exe network connections and scan for unauthorized ~/.config/systemd/user/ services.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062641300789191129</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2062641300789191129">DFIR Radar</source>
+      <pubDate>Thu, 04 Jun 2026 21:03:03 +0000</pubDate>
+      <guid isPermaLink="false">2062641300789191129</guid>
+    </item>
     <item>
       <title>Gain visibility into DDoS attacks with flow logs in AWS Shield Advanced</title>
       <link>https://aws.amazon.com/blogs/security/gain-visibility-into-ddos-attacks-with-flow-logs-in-aws-shield-advanced/</link>
@@ -1793,31 +1815,6 @@ MITRE ATT&amp;CK mapping includes T1052.001 (Physical Media), T1219 (Remote Acce
       <source url="https://x.com/DFIR_Radar/status/2059923300919153102">DFIR Radar</source>
       <pubDate>Thu, 28 May 2026 09:02:41 +0000</pubDate>
       <guid isPermaLink="false">2059923300919153102</guid>
-    </item>
-    <item>
-      <title>Lazarus, DPAPI, and the art of leaving nothing behind in RemotePE</title>
-      <link>https://andreafortuna.org/2026/05/28/lazarus-remotepe-dpapi-memory-forensics/</link>
-      <description>Lazarus deploys memory-only RAT toolchain using DPAPI encryption and EDR evasion to leave minimal disk forensics footprint. Three-stage RemotePE chain discovered during financial sector incidents, completely bypassing traditional disk-based detection methods.
-
-Technical breakdown:
-• DPAPILoader (T1543.003): Masquerades as Windows IAS service, stores encrypted payloads in C:\ProgramData\Microsoft\Windows\DeviceMetadataStore\en-US\ using DPAPI + XOR 0x8D
-• RemotePELoader implements TartarusGate syscall unhooking and ETW suppression (patches EtwEventWrite with 48 33 C0 C3)
-• RemotePE RAT operates entirely in memory with plugin system, secure file deletion (7-pass overwrite), and out-of-band wake event 554D5C1F-AABE-49E4-AB57-994D22ECED28
-• C2 mimics Microsoft telemetry using cookies MSCC/MicrosoftApplicationsTelemetryDeviceId, hosted on aes-secure[.]net via Namecheap shared hosting
-
-DFIR implications:
-• Triage collection insufficient - requires full memory imaging to extract DPAPI keys for payload decryption
-• Hunt for ServiceDll entries pointing to System32 DLLs with typos (iassvc.dll vs legitimate iassvcs.dll)
-• Monitor DeviceMetadataStore for non-Cabinet files &gt;50KB without MSCF magic bytes
-• Use Volatility malfind/vadinfo to identify anonymous executable VAD regions in host processes
-
-Shift focus from disk to memory forensics - traditional disk analysis fails against environmental keying. Full YARA rules and IOCs available in Fox-IT report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2059908229274988544</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2059908229274988544">DFIR Radar</source>
-      <pubDate>Thu, 28 May 2026 08:02:48 +0000</pubDate>
-      <guid isPermaLink="false">2059908229274988544</guid>
     </item>
   </channel>
 </rss>
