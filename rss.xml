@@ -5,8 +5,30 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 05 Jun 2026 06:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 07:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>China’s VerdantBamboo Experimented With Three Re-Entries and Three Malware in a Company Network</title>
+      <link>https://thecyberexpress.com/china-verdantbamboo-18-month-campaign/</link>
+      <description>Chinese 🇨🇳 state-sponsored VerdantBamboo group spent 18 months inside victim network through MSP compromise, demonstrating unprecedented persistence with three separate re-entry attempts exploiting unmonitored appliances.
+
+Campaign analysis:
+• Initial access via compromised MSP credentials to Egnyte Storage Sync appliance, escalated via sudo misconfiguration (CVE-like: tee command privilege escalation)
+• Three malware families deployed: BRICKSTORM (Golang RAT), AGENTPSD (Python reverse shell), PLENET (.NET Core backdoor compiled with Native AOT)
+• Re-entry vectors: pfSense firewall, SSL VPN replacement exposure, Synology NAS - all lacking EDR coverage
+• M365 access proxied through victim's VPN IP space to bypass Conditional Access policies (T1090.003)
+• C2 communications via Cloudflare-proxied domains and DNS-over-HTTPS to 8[.]8[.]8[.]8
+
+Critical blind spot: Network appliances (firewalls, NAS, sync devices) operating outside EDR visibility with web-only administration and no MFA requirements.
+
+Hunt for outbound HTTPS from appliances to non-vendor domains and SSH connections from service accounts with recent sudo usage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062792214451773695</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2062792214451773695">DFIR Radar</source>
+      <pubDate>Fri, 05 Jun 2026 07:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2062792214451773695</guid>
+    </item>
     <item>
       <title>I Bought a ₹1,599 Government Book for ₹1. The Server Approved It.</title>
       <link>https://infosecwriteups.com/i-bought-a-1-599-government-book-for-1-the-server-approved-it-8a832499b1fb?source=rss----7b722bfd1b8d---4</link>
@@ -1737,36 +1759,6 @@ Hunt for Bun runtime processes with network connections to low-reputation domain
       <source url="https://x.com/DFIR_Radar/status/2060074499408535637">DFIR Radar</source>
       <pubDate>Thu, 28 May 2026 19:03:30 +0000</pubDate>
       <guid isPermaLink="false">2060074499408535637</guid>
-    </item>
-    <item>
-      <title>Authenticated RCE via Argument Injection in Gogs (NOT FIXED)</title>
-      <link>https://www.rapid7.com/blog/post/ve-authenticated-rce-via-argument-injection-gogs-unfixed</link>
-      <description>Critical authenticated RCE discovered in Gogs Git service via argument injection in merge operations. CVSSv4 9.4 severity with no patch available. Any registered user can achieve full server compromise.
-
-Key technical details:
-• CVE pending - affects Gogs 0.14.2 and 0.15.0+dev via malicious branch names like `--exec=touch${IFS}/tmp/rce_proof`
-• Exploits git rebase command during "Rebase before merging" without proper argument separation
-• Works on all platforms (Linux/macOS/Windows) and installation methods including Docker
-• Bypass: RevParse validation succeeds because malicious branch refs actually exist before exploitation
-
-Attack methodology:
-• Attacker creates account (open registration default) and repository (no creation limits default)
-• Enables rebase merging in repo settings (single toggle, requires repo owner/admin)
-• Creates pull request with weaponized branch name containing --exec flag injection
-• During merge, git rebase executes arbitrary commands via shell (sh -c on Linux, cmd.exe on Windows)
-
-DFIR artifacts:
-• Server logs show "git checkout '--exec=&lt;payload&gt;': exit status 128" error entries
-• Malicious branch names starting with `--` in repository listings
-• Failed PRs in repository history and corrupted git state (HTTP 500s)
-• Persistent API tokens named `msf_&lt;hex&gt;` from Metasploit module usage
-• On Windows: committed payload files (.abcdef, .abcdef.bat) in git history
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060059379232100475</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2060059379232100475">DFIR Radar</source>
-      <pubDate>Thu, 28 May 2026 18:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2060059379232100475</guid>
     </item>
   </channel>
 </rss>
