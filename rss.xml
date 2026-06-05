@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 05 Jun 2026 10:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 11:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dark Web Profile: Vect Ransomware</title>
+      <link>https://socradar.io/blog/dark-web-profile-vect-ransomware/</link>
+      <description>Vect ransomware emerges as major threat with broken encryption that acts as wiper, mass BreachForums recruitment of 323k affiliates, and partnership with TeamPCP supply chain attackers.
+
+Key technical details:
+• ChaCha20 implementation flaw makes large files (&gt;128KB) unrecoverable - only final nonce stored, first 3 chunks permanently destroyed
+• C++ binaries for Windows/Linux/ESXi with libsodium, "DEVMAN 3.0" strings suggest Devman rebrand
+• Lateral movement via "DM" prefixed scheduled tasks over CIM, matches Devman naming convention
+• TeamPCP partnership feeds access from Trivy/KICS/LiteLLM supply chain compromises (March 2026)
+
+Attack methodology:
+• Initial access through compromised CI/CD credentials from TeamPCP campaign affecting 1000+ enterprises  
+• ESXi targeting: powers down VMs before encrypting VMDK files, amplifying impact across hosted workloads
+• Evasion: disables Defender, terminates EDR agents, forces safe mode boot via registry modification
+• Intermittent encryption of 4x 32KB chunks at 0/25/50/75% file offsets - catastrophic nonce reuse bug
+
+DFIR artifacts:
+• PowerShell command: Set-MpPreference -DisableRealtimeMonitoring $true
+• Registry keys: SafeBoot Minimal/Network modifications
+• Scheduled tasks: "DM" + 4 random uppercase letters
+• File patterns: .vect extension, 4x 32KB writes at specific offsets
+
+Hunt for "DM" prefixed tasks, SafeBoot registry changes, and monitor CI/CD environments for TeamPCP IOCs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062852595832770930</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2062852595832770930">DFIR Radar</source>
+      <pubDate>Fri, 05 Jun 2026 11:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2062852595832770930</guid>
+    </item>
     <item>
       <title>The Interesting Case of WSL for Payload Staging</title>
       <link>https://detect.fyi/the-interesting-case-of-wsl-for-payload-staging-bfaa0f69329a?source=rss----d5fd8f494f6a---4</link>
@@ -1753,17 +1784,6 @@ Hunt for npm processes with __DAEMONIZED=1 environment variable, X-Supply: 1 HTT
       <source url="https://x.com/DFIR_Radar/status/2060134751785140257">DFIR Radar</source>
       <pubDate>Thu, 28 May 2026 23:02:55 +0000</pubDate>
       <guid isPermaLink="false">2060134751785140257</guid>
-    </item>
-    <item>
-      <title>15,000 WordPress Sites Affected by Administrator Account Creation Vulnerability in WP Maps Pro WordPress Plugin</title>
-      <link>https://www.wordfence.com/blog/2026/05/15000-wordpress-sites-affected-by-administrator-account-creation-vulnerability-in-wp-maps-pro-wordpress-plugin/</link>
-      <description>Critical CVE-2026-8732 (CVSS 9.8) in WP Maps Pro plugin allows unauthenticated attackers to create admin accounts via exposed AJAX endpoint. 15,000+ WordPress sites affected. Update to version 6.1.1 immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060119479191761197</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2060119479191761197">DFIR Radar</source>
-      <pubDate>Thu, 28 May 2026 22:02:14 +0000</pubDate>
-      <guid isPermaLink="false">2060119479191761197</guid>
     </item>
   </channel>
 </rss>
