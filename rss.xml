@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 05 Jun 2026 15:03:15 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 16:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat Brief: Active Exploitation of PAN-OS CVE-2026-0257</title>
+      <link>https://unit42.paloaltonetworks.com/active-exploitation-of-pan-os-cve-2026-0257/</link>
+      <description>Unit 42 confirms active exploitation of PAN-OS CVE-2026-0257 authentication bypass affecting GlobalProtect portals and gateways. Threat actors bypassing VPN authentication controls, added to CISA KEV catalog May 29.
+
+Technical details:
+• Authentication bypass in GlobalProtect portal/gateway components allows unauthorized VPN access
+• Pre-PoC exploitation from 9 known attacker IPs including 23.128.228[.]6, 104.207.144[.]154, 146.19.216[.]119-125
+• Post-PoC attacks use hardcoded client configs: "Microsoft Windows 10 Pro 64-bit" OS version, empty domain field
+• Suspicious device identifiers: aa:bb:cc:dd:ee:ff, WINDOWS-LAPTOP-001, DESKTOP-GP01, GP-CLIENT MAC addresses
+
+DFIR opportunities:
+• Hunt GlobalProtect logs for successful gateway-connected events from listed IPs
+• Search for connections using suspicious host IDs and generic device names
+• Cross-reference authentication bypass attempts with subsequent lateral movement indicators
+• Only small portion of probed devices established sessions - focus on successful connections
+
+Hunt GlobalProtect logs for successful gateway connections matching PoC client fingerprints and review security advisory for patches/workarounds.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062928375916683381</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2062928375916683381">DFIR Radar</source>
+      <pubDate>Fri, 05 Jun 2026 16:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2062928375916683381</guid>
+    </item>
     <item>
       <title>Seeking Counsel: Ongoing Targeted Campaign Against US Law Firms</title>
       <link>https://cloud.google.com/blog/topics/threat-intelligence/targeted-campaign-us-law-firms/</link>
@@ -1796,32 +1821,6 @@ Hunt for Node.js processes with outbound connections to low-reputation domains a
       <source url="https://x.com/DFIR_Radar/status/2060255426654958058">DFIR Radar</source>
       <pubDate>Fri, 29 May 2026 07:02:26 +0000</pubDate>
       <guid isPermaLink="false">2060255426654958058</guid>
-    </item>
-    <item>
-      <title>Typosquatted npm packages used to steal cloud and CI/CD secrets</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/05/28/typosquatted-npm-packages-used-steal-cloud-ci-cd-secrets/</link>
-      <description>Active supply chain attack: 14 typosquatted npm packages targeting OpenSearch/ElasticSearch ecosystem steal AWS, Vault, and CI/CD secrets. Single actor "vpmdhaj" published malicious packages with automatic credential harvesting on install.
-
-Key technical details:
-• Packages abuse npm lifecycle hooks (preinstall/postinstall) for immediate execution during `npm install`
-• Two-stage execution: Gen-1 uses HTTP C2 beacon with X-Supply: 1 header, Gen-2 downloads legitimate Bun runtime as loader
-• 195KB Bun-compiled harvester targets AWS IMDS (169.254.169[.]254), ECS metadata, Vault tokens, GitHub Actions secrets, npm publish tokens
-• Persistence via payload.bin re-execution on every require() call
-• C2 infrastructure: aab.sportsontheweb[.]net for beacon/payload drop
-
-Attack methodology:
-• Typosquat naming (opensearch-setup, elastic-opensearch-helper) + spoofed OpenSearch project metadata
-• Inflated version numbers (1.0.7265+) to suggest maturity
-• AWS credential theft enables cross-region Secrets Manager enumeration across 16+ regions
-• Stolen npm tokens enable downstream supply chain pivoting
-
-Hunt for npm processes with __DAEMONIZED=1 environment variable, X-Supply: 1 HTTP headers in proxy logs, and Node.js connections to AWS IMDS from CI/CD infrastructure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060240356935962752</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2060240356935962752">DFIR Radar</source>
-      <pubDate>Fri, 29 May 2026 06:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2060240356935962752</guid>
     </item>
   </channel>
 </rss>
