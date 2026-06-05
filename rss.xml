@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 05 Jun 2026 09:02:42 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 10:02:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Interesting Case of WSL for Payload Staging</title>
+      <link>https://detect.fyi/the-interesting-case-of-wsl-for-payload-staging-bfaa0f69329a?source=rss----d5fd8f494f6a---4</link>
+      <description>WSL2 creates significant DFIR blind spots: payload staging through Linux subsystem bypasses Windows telemetry while file operations appear as legitimate DllHost.exe activity with no attribution to actual downloading process.
+
+Technical breakdown:
+• WSL2 runs full Linux kernel in Hyper-V VM - network connections completely invisible to Sysmon EID 3
+• File writes to /mnt/c/ cross VM boundary via 9P protocol, handled by DllHost.exe COM surrogate
+• Attack chain: curl downloads inside WSL → DllHost.exe creates file on Windows side → zero forensic linkage
+• Falls under ADE3 (Context Development) - malicious action split across execution contexts
+• WSL interop calls (.exe from Linux) ARE visible with wsl.exe parent, but staging remains unattributed
+
+Detection opportunities:
+• Monitor wsl.exe process creation (EID 1) - not default on enterprise endpoints
+• Alert on DllHost.exe creating executables (.exe, .ps1, .bat) in user-writable directories
+• Temporal correlation between wsl.exe launch and suspicious DllHost.exe file operations
+
+Hunt for DllHost.exe creating files with dangerous extensions in %PUBLIC%, %TEMP%, or %PROGRAMDATA% directories. Full Sigma rule provided in analysis.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062837542081138809</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2062837542081138809">DFIR Radar</source>
+      <pubDate>Fri, 05 Jun 2026 10:02:51 +0000</pubDate>
+      <guid isPermaLink="false">2062837542081138809</guid>
+    </item>
     <item>
       <title>ComoDoS - Exploiting a Remote Kernel Vulnerability in Comodo Internet Security</title>
       <link>https://malwaretech.com/2026/06/exploiting-a-remote-kernel-vulnerability-in-comodo-internet-security.html</link>
@@ -1739,26 +1764,6 @@ Hunt for npm processes with __DAEMONIZED=1 environment variable, X-Supply: 1 HTT
       <source url="https://x.com/DFIR_Radar/status/2060119479191761197">DFIR Radar</source>
       <pubDate>Thu, 28 May 2026 22:02:14 +0000</pubDate>
       <guid isPermaLink="false">2060119479191761197</guid>
-    </item>
-    <item>
-      <title>The Mini Shai-Hulud Worm and the New Era of CI/CD Exploitation</title>
-      <link>https://flashpoint.io/blog/mini-shai-hulud-worm-new-era-ci-cd-exploitation/</link>
-      <description>TeamPCP unleashes Mini Shai-Hulud worm targeting CI/CD pipelines, compromising millions of developers through automated npm package poisoning and AI agent hijacking. Four documented attack waves in 2026 culminated in GitHub internal breach and BreachForums co-ownership.
-
-Technical breakdown:
-• 498KB obfuscated script uses Bun runtime for EDR evasion, steals credentials from 130 file paths including npm tokens, GitHub OIDC, cloud keys, SSH keys, and crypto wallets
-• Dead-drop C2 via GitHub commit search API using "firedalazer" string with RSA-PSS signed payloads, persistence daemon "kitty-monitor" with dead-man's switch data wiper
-• AI agent hijacking: modifies Claude Code settings.json SessionStart hooks and VS Code tasks.json "folderOpen" triggers to maintain persistence across development sessions
-• Wave 3 attack: 637 malicious versions across 323 AntV packages published in 22 minutes, creating 2,500+ compromised repos per victim
-• Exfiltrated 3,800 internal GitHub repositories including copilot-api, actions-runtime, and enterprise-crypto codebases
-
-Hunt for Bun runtime processes with network connections to low-reputation domains and monitor for unauthorized changes to IDE configuration files. Full IOCs and MITRE ATT&amp;CK mappings available in Flashpoint Ignite.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2060104707243192622</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2060104707243192622">DFIR Radar</source>
-      <pubDate>Thu, 28 May 2026 21:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2060104707243192622</guid>
     </item>
   </channel>
 </rss>
