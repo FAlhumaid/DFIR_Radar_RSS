@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Jun 2026 11:02:09 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 12:02:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>UNC3753 Escalates: From Vishing Calls to Physical Office Intrusions at US Legal and Financial Firms</title>
+      <link>https://securityaffairs.com/193315/cyber-crime/unc3753-escalates-from-vishing-calls-to-physical-office-intrusions-at-us-legal-and-financial-firms.html</link>
+      <description>UNC3753 escalates from vishing calls to physical office intrusions, targeting US 🇺🇸 legal and financial firms with sophisticated social engineering campaigns that bypass all technical controls.
+
+Campaign details:
+• Active January-May 2026, dozens of US 🇺🇸 firms compromised via phone calls posing as IT support
+• No malware/exploits - attackers use pretext emails then vishing to install legitimate RMM tools (AnyDesk, Bomgar, Zoho Assist)
+• Pivots through BYOD laptops to corporate VDI, targeting iManage document systems for W-2s, audit files, client agreements
+• Physical escalation: FBI reports operatives visiting offices as fake IT techs, plugging in USB drives when remote access fails
+• Exfiltration via WinSCP/Rclone or victim's own browser to Google Drive accounts, up to 14.4GB per incident
+
+Technical IOCs:
+• Phishing domains: &lt;organization&gt;-itdesk[.]com, &lt;organization&gt;-it[.]com patterns
+• Instructions delivered via privnote[.]com self-destructing messages
+• Data staged in Downloads folders, extortion demands within 30 minutes
+
+Hunt for unauthorized RMM installations, bulk file searches in document management systems, and unusual VDI access from personal devices. Full IOC list and seven C2 IPs available in Mandiant report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063954700290970106</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2063954700290970106">DFIR Radar</source>
+      <pubDate>Mon, 08 Jun 2026 12:02:02 +0000</pubDate>
+      <guid isPermaLink="false">2063954700290970106</guid>
+    </item>
     <item>
       <title>DECODING GRIXBA — A PLAY RANSOMWARE SCANNER</title>
       <link>https://theravenfile.com/2026/06/08/decoding-grixba-a-play-ransomware-scanner/</link>
@@ -1656,36 +1681,6 @@ Hunt for Script Editor processes executing base64-encoded shell commands that im
       <source url="https://x.com/DFIR_Radar/status/2061539106320949760">DFIR Radar</source>
       <pubDate>Mon, 01 Jun 2026 20:03:20 +0000</pubDate>
       <guid isPermaLink="false">2061539106320949760</guid>
-    </item>
-    <item>
-      <title>Re: CIFSwitch: Linux kernel/cifs-utils local root via forged cifs.spnego upcall</title>
-      <link>https://seclists.org/oss-sec/2026/q2/767</link>
-      <description>CVE-2026-46243: CIFSwitch exploit enables unprivileged users to gain root access on Linux systems through forged CIFS SPNEGO upcalls. Affects wide range of distributions including Ubuntu, Debian, SUSE, and enterprise distros.
-
-Technical details:
-• Exploitation requires cifs-utils installed + CIFS kernel module loadable + unprivileged namespaces enabled
-• Attacker calls request_key("cifs.spnego",...) with forged description containing malicious pid/uid/creduid fields
-• cifs.upcall runs as root, trusts attacker-supplied data, switches into malicious mount namespace
-• Private namespace with controlled /etc/nsswitch.conf and libnss_*.so.2 achieves root code execution
-
-Attack chain:
-• User creates private mount namespace with weaponized NSS configuration files
-• Triggers request_key() with forged SPNEGO description pointing to malicious namespace
-• Root helper cifs.upcall performs NSS lookup in attacker-controlled environment
-• Malicious shared libraries execute with root privileges before privilege drop
-
-DFIR artifacts:
-• Monitor for unusual request_key syscalls with "cifs.spnego" type from unprivileged processes
-• Check /proc/*/ns/mnt for suspicious private mount namespaces
-• Audit /etc/nsswitch.conf modifications and non-standard libnss_*.so.2 libraries
-
-Immediate mitigations: Block CIFS module loading, override /etc/request-key.d/cifs.spnego.conf rule, or disable unprivileged namespaces. Kernel fix queued for stable releases.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061523816472318066</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2061523816472318066">DFIR Radar</source>
-      <pubDate>Mon, 01 Jun 2026 19:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2061523816472318066</guid>
     </item>
   </channel>
 </rss>
