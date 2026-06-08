@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Jun 2026 12:02:02 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 13:02:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From Fake Amazon Security Alert to HarborWatch Agent: ClickFix Delivery of a Custom Monitoring RAT</title>
+      <link>https://cofense.com/blog/from-fake-amazon-security-alert-to-harborwatch-agent-clickfix-delivery-of-a-custom-monitoring-rat</link>
+      <description>New Amazon-themed ClickFix campaign delivers HarborWatch Agent, a custom monitoring RAT via social engineering that turns victims into their own infection vector through fake security verification.
+
+Key technical details:
+• Multi-stage delivery: Phishing email → fake CAPTCHA at amazonattention[.]com → PowerShell clipboard injection → mysql[.]exe download from zoomupdate[.]b-cdn[.]net
+• HarborWatch Agent requires --pass=JHSgfsa2652 argument to execute, hindering analysis (T1027)
+• C2 communication to 185[.]193[.]127[.]44 via /api/agent/tasks/ and /api/heartbeat endpoints
+• Collects comprehensive host info: OS, architecture, hostname, CPU, disk usage, memory, uptime, processes, network status
+• Harbor Sentinel admin panel displays in Chinese (港湾哨兵) for threat actor monitoring
+
+DFIR artifacts:
+• PowerShell execution with -nop -w hidden flags in process logs
+• mysql[.]exe in %AppData%\Local\Temp\ with specific password argument
+• Network connections to 185[.]193[.]127[.]44 with API endpoint patterns
+• Memory strings containing "HarborWatchAgent/c-1.1.1" identifier
+
+Hunt for PowerShell processes with hidden windows downloading from CDN domains, especially files requiring password arguments for execution. Monitor clipboard manipulation and fake verification workflows.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063969997471334647</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2063969997471334647">DFIR Radar</source>
+      <pubDate>Mon, 08 Jun 2026 13:02:49 +0000</pubDate>
+      <guid isPermaLink="false">2063969997471334647</guid>
+    </item>
     <item>
       <title>UNC3753 Escalates: From Vishing Calls to Physical Office Intrusions at US Legal and Financial Firms</title>
       <link>https://securityaffairs.com/193315/cyber-crime/unc3753-escalates-from-vishing-calls-to-physical-office-intrusions-at-us-legal-and-financial-firms.html</link>
@@ -1661,26 +1687,6 @@ Exploitation methods:
       <source url="https://x.com/DFIR_Radar/status/2061554089356579112">DFIR Radar</source>
       <pubDate>Mon, 01 Jun 2026 21:02:51 +0000</pubDate>
       <guid isPermaLink="false">2061554089356579112</guid>
-    </item>
-    <item>
-      <title>Fake BlueWallet steals passwords, accounts, and crypto from Macs</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/06/fake-bluewallet-steals-passwords-accounts-and-crypto-from-macs</link>
-      <description>Fake BlueWallet site delivers multi-stage credential stealer targeting Mac users via social engineering. Malware bypasses macOS security by tricking victims into manually executing AppleScript, stealing passwords, crypto wallets, and hijacking clipboard for address swapping.
-
-Technical breakdown:
-• Stage 1: AppleScript downloader from update-bluewallet[.]com drops to /tmp/.sysupd.sh, bypasses Gatekeeper via Script Editor execution
-• Stage 2: Comprehensive data theft targeting 50+ crypto wallets, password managers, browsers, and cloud credentials (AWS, SSH, GPG)
-• Persistence via LaunchAgent plist in ~/Library/LaunchAgents with hidden support directory
-• C2 via Telegram Bot API with interactive commands (/exec, /download, /clipboard, /selfdestruct)
-• Clipboard hijacking replaces crypto addresses with attacker wallets: bc1qrmj4ggshddhnxx3rxwvsu8pe9ut6cgx8mx364e (BTC), 0x2B871703122064e45d77146a6D5203da3bD192FA (ETH)
-
-Hunt for Script Editor processes executing base64-encoded shell commands that immediately quit, and monitor /tmp for hidden .sh files downloaded via curl. Full IOC list included in analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061539106320949760</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2061539106320949760">DFIR Radar</source>
-      <pubDate>Mon, 01 Jun 2026 20:03:20 +0000</pubDate>
-      <guid isPermaLink="false">2061539106320949760</guid>
     </item>
   </channel>
 </rss>
