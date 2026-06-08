@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Jun 2026 13:02:49 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 14:02:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Off By !: Exploiting a Use-after-Free in the Linux Kernel</title>
+      <link>https://blog.exodusintel.com/2026/06/08/off-by-exploiting-a-use-after-free-in-the-linux-kernel/</link>
+      <description>Critical Linux kernel use-after-free in nftables enables unprivileged local privilege escalation to root. CVE-2026-23111 affects major distributions including Debian and Ubuntu systems.
+
+Technical details:
+• Flaw in nft_map_catchall_activate() function incorrectly skips deactivated catchall elements during abort process
+• Vulnerability triggered via crafted netlink batches: delete pipapo set → force abort → toggle generation → delete set → delete chain
+• Results in chain reference counter reaching zero while valid references remain, creating exploitable use-after-free
+• Affects nftables subsystem generation mask handling and catchall element lifecycle management
+
+Attack methodology:
+• Requires unprivileged user namespace creation (bypassable on Ubuntu 24.04 via aa-exec)
+• Multi-stage exploit: trigger vulnerability → leak kernel base (defeat KASLR) → leak heap addresses → ROP chain execution
+• Achieves privilege escalation via commit_creds(&amp;init_cred) and namespace escape through switch_task_namespaces()
+• Stability &gt;99% on idle systems, drops to 80% under load
+
+Impact spans Debian Bookworm/Trixie and Ubuntu 22.04/24.04 LTS. Patch applied February 2026. Hunt for suspicious nftables operations with pipapo sets and generation cursor manipulation in audit logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063985038840992253</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2063985038840992253">DFIR Radar</source>
+      <pubDate>Mon, 08 Jun 2026 14:02:35 +0000</pubDate>
+      <guid isPermaLink="false">2063985038840992253</guid>
+    </item>
     <item>
       <title>From Fake Amazon Security Alert to HarborWatch Agent: ClickFix Delivery of a Custom Monitoring RAT</title>
       <link>https://cofense.com/blog/from-fake-amazon-security-alert-to-harborwatch-agent-clickfix-delivery-of-a-custom-monitoring-rat</link>
@@ -1659,34 +1684,6 @@ Hunt for Node.js processes with network connections during npm install and check
       <source url="https://x.com/DFIR_Radar/status/2061569215635603816">DFIR Radar</source>
       <pubDate>Mon, 01 Jun 2026 22:02:58 +0000</pubDate>
       <guid isPermaLink="false">2061569215635603816</guid>
-    </item>
-    <item>
-      <title>Adobe Acrobat Reader Escript.api Use-After-Free Remote Code Execution</title>
-      <link>https://blog.exodusintel.com/2026/06/01/adobe-acrobat-reader-escript-api-use-after-free-remote-code-execution/</link>
-      <description>Adobe Reader Escript.api use-after-free enables RCE via JavaScript prototype pollution. Affects 32/64-bit versions through 25.001.21288, patched April 2026 with CVE-2026-34621/34622/34626.
-
-Technical breakdown:
-• Vulnerability in Escript.api module through __defineGetter__() on Collab.toString property
-• Recursive calls exhaust C++ stack without triggering JS recursion limits, creating exception handler frame accumulation
-• Two independent bookkeeping systems (reference counting + event scope stack) fall out of sync during stack overflow
-• push_event_scope_and_resolve() never reaches cleanup code, leaving dangling pointer in scope stack while reference counter hits zero
-
-Attack chain:
-• Override Collab.toString via __defineGetter__() to create recursive execution pattern
-• util.scand() triggers push_event_scope_and_resolve(), creating scoped object in event scope stack
-• Stack overflow prevents proper cleanup - scope stack entry persists while object reference counter decremented
-• Garbage collection frees object, scope stack retains dangling pointer
-• Subsequent access via removeField() triggers use-after-free
-
-Exploitation methods:
-• 32-bit: Heap spray ArrayBuffers, reclaim freed object with ReadStream, gain OOB R/W, leak module bases, ROP chain to VirtualProtect
-• 64-bit: Requires PartitionAlloc bypass for arbitrary R/W primitive
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061554089356579112</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2061554089356579112">DFIR Radar</source>
-      <pubDate>Mon, 01 Jun 2026 21:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2061554089356579112</guid>
     </item>
   </channel>
 </rss>
