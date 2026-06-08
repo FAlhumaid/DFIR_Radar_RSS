@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Jun 2026 07:01:41 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 08:02:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>IoT Botnet C0XMO Adds Competitor-Killing Capability</title>
+      <link>https://securityaffairs.com/193290/uncategorized/iot-botnet-c0xmo-adds-competitor-killing-capability.html</link>
+      <description>FortiGuard Labs discovered C0XMO, an evolved Gafgyt botnet variant that spreads via unpatched DD-WRT routers and actively kills competing botnets. This modular IoT malware demonstrates advanced persistence and multi-architecture targeting capabilities.
+
+Technical details:
+• Exploits CVE-2021-27137 via crafted UDP packets to port 1900/SSDP without authentication
+• Distribution server 217[.]160[.]125[.]125:15527 serves binaries for ARM, MIPS, PowerPC, SuperH, x86/x64
+• Persistence across /tmp/.sys, /var/tmp/.sys, /dev/shm/.sys with cron jobs every 15 minutes
+• Python scanner module uses 22 functions targeting CVE-2021-27137, CVE-2015-2051, CVE-2022-35914, AVTECH DVRs, and Android ADB interfaces
+
+Attack methodology:
+• Modular design separates main bot from Python scanning script for easier updates
+• Process termination targeting competing botnets, red team tools, and network services
+• Removes rival persistence mechanisms including cron jobs, rc.local, init.d services
+• 19 DDoS attack methods including UDP/TCP floods and amplification attacks
+
+Hunt for processes in /tmp/.sys paths, unexpected cron jobs with 15-minute intervals, and Python installations of requests/paramiko/beautifulsoup4 on IoT devices.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063894311649903056</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2063894311649903056">DFIR Radar</source>
+      <pubDate>Mon, 08 Jun 2026 08:02:04 +0000</pubDate>
+      <guid isPermaLink="false">2063894311649903056</guid>
+    </item>
     <item>
       <title>Kubernetes container forensics after pod deletion</title>
       <link>https://andreafortuna.org/2026/06/08/container-forensics/</link>
@@ -1692,31 +1717,6 @@ Hunt for Graph API Teams message operations from unexpected IPs with PowerShell 
       <source url="https://x.com/DFIR_Radar/status/2061478597752483967">DFIR Radar</source>
       <pubDate>Mon, 01 Jun 2026 16:02:53 +0000</pubDate>
       <guid isPermaLink="false">2061478597752483967</guid>
-    </item>
-    <item>
-      <title>CVE-2026-0826: Critical unauthenticated stack buffer overflow in HP Poly VVX and Trio VoIP Phones (FIXED)</title>
-      <link>https://www.rapid7.com/blog/post/ve-cve-2026-0826-critical-unauthenticated-stack-buffer-overflow-hp-poly-vvx-trio-voip-phones-fixed</link>
-      <description>Critical zero-day in HP Poly VoIP phones allows unauthenticated remote code execution with root privileges. CVE-2026-0826 affects VVX and Trio series through stack buffer overflow in SDP parsing.
-
-Technical breakdown:
-• CVE-2026-0826 (CVSS 9.2) exploits stack buffer overflow in ParseICECandidate function at 0xB12780
-• Vulnerability in SDP "a=candidate:" attribute parsing when ICE feature enabled (non-default)
-• 256-byte buffer overflow via memcpy() with no bounds checking in /user/local/root/polyapp
-• Affects VVX 150/250/350/450 and Trio 8300/8500/8800 models running vulnerable firmware
-• Bypasses NX protection using ROP chain leveraging fixed libc addresses (ASLR ineffective on shared libraries)
-
-Attack vector:
-• Malicious SIP INVITE request to UDP port 5060 with oversized candidate attribute
-• Payload structure: 12-byte header + 244 A's + 19 B's + register overwrites + shellcode
-• Achieves immediate root shell without authentication when ICE enabled
-
-Hunt for SIP traffic with abnormally long candidate attributes &gt;256 bytes and non-default ICE configurations. Metasploit module available for testing.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061463540926382181</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2061463540926382181">DFIR Radar</source>
-      <pubDate>Mon, 01 Jun 2026 15:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2061463540926382181</guid>
     </item>
   </channel>
 </rss>
