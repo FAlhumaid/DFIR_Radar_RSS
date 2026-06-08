@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Jun 2026 15:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 16:02:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Investigating suspicious AI workflows in Microsoft Entra Agent ID: Assistive agents</title>
+      <link>https://redcanary.com/blog/threat-detection/entra-id-ai-workflows-assistive-agents/</link>
+      <description>Red Canary demonstrates how to investigate suspicious AI agent activity in Microsoft Entra, showing correlation techniques across Exchange, Graph API, and sign-in logs to build complete incident timelines.
+
+Technical breakdown of AI agent forensics:
+• Agent acting on behalf of user sent phishing email with "invoice" subject to external recipient using Graph API
+• Three log correlation required: Purview Exchange logs → MicrosoftGraphActivityLogs → AADNonInteractiveUserSignInLogs
+• Key correlation fields: AppAccessContext.UniqueTokenId maps to SignInActivityId, ClientRequestId for exact API call matching
+• Agent.agentType=agenticAppInstance + Agent.agentSubjectType=notAgentic indicates on-behalf-of (OBO) authentication flow
+• User consent tracked in AuditLogs table under "Add delegated permission grant" operation for access_agent scope
+
+Investigation methodology:
+• Start with suspicious activity in Exchange/email logs, extract AgentId and UniqueTokenId
+• Correlate to Graph API logs using UniqueTokenId→SignInActivityId mapping to get true source IP
+• Pull non-interactive sign-in logs to identify agent permissions and OBO relationships
+• Check AuditLogs for original user consent granting access_agent scope to agent blueprint
+
+Hunt for anomalous agent email activity by correlating Graph API Mail.Send operations with external recipients against baseline agent behavior patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064015243584708778</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2064015243584708778">DFIR Radar</source>
+      <pubDate>Mon, 08 Jun 2026 16:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2064015243584708778</guid>
+    </item>
     <item>
       <title>[webapps] OpenEMR 7.0.2 - Arbitrary File Read</title>
       <link>https://www.exploit-db.com/exploits/52610</link>
@@ -1665,17 +1691,6 @@ Hunt for similar patterns using rate-based aggregation instead of per-event aler
       <source url="https://x.com/DFIR_Radar/status/2061599790299799951">DFIR Radar</source>
       <pubDate>Tue, 02 Jun 2026 00:04:28 +0000</pubDate>
       <guid isPermaLink="false">2061599790299799951</guid>
-    </item>
-    <item>
-      <title>Azure’s Hidden Operators: A Threat Model for Platform-Level Managed Identities by Kat Traxler</title>
-      <link>https://www.vectra.ai/blog/azures-hidden-operators-a-threat-model-for-platform-level-managed-identities</link>
-      <description>New research reveals Platform-Level Managed Identities (PLMIs) - Azure's 🇺🇸 undocumented global identities that operate across all customer tenants.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061584188835570168</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2061584188835570168">DFIR Radar</source>
-      <pubDate>Mon, 01 Jun 2026 23:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2061584188835570168</guid>
     </item>
   </channel>
 </rss>
