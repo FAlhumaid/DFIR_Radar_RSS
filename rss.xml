@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 09 Jun 2026 03:03:44 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jun 2026 07:02:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Who needs Mythos anyway! Vulnerability ‘fun’ with Unifi</title>
+      <link>https://www.pwndefend.com/2026/06/09/who-needs-mythos-anyway/</link>
+      <description>Security researcher discovers critical authentication bypass in Ubiquiti UniFi controllers, challenging vendor's low CVSS scoring of three related CVEs that enable full network compromise.
+
+Technical details:
+• Authentication bypass allows unauthenticated attackers to gain admin access to UniFi controllers
+• Affects multiple UniFi product lines including Dream Machine and Cloud Key series
+• Vendor initially scored vulnerabilities as low-medium severity despite full compromise potential
+• Attack chain enables lateral movement across managed network infrastructure
+• No authentication or user interaction required for exploitation
+
+DFIR artifacts:
+• Monitor UniFi controller logs for unexpected admin session creation without corresponding login events
+• Check for unauthorized configuration changes in network topology and device management
+• Review DHCP logs for rogue device additions or network segmentation changes
+• Examine authentication logs for session tokens created outside normal login flows
+
+Hunt for anomalous admin activities in UniFi controller interfaces, especially configuration changes from IP addresses outside your management network ranges.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064241709756678261</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2064241709756678261">DFIR Radar</source>
+      <pubDate>Tue, 09 Jun 2026 07:02:30 +0000</pubDate>
+      <guid isPermaLink="false">2064241709756678261</guid>
+    </item>
     <item>
       <title>Everybody Is Vibe Coding But Nobody Told the Security Team</title>
       <link>https://www.securityweek.com/everybody-is-vibe-coding-but-nobody-told-the-security-team/</link>
@@ -1672,36 +1698,6 @@ Hunt for rclone/MEGAcmd/Velociraptor on unexpected hosts. Treat NTDS.dit access 
       <source url="https://x.com/DFIR_Radar/status/2061780669789859881">DFIR Radar</source>
       <pubDate>Tue, 02 Jun 2026 12:03:13 +0000</pubDate>
       <guid isPermaLink="false">2061780669789859881</guid>
-    </item>
-    <item>
-      <title>From Fake Purchase Orders to Remote Access: Analyzing the JS.MonoGlyphRAT Threat to US Enterprises</title>
-      <link>https://any.run/cybersecurity-blog/monoglyphrat-attacks-us-enterprise/</link>
-      <description>ANY.RUN researchers identify JS.MonoGlyphRAT, a sophisticated JavaScript backdoor actively targeting US 🇺🇸 enterprises through phishing emails disguised as purchase orders. The malware achieves persistence and evades most AV detection.
-
-Technical breakdown:
-• Monoglyph obfuscation using repeated mixed-case characters (IiIiIiIiiIII, KkkKKKkKkK) in function/variable names
-• Persistence via HKCU\Software\Microsoft\Windows\CurrentVersion\Run + self-copy to %USERPROFILE%
-• C2 communication over HTTP using X-S (session ID) and X-A (command) headers on non-standard ports
-• AES-128-CBC encrypted PowerShell payloads with static IV "sixteenbyteslong"
-• AMSI bypass via AmsiScanBuffer patching for .NET reflective loading (T1562.001, T1620)
-
-Attack chain:
-• Initial access via phishing with .js files mimicking business documents (T1204.002)
-• Execution through wscript.exe → PowerShell stagers (T1059.007, T1059.001)
-• WMI-based system discovery collecting hardware/software inventory (T1082, T1057)
-• Command capabilities include file execution, shell access, payload download, client updates
-
-Primary targets: US 🇺🇸 technology sector, MSSPs, telecommunications, education. Also observed in Germany 🇩🇪, Sweden 🇸🇪, Australia 🇦🇺.
-
-IOCs: C2 IPs 158[.]94[.]211[.]76, 91[.]92[.]243[.]79 | Domain scan[.]aryamint[.]com
-
-Hunt for wscript.exe spawning PowerShell with -nop -enc flags from user directories, new Run registry keys pointing to .js files, and HTTP traffic with X-S/X-A headers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061765522966950239</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2061765522966950239">DFIR Radar</source>
-      <pubDate>Tue, 02 Jun 2026 11:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2061765522966950239</guid>
     </item>
   </channel>
 </rss>
