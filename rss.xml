@@ -5,8 +5,35 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 09 Jun 2026 08:02:18 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jun 2026 09:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hidden in Plain Sight: PowerShell Visibility Most Defender XDR Analysts Miss</title>
+      <link>https://detect.fyi/hidden-in-plain-sight-powershell-visibility-most-defender-xdr-analysts-miss-83944ddc56df?source=rss----d5fd8f494f6a---4</link>
+      <description>Microsoft Defender XDR's DeviceEvents table contains PowerShellCommand events that reveal individual script commands, filling visibility gaps when PowerShell scripts are deleted post-execution.
+
+Key technical details:
+• PowerShellCommand ActionType in DeviceEvents shows actual commands executed within .ps1 scripts, not just process launches
+• Query extracts commands via parse_json(AdditionalFields).Command from DeviceEvents where ActionType == "PowerShellCommand"
+• Covers the visibility gap between PowerShell process start and end when script content is unavailable
+• Maps to MITRE T1059.001 (PowerShell) with granular command-level visibility
+
+Hunting opportunities:
+• Search for high-risk PowerShell commands: Invoke-WebRequest, DownloadString, Invoke-Expression, EncodedCommand
+• Track credential access patterns: Invoke-Mimikatz, Invoke-Kerberoast within scripts
+• Detect memory manipulation: VirtualAlloc, WriteProcessMemory, CreateThread usage
+• Monitor lateral movement: Invoke-Command, New-PSSession for remote execution
+
+Additional DeviceEvents ActionTypes provide broader endpoint visibility: CreateRemoteThreadApiCall, MemoryRemoteProtect, SecurityLogCleared, ScheduledTaskCreated, and 20+ other event types often overlooked by analysts.
+
+Hunt for suspicious PowerShell script activity using: DeviceEvents | where ActionType == "PowerShellCommand" and InitiatingProcessCommandLine contains ".ps1" | extend Command = tostring(parse_json(AdditionalFields).Command)
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064272137695772878</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2064272137695772878">DFIR Radar</source>
+      <pubDate>Tue, 09 Jun 2026 09:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2064272137695772878</guid>
+    </item>
     <item>
       <title>Entra Agent ID from a Security Perspective</title>
       <link>https://blog.compass-security.com/2026/06/entra-agent-id-from-a-security-perspective/</link>
@@ -1694,17 +1721,6 @@ Defense: Implement SCPs restricting AuthType: NONE Lambda URLs, enable global Cl
       <source url="https://x.com/DFIR_Radar/status/2061810855633719538">DFIR Radar</source>
       <pubDate>Tue, 02 Jun 2026 14:03:10 +0000</pubDate>
       <guid isPermaLink="false">2061810855633719538</guid>
-    </item>
-    <item>
-      <title>Attackers Hijack Red Hat npm Scope to Steal Cloud Secrets</title>
-      <link>https://www.infosecurity-magazine.com/news/red-hat-npm-scope-backdoored/</link>
-      <description>Attackers hijacked Red Hat's legitimate npm scope to push backdoored versions of 32 packages targeting cloud secrets and CI/CD tokens. The malware spread via compromised GitHub Actions OIDC tokens, affecting 9.8M downloads.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2061795747033411608</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2061795747033411608">DFIR Radar</source>
-      <pubDate>Tue, 02 Jun 2026 13:03:07 +0000</pubDate>
-      <guid isPermaLink="false">2061795747033411608</guid>
     </item>
   </channel>
 </rss>
