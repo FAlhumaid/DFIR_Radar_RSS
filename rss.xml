@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 10 Jun 2026 14:05:02 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2026 15:05:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Russian APTs Still Exploiting Patched WinRAR Flaw CVE-2025-8088</title>
+      <link>https://securityaffairs.com/193476/apt/russian-apts-still-exploiting-patched-winrar-flaw-cve-2025-8088.html</link>
+      <description>Two Russian 🇷🇺 APT groups still exploiting patched WinRAR CVE-2025-8088 (CVSS 8.4) against Ukrainian 🇺🇦 targets nearly a year after fix. Path traversal flaw enables silent file deployment via NTFS Alternate Data Streams during archive extraction.
+
+Technical details:
+• CVE-2025-8088: Path traversal in WinRAR &lt;7.13, writes files outside extraction directory to Windows Startup folder
+• SHADOW-EARTH-066: Drops obfuscated PowerShell loader + SUB-encoded DLL via LNK shortcut, uses NT syscalls for memory-only execution
+• Earth Dahu/Gamaredon: Deploys HTA/VBScript to Startup, loads modules from Cloudflare Workers with spoofed gov domains
+• Both campaigns use Ukrainian government-themed lures (court summons, defense docs, equipment manifests)
+
+Attack chain: Spearphish RAR → victim opens decoy PDF → silent file write to %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup → persistence on next login (T1547.001)
+
+Hunt for recent LNK/HTA files in Startup folders with external network connections. Audit WinRAR versions org-wide - auto-update disabled by design makes this a persistent threat surface.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064725535561851071</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2064725535561851071">DFIR Radar</source>
+      <pubDate>Wed, 10 Jun 2026 15:05:03 +0000</pubDate>
+      <guid isPermaLink="false">2064725535561851071</guid>
+    </item>
     <item>
       <title>May 2026 Detection Highlights: New Config Extractors, a Phishkit Behavior Detection Set, and 30+ New YARA Rules</title>
       <link>https://www.vmray.com/may-2026-detection-highlights-new-config-extractors-a-phishkit-behavior-detection-set-and-30-new-yara-rules/</link>
@@ -1715,27 +1736,6 @@ Hunt for browsers (chrome.exe, msedge.exe) spawning scripting interpreters as ch
       <source url="https://x.com/DFIR_Radar/status/2062248755043217785">DFIR Radar</source>
       <pubDate>Wed, 03 Jun 2026 19:03:13 +0000</pubDate>
       <guid isPermaLink="false">2062248755043217785</guid>
-    </item>
-    <item>
-      <title>How attackers are gaining access to LLM inference</title>
-      <link>https://intezer.com/blog/how-attackers-access-llm-inference/</link>
-      <description>Attackers exploit five routes to access commercial LLMs for malware operations: underground offensive models, crypto payment services, free APIs, leaked keys, and exposed self-hosted servers. Five malware families now integrate live LLM calls for runtime code generation.
-
-Technical breakdown:
-• Malware families (MalTerminal, PROMPTSTEAL, PROMPTLOCK, PROMPTFLUX, QUIETVAULT) embed LLM APIs for dynamic payload generation, reconnaissance, and polymorphic capabilities
-• Free-tier abuse: HuggingFace (1M tokens/day), Groq (14.4K requests/day), Cerebras (30 RPM) require only disposable emails for access
-• Exposed servers: 175K+ Ollama instances, 55% of LocalAI hosts open, ~4.3TB GPU VRAM accessible via ComfyUI without authentication
-• API key leakage: 647 keys found in VirusTotal corpus (62% Google Gemini, 11% HuggingFace), 99.5% revocation rate indicates automated scanning by providers
-
-Attack vectors include crypto middlemen (PayWithMoon, AIMLAPI) bypassing identity verification, CVE-2026-33017 (Langflow RCE), CVE-2026-21858 "Ni8mare" (n8n CVSS 10.0), and nuclei-based automated exploitation campaigns targeting LocalAI instances.
-
-Hunt for outbound connections to inference APIs from unexpected processes, monitor for dynamic script generation patterns, and audit self-hosted LLM deployments for authentication bypass.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062233725593956582</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062233725593956582">DFIR Radar</source>
-      <pubDate>Wed, 03 Jun 2026 18:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2062233725593956582</guid>
     </item>
   </channel>
 </rss>
