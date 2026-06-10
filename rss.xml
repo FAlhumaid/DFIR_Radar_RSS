@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 10 Jun 2026 15:05:03 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2026 16:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Oops, I Weaponized the Database: Abusing AI Features in SQL Server 2025</title>
+      <link>https://specterops.io/blog/2026/06/10/oops-i-weaponized-the-database-abusing-ai-features-in-mssql-2025/</link>
+      <description>SpecterOps researchers demonstrate weaponizing SQL Server 2025's new AI features for data exfiltration and C2 operations. Native REST endpoints, external models, and embedding functions create powerful attack primitives within database engines.
+
+Key technical details:
+• sp_invoke_external_rest_endpoint enables arbitrary HTTPS requests with 100MB payloads
+• CREATE EXTERNAL MODEL + AI_GENERATE_EMBEDDINGS facilitate covert C2 channels
+• UNC path abuse in ONNX models triggers NTLM SMB coercion (reported to Microsoft)
+• CLR assemblies can replace xp_cmdshell for in-memory command execution
+• Traffic mimics legitimate AI embedding requests, evading traditional egress monitoring
+
+Attack methodology:
+• Initial access via over-privileged SQL accounts (common in environments)
+• Data exfiltration through database dumps, file reads, or persistent triggers
+• C2 transport disguised as AI model interactions over HTTPS
+• Persistence via database triggers or scheduled model calls
+
+DFIR artifacts and detection opportunities:
+• Monitor sys.external_models table for unauthorized model creation
+• Alert on configuration changes: 'external rest endpoint enabled'
+• Baseline legitimate AI model traffic patterns vs. anomalous payloads
+• Log CREATE/ALTER/DROP EXTERNAL MODEL via SQL Audit/Extended Events
+
+Hunt for recent external model registrations pointing to suspicious domains and correlate with outbound HTTPS from SQL Server processes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064740261222076606</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2064740261222076606">DFIR Radar</source>
+      <pubDate>Wed, 10 Jun 2026 16:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2064740261222076606</guid>
+    </item>
     <item>
       <title>Russian APTs Still Exploiting Patched WinRAR Flaw CVE-2025-8088</title>
       <link>https://securityaffairs.com/193476/apt/russian-apts-still-exploiting-patched-winrar-flaw-cve-2025-8088.html</link>
@@ -1716,26 +1748,6 @@ Hunt for AZCopy activity to unfamiliar Azure destinations, NetSupport/AnyDesk fr
       <source url="https://x.com/DFIR_Radar/status/2062263892399579412">DFIR Radar</source>
       <pubDate>Wed, 03 Jun 2026 20:03:22 +0000</pubDate>
       <guid isPermaLink="false">2062263892399579412</guid>
-    </item>
-    <item>
-      <title>Threat Hunting Case Study: FileFix</title>
-      <link>https://www.intel471.com/blog/threat-hunting-case-study-filefix</link>
-      <description>FileFix evolution: Attackers moved ClickFix social engineering from Win+R dialogs to File Explorer address bars, bypassing Mark of the Web protections. Campaign leverages trusted interfaces to execute malicious PowerShell without triggering SmartScreen warnings.
-
-Technical breakdown:
-• KongTuke/LandUpdate808 cluster injects JavaScript into compromised sites creating fake CAPTCHAs
-• HTML &lt;input type="file"&gt; opens explorer.exe file dialog while JS writes obfuscated PowerShell to clipboard  
-• Users paste "verification code" into File Explorer address bar, executing commands directly (T1059.001)
-• Bypasses MotW since no file download occurs - payload executes from clipboard in trusted interface
-• Process lineage: browser spawns cmd.exe/powershell.exe/wscript.exe indicating exploitation
-
-Hunt for browsers (chrome.exe, msedge.exe) spawning scripting interpreters as child processes. Check HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths registry key for PowerShell commands or HTTP URLs - strong forensic indicator of successful FileFix execution.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062248755043217785</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062248755043217785">DFIR Radar</source>
-      <pubDate>Wed, 03 Jun 2026 19:03:13 +0000</pubDate>
-      <guid isPermaLink="false">2062248755043217785</guid>
     </item>
   </channel>
 </rss>
