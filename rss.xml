@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 10 Jun 2026 08:03:53 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2026 09:04:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Identify shebang files via Threat Hunting (+ KQL Queries)</title>
+      <link>https://detect.fyi/identify-shebang-files-via-threat-hunting-kql-queries-45fa739571ad?source=rss----d5fd8f494f6a---4</link>
+      <description>Microsoft Defender identifies shebang files as "FileType=Shebang" in DeviceFileEvents, enabling detection of Unix scripts delivered via phishing or disguised with misleading extensions.
+
+Key hunting opportunities:
+• Email-delivered shebangs: Join DeviceFileEvents with EmailAttachmentInfo on SHA256 to catch Python/Bash scripts in attachments
+• Suspicious locations: Hunt Downloads, Temp, /tmp/, /var/tmp/ directories where malicious interpreters commonly drop
+• Extension masquerading: Detect shebang files with .txt, .jpg, .pdf extensions hiding executable scripts (T1036.008)
+• Cross-platform risk: Works on WSL, Git Bash, Python Launcher even on Windows endpoints
+
+Technical details:
+- AdditionalFields JSON contains FileType classification
+- Shebang headers (#!/usr/bin/python3) indicate interpreter requirements
+- Common in macOS/Linux malware but increasingly relevant for hybrid environments
+
+Hunt suspicious directories first, then whitelist developer workstations to reduce false positives. Full KQL queries provided in the research.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064634757443727417</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2064634757443727417">DFIR Radar</source>
+      <pubDate>Wed, 10 Jun 2026 09:04:20 +0000</pubDate>
+      <guid isPermaLink="false">2064634757443727417</guid>
+    </item>
     <item>
       <title>AI Security Incident Case: Account Takeover Due to Meta AI Support Assistant Authorization Flaw</title>
       <link>https://nsfocusglobal.com/ai-security-incident-case-account-takeover-due-to-meta-ai-support-assistant-authorization-flaw/</link>
@@ -1719,34 +1743,6 @@ Hunt for recently created WordPress admin accounts and correlate with form submi
       <source url="https://x.com/DFIR_Radar/status/2062203609794617550">DFIR Radar</source>
       <pubDate>Wed, 03 Jun 2026 16:03:49 +0000</pubDate>
       <guid isPermaLink="false">2062203609794617550</guid>
-    </item>
-    <item>
-      <title>Impersonation, Click Hijacking, and TDS: Inside a Malware Distribution Ecosystem</title>
-      <link>https://research.checkpoint.com/2026/impersonation-click-hijacking-and-tds-inside-a-malware-distribution-ecosystem/</link>
-      <description>Check Point Research exposes large-scale TDS campaign impersonating security tools like Ghidra and dnSpy, distributing SessionGate framework, RemusStealer, and AnimateClipper through sophisticated click hijacking.
-
-Key technical details:
-• CloudFront-hosted JavaScript converts legitimate download clicks into TDS redirects using event interception (preventDefault/stopImmediatePropagation)
-• SessionGate uses per-client payload generation with one-time server-side key release, making analysis extremely difficult
-• RemusStealer targets 332+ browser extensions (wallets, password managers, 2FA) with C2 at buccstanor[.]pics:28313 and baxe[.]pics:48261
-• AnimateClipper resolves C2 via BNB Smart Chain contract queries to kr.hugo-lapp[.]co
-
-Attack methodology:
-• High-ranking impersonation sites (ghidralite[.]com, dnspy[.]org, ilspy[.]org) capture search traffic for legitimate tools
-• Click events trigger gated TDS routing with anti-bot logic, VPN filtering, and frequency capping
-• Multi-stage delivery chains use 7-Zip SFX containers with decoy content to evade detection
-• SessionGate employs AES-CBC encryption with server-derived keys, heavy obfuscation breaking disassemblers
-
-DFIR artifacts:
-• TDS scripts follow pattern: https://d33f51dyacx7bd.cloudfront[.]net/?aydfd=&lt;ID&gt;
-• SessionGate PDB path: D:\code\cpp-downloader-scb-reg-other\Plugins\7ZipDownloader\Output\SFXWin.pdb
-• User-Agent: "NSIS_InetLoad (Mozilla)" for C2 communications
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062188353299075363</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062188353299075363">DFIR Radar</source>
-      <pubDate>Wed, 03 Jun 2026 15:03:12 +0000</pubDate>
-      <guid isPermaLink="false">2062188353299075363</guid>
     </item>
   </channel>
 </rss>
