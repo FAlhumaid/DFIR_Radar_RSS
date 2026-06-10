@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 10 Jun 2026 00:02:50 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2026 01:03:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>More Evidence That Words Don't Mean What We Thought They Meant (Ivanti Sentry Pre-Auth OS Command Injection CVE-2026-10520)</title>
+      <link>https://labs.watchtowr.com/more-evidence-that-words-dont-mean-what-we-thought-they-meant-ivanti-sentry-pre-auth-os-command-injection-cve-2026-10520/</link>
+      <description>Ivanti Sentry pre-auth OS command injection (CVE-2026-10520) achieves perfect 10.0 CVSS with unauthenticated root RCE. Watchtowr Labs demonstrates exploitation using hardcoded XML format leaked in patch analysis.
+
+Technical breakdown:
+• CVE-2026-10520 affects Sentry versions before R10.5.2/R10.6.2/R10.7.1 via `/mics/api/v2/sentry/mics-config/handleMessage` endpoint
+• Vulnerable code parses user input as MICS configuration commands, routing "execute" commands to `executeNativeCommand()` 
+• Exploitation requires XML payload: `execute system /configuration/system/commandexec &lt;commandexec&gt;&lt;index&gt;1&lt;/index&gt;&lt;reqandres&gt;[COMMAND]&lt;/reqandres&gt;&lt;/commandexec&gt;`
+• Also includes CVE-2026-10523 auth bypass allowing arbitrary admin account creation
+• Patch removes user input control AND adds Apache regex blocking unauthenticated access
+
+• Attack targets mobile device gateway sitting between corporate fleets and Exchange/internal systems
+• Successful exploitation provides direct path to internal infrastructure from network edge position
+
+Hunt for POST requests to `/mics/api/v2/sentry/mics-config/handleMessage` with XML payloads containing `&lt;commandexec&gt;` tags or system commands in request bodies.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064513696299106647</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2064513696299106647">DFIR Radar</source>
+      <pubDate>Wed, 10 Jun 2026 01:03:17 +0000</pubDate>
+      <guid isPermaLink="false">2064513696299106647</guid>
+    </item>
     <item>
       <title>2026-06-09: Atomic macOS (AMOS) Stealer infection</title>
       <link>https://www.malware-traffic-analysis.net/2026/06/09/index.html</link>
@@ -1757,34 +1780,6 @@ DFIR artifacts:
       <source url="https://x.com/DFIR_Radar/status/2062067395708031142">DFIR Radar</source>
       <pubDate>Wed, 03 Jun 2026 07:02:33 +0000</pubDate>
       <guid isPermaLink="false">2062067395708031142</guid>
-    </item>
-    <item>
-      <title>Preinstall to persistence: Inside the Red Hat npm Miasma credential-stealing campaign</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/06/02/preinstall-persistence-inside-red-hat-npm-miasma-credential-stealing-campaign/</link>
-      <description>Microsoft disrupts "Miasma" campaign: massive npm supply chain attack compromised 32 @redhat-cloud-services packages through CI/CD hijacking. Attackers used legitimate GitHub OIDC workflow to publish trojanized packages with authentic provenance signatures.
-
-Key technical details:
-• 4.29MB obfuscated dropper (SHA256: 396cac9e457ec54ff6d3f6311cb5cc1da8054d019ce3ffa1de5741506c7a4ea4) triggers via npm preinstall hook
-• Multi-layer obfuscation: ROT-XX → AES-128-GCM → Obfuscator.io → custom PBKDF2 cipher (200k iterations)
-• Downloads Bun runtime to evade Node.js monitoring, creating process chain: node → shell → bun → payload
-• Harvests credentials from GitHub, AWS, Azure, GCP, HashiCorp Vault, K8s via IMDS and runner memory scraping
-
-Attack methodology:
-• Compromised RedHatInsights/javascript-clients CI/CD pipeline to publish legitimate-looking packages
-• Environment gating prevents execution on systems with limited locale configurations
-• Privilege escalation via passwordless sudo injection: `echo 'runner ALL=(ALL) NOPASSWD:ALL' &gt; /mnt/runner`
-• Memory scraping extracts GitHub Actions secrets: `tr -d '\0' | grep -aoE '"[^"]+":{"value":"[^"]*","isSecret":true}'`
-
-Exfiltration channels:
-• Creates victim-owned GitHub repos named "Miasma: The Spreading Blight" for credential dumps
-• Injects `.github/setup.js` into non-protected branches across victim repositories
-• Forges SLSA provenance attestations through Sigstore for legitimacy
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062052338156679589</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062052338156679589">DFIR Radar</source>
-      <pubDate>Wed, 03 Jun 2026 06:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2062052338156679589</guid>
     </item>
   </channel>
 </rss>
