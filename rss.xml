@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Jun 2026 16:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 17:03:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unifi Exploitation in the Defused Honeypots</title>
+      <link>https://www.pwndefend.com/2026/06/10/unifi-exploitation-in-the-defused-honeypots/</link>
+      <description>UniFi OS Server auth bypass chained with command injection enables single-request RCE. Mass scanning underway targeting 100k+ exposed endpoints, with blind exfiltration via DNS callbacks.
+
+Key technical details:
+• CVE-2026-34908: nginx parser differential allows unauthenticated access to internal /proxy/ endpoints via ..%2f encoding
+• CVE-2026-34910: Command injection in pkg_name parameter executes shell commands as service account
+• Payload uses `uname | base64`.requestrepo[.]com for blind RCE confirmation via DNS exfiltration
+• Affects UniFi OS Server ≤5.0.6, fixed in 5.0.8 (released 2026-05-21)
+• Service account has passwordless sudo - trivial escalation to root
+
+Attack methodology:
+• Mass scanner probes with spoofed Safari user agents, inconsistent OS versions
+• Two requests seconds apart: uname -r and uname -a for kernel fingerprinting
+• No HTTP response needed - DNS lookup to collaborator confirms execution
+• Base64-encoded system info exfiltrated as subdomain label
+
+DFIR artifacts:
+• Smoking gun: DNS queries to h4wiu0w9.requestrepo[.]com or any *.requestrepo[.]com from appliance
+• Web logs: /api/auth/validate-sso/..%2f..%2f..%2fproxy/users/api/v2/ucs/update/latest_package with pkg_name injection
+• Process execution: curl/uname/base64 children of web service process
+• Post-exploit: sudo invocations by service account, new persistence mechanisms
+
+Hunt query: Search DNS/proxy logs for requestrepo[.]com. Any hit from UniFi appliance = confirmed compromise.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065117792354103794</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2065117792354103794">DFIR Radar</source>
+      <pubDate>Thu, 11 Jun 2026 17:03:44 +0000</pubDate>
+      <guid isPermaLink="false">2065117792354103794</guid>
+    </item>
     <item>
       <title>Congratulations, You're Human. Now Here's Your Malware.</title>
       <link>https://www.halcyon.ai/blog/clickfix-social-engineering-attack-halcyon</link>
@@ -1657,17 +1689,6 @@ Detection opportunity: Pure JavaScript packages containing binding.gyp files alo
       <source url="https://x.com/DFIR_Radar/status/2062641300789191129">DFIR Radar</source>
       <pubDate>Thu, 04 Jun 2026 21:03:03 +0000</pubDate>
       <guid isPermaLink="false">2062641300789191129</guid>
-    </item>
-    <item>
-      <title>Gain visibility into DDoS attacks with flow logs in AWS Shield Advanced</title>
-      <link>https://aws.amazon.com/blogs/security/gain-visibility-into-ddos-attacks-with-flow-logs-in-aws-shield-advanced/</link>
-      <description>AWS Shield Advanced now provides DDoS attack flow logs with 5-minute granularity, capturing source IPs, protocols, packet counts, and mitigation actions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062626056792670680</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2062626056792670680">DFIR Radar</source>
-      <pubDate>Thu, 04 Jun 2026 20:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2062626056792670680</guid>
     </item>
   </channel>
 </rss>
