@@ -5,8 +5,37 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Jun 2026 17:03:44 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 18:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to defend ARM64 cloud infrastructure from ITScape</title>
+      <link>https://www.reversinglabs.com/blog/defend-cloud-infrastructure-itscape</link>
+      <description>ITScape (CVE-2026-46316): New guest-to-host escape in KVM/arm64 enables host kernel execution from untrusted guests. Critical threat to multi-tenant ARM64 cloud environments with direct compromise potential.
+
+Key technical details:
+• Race condition in vgic_its_invalidate_cache() causes double-put use-after-free in vGIC-ITS emulation
+• Affects kernels from commit 8201d1028caa (2024-04-25) through patch at 13031fb6b835 (2026-06-05)
+• Exploitation yields host kernel privilege, not just userspace compromise
+• Can be chained with local privesc when attacker lacks guest root access
+
+Detection opportunities:
+• Two YARA rules provided: ITScape_ExploitConstants_1 targets hardcoded 64-bit kernel addresses and payload strings
+• ITScape_KVM_PrivDrop_1 detects behavioral pattern: stat() check on /dev/kvm followed by setgroups/setgid/setuid(1000)
+• Monitor for unusual /dev/kvm access patterns and privilege dropping sequences
+
+Impact scope:
+• Primarily threatens ARM64 cloud providers and multi-tenant virtualization platforms
+• New vulnerability class suggests additional variants likely to emerge
+• Requires only guest kernel privilege to achieve host root compromise
+
+Priority patch application for arm64 KVM hosts. Hunt for /dev/kvm access anomalies and implement the provided YARA rules for PoC detection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065132899897126947</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2065132899897126947">DFIR Radar</source>
+      <pubDate>Thu, 11 Jun 2026 18:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2065132899897126947</guid>
+    </item>
     <item>
       <title>Unifi Exploitation in the Defused Honeypots</title>
       <link>https://www.pwndefend.com/2026/06/10/unifi-exploitation-in-the-defused-honeypots/</link>
@@ -1667,28 +1696,6 @@ Hunt for unsigned binaries in /usr/sbin/ with network connections, monitor sudo 
       <source url="https://x.com/DFIR_Radar/status/2062656315952898146">DFIR Radar</source>
       <pubDate>Thu, 04 Jun 2026 22:02:43 +0000</pubDate>
       <guid isPermaLink="false">2062656315952898146</guid>
-    </item>
-    <item>
-      <title>How 56 npm packages used binding.gyp to steal CI/CD secrets</title>
-      <link>https://www.reversinglabs.com/blog/npm-bindinggyp-cicd-secrets</link>
-      <description>Sophisticated supply chain attack targets CI/CD environments via npm packages using binding.gyp files to bypass security audits. Over 286 malicious versions across 56 packages deployed multi-layered encrypted payloads specifically designed to steal secrets from automated build systems.
-
-Key technical details:
-• Attack vector: binding.gyp files execute `node index.js` via GYP shell expansion during npm install, bypassing preinstall/postinstall script audits
-• Payload structure: 4.6MB obfuscated JS files with Caesar cipher → AES-128-GCM decryption → 720KB final payload encrypted with custom SHA-256 stream cipher
-• CI/CD targeting: Detects 30+ environment variables (GITHUB_ACTIONS, GITLAB_CI, TRAVIS, etc.) before credential enumeration
-• Persistence mechanisms: Installs systemd/LaunchAgent services with dead man's switch - token revocation triggers `rm -rf ~/` command
-• Exfiltration: GitHub API dead-drop repos with python-requests/2.31.0 User-Agent, repository names like "thebeautifulmarchoftime"
-
-Campaign scope spans autotel-*, executable-stories-*, awaitly-*, eslint-plugin-*, and node-env-resolver-* package families. Attack timeline: June 3-4, 2026, 56 packages published in under 10 hours with version bumps above legitimate releases.
-
-Detection opportunity: Pure JavaScript packages containing binding.gyp files alongside multi-megabyte index.js files. Monitor for RegAsm.exe network connections and scan for unauthorized ~/.config/systemd/user/ services.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062641300789191129</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062641300789191129">DFIR Radar</source>
-      <pubDate>Thu, 04 Jun 2026 21:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2062641300789191129</guid>
     </item>
   </channel>
 </rss>
