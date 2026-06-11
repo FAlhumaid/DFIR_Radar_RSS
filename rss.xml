@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 11 Jun 2026 12:04:35 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 14:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From SQLi to RCE – Exploiting LangGraph’s Checkpointer</title>
+      <link>https://research.checkpoint.com/2026/from-sqli-to-rce-exploiting-langgraphs-checkpointer/</link>
+      <description>Check Point Research uncovers critical vulnerabilities in LangGraph's persistence layer allowing SQL injection to chain into remote code execution. Three CVEs impact 50M+ monthly downloads of the popular AI agent framework.
+
+Key technical details:
+• CVE-2025-67644: SQL injection in SQLite checkpointer via unsanitized filter keys in get_state_history() function
+• CVE-2026-28277: Unsafe msgpack deserialization enables RCE through custom extension handler calling importlib.import_module()
+• CVE-2026-27022: Same injection class affects Redis checkpointer implementation
+• Attack chain: Malicious filter parameter → UNION SELECT injection → fake checkpoint row → msgpack deserialization → os.system() execution
+
+Exploitation requirements:
+• Self-hosted LangGraph with SQLite/Redis checkpointer
+• Application exposes get_state_history() with user-controlled filter parameter
+• LangSmith managed cloud service uses PostgreSQL and is not vulnerable
+
+Impact covers teams running stateful AI agents with exposed state history endpoints. All issues patched - update to langgraph-checkpoint-sqlite 3.0.1+, langgraph 1.0.10+, and langgraph-checkpoint-redis 1.0.2+.
+
+Hunt for applications calling get_state_history() with external input and audit msgpack deserialization in AI frameworks.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065072502007529887</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2065072502007529887">DFIR Radar</source>
+      <pubDate>Thu, 11 Jun 2026 14:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2065072502007529887</guid>
+    </item>
     <item>
       <title>Chaotic Eclipse Strikes Again: New Zero-Day Unlocks BitLocker in Four Hours of Research</title>
       <link>https://securityaffairs.com/193516/security/chaotic-eclipse-strikes-again-new-zero-day-unlocks-bitlocker-in-four-hours-of-research.html</link>
@@ -1656,36 +1682,6 @@ Hunt for privileged container creation via Docker socket with host bind mounts, 
       <source url="https://x.com/DFIR_Radar/status/2062596072359309355">DFIR Radar</source>
       <pubDate>Thu, 04 Jun 2026 18:03:20 +0000</pubDate>
       <guid isPermaLink="false">2062596072359309355</guid>
-    </item>
-    <item>
-      <title>Pink Extortion Group Emerges Targeting Microsoft 365 Data</title>
-      <link>https://thecyberexpress.com/pink-extortion-group-emerges/</link>
-      <description>Pink extortion group leverages voice phishing and Microsoft Graph APIs to steal cloud data within minutes of credential compromise. New operation linked to "Com" cybercrime ecosystem, targeting Microsoft 365 environments with aggressive internal extortion tactics.
-
-Key technical details:
-• Vishing campaigns use domains: passkeyadd[.]com, passkeydeploy[.]com, deploypasskey[.]com to harvest M365 credentials
-• Automated data theft via Microsoft Graph Client (v5.62.0) and python-requests tools from SharePoint/OneDrive
-• Immediate weaponization: sends extortion messages through victim's own email and Teams accounts (T1534)
-• Infrastructure: 185[.]178[.]208[.]153, 172[.]93[.]100[.]252, 96[.]232[.]20[.]66 via DDoS-Guard hosting
-
-Attack methodology:
-• Initial access through employee manipulation impersonating IT staff (T1566.004)
-• Credential harvesting bypasses MFA through session hijacking
-• Focus on immediate data exfiltration rather than persistence or ransomware deployment
-• Internal distribution creates confusion and demonstrates access to pressure victims
-
-DFIR artifacts:
-• Monitor Graph API calls with unusual user-agent strings in M365 audit logs
-• Suspicious Teams/email activity from recently compromised accounts
-• Third-level subdomain customization matching organization names
-
-Hunt for Graph API authentication events followed by bulk SharePoint/OneDrive access within short timeframes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062580786499305523</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062580786499305523">DFIR Radar</source>
-      <pubDate>Thu, 04 Jun 2026 17:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2062580786499305523</guid>
     </item>
   </channel>
 </rss>
