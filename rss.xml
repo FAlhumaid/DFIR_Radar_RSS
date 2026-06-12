@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Jun 2026 18:03:05 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2026 21:02:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Why Use App-Level Auth When Every Database Has Auth? (Splunk Enterprise CVE-2026-20253 Pre-Auth RCE)</title>
+      <link>https://labs.watchtowr.com/why-use-app-level-auth-when-every-database-has-auth-splunk-enterprise-cve-2026-20253-pre-auth-rce/</link>
+      <description>Splunk Enterprise pre-auth RCE via PostgreSQL sidecar bypass (CVE-2026-20253, CVSS 9.8). Affects AWS deployments by default, allows unauthenticated file write leading to code execution.
+
+Key technical details:
+- Vulnerable endpoint: `/en-US/splunkd/__raw/v1/postgres/recovery/backup` bypasses auth to internal PostgreSQL sidecar (port 5435)
+- Attack chain: Connection string injection in database parameter → external PostgreSQL dump → malicious SQL restore → arbitrary file write
+- Critical files: `.pgpass` at `/opt/splunk/var/packages/data/postgres/.pgpass` contains postgres_admin credentials
+- RCE via overwriting Python scripts like `/opt/splunk/etc/apps/splunk_secure_gateway/bin/ssg_enable_modular_input.py`
+
+Exploitation flow:
+- POST to backup endpoint with `hostaddr=attacker[.]db` parameter forces external DB connection
+- Malicious PostgreSQL dump uses `lo_export` function to write controlled content during restore
+- Target existing Python scripts executed by Splunk scheduler for immediate code execution
+
+Hunt for HTTP requests to `/__raw/v1/postgres/recovery/` endpoints and outbound connections to port 5432. Monitor file modifications in `/opt/splunk/etc/apps/` directories.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065540256347131966</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2065540256347131966">DFIR Radar</source>
+      <pubDate>Fri, 12 Jun 2026 21:02:28 +0000</pubDate>
+      <guid isPermaLink="false">2065540256347131966</guid>
+    </item>
     <item>
       <title>Over 400 Arch Linux packages compromised to push rootkit, infostealer</title>
       <link>https://www.bleepingcomputer.com/news/security/over-400-arch-linux-packages-compromised-to-push-rootkit-infostealer/</link>
@@ -1758,31 +1782,6 @@ Hunt for unauthorized RMM installations, bulk iManage searches, and high-volume 
       <source url="https://x.com/DFIR_Radar/status/2062898074654036176">DFIR Radar</source>
       <pubDate>Fri, 05 Jun 2026 14:03:23 +0000</pubDate>
       <guid isPermaLink="false">2062898074654036176</guid>
-    </item>
-    <item>
-      <title>How to respond to an incident in Kubernetes | AKS | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/incident-response-in-kubernetes-aks</link>
-      <description>Third installment of Kubernetes IR series focuses on Azure Kubernetes Service (AKS), revealing critical logging gaps and forensic challenges that leave most clusters blind to API server activity by default.
-
-Key findings:
-• AKS disables Kubernetes audit logging by default - fresh clusters have zero API server activity records until Diagnostic Settings are manually configured
-• Critical logs to enable: Kubernetes Audit Admin Logs, Guard (Entra ID mapping), and Microsoft Defender for Containers
-• AKS Automatic mode mirrors GKE Autopilot trade-off: better security defaults but eliminates node-level forensic access (no SSH, disk snapshots, or container runtime inspection)
-• KubeForensys tool extracts forensic data via Kubernetes API when logging is absent - pushes pod logs, events, command history, and RBAC bindings to Log Analytics
-
-Detection opportunities across the attack chain:
-• kubectl exec abuse: Query AKSAudit table for RequestUri patterns with encoded commands (T1609)
-• Dangerous hostPath mounts: Monitor pod creation events for writable filesystem access attempts
-• RBAC modifications: Track ClusterRoleBinding changes in Audit Admin logs
-• Defense evasion: Azure Activity Log captures diagnostic setting deletions
-
-Enable audit logging before incidents occur - these logs cannot be reconstructed retroactively. Forward to destinations outside cluster blast radius.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062882891831349460</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062882891831349460">DFIR Radar</source>
-      <pubDate>Fri, 05 Jun 2026 13:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2062882891831349460</guid>
     </item>
   </channel>
 </rss>
