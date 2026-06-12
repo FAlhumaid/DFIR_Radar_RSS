@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Jun 2026 14:02:42 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2026 15:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Active Exploitation of Oracle PeopleSoft Zero-Day (CVE-2026-35273)</title>
+      <link>https://www.rapid7.com/blog/post/etr-active-exploitation-of-oracle-peoplesoft-zero-day-cve-2026-35273</link>
+      <description>Critical PeopleSoft zero-day (CVE-2026-35273, CVSS 9.8) exploited in wild by ShinyHunters collective for two weeks before Oracle's emergency patch. SSRF enables RCE, targeting universities worldwide.
+
+Technical details:
+• Affects PeopleTools 8.61/8.62 via /PSEMHUB/hub and /PSIGW/HttpListeningConnector endpoints
+• SSRF vulnerability (CWE-918) chains to remote code execution capability
+• Exploitation triggers outbound SMB (TCP 445) to capture NetNTLM hashes
+• Post-exploitation: MeshCentral agents masquerading as Azure services (meshagent64-azure-ops.exe)
+• C2 infrastructure: azurenetfiles[.]net with WebSocket communications to /agent.ashx
+
+Campaign scope:
+• Active May 27 - June 9, 2026 (pre-disclosure exploitation)
+• 100+ organizations targeted, 68% higher education sector
+• Data exfiltration using zstd compression, published on ShinyHunters DLS
+
+DFIR artifacts:
+• Unexpected .jsp files under PSEMHUB.war/ application directories
+• XMLDecoder persistence via .xml files in envmetadata/data/environment/
+• Extortion marker: README-IF-YOU-SEE-THIS-YOUVE-BEEN-HACKED.TXT
+• HTTP POST logs to vulnerable endpoints from external IPs
+
+Emergency patch immediately. Hunt for MeshCentral processes, monitor outbound SMB from PeopleSoft servers, and block /PSEMHUB/* paths at perimeter. Full IOC list available in Mandiant's GTI collection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065449722471719044</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2065449722471719044">DFIR Radar</source>
+      <pubDate>Fri, 12 Jun 2026 15:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2065449722471719044</guid>
+    </item>
     <item>
       <title>Fake verification pages are stealing Steam accounts from players</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/06/fake-verification-pages-are-stealing-steam-accounts-from-players</link>
@@ -1768,31 +1799,6 @@ Hunt for "DM" prefixed tasks, SafeBoot registry changes, and monitor CI/CD envir
       <source url="https://x.com/DFIR_Radar/status/2062852595832770930">DFIR Radar</source>
       <pubDate>Fri, 05 Jun 2026 11:02:39 +0000</pubDate>
       <guid isPermaLink="false">2062852595832770930</guid>
-    </item>
-    <item>
-      <title>The Interesting Case of WSL for Payload Staging</title>
-      <link>https://detect.fyi/the-interesting-case-of-wsl-for-payload-staging-bfaa0f69329a?source=rss----d5fd8f494f6a---4</link>
-      <description>WSL2 creates significant DFIR blind spots: payload staging through Linux subsystem bypasses Windows telemetry while file operations appear as legitimate DllHost.exe activity with no attribution to actual downloading process.
-
-Technical breakdown:
-• WSL2 runs full Linux kernel in Hyper-V VM - network connections completely invisible to Sysmon EID 3
-• File writes to /mnt/c/ cross VM boundary via 9P protocol, handled by DllHost.exe COM surrogate
-• Attack chain: curl downloads inside WSL → DllHost.exe creates file on Windows side → zero forensic linkage
-• Falls under ADE3 (Context Development) - malicious action split across execution contexts
-• WSL interop calls (.exe from Linux) ARE visible with wsl.exe parent, but staging remains unattributed
-
-Detection opportunities:
-• Monitor wsl.exe process creation (EID 1) - not default on enterprise endpoints
-• Alert on DllHost.exe creating executables (.exe, .ps1, .bat) in user-writable directories
-• Temporal correlation between wsl.exe launch and suspicious DllHost.exe file operations
-
-Hunt for DllHost.exe creating files with dangerous extensions in %PUBLIC%, %TEMP%, or %PROGRAMDATA% directories. Full Sigma rule provided in analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062837542081138809</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2062837542081138809">DFIR Radar</source>
-      <pubDate>Fri, 05 Jun 2026 10:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2062837542081138809</guid>
     </item>
   </channel>
 </rss>
