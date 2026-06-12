@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Jun 2026 09:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2026 10:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Below the OS, UEFI bootkits, firmware implants, and the artifacts Volatility will never find</title>
+      <link>https://andreafortuna.org/2026/06/12/uefi-bootkits/</link>
+      <description>New deep-dive analysis reveals how UEFI bootkits and firmware implants operate below traditional DFIR tools, surviving disk replacement and OS reinstallation through persistence in motherboard flash memory and EFI System Partitions.
+
+Key technical details:
+• BlackLotus bypasses Secure Boot via CVE-2022-21894, drops artifacts in \EFI\Microsoft\Boot\system32\ (illegitimate path)
+• CosmicStrand 🇨🇳 and MosaicRegressor persist in SPI flash, hooking CSMCORE DXE drivers before Windows loads
+• MoonBounce targets CORE_DXE firmware components, injecting shellcode into kernel memory with zero disk artifacts
+• FinSpy commercial spyware includes pre-OS bootkit component, proving technique moved beyond nation-state use
+
+Detection methodology:
+• CHIPSEC for SPI flash analysis: `python chipsec_main.py -m common.bios_wp` checks write protection status
+• ESP imaging must be explicit - standard "full disk" acquisition may skip FAT32 EFI partition
+• TPM PCR baseline comparison detects boot chain tampering (PCR 0, 4, 7 are critical)
+• Secure Boot DBX currency validation - outdated revocation lists enable signed-but-vulnerable bootloader exploitation
+
+Forensic limitations:
+• Volatility and memory forensics are structurally blind to firmware-layer persistence
+• Requires pre-incident firmware baselines and PCR values for meaningful analysis
+• False positives common without exact hardware revision and firmware version context
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065374301318947279</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2065374301318947279">DFIR Radar</source>
+      <pubDate>Fri, 12 Jun 2026 10:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2065374301318947279</guid>
+    </item>
     <item>
       <title>Header Manipulation: Bypasses, Probing, and the Security Audit Nobody Does</title>
       <link>https://infosecwriteups.com/header-manipulation-bypasses-probing-and-the-security-audit-nobody-does-62e85ad28cb0?source=rss----7b722bfd1b8d---4</link>
@@ -1739,26 +1767,6 @@ Hunt for outbound HTTPS from appliances to non-vendor domains and SSH connection
       <source url="https://x.com/DFIR_Radar/status/2062777025517990116">DFIR Radar</source>
       <pubDate>Fri, 05 Jun 2026 06:02:22 +0000</pubDate>
       <guid isPermaLink="false">2062777025517990116</guid>
-    </item>
-    <item>
-      <title>You do surprise me.exe: An unexpected executable in Hola Browser</title>
-      <link>https://www.sophos.com/blog/you-do-surprise-me-exe-an-unexpected-executable-in-hola-browser</link>
-      <description>Supply chain compromise: Hola Browser's delivery pipeline compromised to distribute undeclared crypto-mining executable me.exe to 0.1% of users. Sophos X-Ops and AppEsteem identified the anomaly during routine certification testing.
-
-Key findings:
-• Malicious me.exe (SHA256: e3541caf708c075f0bb22fc68b03acd8457fea7cf0732ea935b1eb016d1c7721) contained XMRig-based mining code with strings like "killed orphan miner pid" and "user active, stopping miner"
-• Binary deployed to C:\Program Files\Hola\me.exe, copied itself to HolaMonitorService.exe, created autostart service "hola_monitor_svc" for persistence (T1543.003)
-• File exhibited multiple suspicious indicators: unsigned, no timestamp, obfuscated code, memory-write capability, Windows Defender exclusions
-• Pipeline delivered inconsistent payloads - certified snapshot differed from actual delivery in some cases
-• Hola 🇮🇱 engaged Sygnia for forensic investigation, confirmed no data exfiltration, rebuilt entire distribution pipeline
-
-Hunt for unexpected executables in legitimate software directories and monitor service creation events with crypto-mining process names or idle-detection behaviors.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062762055262769226</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2062762055262769226">DFIR Radar</source>
-      <pubDate>Fri, 05 Jun 2026 05:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2062762055262769226</guid>
     </item>
   </channel>
 </rss>
