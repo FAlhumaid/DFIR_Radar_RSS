@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Jun 2026 05:03:09 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2026 06:03:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Marking Your Own Homework (Check Point Remote Access VPN IKEv1 Authentication Bypass CVE-2026-50751)</title>
+      <link>https://labs.watchtowr.com/marking-your-own-homework-check-point-remote-access-vpn-ikev1-authentication-bypass-cve-2026-50751/</link>
+      <description>Check Point hotfixes critical IKEv1 authentication bypass CVE-2026-50751 (CVSS 9.3) after month-long exploitation by Qilin ransomware affiliates. Logic flaw lets clients dictate their own certificate validation requirements.
+
+Key technical details:
+• Affects R80.20.X through R82.10 Remote Access VPN/Mobile Access with IKEv1 enabled
+• VPNExtFeatures vendor ID payload (magic: 3cf187b24740...) writes client-controlled flags to auth gate at state+0x4bc4
+• Setting bit 0x4 in trailing bytes bypasses verify_peer_auth() signature verification entirely
+• Exploitable over both UDP 500/4500 and TCP 443 "Visitor Mode" with identical technique
+• Works with self-signed certificates - only requires valid username and ICA organization string from gateway's public cert
+
+Attack methodology:
+• Phase 1: Send VPNExtFeatures VID with 0x00000004 flag to disable signature checks
+• Phase 2: Present self-signed cert with valid DN (CN=username,OU=users,O=org)  
+• Phase 3: Submit random signature payload - gateway accepts without verification
+• Result: Full phase-1 SA establishment and internal network access
+
+DFIR artifacts: Look for IKE negotiations with "vendorid=0 .. not a Check Point peer" followed by successful "IkeSAFromState: User ... saved" entries. Monitor for certificate auth without corresponding valid trust chains.
+
+Hunt for anomalous IKE phase-1 completions with certificate mode but missing/invalid signature verification logs in your Check Point appliances.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065313999055368265</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2065313999055368265">DFIR Radar</source>
+      <pubDate>Fri, 12 Jun 2026 06:03:24 +0000</pubDate>
+      <guid isPermaLink="false">2065313999055368265</guid>
+    </item>
     <item>
       <title>OceanLotus: From external espionage to domestic targeting</title>
       <link>https://www.welivesecurity.com/en/eset-research/oceanlotus-external-espionage-domestic-targeting/</link>
@@ -1697,17 +1725,6 @@ Hunt for unexpected executables in legitimate software directories and monitor s
       <source url="https://x.com/DFIR_Radar/status/2062716650424561955">DFIR Radar</source>
       <pubDate>Fri, 05 Jun 2026 02:02:28 +0000</pubDate>
       <guid isPermaLink="false">2062716650424561955</guid>
-    </item>
-    <item>
-      <title>[tl;dr sec] #331 - How Adversaries Use AI, Skill Issues, Using IDEs for C2</title>
-      <link>https://tldrsec.com/p/tldr-sec-331</link>
-      <description>New research shows Claude Code skills and hooks can serve as initial access vectors via malicious .claude/settings.json files, similar to VSCode backdoors. Monitor claude/ directories and ~/.claude/settings.json with FIM.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062702124585398479</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2062702124585398479">DFIR Radar</source>
-      <pubDate>Fri, 05 Jun 2026 01:04:45 +0000</pubDate>
-      <guid isPermaLink="false">2062702124585398479</guid>
     </item>
   </channel>
 </rss>
