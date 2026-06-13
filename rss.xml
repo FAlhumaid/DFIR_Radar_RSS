@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 13 Jun 2026 15:02:14 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jun 2026 21:02:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The macOS Tahoe artifact that tracks every menu selection a user makes</title>
+      <link>https://andreafortuna.org/2026/06/13/macos-tahoe-biome-menuitem/</link>
+      <description>macOS Tahoe 26 introduces App.MenuItem artifact that logs every menu selection with timestamps, bridging the gap between technical events and user intent. Shows "user selected Compress 'stolendata'" vs just "zip file created."
+
+Key technical details:
+• Located at ~/Library/Biome/streams/restricted/App.MenuItem/local
+• SEGB-encapsulated protobuf format requiring ccl-segb tool for parsing
+• Records plain text menu selections: "File &gt; Save...", "Move to Trash", "Empty Trash" 
+• Provides semantic context missing from file system logs alone
+• Most commercial DFIR tools don't parse this stream yet
+
+Investigative value:
+• Captures deliberate user actions vs accidental/automated events
+• Timeline example: Navigate folder → Save file → Compress "stolendata" → Move to Trash → Empty Trash in 11-minute sequence
+• Records Copy/Paste operations and anti-forensic cleanup attempts
+• Works best combined with unified logs and file system artifacts
+
+Limitations:
+• Generic menu items like "Open" don't show target filenames
+• Requires elevated privileges for live acquisition due to restricted path
+• Limited to actions that generate explicit menu selections
+
+Add App.MenuItem extraction to your macOS Tahoe triage workflow using ccl-segb. Parse with: python ccl_segb_cli.py exported_file &gt; output.txt
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065902526507909447</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2065902526507909447">DFIR Radar</source>
+      <pubDate>Sat, 13 Jun 2026 21:02:00 +0000</pubDate>
+      <guid isPermaLink="false">2065902526507909447</guid>
+    </item>
     <item>
       <title>Chinese hackers hijack auth flow, spy on isolated network for a decade</title>
       <link>https://www.bleepingcomputer.com/news/security/chinese-hackers-hijack-auth-flow-spy-on-isolated-network-for-a-decade/</link>
@@ -1770,17 +1801,6 @@ Implement the "Agents Rule of Two": never combine untrusted input processing + s
       <source url="https://x.com/DFIR_Radar/status/2062989006481080398">DFIR Radar</source>
       <pubDate>Fri, 05 Jun 2026 20:04:43 +0000</pubDate>
       <guid isPermaLink="false">2062989006481080398</guid>
-    </item>
-    <item>
-      <title>From prompt to pwned: chaining LLM and web bugs to Admin</title>
-      <link>http://blog.quarkslab.com/from-prompt-to-pwned-chaining-llm-and-web-bugs-to-admin.html</link>
-      <description>New attack chain exploits insecure LLM output handling + IDOR to achieve admin takeover. Researchers demonstrate prompt injection leading to XSS, then leverage unprotected JWT cookies and conversation sharing bypass for full platform compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062973809209319846</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2062973809209319846">DFIR Radar</source>
-      <pubDate>Fri, 05 Jun 2026 19:04:19 +0000</pubDate>
-      <guid isPermaLink="false">2062973809209319846</guid>
     </item>
   </channel>
 </rss>
