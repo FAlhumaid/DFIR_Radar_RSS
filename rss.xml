@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 13 Jun 2026 10:02:03 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jun 2026 15:02:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Chinese hackers hijack auth flow, spy on isolated network for a decade</title>
+      <link>https://www.bleepingcomputer.com/news/security/chinese-hackers-hijack-auth-flow-spy-on-isolated-network-for-a-decade/</link>
+      <description>Chinese 🇨🇳 Velvet Ant group hijacked authentication systems in isolated critical infrastructure network, maintaining 10-year espionage operation with full visibility into admin activity across air-gapped environment.
+
+Technical breakdown:
+• Modified PAM modules (pam_unix.so) with hardcoded backdoor passwords and credential harvesting across 9 distinct variants
+• Trojanized OpenSSH components (ssh, sshd, scp) to capture credentials and log all SSH session commands
+• Custom SOCKS5 proxy masquerading as 'smbd -D' for network pivoting to isolated systems
+• Nginx + FastCGI bridge using 'uptime' binary for remote execution path into air-gapped network
+• GS-Netcat reverse shell with systemd persistence connecting to hardcoded relay domains
+
+Attack chain: Internet-facing compromise → SOCKS5 proxy deployment → Nginx/FastCGI bridge → SSH pivot to isolated network → PAM/OpenSSH replacement for auth control.
+
+Impact: Complete administrative oversight with persistence surviving password changes and session terminations.
+
+Monitor PAM and OpenSSH binaries with file integrity monitoring. Hunt for unexpected 'smbd -D' processes and validate authentication component checksums against known-good baselines.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065811987167154468</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2065811987167154468">DFIR Radar</source>
+      <pubDate>Sat, 13 Jun 2026 15:02:14 +0000</pubDate>
+      <guid isPermaLink="false">2065811987167154468</guid>
+    </item>
     <item>
       <title>U.S. CISA adds Oracle PeopleSoft Enterprise PeopleTools flaw to its Known Exploited Vulnerabilities catalog</title>
       <link>https://securityaffairs.com/193574/security/u-s-cisa-adds-oracle-peoplesoft-enterprise-peopletools-flaw-to-its-known-exploited-vulnerabilities-catalog.html</link>
@@ -1757,17 +1781,6 @@ Implement the "Agents Rule of Two": never combine untrusted input processing + s
       <source url="https://x.com/DFIR_Radar/status/2062973809209319846">DFIR Radar</source>
       <pubDate>Fri, 05 Jun 2026 19:04:19 +0000</pubDate>
       <guid isPermaLink="false">2062973809209319846</guid>
-    </item>
-    <item>
-      <title>HTTP/2 Bomb: How Default Configurations Open a New DoS Vector</title>
-      <link>https://socradar.io/blog/http-2-bomb-default-configuration-dos-vector/</link>
-      <description>New HTTP/2 Bomb DoS technique chains header amplification with flow-control holds to exhaust server memory in seconds. CVE-2026-49975 affects nginx, Apache, IIS, Envoy, Pingora in default configs. Patch nginx 1.29.8+ and Apache mod_http2 2.0.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2062958403668808014</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2062958403668808014">DFIR Radar</source>
-      <pubDate>Fri, 05 Jun 2026 18:03:06 +0000</pubDate>
-      <guid isPermaLink="false">2062958403668808014</guid>
     </item>
   </channel>
 </rss>
