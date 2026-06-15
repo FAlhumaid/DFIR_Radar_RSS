@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Jun 2026 12:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jun 2026 13:02:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dark Web Profile: Fox Kitten</title>
+      <link>https://socradar.io/blog/dark-web-profile-fox-kitten/</link>
+      <description>Iran 🇮🇷 state-sponsored Fox Kitten APT operates dual mission: intelligence collection for IRGC while brokering network access to ransomware affiliates for profit. Group rapidly weaponizes VPN/firewall CVEs and maintains extended access through tunneling infrastructure.
+
+Key technical details:
+• Primary entry via internet-facing appliances: CVE-2024-3400 (Palo Alto), CVE-2023-3519 (Citrix), CVE-2024-24919 (Check Point)
+• Persistence: HanifNet/.NET backdoor, HXLibrary/IIS module, China Chopper webshells, sticky keys abuse (T1546.008)
+• C2 infrastructure: FRPC, ngrok, Chisel reverse proxies routing through AWS; SSHMinion custom tunneling tool
+• Credential theft: prodump (ProcDump variant) for LSASS dumping, Volume Shadow Copy for NTDS.dit extraction
+• Confirmed partnerships with NoEscape, Ransomhouse, ALPHV affiliates since 2024
+
+Hunt for ngrok/FRPC execution, LSASS access attempts, and TightVNC installations. Prioritize patching internet-facing VPN/firewall devices - Fox Kitten weaponizes new CVEs within days of disclosure.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066506554069725483</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2066506554069725483">DFIR Radar</source>
+      <pubDate>Mon, 15 Jun 2026 13:02:11 +0000</pubDate>
+      <guid isPermaLink="false">2066506554069725483</guid>
+    </item>
     <item>
       <title>Palo Alto Warns of Exploitation of VPN Bypass Exploits (CVE-2026-0257) in PAN-OS Flaw</title>
       <link>https://securityaffairs.com/193638/security/palo-alto-warns-of-exploitation-of-vpn-bypass-exploits-cve-2026-0257-in-pan-os-flaw.html</link>
@@ -1820,32 +1840,6 @@ Hunt for processes in /tmp/.sys paths, unexpected cron jobs with 15-minute inter
       <source url="https://x.com/DFIR_Radar/status/2063894311649903056">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 08:02:04 +0000</pubDate>
       <guid isPermaLink="false">2063894311649903056</guid>
-    </item>
-    <item>
-      <title>Kubernetes container forensics after pod deletion</title>
-      <link>https://andreafortuna.org/2026/06/08/container-forensics/</link>
-      <description>New technical deep-dive: Pod deletion in Kubernetes doesn't erase critical evidence. Node-level artifacts, control plane logs, and network telemetry provide comprehensive attack reconstruction even after containers vanish.
-
-Key forensic artifacts that survive pod deletion:
-• Kubelet logs in /var/log/pods/&lt;namespace&gt;_&lt;pod-name&gt;_&lt;pod-uid&gt;/ retain stdout/stderr with timestamps
-• containerd state in /run/containerd/ preserves container metadata, IDs, and exit codes temporarily
-• Kubernetes audit logs capture API calls including secret access, kubectl exec, port-forwards with service account attribution
-• overlay2 image layers remain cached on nodes until explicitly pruned - can be mounted for analysis
-• CNI flow telemetry (Hubble/Cilium) records pod-to-pod traffic independent of container lifecycle
-
-Attack reconstruction workflow:
-• First 15 minutes: Isolate nodes, snapshot disks, export kubelet/runtime logs
-• Within 60 minutes: Pull audit logs, cluster events, CNI metadata to immutable storage
-• Cross-reference pod UID from /var/log/pods with audit log events for complete timeline
-• Use ephemeral containers on running pods for live memory dumping and process analysis
-
-Critical time windows: kubelet logs (hours-days), audit events (1 hour default TTL), containerd state (minutes), conntrack entries (until connection flush).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063879116244341141</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2063879116244341141">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 07:01:41 +0000</pubDate>
-      <guid isPermaLink="false">2063879116244341141</guid>
     </item>
   </channel>
 </rss>
