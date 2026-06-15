@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Jun 2026 11:02:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jun 2026 12:02:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Palo Alto Warns of Exploitation of VPN Bypass Exploits (CVE-2026-0257) in PAN-OS Flaw</title>
+      <link>https://securityaffairs.com/193638/security/palo-alto-warns-of-exploitation-of-vpn-bypass-exploits-cve-2026-0257-in-pan-os-flaw.html</link>
+      <description>Palo Alto Networks 🇺🇸 confirms active exploitation of CVE-2026-0257, a PAN-OS authentication bypass allowing attackers to establish unauthorized VPN connections without credentials. CISA added to KEV catalog after widespread attacks.
+
+Key technical details:
+• Affects GlobalProtect portal/gateway when using shared certificates for HTTPS and cookie encryption
+• Attackers extract public key from HTTPS session, forge admin cookies bypassing authentication (no creds needed)
+• Rapid7 observed exploitation starting May 17 from Vultr and Dromatics Systems infrastructure
+• Attack uses spoofed MAC addresses (aa:bb:cc:dd:ee:ff) and hostnames "GP-CLIENT", "DESKTOP-GP01"
+
+Attack methodology:
+• Retrieve certificate chain from vulnerable appliance HTTPS service
+• Extract public key and forge authentication cookie for any user including local admin
+• Present forged cookie to bypass authentication - takes seconds to execute
+• 20% of victims received full VPN IP assignment granting internal network access
+
+DFIR artifacts and IOCs:
+• Hunt GlobalProtect logs for connections from 23.128.228[.]6, 104.207.144[.]154, 146.19.216[.]119-125
+• Look for Windows 10 Pro 64-bit clients with empty domain fields in successful gateway connections
+• Monitor for MAC addresses aa:bb:cc:dd:ee:ff and 00:11:22:33:44:55
+
+Impact requires specific misconfig: Cloud Authentication Service disabled + shared certificate between HTTPS service and cookie encryption.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066491521805754842</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2066491521805754842">DFIR Radar</source>
+      <pubDate>Mon, 15 Jun 2026 12:02:27 +0000</pubDate>
+      <guid isPermaLink="false">2066491521805754842</guid>
+    </item>
     <item>
       <title>Ransomware Tool Matrix Project Updates: Three Groups To Track</title>
       <link>https://blog.bushidotoken.net/2026/06/ransomware-tool-matrix-project-updates.html</link>
@@ -1816,25 +1846,6 @@ Critical time windows: kubelet logs (hours-days), audit events (1 hour default T
       <source url="https://x.com/DFIR_Radar/status/2063879116244341141">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 07:01:41 +0000</pubDate>
       <guid isPermaLink="false">2063879116244341141</guid>
-    </item>
-    <item>
-      <title>Operation Desert Hydra — AI-Assisted CTI Pipeline: MuddyWater to Kibana</title>
-      <link>https://infosecwriteups.com/operation-desert-hydra-ai-assisted-cti-pipeline-muddywater-to-kibana-34da7917acf0?source=rss----7b722bfd1b8d---4</link>
-      <description>New CTI-to-detection methodology: Complete MuddyWater/Iranian MOIS pipeline produces 11 validated detection rules from source gathering through lab proof. Full AI-assisted workflow from OpenCTI knowledge graph to Kibana screenshots demonstrates end-to-end threat intelligence operationalization.
-
-Key technical details:
-• AI source discovery supplements traditional CTI gathering - parallel Gemini/OpenAI research passes yielded 71 candidate sources, 8 promoted after reliability assessment
-• 10 procedure records with Observed/Reported evidence labels: spearphishing delivery, CVE-2020-0688/CVE-2021-44228 exploitation, PowerShell obfuscation, DLL side-loading (PowGoop/Goopdate.dll), Registry Run key persistence (OutlookMicrosift typo), 43-minute scheduled task beacon (BugSleep), RMM abuse (ScreenConnect/SimpleHelp/AteraAgent), Telegram Bot API C2, WMI SecurityCenter2 discovery, LSASS credential dumping
-• Lab validation achieves 13 PASS/1 PARTIAL/1 FAIL across 16 detection rule checks using benign Windows 10 VM with Sysmon + Script Block Logging + Winlogbeat → Elasticsearch pipeline
-• Coverage matrix: 68% techniques (15/22) achieve score 5 (lab-validated), 6 capability gates identified including PowerShell Script Block Logging EID 4104, Sysmon ProcessAccess EID 10, ImageLoad EID 7
-
-Hunt for PT43M scheduled task intervals immediately - BugSleep's 43-minute beacon is documented IoC with zero legitimate software usage.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063864066788003880</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2063864066788003880">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 06:01:53 +0000</pubDate>
-      <guid isPermaLink="false">2063864066788003880</guid>
     </item>
   </channel>
 </rss>
