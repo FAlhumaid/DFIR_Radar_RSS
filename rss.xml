@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jun 2026 16:03:08 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 17:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PSA: Supply Chain Compromise Targets ShapedPlugin, Backdoored Pro Plugins Distributed via Official Channels</title>
+      <link>https://www.wordfence.com/blog/2026/06/psa-supply-chain-compromise-targets-shapedplugin-backdoored-pro-plugins-distributed-via-official-channels/</link>
+      <description>Active supply chain compromise: Attackers infiltrated ShapedPlugin's build and distribution pipeline, injecting a multi-stage backdoor into Pro WordPress plugin releases delivered through official licensed update channels. CVE-2026-10735 (CVSS 9.8 Critical) affects Product Slider Pro, Real Testimonials Pro, and Smart Post Show Pro. Sites that installed any ShapedPlugin Pro product between April and June 2026 should be treated as compromised.
+
+Key technical details:
+
+- Stage 1 loader: `src/Includes/LicenseLoader.php` runs on `admin_init`, beacons to C2 at `194[.]76[.]217[.]28:2871`, downloads payload via WordPress Plugin_Upgrader, then self-deletes to cover tracks (T1027, T1070.004)
+
+- Stage 2 fake plugin drops to `wp-content/plugins/woocommerce-subscription/` (singular, not plural), hiding itself from the admin plugin list via `all_plugins` filter. Bundles Tiny File Manager 2.6, Adminer 5.2.1, a REST API backdoor at `/wp-json/wc/v3/settings/apply`, a URL parameter webshell, and a login bypass using hardcoded MD5 `e268c35a06d85f672e70c9beecb4e5d1`
+
+- 2FA secret exfiltration targets TOTP seeds from WP 2FA, Wordfence Login Security, Really Simple SSL, and Two-Factor plugin user meta. Stolen data exfils to `generate[.]2faplugin[.]org`. With both passwords and TOTP seeds compromised, MFA is fully bypassed even after password resets
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066929460591427894</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2066929460591427894">DFIR Radar</source>
+      <pubDate>Tue, 16 Jun 2026 17:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2066929460591427894</guid>
+    </item>
     <item>
       <title>Zombie COTables: Resurrecting Freed Memory to Escape VirtualBox</title>
       <link>https://blog.exodusintel.com/2026/06/15/zombie-cotables-resurrecting-freed-memory-to-escape-virtualbox/</link>
@@ -1841,32 +1860,6 @@ Monitor for service principals with overprivileged Directory.Read.All permission
       <source url="https://x.com/DFIR_Radar/status/2064030439363191270">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 17:03:00 +0000</pubDate>
       <guid isPermaLink="false">2064030439363191270</guid>
-    </item>
-    <item>
-      <title>Investigating suspicious AI workflows in Microsoft Entra Agent ID: Assistive agents</title>
-      <link>https://redcanary.com/blog/threat-detection/entra-id-ai-workflows-assistive-agents/</link>
-      <description>Red Canary demonstrates how to investigate suspicious AI agent activity in Microsoft Entra, showing correlation techniques across Exchange, Graph API, and sign-in logs to build complete incident timelines.
-
-Technical breakdown of AI agent forensics:
-• Agent acting on behalf of user sent phishing email with "invoice" subject to external recipient using Graph API
-• Three log correlation required: Purview Exchange logs → MicrosoftGraphActivityLogs → AADNonInteractiveUserSignInLogs
-• Key correlation fields: AppAccessContext.UniqueTokenId maps to SignInActivityId, ClientRequestId for exact API call matching
-• Agent.agentType=agenticAppInstance + Agent.agentSubjectType=notAgentic indicates on-behalf-of (OBO) authentication flow
-• User consent tracked in AuditLogs table under "Add delegated permission grant" operation for access_agent scope
-
-Investigation methodology:
-• Start with suspicious activity in Exchange/email logs, extract AgentId and UniqueTokenId
-• Correlate to Graph API logs using UniqueTokenId→SignInActivityId mapping to get true source IP
-• Pull non-interactive sign-in logs to identify agent permissions and OBO relationships
-• Check AuditLogs for original user consent granting access_agent scope to agent blueprint
-
-Hunt for anomalous agent email activity by correlating Graph API Mail.Send operations with external recipients against baseline agent behavior patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064015243584708778</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2064015243584708778">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 16:02:37 +0000</pubDate>
-      <guid isPermaLink="false">2064015243584708778</guid>
     </item>
   </channel>
 </rss>
