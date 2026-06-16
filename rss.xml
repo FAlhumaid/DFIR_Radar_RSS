@@ -5,8 +5,26 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jun 2026 19:02:52 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 20:02:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>No Patch Coming: The Arista EOS Tunnel Bug Your Scanner Will Miss</title>
+      <link>https://eclypsium.com/blog/arista-eos-tunnel-decapsulation-no-patch/</link>
+      <description>CVE-2026-7473 in Arista EOS switches allows attackers to bypass network segmentation via tunnel decapsulation without protocol validation. No patch is planned, and nearly every EOS release is affected, making this a permanent configuration-driven exposure.
+
+Key details:
+- CVE-2026-7473 (CWE-1023): Arista EOS R-series switches (7020R, 7280R/R2, 7500R/R2) strip and forward ANY tunnel protocol (GRE, VXLAN, IP-in-IP, NVGRE, GUE) sent to a configured decap IP, regardless of which protocol was actually configured (T1599)
+- Attack chain: Attacker crafts a double-encapsulated packet, outer wrapper addressed to the decap IP in any supported format, inner packet targeting a protected internal segment. Switch decapsulates and delivers without firewall traversal or host compromise
+- Detection gap: Arista published the advisory and CVE on May 5, 2026, flagging active exploitation. CVE did not propagate to public feeds for roughly a month. CISA KEV entry did not appear until June 9, creating a 5-week blind spot for automated workflows
+- Scanner failure: Version-based scanners are unreliable here as nearly all EOS versions are listed as affected. The vulnerable condition is a configured decap IP reachable from untrusted networks WITHOUT restricting ACLs, not a version string
+- A public PoC (fevvar54) exists. Treat exploitation as live and ongoing
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066974762446831971</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2066974762446831971">DFIR Radar</source>
+      <pubDate>Tue, 16 Jun 2026 20:02:41 +0000</pubDate>
+      <guid isPermaLink="false">2066974762446831971</guid>
+    </item>
     <item>
       <title>Mapping out your unknown: A threat hunter’s guide to Salesforce</title>
       <link>https://securitylabs.datadoghq.com/articles/mapping-out-your-unknown-threat-hunters-guide-to-salesforce/</link>
@@ -1833,31 +1851,6 @@ DFIR artifacts: Monitor for xp_dirtree queries to external SMB shares, unusual R
       <source url="https://x.com/DFIR_Radar/status/2064075623887245361">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 20:02:32 +0000</pubDate>
       <guid isPermaLink="false">2064075623887245361</guid>
-    </item>
-    <item>
-      <title>Critical Check Point VPN Zero-Day Exploited in the Wild (CVE-2026-50751)</title>
-      <link>https://www.rapid7.com/blog/post/etr-critical-check-point-vpn-zero-day-exploited-in-the-wild-cve-2026-50751</link>
-      <description>Critical Check Point VPN zero-day (CVE-2026-50751) exploited in the wild since May 7. Authentication bypass allows unauthenticated VPN access through IKEv1 weakness, linked to Qilin ransomware affiliate targeting dozens of organizations.
-
-Key technical details:
-• CVE-2026-50751: CVSS 9.3 authentication bypass in Remote Access VPN/Mobile Access using deprecated IKEv1 protocol
-• Logic flaw in certificate validation during IKEv1 key exchange enables session establishment without credentials
-• Affects R80.20.X through R82.10 (four branches already End of Support)
-• Related CVE-2026-50752 (CVSS 7.4) enables MITM attacks on site-to-site VPN tunnels
-
-Attack infrastructure:
-• VPS hosts from Kaupo Cloud HK, Shock Hosting, Vultr Holdings
-• Geographic matching: attacker VPS regions aligned with target locations
-• Post-exploitation: ELF payload retrieval from C2 servers
-• IOCs include IPs 45[.]77[.]149[.]152, 209[.]182[.]225[.]136, and MD5 hashes
-
-Emergency patching required. Hunt for anomalous VPN sessions from May 7 onward, focus on IKEv1 connections without machine certificates. Full IOC list in Check Point advisory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064060443514315111</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2064060443514315111">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 19:02:13 +0000</pubDate>
-      <guid isPermaLink="false">2064060443514315111</guid>
     </item>
   </channel>
 </rss>
