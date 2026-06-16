@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jun 2026 14:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 15:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dozens of malicious wallpapers found on Steam Workshop: gamers’ accounts at risk</title>
+      <link>https://securelist.com/dozens-of-malicious-wallpapers-found-on-steam-workshop/120186/</link>
+      <description>Dozens of malicious Wallpaper Engine packages discovered on Steam Workshop since late 2025, distributing DarkKomet backdoors, Lumma/Vidar infostealers, ransomware, and crypto miners. 89% of download attempts targeted gamers in China 🇨🇳, with Russia 🇷🇺 at 5.5%.
+
+Key technical details:
+- Attack vector: "Application wallpaper" type in Wallpaper Engine executes arbitrary Windows binaries directly on the desktop
+- Sample infection chain: wallpaper drops `Synaptics.exe` (DarkKomet), launches `._cache_GAME1.exe` which side-loads a trojanized `AggregatorHost.dll`
+- Modified `AggregatorHost.dll` locates Steam credentials, hijacks the live session, and exfils to `hxxp://120.48.156[.]17/ey.php`
+- Second C2 cluster active at `hxxp://202.144.192[.]29` with staged payloads including `Themes2.zip` and `Synaptics.rar` via Dropbox
+- Malware families confirmed: DarkKomet (T1059), Lumma infostealer, Vidar infostealer, RenEngine loader, ransomware variants
+- Delivery variation: some packages used password-protected archives with the password embedded in the archive filename or a bundled JSON config file, enabling auto-extraction via script
+
+Attribution note: diversity of tooling suggests multiple independent threat actors exploiting the same Steam Workshop upload mechanism rather than a single coordinated group. Compromised accounts were then abused to upload further malicious wallpapers, creating a self-sustaining distribution loop (T1608.001).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066899259589304618</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2066899259589304618">DFIR Radar</source>
+      <pubDate>Tue, 16 Jun 2026 15:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2066899259589304618</guid>
+    </item>
     <item>
       <title>Inside a malicious infrastructure delivering EtherRAT, phishing pages, and malicious software</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/06/inside-a-malicious-infrastructure-delivering-etherrat-phishing-pages-and-malicious-software</link>
@@ -1837,31 +1858,6 @@ Hunt for anomalous agent email activity by correlating Graph API Mail.Send opera
       <source url="https://x.com/DFIR_Radar/status/2064000030676050036">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 15:02:10 +0000</pubDate>
       <guid isPermaLink="false">2064000030676050036</guid>
-    </item>
-    <item>
-      <title>Off By !: Exploiting a Use-after-Free in the Linux Kernel</title>
-      <link>https://blog.exodusintel.com/2026/06/08/off-by-exploiting-a-use-after-free-in-the-linux-kernel/</link>
-      <description>Critical Linux kernel use-after-free in nftables enables unprivileged local privilege escalation to root. CVE-2026-23111 affects major distributions including Debian and Ubuntu systems.
-
-Technical details:
-• Flaw in nft_map_catchall_activate() function incorrectly skips deactivated catchall elements during abort process
-• Vulnerability triggered via crafted netlink batches: delete pipapo set → force abort → toggle generation → delete set → delete chain
-• Results in chain reference counter reaching zero while valid references remain, creating exploitable use-after-free
-• Affects nftables subsystem generation mask handling and catchall element lifecycle management
-
-Attack methodology:
-• Requires unprivileged user namespace creation (bypassable on Ubuntu 24.04 via aa-exec)
-• Multi-stage exploit: trigger vulnerability → leak kernel base (defeat KASLR) → leak heap addresses → ROP chain execution
-• Achieves privilege escalation via commit_creds(&amp;init_cred) and namespace escape through switch_task_namespaces()
-• Stability &gt;99% on idle systems, drops to 80% under load
-
-Impact spans Debian Bookworm/Trixie and Ubuntu 22.04/24.04 LTS. Patch applied February 2026. Hunt for suspicious nftables operations with pipapo sets and generation cursor manipulation in audit logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063985038840992253</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2063985038840992253">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 14:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2063985038840992253</guid>
     </item>
   </channel>
 </rss>
