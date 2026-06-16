@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jun 2026 13:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 14:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside a malicious infrastructure delivering EtherRAT, phishing pages, and malicious software</title>
+      <link>https://www.malwarebytes.com/blog/threat-intel/2026/06/inside-a-malicious-infrastructure-delivering-etherrat-phishing-pages-and-malicious-software</link>
+      <description>EtherRAT, a Node.js RAT using the Ethereum blockchain for C2 resilience, has been traced to a vast bulletproof infrastructure distributing malware, phishing kits, and remote access tools. Malwarebytes uncovered the campaign via an open directory serving versioned MSI and PowerShell loaders.
+
+Attack chain breakdown:
+- MSI (e.g., v9.msi) drops 3 components: `KmPuGimn.cmd` (BAT launcher), `cDQMlQAru0.xml` (JScript XOR loader), `MRaQCipBIZeiZNx.log` (encrypted EtherRAT payload). Node.js is silently installed to `%LOCALAPPDATA%\28Q75h\` if absent
+- Persistence via registry Run key; node.exe copied as `_MJlLlt5.exe` under `%LOCALAPPDATA%\{random}\{random}\`
+- EtherRAT resolves C2 dynamically via Ethereum smart contract `0x88ea8d0bc4146f0a018e989df3fd089ac48f9a58` using `eth_call` JSON-RPC against public RPC endpoints (e.g., `mainnet[.]gateway[.]tenderly[.]co`, `rpc[.]flashbots[.]net`)
+- Post-compromise recon: WMI GPU/domain queries, `reg query HKLM\SOFTWARE\Microsoft\Cryptography /v MachineGuid`, `net session` — classic sandbox/domain checks (T1082, T1016)
+- Each execution triggers C2-side reobfuscation and hash rotation, defeating static IOC matching; logs written to `svchost.log`
+
+Infrastructure IOCs (defanged):
+IPs: `82[.]165[.]65[.]244`, `185[.]221[.]216[.]121`, `43[.]163[.]233[.]166`
+Distribution: `ivorilla[.]cloud`, `dorqen[.]casa`, `kelvra[.]club`
+C2: `cambioefectivo[.]com`, `tranzed[.]org`, `kibrisarazi[.]com`
+
+Hunt tip: Alert on `conhost.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066884405264621870</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2066884405264621870">DFIR Radar</source>
+      <pubDate>Tue, 16 Jun 2026 14:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2066884405264621870</guid>
+    </item>
     <item>
       <title>Holding blobs for ransom: Four methods for Azure Storage ransomware</title>
       <link>https://securitylabs.datadoghq.com/articles/azure-blob-storage-ransomware-four-methods/</link>
@@ -1837,32 +1862,6 @@ Impact spans Debian Bookworm/Trixie and Ubuntu 22.04/24.04 LTS. Patch applied Fe
       <source url="https://x.com/DFIR_Radar/status/2063985038840992253">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 14:02:35 +0000</pubDate>
       <guid isPermaLink="false">2063985038840992253</guid>
-    </item>
-    <item>
-      <title>From Fake Amazon Security Alert to HarborWatch Agent: ClickFix Delivery of a Custom Monitoring RAT</title>
-      <link>https://cofense.com/blog/from-fake-amazon-security-alert-to-harborwatch-agent-clickfix-delivery-of-a-custom-monitoring-rat</link>
-      <description>New Amazon-themed ClickFix campaign delivers HarborWatch Agent, a custom monitoring RAT via social engineering that turns victims into their own infection vector through fake security verification.
-
-Key technical details:
-• Multi-stage delivery: Phishing email → fake CAPTCHA at amazonattention[.]com → PowerShell clipboard injection → mysql[.]exe download from zoomupdate[.]b-cdn[.]net
-• HarborWatch Agent requires --pass=JHSgfsa2652 argument to execute, hindering analysis (T1027)
-• C2 communication to 185[.]193[.]127[.]44 via /api/agent/tasks/ and /api/heartbeat endpoints
-• Collects comprehensive host info: OS, architecture, hostname, CPU, disk usage, memory, uptime, processes, network status
-• Harbor Sentinel admin panel displays in Chinese (港湾哨兵) for threat actor monitoring
-
-DFIR artifacts:
-• PowerShell execution with -nop -w hidden flags in process logs
-• mysql[.]exe in %AppData%\Local\Temp\ with specific password argument
-• Network connections to 185[.]193[.]127[.]44 with API endpoint patterns
-• Memory strings containing "HarborWatchAgent/c-1.1.1" identifier
-
-Hunt for PowerShell processes with hidden windows downloading from CDN domains, especially files requiring password arguments for execution. Monitor clipboard manipulation and fake verification workflows.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063969997471334647</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2063969997471334647">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 13:02:49 +0000</pubDate>
-      <guid isPermaLink="false">2063969997471334647</guid>
     </item>
   </channel>
 </rss>
