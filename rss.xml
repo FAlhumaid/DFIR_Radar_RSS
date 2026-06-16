@@ -5,8 +5,28 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jun 2026 15:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 16:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Zombie COTables: Resurrecting Freed Memory to Escape VirtualBox</title>
+      <link>https://blog.exodusintel.com/2026/06/15/zombie-cotables-resurrecting-freed-memory-to-escape-virtualbox/</link>
+      <description>A use-after-free in Oracle VirtualBox's SVGA subsystem enables guest-to-host escape with code execution in the hypervisor process. Patched in Oracle's January 2026 Critical Patch Update, the full exploit chain achieves ~70% reliability on Linux hosts.
+
+Key technical details:
+- Root cause: `SVGA_3D_CMD_DESTROY_GB_MOB` frees a MOB (VMSVGAMOB, size 104 bytes) without checking if it is still bound to a Context-Object Table (COTable) via `aCOTMobs[]`, leaving a dangling pointer
+- Attack chain: bind MOB to COTable via `SVGA_3D_CMD_DX_SET_COTABLE` (type 7, SVGA_COTABLE_SAMPLER), destroy the MOB, reclaim freed heap chunks, force `RTMemAllocZ()` to place a new `VMSVGA3DDXCONTEXT` (0x2170 bytes) over the freed MOB buffer
+- Arbitrary write: `vmsvga3dDXDefineSamplerState()` uses guest-controlled `samplerId` as an unvalidated index into `cot.paSampler`, enabling out-of-bounds writes and pointer corruption
+- Info leak: heap grooming of 6 MOBs recovers base address of `VBoxDD.so` and `VMSVGAR3STATE` pointer, which contains exploitable function pointers (`pFuncsVGPU9-&gt;pfnCommandClear`)
+- ROP chain: stack pivot into guest-controlled command buffer, `RTMemProtect()` sets MOB buffer RWX, shellcode executes in hypervisor context. Process continuity preserved by redirecting execution back to `vmsvgaR3FifoLoop()`
+
+Patch action: Apply Oracle January 2026 Critical Patch Update immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066914477996490805</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2066914477996490805">DFIR Radar</source>
+      <pubDate>Tue, 16 Jun 2026 16:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2066914477996490805</guid>
+    </item>
     <item>
       <title>Dozens of malicious wallpapers found on Steam Workshop: gamers’ accounts at risk</title>
       <link>https://securelist.com/dozens-of-malicious-wallpapers-found-on-steam-workshop/120186/</link>
@@ -1847,17 +1867,6 @@ Hunt for anomalous agent email activity by correlating Graph API Mail.Send opera
       <source url="https://x.com/DFIR_Radar/status/2064015243584708778">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 16:02:37 +0000</pubDate>
       <guid isPermaLink="false">2064015243584708778</guid>
-    </item>
-    <item>
-      <title>[webapps] OpenEMR 7.0.2 - Arbitrary File Read</title>
-      <link>https://www.exploit-db.com/exploits/52610</link>
-      <description>CVE-2026-24849: OpenEMR &lt; 7.0.4 arbitrary file read via Fax/SMS module allows ANY authenticated user to access sensitive files like DB credentials and system configs. Exploit includes file deletion risk.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064000030676050036</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2064000030676050036">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 15:02:10 +0000</pubDate>
-      <guid isPermaLink="false">2064000030676050036</guid>
     </item>
   </channel>
 </rss>
