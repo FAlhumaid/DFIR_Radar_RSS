@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jun 2026 21:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 22:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malicious JetBrains Marketplace plugins steal AI API keys from developers</title>
+      <link>https://www.bleepingcomputer.com/news/security/malicious-jetbrains-marketplace-plugins-steal-ai-api-keys-from-developers/</link>
+      <description>15 malicious JetBrains Marketplace plugins posing as AI coding assistants stole AI API keys from developers across ~70,000 installs. The coordinated campaign ran undetected from October 2025 through at least June 10, 2026.
+
+Key technical details:
+- Exfiltration endpoint: `hxxp://39[.]107[.]60[.]51/api/software/key` over cleartext HTTP, triggered on "Apply" click in plugin settings
+- 15 plugins published under 7 vendor accounts share near-identical credential theft code (supply chain coordination, T1195.002)
+- Targeted credentials: OpenAI, DeepSeek, and SiliconFlow API keys stored in IDE plugin settings
+- Notable plugin IDs confirmed malicious: `ord.cp.code.ai.kit` (DeepSeek AI Assist, 27,727 installs), `com.my.code.tools` (CodeGPT AI Assistant, 25,571 installs)
+- Plugins also ran a paid tier, likely reselling harvested victim API keys to paying customers via the same C2 server
+
+DFIR artifacts and detection opportunities:
+- Network logs: flag outbound HTTP POST to `39[.]107[.]60[.]51` from developer workstations or CI/CD build agents
+- JetBrains plugin directories: audit installed plugins against the 15 confirmed malicious plugin IDs listed in the Aikido report
+- API key abuse: if any of the listed plugins were installed, rotate ALL AI provider API keys immediately and audit usage logs for anomalous calls
+
+Practitioner takeaway: Hunt your developer fleet for the 15 plugin IDs. Block `39[.]107[.]60[.]51` at the perimeter.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067005008327971252</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2067005008327971252">DFIR Radar</source>
+      <pubDate>Tue, 16 Jun 2026 22:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2067005008327971252</guid>
+    </item>
     <item>
       <title>The Intelligent Shield. OpenCTI</title>
       <link>https://infosecwriteups.com/the-intelligent-shield-057c9b4b9394?source=rss----7b722bfd1b8d---4</link>
@@ -1834,33 +1859,6 @@ Hunt for anomalous admin activities in UniFi controller interfaces, especially c
       <source url="https://x.com/DFIR_Radar/status/2064105778236031247">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 22:02:23 +0000</pubDate>
       <guid isPermaLink="false">2064105778236031247</guid>
-    </item>
-    <item>
-      <title>Legacy Meets Modern: Breaking AD Through NIS &amp; MFA Infrastructure</title>
-      <link>https://www.netspi.com/blog/technical-blog/network-pentesting/legacy-meets-modern-breaking-ad-through-nis-mfa-infrastructure/</link>
-      <description>Complex attack chain exploits trust relationships between legacy NIS authentication and modern MFA infrastructure to achieve domain compromise. Shows how security controls evaluated in isolation can create unexpected attack pathways when interconnected.
-
-Key technical details:
-• Initial RCE via unauthenticated Apache NiFi processors, escalated to root access
-• Domain credentials harvested from /etc/fstab mount configurations  
-• NIS server exposed MD5Crypt password hashes without authentication (ypcat queries)
-• Duo Auth Proxy config contained cleartext AD service account credentials + RADIUS secrets
-• RADIUS shared secret enabled decryption of proxied authentication traffic
-• SQL Server service running as Domain Admin enabled NTLM relay via xp_dirtree coercion
-
-Attack methodology:
-• Lateral movement from NiFi → NIS password cracking → 53 Linux servers via SSH spray
-• MFA bypass through packet capture + RADIUS secret decryption on auth proxy
-• Privilege escalation via PowerUpSQL + ntlmrelayx to Domain Admin SQL service account
-• Persistence through new DA account creation via xp_cmdshell + DCSync for full domain extraction
-
-DFIR artifacts: Monitor for xp_dirtree queries to external SMB shares, unusual RADIUS traffic patterns, NIS ypcat queries from non-standard sources, and cleartext credentials in config files across auth infrastructure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064090700061544527</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2064090700061544527">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 21:02:27 +0000</pubDate>
-      <guid isPermaLink="false">2064090700061544527</guid>
     </item>
   </channel>
 </rss>
