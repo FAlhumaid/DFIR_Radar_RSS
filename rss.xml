@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The best DFIR research from hundreds of sources, filtered for relevance.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Jun 2026 17:02:03 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 13:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Holding blobs for ransom: Four methods for Azure Storage ransomware</title>
+      <link>https://securitylabs.datadoghq.com/articles/azure-blob-storage-ransomware-four-methods/</link>
+      <description>Datadog Security Labs maps four distinct Azure Blob Storage ransomware vectors with full event codes and detection guidance. Two methods are confirmed in-the-wild; two are novel and undetected by current logging.
+
+Key technical breakdown:
+
+• Method 1 — Client-side encryption (BlackCat/Sphynx, observed): Attacker bulk downloads blobs, encrypts externally, reuploads. Requires only storage data-plane access (a leaked SAS token or access key is sufficient). Log artifacts: GetBlob + PutBlob only.
+
+• Method 2 — Customer-Provided Keys (CPK, novel): Blobs reuploaded with AES-256 key material in `x-ms-encryption-key` HTTP header. Critical blind spot: Azure does NOT log the `x-ms-encryption-key-sha256` header — CPK PutBlob is IDENTICAL in logs to a normal PutBlob. Data-plane only. AWS deprecated SSE-C in Nov 2025; Azure still fully supports it.
+
+• Method 3 — Encryption Scopes (STORM-0501, observed): Attacker creates Key Vault + encryption scope, re-encrypts all blobs, deletes the key. Logged: `Microsoft.Storage/storageAccounts/encryptionScopes/write`, `Microsoft.KeyVault/vaults/write`, `KeyCreate`, `KeyDelete`. Scope usage in PutBlob is NOT logged.
+
+• Method 4 — Service Encryption CMK via cross-tenant Key Vault (novel): Single PATCH call to ARM API rotates the storage account's CMK to an attacker-controlled Key Vault in a foreign Entra tenant. No blob-level data-plane ops needed. Soft-delete protections are rendered useless as the key resides in attacker infrastructure.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066869145505857944</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2066869145505857944">DFIR Radar</source>
+      <pubDate>Tue, 16 Jun 2026 13:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2066869145505857944</guid>
+    </item>
     <item>
       <title>How attackers are jailbreaking LLMs with CTF framing and how to catch them</title>
       <link>https://webflow.sysdig.com/blog/how-attackers-are-jailbreaking-llms-with-ctf-framing-and-how-to-catch-them</link>
@@ -1842,31 +1863,6 @@ Hunt for PowerShell processes with hidden windows downloading from CDN domains, 
       <source url="https://x.com/DFIR_Radar/status/2063969997471334647">DFIR Radar</source>
       <pubDate>Mon, 08 Jun 2026 13:02:49 +0000</pubDate>
       <guid isPermaLink="false">2063969997471334647</guid>
-    </item>
-    <item>
-      <title>UNC3753 Escalates: From Vishing Calls to Physical Office Intrusions at US Legal and Financial Firms</title>
-      <link>https://securityaffairs.com/193315/cyber-crime/unc3753-escalates-from-vishing-calls-to-physical-office-intrusions-at-us-legal-and-financial-firms.html</link>
-      <description>UNC3753 escalates from vishing calls to physical office intrusions, targeting US 🇺🇸 legal and financial firms with sophisticated social engineering campaigns that bypass all technical controls.
-
-Campaign details:
-• Active January-May 2026, dozens of US 🇺🇸 firms compromised via phone calls posing as IT support
-• No malware/exploits - attackers use pretext emails then vishing to install legitimate RMM tools (AnyDesk, Bomgar, Zoho Assist)
-• Pivots through BYOD laptops to corporate VDI, targeting iManage document systems for W-2s, audit files, client agreements
-• Physical escalation: FBI reports operatives visiting offices as fake IT techs, plugging in USB drives when remote access fails
-• Exfiltration via WinSCP/Rclone or victim's own browser to Google Drive accounts, up to 14.4GB per incident
-
-Technical IOCs:
-• Phishing domains: &lt;organization&gt;-itdesk[.]com, &lt;organization&gt;-it[.]com patterns
-• Instructions delivered via privnote[.]com self-destructing messages
-• Data staged in Downloads folders, extortion demands within 30 minutes
-
-Hunt for unauthorized RMM installations, bulk file searches in document management systems, and unusual VDI access from personal devices. Full IOC list and seven C2 IPs available in Mandiant report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2063954700290970106</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2063954700290970106">DFIR Radar</source>
-      <pubDate>Mon, 08 Jun 2026 12:02:02 +0000</pubDate>
-      <guid isPermaLink="false">2063954700290970106</guid>
     </item>
   </channel>
 </rss>
