@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 17 Jun 2026 12:02:50 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2026 13:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Compromise of 30,000 Fortinet Firewalls</title>
+      <link>https://socradar.io/blog/fortibleed-fortinet-firewalls-compromised/</link>
+      <description>Russian-speaking 🇷🇺 operators have built a self-feeding credential database of 30,791 verified working logins across Fortinet firewalls and VPN gateways in 194 countries, targeting banks, telecoms, hospitals, and government agencies with no zero-day required.
+
+Key findings:
+- No vulnerability exploited. Attackers ran automated credential-stuffing using previously leaked Fortinet passwords, then passively sniffed traffic on compromised devices to harvest fresh credentials fed back into the scanner, a self-sustaining loop (T1110.004, T1557)
+- Default and generic accounts dominate: "admi*" alone covers 21% of entries. Built-in Fortinet system accounts make up the bulk of the rest, confirming mass failure to rename defaults or rotate factory credentials
+- Telecom is the hardest-hit sector (5,616 entries); government accounts for 591 entries across 111 domains, with Ukraine 🇺🇦, Poland 🇵🇱, and Taiwan heavily represented alongside NATO members, consistent with the geopolitical targeting pattern
+- The dataset has not appeared on criminal forums as of publication. Credentials are verified working. If your org is in it, treat access as confirmed, not theoretical
+
+Responder action: pull FortiGate admin and SSL-VPN auth logs immediately and look for logins outside business hours or from unfamiliar source IPs. Rotate every credential, enforce MFA on all remote-access accounts, and block management interfaces from the public internet.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067231539104976908</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2067231539104976908">DFIR Radar</source>
+      <pubDate>Wed, 17 Jun 2026 13:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2067231539104976908</guid>
+    </item>
     <item>
       <title>Malware à la Mode: Tracking Dropping Elephant Tradecraft Through a China-Themed Loader Chain</title>
       <link>https://www.rapid7.com/blog/post/tr-malware-tracking-dropping-elephant-tradecraft-china-themed-loader-chain</link>
@@ -1784,28 +1803,6 @@ Post-compromise TTPs observed:
       <source url="https://x.com/DFIR_Radar/status/2064392874184098254">DFIR Radar</source>
       <pubDate>Tue, 09 Jun 2026 17:03:11 +0000</pubDate>
       <guid isPermaLink="false">2064392874184098254</guid>
-    </item>
-    <item>
-      <title>Shai-Hulud Hades PyPI Campaign: 19 Packages Trojanized via Wheel Startup Hooks</title>
-      <link>https://socradar.io/blog/shai-hulud-hades-pypi-campaign/</link>
-      <description>Shai-Hulud campaign compromised 19 PyPI packages using wheel startup hooks that execute malicious JavaScript without requiring package imports. Attack leverages Python's .pth file mechanism to bootstrap Bun runtime and steal developer credentials from workstations and CI/CD pipelines.
-
-Key technical details:
-• 37 malicious wheels containing *-setup.pth startup hooks that auto-execute during Python interpreter startup (no import required)
-• Payload downloads Bun v1.1.13 runtime and executes obfuscated _index.js credential stealer
-• Targets GitHub tokens, cloud credentials (AWS/GCP/Azure), PyPI/npm publishing keys, SSH keys, and CI/CD secrets
-• Persistence via systemd services (Linux) and LaunchAgents (macOS) for long-term access
-• Affects scientific Python ecosystem packages including dynamo-release, spateo-release, coolbox
-
-Attack chain bypasses traditional import-based detection since .pth files execute automatically when Python starts. High CI/CD risk as build environments routinely install dependencies and invoke interpreters without explicit imports.
-
-Hunt for wheels with executable .pth files, unexpected Bun downloads from GitHub releases, and python→bun process chains with network activity. Rotate all developer credentials accessible from affected environments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064378009704968202</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2064378009704968202">DFIR Radar</source>
-      <pubDate>Tue, 09 Jun 2026 16:04:07 +0000</pubDate>
-      <guid isPermaLink="false">2064378009704968202</guid>
     </item>
   </channel>
 </rss>
