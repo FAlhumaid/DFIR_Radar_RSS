@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 17 Jun 2026 20:02:37 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2026 21:02:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Applying software engineering discipline to threat detection</title>
+      <link>https://andreafortuna.org/2026/06/17/detection-as-code/</link>
+      <description>Treating detection rules as software artifacts eliminates the tribal-knowledge failures that let misconfigured SIEM rules fire 4,000 times overnight with no owner, no history, and no rollback path.
+
+Key details:
+- Every detection rule belongs in Git with metadata: ATT&amp;CK technique ID, data source, author, last reviewed date, and an explicit owner with an escalation path. Rules without ownership accumulate silently and become functionally dead while appearing active.
+- Sigma (YAML-based, vendor-neutral) compiles to Splunk SPL, Sentinel KQL, Elastic EQL, Chronicle YARA-L, and more via sigma-cli/pySigma. The SigmaHQ repo gives you a maintained baseline to fork, not a blank page. Watch for field-name portability failures: a rule can compile cleanly and match nothing if target schema fields differ.
+- Every rule needs two test fixtures in CI: one malicious event it must match, one benign event it must not. Pull requests missing both should be rejected automatically, the same gate you apply to application code.
+- New rules enter shadow mode first (minimum 7 days, writes to a separate index, no analyst alert) before promotion. YARA-X adds a yr compile CI step for file/memory rules and clean JSON/YAML pipeline output.
+
+Practitioner takeaway: start with five high-value rules, a Git repo, and a sigma-cli CI check that rejects PRs without test coverage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067352164087824761</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2067352164087824761">DFIR Radar</source>
+      <pubDate>Wed, 17 Jun 2026 21:02:21 +0000</pubDate>
+      <guid isPermaLink="false">2067352164087824761</guid>
+    </item>
     <item>
       <title>The browser blind spot: Why your security tool may not be blocking what you think it is &amp;#x5b;Guest Diary&amp;#x5d;, (Wed, Jun 17th)</title>
       <link>https://isc.sans.edu/diary/rss/33084</link>
@@ -1780,32 +1799,6 @@ Hunt for POST requests to `/mics/api/v2/sentry/mics-config/handleMessage` with X
       <source url="https://x.com/DFIR_Radar/status/2064513696299106647">DFIR Radar</source>
       <pubDate>Wed, 10 Jun 2026 01:03:17 +0000</pubDate>
       <guid isPermaLink="false">2064513696299106647</guid>
-    </item>
-    <item>
-      <title>2026-06-09: Atomic macOS (AMOS) Stealer infection</title>
-      <link>https://www.malware-traffic-analysis.net/2026/06/09/index.html</link>
-      <description>Atomic macOS (AMOS) Stealer campaign uses fake Homebrew ads to deploy persistent macOS malware. Malware Traffic Analysis published complete infection chain with network captures and extracted samples for June 9, 2026 incident.
-
-Key technical details:
-• Attack chain: Malicious ad → fake Homebrew page → terminal script execution → persistent malware deployment
-• AMOS Stealer establishes persistence in user directories after initial shell script execution
-• Full packet capture (11.3MB) shows C2 communications and data exfiltration patterns
-• Extracted malware samples (3.8MB) and IOCs available for analysis
-• Targets macOS systems through social engineering of legitimate package manager workflows
-
-DFIR artifacts:
-• Monitor /tmp directory for suspicious starter files and execution remnants
-• Check for unauthorized Homebrew-like installations outside standard paths
-• Analyze browser history for fake package manager domains
-• Review persistent launch agents and daemons created post-infection
-
-Hunt for unusual shell script executions followed by network connections to non-standard domains. Complete IOCs, PCAP, and malware samples available from Malware Traffic Analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064498484917469517</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2064498484917469517">DFIR Radar</source>
-      <pubDate>Wed, 10 Jun 2026 00:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2064498484917469517</guid>
     </item>
   </channel>
 </rss>
