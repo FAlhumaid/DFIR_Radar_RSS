@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 17 Jun 2026 05:02:01 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2026 06:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FishMonger’s arsenal upgraded: SprySOCKS for Windows</title>
+      <link>https://www.welivesecurity.com/en/eset-research/fishmongers-arsenal-upgraded-sprysocks-windows/</link>
+      <description>FishMonger's 🇨🇳 SprySOCKS backdoor goes Windows: two undocumented variants (WIN_DRV and WIN_PLUS) add kernel-level rootkit stealth, TCP traffic diversion, and UEFI bootkit indicators to a previously Linux-only implant targeting government orgs in Honduras, Taiwan 🇹🇼, Thailand, and Pakistan 🇵🇰.
+
+- Execution chain (WIN_DRV): batch script klelam00007.bat drops files to %SystemRoot%\Fonts\, creates scheduled task "ApphostRagistreationVerifier" (note the misspelling), and uses DLL side-loading via MFC satellite DLL (tpsvcloc.dll) to launch. Loader uses 128-bit AES-ECB (key: uXQLESMXGaRMs6BL) to decrypt payloads, then injects backdoor into svchost.exe via process doppelgänging (T1055.013), spawning from a spoolsv.exe token. TH-prefixed temp files in %TEMP% are a hunt artifact.
+
+- RawWNPF kernel rootkit (WIN_DRV only): loaded in-memory via DriverLoader (fsdiskbit.sys, signed with leaked cert from PastDSE project), it hooks NtQuerySystemInformation to hide processes, hooks nsiproxy.sys IoCompletionRoutine to hide connections from netstat, registers WFP filters (named "Delivery Optimization" to blend in) to divert specially crafted TCP packets to the hidden backdoor port, and uses minifilter callbacks to hide files under \SystemRoot\Fonts\.
+
+- WIN_PLUS persistence uses a malicious print processor: VSPMsg.dll at C:\Windows\System32\spool\prtprocs\x64\, registered under HKLM\SYSTEM\ControlSet001\Control\Print\Environments\Windows x64\Print Processors\VSPMsg.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067125822037585955</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2067125822037585955">DFIR Radar</source>
+      <pubDate>Wed, 17 Jun 2026 06:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2067125822037585955</guid>
+    </item>
     <item>
       <title>OptinMonster WordPress plugin hacked in CDN supply-chain attack</title>
       <link>https://www.bleepingcomputer.com/news/security/optinmonster-wordpress-plugin-hacked-in-cdn-supply-chain-attack/</link>
@@ -1819,36 +1836,6 @@ Hunt for suspicious PowerShell script activity using: DeviceEvents | where Actio
       <source url="https://x.com/DFIR_Radar/status/2064272137695772878">DFIR Radar</source>
       <pubDate>Tue, 09 Jun 2026 09:03:25 +0000</pubDate>
       <guid isPermaLink="false">2064272137695772878</guid>
-    </item>
-    <item>
-      <title>Entra Agent ID from a Security Perspective</title>
-      <link>https://blog.compass-security.com/2026/06/entra-agent-id-from-a-security-perspective/</link>
-      <description>Microsoft's new Entra Agent ID introduces AI-specific identities with dangerous privilege escalation paths. Research reveals blueprint ownership abuse and consent phishing attacks enabling tenant takeover.
-
-Technical breakdown:
-- Agent identities use token-exchange authentication model vs traditional service principals
-- Blueprints hold credentials while agent identities hold permissions - compromise affects all child identities
-- 944 of 1041 tested API permissions allowed, including dangerous ones like Application.ReadUpdate.All and RoleAssignmentSchedule.ReadWrite.Directory
-- Cross-tenant blueprints enable inherited permissions in consuming tenants
-- Blueprint principals always receive AgentIdentity.CreateAsManager permission
-
-Attack vectors:
-- Blueprint owners can add credentials → authenticate as child agent identities → inherit dangerous permissions
-- Multitenant consent phishing: attacker creates malicious blueprint → admin consents → attacker creates agent identities in victim tenant
-- Agent identities can receive Azure RBAC roles (Owner tested) and privileged Entra roles (Exchange Admin, Windows 365 Admin)
-
-DFIR artifacts:
-- Monitor for new servicePrincipals with type "Microsoft.Graph.AgentIdentity"
-- Track blueprint credential additions via audit logs (AddPassword events on applications)
-- Hunt for AgentIdentity.CreateAsManager role claims in token analysis
-
-Treat Agent ID Administrator, AI Administrator roles and AgentIdentityBlueprint.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064256757740752916</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2064256757740752916">DFIR Radar</source>
-      <pubDate>Tue, 09 Jun 2026 08:02:18 +0000</pubDate>
-      <guid isPermaLink="false">2064256757740752916</guid>
     </item>
   </channel>
 </rss>
