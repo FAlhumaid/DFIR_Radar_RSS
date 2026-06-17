@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 17 Jun 2026 11:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Jun 2026 12:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malware à la Mode: Tracking Dropping Elephant Tradecraft Through a China-Themed Loader Chain</title>
+      <link>https://www.rapid7.com/blog/post/tr-malware-tracking-dropping-elephant-tradecraft-china-themed-loader-chain</link>
+      <description>Dropping Elephant resurfaces with a China-lure LNK chain delivering a fully in-memory RAT via DLL side-loading and Donut shellcode, with AMSI, WLDP, and ETW patched before execution.
+
+Key findings:
+- Full chain: GRES3001.lnk (SHA256: a8ecbd9c...) spawns conhost.exe into obfuscated PowerShell, pulls payloads from chinagreenenergy[.]org, stages Fondue.exe, malicious APPWIZ.cpl (914da75a...), and encrypted editor.dat under C:\Users\Public\ and C:\Windows\Tasks\, then creates scheduled task "GoogleErrorReport" running Fondue.exe every minute (T1053.005, T1574.002)
+- APPWIZ.cpl decrypts editor.dat with AES-256-CBC, allocates RWX memory, and passes execution to Donut via EnumUILanguagesW callback proxy. Donut patches in-process AMSI, WLDP, and ETW, then maps the final 32-bit RAT (7099c339...) entirely in memory, nothing hits disk (T1620, T1562.001)
+- The in-memory RAT uses Salsa20-encrypted C2 fields (key: tn9905083tfbsxqrxs7qe4ryw1nif8h1), beacons to gcl-power[.]org:443 at /prjozifvkpkfhkr/gedhagammgjvvva/, and exfiltrates screenshots to a dedicated URI. Idle sentinel is MMMMM==YYYYY
+- Attribution rests on code-level overlaps with known Dropping Elephant samples: shared BitBlt screenshot logic, 0x2710 buffer constant, WININET request flow, and cmd.exe /c chcp 65001 shell pattern
+
+Hunt for Fondue.exe loading APPWIZ.cpl outside System32, scheduled tasks with one-minute intervals pointing to C:\Users\Public\, and RWX memory regions in processes with patched AMSI stubs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067216393007939992</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2067216393007939992">DFIR Radar</source>
+      <pubDate>Wed, 17 Jun 2026 12:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2067216393007939992</guid>
+    </item>
     <item>
       <title>Operation Escaneo: Infrastructure Exposure, TTP Analysis, and Attribution Assessment of an Advanced Intrusion Campaign Against Mexican Federal Agencies and Financial Institutions</title>
       <link>https://www.cloudsek.com/blog/operation-escaneo-mexican-government-financial-institutions-cyberattack</link>
@@ -1787,32 +1806,6 @@ Hunt for wheels with executable .pth files, unexpected Bun downloads from GitHub
       <source url="https://x.com/DFIR_Radar/status/2064378009704968202">DFIR Radar</source>
       <pubDate>Tue, 09 Jun 2026 16:04:07 +0000</pubDate>
       <guid isPermaLink="false">2064378009704968202</guid>
-    </item>
-    <item>
-      <title>Old Wine in a New Bottle: A Decade-Old lxd-Group Root, Re-Armed</title>
-      <link>https://starlabs.sg/blog/2026/06-old-wine-in-a-new-bottle-a-decade-old-lxd-group-root-re-armed/</link>
-      <description>STAR Labs reveals how default Ubuntu Server installs grant silent root escalation through lxd group membership across all LTS versions 20.04-26.04. Canonical reviewed and declined to fix, citing deliberate design decisions.
-
-Technical chain:
-• First user automatically added to lxd group during Ubuntu Server install
-• lxd-installer socket (root:lxd, mode 0660) allows passwordless LXD installation
-• Any lxd group member can launch privileged containers with host filesystem mounted
-• Direct path to euid=0 without sudo password or additional exploitation
-• Affects Ubuntu Server 20.04, 22.04, 24.04, and 26.04 LTS releases
-
-Attack methodology:
-• No CVE assigned as vendor considers this intended behavior by design
-• Privilege escalation occurs through legitimate LXD container functionality
-• Socket permissions enable installation without authentication prompts
-• Host filesystem access via container mount points bypasses normal restrictions
-
-Hunt for unexpected lxd group memberships and monitor LXD container creation with privileged flags. Review user group assignments during Ubuntu Server deployments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064347664443924552</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2064347664443924552">DFIR Radar</source>
-      <pubDate>Tue, 09 Jun 2026 14:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2064347664443924552</guid>
     </item>
   </channel>
 </rss>
