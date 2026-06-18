@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 18 Jun 2026 22:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jun 2026 23:02:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Why Would an Adversary Collect 74,000 FortiGate</title>
+      <link>https://threatmon.io/why-would-an-adversary-collect-74000-fortigate/</link>
+      <description>A 74,000-record FortiGate access inventory, spanning 21,000+ organizations globally, reveals a structured credential-collection and validation operation with active distributed backend infrastructure, not a simple dump.
+
+Key findings:
+- The dataset contained internet-facing FortiGate endpoints, admin usernames, FortiGuard accounts, org identifiers, and credential data across telecom, energy, manufacturing, healthcare, and financial sectors. Repeated credential patterns across unrelated orgs confirm systematic validation, not opportunistic scraping.
+- ThreatMon identified a distributed backend with at least six agents actively pulling tasks as late as June 2, 2026. Agent source IPs: 185[.]229[.]26[.]83, 213[.]169[.]49[.]142, 38[.]117[.]87[.]37, 198[.]53[.]64[.]194, 175[.]155[.]64[.]221, 211[.]72[.]37[.]226.
+- The architecture resembles a large-scale credential-cracking and validation pipeline. Infrastructure was active before public disclosure, meaning the dataset is a snapshot of an ongoing operation, not its start.
+- Victim prioritization toward critical infrastructure and distributed enterprise environments points to pre-positioning for initial access brokering, ransomware staging, or supply-chain targeting rather than immediate exploitation.
+
+Hunt: Pull FortiGate VPN and admin auth logs and cross-reference against the six infrastructure IPs above. Flag repeated auth failures, unexpected admin account creation, and config changes post-successful login.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067744785449074744</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2067744785449074744">DFIR Radar</source>
+      <pubDate>Thu, 18 Jun 2026 23:02:28 +0000</pubDate>
+      <guid isPermaLink="false">2067744785449074744</guid>
+    </item>
     <item>
       <title>FortiBleed: You Can't Patch Your Way Out of This</title>
       <link>https://eclypsium.com/blog/fortibleed-you-cant-patch-your-way-out-of-this/</link>
@@ -1757,32 +1776,6 @@ Hunt query: Search DNS/proxy logs for requestrepo[.]com. Any hit from UniFi appl
       <source url="https://x.com/DFIR_Radar/status/2065087417728528516">DFIR Radar</source>
       <pubDate>Thu, 11 Jun 2026 15:03:03 +0000</pubDate>
       <guid isPermaLink="false">2065087417728528516</guid>
-    </item>
-    <item>
-      <title>From SQLi to RCE – Exploiting LangGraph’s Checkpointer</title>
-      <link>https://research.checkpoint.com/2026/from-sqli-to-rce-exploiting-langgraphs-checkpointer/</link>
-      <description>Check Point Research uncovers critical vulnerabilities in LangGraph's persistence layer allowing SQL injection to chain into remote code execution. Three CVEs impact 50M+ monthly downloads of the popular AI agent framework.
-
-Key technical details:
-• CVE-2025-67644: SQL injection in SQLite checkpointer via unsanitized filter keys in get_state_history() function
-• CVE-2026-28277: Unsafe msgpack deserialization enables RCE through custom extension handler calling importlib.import_module()
-• CVE-2026-27022: Same injection class affects Redis checkpointer implementation
-• Attack chain: Malicious filter parameter → UNION SELECT injection → fake checkpoint row → msgpack deserialization → os.system() execution
-
-Exploitation requirements:
-• Self-hosted LangGraph with SQLite/Redis checkpointer
-• Application exposes get_state_history() with user-controlled filter parameter
-• LangSmith managed cloud service uses PostgreSQL and is not vulnerable
-
-Impact covers teams running stateful AI agents with exposed state history endpoints. All issues patched - update to langgraph-checkpoint-sqlite 3.0.1+, langgraph 1.0.10+, and langgraph-checkpoint-redis 1.0.2+.
-
-Hunt for applications calling get_state_history() with external input and audit msgpack deserialization in AI frameworks.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065072502007529887</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2065072502007529887">DFIR Radar</source>
-      <pubDate>Thu, 11 Jun 2026 14:03:47 +0000</pubDate>
-      <guid isPermaLink="false">2065072502007529887</guid>
     </item>
   </channel>
 </rss>
