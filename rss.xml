@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 18 Jun 2026 05:02:19 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jun 2026 06:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From package to postinstall payload: Inside the Mastra npm supply chain compromise</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/06/17/postinstall-payload-inside-mastra-npm-supply-chain-compromise/</link>
+      <description>npm supply chain attack hits 140+ Mastra packages via account takeover, injecting a typosquat dependency that executes a multi-stage implant during npm install across dev and CI/CD environments.
+
+The ehindero npm maintainer account was compromised and used to poison 140+ @mastra scope packages on June 17, 2026. Every poisoned package injected easy-day-js@^1.11.21 as a dependency, a deliberate typosquat of dayjs (57M+ weekly downloads). SemVer resolution pulled 1.11.22, the weaponized version containing a postinstall hook. Execution happened at install time, meaning no import was required to trigger the payload.
+
+- Attack chain: clean bait version easy-day-js@1.11.21 published June 16 07:05 UTC, weaponized 1.11.22 followed June 17 01:01 UTC, then 140+ Mastra packages poisoned by 01:20 UTC. The anomaly: mastra@1.13.0 was published via GitHub Actions OIDC; 1.13.1 was manually pushed from ehindero2016@tutamail[.]com, with no matching repo changes.
+
+- The 4,572-byte setup.cjs dropper used a rotated 40-string Base64 array (seed 0x4c11d) to hide C2 addresses. It disabled TLS via NODE_TLS_REJECT_UNAUTHORIZED=0, dropped tracking markers at TMPDIR/.pkg_history and TMPDIR/.pkg_logs (XOR 0x80 encoded), fetched a ~41KB second-stage from hxxps://23[.]254[.]164[.]92:8000/update/49890878, then self-deleted via fs.rmSync(__filename).
+
+- The second-stage is a persistent tasking implant, not a one-shot stealer.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067488223711158479</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2067488223711158479">DFIR Radar</source>
+      <pubDate>Thu, 18 Jun 2026 06:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2067488223711158479</guid>
+    </item>
     <item>
       <title>DragonForce Hid Inside Microsoft Teams and Nobody Noticed for Two Months</title>
       <link>https://securityaffairs.com/193801/security/dragonforce-hid-inside-microsoft-teams-and-nobody-noticed-for-two-months.html</link>
@@ -1771,30 +1790,6 @@ Hunt for RegAsm.exe spawning from environment variable PowerShell execution and 
       <source url="https://x.com/DFIR_Radar/status/2064664872265142635">DFIR Radar</source>
       <pubDate>Wed, 10 Jun 2026 11:04:00 +0000</pubDate>
       <guid isPermaLink="false">2064664872265142635</guid>
-    </item>
-    <item>
-      <title>Identify shebang files via Threat Hunting (+ KQL Queries)</title>
-      <link>https://detect.fyi/identify-shebang-files-via-threat-hunting-kql-queries-45fa739571ad?source=rss----d5fd8f494f6a---4</link>
-      <description>Microsoft Defender identifies shebang files as "FileType=Shebang" in DeviceFileEvents, enabling detection of Unix scripts delivered via phishing or disguised with misleading extensions.
-
-Key hunting opportunities:
-• Email-delivered shebangs: Join DeviceFileEvents with EmailAttachmentInfo on SHA256 to catch Python/Bash scripts in attachments
-• Suspicious locations: Hunt Downloads, Temp, /tmp/, /var/tmp/ directories where malicious interpreters commonly drop
-• Extension masquerading: Detect shebang files with .txt, .jpg, .pdf extensions hiding executable scripts (T1036.008)
-• Cross-platform risk: Works on WSL, Git Bash, Python Launcher even on Windows endpoints
-
-Technical details:
-- AdditionalFields JSON contains FileType classification
-- Shebang headers (#!/usr/bin/python3) indicate interpreter requirements
-- Common in macOS/Linux malware but increasingly relevant for hybrid environments
-
-Hunt suspicious directories first, then whitelist developer workstations to reduce false positives. Full KQL queries provided in the research.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064634757443727417</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2064634757443727417">DFIR Radar</source>
-      <pubDate>Wed, 10 Jun 2026 09:04:20 +0000</pubDate>
-      <guid isPermaLink="false">2064634757443727417</guid>
     </item>
   </channel>
 </rss>
