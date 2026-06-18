@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 17 Jun 2026 23:02:04 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jun 2026 00:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Crypto Clipper uses Tor and worm-like propagation for persistence and control</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/06/17/crypto-clipper-uses-tor-worm-like-propagation-for-persistence-control/</link>
+      <description>USB-spread crypto clipper active since Feb 2026 bundles a portable Tor client for anonymous C2, steals seed phrases and private keys, and replaces clipboard wallet addresses in real time.
+
+Key findings:
+- Initial access via malicious .lnk files on USB drives (T1091). The worm hides legitimate documents, clones them as shortcuts, and drops two obfuscated JavaScript payloads into C:\Users\Public\Documents\[5-char folder]. Persistence via two scheduled tasks (T1053.005): one for USB spreading, one for the stealer.
+- The clipper launches ugate.exe (renamed Tor binary) in a hidden window, waits 60 seconds for bootstrap, then polls .onion C2 every ~500ms. EVAL responses execute arbitrary JScript at runtime, making this a full backdoor, not just a stealer. C2 comms route through localhost:9050 via curl with --socks5-hostname (T1090).
+- Clipboard theft targets BIP39 seed phrases, Ethereum/Bitcoin WIF private keys, and six address formats (BTC legacy, P2SH, taproot, Bech32, Tron, Monero), replacing them with attacker addresses. Five screenshots captured 10 seconds apart are exfiltrated via /recvf.php.
+- Defender AV detects as Trojan:Win32/CryptoBandits.A. Defanged C2 sample: cgky6bn6ux5wvlybtmm3z255igt52ljml2ngnc5qp3cnw5jlglamisad[.]onion. Full hash and IOC list in the Microsoft report.
+
+Hunt with the Microsoft-provided KQL: DeviceProcessEvents filtering curl.exe with "--socks5-hostname" and "localhost:9050".
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067397573519024163</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2067397573519024163">DFIR Radar</source>
+      <pubDate>Thu, 18 Jun 2026 00:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2067397573519024163</guid>
+    </item>
     <item>
       <title>Showboat Malware: Targeting Middle East Telecom Firms Since 2022</title>
       <link>https://www.picussecurity.com/resource/blog/showboat-malware-targeting-middle-east-telecom-firms-since-2022</link>
@@ -1776,17 +1795,6 @@ Hunt suspicious directories first, then whitelist developer workstations to redu
       <source url="https://x.com/DFIR_Radar/status/2064558795808719137">DFIR Radar</source>
       <pubDate>Wed, 10 Jun 2026 04:02:29 +0000</pubDate>
       <guid isPermaLink="false">2064558795808719137</guid>
-    </item>
-    <item>
-      <title>Defend against frontier cyber models: Cloudflare's architecture as customer zero</title>
-      <link>https://blog.cloudflare.com/frontier-model-defense/</link>
-      <description>Cloudflare deploys ML-based WAF Attack Scoring to catch novel exploits before CVEs are disclosed, responding to frontier AI models that can generate thousands of payload variants in minutes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2064543834881556758</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2064543834881556758">DFIR Radar</source>
-      <pubDate>Wed, 10 Jun 2026 03:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2064543834881556758</guid>
     </item>
   </channel>
 </rss>
