@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 19 Jun 2026 02:03:56 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 03:02:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AutoJack: How a single page can RCE the host running your AI agent</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/</link>
+      <description>AutoJack: a three-flaw chain in AutoGen Studio's MCP WebSocket lets a malicious webpage rendered by a local browsing agent spawn arbitrary processes on the developer's host with no user interaction beyond visiting a URL.
+
+Key findings:
+- Three weaknesses chain together: Origin allowlist bypassed because the agent's headless browser is localhost (CWE-1385), auth middleware explicitly skipping /api/mcp/* with no handler picking up the check (CWE-306), and server_params decoded from the URL passed verbatim to stdio_client as a command line (CWE-78), accepting calc.exe, powershell.exe, or bash as valid "MCP servers"
+- Attack flow: attacker page serves JavaScript that opens ws://localhost:8081/api/mcp/ws/?server_params= with a base64 payload, agent's MultimodalWebSurfer renders it, AutoGen Studio spawns the command under the developer's account, no token required regardless of auth mode configured
+- Affected code never shipped in a PyPI release; exposure limited to developers who built from the main GitHub branch before hardening commit b047730, which adds server-side parameter binding via a POST/UUID flow and removes /api/mcp from the auth skip list
+- Broader pattern: any agent that browses untrusted content and shares a host with a privileged local control plane dissolves the loopback trust boundary, this is not specific to AutoGen.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067805271007559718</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2067805271007559718">DFIR Radar</source>
+      <pubDate>Fri, 19 Jun 2026 03:02:49 +0000</pubDate>
+      <guid isPermaLink="false">2067805271007559718</guid>
+    </item>
     <item>
       <title>DCOM Explained: How Attackers Turn a Windows Feature into a Lateral Movement Tool</title>
       <link>https://detect.fyi/dcom-explained-how-attackers-turn-a-windows-feature-into-a-lateral-movement-tool-f3c07ce94866?source=rss----d5fd8f494f6a---4</link>
@@ -1742,35 +1759,6 @@ Hunt for unexpected .jsp files in PSEMHUB.war directories and monitor outbound S
       <source url="https://x.com/DFIR_Radar/status/2065148005607440540">DFIR Radar</source>
       <pubDate>Thu, 11 Jun 2026 19:03:48 +0000</pubDate>
       <guid isPermaLink="false">2065148005607440540</guid>
-    </item>
-    <item>
-      <title>How to defend ARM64 cloud infrastructure from ITScape</title>
-      <link>https://www.reversinglabs.com/blog/defend-cloud-infrastructure-itscape</link>
-      <description>ITScape (CVE-2026-46316): New guest-to-host escape in KVM/arm64 enables host kernel execution from untrusted guests. Critical threat to multi-tenant ARM64 cloud environments with direct compromise potential.
-
-Key technical details:
-• Race condition in vgic_its_invalidate_cache() causes double-put use-after-free in vGIC-ITS emulation
-• Affects kernels from commit 8201d1028caa (2024-04-25) through patch at 13031fb6b835 (2026-06-05)
-• Exploitation yields host kernel privilege, not just userspace compromise
-• Can be chained with local privesc when attacker lacks guest root access
-
-Detection opportunities:
-• Two YARA rules provided: ITScape_ExploitConstants_1 targets hardcoded 64-bit kernel addresses and payload strings
-• ITScape_KVM_PrivDrop_1 detects behavioral pattern: stat() check on /dev/kvm followed by setgroups/setgid/setuid(1000)
-• Monitor for unusual /dev/kvm access patterns and privilege dropping sequences
-
-Impact scope:
-• Primarily threatens ARM64 cloud providers and multi-tenant virtualization platforms
-• New vulnerability class suggests additional variants likely to emerge
-• Requires only guest kernel privilege to achieve host root compromise
-
-Priority patch application for arm64 KVM hosts. Hunt for /dev/kvm access anomalies and implement the provided YARA rules for PoC detection.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065132899897126947</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2065132899897126947">DFIR Radar</source>
-      <pubDate>Thu, 11 Jun 2026 18:03:47 +0000</pubDate>
-      <guid isPermaLink="false">2065132899897126947</guid>
     </item>
   </channel>
 </rss>
