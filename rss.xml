@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 19 Jun 2026 13:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 14:02:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>MyBait: Why We Lured Attackers To Encrypt Our Cloud MySQL</title>
+      <link>https://www.varonis.com/blog/encrypting-cloud-mysql</link>
+      <description>Exposed GCP CloudSQL with a weak root password was compromised twice in one day, both attackers dropped ransom notes within hours of brute-force success. AWS RDS and Azure MySQL were not breached under the same conditions.
+
+Key findings:
+- GCP CloudSQL (root password "password", 0.0.0.0/0 access) was hit with brute-force within 8 minutes of deployment. Attacker one succeeded after 576 failed attempts, enumerated schema via SHOW DATABASES, SHOW TABLES, SHOW FIELDS, bulk-selected data with SELECT /\*!40001 SQL_NO_CACHE\*/, dropped tables, and created a RECOVER_YOUR_DATA ransom table demanding 0.0094 BTC to bc1qd9r8c0t7x0dw748f8ft5wng2wjf9puh29ay5ku. Contact: rambler+24hse@onionmail[.]org
+- Six hours later a second attacker found the first ransom note, locked it, and overwrote it with their own. Same day, same instance, two independent ransomware operators running automated campaigns.
+- The same attacker IP appeared in Postgres and MongoDB ransomware cases from separate research teams, confirming cross-database automated scanning and extortion at scale.
+- GCP requires explicit opt-in for data access logs and database audit flags (general_log, cloudsql_mysql_audit). Without those enabled, the query-level evidence trail does not exist by default.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067971392222499025</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2067971392222499025">DFIR Radar</source>
+      <pubDate>Fri, 19 Jun 2026 14:02:56 +0000</pubDate>
+      <guid isPermaLink="false">2067971392222499025</guid>
+    </item>
     <item>
       <title>“Get Verification Code” Is Missing in iOS 18 and iOS 26; Here’s Where It Went</title>
       <link>https://blog.elcomsoft.com/2026/06/get-verification-code-is-missing-in-ios-18-and-ios-26-heres-where-it-went/</link>
@@ -1639,36 +1656,6 @@ Emergency patch immediately. Hunt for MeshCentral processes, monitor outbound SM
       <source url="https://x.com/DFIR_Radar/status/2065434619177062700">DFIR Radar</source>
       <pubDate>Fri, 12 Jun 2026 14:02:42 +0000</pubDate>
       <guid isPermaLink="false">2065434619177062700</guid>
-    </item>
-    <item>
-      <title>Factoring "short-sleeve" RSA keys with polynomials</title>
-      <link>https://blog.trailofbits.com/2026/06/12/factoring-short-sleeve-rsa-keys-with-polynomials/</link>
-      <description>Trail of Bits discovers "short-sleeve" RSA keys with biased bit patterns can be factored using polynomial techniques. CompleteFTP bug (2016-2023) generated 603 vulnerable RSA keys and 74 DSA keys found in internet scans.
-
-Key technical details:
-• CVE not assigned - Type mismatch in CompleteFTP genRandomBits() function copied 8-bit RNG output to 32-bit limbs, creating structured zero patterns
-• Affected CompleteFTP v10.0.0-12.0.0 (RSA) and v10.0.0-23.0.4 (DSA) with regularly spaced blocks of zero bits
-• Polynomial factorization converts modulus n to polynomial f_n(x) with small coefficients, exploiting limb structure
-• Pattern 1 (unexplained) found in expired certificates from Yahoo, Verizon; Pattern 2 traced to CompleteFTP SSH hosts
-
-Attack methodology:
-• Researchers used base-2^w representation to find polynomials with exceptionally small coefficients from biased moduli
-• Factoring polynomials much easier than integer factorization - converts hard problem to easy one
-• Private key recovery possible when both prime factors exhibit short-sleeve property with structured zero patterns
-
-DFIR artifacts and detection:
-• SSH banners identify CompleteFTP hosts running vulnerable versions
-• Certificate Transparency logs contain expired certificates with Pattern 1 bias
-• badkeys.info project now detects short-sleeve RSA keys automatically
-• Historical SSH scan data shows vulnerability spread from Dec 2016, plateaued after March 2019 fix
-
-Impact assessment:
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065419563638947916</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2065419563638947916">DFIR Radar</source>
-      <pubDate>Fri, 12 Jun 2026 13:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2065419563638947916</guid>
     </item>
   </channel>
 </rss>
