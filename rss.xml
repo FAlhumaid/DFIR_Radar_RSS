@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 19 Jun 2026 04:03:09 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 05:03:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Abuse of the ClickOnce Technology, Part 2: Stop Threat Actors from Clicking Once and Staying Forever</title>
+      <link>https://www.crowdstrike.com/en-us/blog/new-abuse-of-the-clickonce-technology-part-two/</link>
+      <description>ClickOnce weaponized for stealthy delivery, persistence, and COM hijacking. Attackers abuse Microsoft's own deployment tech to execute malware inside legitimate process trees without elevated privileges.
+
+Key findings:
+- Payload runs under rundll32.exe and dfsvc.exe, legitimate Microsoft processes, giving threat actors built-in LOLBins cover. .application and .appref-ms files bypass mailbox filters and SmartScreen scrutiny that would catch a plain .exe.
+- The .appref-ms shortcut dropped to %Users\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\ is a persistence artifact. Place it in Startup or wire it to a scheduled task and the C2 payload silently updates every time it runs, no user prompt, no UAC, no admin rights required.
+- Trojanizing signed app dependencies (dependency hijacking or new deployment creation) lets attackers inherit a trusted signature without breaking it, sliding past SmartScreen entirely.
+- CrowdStrike identified what it believes is a new COM hijacking abuse surface discovered inside dfdll!BindToServer(), adding another vector to an already underdiscussed attack surface.
+
+Hunt for .appref-ms files outside the Start Menu Programs path, scheduled tasks or Startup folder entries pointing to .appref-ms, and child processes of dfsvc.exe or rundll32.exe making outbound connections. Flag unsigned ClickOnce deployments and audit dependency manifests on any ClickOnce app in your environment.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067835572325122245</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2067835572325122245">DFIR Radar</source>
+      <pubDate>Fri, 19 Jun 2026 05:03:14 +0000</pubDate>
+      <guid isPermaLink="false">2067835572325122245</guid>
+    </item>
     <item>
       <title>Killing me gently: Inside Gentlemen’s EDR killer framework</title>
       <link>https://www.welivesecurity.com/en/eset-research/killing-me-gently-inside-gentlemens-edr-killer-framework/</link>
@@ -1741,34 +1760,6 @@ Hunt for unsigned DLLs side-loading into legitimate signed executables (dtlupdat
       <source url="https://x.com/DFIR_Radar/status/2065298835375886720">DFIR Radar</source>
       <pubDate>Fri, 12 Jun 2026 05:03:09 +0000</pubDate>
       <guid isPermaLink="false">2065298835375886720</guid>
-    </item>
-    <item>
-      <title>ShinyHunters Targets Education Sector with Oracle PeopleSoft Exploit</title>
-      <link>https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-targets-education-sector-oracle-exploit/</link>
-      <description>ShinyHunters exploited CVE-2026-35273, a critical Oracle PeopleSoft zero-day (CVSS 9.8), targeting 100+ organizations globally between May-June 2026. 68% of victims were higher education institutions.
-
-Key technical details:
-• Zero-day RCE in Environment Management Hub component exploited before Oracle's June 10 advisory
-• Custom MeshCentral agents disguised as Azure services: meshagent32-azure-ops.exe, meshagent64-azure-ops.exe
-• C2 infrastructure: wss://azurenetfiles[.]net:443/agent.ashx masquerading as Microsoft Azure NetApp Files
-• Staging IPs: 142[.]11[.]200[.]186-190 exposed Python SimpleHTTP servers on port 8888
-• Lateral movement script [victim_abbreviation]_fanout.sh performed SSH credential spraying using hardcoded lists
-
-Attack chain breakdown:
-• Initial compromise via PSEMHUB endpoints (/PSEMHUB/hub, /PSIGW/HttpListeningConnector)
-• Deployed custom MeshCentral agents for remote management (T1219)
-• Reconnaissance targeting psappsrv.cfg and WebLogic config.xml files
-• Automated lateral movement with credential spraying across internal hosts
-• Defacement markers: README-IF-YOU-SEE-THIS-YOUVE-BEEN-HACKED.TXT
-• Data exfiltration using zstd compression before DLS publication
-
-Hunt for unexpected .jsp files in PSEMHUB.war directories and monitor outbound SMB traffic (port 445) from PeopleSoft hosts. Full IOC collection available in GTI.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065163126790557758</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2065163126790557758">DFIR Radar</source>
-      <pubDate>Thu, 11 Jun 2026 20:03:53 +0000</pubDate>
-      <guid isPermaLink="false">2065163126790557758</guid>
     </item>
   </channel>
 </rss>
