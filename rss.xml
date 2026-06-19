@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 19 Jun 2026 19:02:54 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 20:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>An update on FortiBleed — what’s happening with victim orgs</title>
+      <link>https://doublepulsar.com/an-update-on-fortibleed-whats-happening-with-victim-orgs-c0671a50e7f4?source=rss----8343faddf0ec---4</link>
+      <description>FortiBleed expands: tens of thousands of Fortigate configs were exfiltrated and passwords cracked offline using rented GPU clusters, with attacker access confirmed inside victim networks.
+
+Key findings:
+- Initial access likely via prior unpatched vulns or dormant backdoor admin accounts; attacker logged in, immediately auto-exported full device configs, then cracked password hashes offline using 36 rented enterprise Nvidia GPUs at a GenAI compute provider
+- Config export evidence lives in Fortigate logs: System &gt; Events, filter on "config". Exports happen seconds after login, tied to both admin and REST API accounts. Observed exfil IPs include 193[.]8[.]186[.]7, 80[.]75[.]212[.]113, 213[.]21[.]239[.]65, 208[.]94[.]246[.]58, 69[.]195[.]129[.]144, 96[.]45[.]42[.]173
+- Post-access activity includes new admin account creation, firewall rule additions permitting SSH/RDP to external IPs, IPsec VPN logins, and lateral movement into internal AD environments. Accounts like forticloud-* in superadmins indicate backdoor placement
+- Cracked credentials are being sold as FortiVPN access on criminal forums. Telcos and MSPs managing customer Fortigate devices were specifically targeted, creating third-party risk for downstream orgs
+
+If your Fortigate IP appears in the victim list, treat the device as compromised.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2068062007039856729</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2068062007039856729">DFIR Radar</source>
+      <pubDate>Fri, 19 Jun 2026 20:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2068062007039856729</guid>
+    </item>
     <item>
       <title>Timelines</title>
       <link>https://windowsir.blogspot.com/2026/06/timelines.html</link>
@@ -1613,30 +1632,6 @@ Monitor PAM and OpenSSH binaries with file integrity monitoring. Hunt for unexpe
       <source url="https://x.com/DFIR_Radar/status/2065585549088260572">DFIR Radar</source>
       <pubDate>Sat, 13 Jun 2026 00:02:26 +0000</pubDate>
       <guid isPermaLink="false">2065585549088260572</guid>
-    </item>
-    <item>
-      <title>Shai-Hulud Campaign Evolution: Miasma, Hades, and AI Scanner Evasion</title>
-      <link>https://www.zscaler.com/blogs/security-research/shai-hulud-campaign-evolution-miasma-hades-and-ai-scanner-evasion</link>
-      <description>Shai-Hulud campaign evolves from npm to PyPI, introduces AI scanner evasion and OIDC abuse. Six-month evolution shows systematic progression through software supply chain trust layers, culminating in LLM prompt injection attacks.
-
-Campaign progression since November 2025:
-• March 2026 (Miasma): Expanded to PyPI via poisoned Trivy vulnerability scanner, introduced .pth file persistence surviving package reinstalls
-• May 2026 (Hades): Abused GitHub Actions pull_request_target to scrape OIDC tokens from runner memory, published malicious packages with valid SLSA Build Level 3 provenance
-• June 2026: Extended into IDE config files (.claude/, .cursor/, .vscode/, .gemini/), targeting AI-assisted development environments
-• Latest wave: Embedded prompt injection in PyPI packages to mislead LLM-based security scanners, instructing them to classify malicious code as "verified clean infrastructure"
-
-Technical artifacts:
-• .pth persistence: litellm_init.pth (34KB), -setup.pth files execute at every Python interpreter startup
-• C2 evolution: GitHub dead drops → ICP blockchain canisters → Session Protocol + staged api[.]anthropic[.]com/v1/api camouflage
-• IOCs: SHA256 dc48b09b2a5954f7ff79ab8a2fd80202bd3b59c08c7cdbc6025aa923cb4c0efe (_index.js)
-
-Hunt for unexpected .pth files in Python site-packages with unusual names (leading hyphens, non-package names) and monitor for off-hours bulk package publishing patterns.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065555439551488138</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2065555439551488138">DFIR Radar</source>
-      <pubDate>Fri, 12 Jun 2026 22:02:48 +0000</pubDate>
-      <guid isPermaLink="false">2065555439551488138</guid>
     </item>
   </channel>
 </rss>
