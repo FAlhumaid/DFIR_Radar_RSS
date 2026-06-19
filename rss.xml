@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 19 Jun 2026 09:03:19 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 10:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Bleeding Out</title>
+      <link>https://www.pwndefend.com/2026/06/19/bleeding-out/</link>
+      <description>A well-resourced threat actor compromised 149+ Active Directory domains by using victim firewalls as passive PCAP sensors, harvesting 148,000+ Kerberos hashes and 33,000 NTLM hashes without touching internal endpoints.
+
+Key findings:
+- Initial access via SSH brute-force of firewall management interfaces using default/vendor-pattern credentials, and mass SSL-VPN portal spraying. Three iterative spray series each fed recovered credentials back as wordlist input, creating a self-reinforcing loop backed by 46-GPU cracking across three platforms.
+- Post-access pivot uses the compromised firewall's own management API to trigger and download PCAPs of internal traffic. A custom harvester extracts auth material from 15+ protocols including Kerberos pre-auth exchanges. No implants dropped on internal hosts, leaving a near-silent footprint.
+- AD exploitation follows with cracked creds: enumeration, Kerberoasting, AS-REP roasting, delegation abuse, and file share staging. Confirmed exfiltration of classified defence documentation from a major defence electronics manufacturer elevates this beyond IAB or ransomware-precursor activity.
+- 7 Kali VMs auto-reinstall from cyberstrike[.]io on reboot. Decoy IPs are injected as false-flag attribution material and simultaneously act as canary validators in spray campaigns, deliberately corrupting IOC-based detection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067911050897334362</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2067911050897334362">DFIR Radar</source>
+      <pubDate>Fri, 19 Jun 2026 10:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2067911050897334362</guid>
+    </item>
     <item>
       <title>eBanking Phishing Delivered Through IPv4-Mapped IPv6 Address, (Fri, Jun 19th)</title>
       <link>https://isc.sans.edu/diary/rss/33090</link>
@@ -1687,36 +1704,6 @@ Forensic limitations:
       <source url="https://x.com/DFIR_Radar/status/2065374301318947279">DFIR Radar</source>
       <pubDate>Fri, 12 Jun 2026 10:03:01 +0000</pubDate>
       <guid isPermaLink="false">2065374301318947279</guid>
-    </item>
-    <item>
-      <title>Header Manipulation: Bypasses, Probing, and the Security Audit Nobody Does</title>
-      <link>https://infosecwriteups.com/header-manipulation-bypasses-probing-and-the-security-audit-nobody-does-62e85ad28cb0?source=rss----7b722bfd1b8d---4</link>
-      <description>New research reveals systematic header manipulation techniques for bypassing web application security controls. Comprehensive breakdown of Host header attacks, IP spoofing vectors, and 403 bypass patterns commonly exploited in penetration testing.
-
-Key attack vectors:
-• Host header manipulation probes virtual hosts: `admin.target.com`, `internal.target.com`, `dev.target.com` revealing hidden interfaces
-• IP restriction bypass via X-Forwarded-For, X-Real-IP, X-Client-IP headers spoofing localhost (127.0.0.1) for admin panel access
-• Path normalization bypasses: trailing slashes (/admin/), URL encoding (%2fadmin), case variations (ADMIN) evading access controls
-• HTTP method switching from blocked GET to allowed POST/PUT/HEAD methods
-• CORS misconfiguration testing with reflected origins enabling credential theft
-
-DFIR artifacts:
-• Web server access logs show suspicious header patterns: multiple X-Forwarded-For values, unusual Host headers, method anomalies
-• Application logs may reveal 403→200 status code transitions indicating successful bypasses
-• Network traffic analysis captures reflected CORS origins and security header absence
-
-Detection opportunities:
-• Monitor for localhost/internal IP spoofing in proxy headers from external sources
-• Alert on Host header values not matching server's legitimate virtual hosts
-• Track unusual HTTP method usage on restricted endpoints
-
-Hunt for access log entries with X-Forwarded-For containing 127.0.0.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065359177971827037</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2065359177971827037">DFIR Radar</source>
-      <pubDate>Fri, 12 Jun 2026 09:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2065359177971827037</guid>
     </item>
   </channel>
 </rss>
