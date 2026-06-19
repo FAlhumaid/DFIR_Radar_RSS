@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 19 Jun 2026 01:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 02:03:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>DCOM Explained: How Attackers Turn a Windows Feature into a Lateral Movement Tool</title>
+      <link>https://detect.fyi/dcom-explained-how-attackers-turn-a-windows-feature-into-a-lateral-movement-tool-f3c07ce94866?source=rss----d5fd8f494f6a---4</link>
+      <description>DCOM lateral movement exploits native Windows RPC infrastructure to execute commands remotely without dropping a single malicious file, making process-chain correlation your primary detection lever.
+
+Key findings:
+- Attack chain (T1021.003): attacker dumps creds from lsass.exe on Machine A, authenticates to Machine B over TCP 135, instantiates MMC20.Application via CLSID C085698C-D16F-417A-8851-A263C70D21B6, then calls ExecuteShellCommand. No payload dropped; only signed Windows binaries touch disk.
+- Four-event correlation catches it: Event ID 4624 Logon Type 3 (NTLM network logon) + Sysmon Event ID 3 (TCP 135 connection between workstations) + Sysmon Event ID 1 showing mmc.exe or excel.exe spawned under svchost.exe -k DcomLaunch + cmd.exe or powershell.exe as a child of that DCOM host process.
+- The RPCSS Endpoint Mapper (rpcss.dll) handles port 135 negotiation and permission checks via HKCR\CLSID before SCM spawns the target process, so registry auditing on that key can surface unauthorized CLSID lookups.
+- Prevention: block TCP 135 between workstations at the firewall, strip remote activation rights from non-admin accounts in DCOM config, and deploy LAPS to break lateral reuse of local admin credentials.
+
+Hunt for powershell.exe or cmd.exe whose grandparent is svchost.exe -k DcomLaunch. That two-hop parent chain is rare in legitimate traffic and is the clearest signal this technique leaves behind.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067790451894333892</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2067790451894333892">DFIR Radar</source>
+      <pubDate>Fri, 19 Jun 2026 02:03:56 +0000</pubDate>
+      <guid isPermaLink="false">2067790451894333892</guid>
+    </item>
     <item>
       <title>PeopleSoft PeopleTools Pre-Authentication RCE: A PSIGW SSRF Chain That Executes Inside the JVM</title>
       <link>https://www.trendmicro.com/en_us/research/26/f/PeopleTools.html</link>
@@ -1752,38 +1771,6 @@ Priority patch application for arm64 KVM hosts. Hunt for /dev/kvm access anomali
       <source url="https://x.com/DFIR_Radar/status/2065132899897126947">DFIR Radar</source>
       <pubDate>Thu, 11 Jun 2026 18:03:47 +0000</pubDate>
       <guid isPermaLink="false">2065132899897126947</guid>
-    </item>
-    <item>
-      <title>Unifi Exploitation in the Defused Honeypots</title>
-      <link>https://www.pwndefend.com/2026/06/10/unifi-exploitation-in-the-defused-honeypots/</link>
-      <description>UniFi OS Server auth bypass chained with command injection enables single-request RCE. Mass scanning underway targeting 100k+ exposed endpoints, with blind exfiltration via DNS callbacks.
-
-Key technical details:
-• CVE-2026-34908: nginx parser differential allows unauthenticated access to internal /proxy/ endpoints via ..%2f encoding
-• CVE-2026-34910: Command injection in pkg_name parameter executes shell commands as service account
-• Payload uses `uname | base64`.requestrepo[.]com for blind RCE confirmation via DNS exfiltration
-• Affects UniFi OS Server ≤5.0.6, fixed in 5.0.8 (released 2026-05-21)
-• Service account has passwordless sudo - trivial escalation to root
-
-Attack methodology:
-• Mass scanner probes with spoofed Safari user agents, inconsistent OS versions
-• Two requests seconds apart: uname -r and uname -a for kernel fingerprinting
-• No HTTP response needed - DNS lookup to collaborator confirms execution
-• Base64-encoded system info exfiltrated as subdomain label
-
-DFIR artifacts:
-• Smoking gun: DNS queries to h4wiu0w9.requestrepo[.]com or any *.requestrepo[.]com from appliance
-• Web logs: /api/auth/validate-sso/..%2f..%2f..%2fproxy/users/api/v2/ucs/update/latest_package with pkg_name injection
-• Process execution: curl/uname/base64 children of web service process
-• Post-exploit: sudo invocations by service account, new persistence mechanisms
-
-Hunt query: Search DNS/proxy logs for requestrepo[.]com. Any hit from UniFi appliance = confirmed compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2065117792354103794</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2065117792354103794">DFIR Radar</source>
-      <pubDate>Thu, 11 Jun 2026 17:03:44 +0000</pubDate>
-      <guid isPermaLink="false">2065117792354103794</guid>
     </item>
   </channel>
 </rss>
