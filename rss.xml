@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 22 Jun 2026 15:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jun 2026 16:02:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Out of Shift: How a Shared State Bug in V8’s AsmJS Parser Broke the Ubercage</title>
+      <link>https://blog.exodusintel.com/2026/06/22/out-of-shift-how-a-shared-state-bug-in-v8s-asmjs-parser-broke-the-ubercage/</link>
+      <description>CVE-2026-3542 in Chrome's V8 AsmJS parser corrupts WebAssembly opcode streams, bypassing the Ubercage sandbox entirely to reach arbitrary code execution from a single bug.
+
+Key findings:
+
+- CVE-2026-3542, patched March 3 2026, lives in AsmJsParser::ValidateHeapAccess(). The heap_access_shift_position_ attribute is instance-level state shared across all recursive parse calls. A nested shift expression like HEAP32[1 &lt;&lt; (n &gt;&gt; 2)] causes ShiftExpression() to recurse, overwriting that position with a stale offset. When DeleteCodeAfter() truncates the opcode stream using that stale value, subsequent opcodes are left misaligned and later emitted immediates become orphaned opcodes the decoder executes unchecked.
+
+- The Ubercage bypass is structural, not incidental. AsmJS-generated opcodes skip ValidationTag::validate entirely because V8 trusts its own parser output. An attacker who controls the corrupted stream can inject opcodes like kExprCallRef or kExprStructGet with no type-safety checks, treating arbitrary 64-bit values on the stack as addresses. This gives out-of-sandbox read/write from a single memory-corruption primitive.
+
+- Exploit chain: spray TypeDefinition structs on the canonical type zone so a cross-module struct type lands adjacent to the AsmJS module's type vector. Use kExprI64Const to place a crafted 64-bit address on the stack, then kExprStructGet/kExprStructSet for arbitrary read/write.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069088755881754748</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2069088755881754748">DFIR Radar</source>
+      <pubDate>Mon, 22 Jun 2026 16:02:56 +0000</pubDate>
+      <guid isPermaLink="false">2069088755881754748</guid>
+    </item>
     <item>
       <title>4,300+ Outdated Routers Hijacked in Stealthy Spy Infrastructure by AryStinger malware</title>
       <link>https://securityaffairs.com/193987/security/4300-outdated-routers-hijacked-in-stealthy-spy-infrastructure-by-arystinger-malware.html</link>
@@ -1475,26 +1494,6 @@ Key technical details:
       <source url="https://x.com/DFIR_Radar/status/2066929460591427894">DFIR Radar</source>
       <pubDate>Tue, 16 Jun 2026 17:02:40 +0000</pubDate>
       <guid isPermaLink="false">2066929460591427894</guid>
-    </item>
-    <item>
-      <title>Zombie COTables: Resurrecting Freed Memory to Escape VirtualBox</title>
-      <link>https://blog.exodusintel.com/2026/06/15/zombie-cotables-resurrecting-freed-memory-to-escape-virtualbox/</link>
-      <description>A use-after-free in Oracle VirtualBox's SVGA subsystem enables guest-to-host escape with code execution in the hypervisor process. Patched in Oracle's January 2026 Critical Patch Update, the full exploit chain achieves ~70% reliability on Linux hosts.
-
-Key technical details:
-- Root cause: `SVGA_3D_CMD_DESTROY_GB_MOB` frees a MOB (VMSVGAMOB, size 104 bytes) without checking if it is still bound to a Context-Object Table (COTable) via `aCOTMobs[]`, leaving a dangling pointer
-- Attack chain: bind MOB to COTable via `SVGA_3D_CMD_DX_SET_COTABLE` (type 7, SVGA_COTABLE_SAMPLER), destroy the MOB, reclaim freed heap chunks, force `RTMemAllocZ()` to place a new `VMSVGA3DDXCONTEXT` (0x2170 bytes) over the freed MOB buffer
-- Arbitrary write: `vmsvga3dDXDefineSamplerState()` uses guest-controlled `samplerId` as an unvalidated index into `cot.paSampler`, enabling out-of-bounds writes and pointer corruption
-- Info leak: heap grooming of 6 MOBs recovers base address of `VBoxDD.so` and `VMSVGAR3STATE` pointer, which contains exploitable function pointers (`pFuncsVGPU9-&gt;pfnCommandClear`)
-- ROP chain: stack pivot into guest-controlled command buffer, `RTMemProtect()` sets MOB buffer RWX, shellcode executes in hypervisor context. Process continuity preserved by redirecting execution back to `vmsvgaR3FifoLoop()`
-
-Patch action: Apply Oracle January 2026 Critical Patch Update immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066914477996490805</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2066914477996490805">DFIR Radar</source>
-      <pubDate>Tue, 16 Jun 2026 16:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2066914477996490805</guid>
     </item>
   </channel>
 </rss>
