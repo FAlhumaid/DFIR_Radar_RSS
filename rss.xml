@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 22 Jun 2026 04:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jun 2026 05:02:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Bypassing Microsoft Entra Conditional Access Policies via Nested App Authentication</title>
+      <link>https://www.netspi.com/blog/technical-blog/cloud-pentesting/bypassing-microsoft-entra-conditional-access-policies-via-nested-app-authentication/</link>
+      <description>Microsoft Entra Conditional Access Policies could be fully bypassed via Nested App Authentication (NAA/BroCI), granting broad Microsoft Graph access even when CAPs were explicitly blocking a user. Patched June 2026.
+
+Key findings:
+
+- Three first-party app IDs bypassed CAP evaluation entirely when used as NAA targets against Microsoft Graph: ADIbizaUX (74658136-14ec-4630-ad9b-26e160ff0fc6), Intune for Education portal extension (f52f5287-0be2-4052-83e8-e69620aa67cc), and Intune portal extension (5926fc8e-304e-4f59-8bed-58ca97cc39a4). The Azure Portal app (c44b4083-3bb0-49c1-b47d-974e53cbdf3c) acted as the broker host.
+
+- Attack chain: phish or AiTM to steal an Azure Portal refresh token, then use the NAA flow with brk_client_id and brk_redirect_uri parameters to mint a Graph token, completely skipping CAP. The ADIbizaUX app carries a massive pre-consented scope set and also exposes undocumented IAM APIs with no logging.
+
+- The bypass window is bounded by a hard 24-hour SPA refresh token lifetime that cannot be extended, limiting but not eliminating the persistence opportunity.
+
+Takeaway: Hunt your Entra sign-in logs for token requests to login.microsoftonline[.]com carrying brk_client_id targeting those three app IDs. Confirm the fix is in place by verifying AADSTS53003 is now returned for those flows. AiTM detections on Azure Portal authentication are your upstream control.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2068922553406783531</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2068922553406783531">DFIR Radar</source>
+      <pubDate>Mon, 22 Jun 2026 05:02:30 +0000</pubDate>
+      <guid isPermaLink="false">2068922553406783531</guid>
+    </item>
     <item>
       <title>A Multi-Stage Steganographic Loader Campaign Deploying Diverse Payloads Globally</title>
       <link>https://labs.k7computing.com/index.php/a-multi-stage-steganographic-loader-campaign-deploying-diverse-payloads-globally/</link>
@@ -1527,26 +1548,6 @@ Hunt for suspicious Copilot Search URLs with encoded HTML payloads in query para
       <source url="https://x.com/DFIR_Radar/status/2066521810481639437">DFIR Radar</source>
       <pubDate>Mon, 15 Jun 2026 14:02:48 +0000</pubDate>
       <guid isPermaLink="false">2066521810481639437</guid>
-    </item>
-    <item>
-      <title>Dark Web Profile: Fox Kitten</title>
-      <link>https://socradar.io/blog/dark-web-profile-fox-kitten/</link>
-      <description>Iran 🇮🇷 state-sponsored Fox Kitten APT operates dual mission: intelligence collection for IRGC while brokering network access to ransomware affiliates for profit. Group rapidly weaponizes VPN/firewall CVEs and maintains extended access through tunneling infrastructure.
-
-Key technical details:
-• Primary entry via internet-facing appliances: CVE-2024-3400 (Palo Alto), CVE-2023-3519 (Citrix), CVE-2024-24919 (Check Point)
-• Persistence: HanifNet/.NET backdoor, HXLibrary/IIS module, China Chopper webshells, sticky keys abuse (T1546.008)
-• C2 infrastructure: FRPC, ngrok, Chisel reverse proxies routing through AWS; SSHMinion custom tunneling tool
-• Credential theft: prodump (ProcDump variant) for LSASS dumping, Volume Shadow Copy for NTDS.dit extraction
-• Confirmed partnerships with NoEscape, Ransomhouse, ALPHV affiliates since 2024
-
-Hunt for ngrok/FRPC execution, LSASS access attempts, and TightVNC installations. Prioritize patching internet-facing VPN/firewall devices - Fox Kitten weaponizes new CVEs within days of disclosure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066506554069725483</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2066506554069725483">DFIR Radar</source>
-      <pubDate>Mon, 15 Jun 2026 13:02:11 +0000</pubDate>
-      <guid isPermaLink="false">2066506554069725483</guid>
     </item>
   </channel>
 </rss>
