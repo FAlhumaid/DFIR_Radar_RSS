@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 22 Jun 2026 13:02:01 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jun 2026 14:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PixelSmash – Critical FFmpeg Vulnerability Turns Media Files into Weapons</title>
+      <link>https://jfrog.com/blog/pixelsmash-critical-ffmpeg-vulnerability-turns-media-files-into-weapons/</link>
+      <description>CVE-2026-8461 (CVSS 8.8): heap OOB write in FFmpeg's MagicYUV decoder enables RCE via a single 50 KB media file upload, hitting Jellyfin, Nextcloud, Emby, Immich, OBS, and AI/ML pipelines.
+
+- CVE-2026-8461 lives in libavcodec/magicyuv.c. When slice_height is odd (attacker-controlled via bitstream), ceiling-rounded chroma shifts accumulate an extra row per slice past the allocated buffer. With coded_height=32 and slice_height=31, the decoder writes 640 attacker-controlled bytes one full row beyond the Cb chroma plane, landing directly on the AVBuffer struct FFmpeg allocates immediately after pixel data.
+
+- Exploitation overwrites AVBuffer.free with system() and AVBuffer.opaque with a shell command pointer. When av_frame_unref fires during normal frame cleanup, the hijacked indirect call executes the attacker's command before the process crashes. JFrog demonstrated a reverse shell on Jellyfin 10.9 (jellyfin-ffmpeg 7.1.3) via automatic library scan and on Nextcloud via the Movie preview provider, both triggered by uploading a single crafted AVI with zero authentication. ASLR was disabled for the RCE demo; without ASLR bypass the primitive reliably delivers DoS on every tested target.
+
+- The torrent vector is zero-click: a malicious AVI dropped into Jellyfin's watched media folder triggers ffprobe automatically.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069058561129451578</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2069058561129451578">DFIR Radar</source>
+      <pubDate>Mon, 22 Jun 2026 14:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2069058561129451578</guid>
+    </item>
     <item>
       <title>Using the Cert Graveyard</title>
       <link>https://squiblydoo.blog/2026/06/22/using-the-cert-graveyard/</link>
@@ -1478,31 +1495,6 @@ Attribution note: diversity of tooling suggests multiple independent threat acto
       <source url="https://x.com/DFIR_Radar/status/2066899259589304618">DFIR Radar</source>
       <pubDate>Tue, 16 Jun 2026 15:02:40 +0000</pubDate>
       <guid isPermaLink="false">2066899259589304618</guid>
-    </item>
-    <item>
-      <title>Inside a malicious infrastructure delivering EtherRAT, phishing pages, and malicious software</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/06/inside-a-malicious-infrastructure-delivering-etherrat-phishing-pages-and-malicious-software</link>
-      <description>EtherRAT, a Node.js RAT using the Ethereum blockchain for C2 resilience, has been traced to a vast bulletproof infrastructure distributing malware, phishing kits, and remote access tools. Malwarebytes uncovered the campaign via an open directory serving versioned MSI and PowerShell loaders.
-
-Attack chain breakdown:
-- MSI (e.g., v9.msi) drops 3 components: `KmPuGimn.cmd` (BAT launcher), `cDQMlQAru0.xml` (JScript XOR loader), `MRaQCipBIZeiZNx.log` (encrypted EtherRAT payload). Node.js is silently installed to `%LOCALAPPDATA%\28Q75h\` if absent
-- Persistence via registry Run key; node.exe copied as `_MJlLlt5.exe` under `%LOCALAPPDATA%\{random}\{random}\`
-- EtherRAT resolves C2 dynamically via Ethereum smart contract `0x88ea8d0bc4146f0a018e989df3fd089ac48f9a58` using `eth_call` JSON-RPC against public RPC endpoints (e.g., `mainnet[.]gateway[.]tenderly[.]co`, `rpc[.]flashbots[.]net`)
-- Post-compromise recon: WMI GPU/domain queries, `reg query HKLM\SOFTWARE\Microsoft\Cryptography /v MachineGuid`, `net session` — classic sandbox/domain checks (T1082, T1016)
-- Each execution triggers C2-side reobfuscation and hash rotation, defeating static IOC matching; logs written to `svchost.log`
-
-Infrastructure IOCs (defanged):
-IPs: `82[.]165[.]65[.]244`, `185[.]221[.]216[.]121`, `43[.]163[.]233[.]166`
-Distribution: `ivorilla[.]cloud`, `dorqen[.]casa`, `kelvra[.]club`
-C2: `cambioefectivo[.]com`, `tranzed[.]org`, `kibrisarazi[.]com`
-
-Hunt tip: Alert on `conhost.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066884405264621870</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2066884405264621870">DFIR Radar</source>
-      <pubDate>Tue, 16 Jun 2026 14:03:38 +0000</pubDate>
-      <guid isPermaLink="false">2066884405264621870</guid>
     </item>
   </channel>
 </rss>
