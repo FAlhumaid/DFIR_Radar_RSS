@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 22 Jun 2026 00:02:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jun 2026 04:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>A Multi-Stage Steganographic Loader Campaign Deploying Diverse Payloads Globally</title>
+      <link>https://labs.k7computing.com/index.php/a-multi-stage-steganographic-loader-campaign-deploying-diverse-payloads-globally/</link>
+      <description>A phishing campaign targeting India 🇮🇳 deploys Remcos RAT through a multi-stage steganographic loader chain, hiding payloads inside .NET Bitmap objects and executing entirely in memory to frustrate forensic recovery.
+
+Key findings:
+
+- Initial access via phishing archive dropping "GST Debit Note Apr_26.com", a packed unsigned 32-bit .NET executable masquerading as a brick game. The .com extension is deliberate misdirection. Filenames using NEFT, RTGS, IMPS, and GST themes confirm an India 🇮🇳-focused lure set.
+
+- The loader extracts Optimax.dll from a serialized .NET Bitmap resource (SR1) using steganography, loads it via AppDomain.Load entirely in memory, which then reflectively loads "System Optimizer Ultimate.dll", which finally hollows Remcos into the user's default browser process. Nothing touches disk until persistence is set.
+
+- Persistence hits three locations: a Run registry key in the Temp directory, winlogon.exe, and userinit. The malware also copies itself to AppData\Roaming under a randomized superhidden filename and bypasses UAC via eventviewer.exe.
+
+- Remcos confirms itself with the mutex Remcos_Mutex_Inj, checks for sandboxes via sbiedll.dll and the registry key hardware/acpi/dsdt/vbox_, steals Chrome and Firefox credentials, logs keystrokes and window titles to logs.dat, and exfiltrates to 62.102.148[.]212:37393, 217.138.252[.]123:42830, and 146.70.244[.]90:37393.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2068907521662734835</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2068907521662734835">DFIR Radar</source>
+      <pubDate>Mon, 22 Jun 2026 04:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2068907521662734835</guid>
+    </item>
     <item>
       <title>Supercomputing on a Credit Card From The AI Rush Enabled The Massive FortiBleed Campaign</title>
       <link>https://www.infostealers.com/article/supercomputing-on-a-credit-card-from-the-ai-rush-enabled-the-massive-fortibleed-campaign/</link>
@@ -1526,36 +1547,6 @@ Hunt for ngrok/FRPC execution, LSASS access attempts, and TightVNC installations
       <source url="https://x.com/DFIR_Radar/status/2066506554069725483">DFIR Radar</source>
       <pubDate>Mon, 15 Jun 2026 13:02:11 +0000</pubDate>
       <guid isPermaLink="false">2066506554069725483</guid>
-    </item>
-    <item>
-      <title>Palo Alto Warns of Exploitation of VPN Bypass Exploits (CVE-2026-0257) in PAN-OS Flaw</title>
-      <link>https://securityaffairs.com/193638/security/palo-alto-warns-of-exploitation-of-vpn-bypass-exploits-cve-2026-0257-in-pan-os-flaw.html</link>
-      <description>Palo Alto Networks 🇺🇸 confirms active exploitation of CVE-2026-0257, a PAN-OS authentication bypass allowing attackers to establish unauthorized VPN connections without credentials. CISA added to KEV catalog after widespread attacks.
-
-Key technical details:
-• Affects GlobalProtect portal/gateway when using shared certificates for HTTPS and cookie encryption
-• Attackers extract public key from HTTPS session, forge admin cookies bypassing authentication (no creds needed)
-• Rapid7 observed exploitation starting May 17 from Vultr and Dromatics Systems infrastructure
-• Attack uses spoofed MAC addresses (aa:bb:cc:dd:ee:ff) and hostnames "GP-CLIENT", "DESKTOP-GP01"
-
-Attack methodology:
-• Retrieve certificate chain from vulnerable appliance HTTPS service
-• Extract public key and forge authentication cookie for any user including local admin
-• Present forged cookie to bypass authentication - takes seconds to execute
-• 20% of victims received full VPN IP assignment granting internal network access
-
-DFIR artifacts and IOCs:
-• Hunt GlobalProtect logs for connections from 23.128.228[.]6, 104.207.144[.]154, 146.19.216[.]119-125
-• Look for Windows 10 Pro 64-bit clients with empty domain fields in successful gateway connections
-• Monitor for MAC addresses aa:bb:cc:dd:ee:ff and 00:11:22:33:44:55
-
-Impact requires specific misconfig: Cloud Authentication Service disabled + shared certificate between HTTPS service and cookie encryption.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066491521805754842</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2066491521805754842">DFIR Radar</source>
-      <pubDate>Mon, 15 Jun 2026 12:02:27 +0000</pubDate>
-      <guid isPermaLink="false">2066491521805754842</guid>
     </item>
   </channel>
 </rss>
