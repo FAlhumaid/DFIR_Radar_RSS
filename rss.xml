@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 22 Jun 2026 16:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jun 2026 17:02:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting the Klue supply chain attack in Salesforce instances</title>
+      <link>https://securitylabs.datadoghq.com/articles/detecting-the-klue-supply-chain-attack-in-salesforce/</link>
+      <description>Icarus threat group exploited a dormant OAuth credential at Klue to harvest tokens across Salesforce, Gong, HubSpot, and Slack, then ran automated API exfiltration against hundreds of enterprise CRMs before launching an extortion campaign.
+
+Key findings:
+
+- Initial access came from a never-decommissioned prototype credential inside Klue's integration infrastructure, not phishing or a CVE. Activity began June 11 at 12:56 UTC; Klue revoked tokens June 13. Extortion emails with a 48-hour deadline followed June 16, demanding contact via Session Messenger.
+
+- The actor queried Salesforce REST API endpoint /services/data/v59.0/query/* using Python scripts. User agents to hunt: Python-urllib/3.12, Python-urllib/3.14, and the anomalous string "5238". Confirmed actor IPs: 138.226.246[.]94, 212.86.125[.]24, 213.111.148[.]90, 94.154.32[.]160.
+
+- Target objects were Opportunity, Contact, Lead, Account, Contract, Case, and Campaign. QueryMore usage signals bulk exfiltration since Salesforce caps each request at 2,000 records. Failed ApiException messages in RestApi logs (fault=-1, exceeded 100000 distinct who/whats) reveal aggressive broad-scope queries.
+
+- OAuth refresh tokens sustained access after initial token revocation in a subset of environments. Detect via login_sub_type:oauthrefreshtoken in Login logs or login_sub_type:"OAuth Refresh Token" in LoginEvent.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069103685741785217</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2069103685741785217">DFIR Radar</source>
+      <pubDate>Mon, 22 Jun 2026 17:02:16 +0000</pubDate>
+      <guid isPermaLink="false">2069103685741785217</guid>
+    </item>
     <item>
       <title>Out of Shift: How a Shared State Bug in V8’s AsmJS Parser Broke the Ubercage</title>
       <link>https://blog.exodusintel.com/2026/06/22/out-of-shift-how-a-shared-state-bug-in-v8s-asmjs-parser-broke-the-ubercage/</link>
@@ -1475,25 +1496,6 @@ Key technical details:
       <source url="https://x.com/DFIR_Radar/status/2066944515953524840">DFIR Radar</source>
       <pubDate>Tue, 16 Jun 2026 18:02:29 +0000</pubDate>
       <guid isPermaLink="false">2066944515953524840</guid>
-    </item>
-    <item>
-      <title>PSA: Supply Chain Compromise Targets ShapedPlugin, Backdoored Pro Plugins Distributed via Official Channels</title>
-      <link>https://www.wordfence.com/blog/2026/06/psa-supply-chain-compromise-targets-shapedplugin-backdoored-pro-plugins-distributed-via-official-channels/</link>
-      <description>Active supply chain compromise: Attackers infiltrated ShapedPlugin's build and distribution pipeline, injecting a multi-stage backdoor into Pro WordPress plugin releases delivered through official licensed update channels. CVE-2026-10735 (CVSS 9.8 Critical) affects Product Slider Pro, Real Testimonials Pro, and Smart Post Show Pro. Sites that installed any ShapedPlugin Pro product between April and June 2026 should be treated as compromised.
-
-Key technical details:
-
-- Stage 1 loader: `src/Includes/LicenseLoader.php` runs on `admin_init`, beacons to C2 at `194[.]76[.]217[.]28:2871`, downloads payload via WordPress Plugin_Upgrader, then self-deletes to cover tracks (T1027, T1070.004)
-
-- Stage 2 fake plugin drops to `wp-content/plugins/woocommerce-subscription/` (singular, not plural), hiding itself from the admin plugin list via `all_plugins` filter. Bundles Tiny File Manager 2.6, Adminer 5.2.1, a REST API backdoor at `/wp-json/wc/v3/settings/apply`, a URL parameter webshell, and a login bypass using hardcoded MD5 `e268c35a06d85f672e70c9beecb4e5d1`
-
-- 2FA secret exfiltration targets TOTP seeds from WP 2FA, Wordfence Login Security, Really Simple SSL, and Two-Factor plugin user meta. Stolen data exfils to `generate[.]2faplugin[.]org`. With both passwords and TOTP seeds compromised, MFA is fully bypassed even after password resets
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2066929460591427894</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2066929460591427894">DFIR Radar</source>
-      <pubDate>Tue, 16 Jun 2026 17:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2066929460591427894</guid>
     </item>
   </channel>
 </rss>
