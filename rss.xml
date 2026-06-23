@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 23 Jun 2026 18:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jun 2026 19:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2025-54068 Laravel Livewire Credential Theft Campaign: 6,000+ Applications Compromised</title>
+      <link>https://www.imperva.com/blog/cve-2025-54068-laravel-livewire-credential-theft-campaign-6000-applications-compromised/</link>
+      <description>CVE-2025-54068, a critical unauthenticated RCE in Laravel Livewire v3 up to v3.6.3, has been actively exploited in a mass credential theft campaign hitting 6,000+ applications across e-commerce, healthcare, finance, and government.
+
+Key findings:
+
+- The vulnerability lives in Livewire's hydration process: the framework fails to verify submitted component state before deserializing it, letting an unauthenticated attacker inject a PHPGGC gadget chain via a crafted HTTP request and achieve RCE. No auth required, fully automated at scale (T1190).
+
+- Once in, the attacker curls shoc.enz (SHA256: 548c3672fd3201dab56f714fdd5812bb024980815b3a2b6299f0126bdf16fb3e) from hxxps://xantibot[.]pw/database-sell/shoc.enz and pipes it to bash. The 5,269-byte script recursively hunts every .env file on the filesystem (T1083, T1552.001), stages and zips them, then exfiltrates to FTP at 47.129.100[.]149, Telegram, and GoFile before wiping the staging directory (T1070.004).
+
+- Recovered exfiltration infrastructure held credentials from 6,167 apps: 381 valid AWS IAM keys, 188 live Stripe secret keys, 14,566 real database passwords, 7,176 SMTP passwords, and 1,851+ full database dumps confirming active post-theft exploitation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069496417807172090</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2069496417807172090">DFIR Radar</source>
+      <pubDate>Tue, 23 Jun 2026 19:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2069496417807172090</guid>
+    </item>
     <item>
       <title>A Valid Microsoft Signature Does Not Mean a Driver Is Safe by Lucie Cardiet</title>
       <link>https://www.vectra.ai/blog/a-valid-microsoft-signature-does-not-mean-a-driver-is-safe</link>
@@ -1516,25 +1535,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2067246443866284504">DFIR Radar</source>
       <pubDate>Wed, 17 Jun 2026 14:02:15 +0000</pubDate>
       <guid isPermaLink="false">2067246443866284504</guid>
-    </item>
-    <item>
-      <title>The Compromise of 30,000 Fortinet Firewalls</title>
-      <link>https://socradar.io/blog/fortibleed-fortinet-firewalls-compromised/</link>
-      <description>Russian-speaking 🇷🇺 operators have built a self-feeding credential database of 30,791 verified working logins across Fortinet firewalls and VPN gateways in 194 countries, targeting banks, telecoms, hospitals, and government agencies with no zero-day required.
-
-Key findings:
-- No vulnerability exploited. Attackers ran automated credential-stuffing using previously leaked Fortinet passwords, then passively sniffed traffic on compromised devices to harvest fresh credentials fed back into the scanner, a self-sustaining loop (T1110.004, T1557)
-- Default and generic accounts dominate: "admi*" alone covers 21% of entries. Built-in Fortinet system accounts make up the bulk of the rest, confirming mass failure to rename defaults or rotate factory credentials
-- Telecom is the hardest-hit sector (5,616 entries); government accounts for 591 entries across 111 domains, with Ukraine 🇺🇦, Poland 🇵🇱, and Taiwan heavily represented alongside NATO members, consistent with the geopolitical targeting pattern
-- The dataset has not appeared on criminal forums as of publication. Credentials are verified working. If your org is in it, treat access as confirmed, not theoretical
-
-Responder action: pull FortiGate admin and SSL-VPN auth logs immediately and look for logins outside business hours or from unfamiliar source IPs. Rotate every credential, enforce MFA on all remote-access accounts, and block management interfaces from the public internet.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067231539104976908</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2067231539104976908">DFIR Radar</source>
-      <pubDate>Wed, 17 Jun 2026 13:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2067231539104976908</guid>
     </item>
   </channel>
 </rss>
