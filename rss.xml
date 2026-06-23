@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 23 Jun 2026 11:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jun 2026 12:02:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detections Digest #20260622</title>
+      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260622</link>
+      <description>Detection engineering digest covers 48 new and 47 updated rules across 10 repos, with standout additions for CVE-2026-33825 LPE, BYOVD, RMM abuse, and cross-platform credential theft.
+
+Key updates:
+
+- Splunk added 9+ rules for CVE-2026-33825 (BlueHammer/RedSun LPE exploits), monitoring MsMpEng writing to System32, VSSVC accessing Defender engine binaries, cldapi.dll loaded by uncommon processes, and TieringEngineService.exe spawning suspicious children. Separately, CVE-2026-4681 PTC Windchill rules hunt for GW_READY_OK probe strings in MethodServer log4j events signaling pre-exploitation recon.
+
+- LOLDrivers updated MD5, SHA1, SHA256, and IMPHASH blocklists plus driver filename filters to catch current BYOVD campaigns bypassing HVCI for kernel-level access. LOLRMM added JumpCloud*.exe, Remotely_Agent.exe, and Remotely_Desktop.exe process detections for RMM-based persistence.
+
+- SigmaHQ added a rule for registry enumeration via WMIC StdRegProv (EnumKey, EnumValues, GetStringValue), a technique adversaries use to bypass reg.exe-focused monitors. Splunk updated SmartScreen and Defender disable rules to match both integer 0 and hex 0x00000000 registry values, closing an evasion gap tied to SalatStealer.
+
+- Cross-platform coverage expanded: Neo23x0 added YARA for Arch Linux ALPM hook supply chain attacks (npm/bun in post-install scripts redirecting stderr to /dev/null).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069390616723611858</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2069390616723611858">DFIR Radar</source>
+      <pubDate>Tue, 23 Jun 2026 12:02:25 +0000</pubDate>
+      <guid isPermaLink="false">2069390616723611858</guid>
+    </item>
     <item>
       <title>SOC Forensics: How to Set Up Automatic DFIR Analysis in the Cloud</title>
       <link>https://www.cybertriage.com/blog/soc-forensics-how-to-set-up-automatic-dfir-analysis-in-the-cloud/</link>
@@ -1482,23 +1503,6 @@ Practitioner takeaway: exposed attacker infrastructure is a gift. If you are hun
       <source url="https://x.com/DFIR_Radar/status/2067140846693372053">DFIR Radar</source>
       <pubDate>Wed, 17 Jun 2026 07:02:38 +0000</pubDate>
       <guid isPermaLink="false">2067140846693372053</guid>
-    </item>
-    <item>
-      <title>FishMonger’s arsenal upgraded: SprySOCKS for Windows</title>
-      <link>https://www.welivesecurity.com/en/eset-research/fishmongers-arsenal-upgraded-sprysocks-windows/</link>
-      <description>FishMonger's 🇨🇳 SprySOCKS backdoor goes Windows: two undocumented variants (WIN_DRV and WIN_PLUS) add kernel-level rootkit stealth, TCP traffic diversion, and UEFI bootkit indicators to a previously Linux-only implant targeting government orgs in Honduras, Taiwan 🇹🇼, Thailand, and Pakistan 🇵🇰.
-
-- Execution chain (WIN_DRV): batch script klelam00007.bat drops files to %SystemRoot%\Fonts\, creates scheduled task "ApphostRagistreationVerifier" (note the misspelling), and uses DLL side-loading via MFC satellite DLL (tpsvcloc.dll) to launch. Loader uses 128-bit AES-ECB (key: uXQLESMXGaRMs6BL) to decrypt payloads, then injects backdoor into svchost.exe via process doppelgänging (T1055.013), spawning from a spoolsv.exe token. TH-prefixed temp files in %TEMP% are a hunt artifact.
-
-- RawWNPF kernel rootkit (WIN_DRV only): loaded in-memory via DriverLoader (fsdiskbit.sys, signed with leaked cert from PastDSE project), it hooks NtQuerySystemInformation to hide processes, hooks nsiproxy.sys IoCompletionRoutine to hide connections from netstat, registers WFP filters (named "Delivery Optimization" to blend in) to divert specially crafted TCP packets to the hidden backdoor port, and uses minifilter callbacks to hide files under \SystemRoot\Fonts\.
-
-- WIN_PLUS persistence uses a malicious print processor: VSPMsg.dll at C:\Windows\System32\spool\prtprocs\x64\, registered under HKLM\SYSTEM\ControlSet001\Control\Print\Environments\Windows x64\Print Processors\VSPMsg.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067125822037585955</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2067125822037585955">DFIR Radar</source>
-      <pubDate>Wed, 17 Jun 2026 06:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2067125822037585955</guid>
     </item>
   </channel>
 </rss>
