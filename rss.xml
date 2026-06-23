@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 23 Jun 2026 17:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jun 2026 18:02:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>A Valid Microsoft Signature Does Not Mean a Driver Is Safe by Lucie Cardiet</title>
+      <link>https://www.vectra.ai/blog/a-valid-microsoft-signature-does-not-mean-a-driver-is-safe</link>
+      <description>Hackledorb (DragonForce) spent 1-2 months inside a major US 🇺🇸 services firm using four signed kernel drivers to kill security tools before dropping ransomware. One driver had zero CVEs when deployed.
+
+Key details:
+
+- BYOVD chain: operators loaded four kernel-mode drivers in sequence. Three carried documented CVEs not yet on Microsoft's blocklist. The fourth, a Huawei audio driver they renamed "Havoc Process Terminator," had no known vulnerability at all at deployment time. Huntress published analysis three months after the attack.
+
+- The blocklist problem is structural, not procedural. Drivers get added after weaponization, after a CVE is filed, after a campaign generates visibility. Attackers operate in the gap between exploitation and defense. GentleKiller, a separate BYOVD framework linked to a second ransomware group, confirms this is repeatable: 478 victims across 70+ countries, pulling from the same shared library of signed drivers from gaming, security, hardware, and enterprise software vendors.
+
+- There is one detection window before the kill sequence closes: Event ID 7045, logged when a driver installs as a Windows service. This fires while security tools are still running. After the kill sequence executes, that window is gone.
+
+- Memory Integrity (HVCI) blocks BYOVD structurally before it starts. Most enterprise environments have not enabled it due to hardware requirements and compatibility testing overhead.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069481215468675494</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2069481215468675494">DFIR Radar</source>
+      <pubDate>Tue, 23 Jun 2026 18:02:26 +0000</pubDate>
+      <guid isPermaLink="false">2069481215468675494</guid>
+    </item>
     <item>
       <title>EvilTokens: How “Ghost” Code Threatens US and European Businesses</title>
       <link>https://any.run/cybersecurity-blog/eviltokens-ghost-code-analysis/</link>
@@ -1514,25 +1535,6 @@ Responder action: pull FortiGate admin and SSL-VPN auth logs immediately and loo
       <source url="https://x.com/DFIR_Radar/status/2067231539104976908">DFIR Radar</source>
       <pubDate>Wed, 17 Jun 2026 13:03:01 +0000</pubDate>
       <guid isPermaLink="false">2067231539104976908</guid>
-    </item>
-    <item>
-      <title>Malware à la Mode: Tracking Dropping Elephant Tradecraft Through a China-Themed Loader Chain</title>
-      <link>https://www.rapid7.com/blog/post/tr-malware-tracking-dropping-elephant-tradecraft-china-themed-loader-chain</link>
-      <description>Dropping Elephant resurfaces with a China-lure LNK chain delivering a fully in-memory RAT via DLL side-loading and Donut shellcode, with AMSI, WLDP, and ETW patched before execution.
-
-Key findings:
-- Full chain: GRES3001.lnk (SHA256: a8ecbd9c...) spawns conhost.exe into obfuscated PowerShell, pulls payloads from chinagreenenergy[.]org, stages Fondue.exe, malicious APPWIZ.cpl (914da75a...), and encrypted editor.dat under C:\Users\Public\ and C:\Windows\Tasks\, then creates scheduled task "GoogleErrorReport" running Fondue.exe every minute (T1053.005, T1574.002)
-- APPWIZ.cpl decrypts editor.dat with AES-256-CBC, allocates RWX memory, and passes execution to Donut via EnumUILanguagesW callback proxy. Donut patches in-process AMSI, WLDP, and ETW, then maps the final 32-bit RAT (7099c339...) entirely in memory, nothing hits disk (T1620, T1562.001)
-- The in-memory RAT uses Salsa20-encrypted C2 fields (key: tn9905083tfbsxqrxs7qe4ryw1nif8h1), beacons to gcl-power[.]org:443 at /prjozifvkpkfhkr/gedhagammgjvvva/, and exfiltrates screenshots to a dedicated URI. Idle sentinel is MMMMM==YYYYY
-- Attribution rests on code-level overlaps with known Dropping Elephant samples: shared BitBlt screenshot logic, 0x2710 buffer constant, WININET request flow, and cmd.exe /c chcp 65001 shell pattern
-
-Hunt for Fondue.exe loading APPWIZ.cpl outside System32, scheduled tasks with one-minute intervals pointing to C:\Users\Public\, and RWX memory regions in processes with patched AMSI stubs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067216393007939992</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2067216393007939992">DFIR Radar</source>
-      <pubDate>Wed, 17 Jun 2026 12:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2067216393007939992</guid>
     </item>
   </channel>
 </rss>
