@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 23 Jun 2026 12:02:25 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jun 2026 13:02:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Testing AI Threat Hunting against Real-World KQL: A Side-by-Side Test</title>
+      <link>https://detect.fyi/testing-ai-threat-hunting-against-real-world-kql-a-side-by-side-test-4cdda76a5772?source=rss----d5fd8f494f6a---4</link>
+      <description>AI-generated KQL caught only 3 of 12 real results in a head-to-head hunt test, exposing a 75% false-negative rate that would leave defenders blind in production.
+
+Key findings:
+
+- Both ChatGPT (GPT-5.5) and Claude (Sonnet 4.6) scoped their queries to DeviceProcessEvents alone, missing roughly 70% of telemetry. The human query searched DeviceProcessEvents AND DeviceEvents, which is where much of the PowerShell ScriptContent and ActionType telemetry lives. Querying only one table is a silent coverage gap, not a syntax error.
+
+- ChatGPT's query failed to execute entirely due to unsupported pipe-chaining syntax. Claude's ran but returned 3 results versus 12 from the human query. A query that runs and looks reasonable is not the same as a query that hunts accurately.
+
+- The human query used regex across ActionType values (PowerShellCommand, ProcessCreated, ScriptContent) and pulled ScriptContent from AdditionalFields via parse_json, catching encoded and in-memory invocations the LLMs missed by filtering only on process name and command-line strings.
+
+- Schema awareness is the core gap. LLMs produce syntactically plausible KQL but don't know which fields carry what data in your environment. Hunting for the literal string Invoke-Mimikatz or scoping only to powershell.exe creates the illusion of coverage.
+
+Takeaway: use LLMs to prototype and review discrete query blocks, not to own the full hunt.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069405783557652664</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2069405783557652664">DFIR Radar</source>
+      <pubDate>Tue, 23 Jun 2026 13:02:41 +0000</pubDate>
+      <guid isPermaLink="false">2069405783557652664</guid>
+    </item>
     <item>
       <title>Detections Digest #20260622</title>
       <link>https://detections-digest.rulecheck.io/p/detections-digest-20260622</link>
@@ -1492,17 +1515,6 @@ Practitioner takeaway: exposed attacker infrastructure is a gift. If you are hun
       <source url="https://x.com/DFIR_Radar/status/2067155841095192693">DFIR Radar</source>
       <pubDate>Wed, 17 Jun 2026 08:02:13 +0000</pubDate>
       <guid isPermaLink="false">2067155841095192693</guid>
-    </item>
-    <item>
-      <title>China-linked actor spent two years inside medical research networks</title>
-      <link>https://securityaffairs.com/193667/apt/china-linked-actor-unc6508-spent-two-years-inside-medical-research-networks.html</link>
-      <description>Chinese 🇨🇳 UNC6508 persisted 2+ years in North American 🇨🇦🇺🇸 medical research networks via REDCap servers, deploying INFINITERED backdoor to hijack upgrades, harvest creds, and forward emails to attacker Gmail accounts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067140846693372053</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2067140846693372053">DFIR Radar</source>
-      <pubDate>Wed, 17 Jun 2026 07:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2067140846693372053</guid>
     </item>
   </channel>
 </rss>
