@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 24 Jun 2026 11:02:19 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 12:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>StrikeShark: investigating a new campaign delivering Cobalt Strike through SharkLoader</title>
+      <link>https://securelist.com/strikeshark-campaign/120326/</link>
+      <description>StrikeShark: previously undocumented SharkLoader delivers Cobalt Strike Beacon across government, diplomatic, and software targets in 10+ countries. Attribution points to Chinese-speaking 🇨🇳 actors with low confidence; no known APT overlap.
+
+Key findings:
+
+- SharkLoader uses DLL sideloading via a copied legitimate SystemSettings.exe to load a three-stage chain: SystemSettings.dll (main loader) decrypts DscCoreR.mui with Blowfish ECB, which decrypts SyncRes.dat with AES-128, then decompresses and executes Cobalt Strike Beacon entirely in memory. MZ headers are stripped from encrypted files as an anti-analysis measure.
+
+- Initial access exploits a wide range of public-facing vulns: CVE-2021-26855 (ProxyLogon), CVE-2023-32315 (Openfire), CVE-2024-36401 (GeoServer), CVE-2024-21762 (FortiOS), CVE-2023-46747 (F5 BIG-IP), and others. Webshells establish post-exploitation footing; dropper lures include fake GoogleUpdateStepup.exe and AnyConnect installers.
+
+- SyncRes.dat installs 25+ API hooks via Microsoft Detours, including PPID spoofing under svchost.exe, direct syscall stubs via jitasm to bypass EDR, and ETW kill hooks on EtwEventWrite/EventWrite that return 0 silently. Post-compromise tools FScan, Searchall, Pillager, SharpGPOAbuse, Procdump64, and ntdsutil indicate credential theft and AD enumeration.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069753058096021814</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2069753058096021814">DFIR Radar</source>
+      <pubDate>Wed, 24 Jun 2026 12:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2069753058096021814</guid>
+    </item>
     <item>
       <title>Incident Response Playbook: Malicious OAuth Apps in Entra | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/the-silent-saas-threat-part-3---the-response-playbook</link>
@@ -1521,25 +1540,6 @@ The ehindero npm maintainer account was compromised and used to poison 140+ @mas
       <source url="https://x.com/DFIR_Radar/status/2067412547863712129">DFIR Radar</source>
       <pubDate>Thu, 18 Jun 2026 01:02:17 +0000</pubDate>
       <guid isPermaLink="false">2067412547863712129</guid>
-    </item>
-    <item>
-      <title>Crypto Clipper uses Tor and worm-like propagation for persistence and control</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/06/17/crypto-clipper-uses-tor-worm-like-propagation-for-persistence-control/</link>
-      <description>USB-spread crypto clipper active since Feb 2026 bundles a portable Tor client for anonymous C2, steals seed phrases and private keys, and replaces clipboard wallet addresses in real time.
-
-Key findings:
-- Initial access via malicious .lnk files on USB drives (T1091). The worm hides legitimate documents, clones them as shortcuts, and drops two obfuscated JavaScript payloads into C:\Users\Public\Documents\[5-char folder]. Persistence via two scheduled tasks (T1053.005): one for USB spreading, one for the stealer.
-- The clipper launches ugate.exe (renamed Tor binary) in a hidden window, waits 60 seconds for bootstrap, then polls .onion C2 every ~500ms. EVAL responses execute arbitrary JScript at runtime, making this a full backdoor, not just a stealer. C2 comms route through localhost:9050 via curl with --socks5-hostname (T1090).
-- Clipboard theft targets BIP39 seed phrases, Ethereum/Bitcoin WIF private keys, and six address formats (BTC legacy, P2SH, taproot, Bech32, Tron, Monero), replacing them with attacker addresses. Five screenshots captured 10 seconds apart are exfiltrated via /recvf.php.
-- Defender AV detects as Trojan:Win32/CryptoBandits.A. Defanged C2 sample: cgky6bn6ux5wvlybtmm3z255igt52ljml2ngnc5qp3cnw5jlglamisad[.]onion. Full hash and IOC list in the Microsoft report.
-
-Hunt with the Microsoft-provided KQL: DeviceProcessEvents filtering curl.exe with "--socks5-hostname" and "localhost:9050".
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067397573519024163</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2067397573519024163">DFIR Radar</source>
-      <pubDate>Thu, 18 Jun 2026 00:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2067397573519024163</guid>
     </item>
   </channel>
 </rss>
