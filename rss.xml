@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 24 Jun 2026 14:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 15:04:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>I Wasted 3 Days Intercepting a Flutter App. Here’s What Actually Works.</title>
+      <link>https://infosecwriteups.com/i-wasted-3-days-intercepting-a-flutter-app-heres-what-actually-works-d3e9a4816818?source=rss----7b722bfd1b8d---4</link>
+      <description>Flutter apps silently block proxy interception because BoringSSL bypasses Android's certificate trust chain entirely. Three days of failed attempts led to a two-script Frida solution covering every TLS validation layer at once.
+
+Key findings:
+
+- Flutter ships its own TLS stack via BoringSSL compiled into libflutter.so, completely ignoring Android's system CA store. Installing Burp's CA through device Settings has zero effect. ReFlutter patches only the Flutter binary and misses any Java or WebView connectivity checks that run before Dart initializes.
+
+- disable-flutter-tls-v1.js finds ssl_verify_peer_cert in libflutter.so via byte pattern matching across arm64, arm, x64, and x86, then replaces it with a stub returning 0. A retry loop with five one-second delays handles the common silent failure where Frida attaches before libflutter.so finishes loading.
+
+- universal_bypass.js covers the Java layer: custom X509TrustManager, SSLContext hook, HostnameVerifier, WebViewClient, and crucially InAppWebViewClient at com.pichillilorenzo.flutter_inappwebview_android.webview.in_app_webview.InAppWebViewClient. That last hook was missing from every existing script and is the reason WebView traffic stays blocked even when everything else works.
+
+- When scripts alone are not enough: iptables DNAT redirects port 443/80 to Burp at kernel level since Flutter ignores Android proxy settings.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069798749518328004</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2069798749518328004">DFIR Radar</source>
+      <pubDate>Wed, 24 Jun 2026 15:04:12 +0000</pubDate>
+      <guid isPermaLink="false">2069798749518328004</guid>
+    </item>
     <item>
       <title>StealC and Amadey: Breaking down infostealers and the cybercrime services that deliver them</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/06/24/stealc-and-amadey-breaking-down-infostealers-and-the-cybercrime-services-that-deliver-them/</link>
@@ -1539,17 +1560,6 @@ The ehindero npm maintainer account was compromised and used to poison 140+ @mas
       <source url="https://x.com/DFIR_Radar/status/2067457916714565745">DFIR Radar</source>
       <pubDate>Thu, 18 Jun 2026 04:02:34 +0000</pubDate>
       <guid isPermaLink="false">2067457916714565745</guid>
-    </item>
-    <item>
-      <title>SprySOCKS Backdoor Expands From Linux to Windows</title>
-      <link>https://www.infosecurity-magazine.com/news/sprysocks-backdoor-windows/</link>
-      <description>FishMonger (Earth Lusca), a Chinese 🇨🇳 contractor-linked APT, expanded SprySOCKS to Windows with a kernel rootkit variant (WIN_DRV) hiding files, processes, and network connections from netstat.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067442924346847346</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2067442924346847346">DFIR Radar</source>
-      <pubDate>Thu, 18 Jun 2026 03:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2067442924346847346</guid>
     </item>
   </channel>
 </rss>
