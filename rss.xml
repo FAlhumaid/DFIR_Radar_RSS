@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 25 Jun 2026 13:04:24 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2026 14:03:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From Code to Coverage (Part 6): What netlogon.log Sees That Event 1644 Never Will</title>
+      <link>https://www.huntress.com/blog/ldap-active-directory-detection-part-six</link>
+      <description>ldapnomnom's README claims "no Windows audit logs generated." Source code and lab testing say otherwise: the tool uses TCP, not UDP, making Event 5156 a reliable detection source most orgs are not collecting.
+
+Key findings:
+
+- ldapnomnom sends LDAP Ping requests (NtVer + AAC + User filter, NetLogon attribute, base-scope rootDSE) over TCP, not true UDP cLDAP. The cldap:// UDP path exists in the underlying lkarlslund/ldap library but ldapnomnom never calls DialURL. Every connection is ldap.Dial("tcp", ...). Event 5156 fires for every connection with full source IP, LSASS.exe as the application, and Protocol 6 (TCP) confirmed. The README is wrong in a way that benefits defenders.
+
+- Event 1644 is structurally blind to LDAP Ping regardless of threshold settings. The NtVer+AAC+User filter is dispatched by LSASS to the netlogon.dll handler before the LDAP engine is involved. No registry key or verbosity setting changes this. Zero Event 1644 entries in lab testing across 40 usernames.
+
+- Enable nltest /dbflag:0x2080ffff and netlogon.log captures every queried username and the defender-only third state: a [MISC] NlSamVerifyUserAccountEnabled line appears for disabled accounts before Sam User Unknown Ex. The attacker sees identical misses for disabled and nonexistent accounts. The DC and the log do not. Source IP shows (null) in all cases.
+
+- True UDP cLDAP (cldap_ping.py, any tool calling cldap://) eliminates Event 5156 entirely.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070145963919032365</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2070145963919032365">DFIR Radar</source>
+      <pubDate>Thu, 25 Jun 2026 14:03:54 +0000</pubDate>
+      <guid isPermaLink="false">2070145963919032365</guid>
+    </item>
     <item>
       <title>From San Pedro to Salinas: How a Chinese Framework “DCloud Uni-App” Powers a Global Scam Economy</title>
       <link>https://www.infoblox.com/blog/threat-intelligence/from-san-pedro-to-salinas-how-a-chinese-framework-dcloud-uni-app-powers-a-global-scam-economy/</link>
@@ -1573,17 +1594,6 @@ Hunt for wscript.exe or cscript.exe spawning child processes, any process establ
       <source url="https://x.com/DFIR_Radar/status/2067714565807444359">DFIR Radar</source>
       <pubDate>Thu, 18 Jun 2026 21:02:24 +0000</pubDate>
       <guid isPermaLink="false">2067714565807444359</guid>
-    </item>
-    <item>
-      <title>Shynet | VERSION 0.13.1</title>
-      <link>https://bishopfox.com/blog/shynet-version-0-13-1</link>
-      <description>Shynet 0.13.1 has two unauthenticated flaws: CVE-2026-35508 (critical stored XSS via the /ingress/ tracking endpoint) lets attackers inject keyloggers into every tracked site's analytics script.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067699503600161034</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2067699503600161034">DFIR Radar</source>
-      <pubDate>Thu, 18 Jun 2026 20:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2067699503600161034</guid>
     </item>
   </channel>
 </rss>
