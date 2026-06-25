@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 25 Jun 2026 02:03:48 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2026 08:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI Security Incident Case: Jetbrains Plugin Supply Chain Attack Stealing AI Key</title>
+      <link>https://nsfocusglobal.com/ai-security-incident-case-jetbrains-plugin-supply-chain-attack-stealing-ai-key/</link>
+      <description>15 malicious JetBrains plugins with ~70,000 installs silently exfiltrated AI API keys to an attacker-controlled server, forming an underground key-resale economy active since October 2025.
+
+Key findings:
+
+- All 15 plugins share one codebase, repackaged under 7 vendor accounts. They pose as DeepSeek/OpenAI tools (code completion, Git commits, bug detection). The save() method triggers on "Apply", verifies the key format (sk-, 51 chars), then calls BaseUtil.request() to POST the key to 39.107.60[.]51 via plaintext HTTP with static auth token F48D2AA7CF341F782C1D. No prompt, no async delay, invisible to the user.
+
+- Attackers merged the exfil call directly into normal configuration persistence logic, the primary technique for passing manual JetBrains marketplace review. Plaintext HTTP means any intermediate device on a corporate intranet or VPN can capture the key in transit.
+
+- The business model is a closed loop: stolen keys are pooled server-side, then sold as "AI compute access" to paying users. Keys issued to paying customers are almost certainly other victims' credentials.
+
+- IDE plugins run unsandboxed with full filesystem and network access, making them high-value supply chain targets. The same attack pattern has appeared in VS Code (GlassWorm).
+
+Hunt for outbound HTTP POST connections from JetBrains processes (idea.exe, goland.exe, etc.) to direct IPs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070055247603446103</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2070055247603446103">DFIR Radar</source>
+      <pubDate>Thu, 25 Jun 2026 08:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2070055247603446103</guid>
+    </item>
     <item>
       <title>ESET takes part in Operation Endgame to disrupt Amadey and Stealc</title>
       <link>https://www.welivesecurity.com/en/eset-research/eset-takes-part-operation-endgame-disrupt-amadey-stealc/</link>
@@ -1553,17 +1576,6 @@ Hunt your proxy and DNS logs for requests to wigetticks[.]com and wizzleticks[.]
       <source url="https://x.com/DFIR_Radar/status/2067624208104890705">DFIR Radar</source>
       <pubDate>Thu, 18 Jun 2026 15:03:21 +0000</pubDate>
       <guid isPermaLink="false">2067624208104890705</guid>
-    </item>
-    <item>
-      <title>Serverless Phishing Kit on GitHub Targets Mexican Banks</title>
-      <link>https://www.infosecurity-magazine.com/news/gitbait-github-pages-sheetbest/</link>
-      <description>GitBait, a 3-year phishing campaign targeting 12 Mexican 🇲🇽 banks, abuses GitHub Pages for hosting and SheetBest to exfiltrate credentials into Google Sheets, bypassing blocklists entirely. Hunt for unexpected outbound traffic to SheetBest APIs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067608943363579951</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2067608943363579951">DFIR Radar</source>
-      <pubDate>Thu, 18 Jun 2026 14:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2067608943363579951</guid>
     </item>
   </channel>
 </rss>
