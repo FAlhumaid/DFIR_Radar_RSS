@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 25 Jun 2026 14:03:54 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2026 15:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>STOCKSTAY Another Day: The Latest Addition to Turla’s Intelligence Gathering Apparatus</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/stockstay-turla-intelligence-gathering/</link>
+      <description>Russian 🇷🇺 FSB-linked Turla deploys STOCKSTAY, a new .NET backdoor active since December 2022, targeting Ukrainian 🇺🇦 government and military networks alongside European foreign affairs entities.
+
+- STOCKSTAY is a multi-component .NET backdoor split across three roles mirroring KAZUAR's architecture: STOCKBROKER (tunneler, C2 via WebSocket), STOCKMARKET (orchestrator), and STOCKTRADER (backdoor execution: file ops, registry R/W, command execution). Persistence is set via HKLM\Software\Microsoft\Windows\CurrentVersion\Run, with components installed under %LOCALAPPDATA%\Programs\SMN\. Config files disguise themselves as cryptocurrency app JSON, embedding encrypted C2 details inside fake trading service fields.
+
+- Initial access spans malicious RDP files, phishing with academic and diplomatic lures, a WinRAR path traversal (CVE-2025-8088), and malicious HTA files. STOCKSTAY.MARKETMAKER masquerades as "MicrosoftUpdateOneDrive" and pulls component ZIPs from compromised WordPress sites and Ukrainian 🇺🇦 government infrastructure.
+
+- Environmental keying is a core evasion technique: config decryption requires the target hostname, username, or domain, making sandbox analysis fail silently. C2 operates via wss:// WebSocket to Render-hosted servers including wss://driverx86-adobe.onrender[.]com/ws and wss://google-ai-labs-it.onrender[.]com/ws, active Monday-Friday 0900-1800 to blend with business traffic.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070160784169001253</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2070160784169001253">DFIR Radar</source>
+      <pubDate>Thu, 25 Jun 2026 15:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2070160784169001253</guid>
+    </item>
     <item>
       <title>From Code to Coverage (Part 6): What netlogon.log Sees That Event 1644 Never Will</title>
       <link>https://www.huntress.com/blog/ldap-active-directory-detection-part-six</link>
@@ -1574,26 +1591,6 @@ Takeaway: Export config as super_admin and audit the old-password field. Hunt /d
       <source url="https://x.com/DFIR_Radar/status/2067729705542025640">DFIR Radar</source>
       <pubDate>Thu, 18 Jun 2026 22:02:33 +0000</pubDate>
       <guid isPermaLink="false">2067729705542025640</guid>
-    </item>
-    <item>
-      <title>Tor-Based Clipper Malware Targets Wallet Seed Phrases</title>
-      <link>https://securityaffairs.com/193860/uncategorized/tor-based-clipper-malware-targets-wallet-seed-phrases.html</link>
-      <description>USB-spread clipper malware routes C2 through bundled Tor, swaps crypto wallet addresses in real time, and steals BIP39 seed phrases, tracked by Microsoft since February 2026.
-
-Key findings:
-- Attack chain starts with a .lnk shortcut on a USB drive. The malware hides real documents, replaces them with malicious shortcuts of the same name, then schedules tasks to self-propagate to any newly inserted USB (T1091, T1053.005).
-- Clipboard is polled every 500ms for Bitcoin, Ethereum, Tron, and Monero addresses, BIP39 12/24-word seed phrases, and Ethereum/Bitcoin WIF private keys. Detected addresses are swapped for attacker-controlled lookalikes before the victim pastes (T1115).
-- C2 hides entirely inside Tor using a bundled portable Tor client and a local SOCKS5 proxy on port 9050, resolving .onion domains with no exposed IP. Five screenshots are captured every ten seconds and exfiltrated over the same channel.
-- An EVAL instruction from C2 downloads JavaScript into a file named "cfile" and executes it via Windows Script Host, turning a clipper into a full backdoor (T1059.007). All components are PyArmor-obfuscated, PyInstaller-packaged, and decrypted only at runtime.
-- Microsoft Defender for Endpoint detects this as Trojan:Win32/CryptoBandits.A.
-
-Hunt for wscript.exe or cscript.exe spawning child processes, any process establishing connections to localhost:9050, and screen-capture commands in PowerShell.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067714565807444359</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2067714565807444359">DFIR Radar</source>
-      <pubDate>Thu, 18 Jun 2026 21:02:24 +0000</pubDate>
-      <guid isPermaLink="false">2067714565807444359</guid>
     </item>
   </channel>
 </rss>
