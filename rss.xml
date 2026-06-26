@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jun 2026 11:04:25 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jun 2026 13:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>MCP Auto-Execution: From Git Clone to Cloud Compromise in Amazon Q VS Code Extension</title>
+      <link>https://www.wiz.io/blog/amazon-q-vulnerability</link>
+      <description>Amazon Q VS Code extension auto-executed MCP server configs on repo open, enabling arbitrary code execution and AWS credential theft with no user interaction beyond cloning a malicious repo.
+
+Key findings:
+
+- Amazon Q loaded .amazonq/mcp.json from the workspace root automatically when a folder was opened, with no consent prompt, no workspace trust check, and no visible indicator. Combined with full shell environment inheritance, any command in that config ran immediately with the developer's active cloud credentials in scope.
+
+- Proof of concept used aws sts get-caller-identity to capture the victim's live AWS session. Escalation paths include backdooring IAM users, pivoting via inherited VPN context, and supply chain attacks targeting maintainers of popular repos. Social engineering via fake coding interviews (a documented DPRK 🇰🇵 tactic) is a realistic delivery vector.
+
+- This is a systemic pattern, not an isolated bug. Related CVEs hit Claude Code (CVE-2025-59536, CVE-2026-21852), Cursor (CVE-2025-54136), and Windsurf (CVE-2026-30615). Any AI coding tool that auto-processes workspace configs is a candidate for this class of issue.
+
+- Fixed in Amazon Q language server version 1.65.0, which adds an "Untrusted MCP Server" consent prompt. Most installs update automatically; reload the IDE to confirm. Audit repos for unexpected .amazonq/ directories and review any MCP configs already present in your environment.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070493185500143722</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2070493185500143722">DFIR Radar</source>
+      <pubDate>Fri, 26 Jun 2026 13:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2070493185500143722</guid>
+    </item>
     <item>
       <title>China-Linked Hackers Strike Asian Critical Infrastructure with TinyRCT Backdoor</title>
       <link>https://www.infosecurity-magazine.com/news/china-hackers-asian-cni-backdoor/</link>
@@ -1554,17 +1575,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2067911050897334362">DFIR Radar</source>
       <pubDate>Fri, 19 Jun 2026 10:03:09 +0000</pubDate>
       <guid isPermaLink="false">2067911050897334362</guid>
-    </item>
-    <item>
-      <title>eBanking Phishing Delivered Through IPv4-Mapped IPv6 Address, (Fri, Jun 19th)</title>
-      <link>https://isc.sans.edu/diary/rss/33090</link>
-      <description>A Belgian 🇧🇪 bank phishing campaign hid its C2 behind an IPv4-mapped IPv6 URL, hxxp://[::ffff:5511:74be]/kWC5PHA1, resolving to 85[.]17[.]116[.]190, bypassing regex-based IP extraction. No DNS record makes domain-based detections useless here.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067895990279926203</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2067895990279926203">DFIR Radar</source>
-      <pubDate>Fri, 19 Jun 2026 09:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2067895990279926203</guid>
     </item>
   </channel>
 </rss>
