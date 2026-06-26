@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jun 2026 16:02:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jun 2026 17:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Critical Unauthenticated Remote Code Execution in Splunk Enterprise (CVE-2026-20253)</title>
+      <link>https://www.zscaler.com/blogs/security-research/critical-unauthenticated-remote-code-execution-splunk-enterprise-cve-2026</link>
+      <description>CVE-2026-20253 (CVSS 9.8): Unauthenticated RCE in Splunk Enterprise is under active exploitation. Attackers reach an internal PostgreSQL sidecar recovery endpoint through the Splunk Web proxy with no credentials required.
+
+Key findings:
+
+- The root cause is Splunk Web proxying requests to /en-US 🇺🇸/splunkd/__raw/v1/postgres/recovery/backup, which forwards to a PostgreSQL sidecar listening on 127.0.0.1:5435. Any Authorization: Basic header, including blank credentials (Og==), is accepted. Affected versions: 10.2.x prior to 10.2.4 and 10.0.x prior to 10.0.7. Splunk Cloud and 9.4 and earlier are not affected.
+
+- The five-step chain: unauthenticated POST to the backup endpoint, path traversal via the backupFile parameter to create or truncate arbitrary files, connection string injection to point pg_dump at an attacker-controlled database, credential theft by injecting passfile=/opt/splunk/var/packages/data/postgres/.pgpass to harvest the postgres_admin password, then overwriting a scheduled Python script such as ssg_enable_modular_input.py to execute code as the Splunk service account.
+
+- Post-exploitation impact is severe given Splunk's role: log tampering, alert suppression, credential and API key harvesting from indexed events, persistence, and lateral movement using the service account's network position.
+
+- CISA added CVE-2026-20253 to KEV on June 18, 2026 with a BOD 26-04 federal remediation deadline of June 21. Patch immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070553580239777859</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2070553580239777859">DFIR Radar</source>
+      <pubDate>Fri, 26 Jun 2026 17:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2070553580239777859</guid>
+    </item>
     <item>
       <title>Anatomy of a WHQL-Signed Windows Filtering Platform (WFP) Kernel-Resident Network Backdoor</title>
       <link>https://www.nextron-systems.com/2026/06/26/anatomy-of-a-whql-signed-windows-filtering-platform-wfp-kernel-resident-network-backdoor/</link>
@@ -1578,17 +1599,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2067971392222499025">DFIR Radar</source>
       <pubDate>Fri, 19 Jun 2026 14:02:56 +0000</pubDate>
       <guid isPermaLink="false">2067971392222499025</guid>
-    </item>
-    <item>
-      <title>“Get Verification Code” Is Missing in iOS 18 and iOS 26; Here’s Where It Went</title>
-      <link>https://blog.elcomsoft.com/2026/06/get-verification-code-is-missing-in-ios-18-and-ios-26-heres-where-it-went/</link>
-      <description>Apple did not remove the "Get Verification Code" option in iOS 18/26; it only appears when the device is offline.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067956197693513878</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2067956197693513878">DFIR Radar</source>
-      <pubDate>Fri, 19 Jun 2026 13:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2067956197693513878</guid>
     </item>
   </channel>
 </rss>
