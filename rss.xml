@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 25 Jun 2026 22:04:32 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jun 2026 00:02:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Zero-Day Exploitation of Vulnerability (CVE-2026-20245) in Cisco Catalyst SD-WAN Manager</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/zero-day-exploitation-cisco-catalyst-sd-wan-manager/</link>
+      <description>CVE-2026-20245 zero-day in Cisco Catalyst SD-WAN Manager exploited in the wild: attackers escalated from admin SSH to root via malicious CSV upload, then ran a cleanup script to erase their tracks.
+
+Key findings:
+
+- Initial access began as early as late 2025 via rogue SD-WAN peering connections, possibly exploiting CVE-2026-20127 or CVE-2026-20182 (both critical auth-bypass flaws in the peering mechanism). By March 2026 the actor authenticated over SSH as vmanage-admin, changed the default admin account password to access the web UI, exfiltrated SD-WAN fabric configs via /dataservice/ REST endpoints, then quietly reverted the password to avoid alerting operators.
+
+- CVE-2026-20245 lives in the CLI tenant-upload feature, which fails to sanitize uploaded file content. The actor ran: request tenant-upload tenant-list /home/admin/evil_tenant.csv vpn 0. The payload appended a backdoor account named troot (UID 0) to /etc/passwd and /etc/shadow, then the actor switched to it via su. Full root achieved from a standard admin session.
+
+- Anti-forensics were deliberate and scripted. The actor deleted evil_tenant.csv, restored vbond_vsmart_tenant_list and the original passwd/shadow backups, then ran a validation script confirming every indicator read ABSENT before disconnecting. Disk artifacts may be gone, but log artifacts survive.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070296535519187303</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2070296535519187303">DFIR Radar</source>
+      <pubDate>Fri, 26 Jun 2026 00:02:13 +0000</pubDate>
+      <guid isPermaLink="false">2070296535519187303</guid>
+    </item>
     <item>
       <title>Novel Java-Based QuimaRAT Targets Windows, macOS, and Linux</title>
       <link>https://www.levelblue.com/blogs/spiderlabs-blog/novel-java-based-quimarat-targets-windows-macos-and-linux</link>
@@ -1552,23 +1571,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2067820452227994077">DFIR Radar</source>
       <pubDate>Fri, 19 Jun 2026 04:03:09 +0000</pubDate>
       <guid isPermaLink="false">2067820452227994077</guid>
-    </item>
-    <item>
-      <title>AutoJack: How a single page can RCE the host running your AI agent</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/06/18/autojack-single-page-rce-host-running-ai-agent/</link>
-      <description>AutoJack: a three-flaw chain in AutoGen Studio's MCP WebSocket lets a malicious webpage rendered by a local browsing agent spawn arbitrary processes on the developer's host with no user interaction beyond visiting a URL.
-
-Key findings:
-- Three weaknesses chain together: Origin allowlist bypassed because the agent's headless browser is localhost (CWE-1385), auth middleware explicitly skipping /api/mcp/* with no handler picking up the check (CWE-306), and server_params decoded from the URL passed verbatim to stdio_client as a command line (CWE-78), accepting calc.exe, powershell.exe, or bash as valid "MCP servers"
-- Attack flow: attacker page serves JavaScript that opens ws://localhost:8081/api/mcp/ws/?server_params= with a base64 payload, agent's MultimodalWebSurfer renders it, AutoGen Studio spawns the command under the developer's account, no token required regardless of auth mode configured
-- Affected code never shipped in a PyPI release; exposure limited to developers who built from the main GitHub branch before hardening commit b047730, which adds server-side parameter binding via a POST/UUID flow and removes /api/mcp from the auth skip list
-- Broader pattern: any agent that browses untrusted content and shares a host with a privileged local control plane dissolves the loopback trust boundary, this is not specific to AutoGen.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067805271007559718</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2067805271007559718">DFIR Radar</source>
-      <pubDate>Fri, 19 Jun 2026 03:02:49 +0000</pubDate>
-      <guid isPermaLink="false">2067805271007559718</guid>
     </item>
   </channel>
 </rss>
