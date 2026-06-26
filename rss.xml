@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jun 2026 13:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jun 2026 14:02:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From CI/CD to Cloud Data: How Shai Hulud Persistence Leads to Redshift Breach</title>
+      <link>https://feeds.fortinet.com/~/958459373/0/fortinet/blog/threat-research~From-CICD-to-Cloud-Data-How-Shai-Hulud-Persistence-Leads-to-Redshift-Breach</link>
+      <description>Shai Hulud supply chain worm bridges CI/CD pipelines to AWS production, enabling IAM escalation and Redshift data exfiltration via stolen Jenkins credentials in a May 2026 intrusion.
+
+Key findings:
+
+- TeamPCP's Shai Hulud worm targets npm and PyPI packages, executing during installs or CI jobs to harvest build credentials via IMDS (T1195.002, T1552.005). On the Jenkins runner, investigators found curl calls to hxxp://169.254.169[.]254/latest/meta-data/iam/security-credentials/jenkins, with outbound traffic to 89.22.231[.]63 on port 8080 linking host activity to operator infrastructure.
+
+- Post-credential-theft, the actor used the Jenkins instance role from 185.204.1[.]225 for recon (GetCallerIdentity, ListBuckets), then created IAM user cloudops-monitor with full admin policy (T1098), escalating to cloud admin within the same session window from 89.22.231[.]63.
+
+- Data access followed secret enumeration: hundreds of paginated ListSecrets and GetSecretValue calls targeting patterns like datawarehouse_redshift_* led to Redshift Data API ExecuteStatement at high volume. Session names exfil, exfil10, and exfil12 appeared in AssumeRole and SSM SendCommand calls, alongside inline policies named exfil-s3-write and exfil-s3-full on a production bucket.
+
+- SES identity verification (VerifyEmailIdentity, GetSendQuota) was staged late in the window from an in-VPC EC2 instance, suggesting a pivot to internal execution for subsequent phishing or extortion.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070507973688889617</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2070507973688889617">DFIR Radar</source>
+      <pubDate>Fri, 26 Jun 2026 14:02:24 +0000</pubDate>
+      <guid isPermaLink="false">2070507973688889617</guid>
+    </item>
     <item>
       <title>MCP Auto-Execution: From Git Clone to Cloud Compromise in Amazon Q VS Code Extension</title>
       <link>https://www.wiz.io/blog/amazon-q-vulnerability</link>
@@ -1558,23 +1579,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2067926202610864313">DFIR Radar</source>
       <pubDate>Fri, 19 Jun 2026 11:03:22 +0000</pubDate>
       <guid isPermaLink="false">2067926202610864313</guid>
-    </item>
-    <item>
-      <title>Bleeding Out</title>
-      <link>https://www.pwndefend.com/2026/06/19/bleeding-out/</link>
-      <description>A well-resourced threat actor compromised 149+ Active Directory domains by using victim firewalls as passive PCAP sensors, harvesting 148,000+ Kerberos hashes and 33,000 NTLM hashes without touching internal endpoints.
-
-Key findings:
-- Initial access via SSH brute-force of firewall management interfaces using default/vendor-pattern credentials, and mass SSL-VPN portal spraying. Three iterative spray series each fed recovered credentials back as wordlist input, creating a self-reinforcing loop backed by 46-GPU cracking across three platforms.
-- Post-access pivot uses the compromised firewall's own management API to trigger and download PCAPs of internal traffic. A custom harvester extracts auth material from 15+ protocols including Kerberos pre-auth exchanges. No implants dropped on internal hosts, leaving a near-silent footprint.
-- AD exploitation follows with cracked creds: enumeration, Kerberoasting, AS-REP roasting, delegation abuse, and file share staging. Confirmed exfiltration of classified defence documentation from a major defence electronics manufacturer elevates this beyond IAB or ransomware-precursor activity.
-- 7 Kali VMs auto-reinstall from cyberstrike[.]io on reboot. Decoy IPs are injected as false-flag attribution material and simultaneously act as canary validators in spray campaigns, deliberately corrupting IOC-based detection.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067911050897334362</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2067911050897334362">DFIR Radar</source>
-      <pubDate>Fri, 19 Jun 2026 10:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2067911050897334362</guid>
     </item>
   </channel>
 </rss>
