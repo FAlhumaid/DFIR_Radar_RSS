@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jun 2026 00:02:13 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jun 2026 01:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Photo ZIP campaign targeting hospitality industry delivers Node.js implant for persistent access</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/06/25/photo-zip-campaign-targeting-hospitality-industry-delivers-node-js-implant-persistent-access/</link>
+      <description>Unattributed campaign active since April 2026 targets European and Asian hospitality orgs with a TonRAT Node.js implant, routing phishing through Calendly and Google to pass SPF/DKIM/DMARC checks clean.
+
+- Delivery uses photo-themed ZIP archives containing fake LNK files (IMG-/PHOTO-*.png.lnk, 1,989-2,079 bytes) dropped via browser download. Phishing emails sent through a threat-actor-controlled Calendly account (em1618.calendly[.]com) pass all email auth checks, a technique Microsoft calls "authentication laundering." A four-hop redirect chain (Calendly -&gt; share[.]google -&gt; google[.]com -&gt; photo-*[.]cfd) fragments URL reputation before serving the ZIP behind a Cloudflare Turnstile gate.
+
+- The attack chain: LNK spawns obfuscated PowerShell using BigInt arithmetic (7 documented phases, XOR through for-loop variants) to download a .ps1 from photo-*.cfd domains. Wave 2 adds csc.exe -&gt; cvtres.exe dynamic .NET DLL compilation before deploying node.exe (v24.13.0, SHA-256: d14ba95c...) from AppData\Local\Nodejs\ to run randomly named .js payloads with C2 domains as arguments (safedocphoto[.]info, recallnine[.]info, kentjerk[.]info).
+
+- Persistence is dual and self-healing: HKCU\Run keeps Node.js alive; HKCU\RunOnce points to a ProgramData EXE that refreshes the RunOnce entry after each execution, creating a loop. Defender blocked PE payload xmnrwv9l.exe (04ec44f2...) via Wacatac, but the Node.js Run key survived and resumed C2 two days later.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070311759047544921</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2070311759047544921">DFIR Radar</source>
+      <pubDate>Fri, 26 Jun 2026 01:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2070311759047544921</guid>
+    </item>
     <item>
       <title>Zero-Day Exploitation of Vulnerability (CVE-2026-20245) in Cisco Catalyst SD-WAN Manager</title>
       <link>https://cloud.google.com/blog/topics/threat-intelligence/zero-day-exploitation-cisco-catalyst-sd-wan-manager/</link>
@@ -1550,27 +1567,6 @@ Hunt for .appref-ms files outside the Start Menu Programs path, scheduled tasks 
       <source url="https://x.com/DFIR_Radar/status/2067835572325122245">DFIR Radar</source>
       <pubDate>Fri, 19 Jun 2026 05:03:14 +0000</pubDate>
       <guid isPermaLink="false">2067835572325122245</guid>
-    </item>
-    <item>
-      <title>Killing me gently: Inside Gentlemen’s EDR killer framework</title>
-      <link>https://www.welivesecurity.com/en/eset-research/killing-me-gently-inside-gentlemens-edr-killer-framework/</link>
-      <description>Gentlemen RaaS operates a centrally maintained EDR-killer suite, GentleKiller, with 8 BYOVD variants targeting 400+ processes across 48 security vendors, confirmed by a May 2026 internal data leak.
-
-Key findings:
-
-- GentleKiller is Gentlemen's in-house BYOVD framework (T1543.003), deploying vulnerable drivers including eb.sys (rootkit), stpm_old/new.sys (Safetica), dmx.sys (Zemana WatchDog), and PoisonX. Eight variants impersonate gaming and security software (FaceIT, Valorant, EA Anti-Cheat) and kill 400+ processes covering CrowdStrike, SentinelOne, ESET, Sophos, Microsoft Defender, Sysmon64.exe, and more. New BYOVD PoCs are operationalized within days of public release.
-
-- The suite also integrates HexKiller (abusing googleApiUtil64.sys, Baidu BdApi driver), ThrottleBlood (ThrottleBlood.sys), and HavocKiller (havoc.sys, Huawei Audio driver), all re-wrapped with Gentlemen's shared evasion layer: Enigma/Themida packing, fake version info, copied invalid certificates, and vendor-impersonating filenames (T1036.001, T1027).
-
-- OxideHarvest (buildx641.exe, SHA-1 A5CF917EC4A7DFBDFA43) is a Rust credential stealer tied to a Gentlemen affiliate, harvesting Chrome, Edge, Firefox, and Brave profile data via multithreaded lateral credential spraying.
-
-- Tools are staged consistently in a directory named GentlemenCollection across unrelated intrusions, giving responders a reliable filesystem artifact for attribution.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067820452227994077</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2067820452227994077">DFIR Radar</source>
-      <pubDate>Fri, 19 Jun 2026 04:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2067820452227994077</guid>
     </item>
   </channel>
 </rss>
