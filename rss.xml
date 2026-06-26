@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jun 2026 17:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jun 2026 19:02:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Chinese APT CL-STA-1062 Expands Attacks on Southeast Asian Critical Infrastructure With Custom Malware</title>
+      <link>https://securityaffairs.com/194312/intelligence/chinese-apt-cl-sta-1062-expands-attacks-on-southeast-asian-critical-infrastructure-with-custom-malware.html</link>
+      <description>Chinese 🇨🇳 APT CL-STA-1062 hits Southeast Asian government and energy targets with a new custom backdoor, TinyRCT, alongside open-source tooling to obscure attribution.
+
+- CL-STA-1062 (also tracked as UAT-7237) breached at least 10 organizations between October and December 2025. Initial access comes via ASPX web shells against vulnerable web apps, followed by recon, SQL data theft, and full web server source code exfiltration. Tunneling infrastructure (SoftEther VPN, VNT, Yuze) is disguised as vmtools.exe, vmwared.exe, and XDRAgent.exe to blend into enterprise environments.
+
+- TinyRCT is a C# backdoor delivered inside chrome_setup.zip using a .NET AppDomainManager hijack: a malicious MyAppDomainManager.dll loads via a rogue chrome_setup.exe.config alongside a legitimate signed binary. It drops as PerfWatson2.exe, persists via scheduled task GoogleUpdaterTaskSystem140.0.7272.0, and self-destructs using choice.exe. C2 is hardcoded at 45.32.113[.]172 over HTTP with AES-128 CBC and key ThisIsASecretKey87654321.
+
+- Staging server: 139.180.134[.]221. Exfil uses password-protected RAR archives; privilege escalation via JuicyPotato. A Simplified Chinese 🇨🇳 code comment in the C2 parsing function is a direct language artifact.
+
+Hunt for scheduled tasks named GoogleUpdaterTaskSystem* and unsigned DLLs adjacent to signed executables in Downloads folders. Flag outbound HTTP to 45.32.113[.]172 and check %LOCALAPPDATA% for PerfWatson2.exe. Full IOC list in the Unit 42 report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070583399220215881</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2070583399220215881">DFIR Radar</source>
+      <pubDate>Fri, 26 Jun 2026 19:02:07 +0000</pubDate>
+      <guid isPermaLink="false">2070583399220215881</guid>
+    </item>
     <item>
       <title>Critical Unauthenticated Remote Code Execution in Splunk Enterprise (CVE-2026-20253)</title>
       <link>https://www.zscaler.com/blogs/security-research/critical-unauthenticated-remote-code-execution-splunk-enterprise-cve-2026</link>
@@ -1582,23 +1601,6 @@ Rotate all FortiGate admin and SSL VPN credentials now, enable MFA on every remo
       <source url="https://x.com/DFIR_Radar/status/2067986515180110300">DFIR Radar</source>
       <pubDate>Fri, 19 Jun 2026 15:03:01 +0000</pubDate>
       <guid isPermaLink="false">2067986515180110300</guid>
-    </item>
-    <item>
-      <title>MyBait: Why We Lured Attackers To Encrypt Our Cloud MySQL</title>
-      <link>https://www.varonis.com/blog/encrypting-cloud-mysql</link>
-      <description>Exposed GCP CloudSQL with a weak root password was compromised twice in one day, both attackers dropped ransom notes within hours of brute-force success. AWS RDS and Azure MySQL were not breached under the same conditions.
-
-Key findings:
-- GCP CloudSQL (root password "password", 0.0.0.0/0 access) was hit with brute-force within 8 minutes of deployment. Attacker one succeeded after 576 failed attempts, enumerated schema via SHOW DATABASES, SHOW TABLES, SHOW FIELDS, bulk-selected data with SELECT /\*!40001 SQL_NO_CACHE\*/, dropped tables, and created a RECOVER_YOUR_DATA ransom table demanding 0.0094 BTC to bc1qd9r8c0t7x0dw748f8ft5wng2wjf9puh29ay5ku. Contact: rambler+24hse@onionmail[.]org
-- Six hours later a second attacker found the first ransom note, locked it, and overwrote it with their own. Same day, same instance, two independent ransomware operators running automated campaigns.
-- The same attacker IP appeared in Postgres and MongoDB ransomware cases from separate research teams, confirming cross-database automated scanning and extortion at scale.
-- GCP requires explicit opt-in for data access logs and database audit flags (general_log, cloudsql_mysql_audit). Without those enabled, the query-level evidence trail does not exist by default.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2067971392222499025</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2067971392222499025">DFIR Radar</source>
-      <pubDate>Fri, 19 Jun 2026 14:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2067971392222499025</guid>
     </item>
   </channel>
 </rss>
