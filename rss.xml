@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 03:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 04:02:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>An Analysis of ValleyRAT Infection Campaigns from Fake Installers, Japanese Malicious Emails</title>
+      <link>https://www.levelblue.com/blogs/spiderlabs-blog/an-analysis-of-valleyrat-infection-campaigns-from-fake-installers-japanese-malicious-emails</link>
+      <description>ValleyRAT campaigns targeting Chinese 🇨🇳 and Japanese 🇯🇵 speakers use DLL sideloading, fileless injection, and five sandbox checks to deliver a RAT that detections nearly doubled in early 2026.
+
+Key findings:
+
+- Attack chain: malicious email (salary/HR lure) links to a ZIP containing a legitimate VLC binary renamed to a Japanese-language EXE plus a malicious libvlc.dll. DLL sideloading executes the loader, which copies itself to C:\Users\Public\Documents\res\msword.exe and libvld.dll, then writes persistence to HKCU\Software\Microsoft\Windows\CurrentVersion\Run\pornhub. ValleyRAT is downloaded from hxxp://154.92.16[.]22/xz.bin, RC4-decrypted with key "zenzensu", and injected into a suspended rundll32.exe via VirtualAllocEx/WriteProcessMemory. Payload never touches disk.
+
+- Five anti-sandbox checks all gate execution: GlobalMemoryStatusEx (RAM must exceed 1 GB), GetTickCount sleep-timing (sleep must exceed 451 ms), GetSystemInfo processor count (more than 1 CPU required), IsNativeVhdBoot return value, plus junk-code obfuscation with stub functions ending in "ret".
+
+- The ValleyRAT payload is a Donut-generated shellcode blob. IOCs: ZIP SHA1 65168c8dd93b16d3b77092fb70c0fa6fba4dffcc, encrypted payload SHA1 eca7ed7b699835fadc2c2997a2845864e02b8dfe, C2 domain frehf.oss-cn-hongkong.aliyuncs[.]com.
+
+Hunt for rundll32.exe with no file-backed memory regions and VLC-named binaries outside Program Files.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072168896182763623</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2072168896182763623">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 04:02:19 +0000</pubDate>
+      <guid isPermaLink="false">2072168896182763623</guid>
+    </item>
     <item>
       <title>The Gentlemen are knocking: сustom backdoors and evolving tactics</title>
       <link>https://securelist.com/the-gentlemen-raas/120447/</link>
@@ -1629,17 +1650,6 @@ DFIR triage: audit logs for unexpected FortiOS config exports, cross-reference a
       <source url="https://x.com/DFIR_Radar/status/2068182699089481954">DFIR Radar</source>
       <pubDate>Sat, 20 Jun 2026 04:02:36 +0000</pubDate>
       <guid isPermaLink="false">2068182699089481954</guid>
-    </item>
-    <item>
-      <title>‘Popa’ Botnet Linked to Publicly-Traded Israeli Firm</title>
-      <link>https://krebsonsecurity.com/2026/06/popa-botnet-linked-to-publicly-traded-israeli-firm/</link>
-      <description>The Popa botnet, a plugin of Vo1d, enrolls 1.5-2.5 million Android TV boxes daily as residential proxies linked to NetNut/Alarum Technologies. Hunt DNS for gmslb[.]net, ninjatech[.]io, and safernetwork[.]io on employee and guest networks.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2068152595223589077</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2068152595223589077">DFIR Radar</source>
-      <pubDate>Sat, 20 Jun 2026 02:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2068152595223589077</guid>
     </item>
   </channel>
 </rss>
