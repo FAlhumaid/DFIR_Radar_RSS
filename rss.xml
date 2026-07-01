@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 19:02:36 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 20:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BTS #77 - FortiBleed Uncovered: How Attackers Harvest Credentials from Fortinet Devices</title>
+      <link>https://eclypsium.com/podcasts/bts-77-fortibleed-uncovered-how-attackers-harvest-credentials-from-fortinet-devices/</link>
+      <description>FortiBleed: a credential-harvesting and access-brokering campaign compromised roughly 73,000-86,000 internet-facing FortiGate firewalls, roughly 50% of all exposed devices, attributed to a Russian-speaking IAB group Unit 42 dubbed SantaAd.
+
+- FortiBleed is not a single CVE. It chains CVE-2018-13379 credential dumps, the Belsen Group's 15,000 FortiGate config-file leak, infostealer logs, and brute-forced password hashes into one industrial-scale operation. No malware touched FortiOS directly: attackers lived off the land using stolen and backdoor credentials plus the built-in FortiOS packet-sniffer command across 24 protocols.
+
+- FortiOS stored legacy AK1 (SHA-1) and SH2 (SHA-256) hashes alongside newer PBKDF2 hashes. When upgraded, the old hash was silently preserved in full config backups as an "old password" field for downgrade compatibility but hidden from a standard show config. Attackers rented 40-GPU Hashopolis clusters to crack those SHA-256 hashes at scale.
+
+- FortiGate Sniffer acted as an orchestrator: once one device was owned, attackers deployed passive sniffing to every device they accessed, collecting credentials from crossing traffic, not just FortiOS accounts. Victim metadata was enriched via SSL certificate org fields, then sorted by industry and revenue for IAB resale.
+
+- DFIR gap: network appliances sit outside EDR, and config-backup access requires super-admin credentials.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072410574244487252</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072410574244487252">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 20:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2072410574244487252</guid>
+    </item>
     <item>
       <title>Browser-Only Ransomware: From LLM Hallucinations to a Practical Attack Technique</title>
       <link>https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/</link>
@@ -1705,23 +1724,6 @@ Hunt outbound connections to those three domains, check /tmp/bin, and audit for 
       <source url="https://x.com/DFIR_Radar/status/2069073558479745369">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 15:02:33 +0000</pubDate>
       <guid isPermaLink="false">2069073558479745369</guid>
-    </item>
-    <item>
-      <title>PixelSmash – Critical FFmpeg Vulnerability Turns Media Files into Weapons</title>
-      <link>https://jfrog.com/blog/pixelsmash-critical-ffmpeg-vulnerability-turns-media-files-into-weapons/</link>
-      <description>CVE-2026-8461 (CVSS 8.8): heap OOB write in FFmpeg's MagicYUV decoder enables RCE via a single 50 KB media file upload, hitting Jellyfin, Nextcloud, Emby, Immich, OBS, and AI/ML pipelines.
-
-- CVE-2026-8461 lives in libavcodec/magicyuv.c. When slice_height is odd (attacker-controlled via bitstream), ceiling-rounded chroma shifts accumulate an extra row per slice past the allocated buffer. With coded_height=32 and slice_height=31, the decoder writes 640 attacker-controlled bytes one full row beyond the Cb chroma plane, landing directly on the AVBuffer struct FFmpeg allocates immediately after pixel data.
-
-- Exploitation overwrites AVBuffer.free with system() and AVBuffer.opaque with a shell command pointer. When av_frame_unref fires during normal frame cleanup, the hijacked indirect call executes the attacker's command before the process crashes. JFrog demonstrated a reverse shell on Jellyfin 10.9 (jellyfin-ffmpeg 7.1.3) via automatic library scan and on Nextcloud via the Movie preview provider, both triggered by uploading a single crafted AVI with zero authentication. ASLR was disabled for the RCE demo; without ASLR bypass the primitive reliably delivers DoS on every tested target.
-
-- The torrent vector is zero-click: a malicious AVI dropped into Jellyfin's watched media folder triggers ffprobe automatically.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069058561129451578</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2069058561129451578">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 14:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2069058561129451578</guid>
     </item>
   </channel>
 </rss>
