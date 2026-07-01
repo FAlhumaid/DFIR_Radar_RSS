@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 20:02:39 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 21:02:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Operationalizing VMRay UniqueSignal in MISP for detection, hunting and blocking</title>
+      <link>https://www.vmray.com/operationalizing-vmray-uniquesignal-in-misp-for-detection-hunting-and-blocking/</link>
+      <description>VMRay UniqueSignal plus MISP gives SOC and CSIRT teams a repeatable pipeline to route curated threat intel into Sentinel, Defender, and firewall blocklists without flooding analysts with stale noise.
+
+Key details:
+
+- Tag every VMRay feed event at the source with curation:community="VMRay" and admiralty-scale:source-reliability="a" in MISP feed config. These two tags become the filter anchor for every downstream integration, from MISP2Sentinel to REST API exports, so skipping them breaks the whole pipeline.
+
+- MISP warninglists are the first quality gate: they flag VPN ranges, CDN addresses, and shared infrastructure before anything reaches a blocking control. Maintain a local warninglist covering internal IPs, hostnames, and partner infrastructure to prevent self-inflicted false positives.
+
+- Split destinations by risk: MISP2Sentinel accepts a broader published+workflow:complete set on a 12-hour sync for detection and hunting. MISP2Defender applies a tighter filter, only forwarding indicators tagged confidence VMRay UniqueSignal - Unlimited: 100.00 or 80.00, with defender_action="Block".
+
+- Offline-tagged or aged indicators are retro-hunt candidates, not blocklist candidates. Bundle them in MISP Collections with relevant galaxy clusters and run a workflow to push them to your SIEM for historical log review.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072425550614872389</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2072425550614872389">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 21:02:10 +0000</pubDate>
+      <guid isPermaLink="false">2072425550614872389</guid>
+    </item>
     <item>
       <title>BTS #77 - FortiBleed Uncovered: How Attackers Harvest Credentials from Fortinet Devices</title>
       <link>https://eclypsium.com/podcasts/bts-77-fortibleed-uncovered-how-attackers-harvest-credentials-from-fortinet-devices/</link>
@@ -1703,27 +1724,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2069088755881754748">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 16:02:56 +0000</pubDate>
       <guid isPermaLink="false">2069088755881754748</guid>
-    </item>
-    <item>
-      <title>4,300+ Outdated Routers Hijacked in Stealthy Spy Infrastructure by AryStinger malware</title>
-      <link>https://securityaffairs.com/193987/security/4300-outdated-routers-hijacked-in-stealthy-spy-infrastructure-by-arystinger-malware.html</link>
-      <description>AryStinger malware turns 4,300+ end-of-life Realtek RTL819X routers into a distributed reconnaissance botnet, exploiting CVEs from 2013 and 2016 with zero VirusTotal detections at discovery.
-
-- Initial access via CVE-2013-3307 and CVE-2016-5681, both over a decade old, spreading a C-based ELF binary from 107.150.106[.]45. The C build persists by dropping Dropbear SSH on port 2332 and communicates via HTTP with Protobuf traffic XOR-encrypted using the hardcoded key sh_#@!_2024_secret, suggesting the op predates the March 12, 2026 detection.
-
-- A Go-based second build targets QNAP NAS devices via CVE-2025-11837, patched November 2025 and exploited within five months. It integrates fscan, ksubdomain, httpx, and Tlsx, plus a ScriptWork engine that executes attacker-supplied Go, Java, or Python source directly on device, dropping plaintext payloads to disk.
-
-- The fleet operates as an ORB network: each Executor node receives a scan slice, runs it in parallel, and returns results, masking true operator origin. D-Link DIR-850L accounts for ~75% of infected devices.
-
-- C2 and download infrastructure uses ajb8[.]com, dataexplore[.]cc, and dataexplore[.]co. Watch for processes named syswapd0h or syswapd0w and unexpected binaries in /tmp/bin.
-
-Hunt outbound connections to those three domains, check /tmp/bin, and audit for Dropbear SSH on port 2332.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069073558479745369</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069073558479745369">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 15:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2069073558479745369</guid>
     </item>
   </channel>
 </rss>
