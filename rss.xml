@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 04:02:19 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 05:04:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Enterprise Tech In, Shell Out (Progress Kemp LoadMaster Uninitialized Heap to Pre-Auth RCE CVE-2026-8037)</title>
+      <link>https://labs.watchtowr.com/enterprise-tech-in-shell-out-progress-kemp-loadmaster-uninitialized-heap-to-pre-auth-rce-cve-2026-8037/</link>
+      <description>CVE-2026-8037: Pre-auth RCE in Progress Kemp LoadMaster via uninitialized heap memory in the API credential handler, affecting GA v7.2.63.1 and older, LTSF v7.2.54.17 and older.
+
+- The root cause is a two-bug chain in the access binary's escape_quotes() function: it used malloc() instead of calloc(), and never wrote a null terminator after the escaped output. When apiuser contained no single quote, the original pointer was returned unchanged. When it did, a heap buffer was allocated, filled with escaped content, and returned without termination, leaving __sprintf_chk() free to read past the buffer boundary into adjacent heap memory.
+
+- Exploitation is heap-grooming, not classic injection. An unauthenticated POST to /accessv2 sends four single quotes in apiuser, expanding to 16 escaped bytes that overwrite the tcache fd and key metadata of the adjacent freed chunk, clearing the null bytes that would stop the read. Dozens of spray keys (g0 through g60) pre-load the command payload into freed chunks nearby. __sprintf_chk() then reads across the unterminated buffer into the sprayed data, injecting arbitrary shell commands into the validuser system() call.
+
+- The patch is two lines: malloc becomes calloc (zero-fills the buffer), and a null terminator is written after the escaped output via a new end pointer. Either fix alone would have broken the exploit chain.
+
+- Affected systems are edge-facing load balancers with the API enabled.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072184451451269123</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2072184451451269123">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 05:04:07 +0000</pubDate>
+      <guid isPermaLink="false">2072184451451269123</guid>
+    </item>
     <item>
       <title>An Analysis of ValleyRAT Infection Campaigns from Fake Installers, Japanese Malicious Emails</title>
       <link>https://www.levelblue.com/blogs/spiderlabs-blog/an-analysis-of-valleyrat-infection-campaigns-from-fake-installers-japanese-malicious-emails</link>
@@ -1639,17 +1658,6 @@ DFIR triage: audit logs for unexpected FortiOS config exports, cross-reference a
       <source url="https://x.com/DFIR_Radar/status/2068228029625561563">DFIR Radar</source>
       <pubDate>Sat, 20 Jun 2026 07:02:43 +0000</pubDate>
       <guid isPermaLink="false">2068228029625561563</guid>
-    </item>
-    <item>
-      <title>Fake GitHub Stars and AI Videos Mask a Crypto Clipper</title>
-      <link>https://www.infosecurity-magazine.com/news/crypto-clipboard-hijacker-fake/</link>
-      <description>A Rust-based crypto clipper swaps clipboard wallet addresses using a list of 15,500+ embedded attacker addresses, targeting Windows and macOS via fake tools promoted with ghost GitHub accounts and AI YouTube tutorials.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2068182699089481954</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2068182699089481954">DFIR Radar</source>
-      <pubDate>Sat, 20 Jun 2026 04:02:36 +0000</pubDate>
-      <guid isPermaLink="false">2068182699089481954</guid>
     </item>
   </channel>
 </rss>
