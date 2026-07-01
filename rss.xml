@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 22:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 23:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-48558: SimpleHelp OIDC Auth Bypass Used to Deploy Infostealer Payloads</title>
+      <link>https://socradar.io/blog/cve-2026-48558-simplehelp-oidc-infostealer/</link>
+      <description>CVE-2026-48558 in SimpleHelp allows unauthenticated attackers to forge OIDC tokens, seize technician sessions, and deploy Djinn Stealer across managed endpoints. CISA KEV-listed with a July 2 remediation deadline.
+
+Key findings:
+
+- CVE-2026-48558 is a cryptographic signature validation failure in SimpleHelp's OIDC login flow. The server accepts forged identity tokens without verifying the signature, handing an unauthenticated attacker a full technician session. Affected versions: 5.5.1 through 5.5.15 and 6.0 pre-release builds before 6.0 RC2. Fix: upgrade to 5.5.16+ or 6.0 RC2+.
+
+- Exploitation is conditional: you are only exposed if OIDC is enabled AND Technician Groups are configured with "Allow group authenticated logins." If OIDC is off entirely, this bypass does not apply.
+
+- Active exploitation delivers TaskWeaver, an obfuscated Node.js loader masquerading as jquery.js and executed as "node.exe jquery.js", followed by Djinn Stealer, a cross-platform infostealer targeting Windows, macOS, and Linux. Targets include browser credentials, SSH keys, cloud tokens, and developer secrets.
+
+- In MSP environments, one compromised technician session is a pivot point into every downstream customer. The blast radius is not one host; it is the entire managed estate.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072455867157655654</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2072455867157655654">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 23:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2072455867157655654</guid>
+    </item>
     <item>
       <title>What's Trending: Top Cyber Attacker Techniques, March - May 2026</title>
       <link>https://reliaquest.com/blog/threat-spotlight-whats-trending-top-cyber-attacker-techniques-march-may-2026/</link>
@@ -1703,27 +1724,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2069118840491946091">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 18:02:29 +0000</pubDate>
       <guid isPermaLink="false">2069118840491946091</guid>
-    </item>
-    <item>
-      <title>Detecting the Klue supply chain attack in Salesforce instances</title>
-      <link>https://securitylabs.datadoghq.com/articles/detecting-the-klue-supply-chain-attack-in-salesforce/</link>
-      <description>Icarus threat group exploited a dormant OAuth credential at Klue to harvest tokens across Salesforce, Gong, HubSpot, and Slack, then ran automated API exfiltration against hundreds of enterprise CRMs before launching an extortion campaign.
-
-Key findings:
-
-- Initial access came from a never-decommissioned prototype credential inside Klue's integration infrastructure, not phishing or a CVE. Activity began June 11 at 12:56 UTC; Klue revoked tokens June 13. Extortion emails with a 48-hour deadline followed June 16, demanding contact via Session Messenger.
-
-- The actor queried Salesforce REST API endpoint /services/data/v59.0/query/* using Python scripts. User agents to hunt: Python-urllib/3.12, Python-urllib/3.14, and the anomalous string "5238". Confirmed actor IPs: 138.226.246[.]94, 212.86.125[.]24, 213.111.148[.]90, 94.154.32[.]160.
-
-- Target objects were Opportunity, Contact, Lead, Account, Contract, Case, and Campaign. QueryMore usage signals bulk exfiltration since Salesforce caps each request at 2,000 records. Failed ApiException messages in RestApi logs (fault=-1, exceeded 100000 distinct who/whats) reveal aggressive broad-scope queries.
-
-- OAuth refresh tokens sustained access after initial token revocation in a subset of environments. Detect via login_sub_type:oauthrefreshtoken in Login logs or login_sub_type:"OAuth Refresh Token" in LoginEvent.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069103685741785217</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069103685741785217">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 17:02:16 +0000</pubDate>
-      <guid isPermaLink="false">2069103685741785217</guid>
     </item>
   </channel>
 </rss>
