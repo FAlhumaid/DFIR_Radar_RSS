@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 21:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 22:02:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>What's Trending: Top Cyber Attacker Techniques, March - May 2026</title>
+      <link>https://reliaquest.com/blog/threat-spotlight-whats-trending-top-cyber-attacker-techniques-march-may-2026/</link>
+      <description>ClickFix is now the leading delivery technique across enterprise environments, ransomware groups have converged on a shared FortiGate-Cloudflared-SMB playbook, and the malware leaderboard turned over almost completely for a second straight quarter.
+
+Key findings (Mar-May 2026):
+
+- ClickFix drove 14.9% of initial access as Spearphishing Link and nearly 28% of defense-evasion activity via Command Obfuscation and Obfuscated Files. It reached macOS 🍎 for the first time: Atomic macOS Stealer (AMOS) now delivers via an applescript:// link that opens Script Editor, bypassing Apple's Terminal paste warning added in macOS 26.4. AMOS steals browser credentials, session cookies, crypto wallets, and keychain data.
+
+- The malware leaderboard flipped almost entirely again. Gamarue (Andromeda), NetSupport RAT, and Raspberry Robin replaced last period's top three. Two of the three spread via removable media using malicious .lnk files, reinforcing a persistent USB-worm pattern. NetSupport RAT is ClickFix's most common payload.
+
+- SMB lateral movement tripled from roughly 12% to 36%, a record high. Ransomware affiliates, including Qilin, DragonForce, and The Gentlemen, are encrypting from a single trusted host, leaving victim endpoints with little suspicious local activity. Detection is a network and identity problem, not an endpoint one.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072440821820088362</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072440821820088362">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 22:02:51 +0000</pubDate>
+      <guid isPermaLink="false">2072440821820088362</guid>
+    </item>
     <item>
       <title>Operationalizing VMRay UniqueSignal in MISP for detection, hunting and blocking</title>
       <link>https://www.vmray.com/operationalizing-vmray-uniquesignal-in-misp-for-detection-hunting-and-blocking/</link>
@@ -1705,25 +1724,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2069103685741785217">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 17:02:16 +0000</pubDate>
       <guid isPermaLink="false">2069103685741785217</guid>
-    </item>
-    <item>
-      <title>Out of Shift: How a Shared State Bug in V8’s AsmJS Parser Broke the Ubercage</title>
-      <link>https://blog.exodusintel.com/2026/06/22/out-of-shift-how-a-shared-state-bug-in-v8s-asmjs-parser-broke-the-ubercage/</link>
-      <description>CVE-2026-3542 in Chrome's V8 AsmJS parser corrupts WebAssembly opcode streams, bypassing the Ubercage sandbox entirely to reach arbitrary code execution from a single bug.
-
-Key findings:
-
-- CVE-2026-3542, patched March 3 2026, lives in AsmJsParser::ValidateHeapAccess(). The heap_access_shift_position_ attribute is instance-level state shared across all recursive parse calls. A nested shift expression like HEAP32[1 &lt;&lt; (n &gt;&gt; 2)] causes ShiftExpression() to recurse, overwriting that position with a stale offset. When DeleteCodeAfter() truncates the opcode stream using that stale value, subsequent opcodes are left misaligned and later emitted immediates become orphaned opcodes the decoder executes unchecked.
-
-- The Ubercage bypass is structural, not incidental. AsmJS-generated opcodes skip ValidationTag::validate entirely because V8 trusts its own parser output. An attacker who controls the corrupted stream can inject opcodes like kExprCallRef or kExprStructGet with no type-safety checks, treating arbitrary 64-bit values on the stack as addresses. This gives out-of-sandbox read/write from a single memory-corruption primitive.
-
-- Exploit chain: spray TypeDefinition structs on the canonical type zone so a cross-module struct type lands adjacent to the AsmJS module's type vector. Use kExprI64Const to place a crafted 64-bit address on the stack, then kExprStructGet/kExprStructSet for arbitrary read/write.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069088755881754748</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2069088755881754748">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 16:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2069088755881754748</guid>
     </item>
   </channel>
 </rss>
