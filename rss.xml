@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 17:02:44 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 18:02:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From CitrixBleed 2 to Cloudflared: The Tools and Techniques Behind Anubis Ransomware Attacks</title>
+      <link>https://arcticwolf.com/resources/blog/citrixbleed-2-to-cloudflared-the-tools-and-techniques-behind-anubis-ransomware-attacks/</link>
+      <description>Anubis ransomware affiliates are exploiting CitrixBleed 2 (CVE-2025-5777) and abusing legitimate RMM tools plus Cloudflared tunnels to blend into target environments across 2026 intrusions.
+
+Key findings:
+
+- Initial access comes via two paths: stolen VPN credentials and exploitation of CVE-2025-5777 (CitrixBleed 2), making perimeter device telemetry a priority artifact to pull early in any Anubis investigation.
+
+- Post-access, affiliates rely on legitimate RMM tools for persistence and lateral movement, a classic living-off-the-land pattern (T1219) that lets malicious sessions hide inside expected remote management traffic.
+
+- Cloudflared tunnels are used to establish covert C2 channels, routing traffic through Cloudflare's infrastructure to avoid egress-based detection and bypass firewall rules that would flag unknown C2 domains.
+
+- Despite affiliate variation in TTPs, the consistent thread is abuse of trusted tooling: RMM software and tunnel utilities leave process creation, network connection, and service installation artifacts that endpoint telemetry should capture.
+
+Takeaway: Pull Citrix ADC session logs for CVE-2025-5777 exploitation evidence, then hunt process trees for Cloudflared spawning from unexpected parents. Flag any RMM binary not in your approved software inventory making outbound connections. Perimeter and EDR telemetry correlation is the key to breaking this chain early.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072380434235703316</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072380434235703316">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 18:02:53 +0000</pubDate>
+      <guid isPermaLink="false">2072380434235703316</guid>
+    </item>
     <item>
       <title>Anatomy of an Attack: VIPERTUNNEL</title>
       <link>https://www.extrahop.com/blog/vipertunnel</link>
@@ -1691,25 +1714,6 @@ Hunt outbound connections to those three domains, check /tmp/bin, and audit for 
       <source url="https://x.com/DFIR_Radar/status/2069043226607235315">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 13:02:01 +0000</pubDate>
       <guid isPermaLink="false">2069043226607235315</guid>
-    </item>
-    <item>
-      <title>What Was a 45-GPU Cracking Farm Built For?</title>
-      <link>https://threatmon.io/what-was-a-45-gpu-cracking-farm-built-for/</link>
-      <description>A 45-GPU cracking farm turned raw FortiGate hashes into a validated, enriched access catalog of 74,000+ records across 22,000 orgs. Active credentials confirmed in sample testing, with an initial access broker already selling access.
-
-- The operation was exposed by its own OPSEC failures: an open directory on port 9999 and a Hashtopolis panel on port 8443 running default credentials. Hashtopolis coordinated ~45 NVIDIA RTX 4090s across six agents with EPYC and Xeon Platinum hosts doing the heavy lifting, running hashcat at scale with rule-based and mask attacks. Last-activity timestamps align with first detected exploitation on 31 May 2026.
-
-- Python tooling chained the full kill chain: LDAP recon pulling users, SPNs, and privilege flags; SMB/DFS crawlers hunting creds in config files; Kerberoasting and AS-REP targeting; then OSINT enrichment adding sector, revenue, and country to each record. Enrichment is the tell: you add revenue data when you plan to sell or rank.
-
-- Forum user SantaAd posted ~34,000 FortiVPN entries on a Russian-language forum June 12, asking $60K opening bid, $120K blitz. C2 IPs include 185.229.26[.]83 and 213.169.49[.]142. Campaign favored management ports 443, 9443, 4443, 8443, and 10443.
-
-If you run FortiGate, rotate all credentials now, pull management interfaces off the public internet, enforce MFA, and hunt for LDAP recon and Kerberoasting activity.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069028160163979770</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069028160163979770">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 12:02:09 +0000</pubDate>
-      <guid isPermaLink="false">2069028160163979770</guid>
     </item>
   </channel>
 </rss>
