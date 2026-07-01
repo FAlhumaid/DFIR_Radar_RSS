@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 01:03:55 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 02:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ToddyCat: your hidden email assistant. Part 2</title>
+      <link>https://securelist.com/toddycat-apt-umbrij-tool-and-oauth/120251/</link>
+      <description>ToddyCat APT deploys Umbrij, a .NET tool that hijacks active browser sessions via Chrome's remote debugging port to silently steal OAuth tokens and compromise corporate Gmail accounts without triggering EPP/EDR alerts.
+
+Key details:
+
+- Umbrij (HEUR:Trojan-PSW.MSIL.Umbrij.gen) is a ConfuserEx-obfuscated .NET DLL loaded via DLL sideloading (T1574.001) from three legitimate binaries: BDSubWiz.exe loading log.dll, VSTestVideoRecorder.exe loading Microsoft.VisualStudio.QualityTools.VideoRecorderEngine.dll, and GoogleDesktop.exe loading GoogleServices.DLL. Persistence uses a scheduled task masquerading as KasperskyEndpointSecurityEDRAvp.
+
+- The technique, dubbed STRD, launches the browser headless with --remote-debugging-port and --headless, pointing it at a copied profile in %LOCALAPPDATA%\Google\Chrome\BackupFiles\. Umbrij connects via PuppeteerSharp, navigates to the Google OAuth endpoint using client_id 279448736670 (GWMMO) or 1095133494869 (GWSMO), auto-clicks Allow via JavaScript, and extracts the authorization code. The token grants access to Gmail, Drive, Calendar, and Contacts.
+
+- Token manipulation uses explorer.exe token duplication (T1134.003). Key artifacts to recover: Umbrij log files containing the stolen auth code, BackupFiles directories holding copied browser profile data (Login Data, Cookies, IndexedDB), and scheduled task XML for KasperskyEndpointSecurityEDRAvp.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072138869235921315</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072138869235921315">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 02:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2072138869235921315</guid>
+    </item>
     <item>
       <title>RustDuck: An In-Depth Analysis of a Two-Stage Botnet</title>
       <link>https://blog.xlab.qianxin.com/rustduck-en/</link>
@@ -1613,17 +1632,6 @@ DFIR triage: audit logs for unexpected FortiOS config exports, cross-reference a
       <source url="https://x.com/DFIR_Radar/status/2068137538330476569">DFIR Radar</source>
       <pubDate>Sat, 20 Jun 2026 01:03:08 +0000</pubDate>
       <guid isPermaLink="false">2068137538330476569</guid>
-    </item>
-    <item>
-      <title>CVE-2026-20253: CISA Warns of Actively Exploited Splunk Enterprise RCE</title>
-      <link>https://socradar.io/blog/cve-2026-20253-cisa-splunk-enterprise-rce/</link>
-      <description>CVE-2026-20253 (CVSS 9.8) in Splunk Enterprise allows pre-auth file write via the PostgreSQL sidecar endpoint, chainable to RCE. Public PoC dropped June 12; CISA KEV-listed June 18. Patch to 10.0.7 or 10.2.4, or disable the sidecar service now.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2068122334095950165</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2068122334095950165">DFIR Radar</source>
-      <pubDate>Sat, 20 Jun 2026 00:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2068122334095950165</guid>
     </item>
   </channel>
 </rss>
