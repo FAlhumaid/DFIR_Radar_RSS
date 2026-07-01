@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 16:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 17:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Anatomy of an Attack: VIPERTUNNEL</title>
+      <link>https://www.extrahop.com/blog/vipertunnel</link>
+      <description>Russian 🇷🇺 EvilCorp-linked VIPERTUNNEL backdoor deployed ahead of DragonForce ransomware, using Python LOLBAS techniques and triple-layer obfuscation to tunnel attacker traffic through victim networks.
+
+- UNC2165 (EvilCorp) operators plant VIPERTUNNEL post-compromise, likely after SocGholish/FAKEUPDATES initial access (T1204, T1189). A scheduled task named "523135538" launches pythonw.exe from C:\ProgramData\cp49s\ with no arguments (T1053.005, T1036), while a malicious sitecustomize.py auto-executes on every Python startup, loading b5yogiiy3c.dll, a Python script masquerading as a PE binary (T1036.008).
+
+- The payload never touches disk in final form. Three obfuscation layers (T1027) including Base85, zlib, AES, and ChaCha20 (T1027.013) decrypt a high-entropy blob directly into memory (T1027.009), leaving no static signature for endpoint tools to scan.
+
+- Once in memory, VIPERTUNNEL opens an outbound SOCKS5 tunnel (T1090) to a hardcoded C2 over TCP 443 (T1071.001). Traffic does not resemble HTTPS. Infrastructure analysis revealed Pyramid C2 framework responses with a modified WWW-Authenticate header: Basic realm="Proxy".
+
+- Detection takeaway: no single signal is conclusive. Correlate Event ID 4698 (scheduled task created) involving pythonw.exe from non-standard paths, Python processes with no command-line arguments, .dll files that are plaintext Python scripts, and outbound TCP 443 sessions with SOCKS-like behavior to rare external hosts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072365296594100530</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072365296594100530">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 17:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2072365296594100530</guid>
+    </item>
     <item>
       <title>JADEPUFFER: Agentic ransomware for automated database extortion</title>
       <link>https://webflow.sysdig.com/blog/jadepuffer-agentic-ransomware-for-automated-database-extortion</link>
@@ -1691,23 +1710,6 @@ If you run FortiGate, rotate all credentials now, pull management interfaces off
       <source url="https://x.com/DFIR_Radar/status/2069028160163979770">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 12:02:09 +0000</pubDate>
       <guid isPermaLink="false">2069028160163979770</guid>
-    </item>
-    <item>
-      <title>A VBScript campaign distributed through WhatsApp deploying RMM software</title>
-      <link>https://securelist.com/whatsapp-vbs-rmm-campaign/120290/</link>
-      <description>Active WhatsApp campaign uses compromised accounts to push VBScript files that silently install ManageEngine Endpoint Central, giving attackers persistent RMM access. 80% of victims are in Malaysia 🇲🇾, with reach across Brazil 🇧🇷, India 🇮🇳, the UK 🇬🇧, and beyond.
-
-- Compromised WhatsApp accounts send .vbs attachments with financial lure names ("Financial Reports.vbs", "Statement of Debt(30K).vbs") to the victim's contact list, no accompanying text. WScript.exe is spawned by WhatsApp.Root.exe from the AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\LocalState\Sessions path, a reliable process-tree artifact. Stage 1 drops payloads into randomized C:\Users\Public\Documents\Temp_ or MSUpdate_ directories with hidden and system attributes set.
-
-- Stage 2 modifies HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\ConsentPromptBehaviorAdmin to 0 via a looped ShellExecute runas call, silencing UAC prompts. A ZIP is then fetched using curl, bitsadmin, certutil, or PowerShell, extracted via Shell.Application CopyHere, and Zone.Identifier ADS stripped before setup1.vbs executes.
-
-- Stage 3 silently installs a preconfigured ManageEngine Endpoint Central agent via msiexec.exe. The bundled DCAgentServerInfo.json points to attacker-controlled servers: 202.61.160[.]208, 202.61.160[.]201, 202.61.160[.]137, and 38.55.151[.]63.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069013171168260562</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069013171168260562">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 11:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2069013171168260562</guid>
     </item>
   </channel>
 </rss>
