@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 11:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 12:03:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>RustDuck: 双阶段僵尸网络深度剖析</title>
+      <link>https://blog.xlab.qianxin.com/rustduck/</link>
+      <description>RustDuck botnet, active since Feb 2026, couples a two-stage Loader+Core architecture with Rust-rewritten payloads and layered anti-analysis to build a cross-platform DDoS platform evolving faster than most defenders track.
+
+- The Loader embeds compressed, encrypted Core payload as an ELF overlay. Four tracked variants show rapid crypto evolution: variant 1 uses LCG+XOR+LZ4; variant 2 upgrades to Xoshiro128+XOR+BLZ with per-sample dynamic constants to defeat bulk static decryption; variant 3 uses standard XOR+LZ4 with fixed magic "ASHPCK\x01\x00"; variant 4 introduces ChaCha20+LZ4 with fixed magic "iEMPK\x02\x00\x00". Loader SHA1s: 8315f650, 6aa791c7, 4d11bd49, d39a3ee9.
+
+- Initial access spans weak-credential brute-force over Telnet/SSH plus RCE against Android ADB, TVT API, Ruijie, TP-Link, ZTE devices and ThinkPHP, Jenkins, YARN web components. CVEs exploited include CVE-2025-29635, CVE-2017-17215, CVE-2018-8007, and CVE-2024-1781. Most active delivery IP: 176.65.139[.]204.
+
+- The Core module runs a weighted anti-analysis gauntlet scoring 10 detection checks: process-list scan for wireshark, tcpdump, gdb, ida, frida (weight 100 each); TracerPid check via /proc/self/status; Frida/ASAN library scan via /proc/self/maps; SHA256 integrity check of its own file; cowrie/dionaea honeypot file checks; environment variable keyword scan; 192.0.2.1 network blackhole probe; dual-clock time-travel check; DMI/SCSI virtualization string check; and VM MAC OUI check.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072289944895393917</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2072289944895393917">DFIR Radar</source>
+      <pubDate>Wed, 01 Jul 2026 12:03:19 +0000</pubDate>
+      <guid isPermaLink="false">2072289944895393917</guid>
+    </item>
     <item>
       <title>ARToken: Inside an EvilTokens affiliate panel targeting Microsoft 365</title>
       <link>https://blog.talosintelligence.com/artoken-inside-an-eviltokens-affiliate-panel-targeting-microsoft-365/</link>
@@ -1687,29 +1704,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2068907521662734835">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 04:02:47 +0000</pubDate>
       <guid isPermaLink="false">2068907521662734835</guid>
-    </item>
-    <item>
-      <title>Supercomputing on a Credit Card From The AI Rush Enabled The Massive FortiBleed Campaign</title>
-      <link>https://www.infostealers.com/article/supercomputing-on-a-credit-card-from-the-ai-rush-enabled-the-massive-fortibleed-campaign/</link>
-      <description>The FortiBleed campaign exposed 75,000 Fortinet FortiGate firewalls by pairing commoditized infostealer credentials with rented GPU clusters, cracking hundreds of billions of hashes per second for roughly $14.40/hr.
-
-Key details:
-
-- Attackers rented 36 enterprise-class GPUs across six Vast.ai instances, managed via a Telegram bot running Hashtopolis. Against legacy Fortinet salted SHA-256 hashes, the cluster hit 720 billion hashes/second. Against modern PBKDF2, still 180-360 million/second. Valid credentials were then used to walk through the front door, no zero-day needed.
-
-- Exported FortiOS config files were the primary harvest vector. Once cracked, attackers deployed network sniffers and captured roughly 143,000 Kerberos and 33,000 NetNTLM hashes targeting internal domain controllers, spanning 21,632 domains.
-
-- The pipeline was fully AI-assisted: Cursor wrote management scripts and Telegram bots, open-source agentic pentest frameworks automated Active Directory enumeration post-pivot.
-
-- Compromised FortiGates became supply chain beachheads, enabling lateral movement into MSPs, vendors, and trusted partners. Initial access was fueled by existing infostealer logs, not novel exploitation.
-
-DFIR triage: audit logs for unexpected FortiOS config exports, cross-reference admin accounts against infostealer exposure databases, force credential rotation, and verify MFA is active and not dormant on all firewall admin accounts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2068847089744826677</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2068847089744826677">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 00:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2068847089744826677</guid>
     </item>
   </channel>
 </rss>
