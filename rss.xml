@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Jul 2026 23:02:38 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2026 00:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Azure CLI Targeted in LSHIY Password Spray Campaign Across 64 Orgs</title>
+      <link>https://securityaffairs.com/194588/uncategorized/azure-cli-targeted-in-lshiy-password-spray-campaign-across-64-orgs.html</link>
+      <description>An ongoing password spray campaign abusing Azure CLI's OAuth ROPC flow has compromised 78 accounts across 64 orgs in 14 days, defeating MFA at 15 of 23 businesses hit on a single day.
+
+Key findings:
+
+- 81 million login attempts since June 12, 2026, sourced almost entirely from IPv6 range 2a0a:d683[.]/32, tied to LSHIY LLC (AS32167/AS955), with third parties linking both ASNs to Chinese 🇨🇳 infrastructure. LSHIY lists addresses in Hong Kong 🇭🇰 and Wuhan alongside a New York 🇺🇸 shared office.
+
+- Attack method: threat actors replay breach-dump credentials against the OAuth 2.0 ROPC /token endpoint. Because ROPC sends credentials directly and never hits the authorization endpoint, Conditional Access Policies enforcing MFA do not fire, making it an effective MFA bypass.
+
+- 15 of 23 companies hit on June 22 had MFA via CAP and were still compromised. Root causes: MFA scoped to admin portals only, trusted-location rules that the attackers' inconsistently geolocated IPs bypassed, and two orgs running CAP in report-only mode.
+
+- Huntress reports credential spray volume across its customer base has grown 155x in six months, averaging roughly 1,964 failed attempts per protected tenant per month.
+
+Remediation: scope your Conditional Access Policy to all users, all cloud apps, all client app types. Enable userStrongAuthClientAuthNRequired to block ROPC outright. On detection, triage by credential validity rather than raw spray volume.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072470968887333039</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072470968887333039">DFIR Radar</source>
+      <pubDate>Thu, 02 Jul 2026 00:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2072470968887333039</guid>
+    </item>
     <item>
       <title>CVE-2026-48558: SimpleHelp OIDC Auth Bypass Used to Deploy Infostealer Payloads</title>
       <link>https://socradar.io/blog/cve-2026-48558-simplehelp-oidc-infostealer/</link>
@@ -1703,27 +1726,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2069133926497677703">DFIR Radar</source>
       <pubDate>Mon, 22 Jun 2026 19:02:25 +0000</pubDate>
       <guid isPermaLink="false">2069133926497677703</guid>
-    </item>
-    <item>
-      <title>FortiBleed: The Most Detailed Breakdown Yet of an Active Russian Credential-Harvesting Operation</title>
-      <link>https://securityaffairs.com/194004/hacking/fortibleed-the-most-detailed-breakdown-yet-of-an-active-russian-credential-harvesting-operation.html</link>
-      <description>FortiBleed remains active: a Russian 🇷🇺-linked credential-harvesting operation has hit 430,000+ FortiGate firewalls, captured 110M+ credentials, and confirmed a breach of a NATO-aligned defense contractor.
-
-Key findings:
-
-- The attack chain runs five phases: Masscan port sweeps and a custom Shodan_Recon tool for recon, FortiProbe-fast to filter confirmed FortiGate targets, SSH brute-force via 16 FortiGate-specific wordlists plus SSL-VPN credential stuffing, then passive sniffing via FortigateSniffer, a Golang tool that abuses the native FortiOS command "diagnose sniffer packet" to capture Kerberos, NTLM, RADIUS, LDAP, RDP, and MSSQL auth traffic across 24 protocols without dropping malware.
-
-- FortigateSniffer runs only 07:00-18:00 Moscow Time, deliberately blending into business-hours traffic. Captured hashes are cracked offline via a Hashtopolis-managed GPU cluster running Hashcat, with rented vast.ai capacity and a Telegram bot delivering live results to a single hardcoded admin.
-
-- Confirmed lateral movement into AD environments and targeted DFS backup exfiltration from a NATO contractor, triggered within minutes of Kerberos hashes cracking. 19,000 devices are still being actively sniffed at time of writing.
-
-- ~66% of victims have fewer than 200 employees; IT managed service providers are the top targeted sector, creating downstream customer exposure paths.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069118840491946091</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069118840491946091">DFIR Radar</source>
-      <pubDate>Mon, 22 Jun 2026 18:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2069118840491946091</guid>
     </item>
   </channel>
 </rss>
