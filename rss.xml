@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Jul 2026 10:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2026 11:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Chaining an Apache ActiveMQ RCE on a Fully Patched 6.2.5 (CVE-2026-34197)</title>
+      <link>https://www.crowdfense.com/apache-activemq-rce-bypass/</link>
+      <description>CVE-2026-34197: A two-bug chain achieves post-auth RCE on fully patched Apache ActiveMQ Classic 6.2.5 on Windows, bypassing both the URI validator and the XBean protocol allowlist with a single Jolokia call.
+
+- CVE-2026-34197 is a post-auth RCE via the Jolokia endpoint: an authenticated call to BrokerView.addNetworkConnector with a vm:// URI carrying a brokerConfig=xbean: parameter causes the broker to load attacker-controlled Spring XML and instantiate a ProcessBuilder bean. The 6.2.5 patch added a deny-list validator and locked XBeanBrokerFactory to file,classpath protocols. Both controls fail.
+
+- Bug 1 (validator bypass): validateAllowedUri only recurses into composite URI components when isCompositeURI returns true, which requires the scheme-specific part to start with "(". Prefixing the payload with bare static: (no parens) passes the outer scheme check and skips recursion entirely, so the inner vm:// is never inspected.
+
+- Bug 2 (allowlist bypass): The allowlist blocks file:// as a remote path, but the classifier uses raw String.startsWith on the undecoded URI. Percent-encoding the slashes (file:%2525252f%2525252f...) makes the classifier see a plain local file: scheme while the JDK decodes it back to file://HOST/SHARE at open time. On Windows this resolves as a UNC path; with 445/TCP closed on the attacker side, the Windows WebDAV redirector (WebClient service) fetches the payload over HTTP, no credentials needed.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072637260600578503</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2072637260600578503">DFIR Radar</source>
+      <pubDate>Thu, 02 Jul 2026 11:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2072637260600578503</guid>
+    </item>
     <item>
       <title>XSS.is, The Forum That Ran the Ransomware Supply Chain Is Down. The Market Isn’t</title>
       <link>https://securityaffairs.com/194524/security/xss-is-the-forum-that-ran-the-ransomware-supply-chain-is-down-the-market-isnt.html</link>
@@ -1709,27 +1726,6 @@ Key updates:
       <source url="https://x.com/DFIR_Radar/status/2069390616723611858">DFIR Radar</source>
       <pubDate>Tue, 23 Jun 2026 12:02:25 +0000</pubDate>
       <guid isPermaLink="false">2069390616723611858</guid>
-    </item>
-    <item>
-      <title>SOC Forensics: How to Set Up Automatic DFIR Analysis in the Cloud</title>
-      <link>https://www.cybertriage.com/blog/soc-forensics-how-to-set-up-automatic-dfir-analysis-in-the-cloud/</link>
-      <description>EDR telemetry has blind spots: disabled agents, unmonitored data types, and missing installs all leave gaps that automated cloud-based artifact collection can close in parallel with triage.
-
-Key findings:
-
-- EDR telemetry fails when an attacker uses tools like EDR Silencer to block data transmission, when the agent lacks visibility into application-layer artifacts like browser URLs, or when the agent was never deployed. Artifact collectors such as KAPE, UAC, or the Cyber Triage Collector fill those gaps by copying targeted files and volatile data directly from the endpoint.
-
-- The cloud pipeline works by uploading collector output to S3 or Azure Blob storage, which triggers an AWS Lambda or Azure Function. The Lambda passes the file path to an analysis API, which scores artifacts as bad or suspicious using rules, malware scanning, and AI. This runs in the background while an analyst reviews telemetry.
-
-- Lambda functions have a 3-second default timeout and cannot do heavy processing. The correct pattern is to use them only to pass the S3 path to an existing server API or to spin up a VM for analysis.
-
-- The fast collector mode targets lateral movement, data exfiltration, and remote access artifacts with a goal of under 10 minutes collection time, giving analysts scored results ready by the time telemetry review is done.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069375583113658792</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2069375583113658792">DFIR Radar</source>
-      <pubDate>Tue, 23 Jun 2026 11:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2069375583113658792</guid>
     </item>
   </channel>
 </rss>
