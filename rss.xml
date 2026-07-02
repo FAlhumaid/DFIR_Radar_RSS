@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Jul 2026 11:03:26 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2026 12:03:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PamStealer: a Rust-based macOS infostealer that validates credentials through PAM</title>
+      <link>https://www.jamf.com/blog/pamstealer-macos-infostealer-applescript-rust/</link>
+      <description>PamStealer, a Rust-based macOS 🍎 infostealer disguised as the Maccy clipboard manager, uses PAM to silently validate stolen credentials before exfiltrating browser data, keychain secrets, and clipboard contents.
+
+Key findings:
+
+- Stage 1 drops a trojanized Maccy app bundle. The malicious payload is a Rust binary embedded inside a legitimate-looking .app, making static detection harder since Rust binaries strip cleanly and carry little metadata for signature-based tools to anchor on.
+
+- Stage 2 abuses the PAM (Pluggable Authentication Modules) framework to verify harvested credentials in real time before exfil, a technique that confirms credential validity on the victim machine without touching an external service and reducing noise.
+
+- Targets include browser-stored credentials, clipboard contents, and macOS keychain data, giving the attacker a broad credential harvest from a single execution.
+
+- The disguise as Maccy, a popular open-source clipboard utility, suggests delivery via trojanized downloads or typosquatting, targeting macOS users who actively seek clipboard tools.
+
+DFIR takeaway: on macOS endpoints, examine LaunchAgents and LaunchDaemons for unsigned or recently added entries, and check for unexpected PAM API calls in unified logs via log show filtering on pam_authenticate. Verify Maccy installations against the official binary hash. Full IOCs and analysis in the Jamf report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072652263513035180</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2072652263513035180">DFIR Radar</source>
+      <pubDate>Thu, 02 Jul 2026 12:03:03 +0000</pubDate>
+      <guid isPermaLink="false">2072652263513035180</guid>
+    </item>
     <item>
       <title>Chaining an Apache ActiveMQ RCE on a Fully Patched 6.2.5 (CVE-2026-34197)</title>
       <link>https://www.crowdfense.com/apache-activemq-rce-bypass/</link>
@@ -1705,27 +1728,6 @@ Takeaway: use LLMs to prototype and review discrete query blocks, not to own the
       <source url="https://x.com/DFIR_Radar/status/2069405783557652664">DFIR Radar</source>
       <pubDate>Tue, 23 Jun 2026 13:02:41 +0000</pubDate>
       <guid isPermaLink="false">2069405783557652664</guid>
-    </item>
-    <item>
-      <title>Detections Digest #20260622</title>
-      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260622</link>
-      <description>Detection engineering digest covers 48 new and 47 updated rules across 10 repos, with standout additions for CVE-2026-33825 LPE, BYOVD, RMM abuse, and cross-platform credential theft.
-
-Key updates:
-
-- Splunk added 9+ rules for CVE-2026-33825 (BlueHammer/RedSun LPE exploits), monitoring MsMpEng writing to System32, VSSVC accessing Defender engine binaries, cldapi.dll loaded by uncommon processes, and TieringEngineService.exe spawning suspicious children. Separately, CVE-2026-4681 PTC Windchill rules hunt for GW_READY_OK probe strings in MethodServer log4j events signaling pre-exploitation recon.
-
-- LOLDrivers updated MD5, SHA1, SHA256, and IMPHASH blocklists plus driver filename filters to catch current BYOVD campaigns bypassing HVCI for kernel-level access. LOLRMM added JumpCloud*.exe, Remotely_Agent.exe, and Remotely_Desktop.exe process detections for RMM-based persistence.
-
-- SigmaHQ added a rule for registry enumeration via WMIC StdRegProv (EnumKey, EnumValues, GetStringValue), a technique adversaries use to bypass reg.exe-focused monitors. Splunk updated SmartScreen and Defender disable rules to match both integer 0 and hex 0x00000000 registry values, closing an evasion gap tied to SalatStealer.
-
-- Cross-platform coverage expanded: Neo23x0 added YARA for Arch Linux ALPM hook supply chain attacks (npm/bun in post-install scripts redirecting stderr to /dev/null).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069390616723611858</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2069390616723611858">DFIR Radar</source>
-      <pubDate>Tue, 23 Jun 2026 12:02:25 +0000</pubDate>
-      <guid isPermaLink="false">2069390616723611858</guid>
     </item>
   </channel>
 </rss>
