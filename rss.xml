@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Jul 2026 12:03:03 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2026 13:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rule Fixes &amp; Tuning Tips #20260629</title>
+      <link>https://detections-digest.rulecheck.io/p/rule-fixes-and-tuning-tips-20260629</link>
+      <description>Nine detection engineering tuning insights from community rule repos: false positive reduction, cloud ingestion gaps, BYOVD blocklist freshness, and email NLP coverage all addressed in one digest.
+
+Key findings:
+
+- Network rules gained private-to-public IP scoping on SMTP and IPSEC, and the NAT-T rule now requires both source and destination port equal 4500, eliminating false positives from ephemeral port collisions. pfSense and Corelight indices were added, with explicit exclusions for block and denied actions to prevent dropped connections appearing as active sessions.
+
+- Google Workspace rules shifted lookback windows from 9 to 130 minutes and set timestamp_override to event.ingested, closing false-negative gaps caused by cloud log ingestion lag. Alert suppression on user.email plus source.ip consolidates multi-event bursts from single admin changes.
+
+- Email rules now gate domain exemptions on coalesce(headers.auth_summary.dmarc.pass, false), so brand impersonation bypasses via spoofed high-trust domains lose their exception. Google Drive impersonation logic adds a WHOIS domain-age check under 365 days. BEC rules gained NLP classifier checks on body text and raw HTML title elements.
+
+- BYOVD driver blocklists were synchronized with the LOLDrivers repository, deprecating stale hashes and adding new vulnerable and malicious driver signatures.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072667352357867830</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2072667352357867830">DFIR Radar</source>
+      <pubDate>Thu, 02 Jul 2026 13:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2072667352357867830</guid>
+    </item>
     <item>
       <title>PamStealer: a Rust-based macOS infostealer that validates credentials through PAM</title>
       <link>https://www.jamf.com/blog/pamstealer-macos-infostealer-applescript-rust/</link>
@@ -1705,29 +1726,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2069421008604536876">DFIR Radar</source>
       <pubDate>Tue, 23 Jun 2026 14:03:11 +0000</pubDate>
       <guid isPermaLink="false">2069421008604536876</guid>
-    </item>
-    <item>
-      <title>Testing AI Threat Hunting against Real-World KQL: A Side-by-Side Test</title>
-      <link>https://detect.fyi/testing-ai-threat-hunting-against-real-world-kql-a-side-by-side-test-4cdda76a5772?source=rss----d5fd8f494f6a---4</link>
-      <description>AI-generated KQL caught only 3 of 12 real results in a head-to-head hunt test, exposing a 75% false-negative rate that would leave defenders blind in production.
-
-Key findings:
-
-- Both ChatGPT (GPT-5.5) and Claude (Sonnet 4.6) scoped their queries to DeviceProcessEvents alone, missing roughly 70% of telemetry. The human query searched DeviceProcessEvents AND DeviceEvents, which is where much of the PowerShell ScriptContent and ActionType telemetry lives. Querying only one table is a silent coverage gap, not a syntax error.
-
-- ChatGPT's query failed to execute entirely due to unsupported pipe-chaining syntax. Claude's ran but returned 3 results versus 12 from the human query. A query that runs and looks reasonable is not the same as a query that hunts accurately.
-
-- The human query used regex across ActionType values (PowerShellCommand, ProcessCreated, ScriptContent) and pulled ScriptContent from AdditionalFields via parse_json, catching encoded and in-memory invocations the LLMs missed by filtering only on process name and command-line strings.
-
-- Schema awareness is the core gap. LLMs produce syntactically plausible KQL but don't know which fields carry what data in your environment. Hunting for the literal string Invoke-Mimikatz or scoping only to powershell.exe creates the illusion of coverage.
-
-Takeaway: use LLMs to prototype and review discrete query blocks, not to own the full hunt.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069405783557652664</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2069405783557652664">DFIR Radar</source>
-      <pubDate>Tue, 23 Jun 2026 13:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2069405783557652664</guid>
     </item>
   </channel>
 </rss>
