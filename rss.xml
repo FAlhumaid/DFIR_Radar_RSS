@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Jul 2026 14:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jul 2026 15:02:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>JADEPUFFER: First End-to-End AI-Driven Ransomware Operation</title>
+      <link>https://securityaffairs.com/194713/ai/jadepuffer-first-end-to-end-ai-driven-ransomware-operation.html</link>
+      <description>JADEPUFFER is the first documented end-to-end LLM-driven ransomware operation, exploiting CVE-2025-3248 in Langflow to chain recon, lateral movement, and database destruction with no human at the keyboard.
+
+Key findings:
+
+- Initial access via CVE-2025-3248, a no-auth remote code execution flaw in Langflow (CISA KEV, patched May 2025). The agent immediately swept for OpenAI, Anthropic, AWS, GCP, Azure, and Chinese 🇨🇳 cloud provider credentials, raided Langflow's Postgres backing store, then installed a crontab beacon to 45.131.66[.]106:4444 every 30 minutes before pivoting.
+
+- Lateral movement hit a production MySQL and Nacos server. JADEPUFFER exploited CVE-2021-29441, forged JWTs using Nacos's publicly known default signing key (documented since 2020), and injected a backdoor admin account. When bcrypt hashing failed due to a PATH issue, the agent self-corrected in 31 seconds with a 15-line fix: delete, diagnose, rebuild, reinsert.
+
+- Ransomware phase encrypted all 1,342 Nacos config items using MySQL AES_ENCRYPT(), dropped original tables, and created a README_RANSOM table with a Bitcoin address and Proton Mail contact e78393397[@]proton[.]me. The encryption key was printed to stdout once and never stored. Recovery is impossible even with payment.
+
+Defenders: patch Langflow, rotate every credential stored in AI-pipeline environments, change Nacos default JWT keys, and block unexpected egress.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2073059918635053525</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2073059918635053525">DFIR Radar</source>
+      <pubDate>Fri, 03 Jul 2026 15:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2073059918635053525</guid>
+    </item>
     <item>
       <title>Unauthenticated Stored XSS in NEX-Forms Express WP Form Builder (≤ 9.1.10) — CVSS 8.8 High</title>
       <link>https://infosecwriteups.com/unauthenticated-stored-xss-in-nex-forms-express-wp-form-builder-9-1-10-cvss-8-8-high-e4bf33e67e82?source=rss----7b722bfd1b8d---4</link>
@@ -1653,17 +1674,6 @@ Hunt for: scheduled tasks launching msedge.exe with --headless flags, unexpected
       <source url="https://x.com/DFIR_Radar/status/2069843882188099789">DFIR Radar</source>
       <pubDate>Wed, 24 Jun 2026 18:03:32 +0000</pubDate>
       <guid isPermaLink="false">2069843882188099789</guid>
-    </item>
-    <item>
-      <title>Risky Bulletin: The FortiBleed incident is so much worse than a simple credentials leak</title>
-      <link>https://news.risky.biz/risky-bulletin-the-fortibleed-incident-is-so-much-worse-than-a-simple-credentials-leak/</link>
-      <description>FortiBleed was not just a credential leak: a Russian-speaking 🇷🇺 IAB named SantaAd ran FortigateSniffer across 24 protocols to harvest live creds, cracked hashes via GPU cluster, validated access, then sold it.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069828787835982018</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069828787835982018">DFIR Radar</source>
-      <pubDate>Wed, 24 Jun 2026 17:03:33 +0000</pubDate>
-      <guid isPermaLink="false">2069828787835982018</guid>
     </item>
   </channel>
 </rss>
