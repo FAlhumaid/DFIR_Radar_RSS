@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Jul 2026 12:03:09 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jul 2026 13:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Blind Spot in the Watchtower: Detections for When Someone Attacks Your Sentinel</title>
+      <link>https://detect.fyi/the-blind-spot-in-the-watchtower-detections-for-when-someone-attacks-your-sentinel-897709f0dcd9?source=rss----d5fd8f494f6a---4</link>
+      <description>Microsoft Sentinel has no built-in watch over itself: nine KQL detections close the blind spot attackers exploit to disable rules, cut log feeds, and erase their own incidents before any alert fires.
+
+Most SOC teams have hundreds of detections aimed outward at endpoints, email, and identity. Almost none watch the SIEM itself. A capable attacker does not start loud. They reach for the recorder first.
+
+- Sentinel stores its own audit trail across three tables: AzureActivity (free, all resource changes), _SentinelAudit() (rule-level before/after diff, requires health and audit feature enabled), and _SentinelHealth() (confirms rules are actually running). All nine detections pull from one of these three sources.
+
+- The attack surface is wider than most teams realize: disabling or deleting an analytic rule (_SentinelAudit, hourly schedule), shortening table retention or dropping a table (AzureActivity WORKSPACES/TABLES/WRITE or DELETE), killing a data connector or DCR (DATACONNECTORS or DATACOLLECTIONRULES operations), deleting diagnostic settings (DIAGNOSTICSETTINGS/DELETE, a known evasion Microsoft templates for), granting a Sentinel Contributor or Owner role outside the approved list (ROLEASSIGNMENTS/WRITE), tampering with playbooks, watchlists, or automation rules, editing or closing incidents by unauthorized callers, and deleting the workspace or its resource lock outright.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2073029782443553278</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2073029782443553278">DFIR Radar</source>
+      <pubDate>Fri, 03 Jul 2026 13:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2073029782443553278</guid>
+    </item>
     <item>
       <title>Boss Scam: Don’t Trust Every “Urgent” Message from Your Boss!</title>
       <link>https://labs.k7computing.com/index.php/boss-scam-dont-trust-every-urgent-message-from-your-boss/</link>
@@ -1639,27 +1656,6 @@ Hunt for: scheduled tasks launching msedge.exe with --headless flags, unexpected
       <source url="https://x.com/DFIR_Radar/status/2069813719992062173">DFIR Radar</source>
       <pubDate>Wed, 24 Jun 2026 16:03:41 +0000</pubDate>
       <guid isPermaLink="false">2069813719992062173</guid>
-    </item>
-    <item>
-      <title>I Wasted 3 Days Intercepting a Flutter App. Here’s What Actually Works.</title>
-      <link>https://infosecwriteups.com/i-wasted-3-days-intercepting-a-flutter-app-heres-what-actually-works-d3e9a4816818?source=rss----7b722bfd1b8d---4</link>
-      <description>Flutter apps silently block proxy interception because BoringSSL bypasses Android's certificate trust chain entirely. Three days of failed attempts led to a two-script Frida solution covering every TLS validation layer at once.
-
-Key findings:
-
-- Flutter ships its own TLS stack via BoringSSL compiled into libflutter.so, completely ignoring Android's system CA store. Installing Burp's CA through device Settings has zero effect. ReFlutter patches only the Flutter binary and misses any Java or WebView connectivity checks that run before Dart initializes.
-
-- disable-flutter-tls-v1.js finds ssl_verify_peer_cert in libflutter.so via byte pattern matching across arm64, arm, x64, and x86, then replaces it with a stub returning 0. A retry loop with five one-second delays handles the common silent failure where Frida attaches before libflutter.so finishes loading.
-
-- universal_bypass.js covers the Java layer: custom X509TrustManager, SSLContext hook, HostnameVerifier, WebViewClient, and crucially InAppWebViewClient at com.pichillilorenzo.flutter_inappwebview_android.webview.in_app_webview.InAppWebViewClient. That last hook was missing from every existing script and is the reason WebView traffic stays blocked even when everything else works.
-
-- When scripts alone are not enough: iptables DNAT redirects port 443/80 to Burp at kernel level since Flutter ignores Android proxy settings.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069798749518328004</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2069798749518328004">DFIR Radar</source>
-      <pubDate>Wed, 24 Jun 2026 15:04:12 +0000</pubDate>
-      <guid isPermaLink="false">2069798749518328004</guid>
     </item>
   </channel>
 </rss>
