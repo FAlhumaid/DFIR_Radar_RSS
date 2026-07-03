@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Jul 2026 11:02:54 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jul 2026 12:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Boss Scam: Don’t Trust Every “Urgent” Message from Your Boss!</title>
+      <link>https://labs.k7computing.com/index.php/boss-scam-dont-trust-every-urgent-message-from-your-boss/</link>
+      <description>Boss Scam BEC campaign hijacks WhatsApp Web sessions via DLL sideloading, stealing browser session artifacts to impersonate executives and spread malware laterally through trusted contacts.
+
+- Initial access arrives via email or WhatsApp as a ZIP containing a legitimately signed executable paired with a malicious DLL (libfabric.dll, MD5s 91C8497847FF6AAFE365AE731E76F031 and AAEFAA9844410991BDDAE304B93673C6). Windows DLL search-order loading (T1574.001) executes the malicious DLL while the clean binary runs normally, bypassing many AV detections. Attachment URL: hxxps://zusyyredrs[.]love/
+
+- The malware copies both files to %AppData% or %ProgramData%, terminates the original process, relaunches from the new path, and writes a Registry Run key for persistence. Dynamic API resolution is used in some variants to further evade static analysis.
+
+- The payload hunts for active WhatsApp Web sessions in Chromium-based browsers, then abuses tar.exe (a LOLBin) to archive the Local State master AES key, Network\Cookies, IndexedDB device-linking keys, Login Data, and Web Data into a ZIP, exfiltrating it over raw TCP. Those five files together are enough to clone a WhatsApp Web session without a QR scan.
+
+- A hijacked executive account lets attackers send in-thread messages to finance, HR, and colleagues, requesting wire transfers or dropping additional payloads including RATs and ransomware.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2073014677823803637</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2073014677823803637">DFIR Radar</source>
+      <pubDate>Fri, 03 Jul 2026 12:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2073014677823803637</guid>
+    </item>
     <item>
       <title>Armored Likho digging a snake pit: inside the covert BusySnake Stealer campaign</title>
       <link>https://securelist.com/tr/armored-likho-apt-with-busysnake-stealer/120292/</link>
@@ -1641,27 +1660,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2069798749518328004">DFIR Radar</source>
       <pubDate>Wed, 24 Jun 2026 15:04:12 +0000</pubDate>
       <guid isPermaLink="false">2069798749518328004</guid>
-    </item>
-    <item>
-      <title>StealC and Amadey: Breaking down infostealers and the cybercrime services that deliver them</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/06/24/stealc-and-amadey-breaking-down-infostealers-and-the-cybercrime-services-that-deliver-them/</link>
-      <description>Microsoft and Europol disrupt 200+ StealC and Amadey C2 domains on June 24, 2026, exposing the full MaaS infostealer pipeline from credential theft to ransomware deployment.
-
-Key findings:
-
-- StealC (C++) defeats Chromium App-Bound Encryption via APC injection into a suspended process, writing decrypted credentials to C:\ProgramData\&amp;lt;HWID&amp;gt;.txt before exfil. It also raids Outlook profiles under HKCU\Software\Microsoft\Office\&amp;lt;version&amp;gt;\Outlook\Profiles, WinSCP sessions from HKCU\Software\Martin Prikryl\WinSCP 2\Sessions, and Steam files including ssfn* and loginusers.vdf. All data is RC4-encrypted and Base64-encoded before POST to C2. Self-delete fires last if the flag is set.
-
-- Amadey (active since 2018) persists as nudwee.exe under C:\Users\&amp;lt;user&amp;gt;\e079729711 via scheduled task, communicates over HTTP with RC4+hex encoding, and supports 20+ backdoor commands including enabling RDP (fDenyTSConnections=0), creating hidden admin accounts, and loading cred.dll and clip.dll plugins at runtime.
-
-- IOCs from the report: StealC C2 at hxxp://polse[.]us/62ea47cac2534aa18f74.php and hxxp://bluescry[.]com/01f96fd710e905ca2326.php; Amadey C2 at hxxp://microsoft-telemetry[.]at/cvdfnaFJBmC0/index.php. Full hash and URL list in the Microsoft Security blog.
-
-Hunt for nudwee.exe, scheduled tasks pointing to the e079729711 directory, rundll32 loading cred.dll or clip.dll, and outbound HTTP POST to .php endpoints with RC4+Base64 bodies.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069783344783450270</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2069783344783450270">DFIR Radar</source>
-      <pubDate>Wed, 24 Jun 2026 14:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2069783344783450270</guid>
     </item>
   </channel>
 </rss>
