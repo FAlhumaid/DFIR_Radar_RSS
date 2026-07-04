@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Jul 2026 15:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 04 Jul 2026 05:02:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Exploiting Resource-Based Constrained Delegation (RBCD)</title>
+      <link>https://infosecwriteups.com/exploiting-resource-based-constrained-delegation-rbcd-a63a02db6ca6?source=rss----7b722bfd1b8d---4</link>
+      <description>RBCD exploitation gives any user with write access to a computer object a clear path to full machine takeover via Kerberos delegation abuse, no Domain Admin required.
+
+Key details:
+
+- The attack abuses msDS-AllowedToActOnBehalfOfOtherIdentity on the target computer object. Any principal with write rights over that attribute, including the object's creator, can configure RBCD. Default MachineAccountQuota lets any authenticated user add up to 10 computer accounts, supplying a ready-made SPN-bearing "Service A" with no special privileges needed.
+
+- The chain: create a rogue computer account (addcomputer.py or Powermad), write RBCD trust to the target with rbcd.py, call S4U2Self to get a non-forwardable ticket for Administrator, then S4U2Proxy to exchange it for a cifs ticket, and pass it with psexec.py, secretsdump.py, or smbclient.py.
+
+- RBCD's critical difference from classic constrained delegation: the KDC accepts a non-forwardable evidence ticket as long as the target resource's msDS-AllowedToActOnBehalfOfOtherIdentity trusts the requestor, bypassing the FORWARDABLE check that blocks classic delegation abuse.
+
+- Artifact focus: query AD for unexpected values in msDS-AllowedToActOnBehalfOfOtherIdentity on workstations and servers, and audit newly created computer accounts (Event ID 4741). Rubeus and getST.py leave Kerberos S4U activity in KDC logs (Event ID 4769) with unusual delegation fields.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2073271311355306437</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2073271311355306437">DFIR Radar</source>
+      <pubDate>Sat, 04 Jul 2026 05:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2073271311355306437</guid>
+    </item>
     <item>
       <title>JADEPUFFER: First End-to-End AI-Driven Ransomware Operation</title>
       <link>https://securityaffairs.com/194713/ai/jadepuffer-first-end-to-end-ai-driven-ransomware-operation.html</link>
@@ -1663,17 +1684,6 @@ Hunt for: scheduled tasks launching msedge.exe with --headless flags, unexpected
       <source url="https://x.com/DFIR_Radar/status/2069859017531244560">DFIR Radar</source>
       <pubDate>Wed, 24 Jun 2026 19:03:41 +0000</pubDate>
       <guid isPermaLink="false">2069859017531244560</guid>
-    </item>
-    <item>
-      <title>LokiBot After a Decade: An Analysis of a Recent LokiBot Campaign</title>
-      <link>https://www.levelblue.com/blogs/spiderlabs-blog/lokibot-after-a-decade-an-analysis-of-a-recent-lokibot-campaign</link>
-      <description>A decade-old LokiBot campaign still active, using multi-stage delivery to evade detection. LokiBot steals credentials from browsers and email clients; hunt for its characteristic process injection and check temp folders for staged payloads.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069843882188099789</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2069843882188099789">DFIR Radar</source>
-      <pubDate>Wed, 24 Jun 2026 18:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2069843882188099789</guid>
     </item>
   </channel>
 </rss>
