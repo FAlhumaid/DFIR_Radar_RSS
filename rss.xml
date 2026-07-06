@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Jul 2026 21:03:53 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jul 2026 22:03:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-48282: Adobe ColdFusion RDS Path Traversal Leading to RCE</title>
+      <link>https://www.resecurity.com/blog/article/cve-2026-48282-adobe-coldfusion-rds-path-traversal-leading-to-rce</link>
+      <description>CVE-2026-48282: CVSS 10.0 path traversal in Adobe ColdFusion RDS FILEIO enables unauthenticated RCE via a single HTTP POST. Actively exploited in the wild and added to CISA KEV.
+
+- CVE-2026-48282 (CVSS 10.0) hits the RDS FILEIO handler at POST /CFIDE/main/ide[.]cfm?ACTION=FILEIO. No auth, no user interaction required. The handler passed user-supplied paths directly to the file system without canonicalization, letting traversal sequences like ..\ or absolute paths escape the RDS root and write anywhere the ColdFusion service account can reach, including the web root.
+
+- Full attack chain is four steps: fingerprint /CFIDE/main/ide[.]cfm, confirm arbitrary write by dropping a marker file, write a cfexecute-based CFML webshell (shell.cfm?cmd=whoami), then access it over HTTP for OS-level RCE running as the ColdFusion service account, often SYSTEM on Windows.
+
+- Patch fixes it by replacing getFile() with getCanonicalFile() plus RdsFileSecurity.resolveCanonical(), blocking traversal sequences, absolute out-of-scope paths, and null-byte injection. Affected: ColdFusion 2025 Update 9 and earlier, ColdFusion 2023 Update 20 and earlier. Fix: Update 10 and Update 21 respectively.
+
+Hunt now: grep web server logs for POST requests to /CFIDE/main/ide.cfm with ACTION=FILEIO, then audit the web root and /CFIDE/ directories for recently created or modified .cfm, .cfc, or .jsp files. Rotate CF admin, DB, and service account credentials if any anomalous writes are found.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074253008343367691</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074253008343367691">DFIR Radar</source>
+      <pubDate>Mon, 06 Jul 2026 22:03:50 +0000</pubDate>
+      <guid isPermaLink="false">2074253008343367691</guid>
+    </item>
     <item>
       <title>The File That Answered Back — XXE Hidden in Cell A2</title>
       <link>https://infosecwriteups.com/the-file-that-answered-back-xxe-hidden-in-cell-a2-20dbb8161dd8?source=rss----7b722bfd1b8d---4</link>
@@ -1673,17 +1692,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2070266919517614320">DFIR Radar</source>
       <pubDate>Thu, 25 Jun 2026 22:04:32 +0000</pubDate>
       <guid isPermaLink="false">2070266919517614320</guid>
-    </item>
-    <item>
-      <title>Inside Mistic, the New Stealth Backdoor in Ransomware Intrusions</title>
-      <link>https://securityaffairs.com/194207/cyber-crime/inside-mistic-the-new-stealth-backdoor-in-ransomware-intrusions.html</link>
-      <description>Mistic, a new backdoor from KongTuke (Woodgnat), side-loads via MpExtMs.exe using a DLL named EndpointDlp.dll to mimic Microsoft security tooling. It runs payloads in memory, leaves no file on disk, and self-deletes via a built-in kill switch.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070221739871629735</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2070221739871629735">DFIR Radar</source>
-      <pubDate>Thu, 25 Jun 2026 19:05:01 +0000</pubDate>
-      <guid isPermaLink="false">2070221739871629735</guid>
     </item>
   </channel>
 </rss>
