@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Jul 2026 09:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jul 2026 10:04:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When checking the URL isn’t enough: a Device Code Phishing attack via a Microsoft website</title>
+      <link>https://securelist.com/microsoft-device-code-phishing-attack/120350/</link>
+      <description>Device Code Phishing abuses Microsoft's own authentication pages to steal OAuth tokens, bypassing URL-inspection advice entirely. Observed April to mid-May 2026, now actively shifting targets.
+
+- The attack chain starts with a law-firm-themed phishing email carrying a password-protected PDF. Inside the PDF, a link uses a Microsoft URL with redirect parameters to bounce the victim to a fake corporate portal, past multiple CAPTCHAs. The attacker's server has already called login.microsoftonline[.]com/{tenant}/oauth2/v2.0/devicecode to fetch a valid user_code, which is displayed on the phishing page and auto-copied to clipboard.
+
+- The victim is then redirected to the real Microsoft verification page (microsoft[.]com/devicelogin) and completes full MFA there. Because the URL is genuinely Microsoft, no warning fires. The attacker's polling loop hits login.microsoftonline[.]com/{tenant}/oauth2/v2.0/token and collects access_token, refresh_token, and id_token the moment auth succeeds, enabling mailbox access, OneDrive exfiltration, and Teams data theft.
+
+- A Brazil-targeted variant drops the PDF and instead abuses cacoo[.]com as an open redirect, showing the same one-time code landing page before routing to Microsoft auth.
+
+- Key detection pivot: DeviceCodeSignIn events in Microsoft Entra ID sign-in logs. Alert on these from unexpected locations or users who have no input-constrained devices.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074071990365782484</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2074071990365782484">DFIR Radar</source>
+      <pubDate>Mon, 06 Jul 2026 10:04:32 +0000</pubDate>
+      <guid isPermaLink="false">2074071990365782484</guid>
+    </item>
     <item>
       <title>Researchers Claim First Fully Agentic Ransomware: JadePuffer</title>
       <link>https://www.infosecurity-magazine.com/news/researchers-first-agentic/</link>
@@ -1649,27 +1668,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2070100859556331791">DFIR Radar</source>
       <pubDate>Thu, 25 Jun 2026 11:04:40 +0000</pubDate>
       <guid isPermaLink="false">2070100859556331791</guid>
-    </item>
-    <item>
-      <title>Introduction to COM usage by Windows threats</title>
-      <link>https://blog.talosintelligence.com/introduction-to-com-usage-by-windows-threats/</link>
-      <description>COM abuse is a persistent blind spot in triage: Qakbot, Attor, WarmCookie, and Gh0stRAT all weaponize Windows COM interfaces to hide behavior behind vtable indirection, evade EDR telemetry, and achieve persistence without touching schtasks.exe.
-
-Key findings:
-
-- COM hides attacker intent behind indirect vtable calls like "call qword ptr [rax+38h]". Until you recover the interface type and apply it in IDA or Binary Ninja, WMI access, BITS transfers, and scheduled task creation are invisible. Qakbot uses CoInitializeSecurity then CoCreateInstance with IID_IWbemLocator to reach WMI. Attor uses IBackgroundCopyJob for C2 and exfiltration over BITS, the same service Windows Update uses.
-
-- Gh0stRAT and WarmCookie both create scheduled tasks entirely through COM (Task Scheduler 2.0 CLSID {0F87369F-A4E5-4CFC-BD3E-73E6154572DD} or the older CLSID_CTaskScheduler), never spawning schtasks.exe. That means process-creation telemetry alone misses the persistence event.
-
-- DCOM lateral movement (T1021.003) is fingerprinted by CoCreateInstanceEx with remote COSERVERINFO parameters. CoInitializeSecurity and CoSetProxyBlanket calls signal the sample is configuring impersonation for out-of-process or remote COM use.
-
-Takeaway: In IDA, apply ITaskServiceVtbl, IWbemLocatorVtbl, or IBackgroundCopyJobVtbl to recovered interface pointers, then use the COM Helper plugin or COMIDA to rename GUID references.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070085579971101123</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2070085579971101123">DFIR Radar</source>
-      <pubDate>Thu, 25 Jun 2026 10:03:57 +0000</pubDate>
-      <guid isPermaLink="false">2070085579971101123</guid>
     </item>
   </channel>
 </rss>
