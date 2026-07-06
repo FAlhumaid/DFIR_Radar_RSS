@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 05 Jul 2026 07:02:53 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jul 2026 07:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>RCE via Gemini Live AI Voice Session Misconfiguration.</title>
+      <link>https://infosecwriteups.com/rce-via-gemini-live-ai-voice-session-misconfiguration-e0648805a055?source=rss----7b722bfd1b8d---4</link>
+      <description>Gemini Live API ephemeral tokens default to fully unconstrained sessions, letting any authenticated browser client inject tool definitions including Python code execution via a malicious setup frame.
+
+Key findings:
+
+- The BidiGenerateContentConstrained WebSocket endpoint only enforces what the backend encodes in live_connect_constraints at token mint time. If that field is absent, the server accepts the client's setup frame verbatim, including arbitrary model, system_instruction, and tools values. The official google-gemini/gemini-live-api-examples reference ships without live_connect_constraints, so every team following it ships this misconfiguration.
+
+- The exploit chain is three steps: register a free account, intercept the POST to the session creation endpoint and confirm bidi_generate_content_setup is absent from the response, then connect to the WebSocket and send a setup frame enabling codeExecution. Server replies setupComplete and the session runs under attacker-defined parameters.
+
+- Code execution lands in a gVisor sandbox (kernel 4.19.0-gvisor, UID 369346771). Outbound TCP, DNS, and persistent writes are blocked. No path to internal systems without a gVisor escape. Real impact: unbounded compute consumption billed to the API account owner.
+
+- Detection opportunity: proxy or log the token mint response from your own backend. Absence of bidi_generate_content_setup in that response is the single indicator. No WebSocket inspection needed.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074026264726548650</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074026264726548650">DFIR Radar</source>
+      <pubDate>Mon, 06 Jul 2026 07:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2074026264726548650</guid>
+    </item>
     <item>
       <title>I Found an Unauthenticated Attachment Disclosure Bug in a WordPress Support Plugin — and a…</title>
       <link>https://infosecwriteups.com/i-found-an-unauthenticated-attachment-disclosure-bug-in-a-wordpress-support-plugin-and-a-435e86868d04?source=rss----7b722bfd1b8d---4</link>
@@ -1671,25 +1692,6 @@ Hunt for outbound HTTP POST connections from JetBrains processes (idea.exe, gola
       <source url="https://x.com/DFIR_Radar/status/2070055247603446103">DFIR Radar</source>
       <pubDate>Thu, 25 Jun 2026 08:03:26 +0000</pubDate>
       <guid isPermaLink="false">2070055247603446103</guid>
-    </item>
-    <item>
-      <title>ESET takes part in Operation Endgame to disrupt Amadey and Stealc</title>
-      <link>https://www.welivesecurity.com/en/eset-research/eset-takes-part-operation-endgame-disrupt-amadey-stealc/</link>
-      <description>Operation Endgame dismantles Amadey and Stealc MaaS infrastructure, taking down roughly 50 domains and nearly 200 active C&amp;C IPs used by affiliates of both families worldwide.
-
-Key findings:
-
-- ESET shared three years of tracking data covering Q4 2025 through H1 2026: C&amp;C server lists, RC4 encryption keys, build identifiers, campaign IDs, and URL path patterns. That intelligence let law enforcement distinguish individual affiliate clusters from shared infrastructure and prioritize high-impact targets. ESET identified 53 distinct Amadey clusters and 73 Stealc clusters using graph modeling on extracted config values.
-
-- Amadey (tracked since 2018, pay-per-rebuild at $600 + $50/build) embeds up to three C&amp;C URLs, an RC4 key, and a six-character hex sd value per sample. The RC4 key is a reliable affiliate identifier: rebuilds rotate the sd value but preserve the key. C&amp;C comms use HTTP POST with RC4-encrypted key-value data. Largest single cluster represented 34% of all samples and averaged 14 payloads dropped per victim, running its own pay-per-install model and overlapping with Lumma Stealer affiliates.
-
-- Stealc (tracked since Feb 2023, $300/month subscription, now at v2.22.1) uses two separate RC4 keys per sample: one for string decryption, one for C&amp;C traffic. C&amp;C comms use HTTP with RC4-encrypted JSON; a session access_token and a one-time random nonce per response defeat static RC4 traffic signatures.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2069964746267238447</description>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2069964746267238447">DFIR Radar</source>
-      <pubDate>Thu, 25 Jun 2026 02:03:48 +0000</pubDate>
-      <guid isPermaLink="false">2069964746267238447</guid>
     </item>
   </channel>
 </rss>
