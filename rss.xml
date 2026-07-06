@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Jul 2026 19:04:01 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jul 2026 21:03:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The File That Answered Back — XXE Hidden in Cell A2</title>
+      <link>https://infosecwriteups.com/the-file-that-answered-back-xxe-hidden-in-cell-a2-20dbb8161dd8?source=rss----7b722bfd1b8d---4</link>
+      <description>Unauthenticated XXE via XLSX upload bypasses WAF and reads arbitrary server files. A crafted spreadsheet delivered three confirmed in-band file reads against a production endpoint with no authentication required.
+
+Key findings:
+
+- The target endpoint, /[REDACTED]/personal/CombineExcelUpload, processed Excel uploads server-side and reflected cell values directly in JSON responses. No session token or authentication was required. The WAF (Imperva) was absent on this Alibaba Cloud host behind an F5 load balancer, so the DOCTYPE keyword that was blocked elsewhere passed through untouched.
+
+- Attack chain: a hand-built XLSX (a ZIP of five XML files) had the XXE payload injected into xl/worksheets/sheet1.xml. The DOCTYPE entity declaration pointed to file:///C:/windows/win.ini. The .NET XML parser resolved the entity, substituted file contents into cell A2, and the app returned them in the uploadResult JSON field. Three reads confirmed: win.ini, system32/drivers/etc/hosts, and system.ini.
+
+- Root cause is .NET's insecure XML parser default. XmlReaderSettings with DtdProcessing left at its default allows external entity resolution. The fix is two lines: DtdProcessing = DtdProcessing.Prohibit and XmlResolver = null, or switching to EPPlus or ClosedXML which disable XXE by design.
+
+- Further escalation was blocked: web.config contains XML markup that breaks inline substitution, and outbound DTD callbacks for CDATA-wrapping were blocked at the load balancer.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074237920119026142</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074237920119026142">DFIR Radar</source>
+      <pubDate>Mon, 06 Jul 2026 21:03:53 +0000</pubDate>
+      <guid isPermaLink="false">2074237920119026142</guid>
+    </item>
     <item>
       <title>New Iran-Nexus Hacking Group Targets Israel Government and IT Sectors</title>
       <link>https://www.infosecurity-magazine.com/news/new-iran-hacking-group-targets/</link>
@@ -1663,27 +1684,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2070221739871629735">DFIR Radar</source>
       <pubDate>Thu, 25 Jun 2026 19:05:01 +0000</pubDate>
       <guid isPermaLink="false">2070221739871629735</guid>
-    </item>
-    <item>
-      <title>Analyzing Active Exploitation of Lantronix and OpenWRT LuCI</title>
-      <link>https://www.forescout.com/blog/analyzing-active-exploitation-of-lantronix-and-openwrt-luci/</link>
-      <description>CVE-2025-67038, an unauthenticated OS command injection in Lantronix EDS5000 serial-to-IP converters, was exploited in the wild before public disclosure, suggesting patch-diff reverse engineering by a targeted threat cluster.
-
-Key findings:
-
-- CVE-2025-67038 lives in OpenWRT LuCI's HTTP JSON-RPC auth endpoint. The username field in /cgi-bin/luci/rpc/auth is concatenated unsanitized into a log string passed to os.execute, allowing root command execution with no credentials. Exploitation probes injected sleep tests then capability-check callbacks to C2s at 154.219.113[.]56 and 38.180.201[.]49, with filenames like lntxe1-lntxea confirming the actor knew exactly what device they were hitting.
-
-- The cluster, named Chaya_006, operated April 5 to June 3 from scanner IPs across Asia (Japan 🇯🇵, Taiwan 🇹🇼, South Korea 🇰🇷, China 🇨🇳). Scanner IPs include 38.207.136[.]2 and 59.124.166[.]52. The actor rotated user-agents from curl to Chrome to Firefox to blend in, a deliberate evasion step, not scanner noise.
-
-- Parallel to Chaya_006, over 4,100 brute-force attempts hit OpenWRT LuCI /cgi-bin/luci/ endpoints between January and June, cycling hundreds of password combinations across four usernames. Nearly 32,000 LuCI-exposed devices are visible on Shodan today.
-
-Hunt for POST requests to /cgi-bin/luci/rpc/auth containing shell metacharacters in the username parameter, and alert on outbound wget/curl/nslookup from OT-adjacent serial converter devices.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070206400102351041</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2070206400102351041">DFIR Radar</source>
-      <pubDate>Thu, 25 Jun 2026 18:04:03 +0000</pubDate>
-      <guid isPermaLink="false">2070206400102351041</guid>
     </item>
   </channel>
 </rss>
