@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Jul 2026 15:04:19 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jul 2026 16:05:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Microsoft Windows Installer Folder Delete Privilege Escalation</title>
+      <link>https://blog.exodusintel.com/2026/07/06/microsoft-windows-installer-folder-delete-privilege-escalation/</link>
+      <description>CVE-2025-27727 in Windows Installer lets any low-privileged user escalate to SYSTEM by abusing a logic flaw in the MSI COM interface. Patched April 2025; full exploit chain published.
+
+Key findings:
+
+- The root cause is a trust-without-validation flaw in CMsiConfigurationManager, exposed via msiexec.exe running as SYSTEM. Three COM methods chained together trigger it: MsiBeginTransactionW (vtable 0xA0) starts a transaction, SetEEUIDirectoryAndFilter (vtable 0xC8) writes an attacker-controlled path to HKLM\Software\Microsoft\Windows\CurrentVersion\Installer\TempPackages, and CleanupTempPackages (vtable 0x50) deletes that path as SYSTEM with no origin validation. The only gatekeeping is a DELETE permission check, trivially satisfied by creating C:\Config.Msi yourself.
+
+- The four-phase exploit escalates from folder-delete primitive to SYSTEM shell. The attacker re-creates C:\Config.Msi with a NULL DACL, races the installer during a triggered rollback, uses a retained WRITE_DAC handle to swap the legitimate .rbs rollback script with a malicious one, and lets msiexec execute it as SYSTEM.
+
+- The patch adds a WIL feature flag check inside CMsiTransaction::SetEEUIDirectoryAndFilter that blocks the call to ScheduleFileOrFolderDelete entirely, breaking the chain before any path reaches TempPackages.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074162792647528468</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074162792647528468">DFIR Radar</source>
+      <pubDate>Mon, 06 Jul 2026 16:05:21 +0000</pubDate>
+      <guid isPermaLink="false">2074162792647528468</guid>
+    </item>
     <item>
       <title>Hack the Elephant One Bite at a Time: NUL byte SQL Injection in pdo_firebird and NULL Pointer Dereference in PDO via pdo_pgsql</title>
       <link>https://swarm.ptsecurity.com/hack-the-elephant-one-bite-at-a-time-nul-byte-sql-injection-in-pdo_firebird-and-null-pointer-dereference-in-pdo-pgsql/</link>
@@ -1651,27 +1670,6 @@ Hunt for POST requests to /cgi-bin/luci/rpc/auth containing shell metacharacters
       <source url="https://x.com/DFIR_Radar/status/2070160784169001253">DFIR Radar</source>
       <pubDate>Thu, 25 Jun 2026 15:02:47 +0000</pubDate>
       <guid isPermaLink="false">2070160784169001253</guid>
-    </item>
-    <item>
-      <title>From Code to Coverage (Part 6): What netlogon.log Sees That Event 1644 Never Will</title>
-      <link>https://www.huntress.com/blog/ldap-active-directory-detection-part-six</link>
-      <description>ldapnomnom's README claims "no Windows audit logs generated." Source code and lab testing say otherwise: the tool uses TCP, not UDP, making Event 5156 a reliable detection source most orgs are not collecting.
-
-Key findings:
-
-- ldapnomnom sends LDAP Ping requests (NtVer + AAC + User filter, NetLogon attribute, base-scope rootDSE) over TCP, not true UDP cLDAP. The cldap:// UDP path exists in the underlying lkarlslund/ldap library but ldapnomnom never calls DialURL. Every connection is ldap.Dial("tcp", ...). Event 5156 fires for every connection with full source IP, LSASS.exe as the application, and Protocol 6 (TCP) confirmed. The README is wrong in a way that benefits defenders.
-
-- Event 1644 is structurally blind to LDAP Ping regardless of threshold settings. The NtVer+AAC+User filter is dispatched by LSASS to the netlogon.dll handler before the LDAP engine is involved. No registry key or verbosity setting changes this. Zero Event 1644 entries in lab testing across 40 usernames.
-
-- Enable nltest /dbflag:0x2080ffff and netlogon.log captures every queried username and the defender-only third state: a [MISC] NlSamVerifyUserAccountEnabled line appears for disabled accounts before Sam User Unknown Ex. The attacker sees identical misses for disabled and nonexistent accounts. The DC and the log do not. Source IP shows (null) in all cases.
-
-- True UDP cLDAP (cldap_ping.py, any tool calling cldap://) eliminates Event 5156 entirely.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070145963919032365</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2070145963919032365">DFIR Radar</source>
-      <pubDate>Thu, 25 Jun 2026 14:03:54 +0000</pubDate>
-      <guid isPermaLink="false">2070145963919032365</guid>
     </item>
   </channel>
 </rss>
