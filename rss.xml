@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Jul 2026 16:03:29 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2026 17:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rogue Agent: How a Single Code Block Could Hijack Your AI Conversations in Google’s DialogFlow</title>
+      <link>https://www.varonis.com/blog/rogue-agent-dialogflow-attack</link>
+      <description>A single Dialogflow CX edit permission let attackers inject persistent Python into a shared Cloud Run environment, silently exfiltrating conversations and bypassing VPC Service Controls across an entire GCP project.
+
+- The root cause: all Dialogflow CX agents sharing Code Blocks in a GCP project run inside the same Google-managed Cloud Run service. That environment had a writable filesystem, public egress, and no code execution restrictions. One permission, dialogflow.playbooks.update, was enough to overwrite code_execution_env.py, the file responsible for running Playbook Code Blocks via Python's exec() function, giving attackers full access to the history and state variables holding live conversation data and session parameters.
+
+- The attack chain: a malicious Code Block downloads a trojaned code_execution_env.py from an attacker-controlled GCS bucket, overwrites the original, then the attacker restores the visible Code Block to look clean. The implant intercepts every subsequent user utterance, exfiltrates it externally, and can call respond() to inject phishing prompts that impersonate the legitimate agent. Cloud Logging recorded none of this.
+
+- Two amplifying flaws: the Cloud Run environment sits outside VPC-SC perimeters, enabling data exfiltration even from VPC-SC-protected agents using standard urllib. IMDS was also reachable from within Code Blocks, exposing Google-managed service account tokens.
+
+Google patched fully in June 2026.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074539796266107115</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074539796266107115">DFIR Radar</source>
+      <pubDate>Tue, 07 Jul 2026 17:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2074539796266107115</guid>
+    </item>
     <item>
       <title>Januscape: 16-Year-Old Linux KVM Bug Enables Cloud VM Escape Attacks</title>
       <link>https://securityaffairs.com/194868/security/januscape-16-year-old-linux-kvm-bug-enables-cloud-vm-escape-attacks.html</link>
@@ -1679,17 +1698,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2070900469895983493">DFIR Radar</source>
       <pubDate>Sat, 27 Jun 2026 16:02:02 +0000</pubDate>
       <guid isPermaLink="false">2070900469895983493</guid>
-    </item>
-    <item>
-      <title>DirtyClone: Fourth Linux Kernel Flaw in Six Weeks Escalates to Root</title>
-      <link>https://securityaffairs.com/194338/uncategorized/dirtyclone-fourth-linux-kernel-flaw-in-six-weeks-escalates-to-root.html</link>
-      <description>CVE-2026-43503 (CVSS 8.8), dubbed DirtyClone, lets an unprivileged local user overwrite in-memory binaries like /usr/bin/su via a loopback IPsec tunnel, gaining root while the on-disk file stays clean.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070825233154441330</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2070825233154441330">DFIR Radar</source>
-      <pubDate>Sat, 27 Jun 2026 11:03:04 +0000</pubDate>
-      <guid isPermaLink="false">2070825233154441330</guid>
     </item>
   </channel>
 </rss>
