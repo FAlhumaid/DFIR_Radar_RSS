@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Jul 2026 21:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2026 22:03:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ClickFix to Cash-Out: Anatomy of a Mexican Banking-Fraud Toolkit</title>
+      <link>https://www.elastic.co/security-labs/mexican-banking-fraud-scmbanker-ref6045</link>
+      <description>REF6045 deploys SCMBANKER, an operator-assisted PowerShell banking-fraud toolkit targeting Mexico 🇲🇽's financial ecosystem via ClickFix fake-CAPTCHA lures, active since at least October 2025.
+
+- Initial access uses fake CAPTCHA pages that copy a cmd.exe command to the clipboard, fetching validation.txt from open file servers (68.211.161[.]46, osogransd[.]online) and piping it directly to cmd.exe. The batch script launches Edge in kiosk mode pointing to fakeupdate[.]net as a distraction, loops UAC prompts every 20 seconds, and locks the mouse to a 1x1 pixel via user32.dll ClipCursor while bitsadmin bulk-downloads the toolkit to C:\Users\Public\.
+
+- Persistence lands in two places: HKCU\Software\Microsoft\Windows\CurrentVersion\Run value "run" and run.vbs dropped to the Startup folder under %APPDATA%. A RunOnce key "id" writes the infection timestamp to C:\Users\Public\id.txt then self-deletes, giving responders a first-seen marker.
+
+- The operator dashboard (C2: negratomasa2026[.]online and gestionmontelavaria2026[.]online) receives a beacon from cliente.ps1 every 30 seconds with hostname, GUID, internal/external IP, and RAT status. Banking sessions trigger jujuzkt.ps1, which fires screenshot bursts (~42 images per trigger via rotor1.ps1/screen2.ps1), vishing lock-screen overlays, phishing browser redirects, and CLABE/card-number clipboard hijacking via clip.ps1 and clip2.ps1.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074615431252304244</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2074615431252304244">DFIR Radar</source>
+      <pubDate>Tue, 07 Jul 2026 22:03:58 +0000</pubDate>
+      <guid isPermaLink="false">2074615431252304244</guid>
+    </item>
     <item>
       <title>Inside JADEPUFFER: Defending Against the First Agentic Ransomware</title>
       <link>https://www.picussecurity.com/resource/blog/inside-jadepuffer-defending-against-the-first-agentic-ransomware</link>
@@ -1677,27 +1694,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2072123999778460083">DFIR Radar</source>
       <pubDate>Wed, 01 Jul 2026 01:03:55 +0000</pubDate>
       <guid isPermaLink="false">2072123999778460083</guid>
-    </item>
-    <item>
-      <title>The RedLine Thread That Led to a Maritime BEC Infrastructure Cluster</title>
-      <link>https://www.vmray.com/the-redline-thread-that-led-to-a-maritime-bec-infrastructure-cluster/</link>
-      <description>A single RedLine C2 IP pivoted into a BEC infrastructure cluster targeting a South Korean 🇰🇷 maritime manufacturer, surfacing eight attacker-owned phishing domains and four C2 IPs.
-
-Key findings:
-
-- Starting IP 194[.]156.79[.]122:55615 from VMRay UniqueSignal confirmed as RedLine Stealer C2 via SOAPAction/tempuri.org header and Microsoft-HTTPAPI/2.0 banner. A FOFA query on that port/banner combo surfaced a second C2 at 85[.]17.40[.]98:55615, which VirusTotal linked to .eml/.msg samples exclusively submitted from South Korea 🇰🇷, all targeting Kangrim Heavy Industries via Formbook-laced ZIPs.
-
-- The phishing emails impersonated maritime supply chain firms including Kryse Group via krysegroupllc[.]online (registered mid-2025). Three sender domains (bourbon-online[.]com, macgregor[.]com, shengan-light[.]com.tw) appear spoofed or compromised legitimate accounts, not attacker infrastructure.
-
-- Pivoting krysegroupllc[.]online through FOFA on hosting org "TheHost LLC" and banner "Apache/2.4.62 (Unix) OpenSSL/1.0.2k-fips" exposed seven additional fraudulent domains: acasiallc[.]shop, ansysllc[.]shop, softinsallc[.]online, amdocsllc[.]shop, taicom[.]top, cimentosservices[.]online, epsilongroup[.]online, tied to IPs 185[.]252.24[.]78, 185[.]252.24[.]52, 185[.]252.24[.]74, 176[.]114.8[.]101, 91[.]108.82[.]73, 91[.]108.82[.]101, 176[.]114.8[.]90.
-
-Block all listed domains and IPs at your email gateway now.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072110342109376557</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072110342109376557">DFIR Radar</source>
-      <pubDate>Wed, 01 Jul 2026 00:09:38 +0000</pubDate>
-      <guid isPermaLink="false">2072110342109376557</guid>
     </item>
   </channel>
 </rss>
