@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Jul 2026 11:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2026 12:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The HTTP 303 SSRF Hack : From Python HTTP Client Defaults to AWS Credential Exfiltration.</title>
+      <link>https://infosecwriteups.com/the-http-303-hack-from-python-http-client-defaults-to-aws-credential-exfiltration-a-deep-dive-bfaece6c3805?source=rss----7b722bfd1b8d---4</link>
+      <description>A blind SSRF escalated to live AWS IAM credential theft by chaining a user-controlled OAuth field, Python requests default redirect handling, and IMDSv1 reachability on an EKS node. No single component was broken. The composition was.
+
+- BigQuery service account JSON accepted by the platform contained a user-supplied token_uri field with zero allowlist validation. The backend passed it verbatim to the google-auth library, which POSTed a signed JWT to whatever URL the attacker provided. An OOB Interactsh probe confirmed the primitive immediately.
+
+- Direct SSRF to 169.254.169[.]254 failed because IMDS returns HTTP 405 to POST requests. Timing analysis (IMDS responded in 0.34s vs. 28s for an unroutable IP) proved the pod could reach IMDS, the verb was simply wrong. The fix: serve HTTP 303 See Other from an attacker-controlled server. Per RFC 7231 §6.4.4, Python requests rewrites POST to GET on a 303, strips the body, and follows the Location header to IMDS.
+
+- The error reflection channel completed the read primitive. google-auth parsed the IMDS JSON response, failed to find access_token, raised an exception, and the worker returned the raw exception string, including AccessKeyId, SecretAccessKey, and SessionToken, in the HTTP 400 body to the authenticated caller.
+
+- Remediation: the platform implemented a frozenset allowlist at the field-parsing layer, blocking any token_uri not matching oauth2.googleapis[.]com/token or accounts.google[.]com/o/oauth2/token.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074464337419182421</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074464337419182421">DFIR Radar</source>
+      <pubDate>Tue, 07 Jul 2026 12:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2074464337419182421</guid>
+    </item>
     <item>
       <title>AI-Generated Malware Powers New Armored Likho APT Campaign</title>
       <link>https://securityaffairs.com/194854/apt/ai-generated-malware-powers-new-armored-likho-apt-campaign.html</link>
@@ -1665,27 +1684,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2070553580239777859">DFIR Radar</source>
       <pubDate>Fri, 26 Jun 2026 17:03:37 +0000</pubDate>
       <guid isPermaLink="false">2070553580239777859</guid>
-    </item>
-    <item>
-      <title>Anatomy of a WHQL-Signed Windows Filtering Platform (WFP) Kernel-Resident Network Backdoor</title>
-      <link>https://www.nextron-systems.com/2026/06/26/anatomy-of-a-whql-signed-windows-filtering-platform-wfp-kernel-resident-network-backdoor/</link>
-      <description>A WHQL-signed kernel driver from China 🇨🇳 embeds a complete network backdoor using Windows Filtering Platform, with no user-mode agent, no IOCTL interface, and no disk artifacts beyond the .sys file itself.
-
-Key findings:
-
-- wskmon.sys (SHA-256: 495c7e5513fa7766c236e76d8520139139fc4ad7203ddcb2ccdae17bdb691979) registers a WFP stream callout via FwpsCalloutRegister1 to intercept all inbound TCP traffic, recognizing commands by magic bytes 7F 4E 54 46 in raw TCP or HTTP POST bodies. It supports three handlers: 0x01 shell execution as SYSTEM, 0x02 arbitrary kernel-mode file write bypassing all ACLs, and 0x03 shellcode injection.
-
-- Commands are HMAC-SHA256 authenticated with a hardcoded 256-bit key, then XOR-decrypted, eliminating unauthorized injection. The driver runs entirely autonomously after load, with no user-mode relay to intercept.
-
-- Shell commands inject into a Session 0 svchost.exe via KeStackAttachProcess and RtlCreateUserThread. The forensic tell: child processes like cmd.exe or notepad.exe parented to svchost.exe in Session 0 with no interactive window.
-
-- Signed April 17, 2026 by 深圳市奥联信息安全技术有限公司, first seen on VirusTotal June 15, 2026 from China 🇨🇳. The valid WHQL signature bypasses driver integrity checks including Secure Boot.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070538144886190243</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2070538144886190243">DFIR Radar</source>
-      <pubDate>Fri, 26 Jun 2026 16:02:17 +0000</pubDate>
-      <guid isPermaLink="false">2070538144886190243</guid>
     </item>
   </channel>
 </rss>
