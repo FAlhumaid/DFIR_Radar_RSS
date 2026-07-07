@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Jul 2026 15:04:31 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2026 16:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Januscape: 16-Year-Old Linux KVM Bug Enables Cloud VM Escape Attacks</title>
+      <link>https://securityaffairs.com/194868/security/januscape-16-year-old-linux-kvm-bug-enables-cloud-vm-escape-attacks.html</link>
+      <description>CVE-2026-53359 "Januscape": a 16-year-old use-after-free in Linux KVM's shadow MMU lets a guest VM crash or potentially escape to the host, affecting both Intel and AMD x86 clouds exposing nested virtualization.
+
+- CVE-2026-53359 lives in kvm_mmu_get_child_sp(), where KVM matched shadow page candidates by memory address alone, ignoring the page role type. A guest with root can race the shadow MMU until host kernel memory is corrupted. The public PoC reliably panics the host, taking every co-tenant VM down with it. A full code-execution exploit exists but has not been released.
+
+- Attack prerequisites: root inside the guest (standard on any rented cloud VM) plus nested virtualization exposed by the host. The bug sits in in-kernel KVM, not QEMU, so custom cloud stacks that strip QEMU are not protected. GCP and AWS instances with nested virt enabled are the primary threat surface.
+
+- On RHEL-family hosts where /dev/kvm is world-writable (0666), an unprivileged local user can trigger the bug without a VM at all, achieving host privilege escalation directly.
+
+- Fixed kernel versions shipped July 4, 2026: 7.1.3, 6.18.38, 6.12.95, 6.6.144, 6.1.177, 5.15.211, and 5.10.260, via commit 81ccda30b4e8. No CVSS score assigned yet.
+
+Confirm commit 81ccda30b4e8 in your running kernel via package changelog, not uname -r, as distro backports may differ. If patching is blocked, set kvm_intel.nested=0 or kvm_amd.nested=0 immediately to eliminate the guest-to-host path.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074524712819167698</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074524712819167698">DFIR Radar</source>
+      <pubDate>Tue, 07 Jul 2026 16:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2074524712819167698</guid>
+    </item>
     <item>
       <title>Banana RAT Evolves: Comparing Two Recent Branches Through ANY.RUN</title>
       <link>https://any.run/cybersecurity-blog/banana-rat-evolution-analysis/</link>
@@ -1669,27 +1690,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2070825233154441330">DFIR Radar</source>
       <pubDate>Sat, 27 Jun 2026 11:03:04 +0000</pubDate>
       <guid isPermaLink="false">2070825233154441330</guid>
-    </item>
-    <item>
-      <title>CVE-2026-20245 Zero-Day Exploited in Cisco Catalyst SD-WAN Manager to Gain Root Access</title>
-      <link>https://thecyberexpress.com/cve-2026-20245-cisco-catalyst/</link>
-      <description>CVE-2026-20245 zero-day in Cisco Catalyst SD-WAN Manager exploited to escalate from admin to root, with deliberate anti-forensic cleanup designed to leave responders empty-handed.
-
-Key findings:
-
-- The vulnerability lives in the tenant file upload feature of the SD-WAN Manager CLI. An authenticated attacker uploaded a crafted file named evil_tenant.csv using "request tenant-upload tenant-list /home/admin/evil_tenant.csv vpn 0", triggering arbitrary command execution as root. SHA-256: b82936f37648518425c7d3cf9e09eaffa41d7cdb3840f6a40287e3a108880f7b.
-
-- The attack chain started with unauthorized peering (possibly abusing CVE-2026-20127 or CVE-2026-20182), then SSH access using the default vmanage-admin account, config exfiltration of device/controller/template data, and finally privilege escalation to create a persistent root account named troot. The original admin password was restored after each session to suppress alerts.
-
-- Cleanup was systematic: evil_tenant.csv deleted, troot account removed, config files restored, and a validation script run to confirm no artifacts remained. This is textbook living-off-the-edge anti-forensics on a platform with limited native visibility.
-
-- Rogue peer IPs to hunt: 126.51.108[.]152, 76.92.245[.]217, 207.190.37[.]94, 23.245.7[.]178, 209.137.225[.]101 and others per the full IOC list.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070658882847011102</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2070658882847011102">DFIR Radar</source>
-      <pubDate>Sat, 27 Jun 2026 00:02:03 +0000</pubDate>
-      <guid isPermaLink="false">2070658882847011102</guid>
     </item>
   </channel>
 </rss>
