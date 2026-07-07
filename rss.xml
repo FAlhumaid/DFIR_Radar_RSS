@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Jul 2026 17:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2026 18:03:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The ‘Ghost’ in the Database: Recovering Active ADFS Signing Keys via Machine DPAPI</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/recovering-active-adfs-signing-keys-machine-dpapi/</link>
+      <description>Golden SAML lives on: Mandiant finds active ADFS token-signing keys recoverable via Machine DPAPI when AutoCertificateRollover is disabled and manual cert rotation leaves config drift.
+
+Key findings:
+
+- The "ghost certificate" trap: disabling AutoCertificateRollover and rotating certs manually without updating the WID database leaves a stale, unworkable cert in the DB. The real active signing key moves to C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys\, protected by Machine DPAPI using DPAPI_SYSTEM LSA secret plus S-1-5-18 masterkeys at C:\Windows\System32\Microsoft\Protect\S-1-5-18\. Standard DKM extraction returns the ghost; Entra ID rejects those tokens with AADSTS500172.
+
+- SharpDPAPI /machine running as SYSTEM recovers the active RSA private key from the machine store, no LSASS touch, no live ADFS process interaction. Mandiant used it to forge a SAML assertion accepted by Entra ID at Global Administrator privilege across the federated M365 tenant.
+
+- ADFS Event ID 385 is the canary: it flags certificate validity drift and is the observable symptom of this misconfiguration. Confirm with Get-AdfsProperties returning AutoCertificateRollover: False.
+
+- Detection requires correlation: SACL-based Security Event ID 4663 on the MachineKeys and S-1-5-18 paths, cross-referenced with ADFS issuance events (299, 1200-series) and Entra ID federated sign-in logs. Neither source alone is sufficient.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074555019186384960</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2074555019186384960">DFIR Radar</source>
+      <pubDate>Tue, 07 Jul 2026 18:03:55 +0000</pubDate>
+      <guid isPermaLink="false">2074555019186384960</guid>
+    </item>
     <item>
       <title>Rogue Agent: How a Single Code Block Could Hijack Your AI Conversations in Google’s DialogFlow</title>
       <link>https://www.varonis.com/blog/rogue-agent-dialogflow-attack</link>
@@ -1679,25 +1700,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2070915570535739451">DFIR Radar</source>
       <pubDate>Sat, 27 Jun 2026 17:02:03 +0000</pubDate>
       <guid isPermaLink="false">2070915570535739451</guid>
-    </item>
-    <item>
-      <title>Understanding Langflow CVE-2026-55255, and why higher CVSS vulnerabilities aren't always the most exploited</title>
-      <link>https://webflow.sysdig.com/blog/understanding-langflow-cve-2026-55255-and-why-higher-cvss-vulnerabilities-arent-always-the-most-exploited</link>
-      <description>First wild exploitation of Langflow CVE-2026-55255 (CVSS 9.9 IDOR) observed June 25, 2026, alongside the already-KEV-listed CVE-2026-33017 (CVSS 9.3 RCE), exposing why higher scores do not equal higher exploitation rates.
-
-Key findings:
-
-- A single operator at 45.207.216[.]55 ran both CVEs against the same Langflow instance. CVE-2026-33017 is an unauthenticated RCE in CISA KEV since March 25, 2026, exploited across roughly 7,000 servers within 20 hours of disclosure. CVE-2026-55255 is a cross-tenant IDOR requiring authentication and a pre-harvested flow UUID; this is its first documented in-the-wild use.
-
-- The IDOR chain: operator called GET /api/v1/flows/ 20 seconds before the exploit, harvested the disclosed UUIDs, then replayed them to POST /api/v1/responses with input "leak api keys". The flaw is in get_flow_by_id_or_endpoint_name (helpers/flow.py), which skips user_id ownership checks on the UUID path. Fixed in Langflow 1.9.1 (PR).
-
-- The RCE payloads injected a custom Langflow component that shelled out to fetch and run hxxp://45.207.216[.]55:8084/slt, dropping a second-stage implant to /tmp/lang_pwn. The operator ran five RCE waves versus one IDOR pass, proving effort allocation tracks yield, not CVSS rank.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070900469895983493</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2070900469895983493">DFIR Radar</source>
-      <pubDate>Sat, 27 Jun 2026 16:02:02 +0000</pubDate>
-      <guid isPermaLink="false">2070900469895983493</guid>
     </item>
   </channel>
 </rss>
