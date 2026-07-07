@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Jul 2026 19:03:20 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2026 20:03:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>No Rules, No Locks: Firebase Misconfiguration and the Borrowers It Left Behind</title>
+      <link>https://infosecwriteups.com/no-rules-no-locks-firebase-misconfiguration-and-the-borrowers-it-left-behind-90d568038414?source=rss----7b722bfd1b8d---4</link>
+      <description>Firebase default-open rules exposed hundreds of Indonesian 🇮🇩 microfinance borrowers' full identity dossiers, GPS home coordinates, and biometric photos to unauthenticated REST access for at least five years.
+
+Key findings:
+
+- Entry point was /__/firebase/init.json, a public SDK config file every Firebase web app exposes by default. The projectId it contains is enough to construct REST endpoints for all three Firebase services: Storage, Firestore, and Realtime Database. No credentials, no browser, no session needed.
+
+- Firebase Storage and Firestore both returned HTTP 200 to unauthenticated requests. Storage exposed 100+ files including versioned loan application schemas. Firestore's customers, loans, surveys, and groups collections were fully readable and writable. The Realtime Database alone returned 403.
+
+- The surveys collection was the worst exposure: each document contained NIK (national ID), DOB, religion, mother's maiden name, husband's name, guarantor's NID, GPS coordinates, credit score, digital signature, and direct unauthenticated URLs to KTP photo, selfie, home photo, and signed loan PDF.
+
+- Write and delete access was confirmed via the same unauthenticated API. An attacker could inject fake loan approvals, alter credit scores, or permanently delete financial records with no rate limiting and no audit trail.
+
+Hunt: For any Firebase-backed app, pull /__/firebase/init.json, extract projectId, and test all three service endpoints unauthenticated.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074585202207428945</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074585202207428945">DFIR Radar</source>
+      <pubDate>Tue, 07 Jul 2026 20:03:51 +0000</pubDate>
+      <guid isPermaLink="false">2074585202207428945</guid>
+    </item>
     <item>
       <title>Cydome reports FortiBleed credential leak poses elevated risks to maritime and energy critical infrastructure</title>
       <link>https://industrialcyber.co/utilities-energy-power-water-waste/cydome-reports-fortibleed-credential-leak-poses-elevated-risks-to-maritime-and-energy-critical-infrastructure/</link>
@@ -1673,27 +1696,6 @@ Block all listed domains and IPs at your email gateway now.
       <source url="https://x.com/DFIR_Radar/status/2071142090252210585">DFIR Radar</source>
       <pubDate>Sun, 28 Jun 2026 08:02:09 +0000</pubDate>
       <guid isPermaLink="false">2071142090252210585</guid>
-    </item>
-    <item>
-      <title>New FBI Alert: Russian Intelligence Uses Signal Recovery Keys to Access Messages</title>
-      <link>https://securityaffairs.com/194360/intelligence/new-fbi-alert-russian-intelligence-uses-signal-recovery-keys-to-access-messages.html</link>
-      <description>Russian 🇷🇺 FSB-linked groups UNC5792 and UNC4221 have shifted Signal phishing campaigns from stealing verification codes to harvesting Backup Recovery Keys, enabling full message archive access and persistent account takeover.
-
-Key findings:
-
-- The original March 2026 campaign tricked targets into sharing SMS codes, PINs, or clicking doctored group-invite links to silently link an attacker device. The June update reveals the evolved tactic: fake in-app messages impersonating Signal support walk targets step by step through enabling backups and pasting their Recovery Key into the chat. Two lure templates are documented: a fake mandatory 2FA rollout and an urgent data-loss warning.
-
-- A stolen Recovery Key is not session-scoped. It decrypts the entire message archive, past and future, and remains valid even if the victim creates a new account on the same phone number. The only remediation is generating a fresh key in Settings, which invalidates the old one going forward but does not claw back any backup already downloaded.
-
-- Targets are deliberate: government officials, military personnel, journalists, and Ukrainian 🇺🇦 officials. The same tradecraft has since been observed against WhatsApp and Telegram. The State Department is offering up to $10 million for information on UNC5792.
-
-- Signal's encryption and application are uncompromised. This is purely a social-engineering attack against a legitimate backup feature.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2070930649050145272</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2070930649050145272">DFIR Radar</source>
-      <pubDate>Sat, 27 Jun 2026 18:01:58 +0000</pubDate>
-      <guid isPermaLink="false">2070930649050145272</guid>
     </item>
   </channel>
 </rss>
