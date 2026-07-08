@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Jul 2026 10:02:45 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jul 2026 13:03:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Spectra Analyze in Action: Hunting Device Code Phishing Pages</title>
+      <link>https://www.reversinglabs.com/blog/device-code-phishing-walkthrough</link>
+      <description>Active Microsoft 365 device code phishing campaign abuses OAuth 2.0 Device Authorization Grant flow to hijack accounts without stealing passwords, with 765 landing pages confirmed and new samples appearing within hours.
+
+- Rather than spoofing a login page, this kit walks victims through a legitimate Microsoft authentication flow that silently authorizes an attacker-controlled device. No credential theft, no fake portal: the victim completes a real Microsoft prompt at aka[.]ms/devicelogin or login.microsoftonline[.]com/common/oauth2/deviceauth, and the attacker collects the resulting token.
+
+- ReversingLabs published a YARA rule (authored by Malware Utkonos, dated 2026-05-20) targeting the HTML landing pages. Detection logic keys on Microsoft device login URLs, zero-width Unicode characters (ZWS E2808B, ZWNJ E2808C, WJ E281A0), a "dc=" JSON field, and a base64-encoded EVOSTS string. Files must be under 1MB.
+
+- A retrohunt across the ReversingLabs corpus matched 765 samples, with the freshest appearing only hours before publication. The campaign is ongoing.
+
+- Spectra Intelligence's URL crawler saves HTML response pages as first-class files, making it possible to hunt landing pages directly by source URL. Sample 87158731a98f30ff8a6280e5e14f094a402a861d is one confirmed landing page.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074841694588055886</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2074841694588055886">DFIR Radar</source>
+      <pubDate>Wed, 08 Jul 2026 13:03:04 +0000</pubDate>
+      <guid isPermaLink="false">2074841694588055886</guid>
+    </item>
     <item>
       <title>Critical Gitea Docker Bug Under Active Exploitation Exposes Repositories and Secrets</title>
       <link>https://securityaffairs.com/194902/hacking/critical-gitea-docker-bug-under-active-exploitation-exposes-repositories-and-secrets.html</link>
@@ -1593,23 +1612,6 @@ Takeaway: audit every repo for .claude/settings.json, .gemini/settings.json, .cu
       <source url="https://x.com/DFIR_Radar/status/2072304954736320930">DFIR Radar</source>
       <pubDate>Wed, 01 Jul 2026 13:02:58 +0000</pubDate>
       <guid isPermaLink="false">2072304954736320930</guid>
-    </item>
-    <item>
-      <title>RustDuck: 双阶段僵尸网络深度剖析</title>
-      <link>https://blog.xlab.qianxin.com/rustduck/</link>
-      <description>RustDuck botnet, active since Feb 2026, couples a two-stage Loader+Core architecture with Rust-rewritten payloads and layered anti-analysis to build a cross-platform DDoS platform evolving faster than most defenders track.
-
-- The Loader embeds compressed, encrypted Core payload as an ELF overlay. Four tracked variants show rapid crypto evolution: variant 1 uses LCG+XOR+LZ4; variant 2 upgrades to Xoshiro128+XOR+BLZ with per-sample dynamic constants to defeat bulk static decryption; variant 3 uses standard XOR+LZ4 with fixed magic "ASHPCK\x01\x00"; variant 4 introduces ChaCha20+LZ4 with fixed magic "iEMPK\x02\x00\x00". Loader SHA1s: 8315f650, 6aa791c7, 4d11bd49, d39a3ee9.
-
-- Initial access spans weak-credential brute-force over Telnet/SSH plus RCE against Android ADB, TVT API, Ruijie, TP-Link, ZTE devices and ThinkPHP, Jenkins, YARN web components. CVEs exploited include CVE-2025-29635, CVE-2017-17215, CVE-2018-8007, and CVE-2024-1781. Most active delivery IP: 176.65.139[.]204.
-
-- The Core module runs a weighted anti-analysis gauntlet scoring 10 detection checks: process-list scan for wireshark, tcpdump, gdb, ida, frida (weight 100 each); TracerPid check via /proc/self/status; Frida/ASAN library scan via /proc/self/maps; SHA256 integrity check of its own file; cowrie/dionaea honeypot file checks; environment variable keyword scan; 192.0.2.1 network blackhole probe; dual-clock time-travel check; DMI/SCSI virtualization string check; and VM MAC OUI check.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072289944895393917</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2072289944895393917">DFIR Radar</source>
-      <pubDate>Wed, 01 Jul 2026 12:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2072289944895393917</guid>
     </item>
   </channel>
 </rss>
