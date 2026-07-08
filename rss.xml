@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Jul 2026 19:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jul 2026 20:02:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Helix, a New Name in the Data Extortion Ecosystem?</title>
+      <link>https://reliaquest.com/blog/threat-spotlight-helix-new-name-in-data-extortion-ecosystem/</link>
+      <description>"Helix" data extortion group uses vishing, device code phishing, and automated SharePoint exfiltration in a campaign tied to the BlackFile and ShinyHunters ecosystem, confirmed across multiple targets.
+
+Key findings:
+
+- Helix's kill chain starts with vishing that spoofs the target's actual manager by name, then walks victims into a device code phishing flow via oskeysync[.]com (registered through NICENIC, same registrar used by BlackFile and ShinyHunters). No credential is ever spoken. The result is a captured session token that bypasses Conditional Access entirely.
+
+- Persistence is a single MFA Authenticator registration, completed within minutes of first sign-in from the same residential proxy geo-matched to the target's city. No malware, no OAuth grants, no service principals. The only artifact is a legitimate MFA entry in Entra ID logs.
+
+- Exfiltration fingerprint is consistent: python-requests/2.28.1 user-agent, contentclass:STS_Site SharePoint enumeration, then bulk download, all from 179.43.185[.]230 (AS 51852, Private Layer INC), four addresses from confirmed BlackFile IP 179.43.185[.]226.
+
+- Dwell varied from under one hour to over a week. The actor rotated 15+ residential IPs per mailbox and, in at least one case, tested containment 30-40 minutes after account disable by attempting MFA re-registration.
+
+Disable device code authentication in Entra ID now.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074947196135600528</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2074947196135600528">DFIR Radar</source>
+      <pubDate>Wed, 08 Jul 2026 20:02:17 +0000</pubDate>
+      <guid isPermaLink="false">2074947196135600528</guid>
+    </item>
     <item>
       <title>Hackers exploit Roundcube flaw to spy on academic researchers</title>
       <link>https://www.bleepingcomputer.com/news/security/hackers-exploit-roundcube-flaw-to-spy-on-academic-researchers/</link>
@@ -1575,25 +1598,6 @@ Takeaway: Pull Citrix ADC session logs for CVE-2025-5777 exploitation evidence, 
       <source url="https://x.com/DFIR_Radar/status/2072380434235703316">DFIR Radar</source>
       <pubDate>Wed, 01 Jul 2026 18:02:53 +0000</pubDate>
       <guid isPermaLink="false">2072380434235703316</guid>
-    </item>
-    <item>
-      <title>Anatomy of an Attack: VIPERTUNNEL</title>
-      <link>https://www.extrahop.com/blog/vipertunnel</link>
-      <description>Russian 🇷🇺 EvilCorp-linked VIPERTUNNEL backdoor deployed ahead of DragonForce ransomware, using Python LOLBAS techniques and triple-layer obfuscation to tunnel attacker traffic through victim networks.
-
-- UNC2165 (EvilCorp) operators plant VIPERTUNNEL post-compromise, likely after SocGholish/FAKEUPDATES initial access (T1204, T1189). A scheduled task named "523135538" launches pythonw.exe from C:\ProgramData\cp49s\ with no arguments (T1053.005, T1036), while a malicious sitecustomize.py auto-executes on every Python startup, loading b5yogiiy3c.dll, a Python script masquerading as a PE binary (T1036.008).
-
-- The payload never touches disk in final form. Three obfuscation layers (T1027) including Base85, zlib, AES, and ChaCha20 (T1027.013) decrypt a high-entropy blob directly into memory (T1027.009), leaving no static signature for endpoint tools to scan.
-
-- Once in memory, VIPERTUNNEL opens an outbound SOCKS5 tunnel (T1090) to a hardcoded C2 over TCP 443 (T1071.001). Traffic does not resemble HTTPS. Infrastructure analysis revealed Pyramid C2 framework responses with a modified WWW-Authenticate header: Basic realm="Proxy".
-
-- Detection takeaway: no single signal is conclusive. Correlate Event ID 4698 (scheduled task created) involving pythonw.exe from non-standard paths, Python processes with no command-line arguments, .dll files that are plaintext Python scripts, and outbound TCP 443 sessions with SOCKS-like behavior to rare external hosts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072365296594100530</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072365296594100530">DFIR Radar</source>
-      <pubDate>Wed, 01 Jul 2026 17:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2072365296594100530</guid>
     </item>
   </channel>
 </rss>
