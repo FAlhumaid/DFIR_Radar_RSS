@@ -5,8 +5,19 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Jul 2026 02:03:26 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jul 2026 03:03:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SOCRadar links FortiBleed campaign targeting manufacturers to Lynx and INC ransomware attacks</title>
+      <link>https://industrialcyber.co/ransomware/socradar-links-fortibleed-campaign-targeting-manufacturers-to-lynx-and-inc-ransomware-attacks/</link>
+      <description>The FortiBleed credential-harvesting campaign, tied to ~20 operators including alias TOXMAN, now has confirmed links to Lynx and INC ransomware groups via a single Windows server where one operator accessed both negotiation panels.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074690746502767102</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2074690746502767102">DFIR Radar</source>
+      <pubDate>Wed, 08 Jul 2026 03:03:15 +0000</pubDate>
+      <guid isPermaLink="false">2074690746502767102</guid>
+    </item>
     <item>
       <title>Vidar Stealer Unmasked: Code Signing Abuse, Go Loaders and File Inflation</title>
       <link>https://unit42.paloaltonetworks.com/vidar-stealer-xmrig-miner-campaign-analysis/</link>
@@ -1651,25 +1662,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2072199236066693300">DFIR Radar</source>
       <pubDate>Wed, 01 Jul 2026 06:02:52 +0000</pubDate>
       <guid isPermaLink="false">2072199236066693300</guid>
-    </item>
-    <item>
-      <title>Enterprise Tech In, Shell Out (Progress Kemp LoadMaster Uninitialized Heap to Pre-Auth RCE CVE-2026-8037)</title>
-      <link>https://labs.watchtowr.com/enterprise-tech-in-shell-out-progress-kemp-loadmaster-uninitialized-heap-to-pre-auth-rce-cve-2026-8037/</link>
-      <description>CVE-2026-8037: Pre-auth RCE in Progress Kemp LoadMaster via uninitialized heap memory in the API credential handler, affecting GA v7.2.63.1 and older, LTSF v7.2.54.17 and older.
-
-- The root cause is a two-bug chain in the access binary's escape_quotes() function: it used malloc() instead of calloc(), and never wrote a null terminator after the escaped output. When apiuser contained no single quote, the original pointer was returned unchanged. When it did, a heap buffer was allocated, filled with escaped content, and returned without termination, leaving __sprintf_chk() free to read past the buffer boundary into adjacent heap memory.
-
-- Exploitation is heap-grooming, not classic injection. An unauthenticated POST to /accessv2 sends four single quotes in apiuser, expanding to 16 escaped bytes that overwrite the tcache fd and key metadata of the adjacent freed chunk, clearing the null bytes that would stop the read. Dozens of spray keys (g0 through g60) pre-load the command payload into freed chunks nearby. __sprintf_chk() then reads across the unterminated buffer into the sprayed data, injecting arbitrary shell commands into the validuser system() call.
-
-- The patch is two lines: malloc becomes calloc (zero-fills the buffer), and a null terminator is written after the escaped output via a new end pointer. Either fix alone would have broken the exploit chain.
-
-- Affected systems are edge-facing load balancers with the API enabled.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072184451451269123</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2072184451451269123">DFIR Radar</source>
-      <pubDate>Wed, 01 Jul 2026 05:04:07 +0000</pubDate>
-      <guid isPermaLink="false">2072184451451269123</guid>
     </item>
   </channel>
 </rss>
