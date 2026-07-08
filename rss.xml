@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Jul 2026 13:03:04 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jul 2026 15:03:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GhostApproval: A Trust Boundary Gap in AI Coding Assistants</title>
+      <link>https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants</link>
+      <description>GhostApproval: a symlink-following flaw (CWE-61 plus CWE-451 UI deception) hits 6 major AI coding assistants, enabling pre-authorization RCE on developer machines via malicious git repos.
+
+- The attack is trivial: a repo contains a symlink disguised as a workspace file (e.g., project_settings.json -&gt; ~/.ssh/authorized_keys). When a developer asks their AI assistant to "set up the workspace," the agent follows the symlink and writes an attacker SSH key outside the sandbox. No path canonicalization, no sandbox enforcement. Affected tools: Amazon Q Developer (CVE-2026-12958, fixed), Cursor (CVE-2026-50549, fixed), Google Antigravity (fixed), Anthropic Claude Code, Augment, and Windsurf.
+
+- The deeper finding is CWE-451: in Claude Code, the agent's internal reasoning explicitly identified "this is a symbolic link to the Claude settings file," yet the confirmation prompt shown to the user read only "Make this edit to project_settings.json?" The human approved a lie. The Human-in-the-Loop became a rubber stamp.
+
+- Windsurf and Amazon Q exhibited pre-authorization writes: the file was modified before the Accept/Reject dialog appeared. That dialog was an undo button, not a gate. Augment was worst: silent reads AND writes, no dialog at all, with the agent narrating the exfiltration in chat.
+
+- Patch status at publication: AWS (language server 1.69.0), Cursor, and Google fixed. Augment acknowledged but no fix shipped. Windsurf acknowledged June 23, 2026, no update.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074871928331141231</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2074871928331141231">DFIR Radar</source>
+      <pubDate>Wed, 08 Jul 2026 15:03:12 +0000</pubDate>
+      <guid isPermaLink="false">2074871928331141231</guid>
+    </item>
     <item>
       <title>Spectra Analyze in Action: Hunting Device Code Phishing Pages</title>
       <link>https://www.reversinglabs.com/blog/device-code-phishing-walkthrough</link>
@@ -1595,23 +1614,6 @@ Takeaway: audit every repo for .claude/settings.json, .gemini/settings.json, .cu
       <source url="https://x.com/DFIR_Radar/status/2072320136044761099">DFIR Radar</source>
       <pubDate>Wed, 01 Jul 2026 14:03:17 +0000</pubDate>
       <guid isPermaLink="false">2072320136044761099</guid>
-    </item>
-    <item>
-      <title>The SOC Files: ScreenConnect masked as freeware. An inside look at a large-scale campaign</title>
-      <link>https://securelist.com/tr/the-soc-files-screenconnect-campaign-with-asyncrat/120472/</link>
-      <description>ScreenConnect abused in a large-scale SEO-poisoning campaign to silently install a hidden remote access service, then deliver AsyncRAT via DLL sideloading and process hollowing across victims in 10 languages.
-
-- Attackers built 90+ typosquatted sites mimicking OBS Studio, DNS Jumper, DS4Windows, and others, then used SEO manipulation to rank them at the top of Google and Bing results. Archives drop a legitimate Microsoft-signed install.exe alongside a malicious install.res.1033.dll (MD5: 5F96C04E3AFAE97017B201BE112284D2 among others), which sideloads to silently run msiexec.exe and install ScreenConnect as a service named "Microsoft Update Service" connecting to r.servermanagemen[.]xyz.
-
-- The post-install payload chain is layered: ScreenConnect spawns Fj5NmEsp9EuKrun.ps1, which adds Defender exclusions for all drives and disables UAC (ConsentPromptBehaviorAdmin set to 0), then drops installer_method3_stream.vbs. That VBS writes five files to C:\Users\Public, including cap.ps1, which XOR-decrypts (key 0xA7) a PE from secret_bytes.txt, reflectively loads it, and performs process hollowing into a suspended RegAsm.exe (T1055.012). The injected payload is AsyncRAT, phoning home to mora1987.work[.]gd.
-
-- Persistence is a scheduled task named MasterPackager.Updater running wscript.exe C:\Users\Public\script.vbs every two minutes, surviving reboots.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072304954736320930</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072304954736320930">DFIR Radar</source>
-      <pubDate>Wed, 01 Jul 2026 13:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2072304954736320930</guid>
     </item>
   </channel>
 </rss>
