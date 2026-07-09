@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Jul 2026 21:02:25 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 00:02:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>UNC6692 and the SNOW Malware Ecosystem</title>
+      <link>https://www.extrahop.com/blog/unc6692-and-the-snow-malware-ecosystem</link>
+      <description>UNC6692 deploys the SNOW malware ecosystem via Microsoft Teams helpdesk impersonation, chaining email bombing, credential harvesting, and LSASS dumping to fully compromise a domain controller.
+
+Key details:
+
+- UNC6692 opened with an email bombing campaign to create user panic, then pivoted to Microsoft Teams (T1566.002) posing as IT helpdesk, directing victims to a fake "Mailbox Repair" portal on attacker-controlled AWS S3. The portal harvested credentials through repeated fake auth prompts and exfiltrated them to an actor S3 bucket (T1567.002).
+
+- An AutoHotkey binary and script (T1059.010) with identical filenames auto-executed on download, deploying SNOWBELT, a malicious Chromium extension (T1176.001) masquerading as a heartbeat monitor. SNOWBELT pulled down SNOWGLAZE, SNOWBASIN, and Python utilities, then anchored persistence via a Startup folder shortcut (T1547.001) and scheduled tasks (T1053.005) launching hidden Edge processes while clearing security logs.
+
+- SNOWGLAZE establishes WebSocket C2 tunnels (T1572) with SOCKS proxy support (T1090) through Heroku-hosted infrastructure. SNOWBASIN runs as a local HTTP server on port 8000, executing commands via cmd and PowerShell (T1059.003/001) and capturing screenshots (T1113).
+
+- Lateral movement used PsExec over port 135 (T1021.002) and RDP through the SNOWGLAZE tunnel (T1021.001) to reach a backup server, where LSASS was dumped via Task Manager (T1003.001).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075007671078387757</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2075007671078387757">DFIR Radar</source>
+      <pubDate>Thu, 09 Jul 2026 00:02:35 +0000</pubDate>
+      <guid isPermaLink="false">2075007671078387757</guid>
+    </item>
     <item>
       <title>Fake Paysafe, Skrill SDKs on NPM and PyPi steal credentials</title>
       <link>https://www.bleepingcomputer.com/news/security/fake-paysafe-skrill-sdks-on-npm-and-pypi-steal-credentials/</link>
@@ -1567,25 +1588,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2072410574244487252">DFIR Radar</source>
       <pubDate>Wed, 01 Jul 2026 20:02:39 +0000</pubDate>
       <guid isPermaLink="false">2072410574244487252</guid>
-    </item>
-    <item>
-      <title>Browser-Only Ransomware: From LLM Hallucinations to a Practical Attack Technique</title>
-      <link>https://research.checkpoint.com/2026/browser-only-ransomware-from-llm-hallucinations-to-a-practical-attack-technique/</link>
-      <description>DeepSeek-attributed sample reveals a browser-native ransomware technique abusing the File System Access API, requiring no binary, no APK, and no exploit. Android photo directories are the high-value target.
-
-Key findings:
-
-- The DeepSeek-attributed sample (SHA256: 07c39f79ab92fb21557b82283472dce1c112f577d796111fb752c3c6d84c86b5), dubbed InfernoGrabber v9.0, is a Python Flask app serving a fake Discord avatar upscaler. The browser-side JavaScript calls showDirectoryPicker() and showOpenFilePicker() via the File System Access API to enumerate, read, exfiltrate, and overwrite local files, then displays a ransom overlay. No native payload, root access, or CVE needed.
-
-- Attack surface is Chromium-family browsers only. The API shipped desktop Chrome 86; Chrome 132 extended it to Android. Firefox and Safari do not expose the directory picker. On Android, DCIM/Pictures selection is unrestricted, making the photo library, often containing identity docs, recovery codes, and banking screenshots, directly reachable after a single "Allow" click.
-
-- The social-engineering lure is a fake AI image-enhancer. The permission prompt ("this site can edit files in the selected folder") feels expected in that context, removing the cognitive friction that normally flags a malicious action. No binary download occurs, so traditional endpoint controls do not fire.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072395462452088944</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072395462452088944">DFIR Radar</source>
-      <pubDate>Wed, 01 Jul 2026 19:02:36 +0000</pubDate>
-      <guid isPermaLink="false">2072395462452088944</guid>
     </item>
   </channel>
 </rss>
