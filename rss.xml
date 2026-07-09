@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Jul 2026 15:04:11 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 16:04:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GigaWiper: Anatomy of a destructive backdoor assembled from multiple malware</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/07/09/gigawiper-anatomy-of-a-destructive-backdoor-assembled-from-multiple-malware/</link>
+      <description>GigaWiper is a Golang backdoor that merges three separate destructive malware families into a single modular implant, observed wiping targets since October 2025.
+
+- GigaWiper combines a raw disk wiper, a Crucio ransomware-derived fake encryptor (command 3, .candy extension, keys never saved), and a reimplemented FlockWiper secure multi-pass wiper (command 12) as discrete C2 commands. C2 runs over RabbitMQ (AMQP) and Redis with AES-encrypted config; observed C2 IPs are 185.182.193[.]21 and 212.8.248[.]104.
+
+- Persistence lands via a scheduled task named "OneDrive Update" (runs every minute plus at startup) and tracks execution count in HKCU\SOFTWARE\OneDrive\Environment. Command 19 clears System, Setup, Application, and Security event logs, including a direct delete of C:\Windows\System32\winevt\Logs\Security.evtx if wevtutil fails.
+
+- Code overlap links GigaWiper to Crucio (CISA advisory, Dec 2023) via shared BigBangExtortMain function, and to FlockWiper (VirusTotal, June 2025) via PDB paths referencing "GRAT" and identical execution flow, suggesting one actor built all three tools.
+
+- IOC hashes (4 backdoor, 1 standalone wiper, 1 Crucio, 2 FlockWiper) and both C2 IPs are in the Microsoft report. Microsoft Defender detections include WprFlock, WprCree, FlockWiper, and GigaWiper signatures.
+
+Hunt for the "OneDrive Update" scheduled task, outbound AMQP/Redis to the listed IPs, and Golang PE files in unexpected paths.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075249621727609061</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2075249621727609061">DFIR Radar</source>
+      <pubDate>Thu, 09 Jul 2026 16:04:01 +0000</pubDate>
+      <guid isPermaLink="false">2075249621727609061</guid>
+    </item>
     <item>
       <title>June 2026 Detection Highlights: AdaptixC2 Config Extractor, 5 new VTIs, and 30+ New YARA Rules</title>
       <link>https://www.vmray.com/june-2026-detection-highlights-adaptixc2-config-extractor-5-new-vtis-and-30-new-yara-rules/</link>
@@ -1559,27 +1580,6 @@ Takeaway: pull your FortiGate management interface off the internet now, force a
       <source url="https://x.com/DFIR_Radar/status/2072516366343786646">DFIR Radar</source>
       <pubDate>Thu, 02 Jul 2026 03:03:02 +0000</pubDate>
       <guid isPermaLink="false">2072516366343786646</guid>
-    </item>
-    <item>
-      <title>RustDuck: The Botnet That’s Still Small but Engineering Like It Plans to Grow</title>
-      <link>https://securityaffairs.com/194556/malware/rustduck-the-botnet-thats-still-small-but-engineering-like-it-plans-to-grow.html</link>
-      <description>RustDuck botnet targets IoT and servers with Rust-rewritten malware, layered C2 encryption, and a weighted anti-sandbox scoring system, signaling rapid capability growth from a still-small but technically ambitious operation tracked since February 2026.
-
-Key details:
-
-- Entry points span default Telnet/SSH creds, Android ADB, DVRs from TVT, routers from Ruijie, TP-Link, ZTE, plus ThinkPHP, Jenkins, and Hadoop YARN. CVEs include CVE-2025-29635 (CISA KEV, D-Link DIR-823X command injection, no patch, retire it), CVE-2017-17215 (Huawei HG532 RCE, Mirai-era), CVE-2024-1781 (Totolink X6000R, unpatched), and CVE-2018-8007 (Apache CouchDB admin RCE).
-
-- The loader chain has cycled through four encryption schemes: LCG+XOR+LZ4, Xoshiro128 with hardcoded constants, XOR with a fixed magic string, and now ChaCha20. Each iteration was a direct response to analyst detection, not coincidence.
-
-- Anti-analysis scoring assigns 100 points each for detecting Wireshark, gdb, or Frida in the process list, a debugger in /proc/self/status, or a tampered file checksum; 50 for Cowrie/Dionaea honeypot files; 35 for a response from 192.0.2.1. A dual-clock timing check catches sandboxes that accelerate execution. Exceed the threshold and the malware self-erases.
-
-- C2 uses ChaCha20-Poly1305 with Curve25519 key exchange and HKDF-SHA256 derivation, keys rotating every 10 minutes, then switches to AES-GCM with split up/down keys. A three-byte header mimics TLS records.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072501117317964076</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072501117317964076">DFIR Radar</source>
-      <pubDate>Thu, 02 Jul 2026 02:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2072501117317964076</guid>
     </item>
   </channel>
 </rss>
