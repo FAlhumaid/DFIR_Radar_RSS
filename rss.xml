@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Jul 2026 18:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 19:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Two BIOS Passwords Everyone Confuses</title>
+      <link>https://eclypsium.com/blog/two-bios-passwords-everyone-confuses/</link>
+      <description>"We set the BIOS password" is not a complete sentence. Setup password and boot password protect different things, and mixing them up leaves firmware-level gaps on every machine in the fleet.
+
+Key findings:
+
+- The setup (administrator) password gates firmware config changes: Secure Boot state, boot order, TPM, IOMMU. It does NOT prompt at power-on. A stolen laptop with only this set boots straight to the OS. The boot (power-on) password is what stops the machine from starting at all. One password does not cover the other.
+
+- Vendor naming makes this worse. Lenovo calls them Supervisor + Power-On, Dell calls them Admin + System, HP calls them BIOS Administrator + Power-On. A policy or ticket that says "set the BIOS password" has not actually specified which control was configured.
+
+- Setting the admin password does not automatically lock configuration changes. There is a separate setting to prevent boot-order and Secure Boot edits when an admin password is present. Miss it and the password is half the control it should be.
+
+- Eclypsium's flash-dump research found at least one vendor storing the admin password in plaintext ASCII in a firmware variable, and another using a short, truncated hash built from a static key, making it crackable offline and identical across every unit of that model.
+
+Audit state, not policy. Read the actual password-set flag per device via /sys/class/firmware-attributes/ on Linux or vendor WMI namespaces on Windows.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075294732889047441</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2075294732889047441">DFIR Radar</source>
+      <pubDate>Thu, 09 Jul 2026 19:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2075294732889047441</guid>
+    </item>
     <item>
       <title>(TLP:CLEAR) FBI Warns of TeamPCP Software Supply Chain Compromises</title>
       <link>https://www.waterisac.org/tlpclear-fbi-warns-of-teampcp-software-supply-chain-compromises</link>
@@ -1563,17 +1586,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2072561641175015580">DFIR Radar</source>
       <pubDate>Thu, 02 Jul 2026 06:02:56 +0000</pubDate>
       <guid isPermaLink="false">2072561641175015580</guid>
-    </item>
-    <item>
-      <title>Securing AI agents: When AI tools move from reading to acting</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/06/30/securing-ai-agents-ai-tools-move-from-reading-acting/</link>
-      <description>MCP tool poisoning lets attackers embed hidden instructions in tool descriptions, redirecting a Copilot Studio agent to exfiltrate data silently. Treat tool descriptions like system prompts and audit them for changes in production.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072546493433794722</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2072546493433794722">DFIR Radar</source>
-      <pubDate>Thu, 02 Jul 2026 05:02:45 +0000</pubDate>
-      <guid isPermaLink="false">2072546493433794722</guid>
     </item>
   </channel>
 </rss>
