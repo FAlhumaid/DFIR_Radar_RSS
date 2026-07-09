@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Jul 2026 00:02:35 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 01:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hindsight 2026.06</title>
+      <link>https://dfir.blog/hindsight-parses-firefox/</link>
+      <description>Hindsight v2026.06 adds Firefox support and deeper download forensics, making it a stronger cross-browser artifact parser for investigations.
+
+Key updates:
+
+- Firefox is now parsed alongside Chromium browsers. All profiles from all browsers merge into a single Timeline tab in XLSX output, with unified row types (url, cookie, autofill) so investigators can filter cross-browser activity in one view without stitching sources manually.
+
+- Service Workers are parsed for the first time in Hindsight. Data comes from the Service Workers\Database LevelDB, which means historical and deleted records surface (shown as gray rows). A new Service Workers tab organizes origin, registration, and resources hierarchically.
+
+- Downloads parsing is significantly expanded. Hindsight now reads shared_proto_db alongside the History DB, surfacing fields like download_source, request_headers, fetched_via_service_worker, and storage_partition. Critically, a new download (opened) row logs last_access_time when a user opened a file through the browser, a useful user-activity timestamp.
+
+- The Extensions tab is now hierarchical: name, ID, and install info at the top level, with permissions and scripts nested below, improving readability during extension-abuse investigations.
+
+Takeaway: update to v2026.06 via pip install pyhindsight or the GitHub release. On cross-browser cases, the merged Timeline tab is now your first stop.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075023017625985095</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2075023017625985095">DFIR Radar</source>
+      <pubDate>Thu, 09 Jul 2026 01:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2075023017625985095</guid>
+    </item>
     <item>
       <title>UNC6692 and the SNOW Malware Ecosystem</title>
       <link>https://www.extrahop.com/blog/unc6692-and-the-snow-malware-ecosystem</link>
@@ -1569,25 +1592,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2072425550614872389">DFIR Radar</source>
       <pubDate>Wed, 01 Jul 2026 21:02:10 +0000</pubDate>
       <guid isPermaLink="false">2072425550614872389</guid>
-    </item>
-    <item>
-      <title>BTS #77 - FortiBleed Uncovered: How Attackers Harvest Credentials from Fortinet Devices</title>
-      <link>https://eclypsium.com/podcasts/bts-77-fortibleed-uncovered-how-attackers-harvest-credentials-from-fortinet-devices/</link>
-      <description>FortiBleed: a credential-harvesting and access-brokering campaign compromised roughly 73,000-86,000 internet-facing FortiGate firewalls, roughly 50% of all exposed devices, attributed to a Russian-speaking IAB group Unit 42 dubbed SantaAd.
-
-- FortiBleed is not a single CVE. It chains CVE-2018-13379 credential dumps, the Belsen Group's 15,000 FortiGate config-file leak, infostealer logs, and brute-forced password hashes into one industrial-scale operation. No malware touched FortiOS directly: attackers lived off the land using stolen and backdoor credentials plus the built-in FortiOS packet-sniffer command across 24 protocols.
-
-- FortiOS stored legacy AK1 (SHA-1) and SH2 (SHA-256) hashes alongside newer PBKDF2 hashes. When upgraded, the old hash was silently preserved in full config backups as an "old password" field for downgrade compatibility but hidden from a standard show config. Attackers rented 40-GPU Hashopolis clusters to crack those SHA-256 hashes at scale.
-
-- FortiGate Sniffer acted as an orchestrator: once one device was owned, attackers deployed passive sniffing to every device they accessed, collecting credentials from crossing traffic, not just FortiOS accounts. Victim metadata was enriched via SSL certificate org fields, then sorted by industry and revenue for IAB resale.
-
-- DFIR gap: network appliances sit outside EDR, and config-backup access requires super-admin credentials.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072410574244487252</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072410574244487252">DFIR Radar</source>
-      <pubDate>Wed, 01 Jul 2026 20:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2072410574244487252</guid>
     </item>
   </channel>
 </rss>
