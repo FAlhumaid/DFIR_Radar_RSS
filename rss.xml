@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Jul 2026 22:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 23:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Symlinks Are Still Scary (And Yes, You Can Commit Them to Git)</title>
+      <link>https://snyk.io/blog/symlinks-are-still-scary/</link>
+      <description>AI coding agents across six major platforms can be tricked into writing attacker SSH keys or shell configs via symlink-poisoned repos, no memory corruption required. The GhostApproval research from Wiz exposes a decades-old primitive wearing a new disguise.
+
+Key details:
+
+- The attack chain stacks three failures: prompt injection via README instructions aimed at the agent, symlink traversal without path resolution, and a confirmation dialog that shows the friendly filename (project_settings.json) while hiding the real target (~/.ssh/authorized_keys or ~/.zshrc). Remove any one link and the attack fizzles. Git stores symlinks with file mode 120000, blob content is the raw target path, and recreates them faithfully on clone on Linux and macOS.
+
+- Six agents tested: Amazon Q Developer, Claude Code, Augment, Cursor, Google Antigravity, and Windsurf. All showed variations of the flaw. In several, the write completed before a confirmation dialog appeared. In the Claude Code case, the agent's own internal reasoning correctly identified the real target file, then the dialog told the human it was editing "project_settings.json." CWE-61 covers the symlink following; CWE-451 covers the UI misrepresentation. AWS, Google, and Cursor shipped fixes.
+
+- Prior art matters for scoping: CVE-2024-32002 abused symlinks plus submodules to drop into .git/hooks and execute code on git clone --recurse-submodules.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075355128975048709</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2075355128975048709">DFIR Radar</source>
+      <pubDate>Thu, 09 Jul 2026 23:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2075355128975048709</guid>
+    </item>
     <item>
       <title>Not-so-anonymous telemetry: The @injectivelabs/sdk-ts backdoor</title>
       <link>https://securitylabs.datadoghq.com/articles/not-so-anonymous-telemetry-injectivelabs-sdk-ts-backdoor/</link>
@@ -1579,27 +1598,6 @@ DFIR takeaway: on macOS endpoints, examine LaunchAgents and LaunchDaemons for un
       <source url="https://x.com/DFIR_Radar/status/2072622054117908616">DFIR Radar</source>
       <pubDate>Thu, 02 Jul 2026 10:03:00 +0000</pubDate>
       <guid isPermaLink="false">2072622054117908616</guid>
-    </item>
-    <item>
-      <title>Missed incidents, persistent threats, and response gaps: Insights from compromise assessment projects</title>
-      <link>https://securelist.com/compromise-assessment-findings-2025/120542/</link>
-      <description>Kaspersky's 2025 compromise assessment data reveals a systemic detection failure: 60% of incidents were missed entirely by existing tools, 52% of high-severity compromises went undetected for over 90 days, and one incident had persisted for four years.
-
-Key findings:
-
-- Dwell time drives severity. Incidents detected within 30 days show balanced severity distribution. By 60-90 days, 71% are high-severity. Beyond 90 days, 52% are still high-severity. The four-year case involved NSABuffMiner crypto-mining on domain controllers via EternalBlue (MS17-010), with malicious files hidden in C:\Windows\Fonts\Mysql and persistence via services named MicrosoftMysql and MicrosoftFonts, plus scheduled tasks At1 and At2.
-
-- Post-IR checkups produced the highest proportion of high-severity findings (40.7%), exposing what contained IR misses. One case found a cron job re-downloading a PHP web shell from GitHub, a live bash reverse shell running as the apache user, a ClipBanker variant persisting under HKU\...\Run\9Er6IIp, and a WMI event consumer aliasing Invoke-Expression as "Kaspersky."
-
-- 40% of discovered web shells lived in backups. Asset inventory gaps (25% of engagements) meant cloud Linux servers outside AD never got scanned, and backup restores reintroduced the threat repeatedly.
-
-- Without 24/7 monitoring or threat hunting, 84-86% of incidents were medium or high severity.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072607043387560247</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072607043387560247">DFIR Radar</source>
-      <pubDate>Thu, 02 Jul 2026 09:03:21 +0000</pubDate>
-      <guid isPermaLink="false">2072607043387560247</guid>
     </item>
   </channel>
 </rss>
