@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Jul 2026 11:08:36 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 14:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hiding in the Chain: Multi-Stage LNK Attack Leveraging TON Blockchain to Deliver Node.JS Backdoor</title>
+      <link>https://www.levelblue.com/blogs/spiderlabs-blog/hiding-in-the-chain-multi-stage-lnk-attack-leveraging-ton-blockchain-to-deliver-node.js-backdoor</link>
+      <description>Multi-stage LNK attack uses TON blockchain as a C2 resolver and drops a Node.js backdoor, making traditional domain-based blocking ineffective against this campaign.
+
+Key findings:
+
+- Initial access via a malicious ZIP containing a .lnk file. When executed, the shortcut fires a hidden PowerShell command (T1059.001) that downloads a legitimate node.exe binary and deploys a Node.js backdoor, blending malicious traffic with a trusted runtime.
+
+- The malware uses EtherHiding (T1102): querying the TON blockchain to retrieve the live C2 address. Blocking a domain or IP does nothing here because the C2 pointer lives on an immutable ledger, not a registrar-controlled hostname.
+
+- DFIR artifact focus: hunt for node.exe spawned from unusual parent processes (PowerShell, explorer, or a user temp path), LNK files in ZIP archives in user download or temp directories, and outbound connections to TON API endpoints from non-developer endpoints.
+
+- Persistence and execution chain artifacts to collect: LNK file metadata (birth timestamps, target command line), PowerShell Script Block Logging (Event ID 4104), and any downloaded node.exe with a non-standard install path outside Program Files.
+
+Detect node.exe making external network calls where the parent is PowerShell or the binary lives outside a standard install path. Enable Script Block Logging if you have not; the full payload command is captured there. Check the LevelBlue report for IOCs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075219322105102348</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2075219322105102348">DFIR Radar</source>
+      <pubDate>Thu, 09 Jul 2026 14:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2075219322105102348</guid>
+    </item>
     <item>
       <title>Nozomi identifies Apex2 and c2c Golang malware driving faster IoT botnet attacks, raising risks for OT environments</title>
       <link>https://industrialcyber.co/ransomware/nozomi-identifies-apex2-and-c2c-golang-malware-driving-faster-iot-botnet-attacks-raising-risks-for-ot-environments/</link>
@@ -1561,29 +1584,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2072486623317561771">DFIR Radar</source>
       <pubDate>Thu, 02 Jul 2026 01:04:51 +0000</pubDate>
       <guid isPermaLink="false">2072486623317561771</guid>
-    </item>
-    <item>
-      <title>Azure CLI Targeted in LSHIY Password Spray Campaign Across 64 Orgs</title>
-      <link>https://securityaffairs.com/194588/uncategorized/azure-cli-targeted-in-lshiy-password-spray-campaign-across-64-orgs.html</link>
-      <description>An ongoing password spray campaign abusing Azure CLI's OAuth ROPC flow has compromised 78 accounts across 64 orgs in 14 days, defeating MFA at 15 of 23 businesses hit on a single day.
-
-Key findings:
-
-- 81 million login attempts since June 12, 2026, sourced almost entirely from IPv6 range 2a0a:d683[.]/32, tied to LSHIY LLC (AS32167/AS955), with third parties linking both ASNs to Chinese 🇨🇳 infrastructure. LSHIY lists addresses in Hong Kong 🇭🇰 and Wuhan alongside a New York 🇺🇸 shared office.
-
-- Attack method: threat actors replay breach-dump credentials against the OAuth 2.0 ROPC /token endpoint. Because ROPC sends credentials directly and never hits the authorization endpoint, Conditional Access Policies enforcing MFA do not fire, making it an effective MFA bypass.
-
-- 15 of 23 companies hit on June 22 had MFA via CAP and were still compromised. Root causes: MFA scoped to admin portals only, trusted-location rules that the attackers' inconsistently geolocated IPs bypassed, and two orgs running CAP in report-only mode.
-
-- Huntress reports credential spray volume across its customer base has grown 155x in six months, averaging roughly 1,964 failed attempts per protected tenant per month.
-
-Remediation: scope your Conditional Access Policy to all users, all cloud apps, all client app types. Enable userStrongAuthClientAuthNRequired to block ROPC outright. On detection, triage by credential validity rather than raw spray volume.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072470968887333039</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072470968887333039">DFIR Radar</source>
-      <pubDate>Thu, 02 Jul 2026 00:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2072470968887333039</guid>
     </item>
   </channel>
 </rss>
