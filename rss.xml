@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 09 Jul 2026 16:04:01 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 17:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Finding SOCKS with Proxywatch</title>
+      <link>https://specterops.io/blog/2026/07/09/finding-socks-with-proxywatch/</link>
+      <description>SpecterOps releases Proxywatch, a behavior-based open-source tool to detect SOCKS proxy pivots, C2 beaconing, and tunneling activity on live endpoints without relying on static signatures or process-port baselines.
+
+- SOCKS proxy pivoting lets attackers run tools like Impacket, nmap, or netexec entirely from their own machine through a compromised host, meaning no new processes spawn on the victim, no attacker tooling touches disk, and EDR parent-child detection models see nothing. C2 frameworks like Cobalt Strike, Sliver, and Mythic all support this natively. This is why registry persistence created via Impacket reg.py over SOCKS gets missed: the code never executes on-target.
+
+- Proxywatch runs on Linux and Windows, reading /proc/net/tcp and /proc/&lt;pid&gt;/fd on Linux, and GetExtendedTcpTable plus CreateToolhelp32Snapshot on Windows. It builds per-process behavioral profiles using 83 signals including loopback usage, multiplex relay patterns, callback cadence, jitter measurement, writable-path binaries, and named pipe C2 patterns, then assigns roles: control-channel, control-pivot, listener, or outbound.
+
+- In a live demo, cheerful_glove.exe (a Sliver beacon) was flagged control-pivot via signals pivot-multiplex-relay and pivot-non-loopback-internal. A separate beacon, beacon-j.exe, was caught via a 75-second callback pattern with 0.44 jitter, unsigned binary, and suspicious-exe-path (C:\Users\ops\Desktop\testing\).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075264571514777825</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2075264571514777825">DFIR Radar</source>
+      <pubDate>Thu, 09 Jul 2026 17:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2075264571514777825</guid>
+    </item>
     <item>
       <title>GigaWiper: Anatomy of a destructive backdoor assembled from multiple malware</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/07/09/gigawiper-anatomy-of-a-destructive-backdoor-assembled-from-multiple-malware/</link>
@@ -1557,29 +1574,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2072531437090161032">DFIR Radar</source>
       <pubDate>Thu, 02 Jul 2026 04:02:55 +0000</pubDate>
       <guid isPermaLink="false">2072531437090161032</guid>
-    </item>
-    <item>
-      <title>FortiBleed: Inside the Campaign That Cracked 75,000 Fortinet Firewalls</title>
-      <link>https://www.picussecurity.com/resource/blog/fortibleed-inside-the-campaign-that-cracked-75000-fortinet-firewalls</link>
-      <description>FortiBleed: verified admin and SSL VPN credentials for ~75,000 internet-facing FortiGate firewalls leaked across 194 countries, with no CVE and no patch available.
-
-Key findings:
-
-- No vulnerability to patch here. FortiBleed stems from stolen device configs, credential reuse, and offline cracking of legacy SHA-256 password hashes. FortiGate management interfaces exposed to the internet were the entry point, and the weak hashing did the rest.
-
-- PBKDF2 stronger hashing only activates after each admin re-authenticates. Devices where admins have not logged in since the upgrade still store crackable SHA-256 hashes, meaning the exposure persists silently on patched devices.
-
-- IT services and telecoms are hit hardest, but affected orgs span every sector across 194 countries. Scale matters here: 75,000 firewalls with working credentials is a ready-made access broker inventory.
-
-- No CVE means no patch Tuesday trigger and no automatic alerting. Defenders must act without a traditional vulnerability remediation workflow.
-
-Takeaway: pull your FortiGate management interface off the internet now, force all admins to re-authenticate to trigger PBKDF2 re-hashing, and enable MFA on all admin and VPN accounts. Hunt for any management interface still internet-exposed using your asset inventory and verify FortiOS is current.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072516366343786646</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072516366343786646">DFIR Radar</source>
-      <pubDate>Thu, 02 Jul 2026 03:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2072516366343786646</guid>
     </item>
   </channel>
 </rss>
