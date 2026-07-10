@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 10 Jul 2026 12:02:54 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jul 2026 13:02:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The AI Agent Credential Crisis: From Stealer Log to Source Code</title>
+      <link>https://socradar.io/blog/ai-agent-credential-stealer-log-source-code/</link>
+      <description>Stealer logs now target AI coding agents, turning a single infected developer machine into a key for source code, cloud infra, and CI/CD pipelines. Over 3.1 million OpenAI credentials were compromised in 2025 alone.
+
+Key findings:
+
+- SOCRadar analyzed stealer log data across 2025 and found 3.1M+ records tied to OpenAI, with total AI/developer platform exposure exceeding 3M accounts. Replit (204K) and Hugging Face (186K) followed, platforms where credentials carry write access to repos, datasets, and deployment pipelines. Three malware families, LummaC2 (56%), RedLine (17%), and StealC (13%), account for 86% of all observed logs.
+
+- The multiplier effect is the core risk. A stolen AI agent credential is not one account. It bundles OAuth tokens for GitHub/GitLab orgs, AWS/GCP/Azure keys, CI/CD pipeline tokens, package registry creds, and MCP integrations for Slack, Jira, and Sentry into a single harvested session. Infostealers harvest .env files, .claude/settings.json, and browser-synced session cookies without distinguishing personal from corporate devices.
+
+- The quarterly curve tells a disruption story. Q1 peaked at 953K records, then a May 2025 law enforcement action against LummaC2 C2 infrastructure drove a 42% volume drop through Q3 (553K). By Q4, volumes recovered to 857K as operators rebuilt and newer families like Acreed and MacSync filled the gap. Temporary wins, not structural defeat.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075566354258677892</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2075566354258677892">DFIR Radar</source>
+      <pubDate>Fri, 10 Jul 2026 13:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2075566354258677892</guid>
+    </item>
     <item>
       <title>222 GitHub Repositories Linked to Fake Go Package Malware Operation</title>
       <link>https://securityaffairs.com/195101/security/222-github-repositories-linked-to-fake-go-package-malware-operation.html</link>
@@ -1557,27 +1576,6 @@ Most SOC teams have hundreds of detections aimed outward at endpoints, email, an
       <source url="https://x.com/DFIR_Radar/status/2072758008191623528">DFIR Radar</source>
       <pubDate>Thu, 02 Jul 2026 19:03:14 +0000</pubDate>
       <guid isPermaLink="false">2072758008191623528</guid>
-    </item>
-    <item>
-      <title>It’s 37oC, And All We Can Think About Is ColdFusion (Adobe ColdFusion Security Bulletin APSB26-68 CVE Bonanza)</title>
-      <link>https://labs.watchtowr.com/its-37oc-and-all-we-can-think-about-is-coldfusion-adobe-coldfusion-security-bulletin-apsb26-68-cve-bonanza/</link>
-      <description>Adobe ColdFusion APSB26-68 patches 11 CVEs including unauthenticated arbitrary file read/write via the RDS feature, with a trivial path to remote code execution via webshell drop.
-
-Key findings:
-
-- The RDS endpoint at /CFIDE/main/ide.cfm accepts unauthenticated POST requests when RDS is enabled with auth disabled. CVE-2026-48282 (file write) and CVE-2026-48313 (file read) stem from FileServlet passing attacker-supplied paths directly to getFile() with no canonicalization. The patch adds RdsFileSecurity.resolveCanonical() blocking traversal and absolute paths. The write primitive is a one-step webshell drop: POST a CFML shell to the wwwroot and GET it for RCE as the ColdFusion service account.
-
-- CVE-2026-48276 covers a path traversal in the CKEditor file manager upload endpoint at /cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/upload.cfm. When uploads are enabled, the endpoint is reachable without authentication and writes attacker-supplied files as NT AUTHORITY\SYSTEM. The patch blocks dangerous extensions (cfm, war, jspf) and adds traversal checks.
-
-- Additional fixes address XSLT SSRF, XXE, and file write in CFML tags including cffile, cffeed, cfimap, and cfwebsocket, though these require attacker-reachable custom pages.
-
-- Affected versions: ColdFusion 2025 Update 9 and below, ColdFusion 2023 Update 20 and below. Patch to 2025 Update 10 or 2023 Update 21 immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072743018617258234</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2072743018617258234">DFIR Radar</source>
-      <pubDate>Thu, 02 Jul 2026 18:03:40 +0000</pubDate>
-      <guid isPermaLink="false">2072743018617258234</guid>
     </item>
   </channel>
 </rss>
