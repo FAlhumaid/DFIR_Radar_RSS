@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 13 Jul 2026 05:02:08 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2026 06:02:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Someone Is Scanning for Your MCP Servers and AI Assistant Credentials, (Mon, Jul 13th)</title>
+      <link>https://isc.sans.edu/diary/rss/33150</link>
+      <description>Internet-wide scanning is now probing for MCP servers, AI assistant credential files, and unauthenticated LLM endpoints. Observed on a low-traffic host with no AI infrastructure, confirming this is broad opportunistic recon, not targeted.
+
+Key findings:
+
+- POST /mcp requests carried valid JSON-RPC 2.0 MCP initialize handshakes from 49 distinct source IPs. These are not dumb URL probes; the scanner speaks the protocol and waits for a compliant response before enumerating exposed tools and data sources. An unauthenticated MCP server is a machine-readable inventory of everything an agent can touch.
+
+- Credential file fishing targeted /.claude/.credentials.json, /.claude/mcp.json, /.cursor/mcp.json, and /.vscode/mcp.json using HEAD requests to check existence before downloading. AI assistant secrets now sit inside the same wordlists as AWS, GCP, Azure, and Kubernetes credential files.
+
+- GET /v1/models (OpenAI-compatible) and GET /api/tags (Ollama) probe for unauthenticated local LLM endpoints. A hit means free compute for the attacker and a potential pivot.
+
+- SSRF probes rotated across url, uri, path, and dest parameters targeting the GCP metadata endpoint. Agent tooling with fetch-style helpers is a natural SSRF primitive for this technique.
+
+Hunt: grep access logs for POST /mcp, GET /sse, GET /v1/models, and GET /api/tags. Any hit on a host with no AI stack is pure recon.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076547695960048042</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2076547695960048042">DFIR Radar</source>
+      <pubDate>Mon, 13 Jul 2026 06:02:06 +0000</pubDate>
+      <guid isPermaLink="false">2076547695960048042</guid>
+    </item>
     <item>
       <title>Update on Attacks by Threat Group APT-C-60 in 2026</title>
       <link>https://blogs.jpcert.or.jp/en/2026/07/apt-c-60_2026.html</link>
@@ -1607,17 +1630,6 @@ Most SOC teams have hundreds of detections aimed outward at endpoints, email, an
       <source url="https://x.com/DFIR_Radar/status/2072984347208982725">DFIR Radar</source>
       <pubDate>Fri, 03 Jul 2026 10:02:37 +0000</pubDate>
       <guid isPermaLink="false">2072984347208982725</guid>
-    </item>
-    <item>
-      <title>Advanced Persistence: A Complete Guide on Persistence</title>
-      <link>https://hackers-arise.com/advanced-persistence-a-complete-guide-on-persistence/</link>
-      <description>Active Directory persistence via Diamond Tickets, Sapphire Tickets, DCShadow, DSRM backdoors, and Skeleton Key defines how APT groups like Lazarus and Volt Typhoon survive remediation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2072923915945496970</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2072923915945496970">DFIR Radar</source>
-      <pubDate>Fri, 03 Jul 2026 06:02:30 +0000</pubDate>
-      <guid isPermaLink="false">2072923915945496970</guid>
     </item>
   </channel>
 </rss>
