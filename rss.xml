@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 13 Jul 2026 12:02:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2026 13:02:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dark Web Profile: Krybit Ransomware</title>
+      <link>https://socradar.io/blog/dark-web-profile-krybit-ransomware/</link>
+      <description>Krybit Ransomware, a Babuk-derived RaaS active since late March 2026, gained unusual early visibility when a rival group breached its affiliate panel and exposed plaintext credentials, Bitcoin wallets, and victim data less than a month after launch.
+
+- Krybit is built on Babuk's leaked 2021 source code (ESET: Filecoder.Babyk.A, Microsoft: Babuk!ic), not custom-engineered malware. It offers affiliates an 80/20 revenue split and builders for Windows, Linux, VMware ESXi, and NAS, making it a cross-platform threat from day one. Ransom demands run $40,000-$100,000 with 10-250GB of staged exfiltration per victim.
+
+- The April 2026 breach by rival 0APT exposed the full affiliate panel: 2 operators (KRYBIT, GREP), 5 affiliates, 20 active victim negotiations, 5 Bitcoin wallets with zero confirmed payments, and credentials stored in plaintext with no hashing. Krybit retaliated by compromising 0APT's server and defacing its DLS. SOCRadar now tracks 70 attributed victims across 43 countries, with Professional Services (21.4%), Technology (17.1%), and Manufacturing (14.3%) as top sectors.
+
+- Key forensic markers: encrypted files carry the .KRYBIT extension, ransom note is RECOVER-README.txt, and the group runs vssadmin.exe delete shadows /all /quiet (T1490) before encryption. Initial access maps to T1078 and T1021.001 (RDP with compromised credentials). Five .onion DLS domains are confirmed, listed below defanged.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076653510901563586</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2076653510901563586">DFIR Radar</source>
+      <pubDate>Mon, 13 Jul 2026 13:02:34 +0000</pubDate>
+      <guid isPermaLink="false">2076653510901563586</guid>
+    </item>
     <item>
       <title>CISA Warns of Actively Exploited Joomla Zero-Day Vulnerabilities</title>
       <link>https://thecyberexpress.com/cisa-cve-2026-48939-cve-2026-56291/</link>
@@ -1599,25 +1616,6 @@ Defenders: patch Langflow, rotate every credential stored in AI-pipeline environ
       <source url="https://x.com/DFIR_Radar/status/2073059918635053525">DFIR Radar</source>
       <pubDate>Fri, 03 Jul 2026 15:02:55 +0000</pubDate>
       <guid isPermaLink="false">2073059918635053525</guid>
-    </item>
-    <item>
-      <title>Unauthenticated Stored XSS in NEX-Forms Express WP Form Builder (≤ 9.1.10) — CVSS 8.8 High</title>
-      <link>https://infosecwriteups.com/unauthenticated-stored-xss-in-nex-forms-express-wp-form-builder-9-1-10-cvss-8-8-high-e4bf33e67e82?source=rss----7b722bfd1b8d---4</link>
-      <description>Unauthenticated stored XSS in NEX-Forms Express WP Form Builder (versions up to 9.1.10) lets any anonymous visitor plant persistent JavaScript that fires in every admin's browser, scoring CVSS 8.8 High. Patch is available.
-
-- CVE not yet assigned, but the flaw chains three weaknesses: an open wp_ajax_nopriv_ handler with no nonce or CSRF check, rest_sanitize_array() applied to array-type POST fields (it only reindexes, strips nothing), and raw rtrim() output in the admin Entries view with no esc_html(). A single unauthenticated curl POST to /wp-admin/admin-ajax[.]php with action=submit_nex_form and payload[]=&lt;img src=x onerror=...&gt; stores raw HTML in wp_wap_nex_forms_entries.form_data.
-
-- When any admin opens NEX-Forms → Entries, the stored tag renders verbatim in the DOM, onerror fires without a click, and session cookies exfiltrate silently. From there: rogue admin creation via /wp-json/wp/v2/users, PHP webshell upload via plugin REST API, full database dump.
-
-- Forensic pivot: query wp_wap_nex_forms_entries for HTML tags in form_data JSON. Check WordPress admin audit logs for unexpected user creation (Event: user_register) and plugin installs around the same timestamp.
-
-Update NEX-Forms to the patched release immediately. WAF rules should block onerror=, &lt;script, and javascript: in POST bodies as interim hardening.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2073044891320680908</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2073044891320680908">DFIR Radar</source>
-      <pubDate>Fri, 03 Jul 2026 14:03:12 +0000</pubDate>
-      <guid isPermaLink="false">2073044891320680908</guid>
     </item>
   </channel>
 </rss>
