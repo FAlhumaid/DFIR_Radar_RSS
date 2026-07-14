@@ -5,8 +5,46 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Jul 2026 07:03:30 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 09:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CrashStealer: New macOS Infostealer Uses Signed Apps to Evade Gatekeeper</title>
+      <link>https://securityaffairs.com/195278/malware/crashstealer-new-macos-infostealer-uses-signed-apps-to-evade-gatekeeper.html</link>
+      <description>CrashStealer is a native C++ macOS infostealer using a signed, notarized dropper to clear Gatekeeper, then stealing credentials, keychains, and ~80 crypto wallet extensions before AES-256-GCM encrypting everything on-device.
+
+- Initial access arrives via "Werkbit Setup.dmg" containing Werkbit.app, signed under Developer ID Emil Grigorov (WWB7JA7AQV) and notarized, clearing Gatekeeper silently. The dropper queries the GitHub API at mgothiclove/pkeys for sys.cache, which returns a curl command pulling a Base64-encoded shell script from endpoint-api-v1[.]com, decoded at runtime and piped directly to bash, never touching disk in readable form.
+
+- The script drops CrashReporter.dmg to /tmp, mounts it with hdiutil -nobrowse -noverify, copies the payload to /tmp/.CrashReporter, strips and re-signs it ad-hoc, then launches it. An app bundle executing from a hidden path under /private/tmp is a high-confidence behavioral indicator.
+
+- Collection targets Chrome, Brave, Edge, Firefox, ~80 crypto wallet extensions (MetaMask, Phantom, Coinbase), 14 password managers (1Password, Bitwarden, LastPass), and the login keychain, unlocked using the victim's validated password via dscl -authonly. Encrypted archives with .zx_ prefix land in ~/.cache/com.apple.crashreporter/ and survive staging cleanup, making them a reliable artifact.
+
+- Persistence via LaunchAgent at ~/Library/LaunchAgents/com.apple.crashreporter.helper.plist with KeepAlive/SuccessfulExit false.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076955730326728791</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2076955730326728791">DFIR Radar</source>
+      <pubDate>Tue, 14 Jul 2026 09:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2076955730326728791</guid>
+    </item>
+    <item>
+      <title>NSA, CISA and allies urge router hardening across critical infrastructure against FSB Center 16 attacks</title>
+      <link>https://industrialcyber.co/cisa/nsa-cisa-and-allies-urge-router-hardening-across-critical-infrastructure-against-fsb-center-16-attacks/</link>
+      <description>Russian 🇷🇺 FSB Center 16 (Berserk Bear/Dragonfly) is actively exploiting misconfigured routers across US 🇺🇸 critical infrastructure. NSA, CISA, and allied agencies issued joint guidance after sustained targeting of energy, defense, healthcare, and government sectors.
+
+- FSB Center 16 scans internet-facing IP ranges for SNMP agents accepting default community strings, then sends SNMP Set-Requests from spoofed IPs with OIDs that force devices to export configs, typically saved as config.bkp or output.txt, then exfiltrated via TFTP to actor-controlled VPS or compromised FTP servers. Those config files expose network topology, credentials, ACLs, VPN settings, and trusted connections.
+
+- Known CVEs exploited include CVE-2018-0171 and CVE-2008-41281 targeting Cisco devices, alongside abuse of Cisco Smart Install (SMI) and web management portals. Many TTPs overlap with Salt Typhoon activity.
+
+- Network devices sit outside standard EDR coverage, making SNMP config exports and unauthorized account creation nearly invisible without dedicated network telemetry.
+
+Takeaway: Immediately inventory internet-facing routers. Disable Cisco Smart Install and SNMPv1/v2. Deploy SNMPv3 with auth and encryption. Remove default community strings (public, private). Block TFTP and SMI at perimeter firewalls. Hunt for unexpected files named config.bkp or output.txt on FTP servers and review SNMP logs for Set-Request activity to external IPs. Full mitigations in the joint advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076940571231531115</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2076940571231531115">DFIR Radar</source>
+      <pubDate>Tue, 14 Jul 2026 08:03:15 +0000</pubDate>
+      <guid isPermaLink="false">2076940571231531115</guid>
+    </item>
     <item>
       <title>WhatsApp forensics in 2026 and what survives end-to-end encryption</title>
       <link>https://andreafortuna.org/2026/07/14/whatsapp-forensics-2026/</link>
@@ -1560,32 +1598,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2074147434964369808">DFIR Radar</source>
       <pubDate>Mon, 06 Jul 2026 15:04:19 +0000</pubDate>
       <guid isPermaLink="false">2074147434964369808</guid>
-    </item>
-    <item>
-      <title>Cavern Manticore: Exposing Iran-Linked Modular C2 Framework</title>
-      <link>https://research.checkpoint.com/2026/cavern-manticore-exposing-iran-linked-modular-c2-framework/</link>
-      <description>Iranian 🇮🇷 MOIS-linked APT "Cavern Manticore" targets Israeli 🇮🇱 government and IT providers with a modular .NET C2 framework that uses three different compilation formats as its primary anti-analysis layer.
-
-- Initial access abuses SysAid's update feature to deploy a WinDirStat DLL sideload package to C:\ProgramData\WinDir\. The legitimate WinDirStat.exe loads trojanized uxtheme.dll (the Cavern Agent, Mixed-Mode C++/CLI), which loads n-HTCommp.dll for HTTPS/WebSocket C2 comms, then pulls post-exploitation modules on demand. C2 domains: auth.hospitalinstallation[.]com and google.com.hospitalinstallation[.]com. XOR key 0x48 encodes all C2 traffic; a fixed Edge User-Agent string across every HTTP verb is a stable network detection anchor.
-
-- The anti-analysis strategy is architectural, not obfuscation-based. Three compilation formats force analysts into separate toolchains: IL-only .NET Framework modules (mhm.dll, db.dll, ode.dll) are trivially decompiled; Mixed-Mode C++/CLI uxtheme.dll requires both a .NET decompiler and a native disassembler; NativeAOT modules (n-HTCommp.dll, n-ten.dll, n-sws.dll) strip all metadata and hide P/Invoke calls from the import table. Most samples score near-zero on VirusTotal.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074132467204890766</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2074132467204890766">DFIR Radar</source>
-      <pubDate>Mon, 06 Jul 2026 14:04:51 +0000</pubDate>
-      <guid isPermaLink="false">2074132467204890766</guid>
-    </item>
-    <item>
-      <title>How I Found a Critical OAuth Misconfiguration That Led to Account Takeover</title>
-      <link>https://infosecwriteups.com/how-i-found-a-critical-oauth-misconfiguration-that-led-to-account-takeover-abfec43eaea6?source=rss----7b722bfd1b8d---4</link>
-      <description>An unauthenticated OAuth client registration endpoint combined with missing auth checks on the authorization flow enabled full account takeover. Attackers register a malicious client, socially engineer consent, and redeem the code for a JWT.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074087034965180715</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074087034965180715">DFIR Radar</source>
-      <pubDate>Mon, 06 Jul 2026 11:04:19 +0000</pubDate>
-      <guid isPermaLink="false">2074087034965180715</guid>
     </item>
   </channel>
 </rss>
