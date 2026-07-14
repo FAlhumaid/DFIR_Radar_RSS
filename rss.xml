@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Jul 2026 16:04:32 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 17:02:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How an Infostealer Infection Led to a Sophisticated ClickFix Campaign at Artlist</title>
+      <link>https://www.infostealers.com/article/how-an-infostealer-infection-led-to-a-sophisticated-clickfix-campaign-at-artlist/</link>
+      <description>A 2023 infostealer infection on a freelance developer's machine gave threat actors a path to compromise Artlist's WordPress blog three years later, turning 11M monthly visitors into a ClickFix RAT delivery surface.
+
+- Root cause: an Israeli 🇮🇱 freelance WordPress dev downloaded pirated Adobe Acrobat PRO DC via uTorrent in August 2023. The infostealer scraped saved credentials, including a high-privilege WordPress login for new-blog.artlist[.]io/blog/wp-login.php belonging to a Senior Content Executive, and exfiltrated them to C2. The credentials sat in infostealer markets until mid-July 2026.
+
+- Attack chain: attackers injected obfuscated XOR/base64 JavaScript (EtherHiding) that queries a Polygon smart contract (0xB6bC9e1D0b2fB96Ab7C47E04Cb0BE477410bC1f2) to retrieve the live payload server auth-code-check[.]info, making infrastructure rotation trivial without re-accessing the compromised site.
+
+- ClickFix delivery drops a password-protected fdupdate.zip, extracts via staged 7z.exe, then DLL side-loads LibBind.dll via a signed StruSoft binary (fdupdate.exe). The chain reads shellcode from Stream.Toolkit.dat, executes it via EnumTimeFormatsEx callback to bypass API hooks, loads a Delphi loader (act.exe), and manually maps the final RAT PE into memory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077076401052868632</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2077076401052868632">DFIR Radar</source>
+      <pubDate>Tue, 14 Jul 2026 17:02:59 +0000</pubDate>
+      <guid isPermaLink="false">2077076401052868632</guid>
+    </item>
     <item>
       <title>HTB: Orion</title>
       <link>https://0xdf.gitlab.io/2026/07/14/htb-orion.html</link>
@@ -1579,25 +1596,6 @@ Hunt now: search Python dirs for litellm_init.pth, audit GitHub orgs for a docs-
       <source url="https://x.com/DFIR_Radar/status/2074282938695287178">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 00:02:46 +0000</pubDate>
       <guid isPermaLink="false">2074282938695287178</guid>
-    </item>
-    <item>
-      <title>Detections Digest #20260706</title>
-      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260706</link>
-      <description>Weekly digest: 40 new and 30 updated rules across 8 repos cover AI framework CVEs, credential stealers, LPE exploits, and phishing evasion in one of the broadest detection drops in recent weeks.
-
-Key updates:
-
-- AI framework coverage explodes with rules for LiteLLM (CVE-2026-47101 auth bypass, CVE-2026-47102 privilege escalation, CVE-2026-42208 SQL injection listed in CISA KEV), PraisonAI path traversal (CVE-2026-39305, CVE-2026-35615), DeepChat Electron RCE (CVE-2026-43899), and Flowise unauthenticated RCE (CVE-2025-8943). A Sigma rule flags unauthorized agent skill installs via Node.exe command lines containing npx-cli.js, skills, and add.
-
-- Credential harvester and defense evasion detections expand across multiple platforms. Splunk now monitors access to Martin Prikryl\WinSCP 2\Configuration\Security for infostealer activity. Chromium rules targeting Phantom Stealer tighten Event ID 4663 path logic. A new Sigma rule flags SystemSettingsAdminFlows.exe disabling Windows Defender, a common ransomware precursor. Fibratus adds DLL search order hijacking detection for unsigned DLLs loaded from lookalike system directories.
-
-- Two new CVE-specific exploit detections land: Linux privilege escalation via CVE-2026-31431 tracked by anomalous AF_ALG socket (Address Family 38) creation, and WinRAR RCE via CVE-2026-14191 caught by monitoring WinRAR or UnRAR process telemetry for .rev files in command lines on versions below 7.23.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074268069321715846</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2074268069321715846">DFIR Radar</source>
-      <pubDate>Mon, 06 Jul 2026 23:03:41 +0000</pubDate>
-      <guid isPermaLink="false">2074268069321715846</guid>
     </item>
   </channel>
 </rss>
