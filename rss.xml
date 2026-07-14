@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Jul 2026 09:03:29 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 10:04:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The serpent’s tongue: Luring the Python out of its den</title>
+      <link>https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/</link>
+      <description>Python supply chain attacks execute payloads at install time, not runtime. Cisco Talos maps every abuse technique across the package lifecycle, from setup.py hooks to .pth persistence, giving defenders a structured hunt framework.
+
+- Build hook abuses are the highest-risk vector. A malicious setup.py runs arbitrary code the moment pip install fires, before the developer ever imports a line. Worse, .pth files dropped into site-packages or dist-packages execute on every Python invocation persistently, a technique TeamPCP used in the litellm supply chain compromise. The VIPERTUNNEL backdoor abused sitecustomize.py the same way.
+
+- Attackers also manipulate PYTHONPATH via setup.py to redirect module resolution at the user-profile level, surviving new shell sessions silently.
+
+- Package content abuses cover __init__.py payload hiding (fires on import), __main__.py abuse (fires on python -m), entry point hijacking to shadow legitimate binaries like netstat, and package directory collisions to overwrite functions inside trusted libraries such as pandas.read_json without touching the original distribution name.
+
+- Dwell time context matters here: payload execution can begin within minutes of install, exfiltration within an hour, and credential operationalization by other actors within days. Average dwell time once compromised was nine days per the article.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076971022499434882</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2076971022499434882">DFIR Radar</source>
+      <pubDate>Tue, 14 Jul 2026 10:04:15 +0000</pubDate>
+      <guid isPermaLink="false">2076971022499434882</guid>
+    </item>
     <item>
       <title>CrashStealer: New macOS Infostealer Uses Signed Apps to Evade Gatekeeper</title>
       <link>https://securityaffairs.com/195278/malware/crashstealer-new-macos-infostealer-uses-signed-apps-to-evade-gatekeeper.html</link>
@@ -1579,25 +1598,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2074162792647528468">DFIR Radar</source>
       <pubDate>Mon, 06 Jul 2026 16:05:21 +0000</pubDate>
       <guid isPermaLink="false">2074162792647528468</guid>
-    </item>
-    <item>
-      <title>Hack the Elephant One Bite at a Time: NUL byte SQL Injection in pdo_firebird and NULL Pointer Dereference in PDO via pdo_pgsql</title>
-      <link>https://swarm.ptsecurity.com/hack-the-elephant-one-bite-at-a-time-nul-byte-sql-injection-in-pdo_firebird-and-null-pointer-dereference-in-pdo-pgsql/</link>
-      <description>Two PHP PDO bugs patched in 2025-2026: CVE-2025-14179 enables SQL injection via NUL bytes in pdo_firebird, and CVE-2025-14180 causes a NULL pointer dereference crash in pdo_pgsql, both rooted in unsafe C-level input handling.
-
-Key findings:
-
-- CVE-2025-14179 (High) hits pdo_firebird's php_firebird_preprocess tokenizer. The quoting routine PDO::quote works correctly, but when the rebuilt SQL string passes through php_firebird_alloc_prepare_stmt, a strncat() call truncates on the first NUL byte (\0), dropping the closing quote of a string literal. Attacker input escapes the quoted context and is parsed as executable SQL. The exploit pattern: quote with PDO::quote, pass to PDO::prepare, inject \0 in the first parameter, then place a UNION SELECT payload in the second. Fixed in commit 3f40b65 by replacing strncat() with a binary-safe length-bounded copy.
-
-- CVE-2025-14180 (Moderate, CVSS 6.3) affects pdo_pgsql when PDO::ATTR_EMULATE_PREPARES is true. A parameter containing an invalid multibyte sequence (e.g. alice\x99) causes libpq's PQescapeStringConn to set the error flag and the driver returns NULL. The PDO parser then evaluates ZSTR_LEN(NULL), dereferencing address 0x0, delivering SIGSEGV and killing the PHP worker instantly. The try/catch block never fires because the crash is at C level.
-
-- The DoS has real financial impact. In autocommit mode, a debit UPDATE commits before the crash point, but the order INSERT, inventory UPDATE, and invoice INSERT never run.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074147434964369808</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074147434964369808">DFIR Radar</source>
-      <pubDate>Mon, 06 Jul 2026 15:04:19 +0000</pubDate>
-      <guid isPermaLink="false">2074147434964369808</guid>
     </item>
   </channel>
 </rss>
