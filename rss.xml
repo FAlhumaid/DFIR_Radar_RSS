@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Jul 2026 10:04:15 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 11:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>​​Kratos PhaaS Targets US and EU: How to Reduce Microsoft 365 Account Takeover Risk​</title>
+      <link>https://any.run/cybersecurity-blog/kratos-phaas-account-takeover/</link>
+      <description>Kratos PhaaS is a maturing Microsoft 365 credential-theft platform active since Sept 2025, with 1,484 previously unattributed sandbox sessions now linked to the family across 20+ countries.
+
+- Kratos runs three page generations (V0, V1, V2), each with distinct exfiltration endpoints: V0 POSTs to /PTT/SOft/mini.php, V1 to next.php/nex.php/n3xt.php, V2 to save.php. The kit chains legitimate platforms (SharePoint, Canva, DocuSign lures) through Cloudflare Turnstile anti-bot checks before serving a fake Microsoft 365 login. Browser tab title is nearly always "Authentication" and an animated envelope with "Loading in progress..." precedes the credential form.
+
+- The single best hunting fingerprint: HTTP requests to both /assets/img/barr.svg and /assets/img/lg.svg in the same session. That pair yields 90% recall with near-zero false positives. Key hashes: lg.svg = cd231b895bbcd7154b81df1e065bf02f1ec667b920c8b6d23308cd509833b5ea, styles.css = c447e75f1029ed7a5882add16bcd13ad44be3bd47c93c830ff39185e23d25ebb (connects 636 tasks across V1 and V2).
+
+- Notable defanged IOCs: razen[.]online, enerdizerandtron[.]de, jumpast[.]es, abal[.]my, dufllot[.]sbs, trisrnareprjdocz[.]com; operator IP 41.128.0[.]142. URL tokens factura, dgt, and abogados signal Spanish-language affiliates.
+
+- If WebSocket activity appears alongside credential POST, treat it as a possible AiTM indicator.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076985960630235205</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2076985960630235205">DFIR Radar</source>
+      <pubDate>Tue, 14 Jul 2026 11:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2076985960630235205</guid>
+    </item>
     <item>
       <title>The serpent’s tongue: Luring the Python out of its den</title>
       <link>https://blog.talosintelligence.com/the-serpents-tongue-luring-the-python-out-of-its-den/</link>
@@ -1579,25 +1598,6 @@ Takeaway: Hunt for document execution spawning unexpected child processes, parti
       <source url="https://x.com/DFIR_Radar/status/2074177877881266235">DFIR Radar</source>
       <pubDate>Mon, 06 Jul 2026 17:05:18 +0000</pubDate>
       <guid isPermaLink="false">2074177877881266235</guid>
-    </item>
-    <item>
-      <title>Microsoft Windows Installer Folder Delete Privilege Escalation</title>
-      <link>https://blog.exodusintel.com/2026/07/06/microsoft-windows-installer-folder-delete-privilege-escalation/</link>
-      <description>CVE-2025-27727 in Windows Installer lets any low-privileged user escalate to SYSTEM by abusing a logic flaw in the MSI COM interface. Patched April 2025; full exploit chain published.
-
-Key findings:
-
-- The root cause is a trust-without-validation flaw in CMsiConfigurationManager, exposed via msiexec.exe running as SYSTEM. Three COM methods chained together trigger it: MsiBeginTransactionW (vtable 0xA0) starts a transaction, SetEEUIDirectoryAndFilter (vtable 0xC8) writes an attacker-controlled path to HKLM\Software\Microsoft\Windows\CurrentVersion\Installer\TempPackages, and CleanupTempPackages (vtable 0x50) deletes that path as SYSTEM with no origin validation. The only gatekeeping is a DELETE permission check, trivially satisfied by creating C:\Config.Msi yourself.
-
-- The four-phase exploit escalates from folder-delete primitive to SYSTEM shell. The attacker re-creates C:\Config.Msi with a NULL DACL, races the installer during a triggered rollback, uses a retained WRITE_DAC handle to swap the legitimate .rbs rollback script with a malicious one, and lets msiexec execute it as SYSTEM.
-
-- The patch adds a WIL feature flag check inside CMsiTransaction::SetEEUIDirectoryAndFilter that blocks the call to ScheduleFileOrFolderDelete entirely, breaking the chain before any path reaches TempPackages.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074162792647528468</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074162792647528468">DFIR Radar</source>
-      <pubDate>Mon, 06 Jul 2026 16:05:21 +0000</pubDate>
-      <guid isPermaLink="false">2074162792647528468</guid>
     </item>
   </channel>
 </rss>
