@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Jul 2026 20:04:12 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 21:04:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat Hunting Case Study: Scattered Spider</title>
+      <link>https://www.intel471.com/blog/threat-hunting-case-study-scattered-spider</link>
+      <description>Scattered Spider (G1015) skips exploits entirely and uses social engineering plus silent RMM installs to maintain access. Here is how to hunt the behavior, not just the hash.
+
+Key details:
+
+- Scattered Spider gains initial access through help-desk impersonation calls, convincing employees to approve MFA prompts or install remote tools. No malware, no exploit, just a convincing English-speaking caller who has researched the org's internal processes (T1566, T1199 adjacent social engineering).
+
+- Once inside, the group runs ADExplorer for AD recon, Mimikatz for credential access, Chisel for tunneling, BruteRatel for remote access, and defense evasion tools POORTRY and STONESTOP before pivoting to legitimate RMM tools including AnyDesk, TeamViewer, ScreenConnect, and VNC (T1219.002).
+
+- The hunt centers on command-line behavior, not hashes. Look for a process command line combining a reference to AnyDesk, a silent install flag, and a start-with-Windows argument appearing together. PowerShell.exe spawning as a child of a PowerShell parent with those arguments is the signal.
+
+- Scope matters for triage: a single endpoint hit warrants immediate escalation; the same pattern spread across many machines points to a sanctioned IT deployment.
+
+Hunt for the silent-install command-line pattern in Windows Event logs or your EDR. A clean IOC scan is not a clean bill of health. The HUNTER "AnyDesk Silent Installation" package is free in the Community Edition.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077137111547887827</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2077137111547887827">DFIR Radar</source>
+      <pubDate>Tue, 14 Jul 2026 21:04:14 +0000</pubDate>
+      <guid isPermaLink="false">2077137111547887827</guid>
+    </item>
     <item>
       <title>Nearly 300 GitHub repos pose as legit software to push malware</title>
       <link>https://www.bleepingcomputer.com/news/security/nearly-300-github-repos-pose-as-legit-software-to-push-malware/</link>
@@ -1605,17 +1628,6 @@ Hunt now: search Python dirs for litellm_init.pth, audit GitHub orgs for a docs-
       <source url="https://x.com/DFIR_Radar/status/2074343429069230264">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 04:03:08 +0000</pubDate>
       <guid isPermaLink="false">2074343429069230264</guid>
-    </item>
-    <item>
-      <title>[webapps] Joomla Extension 4.1.4 - PHP Object injection</title>
-      <link>https://www.exploit-db.com/exploits/52617</link>
-      <description>CVE-2026-48909 is a PHP object injection in JoomShaper SP LMS &lt;= 4.1.3 via the lmsOrders cookie, triggering FormattedtextLogger.__destruct() to write a webshell. On Joomla &lt; 5.2.2, this achieves RCE.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074328888570757352</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074328888570757352">DFIR Radar</source>
-      <pubDate>Tue, 07 Jul 2026 03:05:21 +0000</pubDate>
-      <guid isPermaLink="false">2074328888570757352</guid>
     </item>
   </channel>
 </rss>
