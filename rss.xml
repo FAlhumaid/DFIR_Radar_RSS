@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Jul 2026 13:04:40 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 14:04:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Investigating Persistence Mechanisms in AWS</title>
+      <link>https://www.rapid7.com/blog/post/dr-investigating-aws-persistence-mechanisms</link>
+      <description>AWS persistence survives containment: IAM backdoors, Lambda code injection, and federated tokens let attackers outlast credential rotations and even account disabling.
+
+- Attackers chain iam:CreateUser with iam:CreateAccessKey and iam:AttachUserPolicy to plant a durable foothold. The trail is in CloudTrail: filter requestParameters.userName for unknown accounts, exclude Get/List/Describe noise, and group by userIdentity.arn plus eventName to surface what permissions were granted and by whom.
+
+- iam:CreateRole or iam:UpdateAssumeRolePolicy with external account IDs in the Principal block gives attacker-controlled accounts cross-account assume-role access. Hunt CloudTrail for CreateRole and UpdateAssumeRolePolicy events whose policyDocument contains unrecognized account IDs, then pull all sts:AssumeRole calls from those accounts.
+
+- Lambda backdoors (T1059) deploy Python that calls iam:CreateUser, attaches AdministratorAccess, and returns plaintext credentials. Exposure via lambda:CreateFunctionUrlConfig with authType NONE or apigateway:CreateIntegration makes it internet-reachable. Check older function versions, legitimate-looking code may be a cover layer.
+
+- STS GetFederationToken issues temporary creds that survive the source key's deletion or disabling until they expire naturally. The sessionContext.sessionIssuer field is your pivot: it names the compromised IAM user. Apply a deny-all to that user immediately and hold it until the federated creds expire.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077393937627762840</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2077393937627762840">DFIR Radar</source>
+      <pubDate>Wed, 15 Jul 2026 14:04:46 +0000</pubDate>
+      <guid isPermaLink="false">2077393937627762840</guid>
+    </item>
     <item>
       <title>AsyncAPI npm Supply Chain Attack: Malware Injected Into Packages With 2 Million Weekly Downloads</title>
       <link>https://securityaffairs.com/195395/security/asyncapi-npm-supply-chain-attack-malware-injected-into-packages-with-2-million-weekly-downloads.html</link>
@@ -1555,27 +1574,6 @@ Hunt: For any Firebase-backed app, pull /__/firebase/init.json, extract projectI
       <source url="https://x.com/DFIR_Radar/status/2074569971284300113">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 19:03:20 +0000</pubDate>
       <guid isPermaLink="false">2074569971284300113</guid>
-    </item>
-    <item>
-      <title>The ‘Ghost’ in the Database: Recovering Active ADFS Signing Keys via Machine DPAPI</title>
-      <link>https://cloud.google.com/blog/topics/threat-intelligence/recovering-active-adfs-signing-keys-machine-dpapi/</link>
-      <description>Golden SAML lives on: Mandiant finds active ADFS token-signing keys recoverable via Machine DPAPI when AutoCertificateRollover is disabled and manual cert rotation leaves config drift.
-
-Key findings:
-
-- The "ghost certificate" trap: disabling AutoCertificateRollover and rotating certs manually without updating the WID database leaves a stale, unworkable cert in the DB. The real active signing key moves to C:\ProgramData\Microsoft\Crypto\RSA\MachineKeys\, protected by Machine DPAPI using DPAPI_SYSTEM LSA secret plus S-1-5-18 masterkeys at C:\Windows\System32\Microsoft\Protect\S-1-5-18\. Standard DKM extraction returns the ghost; Entra ID rejects those tokens with AADSTS500172.
-
-- SharpDPAPI /machine running as SYSTEM recovers the active RSA private key from the machine store, no LSASS touch, no live ADFS process interaction. Mandiant used it to forge a SAML assertion accepted by Entra ID at Global Administrator privilege across the federated M365 tenant.
-
-- ADFS Event ID 385 is the canary: it flags certificate validity drift and is the observable symptom of this misconfiguration. Confirm with Get-AdfsProperties returning AutoCertificateRollover: False.
-
-- Detection requires correlation: SACL-based Security Event ID 4663 on the MachineKeys and S-1-5-18 paths, cross-referenced with ADFS issuance events (299, 1200-series) and Entra ID federated sign-in logs. Neither source alone is sufficient.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074555019186384960</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2074555019186384960">DFIR Radar</source>
-      <pubDate>Tue, 07 Jul 2026 18:03:55 +0000</pubDate>
-      <guid isPermaLink="false">2074555019186384960</guid>
     </item>
   </channel>
 </rss>
