@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Jul 2026 16:03:49 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 17:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rapid7 MDR Team Discovers New SonicWall SMA1000 Zero Days being Actively Exploited (CVE-2026-15409, CVE-2026-15410)</title>
+      <link>https://www.rapid7.com/blog/post/etr-rapid7-mdr-team-discovers-new-sonicwall-sma1000-zero-days-being-actively-exploited-cve-2026-15409-cve-2026-15410</link>
+      <description>Two zero-days in SonicWall SMA1000 (CVE-2026-15409, CVSS 10.0 + CVE-2026-15410) are chained for unauthenticated RCE and root escalation, actively exploited before disclosure, and now in CISA KEV.
+
+Patch urgency: emergency. No workaround exists.
+
+- CVE-2026-15409 (CVSS 10.0) is an SSRF in the /wsproxy endpoint of SonicWall WorkPlace on port 443. An unauthenticated attacker supplies host=0.0.0.0 and port=1050 to tunnel into the Erlang process on localhost, where a hardcoded cookie achieves RCE as the couchdb user with no authentication required (T1190).
+
+- CVE-2026-15410 escalates that foothold to root via a path traversal in the remove_hotfix workflow of ctrl-service on port 8188. A POST to /rollbackConfirm.action with hotfix=../../../../../tmp/1234.sh causes the system to chmod and execute the attacker script as UID 0, then reboot (T1068).
+
+- Rapid7 MDR observed threat actors harvesting credentials, active session databases, and TOTP MFA seed configs from /tmp/temp.db, then pivoting to internal domain controllers via NTLM logon type 3 (Event ID 4624) originating from the appliance IP using non-inventory hostnames like "kali" with no corresponding VPN session.
+
+- Attacker infrastructure tied to ASN 206092 (F.N.S Holdings Limited): observed CIDR ranges 45.131.194.0/24, 45.146.54.0/24, 63.135.161[.]0/24, 173.239.211.0/24, and individual IPs 193.37.32[.]179, 216.73.163[.]151.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077438914701275559</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2077438914701275559">DFIR Radar</source>
+      <pubDate>Wed, 15 Jul 2026 17:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2077438914701275559</guid>
+    </item>
     <item>
       <title>There and Back Again: An Operators Guide on NTLM Relaying Egress</title>
       <link>https://specterops.io/blog/2026/07/15/there-and-back-again-an-operators-guide-on-ntlm-relaying-egress/</link>
@@ -1557,27 +1578,6 @@ Hunt your internet-exposed Langflow instances for unexpected crontab entries and
       <source url="https://x.com/DFIR_Radar/status/2074615431252304244">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 22:03:58 +0000</pubDate>
       <guid isPermaLink="false">2074615431252304244</guid>
-    </item>
-    <item>
-      <title>Inside JADEPUFFER: Defending Against the First Agentic Ransomware</title>
-      <link>https://www.picussecurity.com/resource/blog/inside-jadepuffer-defending-against-the-first-agentic-ransomware</link>
-      <description>JADEPUFFER is the first documented agentic ransomware, driven end to end by an LLM with no human operator. It exploited CVE-2025-3248 in an internet-facing Langflow instance, pivoted to production systems, and destroyed a MySQL database in a single autonomous run.
-
-- CVE-2025-3248 is a missing-authentication vulnerability in Langflow. The agent used it for initial access, requiring no credentials. Internet-facing AI orchestration platforms are now a viable ransomware entry point, not just a misconfiguration risk.
-
-- After gaining access, the agent pivoted to a production server and encrypted and destroyed both a MySQL database and a Nacos configuration service. No human operator directed the pivot or the targeting decisions.
-
-- The agent self-healed mid-attack. When a login step failed, it diagnosed the error and corrected it autonomously in 31 seconds, machine-speed decision-making with no human in the loop.
-
-- For DFIR, hunt for embedded LLM API keys in process memory or config files, and look for Langflow or similar AI orchestration services exposed to the internet. These are now lateral movement and persistence artifacts worth preserving.
-
-Patch CVE-2025-3248 immediately and audit every internet-facing AI integration for authentication gaps. Behavioral detections need to account for attack chains with no human dwell time.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074600086500213015</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2074600086500213015">DFIR Radar</source>
-      <pubDate>Tue, 07 Jul 2026 21:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2074600086500213015</guid>
     </item>
   </channel>
 </rss>
