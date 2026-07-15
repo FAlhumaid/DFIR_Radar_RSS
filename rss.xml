@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Jul 2026 10:04:18 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 11:04:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Forgotten UEFI shims undermining Secure Boot</title>
+      <link>https://www.welivesecurity.com/en/eset-research/forgotten-uefi-shims-undermining-secure-boot/</link>
+      <description>11 forgotten, still-trusted UEFI shims (v0.9 and below) bypass Secure Boot on any system enrolling the Microsoft Corporation UEFI CA 2011 certificate. CVE-2026-8863 and CVE-2026-10797 assigned; revoked in Microsoft's June 9 2026 Patch Tuesday dbx update.
+
+- The core risk is not a novel bug: any attacker can copy a vulnerable, Microsoft-signed shim to the EFI System Partition of a target machine regardless of its installed OS, pair it with an old GRUB 2 binary, and execute unsigned code at boot, enabling bootkits like BlackLotus, Bootkitty, or HybridPetya. No memory corruption, no ROP chain required.
+
+- CVE-2026-10797 (shims v0.9 and below): the revocation check and signature verification functions read the signature length from different PE structures. An attacker manipulates the WIN_CERTIFICATE length field so dbx and MokListX comparisons run against garbage, silently bypassing certificate-based revocations for any shim-embedded certificate.
+
+- Pre-v15.3 shims ignore SBAT entirely; pre-v0.9 shims ignore MokListX. An enterprise that revoked a compromised MOK certificate via MokListX is fully exposed if an attacker substitutes one of these old shims, which trusts MokList but skips the denylist.
+
+- 11 PE Authenticode hashes were added to dbx on June 9 2026. Note: the expiration of Microsoft Corporation UEFI CA 2011 on June 27 2026 does NOT revoke trust in binaries it signed; certificate expiry has no effect on Secure Boot verification.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077348575936434289</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2077348575936434289">DFIR Radar</source>
+      <pubDate>Wed, 15 Jul 2026 11:04:31 +0000</pubDate>
+      <guid isPermaLink="false">2077348575936434289</guid>
+    </item>
     <item>
       <title>OkoBot: new sophisticated malware framework targets cryptocurrency users</title>
       <link>https://securelist.com/okobot-framework-targets-cryptocurrency-wallets/120660/</link>
@@ -1575,27 +1594,6 @@ Confirm commit 81ccda30b4e8 in your running kernel via package changelog, not un
       <source url="https://x.com/DFIR_Radar/status/2074524712819167698">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 16:03:29 +0000</pubDate>
       <guid isPermaLink="false">2074524712819167698</guid>
-    </item>
-    <item>
-      <title>Banana RAT Evolves: Comparing Two Recent Branches Through ANY.RUN</title>
-      <link>https://any.run/cybersecurity-blog/banana-rat-evolution-analysis/</link>
-      <description>Banana RAT operator exposed via open server index, revealing two live branches and a FastAPI payload generator, showing deliberate evolution in persistence, transport, and artifact naming between May and June 2026.
-
-- Staging host 198.245.53[.]26 left a public directory open, exposing st.php, st2.txt, msedge.txt, and backend tooling: servidor_completo_pool.py (a FastAPI pool-based variant builder) and ofuscador.py (a BAT-wrapped PowerShell character-reconstruction obfuscator). This is active MaaS infrastructure, not just a payload drop.
-
-- Older branch (May 25): static ETW-themed paths (ProgramData\Microsoft\Diagnosis\ETW), MicrosoftEdgeUpdateCore.exe, C2 at c.windowns-cdn[.]com resolving to 149.56.12[.]51, HTTPS transport. Hash: BC4C29BC...C0C.
-
-- Newer branch (June 09): randomized SvcName/FileName from MachineGuid, VBS launcher at ProgramData\Microsoft\7c70c4282dfc72fa\c9dba5b0552d.vbs, SYSTEM scheduled task via Register-ScheduledTask, HKCU Run key fallback. C2 pivots to wss://MD5(MachineGuid).testewin[.]com:443/agent through Cloudflare (104.21.39[.]21 / 172.67.142[.]55). Fallback IP remains 149.56.12[.]51, the cross-branch anchor.
-
-- Capabilities include keylogging (T1056.001), screen capture (T1113), runtime C# compilation via csc.exe, WebSocket C2 (T1071.001), and process discovery against local defenses. This is a full banking RAT, not a loader.
-
-Block or sinkhole *.testewin[.]com at DNS/SNI level.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074509872838930770</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2074509872838930770">DFIR Radar</source>
-      <pubDate>Tue, 07 Jul 2026 15:04:31 +0000</pubDate>
-      <guid isPermaLink="false">2074509872838930770</guid>
     </item>
   </channel>
 </rss>
