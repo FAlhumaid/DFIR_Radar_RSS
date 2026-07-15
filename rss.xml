@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Jul 2026 15:05:38 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 16:03:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>There and Back Again: An Operators Guide on NTLM Relaying Egress</title>
+      <link>https://specterops.io/blog/2026/07/15/there-and-back-again-an-operators-guide-on-ntlm-relaying-egress/</link>
+      <description>NTLM relay over egress is still live in ~70-80% of AD environments. SpecterOps details "There and Back Again": coerce outbound WebDAV or SMB auth, catch it on a cloud VM, relay back through C2 SOCKS5 to LDAP or ADCS.
+
+- The full chain runs without local admin: StartWebClient BOF (ETW trigger, no admin needed) starts WebClient, rpc2efs.py remotely starts EFS, PetitPotam triggers EFSRPC coercion to a WebDAV connection string pointing to a cloud VM (e.g. 40.90.233[.]199) on 443/TCP, bypassing SMB egress blocks on 445/TCP. ntlmrelayx.py catches and relays the auth over proxychains4 SOCKS5 back to an internal LDAP/LDAPS or ADCS (ESC8) endpoint.
+
+- Post-relay impact is full host takeover: ntlmrelayx writes msDs-KeyCredentialLink (shadow credentials) on the relayed machine account, certipy authenticates with the resulting PFX to get a TGT, then PKINITtools gets4uticket performs S4U2Self to impersonate a local admin over cifs, and wmiexec escalates to WORKSTATION\Administrator.
+
+- The cloud pivot uses iptables PREROUTING to redirect 443 to 8443, then an SSH reverse port forward carries the auth back to the teamserver. DNS record addition (dnstool.py from Krbrelayx) requires only low-privilege domain user rights, making the setup fully operable from a standard C2 foothold.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077423898539307516</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2077423898539307516">DFIR Radar</source>
+      <pubDate>Wed, 15 Jul 2026 16:03:49 +0000</pubDate>
+      <guid isPermaLink="false">2077423898539307516</guid>
+    </item>
     <item>
       <title>ClaudeFix: Shared Claude Chats Meet ClickFix</title>
       <link>https://www.zscaler.com/blogs/security-research/claudefix-shared-claude-chats-meet-clickfix</link>
@@ -1561,29 +1578,6 @@ Patch CVE-2025-3248 immediately and audit every internet-facing AI integration f
       <source url="https://x.com/DFIR_Radar/status/2074600086500213015">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 21:03:00 +0000</pubDate>
       <guid isPermaLink="false">2074600086500213015</guid>
-    </item>
-    <item>
-      <title>No Rules, No Locks: Firebase Misconfiguration and the Borrowers It Left Behind</title>
-      <link>https://infosecwriteups.com/no-rules-no-locks-firebase-misconfiguration-and-the-borrowers-it-left-behind-90d568038414?source=rss----7b722bfd1b8d---4</link>
-      <description>Firebase default-open rules exposed hundreds of Indonesian 🇮🇩 microfinance borrowers' full identity dossiers, GPS home coordinates, and biometric photos to unauthenticated REST access for at least five years.
-
-Key findings:
-
-- Entry point was /__/firebase/init.json, a public SDK config file every Firebase web app exposes by default. The projectId it contains is enough to construct REST endpoints for all three Firebase services: Storage, Firestore, and Realtime Database. No credentials, no browser, no session needed.
-
-- Firebase Storage and Firestore both returned HTTP 200 to unauthenticated requests. Storage exposed 100+ files including versioned loan application schemas. Firestore's customers, loans, surveys, and groups collections were fully readable and writable. The Realtime Database alone returned 403.
-
-- The surveys collection was the worst exposure: each document contained NIK (national ID), DOB, religion, mother's maiden name, husband's name, guarantor's NID, GPS coordinates, credit score, digital signature, and direct unauthenticated URLs to KTP photo, selfie, home photo, and signed loan PDF.
-
-- Write and delete access was confirmed via the same unauthenticated API. An attacker could inject fake loan approvals, alter credit scores, or permanently delete financial records with no rate limiting and no audit trail.
-
-Hunt: For any Firebase-backed app, pull /__/firebase/init.json, extract projectId, and test all three service endpoints unauthenticated.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074585202207428945</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074585202207428945">DFIR Radar</source>
-      <pubDate>Tue, 07 Jul 2026 20:03:51 +0000</pubDate>
-      <guid isPermaLink="false">2074585202207428945</guid>
     </item>
   </channel>
 </rss>
