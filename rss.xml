@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Jul 2026 03:03:27 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 08:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ADPathFinder: OpenGraph Attack Path Mapping in BloodHound CE</title>
+      <link>https://www.netspi.com/blog/technical-blog/network-pentesting/adpathfinder-opengraph-attack-path-mapping-in-bloodhound-ce/</link>
+      <description>NetSPI releases ADPathFinder, an open-source tool that chains BloodHound CE graph data across AD, ADCS, MSSQL, and SCCM to surface cross-dataset privilege escalation paths a manual query workflow would miss.
+
+Key details:
+
+- ADPathFinder queries a combined BloodHound CE graph built from SharpHound, MSSQLHound, and ConfigManBearPig, then groups paths that share edges so a 20,000-user domain produces prioritised findings rather than hundreds of near-duplicates. Standalone issues like SMB signing disabled rank higher when they sit on an onward escalation path.
+
+- ADCS coverage includes ESC1 through ESC9. SCCM covers TAKEOVER-1/2/4/5/6/7/8, ELEVATE-1, anonymous policy access, and PXE distribution point checks. MSSQL checks cover linked servers, login impersonation, and NTLM relay exposure.
+
+- Password auditing ties cracked NTDS and hashcat potfile output to BloodHound graph context: a cracked password on a Kerberoastable account sitting on a DA path is a different severity finding than a cracked standard user, and the report separates them automatically.
+
+- Output is an HTML report per domain with embedded attack path graphs and PowerShell confirmation commands. JSON and text outputs are also written for automation or peer review. The --unsafe-report flag, off by default, adds cleartext passwords for deliverables that require it; those files carry the same sensitivity as the source NTDS dump.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077303015007043718</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2077303015007043718">DFIR Radar</source>
+      <pubDate>Wed, 15 Jul 2026 08:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2077303015007043718</guid>
+    </item>
     <item>
       <title>Six Minutes to Compromise: How ‘Patriot Bait’ Actor Used AI to Build and Deploy a C&amp;C Botnet</title>
       <link>https://www.trendmicro.com/en_us/research/26/g/actor-behind-patriot-bait-used-ai-to-deploy-c2-botnet.html</link>
@@ -1583,25 +1604,6 @@ Block or sinkhole *.testewin[.]com at DNS/SNI level.
       <source url="https://x.com/DFIR_Radar/status/2074479553649762784">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 13:04:02 +0000</pubDate>
       <guid isPermaLink="false">2074479553649762784</guid>
-    </item>
-    <item>
-      <title>The HTTP 303 SSRF Hack : From Python HTTP Client Defaults to AWS Credential Exfiltration.</title>
-      <link>https://infosecwriteups.com/the-http-303-hack-from-python-http-client-defaults-to-aws-credential-exfiltration-a-deep-dive-bfaece6c3805?source=rss----7b722bfd1b8d---4</link>
-      <description>A blind SSRF escalated to live AWS IAM credential theft by chaining a user-controlled OAuth field, Python requests default redirect handling, and IMDSv1 reachability on an EKS node. No single component was broken. The composition was.
-
-- BigQuery service account JSON accepted by the platform contained a user-supplied token_uri field with zero allowlist validation. The backend passed it verbatim to the google-auth library, which POSTed a signed JWT to whatever URL the attacker provided. An OOB Interactsh probe confirmed the primitive immediately.
-
-- Direct SSRF to 169.254.169[.]254 failed because IMDS returns HTTP 405 to POST requests. Timing analysis (IMDS responded in 0.34s vs. 28s for an unroutable IP) proved the pod could reach IMDS, the verb was simply wrong. The fix: serve HTTP 303 See Other from an attacker-controlled server. Per RFC 7231 §6.4.4, Python requests rewrites POST to GET on a 303, strips the body, and follows the Location header to IMDS.
-
-- The error reflection channel completed the read primitive. google-auth parsed the IMDS JSON response, failed to find access_token, raised an exception, and the worker returned the raw exception string, including AccessKeyId, SecretAccessKey, and SessionToken, in the HTTP 400 body to the authenticated caller.
-
-- Remediation: the platform implemented a frozenset allowlist at the field-parsing layer, blocking any token_uri not matching oauth2.googleapis[.]com/token or accounts.google[.]com/o/oauth2/token.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074464337419182421</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074464337419182421">DFIR Radar</source>
-      <pubDate>Tue, 07 Jul 2026 12:03:35 +0000</pubDate>
-      <guid isPermaLink="false">2074464337419182421</guid>
     </item>
   </channel>
 </rss>
