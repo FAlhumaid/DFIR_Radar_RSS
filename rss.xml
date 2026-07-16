@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Jul 2026 14:03:32 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 15:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>HelloNet campaign — new malicious modules launched through the ViPNet update system</title>
+      <link>https://securelist.com/tr/hellonet-vipnet/120700/</link>
+      <description>An unknown Chinese-speaking APT (low-confidence attribution) has been abusing the ViPNet secure-network update system since at least May 2026 to backdoor Russian 🇷🇺 government, energy, transport, and logistics organizations in an active campaign Kaspersky calls HelloNet.
+
+- DLL sideloading is the persistence anchor: wtsapi32.dll (MD5: B103CD21280B4061F88B2BCC51394894 and variants) is dropped into C:\Program Files (x86)\InfoTeCS\VIPNet Update System. The signed ViPNet binary itcsrvup64.exe loads it at startup (T1574.002), giving the loader HelloInjector a trusted parent. HelloInjector then injects into svchost.exe via NtWriteVirtualMemory and NtCreateThreadEx, targeting the process whose command line contains "netsvcs".
+
+- HelloProxy runs inside svchost.exe and hooks NtDeviceIoControlFile (IOCTL codes AFD_RECV 0x12017 and AFD_GET_TDI_HANDLES 0x12037) using Microsoft Detours to blind user-mode network filters. It listens on ports 5003 and 5060, handshakes with the C2 via a two-byte 0x0502 marker, and either forwards traffic as a proxy or receives and executes in-memory payloads. All intercepted messages log to C:\users\public\tesh4RPC.txt.
+
+- HelloExecutor runs recon (ipconfig, net user, dir on ViPNet Client and Administrator paths) then pivots via a renamed PuTTY Plink binary at C:\users\public\music\frontpage.exe tunneling to 5.39.253[.]206 on port 3522 (T1572, T1021.004).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077771129544921164</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2077771129544921164">DFIR Radar</source>
+      <pubDate>Thu, 16 Jul 2026 15:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2077771129544921164</guid>
+    </item>
     <item>
       <title>The TTF Trap: A Global Campaign of a Low-Detection Lua Loader</title>
       <link>https://feeds.fortinet.com/~/960560447/0/fortinet/blog/threat-research~The-TTF-Trap-A-Global-Campaign-of-a-LowDetection-Lua-Loader</link>
@@ -1537,25 +1554,6 @@ Hunt C:\Windows\SysWOW64\wire and \hero for unsigned or anomalously signed execu
       <source url="https://x.com/DFIR_Radar/status/2075158934298763628">DFIR Radar</source>
       <pubDate>Thu, 09 Jul 2026 10:03:39 +0000</pubDate>
       <guid isPermaLink="false">2075158934298763628</guid>
-    </item>
-    <item>
-      <title>Detection Engineering in the Era of Semantic Malware</title>
-      <link>https://detect.fyi/detection-engineering-in-the-era-of-semantic-malware-663cee8cda7b?source=rss----d5fd8f494f6a---4</link>
-      <description>Brainworm and the promptware kill chain are forcing detection engineers to rebuild core assumptions. Signatures, process trees, and network indicators all degrade when the attacker writes English, not assembly.
-
-- Brainworm (Origin, March 2026) is a PoC that poisons CLAUDE.md with natural language C2 instructions over RabbitMQ/AMQP. No binary, no shellcode. The agent runtime executes malicious tool calls indistinguishable from legitimate ones. Researchers formalized 36 incidents (2023-early 2026) showing promptware now routinely achieves persistence, C2, lateral movement, and exfiltration across Claude Code, Cursor, Devin, and Slack AI.
-
-- Memory config files are the new registry Run key. Alert on any modification to CLAUDE.md, .cursorrules, AGENTS.md, or GEMINI.md by a process other than a known IDE or git operation, especially diffs containing URLs, shell commands, or base64 not in the last reviewed commit.
-
-- Behavioral baselining is non-optional. You cannot signature-match non-deterministic tool call sequences, but you can baseline write-to-read ratios, session duration, and first-seen external destinations per agent session. Composite deviation across multiple fields is your signal, not any single indicator.
-
-- Context window telemetry is the highest-value instrumentation gap: no major agent framework currently emits structured logs of what was loaded into the context window at inference time.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075145149747699954</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2075145149747699954">DFIR Radar</source>
-      <pubDate>Thu, 09 Jul 2026 09:08:53 +0000</pubDate>
-      <guid isPermaLink="false">2075145149747699954</guid>
     </item>
   </channel>
 </rss>
