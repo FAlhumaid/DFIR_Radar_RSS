@@ -5,8 +5,23 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Jul 2026 06:03:57 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 07:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ClickLock Stealer: Paste Once, Lose Everything</title>
+      <link>https://www.group-ib.com/blog/clicklock-stealer-macos-malware/</link>
+      <description>ClickLock Stealer: a new zero-detection modular macOS infostealer delivered via ClickFix paste-and-run lures, combining forced interaction loops with a persistent GSocket backdoor to drain credentials, crypto wallets, and Keychain data.
+
+- ClickLock Stealer (discovered June 9, 2026, zero VirusTotal detections) is distributed via fake Cloudflare CAPTCHA pages that trick users into pasting a shell command. The orchestrator script.sh (SHA1 d9617710d4ed8e9b87f6fee0b7014c4101effba0) disables Ctrl-C, kills NotificationCenter for ~6 hours to suppress Gatekeeper alerts, and downloads four modules from two compromised WordPress domains: panalobet[.]ph and store.grafsynergy[.]com.
+
+- The "locker" mechanic is the standout TTP (T1204.004, T1489): if the victim cancels the fake osascript password dialog, LaunchAgents com.authirity.plist and com.chromer.plist activate on next login, killing Finder, Dock, Activity Monitor, and all browsers every 200ms for up to 34 days until the user submits their password and approves a Keychain prompt for Chrome Safe Storage key.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077650173556105632</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2077650173556105632">DFIR Radar</source>
+      <pubDate>Thu, 16 Jul 2026 07:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2077650173556105632</guid>
+    </item>
     <item>
       <title>VU#725167: node-forge Signature Forgery Vulnerabilities in RSA-PKCS and ED25519 Implementations</title>
       <link>https://kb.cert.org/vuls/id/725167</link>
@@ -1547,25 +1562,6 @@ Disable device code authentication in Entra ID now.
       <source url="https://x.com/DFIR_Radar/status/2074902076761530769">DFIR Radar</source>
       <pubDate>Wed, 08 Jul 2026 17:03:00 +0000</pubDate>
       <guid isPermaLink="false">2074902076761530769</guid>
-    </item>
-    <item>
-      <title>GhostApproval: A Trust Boundary Gap in AI Coding Assistants</title>
-      <link>https://www.wiz.io/blog/ghostapproval-a-trust-boundary-gap-in-ai-coding-assistants</link>
-      <description>GhostApproval: a symlink-following flaw (CWE-61 plus CWE-451 UI deception) hits 6 major AI coding assistants, enabling pre-authorization RCE on developer machines via malicious git repos.
-
-- The attack is trivial: a repo contains a symlink disguised as a workspace file (e.g., project_settings.json -&gt; ~/.ssh/authorized_keys). When a developer asks their AI assistant to "set up the workspace," the agent follows the symlink and writes an attacker SSH key outside the sandbox. No path canonicalization, no sandbox enforcement. Affected tools: Amazon Q Developer (CVE-2026-12958, fixed), Cursor (CVE-2026-50549, fixed), Google Antigravity (fixed), Anthropic Claude Code, Augment, and Windsurf.
-
-- The deeper finding is CWE-451: in Claude Code, the agent's internal reasoning explicitly identified "this is a symbolic link to the Claude settings file," yet the confirmation prompt shown to the user read only "Make this edit to project_settings.json?" The human approved a lie. The Human-in-the-Loop became a rubber stamp.
-
-- Windsurf and Amazon Q exhibited pre-authorization writes: the file was modified before the Accept/Reject dialog appeared. That dialog was an undo button, not a gate. Augment was worst: silent reads AND writes, no dialog at all, with the agent narrating the exfiltration in chat.
-
-- Patch status at publication: AWS (language server 1.69.0), Cursor, and Google fixed. Augment acknowledged but no fix shipped. Windsurf acknowledged June 23, 2026, no update.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2074871928331141231</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2074871928331141231">DFIR Radar</source>
-      <pubDate>Wed, 08 Jul 2026 15:03:12 +0000</pubDate>
-      <guid isPermaLink="false">2074871928331141231</guid>
     </item>
   </channel>
 </rss>
