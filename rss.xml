@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Jul 2026 13:04:23 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 14:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The TTF Trap: A Global Campaign of a Low-Detection Lua Loader</title>
+      <link>https://feeds.fortinet.com/~/960560447/0/fortinet/blog/threat-research~The-TTF-Trap-A-Global-Campaign-of-a-LowDetection-Lua-Loader</link>
+      <description>A large-scale phishing campaign active since March 2026 drops heavily obfuscated JScript that chains an AutoIt or Lua loader, disguised as a .ttf font file, to deliver Remcos, Agent Tesla, XWorm, and Snake Keylogger variants.
+
+- Phishing emails impersonate trusted businesses with payment lures, delivering a malicious archive containing obfuscated JScript. The script uses string array mapping, control flow flattening, and runtime .split()/.join() deobfuscation to evade analysis. It checks for the variable 'YESSSSSSSS', drops files to %PUBLIC%\Libraries, and establishes persistence via a Scheduled Task before launching the next stage through WScript.Shell.
+
+- The dropped .ttf file is actually a LuaJIT script. It decrypts payload through string reversal, symbol substitution, Base64 decode, then a custom ROT cipher keyed on the first byte of the encrypted string. Anti-analysis layers include decoy memory allocation, page guards, Donut shellcode signature masking, and a Vectored Exception Handler that decrypts page-sized shellcode blocks only on access violation, defeating static and dynamic inspection.
+
+- Final payloads execute fileless via Donut shellcode and reflective loading. Best Private LOGGER is confirmed as a Snake Keylogger variant sharing identical collection modules and naming conventions. IOCs include C2s at 104[.]239.66.86[:]7004, 46[.]183.223.21[:]2404, 107[.]174.34.137[:]443, and newremupdate[.]duckdns.org[:]2404.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077756016100556845</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2077756016100556845">DFIR Radar</source>
+      <pubDate>Thu, 16 Jul 2026 14:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2077756016100556845</guid>
+    </item>
     <item>
       <title>GoSerpent: a persistent threat evolves with sophisticated data collection and exfiltration</title>
       <link>https://securelist.com/goserpent-backdoor-in-southeast-asia/120687/</link>
@@ -1539,29 +1556,6 @@ Hunt C:\Windows\SysWOW64\wire and \hero for unsigned or anomalously signed execu
       <source url="https://x.com/DFIR_Radar/status/2075145149747699954">DFIR Radar</source>
       <pubDate>Thu, 09 Jul 2026 09:08:53 +0000</pubDate>
       <guid isPermaLink="false">2075145149747699954</guid>
-    </item>
-    <item>
-      <title>Hindsight 2026.06</title>
-      <link>https://dfir.blog/hindsight-parses-firefox/</link>
-      <description>Hindsight v2026.06 adds Firefox support and deeper download forensics, making it a stronger cross-browser artifact parser for investigations.
-
-Key updates:
-
-- Firefox is now parsed alongside Chromium browsers. All profiles from all browsers merge into a single Timeline tab in XLSX output, with unified row types (url, cookie, autofill) so investigators can filter cross-browser activity in one view without stitching sources manually.
-
-- Service Workers are parsed for the first time in Hindsight. Data comes from the Service Workers\Database LevelDB, which means historical and deleted records surface (shown as gray rows). A new Service Workers tab organizes origin, registration, and resources hierarchically.
-
-- Downloads parsing is significantly expanded. Hindsight now reads shared_proto_db alongside the History DB, surfacing fields like download_source, request_headers, fetched_via_service_worker, and storage_partition. Critically, a new download (opened) row logs last_access_time when a user opened a file through the browser, a useful user-activity timestamp.
-
-- The Extensions tab is now hierarchical: name, ID, and install info at the top level, with permissions and scripts nested below, improving readability during extension-abuse investigations.
-
-Takeaway: update to v2026.06 via pip install pyhindsight or the GitHub release. On cross-browser cases, the merged Timeline tab is now your first stop.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075023017625985095</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2075023017625985095">DFIR Radar</source>
-      <pubDate>Thu, 09 Jul 2026 01:03:34 +0000</pubDate>
-      <guid isPermaLink="false">2075023017625985095</guid>
     </item>
   </channel>
 </rss>
