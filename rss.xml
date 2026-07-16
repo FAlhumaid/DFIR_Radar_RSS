@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 16 Jul 2026 15:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 16:04:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Russian hackers trojanize WebEx, Zoom apps to push Starland malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/russian-hackers-trojanize-webex-zoom-apps-to-push-starland-malware/</link>
+      <description>Russian 🇷🇺 UAT-11795 trojanizes WebEx, Zoom, and MobaXterm installers to deploy Starland RAT, CastleStealer, and Remcos against U.S. 🇺🇸 targets since June 2025.
+
+- Attack chain: HTA file pulls a trojanized NSIS installer hiding a Python loader disguised as LICENSE.txt. The loader writes Registry persistence, decrypts Starland RAT in memory, adds scheduled tasks and Startup folder items, and attempts privilege escalation. 64-bit shellcode delivers CastleStealer; 32-bit shellcode delivers Remcos.
+
+- Starland RAT harvests HWID, OS details, AV products, Active Directory topology, browser credentials, and 40+ crypto wallets. It can screenshot, execute shell commands, inject shellcode, and download EXE/MSI/DLL/ZIP payloads.
+
+- C2 resilience is notable: if the hardcoded address fails, Starland queries a Polygon smart contract for an XOR-encrypted fallback domain, making sinkholing ineffective. WLDR, a previously undocumented PowerShell C2 framework, beacons with PBKDF2-SHA256 encryption, runs entirely in memory, and binds payloads to each victim's hardware ID.
+
+- ClickFix is the suspected initial access vector (T1204.002). Hunt for HTA execution spawning msiexec or Python, LICENSE.txt files outside expected install paths, and scheduled tasks created shortly after software installation.
+
+Full IOC list is in the Cisco Talos report. Block outbound queries to Polygon RPC endpoints from endpoints that have no business reason to reach them.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077786449089593379</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2077786449089593379">DFIR Radar</source>
+      <pubDate>Thu, 16 Jul 2026 16:04:28 +0000</pubDate>
+      <guid isPermaLink="false">2077786449089593379</guid>
+    </item>
     <item>
       <title>HelloNet campaign — new malicious modules launched through the ViPNet update system</title>
       <link>https://securelist.com/tr/hellonet-vipnet/120700/</link>
@@ -1531,29 +1552,6 @@ Detect node.exe making external network calls where the parent is PowerShell or 
       <source url="https://x.com/DFIR_Radar/status/2075175276145746384">DFIR Radar</source>
       <pubDate>Thu, 09 Jul 2026 11:08:36 +0000</pubDate>
       <guid isPermaLink="false">2075175276145746384</guid>
-    </item>
-    <item>
-      <title>Fake VPN and 7-Zip Apps Turn Victims Into Residential Proxy Nodes</title>
-      <link>https://securityaffairs.com/194990/malware/fake-vpn-and-7-zip-apps-turn-victims-into-residential-proxy-nodes.html</link>
-      <description>"Lurking Lizard" ran a covert residential proxy business since 2022, enrolling victim devices via trojanized 7-Zip and WireVPN apps without consent, with over 1 million Android downloads.
-
-Key findings:
-
-- The attack chain starts with typosquat domains like 7zip[.]com (vs. the real 7-zip[.]org) delivering trojanized installers. The fake 7-Zip drops hero.exe and uphero.exe into C:\Windows\SysWOW64\hero. WireVPN, the evolved rebrand, mirrors this exactly: wire.exe and upwire.exe in C:\Windows\SysWOW64\wire. Same skeleton, new label.
-
-- A hardcoded IPLogger beacon at hxxps://iplogger[.]com/mnWD appeared across multiple payloads spanning years, tying fake 7-Zip, WireVPN, and fake TikTok/YouTube tools to one operator. Lurking Lizard used a legitimate third-party tracker to avoid hosting their own C2 telemetry.
-
-- WireVPN is signed with a valid certificate issued to WEILAI NETWORK TECHNOLOGY CO., LIMITED. Network behavior exposes it: rather than a single stable VPN tunnel, it pings large numbers of distributed IPs and maintains multiple concurrent connections, classic proxy-node behavior, not privacy-tool behavior.
-
-- Infoblox mapped 230+ domains including smartproxy[.]org and proxyreviews[.]org back to this actor via shared DNS, hosting, and WHOIS data. WHOIS registration points toward China 🇨🇳 (Wuhan area codes, registrant names including Cheng Li variants).
-
-Hunt C:\Windows\SysWOW64\wire and \hero for unsigned or anomalously signed executables.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075158934298763628</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2075158934298763628">DFIR Radar</source>
-      <pubDate>Thu, 09 Jul 2026 10:03:39 +0000</pubDate>
-      <guid isPermaLink="false">2075158934298763628</guid>
     </item>
   </channel>
 </rss>
