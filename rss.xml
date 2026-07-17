@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jul 2026 03:03:55 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2026 05:02:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NadMesh僵尸网络分析：AI服务时代的产品级威胁</title>
+      <link>https://blog.xlab.qianxin.com/nadmesh-botnet-analysis-a-product-grade-threat-for-the-ai-service-era/</link>
+      <description>NadMesh: a product-grade, Go-written botnet actively targeting AI infrastructure (ComfyUI, Ollama, MCP servers) with an automated scan-exploit-persist loop, observed expanding in the wild since early July 2026.
+
+- NadMesh is not a script-kiddie patchwork. Its kill chain breaks into five automated stages: intel collection via ai_harvest.py querying Shodan for ComfyUI (port 8188), Ollama (11434), n8n (5678), and Gradio (7860) at priority=20; a Go controller (controller_go.go) on ports 80/8443 pushing CIDR scan tasks and collecting results; a self-feeding yield loop (yield_generator.py, auto_inject.sh, reinject.sh) that prioritizes productive subnets with no human input; polymorphic agent builds via Garble obfuscation + UPX-9 + random padding so every sample has a unique hash; and active deployment via vps_deployer.py and push_deployer.py across Docker, Redis, and MCP vectors.
+
+- On victim hosts, the agent establishes triple-redundant persistence: SSH backdoor written to .ssh/authorized_keys, hidden binaries dropped to /dev/shm/.a, /var/tmp/.a, and /tmp/.a, and cron watchdogs at /etc/cron.d/.sys_monitor and /etc/cron.d/.s. Removing any single path triggers recovery from the others.
+
+- The intel harvest is the standout: compromised hosts exfiltrate AWS keys, Kubernetes ServiceAccount tokens with cluster-admin scope, Docker socket access flags, .env files, ~/.docker/config.json, and enumerated exploitable MCP tools (execute_sql, execute_shell).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077982356791505314</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2077982356791505314">DFIR Radar</source>
+      <pubDate>Fri, 17 Jul 2026 05:02:56 +0000</pubDate>
+      <guid isPermaLink="false">2077982356791505314</guid>
+    </item>
     <item>
       <title>CVE-2026-32201, CVE-2026-45659, CVE-2026-56164: Frequently Asked Questions About Active Exploitation of Microsoft SharePoint Server Vulnerabilities</title>
       <link>https://www.tenable.com/blog/cve-2026-32201-cve-2026-45659-cve-2026-56164-faq-sharepoint-server-exploitation</link>
@@ -1487,29 +1504,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2075385306396713124">DFIR Radar</source>
       <pubDate>Fri, 10 Jul 2026 01:03:11 +0000</pubDate>
       <guid isPermaLink="false">2075385306396713124</guid>
-    </item>
-    <item>
-      <title>Conditional Access Misconfigurations Exposed 55 Orgs with MFA On</title>
-      <link>https://www.huntress.com/blog/conditional-access-misconfigurations</link>
-      <description>Two separate M365 campaigns bypassed MFA across 64+ orgs by exploiting Conditional Access blind spots: device code phishing via Railway PaaS and ROPC credential spray via LSHIY LLC's IPv6 range.
-
-Key findings:
-
-- Railway campaign (March 2026): EvilTokens PhaaS weaponized OAuth device code flow (T1528), harvesting tokens from legitimate Microsoft endpoints. Railway's clean IP reputation defeated Identity Protection risk scoring. Three Railway IPs drove ~84% of attack traffic across 344 orgs in the US 🇺🇸, Canada 🇨🇦, Australia 🇦🇺, New Zealand 🇳🇿, and Germany 🇩🇪. Tokens persist up to 90 days, surviving password resets.
-
-- LSHIY campaign: 81 million ROPC requests hit the /token endpoint directly, bypassing the authorization endpoint entirely. MFA Conditional Access never fired because Azure CLI was excluded. 55 of 78 compromised accounts had active MFA policies, yet were still breached.
-
-- CA policy failures observed: MFA scoped to specific apps not "All Cloud Apps," group-scoped policies missing compromised accounts, trusted location mislabeled as US-based, and one tenant with a policy explicitly named "Block Azure CLI" that did not block Azure CLI.
-
-- Detection opportunity: hunt Azure AD sign-in logs for successful authentications where clientAppUsed equals "Device Code" or "ROPC" and cross-reference against accounts not in legacy auth exception groups.
-
-Audit your CA policies against All Cloud Apps, All Users, All Client App Types.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075370163742879804</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2075370163742879804">DFIR Radar</source>
-      <pubDate>Fri, 10 Jul 2026 00:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2075370163742879804</guid>
     </item>
   </channel>
 </rss>
