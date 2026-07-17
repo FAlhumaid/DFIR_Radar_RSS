@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jul 2026 21:03:01 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2026 23:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Proxying to Compromise: SonicWall Secure Mobile Access 0-day Exploitation</title>
+      <link>https://www.volexity.com/blog/2026/07/17/proxying-to-compromise-sonicwall-secure-mobile-access-0-day-exploitation/</link>
+      <description>UTA0533 chained two zero-days against SonicWall SMA 1000 appliances, achieving root RCE and deploying memory-injected backdoors. Earliest compromise observed June 22, 2026. Patch now.
+
+- CVE-2026-15409 (SSRF/auth bypass): unauthenticated requests to /wsproxy with User-Agent "SMA Connect Agent" and bmID starting with -3389 tunnel WebSocket connections to localhost-only services including CouchDB (port 1050) and the control service (port 8188). No session cookie required. CVE-2026-15410 (command injection): sysCtrl.execRemoveHotfix passes caller-controlled input unsanitized into a path, enabling traversal to /tmp and root-level execution. Affected models: SMA 6210, 7210, 8200v. Patched in 12.4.3-03453 and 12.5.0-02835.
+
+- UTA0533 dropped ROOTRUN (xzfind, SHA256: 81a9af38...), a setuid ELF binary for privilege escalation, then KNUCKLEBALL (deploy_new.py, SHA256: 8c470301...), a Python loader that injects two JAR agents into the live workplace JVM. Those agents deliver Suo5 (HTTP proxy, agent_wp8.jar) and ORANGETAIL (Behinder-like webshell, agent_wp9.jar) entirely in memory, gated behind a fake User-Agent string.
+
+- Key disk artifacts: /usr/bin/xzfind, /usr/lib/python3.11/site-packages/deploy_new.py, persistence line in /etc/init.d/workplace, and modified /var/lib/unit/conf.json routing /__api__/login and /__api__/logout to 127.0.0.1:8085. On Appliance 2, /var/tmp contained tcpdump captures of cleartext LDAP (port 389) traffic, confirming credential harvesting.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078254325244346854</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078254325244346854">DFIR Radar</source>
+      <pubDate>Fri, 17 Jul 2026 23:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2078254325244346854</guid>
+    </item>
     <item>
       <title>Black Hat Asia 2026: Cleartext Cookie Exposure | Corelight</title>
       <link>https://corelight.com/blog/black-hat-asia-2026-cleartext-cookie-exposure</link>
@@ -1495,17 +1512,6 @@ Hunt: grep access logs for POST /mcp, GET /sse, GET /v1/models, and GET /api/tag
       <source url="https://x.com/DFIR_Radar/status/2075687075891097835">DFIR Radar</source>
       <pubDate>Fri, 10 Jul 2026 21:02:18 +0000</pubDate>
       <guid isPermaLink="false">2075687075891097835</guid>
-    </item>
-    <item>
-      <title>How HalluSquatting Could Fuel Agentic Botnets</title>
-      <link>https://socradar.io/blog/hallusquatting-agentic-botnets/</link>
-      <description>HalluSquatting exploits LLM hallucinations by pre-registering plausible-but-fake package, repo, or skill names an agent is likely to invent, turning retrieval into supply chain compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075671991965655089</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2075671991965655089">DFIR Radar</source>
-      <pubDate>Fri, 10 Jul 2026 20:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2075671991965655089</guid>
     </item>
   </channel>
 </rss>
