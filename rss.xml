@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jul 2026 11:04:02 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2026 12:04:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Confused Deputy: Google IdP Universal Account Takeover via Device Code Flow Hijacking</title>
+      <link>https://infosecwriteups.com/confused-deputy-google-idp-universal-account-takeover-via-device-code-flow-hijacking-dc6ec2db35a9?source=rss----7b722bfd1b8d---4</link>
+      <description>Two stacked bugs in Google's OAuth device code flow (RFC 8628) enabled silent, one-click account takeover on any "Sign in with Google" app, including Gmail via IMAP, with no consent screen and no 2FA prompt.
+
+Key findings:
+
+- Bug 1: Google's device-code sign-in session is transferable via URL. The challenge endpoint at accounts.google[.]com/v3/signin/challenge carries an encrypted blob (TL=) anchoring the device poll. Sending that URL to a victim completes the flow under their identity, violating RFC 8628 §5.4 explicitly.
+
+- Bug 2: client_id and scope are never server-side validated against the issued device_code. Swapping YouTube TV's client_id for Google Cloud SDK's, with scope=cloud-platform,compute,appengine.admin, caused the token poll to return elevated cloud tokens, not YouTube tokens.
+
+- Adding prompt=none and a third-party client_id (e.g. Facebook's) reduced victim interaction to opening a link. No consent screen rendered, no 2FA triggered. The connections page logs YouTube TV, not the attacker's client, burying the trace under five clicks and domain knowledge.
+
+- Gmail IMAP access was achievable via XOAUTH2 on imap.gmail[.]com:993 using the substituted token after the Gmail REST API blocked it at the project layer. Full inbox access confirmed.
+
+Reported Feb 25, 2026, fixed Mar 28, 2026, rewarded $13,337. Hunt for anomalous OAuth grants in Google Workspace logs where the connected app shown mismatches the scopes actually granted.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078088409428435401</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078088409428435401">DFIR Radar</source>
+      <pubDate>Fri, 17 Jul 2026 12:04:21 +0000</pubDate>
+      <guid isPermaLink="false">2078088409428435401</guid>
+    </item>
     <item>
       <title>How I Detected an Insider Threat in Splunk When Every Single Action Looked Legitimate</title>
       <link>https://infosecwriteups.com/how-i-detected-an-insider-threat-in-splunk-when-every-single-action-looked-legitimate-aeac34ea7190?source=rss----7b722bfd1b8d---4</link>
@@ -1519,23 +1542,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2075536256633856318">DFIR Radar</source>
       <pubDate>Fri, 10 Jul 2026 11:03:00 +0000</pubDate>
       <guid isPermaLink="false">2075536256633856318</guid>
-    </item>
-    <item>
-      <title>How WP-SHELLSTORM Exposed 1.4M WordPress Sites</title>
-      <link>https://socradar.io/blog/wp-shellstorm-expose-1-4m-wordpress-sites/</link>
-      <description>A Chinese-linked webshell access brokerage left its entire operation exposed for 22 days, revealing 1.4M+ targeted domains, 27 weaponized CVEs, 5,700+ active webshells, and a parallel enterprise Java credential-theft campaign.
-
-- On June 11, 2026, SOCRadar found an unauthenticated Python SimpleHTTPServer at 137.175.93[.]126 exposing ~800MB across 434 files: webshells, exploit scripts, scan results, bash history, and C2 config. Attribution points to a Chinese-speaking financially motivated group (WABO), based on Simplified Chinese 🇨🇳 code comments, FOFA usage (requires Chinese 🇨🇳 phone registration), and handles "tance"/"chen-kk" in the exposed filesystem.
-
-- Five weeks before the WordPress blitz, the same actor ran a two-day Nacos campaign exploiting CVE-2021-29441 (send "Nacos-Server" User-Agent header, skip auth entirely), exfiltrating 613 config files from 11 victims across fintech, logistics, and gaming. Stolen data included AWS/Alibaba/Oracle Cloud credentials, production DB strings, Alipay RSA private keys, and JWT secrets.
-
-- The primary webshell down.php (SHA256: 84F7E396A48913851A10CC78C5CC22A25634564ABD0694465236D2F365E2BDEE) runs four obfuscation layers before unpacking a full BestShell-derived implant. VShell persistence renames its process to [kworker/0:2] to blend into Linux kernel thread listings. At 13:30:44 UTC June 11, 24 IPs pulled the same payload in one second, confirming active botnet C2.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075521169822720303</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2075521169822720303">DFIR Radar</source>
-      <pubDate>Fri, 10 Jul 2026 10:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2075521169822720303</guid>
     </item>
   </channel>
 </rss>
