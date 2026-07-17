@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jul 2026 13:03:53 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2026 14:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New North Korean campaign uses fake coding interviews to steal developer credentials</title>
+      <link>https://www.elastic.co/security-labs/contagious-interview-malware-svg-steganography</link>
+      <description>North Korean 🇰🇵 Contagious Interview campaign (REF9403) hides four-stage OTTERCOOKIE malware inside SVG flag images using steganography, targeting developers via fake coding challenges on community Slack workspaces.
+
+- Infection chain: trojanized Next.js repos (e.g. next-ecommerce-private-main.zip, SHA-256: 3e6360f8) embed Base64 payload fragments inside HTML comments across every SVG flag file in an assets/flags directory. serverValidation.js reads them alphabetically, reassembles the payload, decodes via a custom Check() function, then eval()s the result on every npm run dev or npm start, bypassing Buffer.from and atob detections.
+
+- Four modules deploy in sequence: a browser credential and crypto wallet stealer (masquerades as npm-cache, hits ldb.rightwidth[.]dev/upload and /cldbs, targets 25 extensions including MetaMask and Phantom); a recursive file stealer targeting *.env, *.pem, .ssh, .aws, .bash_history and more (upload.rightwidth[.]dev/upload); a Socket.IO RAT (controller.rightwidth[.]dev) with interactive shell via child_process.exec(); and a clipboard poller every 500ms plus a Windows dropper fetching hostService.exe, printSvc.exe, dhcpSvc.exe disguised as .txt files from file.rightwidth[.]dev.
+
+- Key IOCs: C2 domain rightwidth[.]dev and subdomains; IPs 195.26.248[.]212 and 188.40.64[.]61; seven trojanized repo hashes in the report. All repos had zero AV detections at time of discovery.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078118211396960764</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078118211396960764">DFIR Radar</source>
+      <pubDate>Fri, 17 Jul 2026 14:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2078118211396960764</guid>
+    </item>
     <item>
       <title>ClickFix Attacks Drive UAC-0145 Cyber Campaigns, CERT-UA Warns</title>
       <link>https://thecyberexpress.com/clickfix-attacks-fuel-uac-0145-cyber-campaigns/</link>
@@ -1515,23 +1532,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2075566354258677892">DFIR Radar</source>
       <pubDate>Fri, 10 Jul 2026 13:02:36 +0000</pubDate>
       <guid isPermaLink="false">2075566354258677892</guid>
-    </item>
-    <item>
-      <title>222 GitHub Repositories Linked to Fake Go Package Malware Operation</title>
-      <link>https://securityaffairs.com/195101/security/222-github-repositories-linked-to-fake-go-package-malware-operation.html</link>
-      <description>222 GitHub repositories across 190 accounts delivered loaders, Vidar infostealer, AsyncRAT, and XMRig miners via fake Go packages, tracked by Socket as Operation Muck and Load.
-
-- The pivot artifact is a GitHub Actions workflow email: ischhfd83@rambler[.]ru. Every repo used the same email with force-push automation running on a per-minute schedule to manufacture fake commit history, even as visible usernames rotated per account. That email is a cluster fingerprint linking this to earlier Sophos-documented backdoor campaigns.
-
-- The initial Go module (github[.]com/kaleidora/dnsub-scanning-tool) ran a hidden PowerShell command before any scanner logic, downloading from muckcoding[.]com, decoding via certutil, and executing L.ps1 with -ExecutionPolicy Bypass. L.ps1 uses Base64 plus XOR layers and dead-drops payload URLs via Pastebin, Telegram, YouTube, Google Docs, and GitCode using a marker string "LastW". Encrypted blob SHA-256: 51cada347262d7b2bcde70552fcdae221625ad75435cee8a9c3e7b67cc47a807.
-
-- Payloads land in C:\ProgramData\Windows.Microsoft.Photos as Microsoft.exe, signed by Exodus Movement Inc., not Microsoft. A 7-Zip binary stages at C:\ProgramData\zipathh\7zrr.exe. Post-execution behavior includes Defender and UAC tampering, scheduled task persistence, browser data access, and WriteProcessMemory/SetThreadContext calls consistent with process injection.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075551333135089895</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2075551333135089895">DFIR Radar</source>
-      <pubDate>Fri, 10 Jul 2026 12:02:54 +0000</pubDate>
-      <guid isPermaLink="false">2075551333135089895</guid>
     </item>
   </channel>
 </rss>
