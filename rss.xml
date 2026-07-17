@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jul 2026 14:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2026 15:03:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside Qilin Ransomware: Custom Rust Loader and Kernel-Level EDR Killer</title>
+      <link>https://flashpoint.io/blog/inside-qilin-ransomware/</link>
+      <description>Qilin ransomware deploys a custom Rust loader with reflective PE loading and a kernel-level EDR killer that surgically unlinks security callbacks and locks product executables before encryption begins.
+
+Key findings:
+
+- The Rust loader performs reflective PE loading within the same process, deobfuscating an embedded payload via per-sample unique DWORD math operations. The MZ header appears after calculation, and Flashpoint built a CPU-emulation unpacker achieving 100% config extraction across samples. Active in the wild since May 2024.
+
+- The EDR killer, sold on illicit markets for $2,000 and packed with the Shanya packer, abuses the legitimate ThrottleStop driver (TechPowerUp) to map physical memory and gain kernel read/write primitives, bypassing driver signing by patching the Code Integrity callback table with a dummy function, then restoring it on exit to dodge PatchGuard.
+
+- Rather than blanket callback removal, Qilin surgically zeroes process, thread, image-load, and registry notify callbacks only for addresses belonging to a hardcoded security product blacklist. It then sets an empty DACL on target executables, making them unlaunchable without deletion, before terminating and permanently preventing restart.
+
+- The malware includes a CIS locale check and skips attacking systems in Russia 🇷🇺 and Belarus 🇧🇾, a standard RaaS geographic exclusion.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078133385894166759</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2078133385894166759">DFIR Radar</source>
+      <pubDate>Fri, 17 Jul 2026 15:03:04 +0000</pubDate>
+      <guid isPermaLink="false">2078133385894166759</guid>
+    </item>
     <item>
       <title>New North Korean campaign uses fake coding interviews to steal developer credentials</title>
       <link>https://www.elastic.co/security-labs/contagious-interview-malware-svg-steganography</link>
@@ -1513,25 +1534,6 @@ Responder priority: GigaWiper lands post-compromise, so timeline your initial ac
       <source url="https://x.com/DFIR_Radar/status/2075581579007549878">DFIR Radar</source>
       <pubDate>Fri, 10 Jul 2026 14:03:06 +0000</pubDate>
       <guid isPermaLink="false">2075581579007549878</guid>
-    </item>
-    <item>
-      <title>The AI Agent Credential Crisis: From Stealer Log to Source Code</title>
-      <link>https://socradar.io/blog/ai-agent-credential-stealer-log-source-code/</link>
-      <description>Stealer logs now target AI coding agents, turning a single infected developer machine into a key for source code, cloud infra, and CI/CD pipelines. Over 3.1 million OpenAI credentials were compromised in 2025 alone.
-
-Key findings:
-
-- SOCRadar analyzed stealer log data across 2025 and found 3.1M+ records tied to OpenAI, with total AI/developer platform exposure exceeding 3M accounts. Replit (204K) and Hugging Face (186K) followed, platforms where credentials carry write access to repos, datasets, and deployment pipelines. Three malware families, LummaC2 (56%), RedLine (17%), and StealC (13%), account for 86% of all observed logs.
-
-- The multiplier effect is the core risk. A stolen AI agent credential is not one account. It bundles OAuth tokens for GitHub/GitLab orgs, AWS/GCP/Azure keys, CI/CD pipeline tokens, package registry creds, and MCP integrations for Slack, Jira, and Sentry into a single harvested session. Infostealers harvest .env files, .claude/settings.json, and browser-synced session cookies without distinguishing personal from corporate devices.
-
-- The quarterly curve tells a disruption story. Q1 peaked at 953K records, then a May 2025 law enforcement action against LummaC2 C2 infrastructure drove a 42% volume drop through Q3 (553K). By Q4, volumes recovered to 857K as operators rebuilt and newer families like Acreed and MacSync filled the gap. Temporary wins, not structural defeat.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075566354258677892</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2075566354258677892">DFIR Radar</source>
-      <pubDate>Fri, 10 Jul 2026 13:02:36 +0000</pubDate>
-      <guid isPermaLink="false">2075566354258677892</guid>
     </item>
   </channel>
 </rss>
