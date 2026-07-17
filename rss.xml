@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jul 2026 08:03:02 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2026 09:03:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NadMesh Botnet Analysis: A Product-Grade Threat for the AI Service Era</title>
+      <link>https://blog.xlab.qianxin.com/nadmesh-botnet-analysis-a-product-grade-threat-for-the-ai-service-era-en/</link>
+      <description>NadMesh, a Go-based "product-grade" botnet first observed July 2026, autonomously targets AI infrastructure (ComfyUI, Ollama, MCP) using 20+ RCE vectors, polymorphic builds, and redundant persistence that survives single-point removal.
+
+- ai_harvest.py uses the Shodan API to hunt exposed ComfyUI (port 8188), Ollama (11434), n8n (5678), Gradio (7860), Langflow, and Open WebUI instances, injecting them as priority=20 scan tasks. Post-compromise intel collection strips AWS keys, Bedrock creds, K8s ServiceAccount tokens, MCP tool listings, and ~/.docker/config.json. The attacker wants cloud credentials and AI access, not just the host.
+
+- Persistence is triple-redundant: SSH public-key backdoor in .ssh/authorized_keys, agent binaries in /dev/shm/.a, /var/tmp/.a, and /tmp/.a, plus cron watchdogs at /etc/cron.d/.sys_monitor and /etc/cron.d/.s. Remove one path and the others restore the agent. Full removal requires all three layers simultaneously.
+
+- The controller (controller_go.go) listens on ports 80 and 8443 spoofing nginx headers, uses HMAC-SHA256 bot auth with a 60-second replay window, and backs an operator web panel at /panel. A priority ladder (50 for confirmed dangerous IPs down to 0 for fallback randoms) drives autonomous scan amplification with no human in the loop.
+
+- Polymorphic builds via Garble obfuscation, UPX-9 packing, and random padding give every agent a unique hash.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078042982570237954</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078042982570237954">DFIR Radar</source>
+      <pubDate>Fri, 17 Jul 2026 09:03:50 +0000</pubDate>
+      <guid isPermaLink="false">2078042982570237954</guid>
+    </item>
     <item>
       <title>ClickLock Stealer turns a locked screen into a forensics case</title>
       <link>https://andreafortuna.org/2026/07/17/clicklock/</link>
@@ -1497,17 +1516,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2075430475540365761">DFIR Radar</source>
       <pubDate>Fri, 10 Jul 2026 04:02:40 +0000</pubDate>
       <guid isPermaLink="false">2075430475540365761</guid>
-    </item>
-    <item>
-      <title>LoTL Abuse: How to Spot It vs. Normal Admin Activity | Huntress</title>
-      <link>https://www.huntress.com/blog/lotl-abuse-warning-signs</link>
-      <description>Living-off-the-land abuse hides behind legitimate tools like PowerShell, WMI, and RMM. Focus on process ancestry, not just the command: a built-in tool spawned from an unusual parent is the tell.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2075400645192921520</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2075400645192921520">DFIR Radar</source>
-      <pubDate>Fri, 10 Jul 2026 02:04:08 +0000</pubDate>
-      <guid isPermaLink="false">2075400645192921520</guid>
     </item>
   </channel>
 </rss>
