@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 05:03:19 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 06:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GraphRunner Guide: Ultimate Defensive Strategies Part I | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/a-defenders-guide-to-graphrunner-part-i</link>
+      <description>GraphRunner, a Microsoft Graph post-exploitation toolkit, leaves distinct traces across Entra ID Sign-In logs, Audit Logs, and MicrosoftGraphActivityLogs that defenders can hunt with targeted KQL.
+
+Key findings:
+
+- Authentication via Get-GraphTokens uses device-code flow against Microsoft Graph. Detect it with: SigninLogs | where AuthenticationProtocol == "deviceCode" | where ResourceDisplayName == "Microsoft Graph". Token refresh modules (Invoke-RefreshGraphTokens, Invoke-AutoTokenRefresh) produce no reliable log entries, a current blind spot.
+
+- Recon activity surfaces heavily in MicrosoftGraphActivityLogs. Invoke-GraphOpenInboxFinder queries graph.microsoft.com/v1.0/users/[UPN]/mailFolders/Inbox/messages; a PowerShell UserAgent with HTTP 200 responses identifies readable inboxes. Invoke-GraphRecon with PermissionEnum hammers an undocumented estimateAccess beta endpoint, generating a burst of events in seconds.
+
+- Persistence modules write to Azure Audit Logs. Invoke-InjectOAuthApp creates an app registration with broad non-admin-consent permissions (Mail, Files, Teams) and logs three events: "Add application," "Update application," and a secrets management update. The Reply URL field in the "Add application" event holds the attacker-controlled redirect URI.
+
+- Guest invitation and group manipulation via Invoke-InviteGuest and Invoke-AddGroupMember each produce Entra Audit Log entries and MicrosoftGraphActivityLogs hits.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078359865706090847</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078359865706090847">DFIR Radar</source>
+      <pubDate>Sat, 18 Jul 2026 06:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2078359865706090847</guid>
+    </item>
     <item>
       <title>Case Study: The DangerDev@protonmail.me Investigation | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/the-curious-case-of-dangerdev-protonmail-me</link>
@@ -1515,23 +1536,6 @@ Hunt: grep access logs for POST /mcp, GET /sse, GET /v1/models, and GET /api/tag
       <source url="https://x.com/DFIR_Radar/status/2076547695960048042">DFIR Radar</source>
       <pubDate>Mon, 13 Jul 2026 06:02:06 +0000</pubDate>
       <guid isPermaLink="false">2076547695960048042</guid>
-    </item>
-    <item>
-      <title>Update on Attacks by Threat Group APT-C-60 in 2026</title>
-      <link>https://blogs.jpcert.or.jp/en/2026/07/apt-c-60_2026.html</link>
-      <description>APT-C-60 evolves its 2026 campaign against Japanese 🇯🇵 organizations, swapping Bitbucket for GitLab and Codeberg, and adding Proton Drive delivery to push updated SpyGlace backdoor versions.
-
-- Initial access: spearphishing from Proton Mail addresses (asako.t1011@protonmail[.]com, ayuko0328@protonmail[.]com) drops a RAR archive via Proton Drive link or direct attachment. Inside is an LNK file (e.g. desk.lnk, 利権癒着の具体的内容.lnk) that runs mshta.exe to execute embedded obfuscated JavaScript, then pulls contributing[1].txt from cdn.jsdelivr[.]net and uses a bundled git.exe to execute further scripts assembling a downloader from .db parts (TMI003.db, TMI100.db, TMI400.db). Persistence and git.exe abuse carry over unchanged from 2024-2025 campaigns.
-
-- Infrastructure shift: 2025 used GitHub and Bitbucket. 2026 adds GitLab, jsDelivr, and Codeberg as staging repos. Dozens of attacker-controlled repos confirmed across github[.]com, gitlab[.]com, and codeberg[.]org. Developer CDNs and code-hosting are typically allowed through corporate proxies, making traffic blend with normal developer activity.
-
-- SpyGlace payload: versions v3.1.15, v3.1.17, and v3.1.18 delivered (no major functional changes). Seven C2 IPs confirmed: 31.58.136[.]207, 154.18.239[.]209, 173.234.11[.]141, 185.18.222[.]241, 213.111.158[.]200, 213.111.158[.]201, 213.111.158[.]216.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076532606259130649</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2076532606259130649">DFIR Radar</source>
-      <pubDate>Mon, 13 Jul 2026 05:02:08 +0000</pubDate>
-      <guid isPermaLink="false">2076532606259130649</guid>
     </item>
   </channel>
 </rss>
