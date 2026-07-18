@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 10:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 11:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cloud Ransomware: Trends &amp; Defense Strategies | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/ransomware-in-the-cloud</link>
+      <description>Exposed AWS long-term access key led to S3 data exfiltration and ransomware destruction, with versioning disabled before deletion to eliminate recovery options.
+
+- Initial access came from a publicly exposed IAM access key. The key had limited scope, so most recon and persistence attempts (ListServiceQuotas, GetSendQuota, CreateUser calls for accounts named root, adminz, deploy, s3mize, and ses-smtp-user) all returned AccessDenied. The attacker used AWS CLI on a Windows host. The activity began outside CloudTrail's 90-day retention window, so the earliest evidence was gone before the investigation started.
+
+- Exfiltration was confirmed not through CloudTrail (data events were disabled) but through AWS Cost and Usage Reports. GetObject operations generate egress charges recorded in billing data. Sorting the CSV by UsageValue and filtering on DataTransfer-Out or C3DataTransfer-Out Bytes surfaced the transfer volume and time window, even without log visibility.
+
+- Before deleting data, the attacker called GetBucketVersioning to check whether versioning was enabled, then PutBucketVersioning to suspend it. This killed the recovery path before wiping files and dropping a ransom note. The sequence is deliberate and documented in CloudTrail even when data events are off.
+
+Hunt for the GetBucketVersioning then PutBucketVersioning sequence in CloudTrail and alert on it immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078435452592509259</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078435452592509259">DFIR Radar</source>
+      <pubDate>Sat, 18 Jul 2026 11:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2078435452592509259</guid>
+    </item>
     <item>
       <title>Stop Adversary-in-the-Middle Attacks: Proven Response Tactic | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/responding-to-adversary-in-the-middle-attacks</link>
@@ -1533,17 +1552,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2076638266686878183">DFIR Radar</source>
       <pubDate>Mon, 13 Jul 2026 12:02:00 +0000</pubDate>
       <guid isPermaLink="false">2076638266686878183</guid>
-    </item>
-    <item>
-      <title>Misconfigured Server Reveals Three Evilginx Phishing Operations Targeting Microsoft 365</title>
-      <link>https://thehackernews.com/2026/07/misconfigured-server-reveals-three.html</link>
-      <description>A misconfigured Python HTTP server (python3 -m http.server 8080) exposed an Evilginx operator's full toolkit, linking three live Microsoft 365 phishing ops. Check .bash_history and open directory listings on suspected phishing infra for pivots.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076623125093965985</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2076623125093965985">DFIR Radar</source>
-      <pubDate>Mon, 13 Jul 2026 11:01:50 +0000</pubDate>
-      <guid isPermaLink="false">2076623125093965985</guid>
     </item>
   </channel>
 </rss>
