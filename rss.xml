@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 12:02:45 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 13:03:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Anatomy of a BEC Attack: 2026 Trends | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/anatomy-of-a-bec-in-2025</link>
+      <description>A real BEC case dissected end-to-end: AiTM phishing via SharePoint trust chains, PERFECTDATA SOFTWARE abuse, and inbox rules burying fake invoice replies before 1,000 emails flew out.
+
+Key findings:
+
+- Initial access came from a SharePoint file-sharing notification, not a suspicious email. A PDF hosted on a previously compromised tenant linked to an AiTM phishing page harvesting credentials and MFA tokens. Because the sender was a known contact, email security never flagged it. Look for MailItemsAccessed, FileDownloaded, and FileAccessed in the Unified Audit Log, plus Entra sign-ins showing OfficeHome app and user-agent axios/1.11.0 from VPN-associated IPs.
+
+- The threat actor consented to PERFECTDATA SOFTWARE (App ID ff8d92dc-3d82-41d6-bcbd-b9174d163620) days after initial access to silently read and exfiltrate the full mailbox. Block user consent in Entra now; by default any user can grant this.
+
+- Inbox rules (New-InboxRule) routed supplier replies and then all incoming mail to the RSS folder to hide fake invoice responses. Short rule names are a TA tell. Hunt them.
+
+- HardDelete events flagged attacker cleanup attempts. Items purged within 14 days can still be recovered. Those are exactly the emails worth restoring first.
+
+Takeaway: Hunt Entra logs for OfficeHome logins plus axios user-agent, audit consented apps for the PERFECTDATA App ID, and review New-InboxRule events. Full IOC and TTP list is on the Invictus IR GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078465647596437752</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078465647596437752">DFIR Radar</source>
+      <pubDate>Sat, 18 Jul 2026 13:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2078465647596437752</guid>
+    </item>
     <item>
       <title>From SQL Injection to Infrastructure-Level RCE: A PostgreSQL Superuser Compromise</title>
       <link>https://infosecwriteups.com/from-sql-injection-to-infrastructure-level-rce-a-postgresql-superuser-compromise-2e0169207286?source=rss----7b722bfd1b8d---4</link>
@@ -1545,23 +1568,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2076668538874470421">DFIR Radar</source>
       <pubDate>Mon, 13 Jul 2026 14:02:17 +0000</pubDate>
       <guid isPermaLink="false">2076668538874470421</guid>
-    </item>
-    <item>
-      <title>Dark Web Profile: Krybit Ransomware</title>
-      <link>https://socradar.io/blog/dark-web-profile-krybit-ransomware/</link>
-      <description>Krybit Ransomware, a Babuk-derived RaaS active since late March 2026, gained unusual early visibility when a rival group breached its affiliate panel and exposed plaintext credentials, Bitcoin wallets, and victim data less than a month after launch.
-
-- Krybit is built on Babuk's leaked 2021 source code (ESET: Filecoder.Babyk.A, Microsoft: Babuk!ic), not custom-engineered malware. It offers affiliates an 80/20 revenue split and builders for Windows, Linux, VMware ESXi, and NAS, making it a cross-platform threat from day one. Ransom demands run $40,000-$100,000 with 10-250GB of staged exfiltration per victim.
-
-- The April 2026 breach by rival 0APT exposed the full affiliate panel: 2 operators (KRYBIT, GREP), 5 affiliates, 20 active victim negotiations, 5 Bitcoin wallets with zero confirmed payments, and credentials stored in plaintext with no hashing. Krybit retaliated by compromising 0APT's server and defacing its DLS. SOCRadar now tracks 70 attributed victims across 43 countries, with Professional Services (21.4%), Technology (17.1%), and Manufacturing (14.3%) as top sectors.
-
-- Key forensic markers: encrypted files carry the .KRYBIT extension, ransom note is RECOVER-README.txt, and the group runs vssadmin.exe delete shadows /all /quiet (T1490) before encryption. Initial access maps to T1078 and T1021.001 (RDP with compromised credentials). Five .onion DLS domains are confirmed, listed below defanged.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076653510901563586</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2076653510901563586">DFIR Radar</source>
-      <pubDate>Mon, 13 Jul 2026 13:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2076653510901563586</guid>
     </item>
   </channel>
 </rss>
