@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 20:02:52 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 21:03:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cobalt Strike Response Guide: Part 3 | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/responding-to-a-cobalt-strike-attack-part-iii</link>
+      <description>In-memory Cobalt Strike leaves almost no disk artifacts, making memory forensics the primary recovery path. This guide covers full image analysis with Volatility and process dump parsing to extract beacon configs.
+
+Key details:
+
+- Cobalt Strike is commonly injected into legitimate Windows processes like svchost.exe via PowerShell to avoid disk-based detection (T1055). The tell is svchost making unexpected external connections, visible via Volatility's netscan plugin.
+
+- For full memory images, three Volatility plugins do the heavy lifting: psscan to find hidden or terminated processes, pstree to map parent/child relationships and spot anomalies, and cmdscan to surface the command line used to launch each process. Suspicious PowerShell command lines are a key artifact.
+
+- malfind identifies injected code or DLLs by examining VAD tags and page permissions. It flags candidates for deeper analysis rather than confirming infection outright.
+
+- JPCERT's cobaltstrikescan and cobaltstrikeconfig Volatility plugins extract Cobalt Strike beacon configs directly from memory. Note: these only work with Volatility 2.x.
+
+- When a full image is unavailable, dump the target process using Task Manager or Process Hacker and parse it with the SentinelOne Cobalt Strike parser to pull C2 configuration and IOCs without manual debugger analysis.
+
+If svchost or other system processes show outbound connections in netscan, dump and parse immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078586559247606175</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078586559247606175">DFIR Radar</source>
+      <pubDate>Sat, 18 Jul 2026 21:03:49 +0000</pubDate>
+      <guid isPermaLink="false">2078586559247606175</guid>
+    </item>
     <item>
       <title>Business Email Compromise (BEC): Evolution &amp; Trends | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/the-evolution-of-business-email-compromise</link>
@@ -1597,17 +1622,6 @@ Hunt: the KQL queries in the report pivot on CloudAppEvents for ApiTotalUsage, R
       <source url="https://x.com/DFIR_Radar/status/2076789577537200628">DFIR Radar</source>
       <pubDate>Mon, 13 Jul 2026 22:03:15 +0000</pubDate>
       <guid isPermaLink="false">2076789577537200628</guid>
-    </item>
-    <item>
-      <title>New CrashStealer malware poses as Apple crash reporting tool</title>
-      <link>https://www.bleepingcomputer.com/news/security/new-crashstealer-malware-poses-as-apple-crash-reporting-tool/</link>
-      <description>CrashStealer, a macOS infostealer written in native C++, masquerades as Apple's CrashReporter.app, installs a LaunchAgent named com.apple.crashreporter.helper, and bypasses Gatekeeper via a signed, notarized dropper.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076774425958195359</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2076774425958195359">DFIR Radar</source>
-      <pubDate>Mon, 13 Jul 2026 21:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2076774425958195359</guid>
     </item>
   </channel>
 </rss>
