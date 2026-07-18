@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 06:03:01 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 08:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GraphRunner Guide: Ultimate Defensive Strategies Part II | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/a-defenders-guide-to-graphrunner-part-ii</link>
+      <description>GraphRunner's Microsoft 365 pillage modules leave distinct traces across MicrosoftGraphActivityLogs, Unified Audit Log, and Entra ID Audit Log if you know where to look.
+
+- Invoke-SearchSharePointAndOneDrive and Invoke-SearchMailbox both hit graph.microsoft[.]com/v1.0/search/query first, then follow up with drives or messages endpoints. Hunt with: MicrosoftGraphActivityLogs | where UserAgent contains "PowerShell" | where RequestUri has_all("graph.microsoft.com/v1.0/drives/","/items/","/content"). Note that SearchQueryInitiatedSharePoint requires Microsoft Advanced Auditing and must be manually enabled per mailbox.
+
+- Invoke-SearchMailbox triggers MailItemsAccessed in the UAL, which is your pivot to identify exactly which messages were accessed. Correlate the Graph API call to graph.microsoft[.]com/v1.0/me/messages/ with the InternetMessageID values in MailItemsAccessed to reconstruct what the attacker read and exfiltrated.
+
+- Invoke-ImmersiveFileReader is a blind spot: it generates no MicrosoftGraphActivityLogs entry. Detection relies entirely on the UAL FileDownloaded operation combined with a PowerShell UserAgent. If you are not ingesting UAL into Sentinel, this module is invisible to you.
+
+- Destructive supplemental modules (Invoke-DeleteOAuthApp, Invoke-DeleteGroup, Invoke-RemoveGroupMember) emit DELETE method events in MicrosoftGraphActivityLogs and corresponding entries in Entra ID AuditLogs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078390058369818933</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2078390058369818933">DFIR Radar</source>
+      <pubDate>Sat, 18 Jul 2026 08:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2078390058369818933</guid>
+    </item>
     <item>
       <title>GraphRunner Guide: Ultimate Defensive Strategies Part I | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/a-defenders-guide-to-graphrunner-part-i</link>
@@ -1513,29 +1532,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2076593013891969426">DFIR Radar</source>
       <pubDate>Mon, 13 Jul 2026 09:02:11 +0000</pubDate>
       <guid isPermaLink="false">2076593013891969426</guid>
-    </item>
-    <item>
-      <title>Someone Is Scanning for Your MCP Servers and AI Assistant Credentials, (Mon, Jul 13th)</title>
-      <link>https://isc.sans.edu/diary/rss/33150</link>
-      <description>Internet-wide scanning is now probing for MCP servers, AI assistant credential files, and unauthenticated LLM endpoints. Observed on a low-traffic host with no AI infrastructure, confirming this is broad opportunistic recon, not targeted.
-
-Key findings:
-
-- POST /mcp requests carried valid JSON-RPC 2.0 MCP initialize handshakes from 49 distinct source IPs. These are not dumb URL probes; the scanner speaks the protocol and waits for a compliant response before enumerating exposed tools and data sources. An unauthenticated MCP server is a machine-readable inventory of everything an agent can touch.
-
-- Credential file fishing targeted /.claude/.credentials.json, /.claude/mcp.json, /.cursor/mcp.json, and /.vscode/mcp.json using HEAD requests to check existence before downloading. AI assistant secrets now sit inside the same wordlists as AWS, GCP, Azure, and Kubernetes credential files.
-
-- GET /v1/models (OpenAI-compatible) and GET /api/tags (Ollama) probe for unauthenticated local LLM endpoints. A hit means free compute for the attacker and a potential pivot.
-
-- SSRF probes rotated across url, uri, path, and dest parameters targeting the GCP metadata endpoint. Agent tooling with fetch-style helpers is a natural SSRF primitive for this technique.
-
-Hunt: grep access logs for POST /mcp, GET /sse, GET /v1/models, and GET /api/tags. Any hit on a host with no AI stack is pure recon.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076547695960048042</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2076547695960048042">DFIR Radar</source>
-      <pubDate>Mon, 13 Jul 2026 06:02:06 +0000</pubDate>
-      <guid isPermaLink="false">2076547695960048042</guid>
     </item>
   </channel>
 </rss>
