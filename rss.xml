@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 22:04:57 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 23:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>macOS Incident Response: Part 1 Guide | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/responding-to-macos-attacks-part-i</link>
+      <description>macOS IR Part 1: Invictus maps MITRE ATT&amp;CK execution techniques to concrete artifacts, covering AppleScript, Unix shell history, cron jobs, and launchctl across real malware cases.
+
+Key findings:
+
+- AppleScript (T1059) is a persistent attacker tool: it can be compiled "run-only" with no recoverable source, executed silently via the osascript binary, or packaged as a signed app. SentinelOne's AEVT tool is the current option for reverse engineering compiled scripts.
+
+- Shell history is a high-value artifact but fragile. Pull full zsh history with timestamps using "history -df 0" and inspect ~/.zsh_sessions for session files with restoration timestamps. Note: history is trivially wiped, so corroborate with other sources.
+
+- Cron and "at" jobs leave execution evidence in /usr/lib/cron/jobs, including the command run and its output. The Janicab malware used cron to schedule tasks and store scripts in a hidden directory. "at -l" gives execution timestamps for timeline correlation.
+
+- Launchctl is dual-purpose: one-time execution and persistence. Calisto Trojan used "launchctl list com.apple.screensharing" to enable screen sharing silently. LoudMiner used it to suppress QEMU if Activity Monitor was detected.
+
+Hunt: on any macOS triage, pull zsh and bash history with timestamps, enumerate /usr/lib/cron/jobs, and list all launchctl-managed agents and daemons. MITRE ATT&amp;CK layer and mindmap for the full series are on Invictus IR's GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078616706319011910</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2078616706319011910">DFIR Radar</source>
+      <pubDate>Sat, 18 Jul 2026 23:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2078616706319011910</guid>
+    </item>
     <item>
       <title>JavaGhost Threat Profile: Tactics &amp; Defenses | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/profiling-javaghost-tactics-history-defenses</link>
@@ -1611,17 +1634,6 @@ Hunt: the KQL queries in the report pivot on CloudAppEvents for ApiTotalUsage, R
       <source url="https://x.com/DFIR_Radar/status/2076819570996719750">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 00:02:26 +0000</pubDate>
       <guid isPermaLink="false">2076819570996719750</guid>
-    </item>
-    <item>
-      <title>Malicious GitHub Campaign: Fake “Arctic Wolf” and 290+ Brand-Impersonation Repositories Deliver BoryptGrab-Lineage Infostealer</title>
-      <link>https://arcticwolf.com/resources/blog/fake-github-repositories-deliver-boryptgrab-lineage-infostealer/</link>
-      <description>Since June 26 2026, a threat actor has stood up 292+ GitHub repos impersonating security vendors including Arctic Wolf to deliver a BoryptGrab-lineage infostealer via README download links.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076804534140027145</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2076804534140027145">DFIR Radar</source>
-      <pubDate>Mon, 13 Jul 2026 23:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2076804534140027145</guid>
     </item>
   </channel>
 </rss>
