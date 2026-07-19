@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 11:04:15 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 12:04:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Stop Using Get-MgAuditLogSignIn: Use These Better Methods | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/do-not-use-the-get-mgauditlogsignin-for-your-investigations</link>
+      <description>Get-MgAuditLogSignIn silently drops the Authentication Protocol field, blinding investigators to Device Code phishing logins. Switch to the beta cmdlet or risk missing a key indicator in Entra ID sign-in logs.
+
+- Device Code phishing abuses the OAuth Device Code Flow (T1528) to hijack tokens without capturing credentials. The smoking-gun artifact is the Authentication Protocol field in Entra ID interactive sign-in logs, where the value "Device code flow" identifies the attack. Get-MgAuditLogSignIn and the legacy Get-AzureADAuditSignInLogs both silently omit this field entirely.
+
+- Running Get-Member against Get-MgAuditLogSignIn confirms the field is simply absent from the cmdlet output. The beta replacement, Get-MgBetaAuditLogSignIn, returns nearly double the fields, including Authentication Protocol, Original Transfer Method, and additional Service Principal sign-in details useful for malicious app abuse investigations.
+
+- Two reliable alternatives exist today: the Entra portal filter on Authentication Protocol equals Device Code, or a KQL query against the Entra sign-in logs in Log Analytics targeting the same field. Both surface what the standard cmdlet hides.
+
+- Invictus is updating Microsoft-Extractor-Suite to use the beta cmdlet to close the gap until Microsoft updates the stable module.
+
+If you use Microsoft-Extractor-Suite or raw Get-MgAuditLogSignIn pulls in your IR playbooks, your acquisition is incomplete.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078813134660260291</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2078813134660260291">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 12:04:09 +0000</pubDate>
+      <guid isPermaLink="false">2078813134660260291</guid>
+    </item>
     <item>
       <title>How to Import Windows Event Logs into Splunk | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/importing-windows-event-log-files-into-splunk</link>
@@ -1639,23 +1660,6 @@ YARA rule is open source and in the report.
       <source url="https://x.com/DFIR_Radar/status/2077091752846983540">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 18:03:59 +0000</pubDate>
       <guid isPermaLink="false">2077091752846983540</guid>
-    </item>
-    <item>
-      <title>How an Infostealer Infection Led to a Sophisticated ClickFix Campaign at Artlist</title>
-      <link>https://www.infostealers.com/article/how-an-infostealer-infection-led-to-a-sophisticated-clickfix-campaign-at-artlist/</link>
-      <description>A 2023 infostealer infection on a freelance developer's machine gave threat actors a path to compromise Artlist's WordPress blog three years later, turning 11M monthly visitors into a ClickFix RAT delivery surface.
-
-- Root cause: an Israeli 🇮🇱 freelance WordPress dev downloaded pirated Adobe Acrobat PRO DC via uTorrent in August 2023. The infostealer scraped saved credentials, including a high-privilege WordPress login for new-blog.artlist[.]io/blog/wp-login.php belonging to a Senior Content Executive, and exfiltrated them to C2. The credentials sat in infostealer markets until mid-July 2026.
-
-- Attack chain: attackers injected obfuscated XOR/base64 JavaScript (EtherHiding) that queries a Polygon smart contract (0xB6bC9e1D0b2fB96Ab7C47E04Cb0BE477410bC1f2) to retrieve the live payload server auth-code-check[.]info, making infrastructure rotation trivial without re-accessing the compromised site.
-
-- ClickFix delivery drops a password-protected fdupdate.zip, extracts via staged 7z.exe, then DLL side-loads LibBind.dll via a signed StruSoft binary (fdupdate.exe). The chain reads shellcode from Stream.Toolkit.dat, executes it via EnumTimeFormatsEx callback to bypass API hooks, loads a Delphi loader (act.exe), and manually maps the final RAT PE into memory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077076401052868632</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077076401052868632">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 17:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2077076401052868632</guid>
     </item>
   </channel>
 </rss>
