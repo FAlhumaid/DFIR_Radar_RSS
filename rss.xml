@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 09:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 10:04:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Master Entra ID Identity Protection: The Ultimate IR Guide | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/a-deep-dive-into-entra-id-identity-protection-for-incident-response</link>
+      <description>Microsoft Entra ID Identity Protection's four risky reports are underused during IR. Here is how to read them, extract them, and avoid the containment traps that leave attackers active.
+
+Key findings:
+
+- The four reports: Risky Users, Risky Workload Identities, Risky Sign-ins, and Risk Detections have different retention windows. Risky Sign-ins covers only 30 days; Risk Detections extends to 90. During triage, go to Risk Detections first so you do not miss early-stage activity that has already aged out of the sign-in report.
+
+- Containment actions have silent failure modes. "Confirm user compromised" only elevates risk to High; without a Conditional Access policy acting on High risk, nothing is blocked and no session is killed. "Confirm user safe" removes the risk flag and feeds negative feedback to Microsoft, which can suppress future detections if an attacker triggers it.
+
+- Workload identities (service principals, managed identities) are flagged separately and are frequently missed. Microsoft detects leaked credentials, anomalous activity, and admin-confirmed compromise for these accounts, but most IR tooling does not surface them by default.
+
+- For extraction, use the Microsoft Extractor Suite: Install-Module -Name Microsoft-Extractor-Suite, then Get-RiskyUsers and Get-RiskyDetections. Risky Sign-ins come through the standard Entra Sign-in log pull. Risky Workload Identities extraction is listed as work in progress.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078783055276216445</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078783055276216445">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 10:04:37 +0000</pubDate>
+      <guid isPermaLink="false">2078783055276216445</guid>
+    </item>
     <item>
       <title>WP2SHELL</title>
       <link>https://www.pwndefend.com/2026/07/18/wp2shell/</link>
@@ -1631,27 +1652,6 @@ YARA rule is open source and in the report.
       <source url="https://x.com/DFIR_Radar/status/2077061690085228624">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 16:04:32 +0000</pubDate>
       <guid isPermaLink="false">2077061690085228624</guid>
-    </item>
-    <item>
-      <title>No single pane of glass: Anatomy of an Azure permission takeover</title>
-      <link>https://webflow.sysdig.com/blog/no-single-pane-of-glass-anatomy-of-an-azure-permission-takeover</link>
-      <description>One leaked Azure service-principal secret led to full tenant takeover in under an hour, crossing five disjointed permission planes that native tooling never unifies into a single view.
-
-Key findings:
-
-- The attacker held RoleManagement.ReadWrite.Directory as a Graph API application permission, allowing self-grant of Global Administrator at 03:29 UTC, roughly 2.5 minutes after first login. This is Plane 5 enabling Plane 1, and it is invisible from the app's own Roles and administrators pane. The takeover key was one tab over the entire time.
-
-- Microsoft.Authorization/elevateAccess/action crossed from directory ownership to root-level User Access Administrator over every subscription in one API call. It does not appear in the Azure Activity log where defenders look; it lands in the Entra audit log, the opposite plane from the resource grant it creates.
-
-- listKeys calls on four storage accounts and both Event Hub namespaces converted identity-scoped grants into identity-less bearer secrets. After that single control-plane event, every subsequent use of those keys is anonymous and, with default diagnostics off, permanently invisible. The Event Hub namespaces had no diagnostic settings at all, so the telemetry pipeline the attacker drained would have left no trace.
-
-- Persistence landed on 26 app registrations via added client secrets. No single Azure view enumerates all credentials across all app registrations. Removing the original GA grant touches none of them.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077046462941221248</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2077046462941221248">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 15:04:02 +0000</pubDate>
-      <guid isPermaLink="false">2077046462941221248</guid>
     </item>
   </channel>
 </rss>
