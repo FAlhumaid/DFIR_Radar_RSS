@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 03:03:40 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 04:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AWS Incident Response: Responding to Attacks | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/responding-to-an-attack-in-aws</link>
+      <description>Exposed S3 credentials file led to full AWS compromise: lateral movement, new IAM user creation, database theft, and ~200MB exfiltrated. S3 access logs and AWS billing filled gaps where CloudTrail went silent.
+
+Key findings:
+
+- Initial access traced via S3 access logs, not CloudTrail. One minute before the first malicious console login at 21:23:20 UTC on 26-10-2022, attacker IP 185.195.232[.]111 performed a GET request (HTTP 200) against a publicly accessible S3 bucket containing a plaintext credentials file. That file handed over the DevOps1-bpvbp account. CloudTrail alone would have missed this entirely.
+
+- Post-access activity (T1136, T1537): attacker created rogue IAM user DevOps3, used Session Manager to pivot into EC2 instance i-08e56d6b6c0439daf, created S3 bucket eu-west-1-prod-data in eu-west-1, and copied staff.txt to it via "aws s3 cp".
+
+- CloudTrail object-level data events were not enabled on the attacker-created bucket, making S3 server access logs and billing data the only remaining sources. Neither was enabled, forcing investigators to fall back on AWS Cost Explorer, which showed ~200MB of outbound S3 data transfers on 26-10-2022, confirming exfiltration without revealing the destination.
+
+Takeaway: For any AWS IR, pull S3 access logs and VPC Flow Logs alongside CloudTrail from the start. Enable CloudTrail data events on all buckets, especially newly created ones.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078691991408558292</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078691991408558292">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 04:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2078691991408558292</guid>
+    </item>
     <item>
       <title>BEC Threats: Locked Out, Dropboxed In (Analysis) | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/locked-out-dropboxed-in-when-bec-threats-innovate</link>
@@ -1633,25 +1654,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2076971022499434882">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 10:04:15 +0000</pubDate>
       <guid isPermaLink="false">2076971022499434882</guid>
-    </item>
-    <item>
-      <title>CrashStealer: New macOS Infostealer Uses Signed Apps to Evade Gatekeeper</title>
-      <link>https://securityaffairs.com/195278/malware/crashstealer-new-macos-infostealer-uses-signed-apps-to-evade-gatekeeper.html</link>
-      <description>CrashStealer is a native C++ macOS infostealer using a signed, notarized dropper to clear Gatekeeper, then stealing credentials, keychains, and ~80 crypto wallet extensions before AES-256-GCM encrypting everything on-device.
-
-- Initial access arrives via "Werkbit Setup.dmg" containing Werkbit.app, signed under Developer ID Emil Grigorov (WWB7JA7AQV) and notarized, clearing Gatekeeper silently. The dropper queries the GitHub API at mgothiclove/pkeys for sys.cache, which returns a curl command pulling a Base64-encoded shell script from endpoint-api-v1[.]com, decoded at runtime and piped directly to bash, never touching disk in readable form.
-
-- The script drops CrashReporter.dmg to /tmp, mounts it with hdiutil -nobrowse -noverify, copies the payload to /tmp/.CrashReporter, strips and re-signs it ad-hoc, then launches it. An app bundle executing from a hidden path under /private/tmp is a high-confidence behavioral indicator.
-
-- Collection targets Chrome, Brave, Edge, Firefox, ~80 crypto wallet extensions (MetaMask, Phantom, Coinbase), 14 password managers (1Password, Bitwarden, LastPass), and the login keychain, unlocked using the victim's validated password via dscl -authonly. Encrypted archives with .zx_ prefix land in ~/.cache/com.apple.crashreporter/ and survive staging cleanup, making them a reliable artifact.
-
-- Persistence via LaunchAgent at ~/Library/LaunchAgents/com.apple.crashreporter.helper.plist with KeepAlive/SuccessfulExit false.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076955730326728791</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2076955730326728791">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 09:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2076955730326728791</guid>
     </item>
   </channel>
 </rss>
