@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 06:04:50 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 07:04:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Nebius Cloud Incident Response: Part 1 (Neocloud) | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/incident-response-in-the-neocloud</link>
+      <description>Nebius Neocloud IR fundamentals: IAM blind spots, audit log gaps, and a free acquisition script for responders working AI-first GPU cloud environments.
+
+Key findings:
+
+- Nebius organizes resources in Tenant/Project hierarchy. The Tenant ID (format: tenant-e00mzw6m41jbhs75m6) defines blast radius. A compromised project does not automatically mean tenant-wide exposure, so scope early by pulling both Tenant ID and Name before taking containment action.
+
+- Federated users are the critical IAM blind spot. Nebius only logs the successful token, not the auth attempt. Brute force, impossible travel, and MFA fatigue artifacts live exclusively in your external IdP (Entra Sign-in logs). In a federated environment, pivot out of Nebius immediately.
+
+- Audit logs use CloudEvents JSON format, accessible via GUI or CLI (nebius audit v2 audit-event). Key IR fields: .time (timeline), .type (e.g. accesskey.create), .subject (actor), .resource (target). Data Plane logs, which show file access and source IP, are in preview and off by default. Most orgs will not have them. Retention appears to be 90 days, undocumented.
+
+- Top threat vectors mapped to ATT&amp;CK: Cryptojacking/GPU hijacking (T1496), model exfiltration (AML.T0010), data poisoning (AML.T0020), supply chain via Hugging Face or Docker Hub (T1195), and agentic prompt injection abuse (AML.T0051).
+
+Use the Invictus-Nebius script to dump 90 days of audit logs across all accessible tenants into JSON.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078737719690182851</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078737719690182851">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 07:04:28 +0000</pubDate>
+      <guid isPermaLink="false">2078737719690182851</guid>
+    </item>
     <item>
       <title>Sea Turtle Threat Profile: Tactics &amp; Defenses | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/profiling-sea-turtle-tactics-history-defenses</link>
@@ -1645,23 +1668,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2077016065427566718">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 13:03:14 +0000</pubDate>
       <guid isPermaLink="false">2077016065427566718</guid>
-    </item>
-    <item>
-      <title>SeasonalInvite: New Phishing Campaign Abuses eCards and RMM</title>
-      <link>https://www.forescout.com/blog/seasonalinvite-new-phishing-campaign-abuses-ecards-and-rmm/</link>
-      <description>SeasonalInvite: 959-domain phishing campaign active since January 2026 abuses legitimate RMM tools across Windows and macOS via fake eCard lures, AI-generated landing pages, and a shared traffic distribution system.
-
-- Six months of seasonal pivots (tax, Valentine's, Easter, spring RSVPs) funnel victims to BlueMountain-impersonating pages that auto-download OS-specific payloads after 3 seconds. The fingerprint string "Your exclusive eCard will download automatically in 3 seconds" appears verbatim on all 959 domains. Windows variants drop ScreenConnect, LogMeIn Resolve, or O&amp;O Syspectr via BAT, VBS, or MSI; macOS gets a legitimate unmodified Kaseya PKG paired with a config.data sidecar that redirects enrollment to attacker infrastructure, bypassing Gatekeeper entirely.
-
-- Anti-forensics are baked in: VBS droppers use ping 127.0.0.1 -n 4 as a delay before self-deleting, MSIs are written to C:\Windows\Temp or C:\Temp as adobeeinstaller.msi or SC_Setup.msi, and curl.exe runs with --ssl-no-revoke. ScreenConnect sessions are tagged with campaign labels like RsvpInvitation for operator tracking.
-
-- Key defanged IOCs from the report: payload server 64.34.84[.]93, C2 westseattlehc.screenconnect[.]com, staging host pub-80959acc7e1349d797b303af25aad569.r2[.]dev, dropper domain drleic[.]top, TDS gate lanero[.]vu. Infrastructure overlaps with a LogoKit credential harvester on 46.4.120[.]162.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077001106098700705</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077001106098700705">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 12:03:47 +0000</pubDate>
-      <guid isPermaLink="false">2077001106098700705</guid>
     </item>
   </channel>
 </rss>
