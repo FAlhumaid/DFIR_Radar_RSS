@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 05:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 06:04:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Sea Turtle Threat Profile: Tactics &amp; Defenses | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/profiling-sea-turtle-tactics-history-defenses</link>
+      <description>Sea Turtle, a Türkiye-nexus espionage actor, has pivoted from DNS hijacking to cloud-focused intrusions, exploiting stolen IAM credentials and a zero-day to target government, telco, and tech sector cloud environments.
+
+Key findings:
+
+- Sea Turtle (a.k.a. Cosmic Wolf) used stolen AWS IAM keys or Azure Entra ID credentials (T1078.004) to authenticate, then executed malicious commands via AWS CLI or Azure CLI/PowerShell (T1059.009) to interact with EC2, S3, IAM, VMs, and Blob storage. No malware required at the cloud layer.
+
+- Persistence came through security group modification (T1543.005/T1578): the actor opened TCP/22 from attacker-controlled IPs, then used SSH as both a C2 channel (T1071) and exfiltration path (T1041), blending with legitimate admin activity.
+
+- Since April 2024, the group has been exploiting CVE-2025-27920, a zero-day in Output Messenger, targeting unpatched user accounts as an initial access vector before pivoting to cloud environments.
+
+- Key forensic sources: AWS CloudTrail management and data events, Azure Activity Log, NSG and VPC Flow Logs for unexpected TCP/22 connections, and Entra ID sign-in logs for credentials used from non-organization IPs.
+
+Hunt CloudTrail and Azure Activity Log for CLI-sourced API calls from unknown IPs, security group rule changes opening port 22, and IAM keys or service principals older than 60 days with external-source logins.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078722709962531096</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078722709962531096">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 06:04:50 +0000</pubDate>
+      <guid isPermaLink="false">2078722709962531096</guid>
+    </item>
     <item>
       <title>Automated AWS Incident Response: New Capabilities | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/automated-aws-incident-response-the-next-episode</link>
@@ -1639,25 +1662,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2077001106098700705">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 12:03:47 +0000</pubDate>
       <guid isPermaLink="false">2077001106098700705</guid>
-    </item>
-    <item>
-      <title>​​Kratos PhaaS Targets US and EU: How to Reduce Microsoft 365 Account Takeover Risk​</title>
-      <link>https://any.run/cybersecurity-blog/kratos-phaas-account-takeover/</link>
-      <description>Kratos PhaaS is a maturing Microsoft 365 credential-theft platform active since Sept 2025, with 1,484 previously unattributed sandbox sessions now linked to the family across 20+ countries.
-
-- Kratos runs three page generations (V0, V1, V2), each with distinct exfiltration endpoints: V0 POSTs to /PTT/SOft/mini.php, V1 to next.php/nex.php/n3xt.php, V2 to save.php. The kit chains legitimate platforms (SharePoint, Canva, DocuSign lures) through Cloudflare Turnstile anti-bot checks before serving a fake Microsoft 365 login. Browser tab title is nearly always "Authentication" and an animated envelope with "Loading in progress..." precedes the credential form.
-
-- The single best hunting fingerprint: HTTP requests to both /assets/img/barr.svg and /assets/img/lg.svg in the same session. That pair yields 90% recall with near-zero false positives. Key hashes: lg.svg = cd231b895bbcd7154b81df1e065bf02f1ec667b920c8b6d23308cd509833b5ea, styles.css = c447e75f1029ed7a5882add16bcd13ad44be3bd47c93c830ff39185e23d25ebb (connects 636 tasks across V1 and V2).
-
-- Notable defanged IOCs: razen[.]online, enerdizerandtron[.]de, jumpast[.]es, abal[.]my, dufllot[.]sbs, trisrnareprjdocz[.]com; operator IP 41.128.0[.]142. URL tokens factura, dgt, and abogados signal Spanish-language affiliates.
-
-- If WebSocket activity appears alongside credential POST, treat it as a possible AiTM indicator.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076985960630235205</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2076985960630235205">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 11:03:36 +0000</pubDate>
-      <guid isPermaLink="false">2076985960630235205</guid>
     </item>
   </channel>
 </rss>
