@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 20:04:26 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 22:02:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AWS Cloud Native Incident Response: Part 2 | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/cloud-native-incident-response-in-aws---part-ii</link>
+      <description>AWS Athena is a practical, low-friction triage tool for cloud IR: no indexing required, queries run directly against S3 logs, and cost control is built into how you write queries.
+
+Key details:
+
+- CloudTrail logs stored in S3 are the baseline artifact in most AWS environments. Athena, paired with AWS Glue for schema definition and partitioning, lets responders query them without standing up a SIEM. Glue partitions (region, year, month, day) are critical: queries scoped to a partition scan less data, run faster, and cost less.
+
+- Supported log types for direct Athena loading include CloudTrail, S3 access logs, ELB access logs, VPC Flow Logs, and others with official DDL loading instructions. Each source needs its own DDL statement; the only field to update is the LOCATION pointing to the S3 path.
+
+- Cost discipline matters during IR. Always use LIMIT 10 when exploring an unfamiliar table. Use the query result reuse feature (up to 7 days) when iterating on the same dataset, but disable it when hunting live activity.
+
+- Nested fields require different query approaches. STRUCT fields (like useridentity) are accessible with dot notation. STRING fields like requestparameters require json_extract_scalar, for example: SELECT useridentity.type, json_extract_scalar(requestparameters, '$.roleSessionName') AS roleSessionName FROM cloudtrail_logs WHERE eventname = 'AssumeRole' ORDER BY eventtime DESC LIMIT 10.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078963645275590997</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078963645275590997">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 22:02:13 +0000</pubDate>
+      <guid isPermaLink="false">2078963645275590997</guid>
+    </item>
     <item>
       <title>Silk Typhoon Threat Profile: Tactics &amp; Defenses | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/profiling-silk-typhoon-tactics-history-defenses</link>
@@ -1685,17 +1706,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2077303015007043718">DFIR Radar</source>
       <pubDate>Wed, 15 Jul 2026 08:03:28 +0000</pubDate>
       <guid isPermaLink="false">2077303015007043718</guid>
-    </item>
-    <item>
-      <title>Six Minutes to Compromise: How ‘Patriot Bait’ Actor Used AI to Build and Deploy a C&amp;C Botnet</title>
-      <link>https://www.trendmicro.com/en_us/research/26/g/actor-behind-patriot-bait-used-ai-to-deploy-c2-botnet.html</link>
-      <description>A Russian 🇷🇺 actor dubbed "Patriot Bait" used Gemini CLI to build and migrate a live C&amp;C botnet, completing the operation in six minutes with AI doing 89% of the work. Gemini CLI session logs are the key forensic artifact here.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077227512644743356</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077227512644743356">DFIR Radar</source>
-      <pubDate>Wed, 15 Jul 2026 03:03:27 +0000</pubDate>
-      <guid isPermaLink="false">2077227512644743356</guid>
     </item>
   </channel>
 </rss>
