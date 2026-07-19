@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 10:04:37 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 11:04:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Import Windows Event Logs into Splunk | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/importing-windows-event-log-files-into-splunk</link>
+      <description>Importing offline .evtx files into Splunk requires the preprocess-winevt sourcetype, not wineventlog. Using the wrong sourcetype collapses all events into a single unparseable blob, killing your investigation before it starts.
+
+- The wineventlog sourcetype is designed for live forwarded Windows event logs, not archived .evtx files. Feeding exported binary event logs through it merges everything into one giant event with no field extraction, making searching and timeline reconstruction essentially impossible.
+
+- The correct sourcetype is preprocess-winevt. Set it in inputs.conf alongside your monitor stanza and target path, and Splunk will correctly parse the binary .evtx format, split individual events, and populate fields you can actually query.
+
+- When ingesting a directory of .evtx files using a wildcard monitor path, add crcSalt = to your inputs.conf stanza. Splunk uses a CRC of the first 256 bytes to deduplicate files, and Windows event logs from the same host or time window can share identical headers, causing Splunk to silently skip files you need.
+
+- Splunk must run on Windows Vista, Server 2008, or newer for this to work. If Sysmon logs are in scope, Sysmon must also be installed on the Splunk host for correct parsing of those event types.
+
+For offline DFIR analysis: set sourcetype = preprocess-winevt and crcSalt = in inputs.conf, drop your .evtx files into a watched directory, and Splunk will ingest the full event set ready for timeline and TTP hunting.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078798061976051913</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2078798061976051913">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 11:04:15 +0000</pubDate>
+      <guid isPermaLink="false">2078798061976051913</guid>
+    </item>
     <item>
       <title>Master Entra ID Identity Protection: The Ultimate IR Guide | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/a-deep-dive-into-entra-id-identity-protection-for-incident-response</link>
@@ -1635,23 +1656,6 @@ YARA rule is open source and in the report.
       <source url="https://x.com/DFIR_Radar/status/2077076401052868632">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 17:02:59 +0000</pubDate>
       <guid isPermaLink="false">2077076401052868632</guid>
-    </item>
-    <item>
-      <title>HTB: Orion</title>
-      <link>https://0xdf.gitlab.io/2026/07/14/htb-orion.html</link>
-      <description>CVE-2025-32432 in Craft CMS enables unauthenticated RCE via PHP session poisoning; root privilege escalation follows via CVE-2026-24061, a telnetd auth bypass in GNU inetutils through 2.7, CISA KEV listed.
-
-- CVE-2025-32432 (actively exploited, CISA KEV added March 2026) hits Craft CMS 5.0-5.6.16 at the unauthenticated admin/actions/assets/generate-transform endpoint. The attack abuses CVE-2024-58136 in Yii Framework: sending __class alongside class lets Yii instantiate an attacker-controlled object (GuzzleHttp\Psr7\FnStream or yii\rbac\PhpManager) while Craft's own class check passes harmlessly. The attacker first poisons a PHP session file by embedding a PHP payload in the redirect URL logged when visiting admin/dashboard with a junk parameter, then triggers execution by pointing PhpManager's itemFile at /var/lib/php/sessions/sess_[id]. Metasploit module exploit/linux/http/craftcms_preauth_rce_cve_2025_32432 automates the full chain.
-
-- Post-exploitation pivots via the Craft .env file at /var/www/html/craft/.env, which stores plaintext DB credentials (CRAFT_DB_PASSWORD). Dumping the CraftCMS users table yields a bcrypt hash crackable with hashcat mode 3200 against rockyou.txt.
-
-- Root access comes from CVE-2026-24061 (CISA KEV added January 2026): GNU inetutils telnetd through 2.7 passes the USER env variable unsanitized to login(1).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077061690085228624</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2077061690085228624">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 16:04:32 +0000</pubDate>
-      <guid isPermaLink="false">2077061690085228624</guid>
     </item>
   </channel>
 </rss>
