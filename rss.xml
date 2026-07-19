@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 17:03:51 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 18:04:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside wp2shell: How Two WordPress Core Bugs Became a Critical RCE Chain</title>
+      <link>https://threatmon.io/inside-wp2shell-how-two-wordpress-core-bugs-became-a-critical-rce-chain/</link>
+      <description>WordPress Core RCE chain "wp2shell" (CVE-2026-63030 + CVE-2026-60137) enables unauthenticated attackers to reach full admin compromise and remote code execution. Emergency patches shipped July 17, 2026.
+
+- CVE-2026-63030 is a REST API auth bypass in WP_REST_Server::serve_batch_request_v1(). Batch requests skip per-request permission checks, letting an unauthenticated caller access protected endpoints. Affects WordPress 6.9.0-6.9.4 and 7.0.0-7.0.1. Fixed in 6.9.5 and 7.0.2.
+
+- CVE-2026-60137 is a SQL injection via the author__not_in parameter in WP_Query. Alone it required auth, limiting real-world risk. Once CVE-2026-63030 removes that barrier, the SQLi becomes reachable from the public internet with no credentials. Affects 6.8.0-6.8.5, 6.9.0-6.9.4, and 7.0.0-7.0.1.
+
+- The chain ends in RCE through WordPress's own admin functionality: malicious plugin upload, theme file edit, or web shell drop. No exotic payload needed after db credentials are cracked offline and admin access is obtained.
+
+- This hits WordPress Core, not a plugin, meaning every unpatched install is exposed regardless of plugin inventory.
+
+Patch first (6.8.6, 6.9.5, or 7.0.2), then assume breach on any exposed instance. Hunt for new admin accounts, PHP files in upload dirs, modified Core files, and anomalous REST API batch requests in web server logs before and after the July 17 disclosure window.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078903846911557785</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078903846911557785">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 18:04:36 +0000</pubDate>
+      <guid isPermaLink="false">2078903846911557785</guid>
+    </item>
     <item>
       <title>Cloud IR Infrastructure: Critical Readiness Steps | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/cloud-incident-readiness-critical-infrastructure-for-cloud-incident-response</link>
@@ -1667,17 +1688,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2077182165465395463">DFIR Radar</source>
       <pubDate>Wed, 15 Jul 2026 00:03:15 +0000</pubDate>
       <guid isPermaLink="false">2077182165465395463</guid>
-    </item>
-    <item>
-      <title>New phishing kits target Microsoft 365 accounts, evade MFA</title>
-      <link>https://www.bleepingcomputer.com/news/security/new-phishing-kits-target-microsoft-365-accounts-evade-mfa/</link>
-      <description>Two new phishing kits, Jalisco and OmegaLord, bypass Microsoft 365 MFA: Jalisco abuses OAuth 2.0 Device Authorization Grant with real-time code generation, while OmegaLord harvests phone numbers to hijack MFA.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077167158178521337</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077167158178521337">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 23:03:37 +0000</pubDate>
-      <guid isPermaLink="false">2077167158178521337</guid>
     </item>
   </channel>
 </rss>
