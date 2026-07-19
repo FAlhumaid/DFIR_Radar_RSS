@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 00:04:51 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 01:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unified Audit Log: What DFIR Experts Must Know Now | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/what-dfir-experts-need-to-know-about-the-current-state-of-the-unified-audit-log</link>
+      <description>Microsoft's Unified Audit Log is getting major upgrades post-Storm-0558, but Search-UnifiedAuditLog has a reliability problem that could silently undermine your M365 investigations.
+
+Key findings:
+
+- Retention for Audit (Standard) now doubled to 180 days, effective October 17, 2023. Logs before that date are not covered by the extension. Get-AdminAuditLogConfig still shows 90 days and is misleading; do not use it to verify UAL retention.
+
+- Premium audit events including MailItemsAccessed, SearchQueryInitiatedExchange, SearchQueryInitiatedSharePoint, and ChatCreated are rolling out to all license tiers. MailItemsAccessed is critical for BEC scope, and ChatCreated catches Teams-based phishing delivered via tools like TeamsPhisher.
+
+- Search-UnifiedAuditLog returns incomplete results without the undocumented HighCompleteness switch, and even with it, the cmdlet is unreliable: it errors out or hangs. Microsoft's own wording, "more complete," stops short of guaranteeing full fidelity. Any investigation or legal matter relying solely on this cmdlet may have gaps.
+
+- The Graph API auditLogQuery endpoint is in beta and not yet dependable for acquisition. The Management Activity API caps history at 7 days; the Purview portal export limit is 50k records, useless for large tenants.
+
+Add -HighCompleteness to every Search-UnifiedAuditLog call now, validate result counts against the Purview portal, and use Microsoft-Extractor-Suite for acquisitions.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078646694997008427</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078646694997008427">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 01:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2078646694997008427</guid>
+    </item>
     <item>
       <title>Hidden Azure Logs: The Data You Probably Didn't Know Existed | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/the-azure-log-you-probably-didnt-know-existed</link>
@@ -1625,25 +1648,6 @@ Takeaway: Immediately inventory internet-facing routers. Disable Cisco Smart Ins
       <source url="https://x.com/DFIR_Radar/status/2076925535591293355">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 07:03:30 +0000</pubDate>
       <guid isPermaLink="false">2076925535591293355</guid>
-    </item>
-    <item>
-      <title>Defending SaaS-based applications against ShinyHunters OAuth abuse</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/07/13/defending-saas-based-applications-against-shinyhunters-oauth-abuse/</link>
-      <description>ShinyHunters abused OAuth trust relationships across Salesforce tenants via vishing, SaaS supply chain compromise, and misconfigured guest access, enabling quiet, large-scale CRM exfiltration from mid-2025 through mid-2026.
-
-- Three intrusion paths, all exploiting inherited trust: vishing campaigns impersonated IT support to socially engineer victims into granting OAuth consent to a fake Salesforce Data Loader app (T1566.004, T1528); supply chain attacks compromised Salesloft Drift credentials in August 2025 and Gainsight integrations in November 2025 to harvest OAuth tokens reused across multiple customer tenants; and a guest-access path abused misconfigured Salesforce Aura endpoints using chained GraphQL queries to bypass record-retrieval limits and bulk-extract CRM data without authenticating.
-
-- The June 2026 Klue incident tied to Storm-3138 adds a named actor overlap. IOCs from that campaign: 138.226.246[.]94, 212.86.125[.]24, 213.111.148[.]90, 94.154.32[.]160. Novel Aura-targeting IPs from June 19-22: 103.75.11[.]78 and 103.75.11[.]110.
-
-- MITRE coverage: T1566.004, T1528, T1671, T1213.004, T1567. All three paths avoided triggering traditional sign-in anomalies because actors operated through pre-approved apps and trusted identities.
-
-Hunt: the KQL queries in the report pivot on CloudAppEvents for ApiTotalUsage, ReportExport, UniqueQuery, and SSO actions. Cross-reference against the published IOCs and flag connected apps inactive 90+ days.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076834957041766521</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2076834957041766521">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 01:03:35 +0000</pubDate>
-      <guid isPermaLink="false">2076834957041766521</guid>
     </item>
   </channel>
 </rss>
