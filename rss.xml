@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 18 Jul 2026 23:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 00:04:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hidden Azure Logs: The Data You Probably Didn't Know Existed | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/the-azure-log-you-probably-didnt-know-existed</link>
+      <description>Azure's Directory Activity Log captures tenant-scope privilege escalation events that Get-AzActivityLog silently misses, leaving responders blind to one of the most critical attack paths in Entra ID environments.
+
+Key findings:
+
+- The Directory Activity Log operates at tenant scope, above subscription and management group level. Standard Get-AzActivityLog PowerShell cmdlet does not retrieve it. Acquisition requires the Azure REST API or a CSV export (CSV omits full event detail, so REST is preferred). Invictus IR's Microsoft Extractor Suite will add automated collection soon.
+
+- When a Global Administrator or User Access Administrator elevates their Azure access via "Access Management for Azure Resources" in the Entra ID blade, the event lands only in the Directory Activity Log, not in standard Activity Logs. Hunt for operation name: "Assigns the caller to User Access Administrator role."
+
+- Assigning a user Contributor or higher over the Tenant Root Management Group grants access to every subscription in the tenant. This also appears only here. Hunt for operation name: "Create role assignment" scoped to the root management group, then pivot with Get-AzRoleAssignment to resolve which principal received the assignment.
+
+- The log entry alone does not fully identify the user. Cross-reference the role assignment GUID and management group ID using PowerShell to surface the actual account.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078632116569485764</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078632116569485764">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 00:04:51 +0000</pubDate>
+      <guid isPermaLink="false">2078632116569485764</guid>
+    </item>
     <item>
       <title>macOS Incident Response: Part 1 Guide | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/responding-to-macos-attacks-part-i</link>
@@ -1623,17 +1644,6 @@ Hunt: the KQL queries in the report pivot on CloudAppEvents for ApiTotalUsage, R
       <source url="https://x.com/DFIR_Radar/status/2076834957041766521">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 01:03:35 +0000</pubDate>
       <guid isPermaLink="false">2076834957041766521</guid>
-    </item>
-    <item>
-      <title>Hackers find a new trick to collect Microsoft Entra user data without raising red flags</title>
-      <link>https://www.cybersecuritydive.com/news/microsoft-entra-user-enumeration-bypass-proofpoint/825052/</link>
-      <description>Attackers are spoofing OAuth client IDs against Microsoft Entra to enumerate users and infer valid credentials without triggering a successful sign-in event.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076819570996719750</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2076819570996719750">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 00:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2076819570996719750</guid>
     </item>
   </channel>
 </rss>
