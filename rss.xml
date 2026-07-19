@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 15:04:42 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 16:04:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Laundry Bear Threat Profile: Tactics &amp; Defenses | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/profiling-laundry-bear-tactics-history-defenses</link>
+      <description>Russian 🇷🇺 state-linked Laundry Bear targets NATO/EU Microsoft 365 environments via stolen cookies, QR phishing, and Evilginx AitM, exfiltrating data from Exchange, SharePoint, and Teams at scale.
+
+Key details:
+
+- Laundry Bear, assessed with high confidence as Russian 🇷🇺 state-affiliated, hit the Dutch 🇳🇱 police in Sept 2024, stealing contact details for ~65,000 officers by purchasing stolen session cookies from criminal marketplaces sourced via infostealer malware, then downloading the Exchange Online Global Address List (GAL) via EWS (T1087, T1539).
+
+- Initial access relies on three paths: pass-the-cookie attacks using purchased credentials (T1078), spearphishing PDFs with malicious QR codes redirecting to typosquatted Entra ID domains (T1566.001), and Evilginx-based AitM to intercept auth tokens mid-session (T1557). Residential proxies (T1090) mask the spraying and C2 traffic.
+
+- Post-access collection hits Exchange Online via EWS/OWA (T1114.002), SharePoint (T1213.002), and Teams (T1213.005). Persistence is maintained by granting delegated email permissions on compromised accounts (T1098).
+
+- Review M365 Unified Audit Log and Entra ID Sign-in Logs for MFA-less logins, anomalous EWS GAL pulls, high-volume mailbox reads, and delegate permission changes. Cross-reference source IPs against residential proxy ranges.
+
+Full TTP table with MITRE ATT&amp;CK mappings is in Invictus IR's GitHub repo.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078873691950076321</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2078873691950076321">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 16:04:47 +0000</pubDate>
+      <guid isPermaLink="false">2078873691950076321</guid>
+    </item>
     <item>
       <title>Azure Incident Response: 5 Tips to Limit Impact | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/5-tips-to-prevent-or-limit-the-impact-of-an-incident-in-azure</link>
@@ -1647,29 +1670,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2077152029743718856">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 22:03:30 +0000</pubDate>
       <guid isPermaLink="false">2077152029743718856</guid>
-    </item>
-    <item>
-      <title>Threat Hunting Case Study: Scattered Spider</title>
-      <link>https://www.intel471.com/blog/threat-hunting-case-study-scattered-spider</link>
-      <description>Scattered Spider (G1015) skips exploits entirely and uses social engineering plus silent RMM installs to maintain access. Here is how to hunt the behavior, not just the hash.
-
-Key details:
-
-- Scattered Spider gains initial access through help-desk impersonation calls, convincing employees to approve MFA prompts or install remote tools. No malware, no exploit, just a convincing English-speaking caller who has researched the org's internal processes (T1566, T1199 adjacent social engineering).
-
-- Once inside, the group runs ADExplorer for AD recon, Mimikatz for credential access, Chisel for tunneling, BruteRatel for remote access, and defense evasion tools POORTRY and STONESTOP before pivoting to legitimate RMM tools including AnyDesk, TeamViewer, ScreenConnect, and VNC (T1219.002).
-
-- The hunt centers on command-line behavior, not hashes. Look for a process command line combining a reference to AnyDesk, a silent install flag, and a start-with-Windows argument appearing together. PowerShell.exe spawning as a child of a PowerShell parent with those arguments is the signal.
-
-- Scope matters for triage: a single endpoint hit warrants immediate escalation; the same pattern spread across many machines points to a sanctioned IT deployment.
-
-Hunt for the silent-install command-line pattern in Windows Event logs or your EDR. A clean IOC scan is not a clean bill of health. The HUNTER "AnyDesk Silent Installation" package is free in the Community Edition.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077137111547887827</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077137111547887827">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 21:04:14 +0000</pubDate>
-      <guid isPermaLink="false">2077137111547887827</guid>
     </item>
   </channel>
 </rss>
