@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Jul 2026 01:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jul 2026 02:04:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AWS First-Response Automation: Sigma &amp; Athena | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/automated-first-response-in-aws-using-sigma-and-athena</link>
+      <description>Sigma rules outdetect GuardDuty in AWS post-compromise testing, catching 11 of 32 simulated attacks vs. GuardDuty's 3, pointing toward a Chainsaw-style first-response tool for CloudTrail logs.
+
+Key findings:
+
+- Invictus IR and @BertJanCyber ran 32 attack simulations via Stratus Red Team against a live AWS environment, logging everything to CloudTrail streamed to S3 and queried through Athena. GuardDuty fired on only 3 of those 32 well-known techniques, a significant gap for a paid managed detection service.
+
+- Sigma covered 11 of 32 simulations, nearly 4x GuardDuty's coverage, but the Sigma-to-Athena conversion via uncoder.io breaks field mappings: eventSource and eventName are mistranslated to nonexistent fields like api.service.name. The team built a fixup script to patch those queries automatically before execution.
+
+- The gap to 100% Sigma coverage is partly structural: current Sigma rules lack aggregation support (e.g. ConsoleLogin greater than 10), rules are fragmented across repos making quality assessment hard, and cloud-specific rules are vendor-siloed rather than threat-centric.
+
+- The vision is a Chainsaw equivalent for cloud: a tool that runs translated Sigma rules against CloudTrail logs in Athena, usable against live environments or logs imported into an isolated AWS account for safe analysis.
+
+Takeaway: The Sigma rules, Athena and Splunk queries, field-fixup script, and the full 32-attack dataset are on their GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078662176479609050</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2078662176479609050">DFIR Radar</source>
+      <pubDate>Sun, 19 Jul 2026 02:04:17 +0000</pubDate>
+      <guid isPermaLink="false">2078662176479609050</guid>
+    </item>
     <item>
       <title>Unified Audit Log: What DFIR Experts Must Know Now | Invictus Incident Response</title>
       <link>https://www.invictus-ir.com/news/what-dfir-experts-need-to-know-about-the-current-state-of-the-unified-audit-log</link>
@@ -1631,23 +1654,6 @@ Takeaway: Immediately inventory internet-facing routers. Disable Cisco Smart Ins
       <source url="https://x.com/DFIR_Radar/status/2076940571231531115">DFIR Radar</source>
       <pubDate>Tue, 14 Jul 2026 08:03:15 +0000</pubDate>
       <guid isPermaLink="false">2076940571231531115</guid>
-    </item>
-    <item>
-      <title>WhatsApp forensics in 2026 and what survives end-to-end encryption</title>
-      <link>https://andreafortuna.org/2026/07/14/whatsapp-forensics-2026/</link>
-      <description>WhatsApp forensics in 2026: E2E encryption protects the wire, not the device. Spyrtacus and the Cellebrite-Pivovarov case both confirm the endpoint is the target, and the artifacts are richer than most examiners expect.
-
-- Android splits evidence across /data/data/com.whatsapp/databases/msgstore.db (live, unencrypted chats), wa.db (contacts), and /sdcard/WhatsApp/Databases/msgstore.db.crypt15 (daily encrypted backup). The 64-byte key at /data/data/com.whatsapp/files/key is required to decrypt; crypt15 uses a protobuf-encoded key with rotating parameters that broke older single-format scripts. wa-crypt-tools by ElDavoo handles the full crypt15 pipeline and remains the most maintained open-source option.
-
-- iOS consolidates messages, group metadata, and media references in /private/var/mobile/Containers/Shared/AppGroup/GUID/ChatStorage.sqlite under the ZWAMESSAGE table. Critical detail: ZMESSAGEDATE uses Core Data epoch (seconds since 2001-01-01), not Unix time. Merging Android and iOS timelines without correcting this produces timestamp drift that can look like tampering.
-
-- The Spyrtacus campaign (fake WhatsApp APK delivered via social engineering to ~200 Italian 🇮🇹 users) left no trace in msgstore.db. The evidence lived in SMS history, browser history, package installation timestamps, installer source, and accessibility service grants. A WhatsApp exam that stops at the chat database is an incomplete exam.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2076925535591293355</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2076925535591293355">DFIR Radar</source>
-      <pubDate>Tue, 14 Jul 2026 07:03:30 +0000</pubDate>
-      <guid isPermaLink="false">2076925535591293355</guid>
     </item>
   </channel>
 </rss>
