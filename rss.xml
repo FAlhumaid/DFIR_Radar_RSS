@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Jul 2026 08:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 09:03:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Volexity Uncovers Zero-Day Campaign Targeting SonicWall VPN Appliances</title>
+      <link>https://securityaffairs.com/195626/hacking/volexity-uncovers-zero-day-campaign-targeting-sonicwall-vpn-appliances.html</link>
+      <description>SonicWall SMA 1000 zero-days chained for root access: CVE-2026-15409 (CVSS 10.0) and CVE-2026-15410 (CVSS 7.2) exploited in the wild since June 22, 2026, before patches existed.
+
+Key findings:
+
+- UTA0533 opened the attack with CVE-2026-15409, an unauthenticated SSRF in the /wsproxy endpoint triggered by a crafted User-Agent containing "SMA Connect Agent" and a bmID starting with -3389. That tunnel reaches the internal CouchDB instance and the /sys/class/dmi/id/product_uuid file, whose value derives the ctrl-service Basic auth password. CVE-2026-15410, a code injection flaw in the AMC, then executes OS commands as root, completing the chain.
+
+- On the first appliance, UTA0533 planted a setuid binary ROOTRUN at /usr/bin/xzfind, a Python backdoor KNUCKLEBALL in site-packages, and the Java web shell ORANGETAIL (Behinder-based) reachable at /workplace/error.jsp. NGINX Unit config and startup scripts were modified for persistence across reboots.
+
+- The second appliance, rebooted July 2, had fewer disk artifacts but retained NGINX config changes and /var/tmp/lib.sh, a tcpdump script capturing cleartext LDAP credentials in transit.
+
+- Physical appliances carrying a default product_uuid (common across multiple customers' hardware) are also vulnerable to an authentication bypass that does not require either CVE, though UTA0533 did not use that path here.
+
+Patch immediately: SonicWall released fixes this week.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079129989329416350</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079129989329416350">DFIR Radar</source>
+      <pubDate>Mon, 20 Jul 2026 09:03:13 +0000</pubDate>
+      <guid isPermaLink="false">2079129989329416350</guid>
+    </item>
     <item>
       <title>WordPress wp2shell Vulnerability (CVE-2026-63030): Quick FAQ for CISOs</title>
       <link>https://socradar.io/blog/wp2shell-wordpress-rce-cve-2026-63030/</link>
@@ -1699,25 +1722,6 @@ Hunt macOS endpoints for ~/.zshrc modifications containing curl pipes to zsh, /t
       <source url="https://x.com/DFIR_Radar/status/2077409254688911616">DFIR Radar</source>
       <pubDate>Wed, 15 Jul 2026 15:05:38 +0000</pubDate>
       <guid isPermaLink="false">2077409254688911616</guid>
-    </item>
-    <item>
-      <title>Investigating Persistence Mechanisms in AWS</title>
-      <link>https://www.rapid7.com/blog/post/dr-investigating-aws-persistence-mechanisms</link>
-      <description>AWS persistence survives containment: IAM backdoors, Lambda code injection, and federated tokens let attackers outlast credential rotations and even account disabling.
-
-- Attackers chain iam:CreateUser with iam:CreateAccessKey and iam:AttachUserPolicy to plant a durable foothold. The trail is in CloudTrail: filter requestParameters.userName for unknown accounts, exclude Get/List/Describe noise, and group by userIdentity.arn plus eventName to surface what permissions were granted and by whom.
-
-- iam:CreateRole or iam:UpdateAssumeRolePolicy with external account IDs in the Principal block gives attacker-controlled accounts cross-account assume-role access. Hunt CloudTrail for CreateRole and UpdateAssumeRolePolicy events whose policyDocument contains unrecognized account IDs, then pull all sts:AssumeRole calls from those accounts.
-
-- Lambda backdoors (T1059) deploy Python that calls iam:CreateUser, attaches AdministratorAccess, and returns plaintext credentials. Exposure via lambda:CreateFunctionUrlConfig with authType NONE or apigateway:CreateIntegration makes it internet-reachable. Check older function versions, legitimate-looking code may be a cover layer.
-
-- STS GetFederationToken issues temporary creds that survive the source key's deletion or disabling until they expire naturally. The sessionContext.sessionIssuer field is your pivot: it names the compromised IAM user. Apply a deny-all to that user immediately and hold it until the federated creds expire.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077393937627762840</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2077393937627762840">DFIR Radar</source>
-      <pubDate>Wed, 15 Jul 2026 14:04:46 +0000</pubDate>
-      <guid isPermaLink="false">2077393937627762840</guid>
     </item>
   </channel>
 </rss>
