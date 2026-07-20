@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Jul 2026 03:20:36 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 07:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-42533 Exposes Critical Pre-Auth nginx RCE Flaw</title>
+      <link>https://thecyberexpress.com/cve-2026-42533-pre-auth-nginx-rce/</link>
+      <description>CVE-2026-42533 is a critical pre-auth nginx RCE with a 10/10 lab exploitation rate, ASLR bypass included. Patch nginx now: 1.30.4, 1.31.3, and NGINX Plus R36 P7 or 37.0.3.1 are the fixed releases.
+
+- CVE-2026-42533 affects nginx 0.9.6 through 1.30.3 stable and 1.31.2 mainline, plus NGINX Plus R33-R36 and 37.0.0.1-37.0.2.1. No auth, no client cert, no unusual setup required. PoC exists but is being withheld. Treat this as actively exploitable in the near term.
+
+- Root cause: nginx's two-pass evaluation engine (LEN pass then VALUE pass) does not save and restore PCRE capture state. A regex map evaluation can overwrite shared capture data mid-flight, making LEN and VALUE disagree on buffer size, producing a heap overflow or an info leak. Chaining both gives reliable RCE with ASLR defeated.
+
+- Vulnerable pattern: any config combining regex captures ($1 or named groups) with regex map variables in the same evaluation path. Affected directives include proxy_set_header, proxy_pass, rewrite, add_header, and root, across both HTTP and stream modules.
+
+- The researcher released a static configuration scanner to flag vulnerable patterns without exploitation. Audit configs before patching where immediate upgrades are constrained.
+
+Upgrade to 1.30.4 or 1.31.3 immediately. Run the released config scanner to identify exposed directive chains. Confirm NGINX Plus is on R36 P7 or 37.0.3.1. Prior CVE patches do not cover this flaw.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079099650888343955</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079099650888343955">DFIR Radar</source>
+      <pubDate>Mon, 20 Jul 2026 07:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2079099650888343955</guid>
+    </item>
     <item>
       <title>WP2SHELL Update</title>
       <link>https://www.pwndefend.com/2026/07/19/wp2shell-update/</link>
@@ -1697,17 +1718,6 @@ Hunt macOS endpoints for ~/.zshrc modifications containing curl pipes to zsh, /t
       <source url="https://x.com/DFIR_Radar/status/2077378812501803281">DFIR Radar</source>
       <pubDate>Wed, 15 Jul 2026 13:04:40 +0000</pubDate>
       <guid isPermaLink="false">2077378812501803281</guid>
-    </item>
-    <item>
-      <title>This fake Apple app can unlock your Mac&amp;#8217;s password vault</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/07/this-fake-apple-app-can-unlock-your-macs-password-vault</link>
-      <description>CrashStealer, a new macOS infostealer detected as MacOS.Stealer.Crash, abuses a notarized installer named "Werkbit Setup" to bypass Gatekeeper.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077363421398339929</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2077363421398339929">DFIR Radar</source>
-      <pubDate>Wed, 15 Jul 2026 12:03:30 +0000</pubDate>
-      <guid isPermaLink="false">2077363421398339929</guid>
     </item>
   </channel>
 </rss>
