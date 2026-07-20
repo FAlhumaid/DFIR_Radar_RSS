@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Jul 2026 16:03:06 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 17:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dnsmasq DNS Remote Heap Buffer Overflow</title>
+      <link>https://blog.exodusintel.com/2026/07/20/dnsmasq-dns-remote-heap-buffer-overflow/</link>
+      <description>CVE-2026-2291: Remote heap buffer overflow in Dnsmasq allows RCE via a malicious upstream DNS server, patched in versions 2.92rel2 and 2.93 on May 11, 2026.
+
+Key details:
+
+- CVE-2026-2291 exists in Dnsmasq 2.73 through 2.92, introduced in 2015 when DNSSEC label handling expanded escaped domain name encoding but left the 1,025-byte bigname cache buffer unchecked. An unsafe strcpy() in really_insert() inside src/cache.c copies attacker-controlled name strings without bounds validation, overflowing the heap buffer.
+
+- Exploitation requires no local access: a client behind a Dnsmasq resolver queries attacker-controlled domains (alloc.me, overflow.me, overwrite.me) while the resolver uses a malicious upstream DNS server. The attacker shapes the heap via crafted CNAME chains, corrupts a bigname free-list pointer, and achieves a write-what-where primitive by abusing the cache allocator's own strcpy.
+
+- The exploit overwrites the VDSO_CGT32_SYM function pointer in musl ld.so at offset 0x812a8 from the library base, demonstrating EIP control on OpenWRT 24.10.4 (x86). Because bigname buffers are never freed through libc, heap corruption goes undetected by standard allocator mitigations.
+
+- Any network running Dnsmasq as a forwarding resolver with an untrusted or compromised upstream DNS server is in scope: home routers, enterprise DNS forwarders, embedded devices.
+
+Patch to 2.92rel2 or 2.93 immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079250773339263469</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079250773339263469">DFIR Radar</source>
+      <pubDate>Mon, 20 Jul 2026 17:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2079250773339263469</guid>
+    </item>
     <item>
       <title>Execution-Level Analysis of a Russian-Speaking Multi-Operator Intrusion Campaign: Operation STANDOFF</title>
       <link>https://www.vmray.com/execution-level-analysis-of-a-russian-speaking-multi-operator-intrusion-campaign-operation-standoff/</link>
@@ -1717,17 +1740,6 @@ Hunt for Telnet brute-force bursts across exotic architectures and outbound conn
       <source url="https://x.com/DFIR_Radar/status/2077529675379700059">DFIR Radar</source>
       <pubDate>Wed, 15 Jul 2026 23:04:08 +0000</pubDate>
       <guid isPermaLink="false">2077529675379700059</guid>
-    </item>
-    <item>
-      <title>A12 usbliter8 BootROM sigpatches</title>
-      <link>https://blog.elcomsoft.com/2026/07/a12-usbliter8-bootrom-sigpatches/</link>
-      <description>The new usbliter8 BootROM exploit covers A12, A13, and S4/S5 chips, extending low-level iOS acquisition beyond the A11 ceiling of checkm8.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077514899769504002</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2077514899769504002">DFIR Radar</source>
-      <pubDate>Wed, 15 Jul 2026 22:05:25 +0000</pubDate>
-      <guid isPermaLink="false">2077514899769504002</guid>
     </item>
   </channel>
 </rss>
