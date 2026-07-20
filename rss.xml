@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Jul 2026 22:02:21 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 23:02:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SonicWall SMA1000 flaws exploited as zero-days to push custom malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/sonicwall-sma1000-flaws-exploited-as-zero-days-to-push-custom-malware/</link>
+      <description>SonicWall SMA1000 zero-days chained to plant custom malware on VPN appliances. Threat actor UTA0533 exploited CVE-2026-15409 (SSRF, critical) and CVE-2026-15410 (command injection, high) weeks before public disclosure, achieving root on affected devices.
+
+- Exploitation began June 22, 2026. CVE-2026-15409 abused the /wsproxy endpoint to open unauthenticated WebSocket tunnels into internal services including CouchDB, leaking the appliance's product_uuid needed for stage two. CVE-2026-15410 then hit the sysCtrl.execRemoveHotfix RPC method in the Appliance Management Console to execute commands as root. Affects SMA1000 6210, 7210, and 8200v. Patch to 12.4.3-03453 or 12.5.0-02835 immediately.
+
+- UTA0533 dropped KNUCKLEBALL (deploy_new.py) as a dropper, then installed two Java implants: Sou5 (agent_wp8.jar), a reverse proxy for tunneling traffic, and ORANGETAIL (agent_wp9.jar), an encrypted Java webshell executed dynamically within HTTP sessions. ROOTRUN provided persistent root execution. nginx config was modified to expose ORANGETAIL remotely.
+
+- On compromised appliances, hunt for deploy_new.py, agent_wp8.jar, and agent_wp9.jar. Review nginx config changes and CouchDB access logs for unauthorized product_uuid queries. Memory forensics is essential since ORANGETAIL loads payloads dynamically in-session without touching disk.
+
+Patch now, then image affected appliances before remediation. Volexity's full report includes IOCs and the complete attack chain.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079341141502074899</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079341141502074899">DFIR Radar</source>
+      <pubDate>Mon, 20 Jul 2026 23:02:15 +0000</pubDate>
+      <guid isPermaLink="false">2079341141502074899</guid>
+    </item>
     <item>
       <title>wp2shell Aftermath: The First Critical Unauthenticated WordPress Core RCE in Nearly a Decade</title>
       <link>https://www.wordfence.com/blog/2026/07/wp2shell-aftermath-the-first-critical-unauthenticated-wordpress-core-rce-in-nearly-a-decade/</link>
@@ -1751,17 +1770,6 @@ Hunt for Telnet brute-force bursts across exotic architectures and outbound conn
       <source url="https://x.com/DFIR_Radar/status/2077620431386005558">DFIR Radar</source>
       <pubDate>Thu, 16 Jul 2026 05:04:46 +0000</pubDate>
       <guid isPermaLink="false">2077620431386005558</guid>
-    </item>
-    <item>
-      <title>DEW #163 - Semantic Malware Detections, Microsoft's CTI REALM evals and Thrunting for Knowledge</title>
-      <link>https://www.detectionengineering.net/p/dew-163-semantic-malware-detections</link>
-      <description>AI coding agents like Claude Code break process-tree detection: spawning curl, git, bash, and python in rapid succession is normal behavior, not an anomaly.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077605085006139626</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2077605085006139626">DFIR Radar</source>
-      <pubDate>Thu, 16 Jul 2026 04:03:47 +0000</pubDate>
-      <guid isPermaLink="false">2077605085006139626</guid>
     </item>
   </channel>
 </rss>
