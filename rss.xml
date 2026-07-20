@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Jul 2026 11:02:34 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 12:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detections Digest #20260720</title>
+      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260720</link>
+      <description>Detection engineering roundup for Jul 13-20, 2026: 42 new rules and 21 updates across 6 repos, with heavy focus on AI/LLM threats, PhaaS platforms, SSRF bypasses, and identity abuse.
+
+Key findings:
+
+- AI and MCP security dominates new rule volume. Agent-Threat-Rule adds 20 rules covering MCP sandbox escapes (Git worktree directory-confusion, Chromium launch-arg injection), indirect prompt injection ("Agentjacking" via ROT13/base64-obfuscated payloads), SSRF to cloud metadata at 169.254.169.254 via octal/hex/IPv6 encoding and wildcard DNS (nip[.]io, sslip[.]io), and npm/npx RCE from unsigned feeds. CVEs referenced include CVE-2026-56259, CVE-2026-46678, CVE-2025-53773, and CVE-2026-24307 among others.
+
+- PhaaS and SaaS-abuse email rules expand significantly. Sublime-security adds 13 rules covering Zoom Clips, Notion free-tier, Microsoft Forms Pro, and S3-hosted HTML lures. New detection techniques include OCR for image-embedded SharePoint lures, NLP urgency scoring for tax authority impersonation, and adjacent mixed-script (Latin/Cyrillic/Greek 🇬🇷) homoglyph checks.
+
+- Identity and post-compromise coverage: SlimKQL adds GraphSpy-Device sign-in detection (Graph API token theft), Forg365 and ARToken PhaaS Entra ID monitoring, passkey-enrollment phishing (UNC066), and a KQL rule flagging SMS/voice MFA completions to drive phishing-resistant auth adoption.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079175328979976356</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2079175328979976356">DFIR Radar</source>
+      <pubDate>Mon, 20 Jul 2026 12:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2079175328979976356</guid>
+    </item>
     <item>
       <title>AI Agents Turned Into Attackers: Hugging Face Reveals Autonomous Intrusion Campaign</title>
       <link>https://securityaffairs.com/195658/ai/ai-agents-turned-into-attackers-hugging-face-reveals-autonomous-intrusion-campaign.html</link>
@@ -1685,27 +1704,6 @@ Hunt for Telnet brute-force bursts across exotic architectures and outbound conn
       <source url="https://x.com/DFIR_Radar/status/2077454683174486070">DFIR Radar</source>
       <pubDate>Wed, 15 Jul 2026 18:06:09 +0000</pubDate>
       <guid isPermaLink="false">2077454683174486070</guid>
-    </item>
-    <item>
-      <title>Rapid7 MDR Team Discovers New SonicWall SMA1000 Zero Days being Actively Exploited (CVE-2026-15409, CVE-2026-15410)</title>
-      <link>https://www.rapid7.com/blog/post/etr-rapid7-mdr-team-discovers-new-sonicwall-sma1000-zero-days-being-actively-exploited-cve-2026-15409-cve-2026-15410</link>
-      <description>Two zero-days in SonicWall SMA1000 (CVE-2026-15409, CVSS 10.0 + CVE-2026-15410) are chained for unauthenticated RCE and root escalation, actively exploited before disclosure, and now in CISA KEV.
-
-Patch urgency: emergency. No workaround exists.
-
-- CVE-2026-15409 (CVSS 10.0) is an SSRF in the /wsproxy endpoint of SonicWall WorkPlace on port 443. An unauthenticated attacker supplies host=0.0.0.0 and port=1050 to tunnel into the Erlang process on localhost, where a hardcoded cookie achieves RCE as the couchdb user with no authentication required (T1190).
-
-- CVE-2026-15410 escalates that foothold to root via a path traversal in the remove_hotfix workflow of ctrl-service on port 8188. A POST to /rollbackConfirm.action with hotfix=../../../../../tmp/1234.sh causes the system to chmod and execute the attacker script as UID 0, then reboot (T1068).
-
-- Rapid7 MDR observed threat actors harvesting credentials, active session databases, and TOTP MFA seed configs from /tmp/temp.db, then pivoting to internal domain controllers via NTLM logon type 3 (Event ID 4624) originating from the appliance IP using non-inventory hostnames like "kali" with no corresponding VPN session.
-
-- Attacker infrastructure tied to ASN 206092 (F.N.S Holdings Limited): observed CIDR ranges 45.131.194.0/24, 45.146.54.0/24, 63.135.161[.]0/24, 173.239.211.0/24, and individual IPs 193.37.32[.]179, 216.73.163[.]151.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077438914701275559</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2077438914701275559">DFIR Radar</source>
-      <pubDate>Wed, 15 Jul 2026 17:03:34 +0000</pubDate>
-      <guid isPermaLink="false">2077438914701275559</guid>
     </item>
   </channel>
 </rss>
