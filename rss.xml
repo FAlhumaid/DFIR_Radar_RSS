@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Jul 2026 17:03:10 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 18:03:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Targeted Attack on Government Entities in the Middle East | Part 1</title>
+      <link>https://www.zscaler.com/blogs/security-research/targeted-attack-government-entities-middle-east-part-1</link>
+      <description>East Asian threat actor hits Middle Eastern government entities with three undocumented malware families: TELESHIM, MIXEDKEY, and BINDCLOAK, active July 2026.
+
+- ISO-based DLL sideloading starts the chain. A ZIP delivers an ISO containing legitimate ASUSTek RegSchdTask.exe, which sideloads malicious AsTaskSched.dll (TELESHIM, MD5 7cbc51ada1a4aec88660ec32c408114b). TELESHIM hooks offset 0x1394 in the host process at runtime, runs in its context to evade EDR, checks mutex ----WebKitFormBoundary7MA4YWxkTrZu0g, stages to C:\programdata\shimgen_Data\, and persists via a scheduled task named shimgen running every 6 minutes.
+
+- TELESHIM phones home over Telegram. It polls hxxps://api.telegram[.]org/bot&lt;TOKEN&gt;/getUpdates, validates chat.id against a hardcoded value, encrypts MAC-addressed shell output with a 44-byte rolling XOR key, and downloads next-stage payloads the same way. C2 hours: 0400-1200 UTC, peak 0700-1100 UTC, consistent with East Asian working hours.
+
+- MIXEDKEY (pthreadVC2.dll, MD5 78a4f8574830bf7fbaf63d7da09be2b8) reflectively loads BINDCLOAK using environmental keying: it calls GetVolumeInformationA, derives a 20-byte XOR key from the volume serial number, and double-decrypts C99F29AC08454855B3D538960BB2F34F.PCPKEY dropped under C:\ProgramData\Crypto\DSS\ to impersonate Microsoft PCP files. Without the target's exact serial number, analysts cannot decrypt the payload.
+
+- BINDCLOAK beacons to cert.hypersnet[.]com.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079265893658599750</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2079265893658599750">DFIR Radar</source>
+      <pubDate>Mon, 20 Jul 2026 18:03:15 +0000</pubDate>
+      <guid isPermaLink="false">2079265893658599750</guid>
+    </item>
     <item>
       <title>Dnsmasq DNS Remote Heap Buffer Overflow</title>
       <link>https://blog.exodusintel.com/2026/07/20/dnsmasq-dns-remote-heap-buffer-overflow/</link>
@@ -1729,17 +1748,6 @@ Hunt for Telnet brute-force bursts across exotic architectures and outbound conn
       <source url="https://x.com/DFIR_Radar/status/2077545073055510553">DFIR Radar</source>
       <pubDate>Thu, 16 Jul 2026 00:05:19 +0000</pubDate>
       <guid isPermaLink="false">2077545073055510553</guid>
-    </item>
-    <item>
-      <title>CISA Adds SonicWall SMA1000 Vulnerabilities to KEV Catalog Following Active Exploitation</title>
-      <link>https://thecyberexpress.com/cve-2026-15409-cve-2026-15410-sonicwall/</link>
-      <description>CVE-2026-15409 (CVSS 10.0 SSRF, unauthenticated) and CVE-2026-15410 (CVSS 7.2 RCE, post-auth) in SonicWall SMA1000 are actively exploited and now in CISA KEV. Patch to 12.4.3-03453 or 12.5.0-02835.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077529675379700059</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2077529675379700059">DFIR Radar</source>
-      <pubDate>Wed, 15 Jul 2026 23:04:08 +0000</pubDate>
-      <guid isPermaLink="false">2077529675379700059</guid>
     </item>
   </channel>
 </rss>
