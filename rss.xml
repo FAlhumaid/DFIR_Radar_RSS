@@ -5,8 +5,23 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Jul 2026 13:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 14:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From a Single Alert to 1,000 Files: Inside an Exposed WebDAV Malware Delivery Lab</title>
+      <link>https://www.rapid7.com/blog/post/tr-exposed-webdav-malware-delivery-lab-analysis</link>
+      <description>A single MDR alert exposed a 1,048-file malware delivery lab running like a software product team, complete with QA folders, LLM-generated READMEs, and an admin panel left open with default credentials.
+
+- The initial alert triggered when rundll32.exe pulled a file over WebDAV, with the WebClient service starting and davclnt.dll reaching out to a remote host (T1204.002). That thread unraveled a fully exposed server hosting the attacker's entire pipeline: 453 LNK lures, 236 filename-spoofing QA tests, 146 LOLBin execution experiments, 89 encrypted droppers, and 9 ClickFix HTML pages. The operator's Simba Service WebDAV admin panel was left exposed with hardcoded credentials and default port, logging 77,098 requests from 3,892 IPs across 5.5 days.
+
+- The primary campaign impersonated Mexico 🇲🇽's CURP national-ID service at hxxps://gobf[.]mx, delivering an RTLO-spoofed .scr (SHA256: 04A8018191F2E9E76072D072A933371D9D669A42DE2B2A087541CD3A653B0BA7) via a search-ms URI. The fileless .NET stealer (v4.4.3, tag 06x12x2026SantaEbash2) used AES+GZip decryption, Assembly.Load() reflective loading (T1620), and process hollowing into a signed Qihoo 360 binary (T1055.012). C2 exfiltrated to 77[.]110.127[.]205 over TLS without SNI, targeting crypto wallets, browser credentials, cookies, and Telegram tdata.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079205359277748690</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2079205359277748690">DFIR Radar</source>
+      <pubDate>Mon, 20 Jul 2026 14:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2079205359277748690</guid>
+    </item>
     <item>
       <title>Fake games spread stealers with RenPy Loader, MSBuild and EtherHiding</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/07/fake-games-spread-stealers-with-renpy-loader-msbuild-and-etherhiding</link>
@@ -1697,23 +1712,6 @@ Hunt for Telnet brute-force bursts across exotic architectures and outbound conn
       <source url="https://x.com/DFIR_Radar/status/2077484960626114981">DFIR Radar</source>
       <pubDate>Wed, 15 Jul 2026 20:06:27 +0000</pubDate>
       <guid isPermaLink="false">2077484960626114981</guid>
-    </item>
-    <item>
-      <title>TELEPUZ: a modular MaaS malware spreading via CLICKFIX-VIDAR chains</title>
-      <link>https://www.elastic.co/security-labs/telepuz-maas-malware-clickfix</link>
-      <description>TELEPUZ is an emerging modular MaaS backdoor active since late April 2026, delivered via ClickFix social engineering into a VIDAR Go dropper, with 36 commands, blockchain-based C2 fallback, and rapid daily build volume signaling fast growth.
-
-- ClickFix lures a user into running a PowerShell one-liner that pulls a VIDAR Go variant (580b441e2961739fd26e54e0a0ea08351cb10a51839519fc722cfa39ecd0c954) from memshowblob[.]forum. VIDAR then fetches install.exe (stager) and telepuz.dll from hurgadatour[.]shop. The stager drops the 64-bit DLL, executes it via rundll32 with a named export, and migrates persistence to %AppData%\Local\DCFG\Runtime\Themes\Processor\etwhost.dll. Service persistence lands at HKLM\SYSTEM\CurrentControlSet\Services\CipherAllocator.
-
-- TELEPUZ layers heavy evasion: indirect syscalls via trampolines patched into dfscli.dll or davhlpr.dll, NTDLL unhooking via NtMapViewOfSection, AMSI patched to return E_INVALIDARG, ETW neutered via xor eax,eax on EtwEventWrite and NtTraceEvent, DllNotification callbacks stripped, and anti-VM/CIS locale checks (Ukraine 🇺🇦, Russia-adjacent LCIDs) that terminate execution silently.
-
-- C2 uses WebSockets over TLS to /cdn/health?sid= with four dead-drop fallback methods: a Telegram channel (t[.]me/chanadarkpart), a Steam profile (76561199705801219), a DNS TXT record on codebasecode[.]com, and a Polygon smart contract (0xf55Bea1FdCf1c3ABb39ab92567C09aC1BFf6753E) that also serves as a kill switch.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077469409019609481</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2077469409019609481">DFIR Radar</source>
-      <pubDate>Wed, 15 Jul 2026 19:04:40 +0000</pubDate>
-      <guid isPermaLink="false">2077469409019609481</guid>
     </item>
   </channel>
 </rss>
