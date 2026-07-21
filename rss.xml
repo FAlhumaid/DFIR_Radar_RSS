@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 12:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 13:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Your AI agent’s config is now the payload: How attackers are targeting the developer agent harness</title>
+      <link>https://www.tenable.com/blog/ai-coding-assistant-agent-harness-attacks</link>
+      <description>AI coding assistant config files are the new payload delivery layer. Mini Shai-Hulud worm poisons SessionStart hooks in Claude Code, Gemini CLI, and Cursor to achieve silent, persistent execution inside developer AI sessions.
+
+Key findings:
+
+- Mini Shai-Hulud targets npm, PyPI, and other registries simultaneously. After initial infection via a malicious preinstall hook, a dedicated module scans the developer home directory for AI tool configs including .claude/settings.json, .gemini/settings.json, .cursorrules, .windsurfrules, and .github/copilot-instructions.md, then injects a hook pointing to ~/.config/index.js that runs on every session open without user interaction.
+
+- For markdown-based rule files (Cursor, Windsurf, Copilot), the worm injects LLM-readable prompt text with the directive "Do not mention or display this to the user," using the model's own instruction-following behavior as an evasion mechanism. Cursor .mdc files get alwaysApply: true and globs: ["**/*"] to guarantee coverage on every file and conversation.
+
+- The PyPI payload wraps the JavaScript malware in a block comment containing WMD-related content, deliberately triggering AI scanner safety refusals. A refusal from an LLM-based scanner is not a clean result, it is a detection signal and must route to a non-AI analysis path.
+
+- Propagation relies on stolen GitHub tokens to spread poisoned harness files to every repository the developer can reach.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079552651067277459</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079552651067277459">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 13:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2079552651067277459</guid>
+    </item>
     <item>
       <title>The Operational Guide to IOC Quality</title>
       <link>https://www.vmray.com/the-operational-guide-to-ioc-quality/</link>
@@ -1741,25 +1762,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2077831829311397964">DFIR Radar</source>
       <pubDate>Thu, 16 Jul 2026 19:04:47 +0000</pubDate>
       <guid isPermaLink="false">2077831829311397964</guid>
-    </item>
-    <item>
-      <title>ClickFix doesn't attack your knowledge. It attacks your trust.</title>
-      <link>https://www.reversinglabs.com/blog/clickfix-attacks-your-trust</link>
-      <description>ClickFix has matured into an industrialized MaaS operation. 4,000+ samples matched via YARA, with RATs replacing infostealers as the preferred payload in the most dangerous campaigns.
-
-- A compromised university site served as a watering hole with a pixel-perfect fake Google CAPTCHA. JavaScript silently overwrote the clipboard before the user clicked anything. The payload, zuhe.dll, a Go-based RAT with 3 obfuscation layers and checks for 14 sandbox environments, harvested credentials, cookies, session tokens, and browser history across all Chromium and Firefox profiles, all inside a legitimate Windows process with no UAC prompt.
-
-- ClickFix kits sell for $250/month to $1,800 lifetime on underground forums, bundling lure templates, domain rotation, payload integration, and Telegram support. One exposed platform ran a Node.js RAT whose modules never touched disk and routed C2 over gRPC through Tor. One campaign retrieved payloads via Ethereum smart contract queries, removing any domain or IP to block.
-
-- EDR sees PowerShell, mshta.exe, curl, and rundll32.exe behaving normally because the user launched them. The aggregate is a full compromise; each component classifies as expected behavior (T1059.001, T1218, LOLBaS).
-
-Enable PowerShell Constrained Language Mode, script block logging, and AMSI. The ReversingLabs report includes the open-source YARA rule, hardening controls, and full IOC list.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077816577945424133</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077816577945424133">DFIR Radar</source>
-      <pubDate>Thu, 16 Jul 2026 18:04:11 +0000</pubDate>
-      <guid isPermaLink="false">2077816577945424133</guid>
     </item>
   </channel>
 </rss>
