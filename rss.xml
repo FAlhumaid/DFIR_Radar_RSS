@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 13:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 14:03:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Perfect Heist: NuGet Typosquat Targets Betting Platform to Rig Results</title>
+      <link>https://jfrog.com/blog/nuget-typosquat-targets-betting-platform/</link>
+      <description>NuGet typosquat "Newtonsoftt.Json.Net" spent two months targeting Digitain's crash-betting platform with HarmonyLib runtime patching and Seq-disguised C2 exfiltration, a precision fraud tool, not a generic stealer.
+
+- Newtonsoftt.Json.Net (double-t, versions 11.0.4-11.0.11) impersonated Newtonsoft.Json by forging author, license, and project URL metadata. It shipped three assemblies under lib/net8.0/: a trojanized fork of Newtonsoft.Json 13.0.3, a payload dll (Newtonsoft.Values.Net.dll), and HarmonyLib. NuGet auto-loaded all three into any referencing process. The nuspec leaked the target in its repository URL: an internal TFS server pointing to Digitain's BetOnGames/FG-Crash project.
+
+- The trigger is JsonConvert.DefaultSettings. Assigning it fires DefaultValues.Set(), which schedules a HarmonyLib postfix patch on a timer delayed 10 minutes (Gen-3) or until the next day at 15:00 UTC plus jitter (Gen-1). The patch targets Digitain.FG.SharedCrash.GameLogic.SharedCrashRules.GenerateGameResult (Harmony ID: com.example.harmony), overwriting the crash multiplier return value using precomputed tables indexed by UTC month, day-of-week, and week-of-month. Only 27-32 rounds are rigged per cycle; the rest are clean.
+
+- Gen-3 (11.0.11, unobfuscated) POSTs each rigged result to hxxp://185.126.237[.]64:5341/api/events/raw with header X-Seq-ApiKey: theperfectheist2025, mimicking a Serilog/Seq telemetry endpoint to blend with structured-logging egress traffic.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079567832241856689</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2079567832241856689">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 14:03:03 +0000</pubDate>
+      <guid isPermaLink="false">2079567832241856689</guid>
+    </item>
     <item>
       <title>Your AI agent’s config is now the payload: How attackers are targeting the developer agent harness</title>
       <link>https://www.tenable.com/blog/ai-coding-assistant-agent-harness-attacks</link>
@@ -1743,25 +1760,6 @@ Triage immediately: isolate the host, disable (do not delete) the account, pull 
       <source url="https://x.com/DFIR_Radar/status/2077846747842322768">DFIR Radar</source>
       <pubDate>Thu, 16 Jul 2026 20:04:04 +0000</pubDate>
       <guid isPermaLink="false">2077846747842322768</guid>
-    </item>
-    <item>
-      <title>Ransomware and Cyber Extortion in Q2 2026</title>
-      <link>https://reliaquest.com/blog/threat-spotlight-ransomware-and-cyber-extortion-in-q2-2026/</link>
-      <description>Q2 2026 ransomware hit 2,252 victims across 99 countries, down 15% from Q1 but up 51% year-over-year. Newcomer Deadlock's blockchain C2 and kernel-level EDR kill chain signal where the landscape is heading.
-
-Key findings:
-
-- Deadlock is the technical story of the quarter. Active since July 2025 but silent for 11 months, it posted 75 victims in June alone. Its malware queries a Polygon smart contract at runtime for C2 addresses, meaning operators rotate infrastructure invisibly with no domain or IP to block. A loader drops a signed but vulnerable AV driver into the Videos directory, exploiting CVE-2024-51324 (CVSS 7.8) to terminate EDR at the kernel via BYOVD before encryption starts. Encrypted files carry the .dlock extension; a 50-second pre-encryption sleep defeats short sandbox detonation windows. AnyDesk handles persistence, RDP handles lateral movement, and PowerShell deletes shadow copies.
-
-- The Gentlemen claimed first place with 300 Q2 victims, powered by AI-accelerated affiliate kit updates: pre-compromised victim lists, custom EDR killers, GPO-based domain-wide deployment, and WinSCP for exfiltration. Qilin slipped to second (289 victims), Coinbase Cartel collapsed 91%, and DragonForce dropped 58%, with affiliate migration the most plausible driver in each case.
-
-- PSTS led sector targeting for the fifth straight quarter (437 posts, 32% of tracked activity).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077831829311397964</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077831829311397964">DFIR Radar</source>
-      <pubDate>Thu, 16 Jul 2026 19:04:47 +0000</pubDate>
-      <guid isPermaLink="false">2077831829311397964</guid>
     </item>
   </channel>
 </rss>
