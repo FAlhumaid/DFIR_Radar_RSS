@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 04:01:55 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 05:02:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Defender's Remote Connections Blind Spot: FourToSixMapping</title>
+      <link>https://detect.fyi/defenders-remote-connections-blind-spot-fourtosixmapping-ce3f19658d05?source=rss----d5fd8f494f6a---4</link>
+      <description>A subtle KQL filter bug in Microsoft Defender XDR silently drops real C2 connections from DeviceNetworkEvents, creating a blind spot that survives purple team exercises and LLM-generated queries alike.
+
+- The root cause: filtering DeviceNetworkEvents with RemoteIPType == "Public" misses connections logged as "FourToSixMapping", which appears when a Windows dual-stack socket maps an IPv4 address into IPv6 notation (e.g., ::ffff:8.8.8.8). Defender logs the RemoteIP in that format and tags it FourToSixMapping, not Public, so the event silently falls through the filter.
+
+- KQL's ipv4_is_private() returns null on ::ffff:-prefixed addresses, not false. Null fails a where clause, so LLM-suggested "fix" queries that rely on ipv4_is_private(RemoteIP) to catch all external IPs also miss these events. Null is neither true nor false in KQL.
+
+- The fix is a two-part normalization: include RemoteIPType in ("Public", "FourToSixMapping") in your where clause, then strip the prefix with replace_string(RemoteIP, "::ffff:", "") before passing the value to any IP evaluation function.
+
+Audit your tenant now. Run the verification query from the article against a historical window to surface FourToSixMapping events with no corresponding Public entry for the same IP. Then patch every hunting and detection rule that uses RemoteIPType == "Public" as a standalone external-traffic filter, it is a silent false-negative factory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079431729819820401</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2079431729819820401">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 05:02:13 +0000</pubDate>
+      <guid isPermaLink="false">2079431729819820401</guid>
+    </item>
     <item>
       <title>Dutch Intelligence Warns Russia Uses Hacked IP Cameras for Military Espionage</title>
       <link>https://securityaffairs.com/195708/intelligence/dutch-intelligence-warns-russia-uses-hacked-ip-cameras-for-military-espionage.html</link>
@@ -1755,23 +1774,6 @@ Hunt for Telnet brute-force bursts across exotic architectures and outbound conn
       <source url="https://x.com/DFIR_Radar/status/2077710764081881523">DFIR Radar</source>
       <pubDate>Thu, 16 Jul 2026 11:03:43 +0000</pubDate>
       <guid isPermaLink="false">2077710764081881523</guid>
-    </item>
-    <item>
-      <title>UAT-11795 deploys novel Starland RAT and bespoke WLDR C2 implant in financially motivated campaign</title>
-      <link>https://blog.talosintelligence.com/uat-11795-deploys-novel-starland-rat-and-bespoke-wldr-c2-implant-in-financially-motivated-campaign/</link>
-      <description>Russian-speaking UAT-11795 deploys novel Starland RAT and bespoke WLDR PowerShell C2 implant against US 🇺🇸 and European targets, stealing credentials and crypto wallets since June 2025.
-
-- Initial access is likely ClickFix social engineering: mshta.exe executes a weaponized HTA that drops a batch file to %AppData%\Local\Temp, downloads trojanized NSIS installers (MobaXterm, Zoom, WebEx, DBeaver, FACEIT), and sets persistence at HKCU\Software\Microsoft\Windows\CurrentVersion\Run with value "MyApp" pointing back to mshta.exe. A Russian-language developer comment in the VBScript confirms the actor's origin.
-
-- Starland RAT is a Python payload XOR-decrypted (key 0xC6) from a file disguised as LICENSE.txt. It checks usernames and hostnames against sandbox lists including WDAGUtilityAccount and Cuckoo, persists via a scheduled task named PythonLauncher-{3 random chars} and a Startup LNK targeting pythonw.exe, beacons every 50-60 seconds XOR-encrypted with key "helo1", and uses a Polygon smart contract (0x6ae382ed2154cc84c6672e4e908cd2c69c1b35ba) as a blockchain-anchored fallback C2.
-
-- WLDR agent is a fully in-memory PowerShell C2 implant using AES-256-CBC plus HMAC-SHA256 (PBKDF2, 5,000 iterations), a RunspacePool supporting 10 concurrent threads for real-time interactive execution, and mutex "f2j398fj239d8j23dkkskskkkkkkkkk" to prevent duplicate instances.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077695635491377635</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077695635491377635">DFIR Radar</source>
-      <pubDate>Thu, 16 Jul 2026 10:03:36 +0000</pubDate>
-      <guid isPermaLink="false">2077695635491377635</guid>
     </item>
   </channel>
 </rss>
