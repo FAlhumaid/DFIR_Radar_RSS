@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 17:02:35 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 18:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Denying the Worm: Detecting SANDWORM_MODE and the Emerging Class of AI Toolchain Supply Chain Attacks</title>
+      <link>https://www.crowdstrike.com/en-us/blog/denying-the-worm-sandworm-mode-and-ai-toolchain-supply-chain-attacks/</link>
+      <description>A self-propagating npm worm dubbed SANDWORM_MODE targeted AI coding assistants, CI/CD runners, and LLM toolchains across 19 malicious packages, marking a new class of supply chain attack designed to exploit AI-augmented developer workflows.
+
+Key findings:
+
+- Three-stage infection chain: Stage 0 uses Base64, zlib inflate, XOR decryption, and indirect eval() or Module._compile() calls at import time to defeat static scanning. Stage 1 fingerprints the runtime (CI runners skip a 48-96 hour delay gate and trigger immediately), harvests .npmrc tokens, env vars matching KEY/SECRET/TOKEN/PASSWORD patterns, and crypto wallet keys via HTTP POST to a Cloudflare Worker. Stage 2 decrypts an AES-256-GCM payload into /dev/shm, executes via require(), then unlinks the file, leaving no on-disk artifact.
+
+- Propagation abuses all three credential types: stolen npm tokens republish infected packages to downstream consumers; GitHub API tokens inject a pull_request_target workflow that bypasses fork isolation; an SSH fallback authenticates via git@github[.]com when API access fails.
+
+- AI toolchain compromise drops a rogue MCP server (observed paths: ~/.dev-utils/server.js, ~/.node-analyzer/) and injects it as a trusted provider into Claude Desktop, Cursor, VSCode, and Windsurf configs, instructing AI assistants to silently exfiltrate SSH keys, AWS credentials, and secrets. API keys for nine LLM providers are also harvested from env files.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079628143808205192</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2079628143808205192">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 18:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2079628143808205192</guid>
+    </item>
     <item>
       <title>Hidden in plain sight: How SVGs carry malicious scripts</title>
       <link>https://www.reversinglabs.com/blog/how-svgs-carry-dangerous-scripts</link>
@@ -1781,17 +1800,6 @@ Triage immediately: isolate the host, disable (do not delete) the account, pull 
       <source url="https://x.com/DFIR_Radar/status/2077906762963837369">DFIR Radar</source>
       <pubDate>Fri, 17 Jul 2026 00:02:33 +0000</pubDate>
       <guid isPermaLink="false">2077906762963837369</guid>
-    </item>
-    <item>
-      <title>New Spirals ransomware encrypts victim network in under 24 hours</title>
-      <link>https://www.bleepingcomputer.com/news/security/new-spirals-ransomware-encrypts-victim-network-in-under-24-hours/</link>
-      <description>Spirals ransomware hit a South Asian IT firm via an exposed IIS server, deploying a web shell and reaching encryption in under 24 hours.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077892000494289267</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077892000494289267">DFIR Radar</source>
-      <pubDate>Thu, 16 Jul 2026 23:03:53 +0000</pubDate>
-      <guid isPermaLink="false">2077892000494289267</guid>
     </item>
   </channel>
 </rss>
