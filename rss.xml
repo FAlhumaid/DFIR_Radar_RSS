@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 09:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 10:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SonicWall SMA Flaws Lead to KNUCKLEBALL Malware</title>
+      <link>https://socradar.io/blog/sonicwall-sma-knuckleball-malware/</link>
+      <description>SonicWall SMA 1000 zero-days CVE-2026-15409 (CVSS 10.0) and CVE-2026-15410 (CVSS 7.2) chained in active exploitation since June 22, delivering KNUCKLEBALL malware and root-level access. Both in CISA KEV.
+
+- CVE-2026-15409 is an unauthenticated SSRF in the SMA 1000 Work Place interface. Attackers abused the /wsproxy path to tunnel into localhost-only services without credentials, the essential first link in the chain. CVE-2026-15410 is a post-auth code injection in the AMC, reached via the SSRF, exploited through the sysCtrl.execRemoveHotfix RPC method to execute commands as root.
+
+- UTA0533 deployed four components post-exploitation: KNUCKLEBALL (deploy_new.py, a Python deployer), ORANGETAIL (custom Java webshell), a modified Suo5/Sou5 proxy for tunneling, and ROOTRUN (xzfind, a Linux ELF for root command execution). Watch /tmp, /var/tmp, and custom NGINX Unit routes in /var/lib/unit/conf.json.
+
+- Post-compromise activity included credential harvesting, traffic capture, and lateral movement attempts from the appliance toward internal systems. Any confirmed SMA 1000 breach should be treated as full appliance compromise, not a patch-and-move-on event.
+
+- Affected firmware: 12.4.3 branches below 03453 and 12.5.0 branches below 02835, covering SMA 6210, 7210, 8200v, and CMS across all hypervisors. CISA remediation deadline was July 17, 2026.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079507332992512230</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079507332992512230">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 10:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2079507332992512230</guid>
+    </item>
     <item>
       <title>New Project CAV3RN module abuses Outlook calendar events for C2 and DNS AAAA records for configuration recovery</title>
       <link>https://securelist.com/project-cav3rn-cyberespionage-framework-using-outlook-and-dns/120757/</link>
@@ -1741,23 +1760,6 @@ Full IOC list is in the Cisco Talos report. Block outbound queries to Polygon RP
       <source url="https://x.com/DFIR_Radar/status/2077786449089593379">DFIR Radar</source>
       <pubDate>Thu, 16 Jul 2026 16:04:28 +0000</pubDate>
       <guid isPermaLink="false">2077786449089593379</guid>
-    </item>
-    <item>
-      <title>HelloNet campaign — new malicious modules launched through the ViPNet update system</title>
-      <link>https://securelist.com/tr/hellonet-vipnet/120700/</link>
-      <description>An unknown Chinese-speaking APT (low-confidence attribution) has been abusing the ViPNet secure-network update system since at least May 2026 to backdoor Russian 🇷🇺 government, energy, transport, and logistics organizations in an active campaign Kaspersky calls HelloNet.
-
-- DLL sideloading is the persistence anchor: wtsapi32.dll (MD5: B103CD21280B4061F88B2BCC51394894 and variants) is dropped into C:\Program Files (x86)\InfoTeCS\VIPNet Update System. The signed ViPNet binary itcsrvup64.exe loads it at startup (T1574.002), giving the loader HelloInjector a trusted parent. HelloInjector then injects into svchost.exe via NtWriteVirtualMemory and NtCreateThreadEx, targeting the process whose command line contains "netsvcs".
-
-- HelloProxy runs inside svchost.exe and hooks NtDeviceIoControlFile (IOCTL codes AFD_RECV 0x12017 and AFD_GET_TDI_HANDLES 0x12037) using Microsoft Detours to blind user-mode network filters. It listens on ports 5003 and 5060, handshakes with the C2 via a two-byte 0x0502 marker, and either forwards traffic as a proxy or receives and executes in-memory payloads. All intercepted messages log to C:\users\public\tesh4RPC.txt.
-
-- HelloExecutor runs recon (ipconfig, net user, dir on ViPNet Client and Administrator paths) then pivots via a renamed PuTTY Plink binary at C:\users\public\music\frontpage.exe tunneling to 5.39.253[.]206 on port 3522 (T1572, T1021.004).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077771129544921164</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2077771129544921164">DFIR Radar</source>
-      <pubDate>Thu, 16 Jul 2026 15:03:35 +0000</pubDate>
-      <guid isPermaLink="false">2077771129544921164</guid>
     </item>
   </channel>
 </rss>
