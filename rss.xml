@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 08:03:23 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 09:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Project CAV3RN module abuses Outlook calendar events for C2 and DNS AAAA records for configuration recovery</title>
+      <link>https://securelist.com/project-cav3rn-cyberespionage-framework-using-outlook-and-dns/120757/</link>
+      <description>OilRig-linked Project CAV3RN gains a .NET Native AOT module that tunnels C2 through Outlook calendar events and recovers credentials via DNS AAAA records, targeting Israeli 🇮🇱 organizations.
+
+- AzureCommunication.dll (MD5: CAF021DDA726B8BA049C2AA395E505A1) replaces the prior HTTP/WebSocket component. It authenticates to Microsoft Graph using hardcoded Entra tenant credentials, then reads and writes commands as calendar event attachments in a fixed 2050-05-13 22:00-23:00 UTC window. Commands arrive as file0.txt, results upload as File0.txt, and events self-delete after consumption, leaving minimal durable artifacts. The config persists locally in logAzure.txt in the host process working directory.
+
+- If Graph auth fails, the module queries cloudlanecdn[.]com (registered Dec 24, 2025; hosted at 216.126.237[.]197 and 144.172.108[.]205 on AS14956) via DNS AAAA. Actor-controlled nameservers encode TenantId, ClientId, ClientSecret, and UserEmail as 16-byte IPv6 payloads, delivered in 14-byte fragments across sequential .p. and .q. subdomains keyed to the hex-encoded Agent ID.
+
+- Encryption uses RSA-OAEP-SHA256 to wrap a per-session AES-256-GCM key. The operator holds the outbound private key; the module holds the inbound private key. Kaspersky confirmed a compromised Israeli 🇮🇱 law firm Microsoft 365 mailbox as the dead-drop.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079492325584064743</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2079492325584064743">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 09:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2079492325584064743</guid>
+    </item>
     <item>
       <title>Who Needs a Job? DPRK ClickFake Interview Campaign Drops PylangGhost and GolangGhost RATs</title>
       <link>https://socradar.io/blog/dprk-clickfake-pylangghost-golangghost-rats/</link>
@@ -1741,23 +1758,6 @@ Full IOC list is in the Cisco Talos report. Block outbound queries to Polygon RP
       <source url="https://x.com/DFIR_Radar/status/2077771129544921164">DFIR Radar</source>
       <pubDate>Thu, 16 Jul 2026 15:03:35 +0000</pubDate>
       <guid isPermaLink="false">2077771129544921164</guid>
-    </item>
-    <item>
-      <title>The TTF Trap: A Global Campaign of a Low-Detection Lua Loader</title>
-      <link>https://feeds.fortinet.com/~/960560447/0/fortinet/blog/threat-research~The-TTF-Trap-A-Global-Campaign-of-a-LowDetection-Lua-Loader</link>
-      <description>A large-scale phishing campaign active since March 2026 drops heavily obfuscated JScript that chains an AutoIt or Lua loader, disguised as a .ttf font file, to deliver Remcos, Agent Tesla, XWorm, and Snake Keylogger variants.
-
-- Phishing emails impersonate trusted businesses with payment lures, delivering a malicious archive containing obfuscated JScript. The script uses string array mapping, control flow flattening, and runtime .split()/.join() deobfuscation to evade analysis. It checks for the variable 'YESSSSSSSS', drops files to %PUBLIC%\Libraries, and establishes persistence via a Scheduled Task before launching the next stage through WScript.Shell.
-
-- The dropped .ttf file is actually a LuaJIT script. It decrypts payload through string reversal, symbol substitution, Base64 decode, then a custom ROT cipher keyed on the first byte of the encrypted string. Anti-analysis layers include decoy memory allocation, page guards, Donut shellcode signature masking, and a Vectored Exception Handler that decrypts page-sized shellcode blocks only on access violation, defeating static and dynamic inspection.
-
-- Final payloads execute fileless via Donut shellcode and reflective loading. Best Private LOGGER is confirmed as a Snake Keylogger variant sharing identical collection modules and naming conventions. IOCs include C2s at 104[.]239.66.86[:]7004, 46[.]183.223.21[:]2404, 107[.]174.34.137[:]443, and newremupdate[.]duckdns.org[:]2404.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077756016100556845</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2077756016100556845">DFIR Radar</source>
-      <pubDate>Thu, 16 Jul 2026 14:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2077756016100556845</guid>
     </item>
   </channel>
 </rss>
