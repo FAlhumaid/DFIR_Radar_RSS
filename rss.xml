@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 20:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 21:02:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting Emails Sent Using Unexpected Languages (+KQL Query)</title>
+      <link>https://detect.fyi/detecting-emails-sent-using-unexpected-languages-kql-query-41c435e3176b?source=rss----d5fd8f494f6a---4</link>
+      <description>A KQL hunting query flags emails where the detected language mismatches the sender IP's expected country language, surfacing a low-signal indicator useful for layered phishing and BEC investigations.
+
+Key details:
+
+- The query uses Microsoft Sentinel's EmailEvents table, resolving SenderIPv4/IPv6 with geo_info_from_ip_address(), then comparing the detected EmailLanguage (first two characters, lowercased) against a country-to-language mapping loaded via externaldata() from a GitHub-hosted CSV, keeping maintenance outside the query itself.
+
+- Country-language mappings are stored in a semicolon-delimited CSV, split into an array at runtime. Emails where the detected language is absent from that array and not flagged as unknown ("un"/"xx") become hunting candidates, scoped to low-volume senders (EmailCount &lt; 10) to reduce noise.
+
+- Tuning is built in: exclude high-FP countries, allowlist trusted sender domains, and adjust volume thresholds. The author explicitly cautions this is not a standalone phishing detector, its value comes when stacked with signals like newly registered domains, SPF/DKIM failures, or unusual sender behavior.
+
+- The artifact cluster to chase: SenderIP, Country, DetectedLanguage, SenderDomains, ThreatTypes, and Subject lines, all surfaced per sender in the output summarize.
+
+Takeaway: Pull the KQL from the report and run it against EmailEvents in Sentinel.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079673465792061531</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2079673465792061531">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 21:02:48 +0000</pubDate>
+      <guid isPermaLink="false">2079673465792061531</guid>
+    </item>
     <item>
       <title>Qilin Ransomware Affiliates Abuse CVE-2026-0257 to Gain Unauthorized VPN Access</title>
       <link>https://securityaffairs.com/195730/cyber-crime/qilin-ransomware-affiliates-abuse-cve-2026-0257-to-gain-unauthorized-vpn-access.html</link>
@@ -1793,17 +1816,6 @@ Triage immediately: isolate the host, disable (do not delete) the account, pull 
       <source url="https://x.com/DFIR_Radar/status/2077952405124370480">DFIR Radar</source>
       <pubDate>Fri, 17 Jul 2026 03:03:55 +0000</pubDate>
       <guid isPermaLink="false">2077952405124370480</guid>
-    </item>
-    <item>
-      <title>CVE-2026-15410 and CVE-2026-15409: SonicWall SMA 1000 Zero-Days Exploited in the Wild</title>
-      <link>https://socprime.com/blog/cve-2026-15410-and-cve-2026-15409-analysis/</link>
-      <description>CVE-2026-15409 (unauthenticated SSRF) and CVE-2026-15410 (post-auth code injection) in SonicWall SMA 1000 are chained in the wild, now on CISA KEV.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077937582290219177</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2077937582290219177">DFIR Radar</source>
-      <pubDate>Fri, 17 Jul 2026 02:05:01 +0000</pubDate>
-      <guid isPermaLink="false">2077937582290219177</guid>
     </item>
   </channel>
 </rss>
