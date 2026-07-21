@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 18:02:42 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 19:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Exploitarium: Inside the Archive Behind the Mass 0-Day Drop</title>
+      <link>https://www.levelblue.com/blogs/spiderlabs-blog/exploitarium-inside-the-archive-behind-the-mass-0-day-drop</link>
+      <description>The "exploitarium" GitHub archive has grown to 35 project folders and 204 tracked files of uncoordinated PoC releases, with CVE-2026-55200 in libssh2 as its most critical output: a pre-auth heap out-of-bounds write reachable before credentials are checked.
+
+- CVE-2026-55200 targets libssh2 through 1.11.1. An insufficient upper-bound check on packet_length in ssh2_transport_read() causes integer wrap, producing an undersized heap buffer. It is pre-authentication, no credentials or session state required. libssh2 is a transitive dependency of curl, Git, and PHP builds, so exposure reaches CI/CD pipelines and container images far beyond teams who knowingly ship it. Fix is upstream commit 97acf3d. Run SCA across build artifacts and vendored deps now.
+
+- The archive is larger and more active than reported. Most coverage cited roughly 130 files; the current count is 204 across 35 folders as of this assessment, with additions landing at 2-3 folders per week through at least July 4, including PostgreSQL, Redis, Nextcloud, and Discourse findings.
+
+- The methodology is not purely automated. 19 folders cover native memory-safety bugs (C/C++, kernel/driver), consistent with fuzzing. 13 folders target web-app and authentication logic: API key scoping, CSRF-driven privilege escalation, federated-share tokens, cache-key collisions. That split signals human-directed targeting alongside fuzzing.
+
+- The archive has evolved into a multi-contributor pipeline.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079643286743158988</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079643286743158988">DFIR Radar</source>
+      <pubDate>Tue, 21 Jul 2026 19:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2079643286743158988</guid>
+    </item>
     <item>
       <title>Denying the Worm: Detecting SANDWORM_MODE and the Emerging Class of AI Toolchain Supply Chain Attacks</title>
       <link>https://www.crowdstrike.com/en-us/blog/denying-the-worm-sandworm-mode-and-ai-toolchain-supply-chain-attacks/</link>
@@ -1785,21 +1804,6 @@ Triage immediately: isolate the host, disable (do not delete) the account, pull 
       <source url="https://x.com/DFIR_Radar/status/2077922334078644413">DFIR Radar</source>
       <pubDate>Fri, 17 Jul 2026 01:04:25 +0000</pubDate>
       <guid isPermaLink="false">2077922334078644413</guid>
-    </item>
-    <item>
-      <title>ACR Stealer: Two observed intrusion chains amid increased threat activity</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/07/16/acr-stealer-two-observed-intrusion-chains-amid-increased-threat-activity/</link>
-      <description>ACR Stealer MaaS surges across enterprise environments via two distinct ClickFix chains, one using blockchain dead-drop C2 and one hiding payloads inside JPEG pixels for fileless execution.
-
-- Both campaigns open with a ClickFix social-engineering prompt, but diverge sharply after that. Campaign 1 uses rundll32.exe to load a DLL from a GUID-structured WebDAV share over HTTPS, then drops a Python runtime under %LocalAppData%\Temp in a folder masquerading as LogiOptionsPlus, establishes a hidden scheduled task named "Autoupdate" for persistence, and timestomps deployed files against notepad.exe while clearing PowerShell history. A subset uses EtherHiding: a secondary Python loader queries blockchain RPC endpoints to resolve C2 dynamically, making infrastructure takedown far harder. MITRE coverage: T1218.011, T1053.005, T1070.003, T1027.
-
-- Campaign 2 is nearly fileless. MSHTA fetches remote HTA content, VBScript abuses COM objects to launch obfuscated PowerShell, which downloads a JPEG from an image host and extracts an encrypted payload from pixel data via custom steganography routines (T1027.003). Execution is entirely in-memory using VirtualAlloc, CreateThread, and runtime API resolution. No scheduled task, no Python runtime on disk.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2077906762963837369</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2077906762963837369">DFIR Radar</source>
-      <pubDate>Fri, 17 Jul 2026 00:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2077906762963837369</guid>
     </item>
   </channel>
 </rss>
