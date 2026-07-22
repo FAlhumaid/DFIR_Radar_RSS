@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 22 Jul 2026 00:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2026 01:01:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AWS CloudTrail Cheat Sheet for Incident Responders | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/aws-cloudtrail-cheat-sheet</link>
+      <description>Invictus IR releases a free AWS CloudTrail cheat sheet mapping high-value event names to MITRE ATT&amp;CK phases, built from real incident experience and adversary simulation.
+
+Key details:
+
+- CloudTrail captures both management events (control plane: creating/deleting S3 buckets) and data events (data plane: reading/writing S3 objects). Both GUI and API calls are logged in JSON, and the Event name field is the primary identifier for triage.
+
+- The cheat sheet was built from three sources: real AWS incidents investigated by Invictus IR, adversary simulation using Stratus Red Team in a test environment, and practitioner threat modeling to fill gaps. That pedigree makes it more reliable than purely theoretical lists.
+
+- Events are organized by MITRE ATT&amp;CK phase, letting responders map CloudTrail noise to reconnaissance, persistence, privilege escalation, exfiltration, and other stages quickly during active investigations.
+
+- The sheet is available on GitHub in multiple formats plus a GitHub gist for easy copy-paste during live response, lowering friction when you need to build a query or detection rule fast.
+
+Practitioner takeaway: pull the cheat sheet from the Invictus IR GitHub and load the relevant Event names into your Athena queries or SIEM rules before your next AWS engagement. Sorting your CloudTrail results against ATT&amp;CK phases cuts triage time significantly on noisy tenants.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079733630981562451</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079733630981562451">DFIR Radar</source>
+      <pubDate>Wed, 22 Jul 2026 01:01:52 +0000</pubDate>
+      <guid isPermaLink="false">2079733630981562451</guid>
+    </item>
     <item>
       <title>Azure VM Command Execution using Third-Party Extensions – Chef</title>
       <link>https://www.netspi.com/blog/technical-blog/cloud-pentesting/azure-vm-command-execution-using-third-party-extensions/</link>
@@ -1805,25 +1828,6 @@ Triage immediately: isolate the host, disable (do not delete) the account, pull 
       <source url="https://x.com/DFIR_Radar/status/2078057895392841865">DFIR Radar</source>
       <pubDate>Fri, 17 Jul 2026 10:03:06 +0000</pubDate>
       <guid isPermaLink="false">2078057895392841865</guid>
-    </item>
-    <item>
-      <title>NadMesh Botnet Analysis: A Product-Grade Threat for the AI Service Era</title>
-      <link>https://blog.xlab.qianxin.com/nadmesh-botnet-analysis-a-product-grade-threat-for-the-ai-service-era-en/</link>
-      <description>NadMesh, a Go-based "product-grade" botnet first observed July 2026, autonomously targets AI infrastructure (ComfyUI, Ollama, MCP) using 20+ RCE vectors, polymorphic builds, and redundant persistence that survives single-point removal.
-
-- ai_harvest.py uses the Shodan API to hunt exposed ComfyUI (port 8188), Ollama (11434), n8n (5678), Gradio (7860), Langflow, and Open WebUI instances, injecting them as priority=20 scan tasks. Post-compromise intel collection strips AWS keys, Bedrock creds, K8s ServiceAccount tokens, MCP tool listings, and ~/.docker/config.json. The attacker wants cloud credentials and AI access, not just the host.
-
-- Persistence is triple-redundant: SSH public-key backdoor in .ssh/authorized_keys, agent binaries in /dev/shm/.a, /var/tmp/.a, and /tmp/.a, plus cron watchdogs at /etc/cron.d/.sys_monitor and /etc/cron.d/.s. Remove one path and the others restore the agent. Full removal requires all three layers simultaneously.
-
-- The controller (controller_go.go) listens on ports 80 and 8443 spoofing nginx headers, uses HMAC-SHA256 bot auth with a 60-second replay window, and backs an operator web panel at /panel. A priority ladder (50 for confirmed dangerous IPs down to 0 for fallback randoms) drives autonomous scan amplification with no human in the loop.
-
-- Polymorphic builds via Garble obfuscation, UPX-9 packing, and random padding give every agent a unique hash.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078042982570237954</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2078042982570237954">DFIR Radar</source>
-      <pubDate>Fri, 17 Jul 2026 09:03:50 +0000</pubDate>
-      <guid isPermaLink="false">2078042982570237954</guid>
     </item>
   </channel>
 </rss>
