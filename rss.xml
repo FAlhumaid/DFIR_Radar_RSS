@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 22 Jul 2026 17:04:03 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2026 18:04:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rondo Meets Geoserver, (Wed, Jul 22nd)</title>
+      <link>https://isc.sans.edu/diary/rss/33176</link>
+      <description>CVE-2024-36401 still being actively scanned in the wild: the Rondo botnet is hitting GeoServer installs via OGC filter RCE, dropping a shell script through a multi-stage wget/curl chain.
+
+Key findings:
+
+- CVE-2024-36401 is an XPath expression injection in GeoServer's OGC filter evaluation, allowing unauthenticated RCE via a crafted GetPropertyValue WFS request. The payload calls java.lang.Runtime.getRuntime() directly in the valueReference parameter, no auth required.
+
+- The attack chain: URL-encoded exec() call in the WFS request, base64-encoded second stage decoded and piped to sh, fetching rondo.zyt[.]sh from 45.153.34[.]153 via wget, busybox wget, or curl as fallbacks.
+
+- The C2 at 45.153.34[.]153 now returns a taunting HTML comment ("You won't find it here"), suggesting the payload was removed or the bot was evicted, but persistent implants may remain.
+
+- GeoServer is common in government, utilities, and research environments running geospatial infrastructure, making exposed instances high-value targets for botnet recruitment.
+
+Hunt your web logs for GetPropertyValue requests containing exec( or base64 strings in the valueReference parameter. Check for outbound connections to 45.153.34[.]153 and unexpected sh or bash processes spawned from the GeoServer JVM. Patch to GeoServer 2.23.6 / 2.24.4 or later if not already done.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079990873295642654</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2079990873295642654">DFIR Radar</source>
+      <pubDate>Wed, 22 Jul 2026 18:04:03 +0000</pubDate>
+      <guid isPermaLink="false">2079990873295642654</guid>
+    </item>
     <item>
       <title>TrickBot Ditches HTTP for DNS Tunneling in Latest Variant</title>
       <link>https://www.infosecurity-magazine.com/news/trickbot-dns-tunneling-c2/</link>
@@ -1751,27 +1774,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2078390058369818933">DFIR Radar</source>
       <pubDate>Sat, 18 Jul 2026 08:03:00 +0000</pubDate>
       <guid isPermaLink="false">2078390058369818933</guid>
-    </item>
-    <item>
-      <title>GraphRunner Guide: Ultimate Defensive Strategies Part I | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/a-defenders-guide-to-graphrunner-part-i</link>
-      <description>GraphRunner, a Microsoft Graph post-exploitation toolkit, leaves distinct traces across Entra ID Sign-In logs, Audit Logs, and MicrosoftGraphActivityLogs that defenders can hunt with targeted KQL.
-
-Key findings:
-
-- Authentication via Get-GraphTokens uses device-code flow against Microsoft Graph. Detect it with: SigninLogs | where AuthenticationProtocol == "deviceCode" | where ResourceDisplayName == "Microsoft Graph". Token refresh modules (Invoke-RefreshGraphTokens, Invoke-AutoTokenRefresh) produce no reliable log entries, a current blind spot.
-
-- Recon activity surfaces heavily in MicrosoftGraphActivityLogs. Invoke-GraphOpenInboxFinder queries graph.microsoft.com/v1.0/users/[UPN]/mailFolders/Inbox/messages; a PowerShell UserAgent with HTTP 200 responses identifies readable inboxes. Invoke-GraphRecon with PermissionEnum hammers an undocumented estimateAccess beta endpoint, generating a burst of events in seconds.
-
-- Persistence modules write to Azure Audit Logs. Invoke-InjectOAuthApp creates an app registration with broad non-admin-consent permissions (Mail, Files, Teams) and logs three events: "Add application," "Update application," and a secrets management update. The Reply URL field in the "Add application" event holds the attacker-controlled redirect URI.
-
-- Guest invitation and group manipulation via Invoke-InviteGuest and Invoke-AddGroupMember each produce Entra Audit Log entries and MicrosoftGraphActivityLogs hits.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078359865706090847</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2078359865706090847">DFIR Radar</source>
-      <pubDate>Sat, 18 Jul 2026 06:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2078359865706090847</guid>
     </item>
   </channel>
 </rss>
