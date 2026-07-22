@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 22 Jul 2026 18:04:03 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2026 20:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>wp2shell hits WordPress: detecting pre-auth RCE from plugin drop to command execution</title>
+      <link>https://www.elastic.co/security-labs/wp2shell-wordpress-rce-detection-elastic-defend</link>
+      <description>CVE-2026-63030 and CVE-2026-60137 chain into pre-auth RCE on WordPress 6.9.0-6.9.4 and 7.0.0-7.0.1. Public PoCs hit GitHub within hours of July 17 disclosure; active scanning and exploitation confirmed in telemetry.
+
+- wp2shell abuses route confusion in WordPress Core's REST batch endpoint (/wp-json/batch/v1 or /?rest_route=/batch/v1, no plugins required) to reach a pre-auth SQL injection primitive, then escalates via SQLi-to-administrator bridge and plugin upload, or direct INTO OUTFILE webshell drop. Both paths land attacker-controlled PHP on disk, then shell execution through the web stack. MITRE: T1190, T1505.003, T1059.
+
+- The staging sequence leaves a durable file trail: apache2 writes temp-write-test-* probe files under wp-content/, a zip lands under wp-content/uploads/, PHP unpacks to wp-content/upgrade/wp2shell_&lt;hex&gt;/, then moves into wp-content/plugins/wp2shell_&lt;hex&gt;/. The PoC self-deletes the plugin post-execution, so a missing wp2shell_* folder does not clear the host if process alerts already fired.
+
+- Elastic's lab run produced 12 alerts across four rules: PHP File Creation in WordPress Plugin Directory (earliest signal, catches the drop), Payload Execution by Web Server (fires and kills dash when apache2 spawns it), and Suspicious/Unusual Command Execution via Web Server (SIEM depth on id, whoami, hostname, SUID enumeration). The hex suffix in plugin names is fragile; the apache2-to-dash parent-child relationship is not.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080020901140025565</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2080020901140025565">DFIR Radar</source>
+      <pubDate>Wed, 22 Jul 2026 20:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2080020901140025565</guid>
+    </item>
     <item>
       <title>Rondo Meets Geoserver, (Wed, Jul 22nd)</title>
       <link>https://isc.sans.edu/diary/rss/33176</link>
@@ -1755,25 +1772,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2078405235433668677">DFIR Radar</source>
       <pubDate>Sat, 18 Jul 2026 09:03:18 +0000</pubDate>
       <guid isPermaLink="false">2078405235433668677</guid>
-    </item>
-    <item>
-      <title>GraphRunner Guide: Ultimate Defensive Strategies Part II | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/a-defenders-guide-to-graphrunner-part-ii</link>
-      <description>GraphRunner's Microsoft 365 pillage modules leave distinct traces across MicrosoftGraphActivityLogs, Unified Audit Log, and Entra ID Audit Log if you know where to look.
-
-- Invoke-SearchSharePointAndOneDrive and Invoke-SearchMailbox both hit graph.microsoft[.]com/v1.0/search/query first, then follow up with drives or messages endpoints. Hunt with: MicrosoftGraphActivityLogs | where UserAgent contains "PowerShell" | where RequestUri has_all("graph.microsoft.com/v1.0/drives/","/items/","/content"). Note that SearchQueryInitiatedSharePoint requires Microsoft Advanced Auditing and must be manually enabled per mailbox.
-
-- Invoke-SearchMailbox triggers MailItemsAccessed in the UAL, which is your pivot to identify exactly which messages were accessed. Correlate the Graph API call to graph.microsoft[.]com/v1.0/me/messages/ with the InternetMessageID values in MailItemsAccessed to reconstruct what the attacker read and exfiltrated.
-
-- Invoke-ImmersiveFileReader is a blind spot: it generates no MicrosoftGraphActivityLogs entry. Detection relies entirely on the UAL FileDownloaded operation combined with a PowerShell UserAgent. If you are not ingesting UAL into Sentinel, this module is invisible to you.
-
-- Destructive supplemental modules (Invoke-DeleteOAuthApp, Invoke-DeleteGroup, Invoke-RemoveGroupMember) emit DELETE method events in MicrosoftGraphActivityLogs and corresponding entries in Entra ID AuditLogs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078390058369818933</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2078390058369818933">DFIR Radar</source>
-      <pubDate>Sat, 18 Jul 2026 08:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2078390058369818933</guid>
     </item>
   </channel>
 </rss>
