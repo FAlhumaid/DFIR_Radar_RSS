@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Jul 2026 23:02:08 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2026 00:02:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Azure VM Command Execution using Third-Party Extensions – Chef</title>
+      <link>https://www.netspi.com/blog/technical-blog/cloud-pentesting/azure-vm-command-execution-using-third-party-extensions/</link>
+      <description>Attackers with a single Azure RBAC permission can deploy a rogue Chef extension to any VM and execute arbitrary code as root, stealing Managed Identity tokens while blending into legitimate admin activity.
+
+Key findings:
+
+- The only permission needed is Microsoft.Compute/virtualMachines/extensions/write, held by Owner, Contributor, Log Analytics Contributor, Virtual Machine Contributor, and several lesser-known roles including Defender for Servers and Desktop Virtualization Contributor. On engagements, Domain Controllers frequently run as Azure VMs, making any principal with this permission effectively a Domain Admin.
+
+- Attack chain: stand up chef-zero (no auth, no input validation) on a public IP, craft a malicious cookbook that curls the IMDS endpoint at 169.254.169.254 to steal the Managed Identity OAuth token and exfiltrates it OOB, then deploy ChefClient or LinuxChefClient extension via az vm extension set pointing bootstrap_options.chef_server_url at the rogue server.
+
+- Host artifacts to hunt: on Linux, check /var/lib/waagent/Chef.Bootstrap.WindowsAzure.LinuxChefClient-[version]/config/0.settings for a suspicious chef_server_url and /var/log/azure/Chef.Bootstrap.WindowsAzure.LinuxChefClient/chef-client.log for executed commands. On Windows, C:\chef\0.settings and C:\WindowsAzure\Logs\Plugins\Chef.Bootstrap.WindowsAzure.ChefClient\[version]\chef-client.log hold the same evidence.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079718654686715963</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079718654686715963">DFIR Radar</source>
+      <pubDate>Wed, 22 Jul 2026 00:02:22 +0000</pubDate>
+      <guid isPermaLink="false">2079718654686715963</guid>
+    </item>
     <item>
       <title>Digital Triage and the Rules of Evidence: What Holds Up, and Where</title>
       <link>https://blog.elcomsoft.com/2026/07/digital-triage-and-the-rules-of-evidence-what-holds-up-and-where/</link>
@@ -1805,21 +1824,6 @@ Triage immediately: isolate the host, disable (do not delete) the account, pull 
       <source url="https://x.com/DFIR_Radar/status/2078042982570237954">DFIR Radar</source>
       <pubDate>Fri, 17 Jul 2026 09:03:50 +0000</pubDate>
       <guid isPermaLink="false">2078042982570237954</guid>
-    </item>
-    <item>
-      <title>ClickLock Stealer turns a locked screen into a forensics case</title>
-      <link>https://andreafortuna.org/2026/07/17/clicklock/</link>
-      <description>ClickLock Stealer locks macOS victims out of their own desktop using sub-second process-kill loops to force password entry, combining credential phishing, Keychain extraction, crypto wallet theft, and a persistent GSocket backdoor into one campaign.
-
-- Delivered via ClickFix social engineering: victims paste a Terminal command from a fake Cloudflare or Claude verification page. The orchestrator (script.sh) disables SIGINT, spawns a fake progress bar, and downloads four modules: zsh.txt (credential stealer), chromer.txt (Keychain stealer), finderv2.jpg (crypto stealer targeting 31 browser wallet extensions and 8 desktop wallets), and goyim (GSocket backdoor). Crypto stealer and backdoor pipe directly into bash; the others stage to ~/.cacheb/. All modules self-delete and timestomp using ~/Movies metadata as the source timestamp after execution.
-
-- The locker kills Finder, Dock, SystemUIServer, Activity Monitor, and Terminal at intervals as tight as 200ms, preventing investigation. The credential loop persists ~83 hours; the Keychain loop ~35 days until the Chrome Safe Storage AES key is confirmed extracted. A separate loop kills NotificationCenter for ~6 hours to suppress Gatekeeper alerts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078027679539011994</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2078027679539011994">DFIR Radar</source>
-      <pubDate>Fri, 17 Jul 2026 08:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2078027679539011994</guid>
     </item>
   </channel>
 </rss>
