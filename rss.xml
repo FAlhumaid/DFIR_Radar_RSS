@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 22 Jul 2026 15:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2026 16:03:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Opening the Black Box: Agentless Threat Detection for Virtual Appliances</title>
+      <link>https://www.wiz.io/blog/agentless-threat-hunting-fortigate</link>
+      <description>FortiGate devices are a prime attacker target: internet-facing, highly privileged, and invisible to traditional EDR. Wiz outlines agentless detection playbooks covering the full post-exploitation chain.
+
+Key findings:
+
+- 51.9% of cloud environments run at least one virtual appliance; 12% run FortiGate specifically. The 2026 FortiBleed campaign compromised credentials for roughly 75,000 devices across 194 countries. Salt Typhoon exploited CVE-2023-48788; UNC3886 used CVE-2022-41328 to deploy the CASTLETAP backdoor via FortiManager script abuse, then pivoted to VMware ESXi. A zero-day, CVE-2026-24858, was exploited to authenticate via SSO, create super_admin accounts, and delete logs.
+
+- Post-compromise persistence follows a fast pattern: attackers authenticate via FortiCloud SSO using disposable addresses (support@openmail[.]pro, cloud-noc@mail[.]io), create a local admin (ssl-admin, backupadmin, helpdesk) with super_admin profile, MFA disabled, and trusthost=0.0.0.0/0, then immediately run "show full-configuration" to extract reversible-encrypted credentials, all within 10 minutes.
+
+- Key log IDs to ingest: 32001/32002/32003 (auth), 44547 (object config, covers account creation, NAT/VIP, cert changes), 44548 (CLI commands executed), 32095 (config download via GUI), 32052 (FortiManager script push). For lateral movement, hunt subtype=local traffic logs for ICMP (proto=1) or unexpected outbound connections originating from the firewall itself.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079960626248716544</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2079960626248716544">DFIR Radar</source>
+      <pubDate>Wed, 22 Jul 2026 16:03:52 +0000</pubDate>
+      <guid isPermaLink="false">2079960626248716544</guid>
+    </item>
     <item>
       <title>Intercepting Android WebView traffic under new certificate validity requirement by Chromium</title>
       <link>https://blog.nviso.eu/2026/07/22/intercepting-android-webview-traffic-under-new-certificate-validity-requirement-by-chromium/</link>
@@ -1763,27 +1782,6 @@ Hunt for CreateUser, AttachUserPolicy, and CreateRole events in CloudTrail where
       <source url="https://x.com/DFIR_Radar/status/2078344841704906801">DFIR Radar</source>
       <pubDate>Sat, 18 Jul 2026 05:03:19 +0000</pubDate>
       <guid isPermaLink="false">2078344841704906801</guid>
-    </item>
-    <item>
-      <title>Master eM Client Forensics: A Step-by-Step Analysis | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/forensic-analysis-of-em-client</link>
-      <description>eM Client is a legitimate email app repeatedly abused in BEC cases to maintain persistent mailbox access, exfiltrate email, and send phishing at scale from compromised M365 accounts.
-
-Key findings:
-
-- App ID e9a7fea1-1cc0-4cd9-a31b-9137ca5deedd is globally consistent across all tenants. Hunt the Entra ID Audit Log and UAL for three registration events: "Add service principal", "Consent to application", and "Add app role assignment grant to user". The offline_access permission grant is the critical one: it enables refresh tokens that survive password resets.
-
-- Post-registration sign-ins appear in both the Entra sign-in log (with CA policy and risk detail) and the UAL. Filter MailItemsAccessed operations by the eM Client app ID to scope what mail was touched. Note that local email downloads do not generate UAL records, so treat any MailItemsAccessed event tied to this app ID as a presumed exfiltration event.
-
-- Persistence shows up as UpdateInboxRules in the UAL (User-Agent identifies eM Client) and AddFolderPermissions for delegated access grants. Both are detectable and should be cross-referenced with the timeline of the initial app consent.
-
-- Emails sent via eM Client carry a distinctive Message-ID prefix "em" followed by a UUID format, e.g. emd76c6165-abe1-47e3-bef8-a6b6a4a6f467@0a9f8b29[.]com. Run a Message Trace filtered on this pattern to identify outbound phishing sent through the compromised account.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078330163688091855</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2078330163688091855">DFIR Radar</source>
-      <pubDate>Sat, 18 Jul 2026 04:04:59 +0000</pubDate>
-      <guid isPermaLink="false">2078330163688091855</guid>
     </item>
   </channel>
 </rss>
