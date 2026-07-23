@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2026 11:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 12:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Microsoft DART Investigates a SharePoint Breach Involving Two Separate Threat Actors</title>
+      <link>https://www.opswat.com/blog/microsoft-dart-investigates-a-sharepoint-breach-involving-two-separate-threat-actors</link>
+      <description>Microsoft DART investigated a ransomware breach of on-premises SharePoint servers where two separate threat actors were found operating simultaneously, exploiting CVE-2025-49706 and CVE-2025-49704.
+
+Key findings:
+
+- Storm-2603, assessed as China-based, exploited CVE-2025-49706 (SharePoint auth spoofing) and CVE-2025-49704 (SharePoint code injection) to gain initial access, then used Velociraptor at SYSTEM-level for recon, blending into trusted admin behavior. Remote access was maintained via Cloudflare tunneling, Zoho Assist, and SSH through Visual Studio Code, followed by new local and domain admin account creation.
+
+- A second, unidentified threat actor operated concurrently in the same environment using DLL sideloading into legitimate Windows processes and custom backdoors, neither linked to Storm-2603. The layered activity from two actors obscured each other, complicating attribution and timeline reconstruction.
+
+- The driver NSecKrnl.sys was loaded to tamper with memory and disable endpoint protections before subsequent activity, a classic BYOVD move that blind-spots EDR before the heavier tooling arrives.
+
+- DART confirmed at least two victim organizations through lateral movement forensics, and any unpatched internet-facing SharePoint server remains exposed.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080262585060848069</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2080262585060848069">DFIR Radar</source>
+      <pubDate>Thu, 23 Jul 2026 12:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2080262585060848069</guid>
+    </item>
     <item>
       <title>Chaos ransomware's msaRAT: Living off the browser to build a covert C2 channel</title>
       <link>https://blog.talosintelligence.com/chaos-msarat-living-off-the-browser-to-build-covert-c2-channel/</link>
@@ -1709,29 +1730,6 @@ Enable the log now, even if archiving to a Storage Account.
       <source url="https://x.com/DFIR_Radar/status/2078541220322873816">DFIR Radar</source>
       <pubDate>Sat, 18 Jul 2026 18:03:39 +0000</pubDate>
       <guid isPermaLink="false">2078541220322873816</guid>
-    </item>
-    <item>
-      <title>Azure Incident Response: Complete Guide | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/incident-response-in-azure</link>
-      <description>Azure cross-tenant synchronization (CTS) can be weaponized for stealthy persistence, letting an attacker inject users from a controlled tenant into a victim tenant with minimal noise.
-
-Key findings:
-
-- The attack requires the Hybrid Administrator role in the victim tenant. Once configured, the attacker adds their tenant as a trusted partner, enabling automatic user provisioning into the victim environment. The critical audit log event to hunt is "Add a partner to cross-tenant access setting," which captures the attacker's tenant ID and the initiating user's UPN.
-
-- The Audit Log is the only reliable source. Sign-in logs, Provisioning logs, and the Activity log do not record CTS setup. Portal-generated consent pop-ups leave no log trace at all, so GUI-only actions are silent.
-
-- Synchronized users arrive tagged as ExternalAzureAD and B2B, but B2B alone does not confirm CTS abuse. Correlation with the initial "Add a partner" audit event is the only way to distinguish CTS-provisioned accounts from ordinary guest invitations.
-
-- Microsoft records a proxy IP from their own range on the victim side, not the attacker's real source IP. The actual source IP only appears in audit logs on the attacker-controlled tenant, which responders typically cannot access.
-
-Takeaway: Run this KQL against AuditLogs in Microsoft Sentinel: filter OperationName == "Add a partner to cross-tenant access setting," extract initiating_user, source_ip, and target_tenant.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078526104722083867</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2078526104722083867">DFIR Radar</source>
-      <pubDate>Sat, 18 Jul 2026 17:03:36 +0000</pubDate>
-      <guid isPermaLink="false">2078526104722083867</guid>
     </item>
   </channel>
 </rss>
