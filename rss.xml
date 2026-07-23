@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2026 20:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 21:03:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>DNS Poisoning Tactics Expand to Hospitality Wi-Fi</title>
+      <link>https://reliaquest.com/blog/threat-spotlight-dns-poisoning-tactics-expand-to-hospitality/</link>
+      <description>APT28-linked tradecraft targets hotel and conference Wi-Fi gateways across the US 🇺🇸, India 🇮🇳, and Saudi Arabia 🇸🇦 to harvest Microsoft 365 credentials without touching a single endpoint, active since at least June 2026.
+
+- Attackers gain admin access to captive portal appliances via exposed SSH, SNMP, or web consoles with weak credentials, then poison DNS for every guest on the network. Forged responses redirect login.microsoftonline[.]com queries to 38.146.28[.]75 and 31.57.243[.]154, serving Microsoft-impersonating pages at m365-owa[.]com, owa-ms365[.]com, ms365-live[.]com, and ms365-device[.]com, all registered via chikolimdrid[at]gmail[.]com.
+
+- Hard-coded DNS like 8.8.8[.]8 does not protect victims: the gateway reads, forges, and returns the response before it reaches upstream resolvers. Only strict-mode DoH/DoT or a full-tunnel VPN stops the redirect. Opportunistic encrypted DNS falls back to plaintext and remains vulnerable.
+
+- In roughly one-third of cases the attacker also poisoned WPAD, pushing a malicious PAC file via svchost WinHttpAutoProxySvc to proxy all Windows application traffic through attacker infrastructure, a technique not seen in prior FrostArmada reporting.
+
+- On ms365-live[.]com, ReliaQuest observed device-code flow abuse: victims approve what looks like a routine auth prompt and unknowingly grant the attacker valid, MFA-satisfied OAuth tokens, no credential interception required.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080398317465276699</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2080398317465276699">DFIR Radar</source>
+      <pubDate>Thu, 23 Jul 2026 21:03:06 +0000</pubDate>
+      <guid isPermaLink="false">2080398317465276699</guid>
+    </item>
     <item>
       <title>Chaos ransomware deploys browser-based msaRAT to evade network detection</title>
       <link>https://securityaffairs.com/195876/malware/chaos-ransomware-deploys-browser-based-msarat-to-evade-network-detection.html</link>
@@ -1681,29 +1700,6 @@ Takeaway: For any AWS IR, pull S3 access logs and VPC Flow Logs alongside CloudT
       <source url="https://x.com/DFIR_Radar/status/2078677118943215877">DFIR Radar</source>
       <pubDate>Sun, 19 Jul 2026 03:03:40 +0000</pubDate>
       <guid isPermaLink="false">2078677118943215877</guid>
-    </item>
-    <item>
-      <title>AWS First-Response Automation: Sigma &amp; Athena | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/automated-first-response-in-aws-using-sigma-and-athena</link>
-      <description>Sigma rules outdetect GuardDuty in AWS post-compromise testing, catching 11 of 32 simulated attacks vs. GuardDuty's 3, pointing toward a Chainsaw-style first-response tool for CloudTrail logs.
-
-Key findings:
-
-- Invictus IR and @BertJanCyber ran 32 attack simulations via Stratus Red Team against a live AWS environment, logging everything to CloudTrail streamed to S3 and queried through Athena. GuardDuty fired on only 3 of those 32 well-known techniques, a significant gap for a paid managed detection service.
-
-- Sigma covered 11 of 32 simulations, nearly 4x GuardDuty's coverage, but the Sigma-to-Athena conversion via uncoder.io breaks field mappings: eventSource and eventName are mistranslated to nonexistent fields like api.service.name. The team built a fixup script to patch those queries automatically before execution.
-
-- The gap to 100% Sigma coverage is partly structural: current Sigma rules lack aggregation support (e.g. ConsoleLogin greater than 10), rules are fragmented across repos making quality assessment hard, and cloud-specific rules are vendor-siloed rather than threat-centric.
-
-- The vision is a Chainsaw equivalent for cloud: a tool that runs translated Sigma rules against CloudTrail logs in Athena, usable against live environments or logs imported into an isolated AWS account for safe analysis.
-
-Takeaway: The Sigma rules, Athena and Splunk queries, field-fixup script, and the full 32-attack dataset are on their GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078662176479609050</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2078662176479609050">DFIR Radar</source>
-      <pubDate>Sun, 19 Jul 2026 02:04:17 +0000</pubDate>
-      <guid isPermaLink="false">2078662176479609050</guid>
     </item>
   </channel>
 </rss>
