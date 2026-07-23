@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2026 19:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 20:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Chaos ransomware deploys browser-based msaRAT to evade network detection</title>
+      <link>https://securityaffairs.com/195876/malware/chaos-ransomware-deploys-browser-based-msarat-to-evade-network-detection.html</link>
+      <description>Chaos ransomware's msaRAT routes C2 entirely through Chrome or Edge via Chrome DevTools Protocol, making attacker traffic invisible on the wire. The RAT process never touches the network directly.
+
+- msaRAT is a Rust-based RAT attributed to the Chaos ransomware group. Initial access delivers update_ms.msi via curl over HTTP on port 443, bypassing port-based firewall rules. The MSI impersonates a Windows update and loads the RAT DLL directly into memory, leaving no obvious on-disk payload to catch.
+
+- C2 is split across two legitimate services: Cloudflare Workers at is-01-ast.ols-img-12.workers[.]dev handles SDP signaling to establish a WebRTC channel, then drops out entirely. All subsequent commands flow over a WebRTC DataChannel relayed through Twilio, so the attacker's real server IP never appears in traffic.
+
+- The RAT binds only to 127.0.0[.]1. All external traffic originates from the browser process itself, launched headless with remote debugging enabled. CSP is bypassed via a CDP command and JavaScript injected into the browser handles every network operation. What a defender sees is a browser making HTTPS calls to Cloudflare and WebRTC to Twilio, both normal.
+
+- Talos found msaRAT deployed between initial access and the Chaos encryptor, confirming it serves pre-encryption reconnaissance. Double encryption: DTLS from WebRTC plus ChaCha-Poly1305 over an ECDH-derived key means stripping DTLS still yields ciphertext.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080383382786384290</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2080383382786384290">DFIR Radar</source>
+      <pubDate>Thu, 23 Jul 2026 20:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2080383382786384290</guid>
+    </item>
     <item>
       <title>When the "Autonomous Attacker" Is Your Own AI Model, (Thu, Jul 23rd)</title>
       <link>https://isc.sans.edu/diary/rss/33180</link>
@@ -1685,29 +1704,6 @@ Takeaway: The Sigma rules, Athena and Splunk queries, field-fixup script, and th
       <source url="https://x.com/DFIR_Radar/status/2078662176479609050">DFIR Radar</source>
       <pubDate>Sun, 19 Jul 2026 02:04:17 +0000</pubDate>
       <guid isPermaLink="false">2078662176479609050</guid>
-    </item>
-    <item>
-      <title>Unified Audit Log: What DFIR Experts Must Know Now | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/what-dfir-experts-need-to-know-about-the-current-state-of-the-unified-audit-log</link>
-      <description>Microsoft's Unified Audit Log is getting major upgrades post-Storm-0558, but Search-UnifiedAuditLog has a reliability problem that could silently undermine your M365 investigations.
-
-Key findings:
-
-- Retention for Audit (Standard) now doubled to 180 days, effective October 17, 2023. Logs before that date are not covered by the extension. Get-AdminAuditLogConfig still shows 90 days and is misleading; do not use it to verify UAL retention.
-
-- Premium audit events including MailItemsAccessed, SearchQueryInitiatedExchange, SearchQueryInitiatedSharePoint, and ChatCreated are rolling out to all license tiers. MailItemsAccessed is critical for BEC scope, and ChatCreated catches Teams-based phishing delivered via tools like TeamsPhisher.
-
-- Search-UnifiedAuditLog returns incomplete results without the undocumented HighCompleteness switch, and even with it, the cmdlet is unreliable: it errors out or hangs. Microsoft's own wording, "more complete," stops short of guaranteeing full fidelity. Any investigation or legal matter relying solely on this cmdlet may have gaps.
-
-- The Graph API auditLogQuery endpoint is in beta and not yet dependable for acquisition. The Management Activity API caps history at 7 days; the Purview portal export limit is 50k records, useless for large tenants.
-
-Add -HighCompleteness to every Search-UnifiedAuditLog call now, validate result counts against the Purview portal, and use Microsoft-Extractor-Suite for acquisitions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078646694997008427</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2078646694997008427">DFIR Radar</source>
-      <pubDate>Sun, 19 Jul 2026 01:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2078646694997008427</guid>
     </item>
   </channel>
 </rss>
