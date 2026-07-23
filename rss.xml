@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2026 15:03:20 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 16:03:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How Elasticsearch ES|QL COMPLETION turns noisy curl and wget rules into high-fidelity cloud security alerts</title>
+      <link>https://www.elastic.co/security-labs/esql-completion-curl-wget-detection-triage</link>
+      <description>ES|QL COMPLETION brings LLM triage inside individual Elastic detection rules, cutting curl/wget alert noise to near-zero before events ever reach an analyst queue.
+
+Key findings:
+
+- The technique targets T1105 (Ingress Tool Transfer). curl and wget are legitimate attacker tradecraft vectors, but cloud hosts use them constantly for CI, package pulls, and metadata calls. The approach parses the destination host from process.args (or process.command_line/process.title for schema-less invocations), applies a deterministic allow-list anchored to that parsed dest_host field, then passes surviving rows to an LLM via the COMPLETION command. Anchoring filters to the parsed field, not the raw command string, closes the substring-bypass gap where an expected domain appearing in a path accidentally suppresses a real alert.
+
+- Secrets are redacted before COMPLETION runs: authorization headers, bearer tokens, API keys (x-api-key, x-amz-security-token, etc.), query-string credentials, URL-embedded auth, and JWT patterns (eyJ...) are all replaced inline. The prompt also instructs the model to treat all command and URL text as untrusted data to block prompt injection from attacker-controlled strings.
+
+- In a seven-day QA run on Elastic's own cloud fleet, only three destinations survived deterministic filtering: cdn.playwright[.]dev (FP), 1.1[.]1.1 (FP), and an internal AWS IP flagged SUSPICIOUS. Zero analyst-facing alerts were generated.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080322986951983358</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2080322986951983358">DFIR Radar</source>
+      <pubDate>Thu, 23 Jul 2026 16:03:46 +0000</pubDate>
+      <guid isPermaLink="false">2080322986951983358</guid>
+    </item>
     <item>
       <title>The RAR Mystery: Breaking RAR4 and RAR5 Encryption</title>
       <link>https://blog.elcomsoft.com/2026/07/the-rar-mystery-breaking-rar4-and-rar5-encryption/</link>
@@ -1701,31 +1720,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2078601945275924959">DFIR Radar</source>
       <pubDate>Sat, 18 Jul 2026 22:04:57 +0000</pubDate>
       <guid isPermaLink="false">2078601945275924959</guid>
-    </item>
-    <item>
-      <title>Cobalt Strike Response Guide: Part 3 | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/responding-to-a-cobalt-strike-attack-part-iii</link>
-      <description>In-memory Cobalt Strike leaves almost no disk artifacts, making memory forensics the primary recovery path. This guide covers full image analysis with Volatility and process dump parsing to extract beacon configs.
-
-Key details:
-
-- Cobalt Strike is commonly injected into legitimate Windows processes like svchost.exe via PowerShell to avoid disk-based detection (T1055). The tell is svchost making unexpected external connections, visible via Volatility's netscan plugin.
-
-- For full memory images, three Volatility plugins do the heavy lifting: psscan to find hidden or terminated processes, pstree to map parent/child relationships and spot anomalies, and cmdscan to surface the command line used to launch each process. Suspicious PowerShell command lines are a key artifact.
-
-- malfind identifies injected code or DLLs by examining VAD tags and page permissions. It flags candidates for deeper analysis rather than confirming infection outright.
-
-- JPCERT's cobaltstrikescan and cobaltstrikeconfig Volatility plugins extract Cobalt Strike beacon configs directly from memory. Note: these only work with Volatility 2.x.
-
-- When a full image is unavailable, dump the target process using Task Manager or Process Hacker and parse it with the SentinelOne Cobalt Strike parser to pull C2 configuration and IOCs without manual debugger analysis.
-
-If svchost or other system processes show outbound connections in netscan, dump and parse immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078586559247606175</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2078586559247606175">DFIR Radar</source>
-      <pubDate>Sat, 18 Jul 2026 21:03:49 +0000</pubDate>
-      <guid isPermaLink="false">2078586559247606175</guid>
     </item>
   </channel>
 </rss>
