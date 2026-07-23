@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2026 17:03:46 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 18:03:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Intelligence Insights: July 2026</title>
+      <link>https://redcanary.com/blog/threat-intelligence/intelligence-insights-july-2026/</link>
+      <description>ClearFake holds 1st for the third straight month while CastleLoader debuts at 5th, using BYOI Python, finger.exe retrieval, and triple-layer encoded shellcode to drop RATs and infostealers via paste-and-run campaigns.
+
+Key findings:
+
+- ClearFake and KongTuke dominate the top 2 spots. KongTuke, a TDS abusing compromised WordPress sites, surged in June 2026 to levels not seen since November 2025. Observed chains use curl reaching out to .top domains via obfuscated paste-and-run commands for initial execution (T1204.002).
+
+- CastleLoader infection chain starts with fake CAPTCHA pages on typosquatted sites like linkedall[.]org, golinked[.]net, and indeed-jobs[.]net, copying caret-obfuscated commands to clipboard. finger.exe retrieves batch commands from actor-controlled servers, a living-off-the-land retrieval technique worth hunting directly.
+
+- BYOI evasion: CastleLoader downloads portable CPython or IronPython disguised as PDF files, extracts via tar.exe, and renames the interpreter to a random 12-18 digit filename under AppData\Local before execution, bypassing allowlists that rely on known interpreter paths.
+
+- Shellcode delivery uses triple-layer encoding (Base64, zlib, UTF-32) with Cyrillic character substitution, then RC4-decrypts the final CastleLoader binary, which injects into python.exe. CastleLoader supports 14 launch methods including rundll32.exe, msiexec.exe, and powershell.exe, and detects VMware, VirtualBox, and Parallels via cpuid.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080353067430470015</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2080353067430470015">DFIR Radar</source>
+      <pubDate>Thu, 23 Jul 2026 18:03:17 +0000</pubDate>
+      <guid isPermaLink="false">2080353067430470015</guid>
+    </item>
     <item>
       <title>Email threat landscape: Q2 2026 trends and insights</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/07/23/email-threat-landscape-q2-2026-trends-and-insights/</link>
@@ -1697,29 +1718,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2078632116569485764">DFIR Radar</source>
       <pubDate>Sun, 19 Jul 2026 00:04:51 +0000</pubDate>
       <guid isPermaLink="false">2078632116569485764</guid>
-    </item>
-    <item>
-      <title>macOS Incident Response: Part 1 Guide | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/responding-to-macos-attacks-part-i</link>
-      <description>macOS IR Part 1: Invictus maps MITRE ATT&amp;CK execution techniques to concrete artifacts, covering AppleScript, Unix shell history, cron jobs, and launchctl across real malware cases.
-
-Key findings:
-
-- AppleScript (T1059) is a persistent attacker tool: it can be compiled "run-only" with no recoverable source, executed silently via the osascript binary, or packaged as a signed app. SentinelOne's AEVT tool is the current option for reverse engineering compiled scripts.
-
-- Shell history is a high-value artifact but fragile. Pull full zsh history with timestamps using "history -df 0" and inspect ~/.zsh_sessions for session files with restoration timestamps. Note: history is trivially wiped, so corroborate with other sources.
-
-- Cron and "at" jobs leave execution evidence in /usr/lib/cron/jobs, including the command run and its output. The Janicab malware used cron to schedule tasks and store scripts in a hidden directory. "at -l" gives execution timestamps for timeline correlation.
-
-- Launchctl is dual-purpose: one-time execution and persistence. Calisto Trojan used "launchctl list com.apple.screensharing" to enable screen sharing silently. LoudMiner used it to suppress QEMU if Activity Monitor was detected.
-
-Hunt: on any macOS triage, pull zsh and bash history with timestamps, enumerate /usr/lib/cron/jobs, and list all launchctl-managed agents and daemons. MITRE ATT&amp;CK layer and mindmap for the full series are on Invictus IR's GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078616706319011910</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2078616706319011910">DFIR Radar</source>
-      <pubDate>Sat, 18 Jul 2026 23:03:37 +0000</pubDate>
-      <guid isPermaLink="false">2078616706319011910</guid>
     </item>
   </channel>
 </rss>
