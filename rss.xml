@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2026 10:03:44 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 11:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Chaos ransomware's msaRAT: Living off the browser to build a covert C2 channel</title>
+      <link>https://blog.talosintelligence.com/chaos-msarat-living-off-the-browser-to-build-covert-c2-channel/</link>
+      <description>Chaos ransomware's msaRAT routes all C2 traffic through Chrome DevTools Protocol and WebRTC, making the RAT process itself invisible to network monitors while burying attacker comms inside legitimate browser activity.
+
+Key findings:
+
+- Delivered via curl.exe over plain HTTP on port 443 (bypassing port-only firewall rules) as update_ms.msi to C:\programdata\, which drops lib.dll directly into memory via a custom MSI action. The RAT exports a single function, RUN, and impersonates a Windows update in installer metadata.
+
+- msaRAT launches Chrome or Edge in headless mode via CreateProcessW, injects JavaScript through CDP Runtime.evaluate after bypassing CSP, and signals the C2 through Cloudflare Workers endpoint is-01-ast.ols-img-12.workers[.]dev. Twilio TURN (global.turn.twilio[.]com) relays all subsequent WebRTC DataChannel traffic, intentionally omitting ICE candidates so no P2P path forms and the attacker's real IP never appears in traffic.
+
+- All network activity from the RAT process is limited to 127.0.0[.]1. External comms appear as browser-originated WebRTC, double-encrypted with ChaCha-Poly1305 over DTLS. The C2 IP 172.86.126[.]18 appears only in the initial MSI download.
+
+- Hunt for headless browser processes (HeadlessChrome User-Agent) making WebRTC connections, MSI files writing DLLs to ProgramData, and curl.exe dropping installers. ClamAV sig Win.Downloader.ChaosRaas-10060321-0 and Snort rules SID 66839-66841 (v2), 301587 (v3) cover this.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080247447381758428</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2080247447381758428">DFIR Radar</source>
+      <pubDate>Thu, 23 Jul 2026 11:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2080247447381758428</guid>
+    </item>
     <item>
       <title>JadeProx: Tracing a China-nexus Operation Through an OPSEC Mistake</title>
       <link>https://www.group-ib.com/blog/jadeprox-china-nexus-triback-loader/</link>
@@ -1711,25 +1732,6 @@ Takeaway: Run this KQL against AuditLogs in Microsoft Sentinel: filter Operation
       <source url="https://x.com/DFIR_Radar/status/2078526104722083867">DFIR Radar</source>
       <pubDate>Sat, 18 Jul 2026 17:03:36 +0000</pubDate>
       <guid isPermaLink="false">2078526104722083867</guid>
-    </item>
-    <item>
-      <title>Daxin: 13-Year-Old China-Linked Malware Found Still Active on Manufacturer’s Network</title>
-      <link>https://securityaffairs.com/195577/malware/daxin-13-year-old-china-linked-malware-found-still-active-on-manufacturers-network.html</link>
-      <description>Chinese-linked Daxin rootkit, first documented in 2022 with roots to 2013, found still running in 2026 on a Taiwanese 🇹🇼 manufacturer's network alongside a previously unknown backdoor called Stupig.
-
-- Daxin is a Windows kernel-mode driver that never makes outbound C2 connections. Instead it monitors incoming TCP traffic for specific patterns and hijacks existing legitimate connections to carry encrypted C2 traffic, making it invisible to tools hunting for suspicious outbound destinations. Multi-hop routing lets operators reach air-gapped hosts through a chain of compromised machines.
-
-- Stupig (kbdus1.dll) persists by registering as a keyboard-layout provider, causing win32k.sys to load it into winlogon.exe at boot. It intercepts usernames prefixed with "stupig" at the login screen and executes the remainder as SYSTEM, before any user authenticates and without generating a logon audit event.
-
-- Both artifacts carry 2013 compile timestamps. Telemetry only appeared May 12, 2026, implying up to 13 years of undetected access. Suspected initial access was a Digiwin SSO portal running end-of-life JDK 1.5/1.6.
-
-Takeaway: Hunt for unsigned or unexpected DLLs loaded into winlogon.exe, and audit keyboard-layout provider registrations in HKLM\SYSTEM\CurrentControlSet\Control\Keyboard Layouts. Full report from Symantec's Threat Hunter Team contains additional details.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078511058449498196</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2078511058449498196">DFIR Radar</source>
-      <pubDate>Sat, 18 Jul 2026 16:03:48 +0000</pubDate>
-      <guid isPermaLink="false">2078511058449498196</guid>
     </item>
   </channel>
 </rss>
