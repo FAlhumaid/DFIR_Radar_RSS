@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 24 Jul 2026 06:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 24 Jul 2026 07:02:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Russian-Linked Hackers Target Zimbra Users With Zero-Day Exploit</title>
+      <link>https://thecyberexpress.com/zimbra-phishing-campaign/</link>
+      <description>LAUNDRY BEAR, a Russian 🇷🇺 state-linked APT, weaponized CVE-2025-66376 as a zero-day against Zimbra Collaboration Suite, stealing 90 days of email, credentials, 2FA tokens, and Global Address Lists from Western government and defense targets since July 2025.
+
+Key findings:
+
+- CVE-2025-66376 is a view-based exploit: a victim only needs to render a malicious email in ZCS Classic Webmail for the JavaScript payload to fire. No click required. The flaw stems from improper sanitization of CSS @import directives; the payload uses Base64 and XOR encoding to evade signature detection. Patched in ZCS 10.1.13 and 10.0.18, but exploitation predates the patch by months.
+
+- The 12-stage payload (Ulej) harvests email address, environment info, 2FA codes, app passwords, saved passwords, the Global Address List, and archives the last 90 days of mail. Exfiltration runs over DNS and HTTPS to the Flowerbed framework: a Python/Docker stack with Catcher (aggregator), Nginx (HTTPS reverse proxy), Certbot, and Gardener containers.
+
+- LAUNDRY BEAR identifies exposed ZCS infrastructure via port scanning and commercial datasets, then seeds phishing from compromised victim accounts, complicating sender-based detection. Targeted sectors: defense industrial base, government, energy, law enforcement, NGOs, media, and education.
+
+Patch to ZCS 10.1.13 / 10.0.18 immediately. If patching is delayed, disable Classic Webmail.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080549103155495349</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2080549103155495349">DFIR Radar</source>
+      <pubDate>Fri, 24 Jul 2026 07:02:16 +0000</pubDate>
+      <guid isPermaLink="false">2080549103155495349</guid>
+    </item>
     <item>
       <title>US agencies update advisory on Iranian cyber campaign targeting internet-connected PLCs in critical infrastructure</title>
       <link>https://industrialcyber.co/control-device-security/us-agencies-update-advisory-on-iranian-cyber-campaign-targeting-internet-connected-plcs-in-critical-infrastructure/</link>
@@ -1615,27 +1636,6 @@ Treat this as a session theft problem, not a phishing domain problem.
       <source url="https://x.com/DFIR_Radar/status/2078828331659821090">DFIR Radar</source>
       <pubDate>Sun, 19 Jul 2026 13:04:32 +0000</pubDate>
       <guid isPermaLink="false">2078828331659821090</guid>
-    </item>
-    <item>
-      <title>Stop Using Get-MgAuditLogSignIn: Use These Better Methods | Invictus Incident Response</title>
-      <link>https://www.invictus-ir.com/news/do-not-use-the-get-mgauditlogsignin-for-your-investigations</link>
-      <description>Get-MgAuditLogSignIn silently drops the Authentication Protocol field, blinding investigators to Device Code phishing logins. Switch to the beta cmdlet or risk missing a key indicator in Entra ID sign-in logs.
-
-- Device Code phishing abuses the OAuth Device Code Flow (T1528) to hijack tokens without capturing credentials. The smoking-gun artifact is the Authentication Protocol field in Entra ID interactive sign-in logs, where the value "Device code flow" identifies the attack. Get-MgAuditLogSignIn and the legacy Get-AzureADAuditSignInLogs both silently omit this field entirely.
-
-- Running Get-Member against Get-MgAuditLogSignIn confirms the field is simply absent from the cmdlet output. The beta replacement, Get-MgBetaAuditLogSignIn, returns nearly double the fields, including Authentication Protocol, Original Transfer Method, and additional Service Principal sign-in details useful for malicious app abuse investigations.
-
-- Two reliable alternatives exist today: the Entra portal filter on Authentication Protocol equals Device Code, or a KQL query against the Entra sign-in logs in Log Analytics targeting the same field. Both surface what the standard cmdlet hides.
-
-- Invictus is updating Microsoft-Extractor-Suite to use the beta cmdlet to close the gap until Microsoft updates the stable module.
-
-If you use Microsoft-Extractor-Suite or raw Get-MgAuditLogSignIn pulls in your IR playbooks, your acquisition is incomplete.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2078813134660260291</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2078813134660260291">DFIR Radar</source>
-      <pubDate>Sun, 19 Jul 2026 12:04:09 +0000</pubDate>
-      <guid isPermaLink="false">2078813134660260291</guid>
     </item>
   </channel>
 </rss>
