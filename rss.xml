@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Jul 2026 17:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2026 22:02:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Iran-Linked Actors Breach Are Targeting US Water and Energy Control Systems</title>
+      <link>https://securityaffairs.com/195991/apt/iran-linked-actors-breach-are-targeting-us-water-and-energy-control-systems.html</link>
+      <description>Iranian 🇮🇷 APT actors are actively rewriting PLC logic in US 🇺🇸 water, energy, and government facilities, disabling alarms and shutdown functions to create dangerous conditions operators cannot see.
+
+Key findings:
+
+- Attackers reach internet-exposed PLCs via OT ports 44818, 2222, 102, and 502, plus SSH over port 22 through modems. They use legitimate vendor tools (Studio 5000, EcoStruxure Control Expert, TIA Portal) to pull and modify project files, making malicious changes difficult to distinguish from normal engineering activity.
+
+- The confirmed technique (T1565) involves downloading modified project files that preserve normal ladder logic but add overriding instructions that disable shutdown sequences and alarm logic. Operators see a clean HMI while the physical process drifts into unsafe states.
+
+- Affected hardware now spans Rockwell Automation, Schneider Electric, and Siemens controllers deployed across Water/Wastewater, Energy, and Government sectors. Activity confirmed since at least March 2026.
+
+- The Iranian 🇮🇷 group Handala has run parallel destructive operations, including remote wiping tens of thousands of devices at Stryker, demonstrating willingness to cause real-world damage alongside the OT intrusions.
+
+Takeaway: Pull PLC project files now and diff them against known-good backups. Audit Add-On Instructions for unexpected logic. Block inbound connections on ports 44818, 2222, 102, 502, and 22 from any non-engineering source.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081138045538259242</description>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2081138045538259242">DFIR Radar</source>
+      <pubDate>Sat, 25 Jul 2026 22:02:31 +0000</pubDate>
+      <guid isPermaLink="false">2081138045538259242</guid>
+    </item>
     <item>
       <title>Cl0p Affiliates Target Internet-Exposed PTC Windchill and FlexPLM with Unauthenticated RCE</title>
       <link>https://thehackernews.com/2026/07/cl0p-affiliates-target-internet-exposed.html</link>
@@ -1511,25 +1534,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079280676889600412">DFIR Radar</source>
       <pubDate>Mon, 20 Jul 2026 19:02:00 +0000</pubDate>
       <guid isPermaLink="false">2079280676889600412</guid>
-    </item>
-    <item>
-      <title>Targeted Attack on Government Entities in the Middle East | Part 1</title>
-      <link>https://www.zscaler.com/blogs/security-research/targeted-attack-government-entities-middle-east-part-1</link>
-      <description>East Asian threat actor hits Middle Eastern government entities with three undocumented malware families: TELESHIM, MIXEDKEY, and BINDCLOAK, active July 2026.
-
-- ISO-based DLL sideloading starts the chain. A ZIP delivers an ISO containing legitimate ASUSTek RegSchdTask.exe, which sideloads malicious AsTaskSched.dll (TELESHIM, MD5 7cbc51ada1a4aec88660ec32c408114b). TELESHIM hooks offset 0x1394 in the host process at runtime, runs in its context to evade EDR, checks mutex ----WebKitFormBoundary7MA4YWxkTrZu0g, stages to C:\programdata\shimgen_Data\, and persists via a scheduled task named shimgen running every 6 minutes.
-
-- TELESHIM phones home over Telegram. It polls hxxps://api.telegram[.]org/bot&lt;TOKEN&gt;/getUpdates, validates chat.id against a hardcoded value, encrypts MAC-addressed shell output with a 44-byte rolling XOR key, and downloads next-stage payloads the same way. C2 hours: 0400-1200 UTC, peak 0700-1100 UTC, consistent with East Asian working hours.
-
-- MIXEDKEY (pthreadVC2.dll, MD5 78a4f8574830bf7fbaf63d7da09be2b8) reflectively loads BINDCLOAK using environmental keying: it calls GetVolumeInformationA, derives a 20-byte XOR key from the volume serial number, and double-decrypts C99F29AC08454855B3D538960BB2F34F.PCPKEY dropped under C:\ProgramData\Crypto\DSS\ to impersonate Microsoft PCP files. Without the target's exact serial number, analysts cannot decrypt the payload.
-
-- BINDCLOAK beacons to cert.hypersnet[.]com.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079265893658599750</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2079265893658599750">DFIR Radar</source>
-      <pubDate>Mon, 20 Jul 2026 18:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2079265893658599750</guid>
     </item>
   </channel>
 </rss>
