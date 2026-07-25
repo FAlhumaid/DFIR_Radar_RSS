@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Jul 2026 13:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2026 15:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SharedRoot: Sandbox Escape in Claude Cowork</title>
+      <link>https://socradar.io/blog/sharedroot-sandbox-escape-claude-cowork/</link>
+      <description>CVE-2026-46331 in Linux's act_pedit module anchors SharedRoot, a sandbox-escape chain letting code inside a Claude Cowork local VM reach host macOS files. No confirmed in-the-wild exploitation, but a public PoC exists on GitHub as of July 23, 2026.
+
+Key details:
+
+- CVE-2026-46331 is a Linux kernel copy-on-write flaw in the traffic-control act_pedit component. CVSS scores differ by vendor: Linux kernel CNA rates it 7.8 High, Ubuntu and Red Hat assign 6.7 Medium. An unprivileged Cowork session user can create a user namespace, gain CAP_NET_ADMIN within it, and reach the vulnerable netlink path, no root required to start.
+
+- The full chain: unprivileged code in the VM exploits the CVE to corrupt shared page-cache data, a privileged coworkd helper re-executes altered data producing guest-root, then guest root accesses /mnt/.virtiofs-root, a writable mount reportedly representing the entire host filesystem beyond just the connected Cowork folder.
+
+- Affected scope is architectural, not a specific app version. The demonstration targeted macOS using Apple's Virtualization framework. Windows local deployments were not confirmed vulnerable. Validate the guest kernel version directly.
+
+- Anthropic classified the researcher submission as "Informative" and host EDR cannot inspect inside the isolated VM by design, creating a detection gap.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081032396284002556</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2081032396284002556">DFIR Radar</source>
+      <pubDate>Sat, 25 Jul 2026 15:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2081032396284002556</guid>
+    </item>
     <item>
       <title>僵尸网络新秀：Dysphoria 演进与深度技术分析</title>
       <link>https://blog.xlab.qianxin.com/dysphoria/</link>
@@ -1529,25 +1550,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079235657738965369">DFIR Radar</source>
       <pubDate>Mon, 20 Jul 2026 16:03:06 +0000</pubDate>
       <guid isPermaLink="false">2079235657738965369</guid>
-    </item>
-    <item>
-      <title>JADEPUFFER evolves: The agentic threat actor deploys ransomware built to destroy AI models</title>
-      <link>https://webflow.sysdig.com/blog/jadepuffer-evolves-the-agentic-threat-actor-deploys-ransomware-built-to-destroy-ai-models</link>
-      <description>JADEPUFFER returns with ENCFORGE, a compiled Go ransomware purpose-built to destroy AI model infrastructure, deployed through CVE-2025-3248 in Langflow after the actor's initial July 2026 campaign.
-
-Key findings:
-
-- CVE-2025-3248 (CISA KEV, actively exploited) is JADEPUFFER's persistent entry point: an unauthenticated RCE in Langflow's /api/v1/validate/code endpoint. Post-exploitation follows a consistent pattern: id/uname/hostname confirmation, credential sweep of cloud keys, DB connection strings, and API tokens from Langflow's Postgres store, then internal service probing via /dev/tcp.
-
-- When a direct curl fetch of the binary from C2 34.153.223[.]102:9191 failed, JADEPUFFER autonomously pivoted. It built six Python escape scripts over 5 minutes 24 seconds via the RCE channel, each correcting the prior failure, converging on a Docker socket escape using nsenter with Privileged: true, PidMode: host, and Binds /:/host:rw to copy the payload across namespace boundaries via procfs.
-
-- ENCFORGE (deployed as lockd, retrieved as .lockd to evade directory listings) is a UPX-packed Go binary targeting roughly 180 extensions across the AI/ML stack: model checkpoints, vector DBs, training datasets, and embedding indices. Encrypted AI artifacts cannot simply be restored from backup; rebuilding a fine-tuned model costs $75,000-$500,000 in compute alone.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079220670349648010</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2079220670349648010">DFIR Radar</source>
-      <pubDate>Mon, 20 Jul 2026 15:03:33 +0000</pubDate>
-      <guid isPermaLink="false">2079220670349648010</guid>
     </item>
   </channel>
 </rss>
