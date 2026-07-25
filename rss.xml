@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Jul 2026 11:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2026 12:02:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2025-66376: Russian APT Exploits Zimbra Zero-Day</title>
+      <link>https://socradar.io/blog/cve-2025-66376-russian-apt-zimbra-zero-day/</link>
+      <description>CVE-2025-66376 (CVSS 6.1): Russian 🇷🇺 APT LAUNDRY BEAR exploited a Zimbra stored-XSS zero-day for mailbox theft across Western government and commercial targets, active since at least July 2025 and listed in CISA KEV.
+
+- CVE-2025-66376 is a stored XSS (CWE-79) in Zimbra Classic UI's HTML email renderer. No link click required: viewing the message executes attacker-controlled JavaScript in the authenticated session. Root cause is incomplete sanitization of CSS @import directives combined with SVG-based event handlers and fragmented tag-split markup. Affects Zimbra 10.0 before 10.0.18 and 10.1 before 10.1.13. Patch shipped November 2025; CISA KEV-listed March 18, 2026.
+
+- The script ran inside the victim's session and exfiltrated recent email (90 days), Global Address List, 2FA scratch codes, browser-saved credentials, and newly created application passcodes. Data left via DNS exfiltration to d-{ID}.{type}.{base32data}.i.{domain}/pixel.gif and HTTPS to js-{ID}.i.{domain}/v/p. Flowerbed framework infrastructure includes zmailanalytics[.]com (216.252.238[.]104), zimbrastat[.]com (64.226.124[.]190), and synacorzimbra[.]nl (216.252.238[.]64).
+
+- Key post-compromise artifacts: CreateAppSpecificPasswordRequest events in /opt/zimbra/log/mailbox.log with passcode named ZimbraWeb are near-certain indicators of compromise. Also hunt GetScratchCodesRequest bursts and SearchGalRequest spikes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080986969761562677</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2080986969761562677">DFIR Radar</source>
+      <pubDate>Sat, 25 Jul 2026 12:02:11 +0000</pubDate>
+      <guid isPermaLink="false">2080986969761562677</guid>
+    </item>
     <item>
       <title>WP Botnet Master: How a Security Researcher’s Paid Course Built a 2.1-Million-Credential WordPress Botnet</title>
       <link>https://socradar.io/blog/wordpress-wp-master-credential-botnet/</link>
@@ -1527,27 +1544,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079205359277748690">DFIR Radar</source>
       <pubDate>Mon, 20 Jul 2026 14:02:42 +0000</pubDate>
       <guid isPermaLink="false">2079205359277748690</guid>
-    </item>
-    <item>
-      <title>Fake games spread stealers with RenPy Loader, MSBuild and EtherHiding</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/07/fake-games-spread-stealers-with-renpy-loader-msbuild-and-etherhiding</link>
-      <description>RenPy Loader chains MSBuild abuse and EtherHiding to deliver Amatera Stealer via fake games and cracks, with C2 addresses hidden on a public blockchain to evade takedown.
-
-Key findings:
-
-- Setup.exe drops a Ren'Py package containing XOR-encrypted files: config .GEg (key 81034149cd6f48c8821340204f92766e), encrypted ZIP j3lpTcg7kBRN.E3 (key A50YyY1), and anti-sandbox classes under data/python-packages/sys_config/. The loader strips Mark-of-the-Web by writing ZoneId=0 as an ADS, then launches the BAT via forfiles.exe (T1218).
-
-- The BAT sets MSBUILDENABLEALLPROPERTYFUNCTIONS=1 and calls MSBuild.exe against Nancy.csproj, which reflectively loads a trojanized Nancy .NET DLL via AppDomain.CurrentDomain.Load. The DLL (MD5: 29203ca123d51b1b33505a0813d360df) uses custom bytecode, API hashing, and multi-key XOR decryption across three embedded resources.
-
-- GollopDevest.dll (810F257542018BE0FC62AF542D13D012) retrieves the encrypted C2 via an Ethereum JSON-RPC eth_call to bsc-dataseed.binance[.]org targeting contract 0x328a1fadff154290f0ce1389a4e633698cdfdaa7, a classic EtherHiding move. Final payloads download from 144.124.251[.]171, 195.63.140[.]33, and 78.40.196[.]252. Amatera Stealer C2: login.orbitalframework[.]cc.
-
-- Distribution uses fake download sites including getgamerfree[.]com, fullgames[.]digital, and filemodo[.]xyz, plus itch.io pages and legitimate file-sharing services.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079190488230273116</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2079190488230273116">DFIR Radar</source>
-      <pubDate>Mon, 20 Jul 2026 13:03:37 +0000</pubDate>
-      <guid isPermaLink="false">2079190488230273116</guid>
     </item>
   </channel>
 </rss>
