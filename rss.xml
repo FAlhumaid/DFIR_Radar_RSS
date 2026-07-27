@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Jul 2026 18:03:23 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jul 2026 19:02:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From Virtual Share to Physical Shell: Leveraging Windows’ Inconsistent Access Control for LPE</title>
+      <link>https://blog.exodusintel.com/2026/07/27/from-virtual-share-to-physical-shell-leveraging-windows-inconsistent-access-control-for-lpe/</link>
+      <description>Two chained flaws in Windows storvsp.sys (CVE-2025-59517 + CVE-2025-64673) let a low-privileged user write arbitrary files to C:\Windows\System32 and escalate to NT AUTHORITY\SYSTEM. Patched December 2025; requires Virtual Machine Platform feature enabled.
+
+Key details:
+
+- CVE-2025-59517 is in VspVsmbFileCreate() inside storvsp.sys. Opening a vSMB path via CreateFileW() with FILE_READ_DATA only causes IoCreateFileEx() to use OBJ_KERNEL_HANDLE without OBJ_FORCE_ACCESS_CHECK, so NTFS ACL checks are bypassed entirely and the impersonation token is ignored. Result: a privileged share handle to any directory, including C:\Windows\System32, with HasWriteAccess left unset.
+
+- CVE-2025-64673 is in VspVsmbHandleSetInformationFileRequest(), triggered by IOCTL 0x240330. When HasWriteAccess is unset, impersonation is skipped and the InformationClass is silently swapped to FileRenameInformationBypassAccessCheck. A crafted VSTOR_VSMB_SET_INFORMATION_FILE_REQUEST buffer renames an attacker-controlled DLL into System32 as wuapi.dll, replacing the legitimate file.
+
+- Stage 3 invokes the IWaaSRemediation COM interface (CLSID 72566E27-1ABB-4EB3-B4F0-EB431CB1CB32) via LaunchDetectionOnly(), which loads wuapi.dll under a SYSTEM process. The payload DLL enables SeTcbPrivilege, calls SetTokenInformation to move from session 0 to the active console session, and spawns cmd.exe on the user's desktop as SYSTEM.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081817581871133142</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2081817581871133142">DFIR Radar</source>
+      <pubDate>Mon, 27 Jul 2026 19:02:45 +0000</pubDate>
+      <guid isPermaLink="false">2081817581871133142</guid>
+    </item>
     <item>
       <title>84 Streams Later, Part 2: Inside Apple Biome</title>
       <link>https://blog.digital-forensics.it/2026/07/84-streams-later-part-2-inside-apple.html</link>
@@ -1533,23 +1552,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079507332992512230">DFIR Radar</source>
       <pubDate>Tue, 21 Jul 2026 10:02:39 +0000</pubDate>
       <guid isPermaLink="false">2079507332992512230</guid>
-    </item>
-    <item>
-      <title>New Project CAV3RN module abuses Outlook calendar events for C2 and DNS AAAA records for configuration recovery</title>
-      <link>https://securelist.com/project-cav3rn-cyberespionage-framework-using-outlook-and-dns/120757/</link>
-      <description>OilRig-linked Project CAV3RN gains a .NET Native AOT module that tunnels C2 through Outlook calendar events and recovers credentials via DNS AAAA records, targeting Israeli 🇮🇱 organizations.
-
-- AzureCommunication.dll (MD5: CAF021DDA726B8BA049C2AA395E505A1) replaces the prior HTTP/WebSocket component. It authenticates to Microsoft Graph using hardcoded Entra tenant credentials, then reads and writes commands as calendar event attachments in a fixed 2050-05-13 22:00-23:00 UTC window. Commands arrive as file0.txt, results upload as File0.txt, and events self-delete after consumption, leaving minimal durable artifacts. The config persists locally in logAzure.txt in the host process working directory.
-
-- If Graph auth fails, the module queries cloudlanecdn[.]com (registered Dec 24, 2025; hosted at 216.126.237[.]197 and 144.172.108[.]205 on AS14956) via DNS AAAA. Actor-controlled nameservers encode TenantId, ClientId, ClientSecret, and UserEmail as 16-byte IPv6 payloads, delivered in 14-byte fragments across sequential .p. and .q. subdomains keyed to the hex-encoded Agent ID.
-
-- Encryption uses RSA-OAEP-SHA256 to wrap a per-session AES-256-GCM key. The operator holds the outbound private key; the module holds the inbound private key. Kaspersky confirmed a compromised Israeli 🇮🇱 law firm Microsoft 365 mailbox as the dead-drop.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079492325584064743</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2079492325584064743">DFIR Radar</source>
-      <pubDate>Tue, 21 Jul 2026 09:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2079492325584064743</guid>
     </item>
   </channel>
 </rss>
