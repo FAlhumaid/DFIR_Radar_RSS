@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Jul 2026 14:02:34 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jul 2026 15:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detection primitives for eBPF rootkits</title>
+      <link>https://securitylabs.datadoghq.com/articles/detection-primitives-for-ebpf-rootkits/</link>
+      <description>eBPF rootkits VoidLink, LinkPro, and Atomic Arch abuse a small set of kernel helpers to defeat ss, bpftool, and ptrace. Load time is the one window where defenders hold the advantage.
+
+Key findings:
+
+- VoidLink hides TCP connections from ss by placing a kprobe/kretprobe pair around __sys_recvmsg and calling bpf_probe_write_user() to inflate a Netlink message length field. The hidden message is swallowed by its neighbor; NLMSG_OK never trips because the inflated length still fits within the buffer. The connection vanishes without breaking the parser.
+
+- LinkPro's Hide module hooks sys_enter_bpf and __x64_sys_bpf to intercept BPF_PROG_GET_NEXT_ID, BPF_MAP_GET_NEXT_ID, and BPF_LINK_GET_NEXT_ID calls, then fires bpf_override_return(ctx, -ENOENT) to truncate enumeration walks. Every program with a higher ID than the allowlist entry disappears from bpftool. A discrepancy between BPF_PROG_GET_NEXT_ID output and direct BPF_PROG_GET_FD_BY_ID lookups exposes this. LinkPro also writes "HIDING NEXT_ID: %u" to /sys/kernel/debug/tracing/trace_pipe on every interception.
+
+- Atomic Arch kills debuggers silently. Its tracepoint on tp/syscalls/sys_enter_ptrace checks for PTRACE_ATTACH or PTRACE_SEIZE, looks up the target PID in a hidden_pids map, and calls bpf_send_signal(SIGKILL) against the calling process. gdb or strace crashes with no explanation.
+
+- Load time is ground truth.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081757239283519901</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2081757239283519901">DFIR Radar</source>
+      <pubDate>Mon, 27 Jul 2026 15:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2081757239283519901</guid>
+    </item>
     <item>
       <title>Vidar Malware: How the Multithreaded Windows Stealer Works</title>
       <link>https://www.picussecurity.com/resource/blog/vidar-malware-how-the-multithreaded-windows-stealer-works</link>
@@ -1515,25 +1536,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079446908079415437">DFIR Radar</source>
       <pubDate>Tue, 21 Jul 2026 06:02:32 +0000</pubDate>
       <guid isPermaLink="false">2079446908079415437</guid>
-    </item>
-    <item>
-      <title>Defender's Remote Connections Blind Spot: FourToSixMapping</title>
-      <link>https://detect.fyi/defenders-remote-connections-blind-spot-fourtosixmapping-ce3f19658d05?source=rss----d5fd8f494f6a---4</link>
-      <description>A subtle KQL filter bug in Microsoft Defender XDR silently drops real C2 connections from DeviceNetworkEvents, creating a blind spot that survives purple team exercises and LLM-generated queries alike.
-
-- The root cause: filtering DeviceNetworkEvents with RemoteIPType == "Public" misses connections logged as "FourToSixMapping", which appears when a Windows dual-stack socket maps an IPv4 address into IPv6 notation (e.g., ::ffff:8.8.8.8). Defender logs the RemoteIP in that format and tags it FourToSixMapping, not Public, so the event silently falls through the filter.
-
-- KQL's ipv4_is_private() returns null on ::ffff:-prefixed addresses, not false. Null fails a where clause, so LLM-suggested "fix" queries that rely on ipv4_is_private(RemoteIP) to catch all external IPs also miss these events. Null is neither true nor false in KQL.
-
-- The fix is a two-part normalization: include RemoteIPType in ("Public", "FourToSixMapping") in your where clause, then strip the prefix with replace_string(RemoteIP, "::ffff:", "") before passing the value to any IP evaluation function.
-
-Audit your tenant now. Run the verification query from the article against a historical window to surface FourToSixMapping events with no corresponding Public entry for the same IP. Then patch every hunting and detection rule that uses RemoteIPType == "Public" as a standalone external-traffic filter, it is a silent false-negative factory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079431729819820401</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2079431729819820401">DFIR Radar</source>
-      <pubDate>Tue, 21 Jul 2026 05:02:13 +0000</pubDate>
-      <guid isPermaLink="false">2079431729819820401</guid>
     </item>
   </channel>
 </rss>
