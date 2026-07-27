@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Jul 2026 19:02:45 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jul 2026 20:03:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Azure VM Command Execution using Third-Party Extensions – Salt Minion</title>
+      <link>https://www.netspi.com/blog/technical-blog/cloud-pentesting/azure-vm-command-execution-using-third-party-extensions-part-2/</link>
+      <description>Abusing the Salt Minion Azure VM extension lets an attacker with extensions/write push arbitrary commands as root via a rogue Salt Master, with no licensing or cookbook infra required.
+
+Key findings:
+
+- Any principal holding Microsoft.Compute/virtualMachines/extensions/write (Owner, Contributor, Virtual Machine Contributor, Log Analytics Contributor, and several lesser-known roles like Defender Servers P1/P2 and VM Restore Operator) can deploy the Salt Minion extension (publisher: turtletraction.oss) pointing at an attacker-controlled master. The minion calls out over ZeroMQ on ports 4505/4506, accepts the master key, and executes pushed states as root/SYSTEM with no interactive session.
+
+- The demo payload hits the IMDS endpoint at 169.254.169[.]254 to steal the VM Managed Identity OAuth token, then exfiltrates it outbound. Once the minion key is accepted, arbitrary cmd.run commands run without deploying a new state file at all.
+
+- On Linux, forensic gold is in /var/log/salt/minion. Grep for cmd.run to see every executed command with timestamps and job IDs. Auditd confirms execution: uid=0, auid=4294967295 (no login session), tty=(none), with salt-minion python process as the ancestor via ppid tracing. On Windows, watch for the Salt Minion python process spawning cmd.exe.
+
+- Azure Activity Log is your first pivot.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081832763351527622</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2081832763351527622">DFIR Radar</source>
+      <pubDate>Mon, 27 Jul 2026 20:03:05 +0000</pubDate>
+      <guid isPermaLink="false">2081832763351527622</guid>
+    </item>
     <item>
       <title>From Virtual Share to Physical Shell: Leveraging Windows’ Inconsistent Access Control for LPE</title>
       <link>https://blog.exodusintel.com/2026/07/27/from-virtual-share-to-physical-shell-leveraging-windows-inconsistent-access-control-for-lpe/</link>
@@ -1533,25 +1554,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079522394973065602">DFIR Radar</source>
       <pubDate>Tue, 21 Jul 2026 11:02:30 +0000</pubDate>
       <guid isPermaLink="false">2079522394973065602</guid>
-    </item>
-    <item>
-      <title>SonicWall SMA Flaws Lead to KNUCKLEBALL Malware</title>
-      <link>https://socradar.io/blog/sonicwall-sma-knuckleball-malware/</link>
-      <description>SonicWall SMA 1000 zero-days CVE-2026-15409 (CVSS 10.0) and CVE-2026-15410 (CVSS 7.2) chained in active exploitation since June 22, delivering KNUCKLEBALL malware and root-level access. Both in CISA KEV.
-
-- CVE-2026-15409 is an unauthenticated SSRF in the SMA 1000 Work Place interface. Attackers abused the /wsproxy path to tunnel into localhost-only services without credentials, the essential first link in the chain. CVE-2026-15410 is a post-auth code injection in the AMC, reached via the SSRF, exploited through the sysCtrl.execRemoveHotfix RPC method to execute commands as root.
-
-- UTA0533 deployed four components post-exploitation: KNUCKLEBALL (deploy_new.py, a Python deployer), ORANGETAIL (custom Java webshell), a modified Suo5/Sou5 proxy for tunneling, and ROOTRUN (xzfind, a Linux ELF for root command execution). Watch /tmp, /var/tmp, and custom NGINX Unit routes in /var/lib/unit/conf.json.
-
-- Post-compromise activity included credential harvesting, traffic capture, and lateral movement attempts from the appliance toward internal systems. Any confirmed SMA 1000 breach should be treated as full appliance compromise, not a patch-and-move-on event.
-
-- Affected firmware: 12.4.3 branches below 03453 and 12.5.0 branches below 02835, covering SMA 6210, 7210, 8200v, and CMS across all hypervisors. CISA remediation deadline was July 17, 2026.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079507332992512230</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2079507332992512230">DFIR Radar</source>
-      <pubDate>Tue, 21 Jul 2026 10:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2079507332992512230</guid>
     </item>
   </channel>
 </rss>
