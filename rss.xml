@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 28 Jul 2026 10:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Jul 2026 11:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How an Unpatched N-Day Let Any Anonymous Visitor Rewrite WooCommerce Prices in ND Booking</title>
+      <link>https://infosecwriteups.com/how-an-unpatched-n-day-let-any-anonymous-visitor-rewrite-woocommerce-prices-in-nd-booking-65c69c9a32ef?source=rss----7b722bfd1b8d---4</link>
+      <description>CVE-2025-63001 in ND Booking WordPress plugin remains fully exploitable in v7.0.1, four major versions past the "fixed at 3.8" advisory claim. Any unauthenticated visitor can permanently overwrite WooCommerce product prices with a single GET request.
+
+Key findings:
+
+- CVE-2025-63001 (unauthenticated missing authorization) was filed against ND Booking "up to and including 3.8" but researcher Shikhali Jamalzade confirmed the identical vulnerable code path is unpatched in v7.0.1, the current WordPress.org release. The nd_booking_woo_php AJAX handler registers both wp_ajax_ and wp_ajax_nopriv_ variants, calls wc_get_product(), set_regular_price(), set_price(), and save() with zero current_user_can() check and no price validation, writing any attacker-supplied value straight to the database.
+
+- The only gate is check_ajax_referer() against a nonce that wp_localize_script() embeds in plain HTML for every anonymous visitor loading the booking search page. A WordPress nonce proves a public page was loaded, nothing more. It provides no authentication here.
+
+- Attack chain: load the public booking search page, read nd_booking_ajaxnonce_woo from page source, send one unauthenticated GET to wp-admin/admin-ajax.php with action=nd_booking_woo_php, a valid room post ID in nd_booking_rid, and any price in nd_booking_trip_price. PoC dropped a $500 room to $0.01 with no session cookie.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2082059152902266994</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2082059152902266994">DFIR Radar</source>
+      <pubDate>Tue, 28 Jul 2026 11:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2082059152902266994</guid>
+    </item>
     <item>
       <title>IR Trends Q2 2026: Phishing and weaponized remote management tools drive attack chains</title>
       <link>https://blog.talosintelligence.com/ir-trends-q2-2026/</link>
@@ -1479,27 +1498,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079703497662947459">DFIR Radar</source>
       <pubDate>Tue, 21 Jul 2026 23:02:08 +0000</pubDate>
       <guid isPermaLink="false">2079703497662947459</guid>
-    </item>
-    <item>
-      <title>The Procurement Trap: Inside an AiTM Campaign Targeting Global Institutions</title>
-      <link>https://www.infoblox.com/blog/threat-intelligence/the-procurement-trap-inside-an-aitm-campaign-targeting-global-institutions/</link>
-      <description>AiTM phishing campaign hits universities, EU and UN agencies using compromised aged domains, rotating PhaaS kits, and procurement lures to steal MFA-protected sessions in real time.
-
-Key details:
-
-- Attack chain: phishing emails sent from compromised Outlook accounts use RFI and bid-invitation lures, directing victims through fake document portals (testserveren[.]com, barifurniture[.]net), Cloudflare Turnstile or actor-hosted CAPTCHA, then cloned Microsoft login pages impersonating targets like the European Investment Bank. Email addresses are embedded in URL paths to personalize the illusion.
-
-- The actor rotates three PhaaS kits: EvilProxy (reverse proxy, active since 2022), FlowerStorm/Storm-1167 (likely Rockstar2FA rebrand, reverse proxy targeting M365), and Kali365 (device code abuse plus AiTM session capture, first seen April 2026). RDGA patterns distinguish the kits: FlowerStorm uses corporate-buzzword .de domains; EvilProxy uses corporate-buzzword .net/.com.
-
-- Infrastructure fingerprint: compromised aged domains averaging 6-plus years old, injected with an index.php to serve phishing content. No ownership change indicators. RDGA domains include usersatisfactionlab[.]de and q1evaluationperformance[.]net.
-
-- MFA is not a defense here. Session cookies and tokens are intercepted in real time as victims complete legitimate MFA flows, giving the actor an authenticated session without ever cracking a code.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079688538833211422</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2079688538833211422">DFIR Radar</source>
-      <pubDate>Tue, 21 Jul 2026 22:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2079688538833211422</guid>
     </item>
   </channel>
 </rss>
