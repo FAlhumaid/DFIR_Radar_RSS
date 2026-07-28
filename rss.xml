@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 28 Jul 2026 12:02:39 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Jul 2026 13:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>After the Signal Fix: Exploring Apple's notificationAndSuggestionDB.db</title>
+      <link>https://blog.digital-forensics.it/2026/07/after-signal-fix-exploring-apples.html</link>
+      <description>A newly documented iOS SQLite database inside DuetExpertCenter retains notification metadata across 36 fields for up to 60 days, outlasting Biome streams and surviving app deletion and message wipe.
+
+- notificationAndSuggestionDB.db lives at /private/var/mobile/Library/DuetExpertCenter/streams/ and has been confirmed on iOS 15 through iOS 26 in both lab and real-world images. No notification content is stored, but the "notifications" table logs BundleID, ThreadID, ContactID, rawIdentifier, received/outcome timestamps (MAC Absolute), isMessage, isGroupMessage, deliveryReason, and urgency across 36 columns.
+
+- For WhatsApp, ThreadID holds the chat JID (e.g., 393331234567@s.whatsapp[.]net) and rawIdentifier often carries the raw phone number. Signal records follow the same pattern with rawIdentifier mapping to the remote sender. SMS flips it: the phone number surfaces in ThreadID instead.
+
+- The ~60-day retention window matters because Biome notification streams typically age out around 28 days. Even after the source app is uninstalled or the message deleted, this DB can still place a specific BundleID receiving a notification at a precise timestamp, establishing communication activity without recovering content.
+
+- iLEAPP now ships a dedicated parser for this artifact. Investigators on the latest build can process it immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2082089528471494827</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2082089528471494827">DFIR Radar</source>
+      <pubDate>Tue, 28 Jul 2026 13:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2082089528471494827</guid>
+    </item>
     <item>
       <title>Turns out the Ghost was the PLA</title>
       <link>https://intrusiontruth.wordpress.com/2026/07/28/turns-out-the-ghost-was-the-pla/</link>
@@ -1489,25 +1508,6 @@ Practitioner takeaway: pull the cheat sheet from the Invictus IR GitHub and load
       <source url="https://x.com/DFIR_Radar/status/2079733630981562451">DFIR Radar</source>
       <pubDate>Wed, 22 Jul 2026 01:01:52 +0000</pubDate>
       <guid isPermaLink="false">2079733630981562451</guid>
-    </item>
-    <item>
-      <title>Azure VM Command Execution using Third-Party Extensions – Chef</title>
-      <link>https://www.netspi.com/blog/technical-blog/cloud-pentesting/azure-vm-command-execution-using-third-party-extensions/</link>
-      <description>Attackers with a single Azure RBAC permission can deploy a rogue Chef extension to any VM and execute arbitrary code as root, stealing Managed Identity tokens while blending into legitimate admin activity.
-
-Key findings:
-
-- The only permission needed is Microsoft.Compute/virtualMachines/extensions/write, held by Owner, Contributor, Log Analytics Contributor, Virtual Machine Contributor, and several lesser-known roles including Defender for Servers and Desktop Virtualization Contributor. On engagements, Domain Controllers frequently run as Azure VMs, making any principal with this permission effectively a Domain Admin.
-
-- Attack chain: stand up chef-zero (no auth, no input validation) on a public IP, craft a malicious cookbook that curls the IMDS endpoint at 169.254.169.254 to steal the Managed Identity OAuth token and exfiltrates it OOB, then deploy ChefClient or LinuxChefClient extension via az vm extension set pointing bootstrap_options.chef_server_url at the rogue server.
-
-- Host artifacts to hunt: on Linux, check /var/lib/waagent/Chef.Bootstrap.WindowsAzure.LinuxChefClient-[version]/config/0.settings for a suspicious chef_server_url and /var/log/azure/Chef.Bootstrap.WindowsAzure.LinuxChefClient/chef-client.log for executed commands. On Windows, C:\chef\0.settings and C:\WindowsAzure\Logs\Plugins\Chef.Bootstrap.WindowsAzure.ChefClient\[version]\chef-client.log hold the same evidence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079718654686715963</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2079718654686715963">DFIR Radar</source>
-      <pubDate>Wed, 22 Jul 2026 00:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2079718654686715963</guid>
     </item>
   </channel>
 </rss>
