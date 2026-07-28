@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 28 Jul 2026 07:03:04 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Jul 2026 08:02:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>What Copilot and Gemini Leave Behind</title>
+      <link>https://andreafortuna.org/2026/07/28/browser-ai-forensics/</link>
+      <description>Browser-integrated AI assistants like Copilot and Gemini are persistent, storage-backed subsystems that leave forensic artifacts most examiners do not yet know where to look for.
+
+Key findings:
+
+- Copilot in Edge persists conversational state across IndexedDB at %LocalAppData%\Microsoft\Edge\User Data\Default\IndexedDB, Service Worker CacheStorage, and the legacy WebCacheV01.dat ESE database. The Container_n tables in WebCacheV01.dat record HTTP-level metadata for Copilot API calls, including timestamps and endpoint hosts. Searching those tables for "copilot" or the internal codename "sydney" gives you a fallback timeline even when IndexedDB has been cleared.
+
+- Gemini in Chrome stores session data at %LocalAppData%\Google\Chrome\User Data\Default\IndexedDB\https_gemini.google[.]com_0.indexeddb.leveldb. The Sync Data LevelDB store is the most overlooked artifact: if sync was enabled, it holds a pre-upload snapshot that may differ from what a cloud legal request returns.
+
+- Standard "clear browsing data" does not atomically wipe IndexedDB. Chromium marks records for deletion and relies on LevelDB compaction, so unallocated blocks frequently retain recoverable conversation fragments. Session restore and crash dump files can preserve side-panel content independently of any clearing routine.
+
+- Malicious browser extensions have already been documented harvesting LLM chat histories directly from IndexedDB and Service Worker storage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2082013827076374535</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2082013827076374535">DFIR Radar</source>
+      <pubDate>Tue, 28 Jul 2026 08:02:33 +0000</pubDate>
+      <guid isPermaLink="false">2082013827076374535</guid>
+    </item>
     <item>
       <title>Russian hacker group Laundry Bear exploits Zimbra zero-click flaw to target Western government, critical infrastructure</title>
       <link>https://industrialcyber.co/cisa/russian-hacker-group-laundry-bear-exploits-zimbra-zero-click-flaw-to-target-western-government-critical-infrastructure/</link>
@@ -1479,25 +1500,6 @@ Takeaway: Pull the KQL from the report and run it against EmailEvents in Sentine
       <source url="https://x.com/DFIR_Radar/status/2079658207576834462">DFIR Radar</source>
       <pubDate>Tue, 21 Jul 2026 20:02:10 +0000</pubDate>
       <guid isPermaLink="false">2079658207576834462</guid>
-    </item>
-    <item>
-      <title>Exploitarium: Inside the Archive Behind the Mass 0-Day Drop</title>
-      <link>https://www.levelblue.com/blogs/spiderlabs-blog/exploitarium-inside-the-archive-behind-the-mass-0-day-drop</link>
-      <description>The "exploitarium" GitHub archive has grown to 35 project folders and 204 tracked files of uncoordinated PoC releases, with CVE-2026-55200 in libssh2 as its most critical output: a pre-auth heap out-of-bounds write reachable before credentials are checked.
-
-- CVE-2026-55200 targets libssh2 through 1.11.1. An insufficient upper-bound check on packet_length in ssh2_transport_read() causes integer wrap, producing an undersized heap buffer. It is pre-authentication, no credentials or session state required. libssh2 is a transitive dependency of curl, Git, and PHP builds, so exposure reaches CI/CD pipelines and container images far beyond teams who knowingly ship it. Fix is upstream commit 97acf3d. Run SCA across build artifacts and vendored deps now.
-
-- The archive is larger and more active than reported. Most coverage cited roughly 130 files; the current count is 204 across 35 folders as of this assessment, with additions landing at 2-3 folders per week through at least July 4, including PostgreSQL, Redis, Nextcloud, and Discourse findings.
-
-- The methodology is not purely automated. 19 folders cover native memory-safety bugs (C/C++, kernel/driver), consistent with fuzzing. 13 folders target web-app and authentication logic: API key scoping, CSRF-driven privilege escalation, federated-share tokens, cache-key collisions. That split signals human-directed targeting alongside fuzzing.
-
-- The archive has evolved into a multi-contributor pipeline.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079643286743158988</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2079643286743158988">DFIR Radar</source>
-      <pubDate>Tue, 21 Jul 2026 19:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2079643286743158988</guid>
     </item>
   </channel>
 </rss>
