@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 01 Aug 2026 10:02:53 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2026 11:03:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CosmosEscape: Taking Over Every Database in Azure Cosmos DB</title>
+      <link>https://www.wiz.io/blog/cosmosescape-taking-over-every-database-in-azure-cosmos-db</link>
+      <description>CosmosEscape: a Gremlin API sandbox escape in Azure Cosmos DB could have exposed every customer database on the platform, including Microsoft's own Entra ID, Teams, and Copilot data stores.
+
+Key findings:
+
+- The root cause was insufficient .NET reflection restrictions in Cosmos DB's custom Gremlin query engine. A crafted Gremlin query bypassed the sandbox, achieving arbitrary code execution on the multi-tenant DB Gateway (Service Fabric clusters) that processes customer queries.
+
+- From that foothold, Wiz recovered the "Cosmos Master Key," a platform-wide signing key that could retrieve the primary key of any Cosmos DB account across all tenants, regions, and API types (SQL, MongoDB, Cassandra, Gremlin) via publicly accessible endpoints.
+
+- The Master Key also unlocked the Config Store, a Cosmos DB database acting as a global account directory containing account names, subscription IDs, tenant IDs, and network settings. An attacker could enumerate all accounts in a region or filter by org identifiers, then pull primary keys for targeted databases.
+
+- Network-isolated and private Cosmos DB accounts were equally affected: the DB Gateway enforces network isolation, so owning it bypassed those controls entirely. Write access to the Config Store could also have overwritten isolation settings.
+
+- Disclosed Nov 20, 2025. Microsoft hotfixed the Gremlin API entry point within 48 hours. Full architectural remediation completed July 2026.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083508804872765671</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2083508804872765671">DFIR Radar</source>
+      <pubDate>Sat, 01 Aug 2026 11:03:04 +0000</pubDate>
+      <guid isPermaLink="false">2083508804872765671</guid>
+    </item>
     <item>
       <title>Adform compromised to serve crypto stealer via supply chain attack</title>
       <link>https://doublepulsar.com/adform-compromised-to-serve-crypto-stealer-via-supply-chain-attack-2f1ec024f33e?source=rss----8343faddf0ec---4</link>
@@ -1575,27 +1598,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2079960626248716544">DFIR Radar</source>
       <pubDate>Wed, 22 Jul 2026 16:03:52 +0000</pubDate>
       <guid isPermaLink="false">2079960626248716544</guid>
-    </item>
-    <item>
-      <title>Intercepting Android WebView traffic under new certificate validity requirement by Chromium</title>
-      <link>https://blog.nviso.eu/2026/07/22/intercepting-android-webview-traffic-under-new-certificate-validity-requirement-by-chromium/</link>
-      <description>Burp Suite's 1-year proxy cert now fails Android WebView interception silently. Chromium's cert validity enforcement (CERT_VALIDITY_TOO_LONG, net_error -213) breaks TLS interception without any app-side pinning in place.
-
-Key findings:
-
-- Chromium in Android WebView enforces max cert lifetimes per CA/B Forum Baseline Requirements. Certs issued on or after March 15, 2026 must be 200 days or fewer. Burp generates a 365-day cert (notAfter one year out), which now hard-fails with SSL error code 1, net_error -213 in logcat. mitmproxy generates shorter-lived certs and intercepts cleanly.
-
-- The check lives in CertVerifyProc::HasTooLongValidity inside libwebviewchromium.so. It applies to any leaf cert marked as issued by a known root, meaning your Burp CA cert alone does not exempt the generated leaf from the validity window check.
-
-- Three workarounds, easiest first: (1) uninstall WebView updates via adb shell dumpsys webviewupdate to revert to version 113; (2) chain mitmproxy on port 9090 as upstream proxy to Burp on port 8080 using --mode upstream with --ssl-insecure; (3) Frida-hook both cert_verify_proc at offset 0x3e015f8 and CachingCertVerifier::Verify at 0x3e00068 in libwebviewchromium.so after disabling multiprocess via adb shell cmd webviewupdate disable-multiprocess.
-
-Before your next Android WebView assessment, confirm your proxy cert lifetime with openssl x509 -noout -dates.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079945484970442916</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2079945484970442916">DFIR Radar</source>
-      <pubDate>Wed, 22 Jul 2026 15:03:42 +0000</pubDate>
-      <guid isPermaLink="false">2079945484970442916</guid>
     </item>
   </channel>
 </rss>
