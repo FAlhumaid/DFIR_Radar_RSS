@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 01 Aug 2026 07:02:44 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2026 08:02:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Network Anomaly Detection in KATA</title>
+      <link>https://securelist.com/tr/network-anomaly-detection-in-kata/120892/</link>
+      <description>Kaspersky's KATA platform shows how SQL-backed anomaly detection catches Kerberoasting and DNS tunneling where signature tools fail, by correlating behavioral baselines instead of matching known patterns.
+
+Key details:
+
+- Kerberoasting (T1558.003) is caught not by inspecting individual TGS-REQ packets but by grouping Kerberos sessions in ClickHouse: if a single source IP and cname receives TGS-REP responses for N or more unique non-system SPNs within the search window, an NDR:NAD alert fires. System SPNs are excluded by default to suppress false positives. The threshold (count_spns) and exclusion lists are tunable via variables without touching the SQL.
+
+- DNS tunneling via TXT records is detected by aggregating unique rrname values and rdata TXT content per source IP across sessions, then alerting when the combined byte volume exceeds traffic_size. Internal DNS server IPs (user_DNS_servers) are excluded to avoid duplicating forwarded queries.
+
+- KATA ships 59 prebuilt NAD rule templates across six categories: Large Data Transfers, Suspicious Connections, Domain Attacks, Reconnaissance, Connections to Suspicious Resources, and C2 Communication. Templates also cover DCSync, DCShadow, AS-REP Roasting, SOAPHound, LDAP enumeration, and DGA queries. Rules are disabled by default and must be manually enabled and tuned.
+
+- NAD rules are written as ClickHouse SQL and support up to 200 active rules simultaneously.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083463468162617565</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2083463468162617565">DFIR Radar</source>
+      <pubDate>Sat, 01 Aug 2026 08:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2083463468162617565</guid>
+    </item>
     <item>
       <title>SilverFox Targets Japanese Manufacturer With Advanced ValleyRAT Campaign</title>
       <link>https://securityaffairs.com/196347/apt/silverfox-targets-japanese-manufacturer-with-advanced-valleyrat-campaign.html</link>
@@ -1561,17 +1582,6 @@ Detection should focus on behavior, not file hashes: explorer.exe running under 
       <source url="https://x.com/DFIR_Radar/status/2079900080421642492">DFIR Radar</source>
       <pubDate>Wed, 22 Jul 2026 12:03:17 +0000</pubDate>
       <guid isPermaLink="false">2079900080421642492</guid>
-    </item>
-    <item>
-      <title>The Hidden Privilege of Automation Platforms</title>
-      <link>https://blog.compass-security.com/2026/07/the-hidden-privilege-of-automation-platforms/</link>
-      <description>Self-hosted n8n workflow automation sits on corporate networks with SSH, LDAP, database, and HTTP nodes enabled by default, making it functionally a jump host that bypasses network segmentation without exploiting a vulnerability.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2079884970693112169</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2079884970693112169">DFIR Radar</source>
-      <pubDate>Wed, 22 Jul 2026 11:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2079884970693112169</guid>
     </item>
   </channel>
 </rss>
