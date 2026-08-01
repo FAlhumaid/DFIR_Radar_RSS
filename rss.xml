@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 01 Aug 2026 15:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2026 16:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>KindaRails2Shell: CVE-2026-66066, Critical Arbitrary File Read and Possible Remote Code Execution in Ruby on Rails</title>
+      <link>https://www.rapid7.com/blog/post/etr-kindarails2shell-cve-2026-66066-critical-arbitrary-file-read-and-possible-remote-code-execution-in-ruby-on-rails</link>
+      <description>CVE-2026-66066 (CVSS 9.5) hits Ruby on Rails Active Storage via libvips: unauthenticated arbitrary file read with verified RCE escalation path. Patch urgently, forensic evidence may already be disappearing.
+
+- CVE-2026-66066 (CWE-1188, CVSSv4 9.5) affects Rails 7.0+ by default and Rails 6.x under non-default Vips config. Active Storage failed to disable libvips "untrusted" operations before processing user uploads. Only Vips processor is affected; Magick is not.
+
+- Attack chain: attacker uploads a file via the direct-upload endpoint masquerading as an image but structured as both a MATLAB level 5 and MAT 7.3 HDF5 container. HDF5's External File List reads bytes from an attacker-chosen path, returned as image pixel data. Requires the matload operation in the deployed libvips build. Direct-upload route is present by default even when the app UI does not use it.
+
+- Rapid7 verified an RCE escalation: recovered Rails signing material is used to forge an ImageProcessing 1.x variation key. No Marshal deserialization required. Replacing secret_key_base, Rails master key, storage credentials, and DB credentials is mandatory post-incident.
+
+- Rails published forensic tools to identify vulnerable apps and scan Active Storage blobs for crafted files. Scheduled cleanup of unattached blobs may destroy evidence, begin forensic review now.
+
+Patch to Active Storage 7.2.3.2, 8.0.5.1, or 8.1.3.1 AND upgrade libvips to 8.13+. Rails patch alone is insufficient on older libvips.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083584251451130038</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2083584251451130038">DFIR Radar</source>
+      <pubDate>Sat, 01 Aug 2026 16:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2083584251451130038</guid>
+    </item>
     <item>
       <title>Russian Hackers Hijack Hotel Wi-Fi to Steal Microsoft 365 Tokens</title>
       <link>https://securityaffairs.com/196441/apt/russian-hackers-hijack-hotel-wi-fi-to-steal-microsoft-365-tokens.html</link>
@@ -1587,23 +1608,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2080036130163159201">DFIR Radar</source>
       <pubDate>Wed, 22 Jul 2026 21:03:53 +0000</pubDate>
       <guid isPermaLink="false">2080036130163159201</guid>
-    </item>
-    <item>
-      <title>wp2shell hits WordPress: detecting pre-auth RCE from plugin drop to command execution</title>
-      <link>https://www.elastic.co/security-labs/wp2shell-wordpress-rce-detection-elastic-defend</link>
-      <description>CVE-2026-63030 and CVE-2026-60137 chain into pre-auth RCE on WordPress 6.9.0-6.9.4 and 7.0.0-7.0.1. Public PoCs hit GitHub within hours of July 17 disclosure; active scanning and exploitation confirmed in telemetry.
-
-- wp2shell abuses route confusion in WordPress Core's REST batch endpoint (/wp-json/batch/v1 or /?rest_route=/batch/v1, no plugins required) to reach a pre-auth SQL injection primitive, then escalates via SQLi-to-administrator bridge and plugin upload, or direct INTO OUTFILE webshell drop. Both paths land attacker-controlled PHP on disk, then shell execution through the web stack. MITRE: T1190, T1505.003, T1059.
-
-- The staging sequence leaves a durable file trail: apache2 writes temp-write-test-* probe files under wp-content/, a zip lands under wp-content/uploads/, PHP unpacks to wp-content/upgrade/wp2shell_&lt;hex&gt;/, then moves into wp-content/plugins/wp2shell_&lt;hex&gt;/. The PoC self-deletes the plugin post-execution, so a missing wp2shell_* folder does not clear the host if process alerts already fired.
-
-- Elastic's lab run produced 12 alerts across four rules: PHP File Creation in WordPress Plugin Directory (earliest signal, catches the drop), Payload Execution by Web Server (fires and kills dash when apache2 spawns it), and Suspicious/Unusual Command Execution via Web Server (SIEM depth on id, whoami, hostname, SUID enumeration). The hex suffix in plugin names is fragile; the apache2-to-dash parent-child relationship is not.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080020901140025565</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2080020901140025565">DFIR Radar</source>
-      <pubDate>Wed, 22 Jul 2026 20:03:23 +0000</pubDate>
-      <guid isPermaLink="false">2080020901140025565</guid>
     </item>
   </channel>
 </rss>
