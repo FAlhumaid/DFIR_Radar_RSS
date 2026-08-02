@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 02 Aug 2026 00:02:25 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2026 04:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Atomic MacOS (AMOS) stealer infection, (Sun, Aug 2nd)</title>
+      <link>https://isc.sans.edu/diary/rss/33208</link>
+      <description>AMOS stealer is spreading via fake "macOS toolkit" paste-in-Terminal lures, dropping persistent Mach-O binaries disguised as Apple system processes with C2 over plain HTTP to 188.166.78[.]138.
+
+- The infection chain starts at getmacouscloud[.]com, which serves base64-encoded text users are told to paste into Terminal. That text fetches a zsh script (SHA256: b9ec3261...) from render65[.]com, which unpacks a second zsh stage that drops and executes the AMOS Mach-O binary from /tmp/helper. Classic ClickFix/paste-lure technique, no exploit required, just social engineering.
+
+- AMOS persists by copying itself into hidden Apple-lookalike paths: /Users/[username]/Library/Application Support/.com.apple.accountsd/AccountsHelper and .com.apple.metadata.mds/mdworker_shared. Both are universal Mach-O binaries supporting x86_64 and arm64, meaning M-series and Intel Macs are both targeted.
+
+- C2 runs over plain HTTP port 80 to 188.166.78[.]138, cycling through staged beacon endpoints: boot, init_session, credentials, browsers, wallets, local_data. That enumeration order tells the story: credentials and crypto wallets are the primary targets.
+
+Hunt for unsigned Mach-O binaries in Library/Application Support paths beginning with a dot, and flag outbound plain HTTP from user-space processes. Full IOC list including five SHA256 hashes and all defanged URLs is in the SANS ISC report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083765389792817617</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2083765389792817617">DFIR Radar</source>
+      <pubDate>Sun, 02 Aug 2026 04:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2083765389792817617</guid>
+    </item>
     <item>
       <title>The Xcode Assassin Returns: A Deep Dive Into the Latest XCSSET Version</title>
       <link>https://unit42.paloaltonetworks.com/xcsset-v40-malware-analysis/</link>
@@ -1571,25 +1590,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2080292725035802671">DFIR Radar</source>
       <pubDate>Thu, 23 Jul 2026 14:03:31 +0000</pubDate>
       <guid isPermaLink="false">2080292725035802671</guid>
-    </item>
-    <item>
-      <title>CVE-2026-16232: Critical Check Point SmartConsole Authentication Bypass Exploited in the Wild</title>
-      <link>https://www.rapid7.com/blog/post/etr-cve-2026-16232-critical-check-point-smartconsole-authentication-bypass-exploited-in-the-wild</link>
-      <description>CVE-2026-16232, a critical CVSS 9.1 authentication bypass in Check Point SmartConsole, is actively exploited in the wild and added to CISA KEV with a July 25 remediation deadline. Three days to act.
-
-- CVE-2026-16232 (CWE-287) lets an unauthenticated remote attacker steal an application login token and authenticate to the Management Server with full admin rights. From there, an attacker can rewrite security policies across all managed gateways, alter admin accounts, manipulate VPN configs, and suppress logging. Compromise of the management plane is a force-multiplier: every firewall it controls is now suspect.
-
-- Two companion CVEs ship in the same advisory: CVE-2026-62144 (CVSS 9.1), a management authentication bypass with privilege escalation, and CVE-2026-62145 (CVSS 7.5), a local privilege escalation in GaiaOS WebUI. Neither has known exploitation yet, but patch all three.
-
-- Exploitation is confirmed pre-patch. Check Point published Jumbo Hotfixes on July 22. Fix versions: R82.10 Take 36+, R82 Take 118+, R81.20 Take 158+. Older branches (R81.10 and below) have no fix specified. Smart-1 Cloud is already protected.
-
-- Published exploitation IPs: 151.241.99[.]207, 151.241.99[.]233, 158.62.198[.]182, 192.142.10[.]99, 139.28.37[.]250, 194.213.18[.]137. Absence of these does not rule out compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080277600577241289</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2080277600577241289">DFIR Radar</source>
-      <pubDate>Thu, 23 Jul 2026 13:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2080277600577241289</guid>
     </item>
   </channel>
 </rss>
