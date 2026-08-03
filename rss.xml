@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 03 Aug 2026 17:03:46 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2026 18:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Workaround For Duplicate LVM Names</title>
+      <link>https://righteousit.com/2026/08/03/workaround-for-duplicate-lvm-names/</link>
+      <description>Duplicate LVM UUIDs across cloned Linux disk images block simultaneous mounting on a single analysis workstation. xmount's --cache option solves this without touching the original evidence.
+
+Key findings:
+
+- The core problem: Linux images cloned from a master share identical PV UUIDs, VG names, VG UUIDs, and per-filesystem UUIDs. vgscan silently drops the duplicate device, making the second image inaccessible until conflicts are resolved at every layer.
+
+- xmount --cache creates a FUSE-backed virtual disk1.dd and absorbs all destructive metadata changes into a separate cache file. The original raw image MD5 stays unchanged throughout. Verified in the article: md5sum confirmed e3b85cad126731e76955b2240b69f39d before and after all modifications.
+
+- The fix sequence matters: (1) tear down the duplicate loopback before pvchange -u, (2) vgrename plus vgchange -u for the VG, (3) e2fsck -f then tune2fs -U random for each EXT4 logical volume. Skipping any step produces cascading LVM warnings and failed mounts.
+
+- Mount read-only with ro,noexec once UUIDs are resolved. The cache file, not the image, absorbs the 328MB of metadata writes by the time all three filesystems are modified and mounted.
+
+Practitioner takeaway: add xmount --cache to your Linux LVM acquisition workflow now, before you hit this on a live case with three cloned VMs. The full command sequence is in the article.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084339433520922858</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2084339433520922858">DFIR Radar</source>
+      <pubDate>Mon, 03 Aug 2026 18:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2084339433520922858</guid>
+    </item>
     <item>
       <title>Before the first prompt: Code execution paths in trusted coding-agent projects</title>
       <link>https://securitylabs.datadoghq.com/articles/coding-agent-project-trust-code-execution-before-first-prompt/</link>
@@ -1641,17 +1664,6 @@ Updated IOCs and MITRE ATT&amp;CK technique mappings are in the advisory. Hunt f
       <source url="https://x.com/DFIR_Radar/status/2080488706822300036">DFIR Radar</source>
       <pubDate>Fri, 24 Jul 2026 03:02:16 +0000</pubDate>
       <guid isPermaLink="false">2080488706822300036</guid>
-    </item>
-    <item>
-      <title>Russian espionage group using novel Zimbra exploit to steal sensitive data from Western countries</title>
-      <link>https://cyberscoop.com/russian-laundry-bear-zimbra-exploit/</link>
-      <description>Russian 🇷🇺 Laundry Bear (Void Blizzard) exploited Zimbra zero-day CVE-2025-66376 (CVSS 6.1) since July 2025, stealing 90 days of email, passwords, and 2FA tokens via a view-only JavaScript payload.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080473549970493656</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2080473549970493656">DFIR Radar</source>
-      <pubDate>Fri, 24 Jul 2026 02:02:03 +0000</pubDate>
-      <guid isPermaLink="false">2080473549970493656</guid>
     </item>
   </channel>
 </rss>
