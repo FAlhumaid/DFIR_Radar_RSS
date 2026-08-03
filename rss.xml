@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 03 Aug 2026 18:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2026 19:03:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Targeted Attack on Government Entities in the Middle East | Part 2</title>
+      <link>https://www.zscaler.com/blogs/security-research/targeted-attack-government-entities-middle-east-part-2</link>
+      <description>East Asia-linked actor expands from Central Asia to Middle East energy targets with BINDCLOAK, a modular C2 backdoor linked to OctLurk by shared SSL certs and code overlap.
+
+Key findings:
+
+- BINDCLOAK (MD5: 7a14a99d70d42d3f7bf72f843185fc07) is a 64-bit C++ DLL dropped during post-compromise activity, reflectively loaded by the MIXEDKEY loader. It exports curl_easy_escape and mn_dcode to masquerade as a legitimate library. C2: cert.hypersnet[.]com, tied to OctLurk C2 about.blsouqs[.]com via a shared SSL cert (serial 59fe1ef7707fe497d89f34505222862f).
+
+- C2 comms use a 28-byte structured message header with source/destination module IDs, then two-pass XOR: a hardcoded 105-byte key followed by an 83-byte PRNG key (seeded via GetTickCount) sent in cleartext, over a zlib-compressed payload on TLS/TCP (T1132.002, T1095).
+
+- EDR evasion: plugin DLLs are reflectively loaded into RWX memory (T1620), and imports are resolved by queuing LoadLibraryW via RtlQueueWorkItem to avoid suspicious calls from unbacked memory regions.
+
+- Privilege escalation via 11 C2 commands including COLLECT_USER_TOKEN (LogonUserW with actor-supplied creds), START_MODULE_WITH_USER_TOKEN, and GET_STATUS (WTSEnumerateProcessesW + LookupAccountSidW) mapping running processes for token theft (T1134.001, T1134.003).
+
+Hunt for DLLs exporting curl_easy_escape alongside mn_dcode, RtlQueueWorkItem spawning LoadLibraryW from non-image-backed memory, and TLS beacons to cert.hypersnet[.]com.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084354526522253388</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2084354526522253388">DFIR Radar</source>
+      <pubDate>Mon, 03 Aug 2026 19:03:39 +0000</pubDate>
+      <guid isPermaLink="false">2084354526522253388</guid>
+    </item>
     <item>
       <title>Workaround For Duplicate LVM Names</title>
       <link>https://righteousit.com/2026/08/03/workaround-for-duplicate-lvm-names/</link>
@@ -1653,17 +1676,6 @@ Updated IOCs and MITRE ATT&amp;CK technique mappings are in the advisory. Hunt f
       <source url="https://x.com/DFIR_Radar/status/2080503854639247514">DFIR Radar</source>
       <pubDate>Fri, 24 Jul 2026 04:02:28 +0000</pubDate>
       <guid isPermaLink="false">2080503854639247514</guid>
-    </item>
-    <item>
-      <title>Fake Claude app promoted by Bing ads pushes SectopRAT malware</title>
-      <link>https://www.bleepingcomputer.com/news/security/fake-claude-app-promoted-by-bing-ads-pushes-sectoprat-malware/</link>
-      <description>SectopRAT (ArechClient2) is spreading via Bing malvertising using a fake ClaudeDesktop.exe that sideloads malicious libcef.dll via DLL hijacking of a legitimate JetBrains binary. Persistence lands as a scheduled task via DockerDesktop.exe.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080488706822300036</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2080488706822300036">DFIR Radar</source>
-      <pubDate>Fri, 24 Jul 2026 03:02:16 +0000</pubDate>
-      <guid isPermaLink="false">2080488706822300036</guid>
     </item>
   </channel>
 </rss>
