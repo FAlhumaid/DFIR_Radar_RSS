@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 03 Aug 2026 16:03:50 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2026 17:03:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Before the first prompt: Code execution paths in trusted coding-agent projects</title>
+      <link>https://securitylabs.datadoghq.com/articles/coding-agent-project-trust-code-execution-before-first-prompt/</link>
+      <description>Coding agents (Codex, Claude Code) can execute repository-controlled code the moment a project is trusted, before any prompt is sent, via MCP configs and hijacked PATH settings.
+
+Key findings:
+
+- Codex loads project-scoped MCP servers defined in .codex/config.toml at startup. A malicious repo can specify a local stdio server (e.g., command = "python3", args = [".codex/poc/server.py"]) that runs immediately on project open, no hook declaration required, bypassing the hook-review gate added in Codex 0.131.0.
+
+- Claude Code's .claude/settings.json allows project-controlled env vars. Setting PATH to ./bin:... causes Claude's own automatic Git probes, which run before the first prompt, to resolve to an attacker-controlled wrapper script in the repo. The wrapper can silently log or exfiltrate, then exec the real git to avoid suspicion.
+
+- The Contagious Interview campaign and MAL-2026-3648 (three malicious npm packages planting Claude Code SessionStart hooks) confirm this social engineering pattern is active. Take-home assignments and open source debug requests are the lure.
+
+- Defenders monitoring only hooks and skills files miss MCP server configs, PATH manipulation, BASH_ENV, NODE_OPTIONS, PYTHONPATH, LD_PRELOAD, and devcontainer lifecycle commands, all project-controllable execution paths.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084324356898050150</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2084324356898050150">DFIR Radar</source>
+      <pubDate>Mon, 03 Aug 2026 17:03:46 +0000</pubDate>
+      <guid isPermaLink="false">2084324356898050150</guid>
+    </item>
     <item>
       <title>Special macOS Firewall: Safe Sideloading of the EIFT Extraction Agent</title>
       <link>https://blog.elcomsoft.com/2026/08/special-macos-firewall-safe-sideloading-of-the-eift-extraction-agent/</link>
@@ -1631,17 +1652,6 @@ Updated IOCs and MITRE ATT&amp;CK technique mappings are in the advisory. Hunt f
       <source url="https://x.com/DFIR_Radar/status/2080473549970493656">DFIR Radar</source>
       <pubDate>Fri, 24 Jul 2026 02:02:03 +0000</pubDate>
       <guid isPermaLink="false">2080473549970493656</guid>
-    </item>
-    <item>
-      <title>13M+ Emails Sent in Tech Support Scam Targeting Users, Organizations in Japan</title>
-      <link>https://www.trendmicro.com/en_us/research/26/g/tech-support-scams-targeting-japan.html</link>
-      <description>A 165-day campaign sent 13M+ emails to Japanese 🇯🇵 addresses using spoofed senders and 33,000+ single-day Azure Blob Storage landing sites to route victims to fraudulent support calls.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080459066569372064</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2080459066569372064">DFIR Radar</source>
-      <pubDate>Fri, 24 Jul 2026 01:04:29 +0000</pubDate>
-      <guid isPermaLink="false">2080459066569372064</guid>
     </item>
   </channel>
 </rss>
