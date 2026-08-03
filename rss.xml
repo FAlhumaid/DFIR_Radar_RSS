@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 03 Aug 2026 07:03:28 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2026 08:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Octagon: Technical Analysis of a Fake Bahrain Civil Defense Application</title>
+      <link>https://labs.k7computing.com/index.php/octagon-technical-analysis-of-a-fake-bahrain-civil-defense-application/</link>
+      <description>Android RAT "Octagon" targets Bahrain users by impersonating the official BH Alert emergency app, using multi-stage dynamic loading, VPN abuse, and Accessibility keylogging to silently exfiltrate credentials.
+
+Key findings:
+
+- The dropper APK (com.kit.kitty, MD5: 9694294addbe58be93ddbb6cabc499ce) decrypts ZfChs.ttf from assets via RC4, writes ZfChs.dex to private storage, then loads it with DexClassLoader. A child APK (com.kisa.octagonpanel) is installed entirely in-memory via PackageInstaller with no standalone file written to disk, which limits disk-based detection.
+
+- VPN abuse is central: the malware creates a malicious VPN tunnel to intercept all device traffic, with a selective allow-list of apps excluded to avoid raising suspicion. Once the child APK is running, the VPN service is terminated.
+
+- Persistence is achieved via Android AccountManager/SyncAdapter: a fake account "OctagonPanel" triggers sync every 30 minutes. Runtime config, including C2 209.99.184[.]50:4444, is stored in SharedPreferences file octagon.xml.
+
+- Stolen data lands in two local stores: captured_passwords.json (keylogged PINs, patterns, passwords with confidence scores) and SQLite database octagon_ward.db containing intercepted SMS, phishing templates, and pending C2 transmissions.
+
+Hunt for unexpected VPN permission grants, Accessibility Service abuse, and AccountManager entries named OctagonPanel. IOCs and full MITRE mapping are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084188411951566902</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2084188411951566902">DFIR Radar</source>
+      <pubDate>Mon, 03 Aug 2026 08:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2084188411951566902</guid>
+    </item>
     <item>
       <title>Minnesota Water Systems Attacks: Internet-Exposed PLCs Under Attack</title>
       <link>https://www.picussecurity.com/resource/blog/minnesota-water-systems-attacks-internet-exposed-plcs-under-attack</link>
@@ -1581,25 +1604,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2080338089055330315">DFIR Radar</source>
       <pubDate>Thu, 23 Jul 2026 17:03:46 +0000</pubDate>
       <guid isPermaLink="false">2080338089055330315</guid>
-    </item>
-    <item>
-      <title>How Elasticsearch ES|QL COMPLETION turns noisy curl and wget rules into high-fidelity cloud security alerts</title>
-      <link>https://www.elastic.co/security-labs/esql-completion-curl-wget-detection-triage</link>
-      <description>ES|QL COMPLETION brings LLM triage inside individual Elastic detection rules, cutting curl/wget alert noise to near-zero before events ever reach an analyst queue.
-
-Key findings:
-
-- The technique targets T1105 (Ingress Tool Transfer). curl and wget are legitimate attacker tradecraft vectors, but cloud hosts use them constantly for CI, package pulls, and metadata calls. The approach parses the destination host from process.args (or process.command_line/process.title for schema-less invocations), applies a deterministic allow-list anchored to that parsed dest_host field, then passes surviving rows to an LLM via the COMPLETION command. Anchoring filters to the parsed field, not the raw command string, closes the substring-bypass gap where an expected domain appearing in a path accidentally suppresses a real alert.
-
-- Secrets are redacted before COMPLETION runs: authorization headers, bearer tokens, API keys (x-api-key, x-amz-security-token, etc.), query-string credentials, URL-embedded auth, and JWT patterns (eyJ...) are all replaced inline. The prompt also instructs the model to treat all command and URL text as untrusted data to block prompt injection from attacker-controlled strings.
-
-- In a seven-day QA run on Elastic's own cloud fleet, only three destinations survived deterministic filtering: cdn.playwright[.]dev (FP), 1.1[.]1.1 (FP), and an internal AWS IP flagged SUSPICIOUS. Zero analyst-facing alerts were generated.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080322986951983358</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2080322986951983358">DFIR Radar</source>
-      <pubDate>Thu, 23 Jul 2026 16:03:46 +0000</pubDate>
-      <guid isPermaLink="false">2080322986951983358</guid>
     </item>
   </channel>
 </rss>
