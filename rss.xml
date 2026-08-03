@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 03 Aug 2026 11:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2026 12:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>HollowFrame Loader Uses Fake Python DLL to Evade Defender</title>
+      <link>https://www.infosecurity-magazine.com/news/hollowframe-fake-python-dll/</link>
+      <description>HollowFrame loader fakes a Python runtime to slip past Defender, then stages two undocumented Rust backdoors inside trusted Microsoft processes at a law firm.
+
+- The kill chain starts with a spear phishing link routing to an encrypted Mega archive containing Case Documents.lnk. That shortcut reconstructs a script via certutil, runs an obfuscated PowerShell chain, and once elevated adds Defender exclusions for a staging directory AND python.exe before any payload lands. The attacker built the trusted execution lane first.
+
+- The downloaded archive mimics an official Python embedded distribution (amd96 instead of amd64). The bundled python311.dll is not CPython: it is a 64-bit Go library exporting just four Python-compatible function names to satisfy the import and hand execution to HollowFrame, which supports process ghosting, module stomping, and manual PE mapping to vary telemetry across endpoints. Persistence via scheduled task, WMI logon-event subscription, or Startup folder.
+
+- HollowFrame sideloads a malicious version.dll beside a legitimate OneDrive updater, running Matryoshka backdoor traffic inside a trusted Microsoft process. A second Rust variant proxies 41 wtsapi32.dll exports and uses a private GitHub repo as dead-drop C2, one directory per victim for beacon, command, and result files. Requests carry a OneDrive user agent.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084248836206416041</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2084248836206416041">DFIR Radar</source>
+      <pubDate>Mon, 03 Aug 2026 12:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2084248836206416041</guid>
+    </item>
     <item>
       <title>Russian Hackers Exploit Hotel Wi-Fi in New CaptiveCrunch Espionage Campaign</title>
       <link>https://thecyberexpress.com/captivecrunch-midnight-blizzard/</link>
@@ -1597,25 +1614,6 @@ Updated IOCs and MITRE ATT&amp;CK technique mappings are in the advisory. Hunt f
       <source url="https://x.com/DFIR_Radar/status/2080398317465276699">DFIR Radar</source>
       <pubDate>Thu, 23 Jul 2026 21:03:06 +0000</pubDate>
       <guid isPermaLink="false">2080398317465276699</guid>
-    </item>
-    <item>
-      <title>Chaos ransomware deploys browser-based msaRAT to evade network detection</title>
-      <link>https://securityaffairs.com/195876/malware/chaos-ransomware-deploys-browser-based-msarat-to-evade-network-detection.html</link>
-      <description>Chaos ransomware's msaRAT routes C2 entirely through Chrome or Edge via Chrome DevTools Protocol, making attacker traffic invisible on the wire. The RAT process never touches the network directly.
-
-- msaRAT is a Rust-based RAT attributed to the Chaos ransomware group. Initial access delivers update_ms.msi via curl over HTTP on port 443, bypassing port-based firewall rules. The MSI impersonates a Windows update and loads the RAT DLL directly into memory, leaving no obvious on-disk payload to catch.
-
-- C2 is split across two legitimate services: Cloudflare Workers at is-01-ast.ols-img-12.workers[.]dev handles SDP signaling to establish a WebRTC channel, then drops out entirely. All subsequent commands flow over a WebRTC DataChannel relayed through Twilio, so the attacker's real server IP never appears in traffic.
-
-- The RAT binds only to 127.0.0[.]1. All external traffic originates from the browser process itself, launched headless with remote debugging enabled. CSP is bypassed via a CDP command and JavaScript injected into the browser handles every network operation. What a defender sees is a browser making HTTPS calls to Cloudflare and WebRTC to Twilio, both normal.
-
-- Talos found msaRAT deployed between initial access and the Chaos encryptor, confirming it serves pre-encryption reconnaissance. Double encryption: DTLS from WebRTC plus ChaCha-Poly1305 over an ECDH-derived key means stripping DTLS still yields ciphertext.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080383382786384290</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2080383382786384290">DFIR Radar</source>
-      <pubDate>Thu, 23 Jul 2026 20:03:45 +0000</pubDate>
-      <guid isPermaLink="false">2080383382786384290</guid>
     </item>
   </channel>
 </rss>
