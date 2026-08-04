@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 04 Aug 2026 11:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2026 12:03:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>keyv and cacheable npm Package Hijacked in Supply Chain Attack</title>
+      <link>https://www.wiz.io/blog/keyv-and-cacheable-npm-supply-chain-attack</link>
+      <description>keyv and cacheable npm packages backdoored via compromised GitHub maintainer account, deploying Shai-Hulud malware to steal cloud creds, CI/CD secrets, and crypto wallets across dozens of downstream packages.
+
+- GitHub maintainer account compromise gave attackers publish rights. Starting 9:00 UTC they pushed IDE persistence payloads to the keyv repo, then published keyv 6.0.0 with the malicious payload. The attack expanded to 40+ packages including cache-manager 7.2.10, cacheable-request 13.0.20, @cacheable/utils 2.5.1, and multiple @qlik and @ornikar scoped packages.
+
+- The payload is a "Mini" variant of the Shai-Hulud malware family, linked to prior TeamPCP and antv supply chain campaigns. It targets cloud credentials, SSH keys, Kubernetes configs, Terraform state, AI config files, and crypto wallets, and actively enumerates CI/CD runners and cloud environments for further pivot.
+
+- Exfiltration runs via attacker-controlled GitHub repos created under compromised identities, with the description "Shai-Hulud: Here We Go Again." Key IOCs: exfil domain npm-cache[.]com (104.21.35[.]216), file hashes Math_Symbol.js / math_init.js (35a672cf34b996b91f3e1c28cbf3a05a37e036e4), setup.mjs in .claude and .vscode directories.
+
+If these package versions touched any build or CI/CD environment, treat it as compromised: rebuild, rotate all secrets (GitHub tokens, cloud keys, SSH, Kubernetes, Terraform), and hunt for npm-cache[.]com in DNS and outbound logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084611220267487638</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2084611220267487638">DFIR Radar</source>
+      <pubDate>Tue, 04 Aug 2026 12:03:40 +0000</pubDate>
+      <guid isPermaLink="false">2084611220267487638</guid>
+    </item>
     <item>
       <title>DOUBLECUP Uses ClickFix and Cached PNGs to Deliver CountLoader and DeviceManager RAT</title>
       <link>https://thehackernews.com/2026/08/doublecup-uses-clickfix-and-cached-pngs.html</link>
@@ -1673,29 +1692,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2080730341904457885">DFIR Radar</source>
       <pubDate>Fri, 24 Jul 2026 19:02:26 +0000</pubDate>
       <guid isPermaLink="false">2080730341904457885</guid>
-    </item>
-    <item>
-      <title>INC RANSOMWARE : THREAT INTELLIGENCE</title>
-      <link>https://theravenfile.com/2026/07/24/inc-ransomware-threat-intelligence/</link>
-      <description>INC Ransomware's-hosted negotiation panel deanonymized: real IP exposed, JS source decoded, and 9 clearweb domains mapped across 170 IPs with 872 victims targeted since 2023.
-
-Key findings:
-
-- The negotiation panel .onion resolves to a live clearweb endpoint at 178.20.41[.]208:1002 (ASN 48282, Hosting Technology LTD, Russia 🇷🇺), running nginx 1.27.5 with a Yii PHP 8.3.24 backend. Port 1002 is deliberate evasion (T1571). The panel MD5 fb14aae2ed93a7ddfa718f433f585735 traces activity to April 2024.
-
-- JS analysis of index-k5F9oSPw.js reveals a React 18 + Redux + Socket.io panel with API endpoints under /api/v1/company/, JWT session auth (30-day tokens, likely HS256), and leak categories: Encrypted, AD Dump, Contracts, Financial Data, Customer Data, HR, Incidents.
-
-- 9 clearweb domains mapped (incbackend[.]top, incblog[.]su, incapt[.]blog, etc.) with 110 of 170 IPs resolving to Russia 🇷🇺 (65%). Ten IPs appear across domains 6 times each, making them strong association indicators: 185.68.93[.]140, 185.68.93[.]198, 84.38.180[.]109, 87.251.79[.]48 among them. CDN hostnames cycle (inccdn1/2/3new[.]lol) while reusing the same IP pool.
-
-- 108 builder samples analyzed: 52 share creation date April 9 2024 at 161.50KB (post-sale stable build); 35 newer 2.10MB builds from mid-2025 signal affiliate expansion. Three samples have creation dates forged to June 19 1992.
-
-Block the 10 high-frequency IPs and the full domain list at the perimeter.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080715306024992975</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2080715306024992975">DFIR Radar</source>
-      <pubDate>Fri, 24 Jul 2026 18:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2080715306024992975</guid>
     </item>
   </channel>
 </rss>
