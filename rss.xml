@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 04 Aug 2026 12:03:40 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2026 13:03:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting Certighost (CVE-2026-54121): Sigma Coverage Across the Full Attack Chain</title>
+      <link>https://www.nextron-systems.com/2026/08/04/detecting-certighost-cve-2026-54121-sigma-coverage-across-the-full-attack-chain/</link>
+      <description>CVE-2026-54121 (Certighost) lets a low-privileged domain user forge a DC certificate via ADCS, then DCSync every hash in the domain. Seven Sigma rules now cover the full chain from ghost account creation to credential replication.
+
+- Certighost abuses the EDITF_ENABLECHASECLIENTDC flag (bit 0x00100000 in CA EditFlags). A low-priv user creates a throwaway machine account (GHOST[random]$), submits a cert request with a rogue cdc: attribute pointing to an attacker-controlled IP and a SAN of the target DC's FQDN. The unpatched CA connects outbound SMB/LDAP to the attacker's rogue server, accepts forged DC identity, and issues a certificate the KDC will honor via PKINIT (pre-auth type 16). Total time from request to TGT: seconds.
+
+- The seven Sigma rules map to Event IDs 4741 (ghost account, GHOST*$ prefix), 4886 (cert request with non-DC cdc: value), Sysmon EID 3 (certsrv.exe outbound to port 389/445), 4887 (cert issued with cdc:/rmd: attributes), 4768 (DC machine account TGT from non-DC IP), 4769 (DRSUAPI TGS from non-DC IP), and 4624 (DC machine account logon from workstation). Correlation across EID 4886 through 4768 in a short window is near-certain exploitation.
+
+- Critical logging gap: EID 4886/4887 require TWO independent controls. GPO alone is insufficient. CA-side auditing must also be set: certutil -setreg CA\AuditFilter 127, then restart CertSvc.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084626357552882044</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2084626357552882044">DFIR Radar</source>
+      <pubDate>Tue, 04 Aug 2026 13:03:49 +0000</pubDate>
+      <guid isPermaLink="false">2084626357552882044</guid>
+    </item>
     <item>
       <title>keyv and cacheable npm Package Hijacked in Supply Chain Attack</title>
       <link>https://www.wiz.io/blog/keyv-and-cacheable-npm-supply-chain-attack</link>
@@ -1681,17 +1698,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2080745472114012600">DFIR Radar</source>
       <pubDate>Fri, 24 Jul 2026 20:02:34 +0000</pubDate>
       <guid isPermaLink="false">2080745472114012600</guid>
-    </item>
-    <item>
-      <title>HOLLOWGRAPH: The New Face of Cloud-Based Espionage</title>
-      <link>https://blog.polyswarm.io/hollowgraph-the-new-face-of-cloud-based-espionage</link>
-      <description>HOLLOWGRAPH, linked to the Cavern backdoor framework, abuses the Microsoft Graph API to use compromised Microsoft 365 calendars as covert C2 channels, targeting Israeli 🇮🇱 organizations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080730341904457885</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2080730341904457885">DFIR Radar</source>
-      <pubDate>Fri, 24 Jul 2026 19:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2080730341904457885</guid>
     </item>
   </channel>
 </rss>
