@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 04 Aug 2026 17:03:01 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2026 18:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Massive ChainDrop npm supply-chain attack infects hundreds of packages</title>
+      <link>https://www.bleepingcomputer.com/news/security/massive-chaindrop-npm-supply-chain-attack-infects-hundreds-of-packages/</link>
+      <description>ChainDrop npm worm compromises 1,300+ packages with 2 billion monthly downloads, stealing cloud and developer credentials via a self-propagating supply-chain attack.
+
+- Initial access came from a compromised GitHub account belonging to the Keyv maintainer. The attacker pushed malicious commits directly to main branches, triggering legitimate GitHub Actions workflows to publish poisoned releases with valid provenance, making detection harder at install time.
+
+- Two malicious files land in every infected package: setup.mjs (dropper) and Math_Symbol.js (infostealer), with "preinstall": "node setup.mjs" in package.json ensuring automatic execution on npm install. setup.mjs downloads the Bun JavaScript runtime from GitHub to execute Math_Symbol.js, then deletes the runtime directory to reduce forensic footprint.
+
+- Credential targets are broad: GitHub PATs (ghp_, gho_, ghs_), npm tokens (npm_), AWS credentials and Secrets Manager values, Kubernetes secrets, HashiCorp Vault tokens, Azure and GCP credentials, Stripe, Slack, and Twilio keys. Every token is validated live against registry.npmjs[.]org/-/whoami before exfil.
+
+- Exfiltration hits a public GitHub repo described as "Shai-Hulud: Here We Go Again" and the domain npm-cache[.]com, a strong IOC. The worm self-propagates to other maintainers' packages that depend on already-infected packages.
+
+If npm install ran against any affected version, treat the workstation or CI/CD runner as fully compromised.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084701592553398692</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2084701592553398692">DFIR Radar</source>
+      <pubDate>Tue, 04 Aug 2026 18:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2084701592553398692</guid>
+    </item>
     <item>
       <title>New TP-Link Router Vulnerabilities: Exploiting Zero Touch Provisioning</title>
       <link>https://www.forescout.com/blog/new-tp-link-router-vulnerabilities-exploiting-zero-touch-provisioning/</link>
@@ -1725,17 +1746,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2080820778426372120">DFIR Radar</source>
       <pubDate>Sat, 25 Jul 2026 01:01:48 +0000</pubDate>
       <guid isPermaLink="false">2080820778426372120</guid>
-    </item>
-    <item>
-      <title>Russian Espionage Group Exploited Zimbra Zero-Day to Steal Mail and 2FA Codes</title>
-      <link>https://www.proofpoint.com/us/newsroom/news/russian-espionage-group-exploited-zimbra-zero-day-steal-mail-and-2fa-codes</link>
-      <description>Russian 🇷🇺 APT Laundry Bear exploited Zimbra zero-day CVE-2025-66376 via zero-click phishing, stealing 90 days of email, passwords, and 2FA tokens from US 🇺🇸 and NATO targets. Patch Zimbra immediately or switch mail clients.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2080805821152379337</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2080805821152379337">DFIR Radar</source>
-      <pubDate>Sat, 25 Jul 2026 00:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2080805821152379337</guid>
     </item>
   </channel>
 </rss>
