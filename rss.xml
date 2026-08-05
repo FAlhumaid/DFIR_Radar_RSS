@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2026 16:04:40 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Aug 2026 17:04:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>OT Security Analysis:  Exposed Devices Attacked in US Water Systems</title>
+      <link>https://www.forescout.com/blog/ot-security-analysis-exposed-devices-attacked-in-us-water-systems/</link>
+      <description>Coordinated attacks hit 30+ water systems across 12 US 🇺🇸 states, targeting internet-exposed Rockwell Allen-Bradley PLCs via cellular connections, with confirmed logic modification and loss of operational control.
+
+Key findings:
+
+- Threat actors targeted MicroLogix 1100 and 1400 PLCs via EtherNet/IP (port 44818), an unauthenticated protocol that can allow remote config writes. At least one victim had PLC logic modified; others had IP addresses and passwords changed remotely, causing pressure loss and flooding risk. No attribution confirmed, though TTPs overlap with a concurrent CISA advisory on Iranian-affiliated actors targeting exposed PLCs.
+
+- Forescout found 4,407 devices exposing port 44818 on Shodan as of August 3, 2026. 65% are in the US 🇺🇸, and over 70% of US-facing devices sit on mobile carrier networks, matching the cellular-connected attack surface described in the FBI/EPA advisory. 22 devices were identified in cities named in the campaign.
+
+- MicroLogix 1100 reached end-of-life April 30, 2022. No further patches will ship. Notable unpatched CVEs include CVE-2016-5645 (hardcoded SNMP read-write strings) and CVE-2017-7899 (credentials in cleartext via HTTP GET). CVE-2017-16740 affected 86% of hosts observed in impacted cities based on firmware versions.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085049315404165323</description>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2085049315404165323">DFIR Radar</source>
+      <pubDate>Wed, 05 Aug 2026 17:04:30 +0000</pubDate>
+      <guid isPermaLink="false">2085049315404165323</guid>
+    </item>
     <item>
       <title>When Attackers Hijack Your Inbox: Detecting Mailbox Forwarding Rules with Microsoft Defender XDR</title>
       <link>https://detect.fyi/when-attackers-hijack-your-inbox-detecting-mailbox-forwarding-rules-with-microsoft-defender-xdr-56a71567c6f2?source=rss----d5fd8f494f6a---4</link>
@@ -1713,23 +1732,6 @@ Upgrade to 18.10.8, 18.11.5, or 19.0.2 immediately. No configuration-only workar
       <source url="https://x.com/DFIR_Radar/status/2081681635259408585">DFIR Radar</source>
       <pubDate>Mon, 27 Jul 2026 10:02:33 +0000</pubDate>
       <guid isPermaLink="false">2081681635259408585</guid>
-    </item>
-    <item>
-      <title>SIEM Bypasses: Diffracting the “CreepyDrive URLs” Sentinel Rule</title>
-      <link>https://detect.fyi/siem-bypasses-diffracting-the-creepydrive-urls-sentinel-rule-82e066b00f8c?source=rss----d5fd8f494f6a---4</link>
-      <description>The community Sentinel rule catching POLONIUM's CreepyDrive OneDrive C2 has six exploitable logic bugs, any one of which lets an operator walk past the detection without changing their technique.
-
-- CreepyDrive reads and writes C2 tasking through the Microsoft Graph API against a real user's OneDrive, making it look like normal Office 365 traffic. The widely-used Sentinel analytic (CreepyDriveURLs.yaml) fires on two exact URL strings plus two regexes matching /Uploaded/ and /Downloaded/ paths, all hardcoded from a single threat intel sample.
-
-- The critical bugs: KQL's matches regex is case-sensitive by default, so lowercasing the folder name to /uploaded/ bypasses the regex branch entirely. Folder names (Documents, Uploaded), filenames (data.txt, response.json), and extensions are all operator-configurable and changing any one evades the literals. Item-ID addressing (me/drive/items/{id}/content) is a fully valid Graph API call the rule never sees. The beta endpoint and sovereign clouds (graph.microsoft[.]us) are uncovered.
-
-- The structural problem beneath all of this: without TLS inspection on Graph traffic, RequestURL never contains the path, only the SNI hostname. Microsoft recommends bypassing inspection for Optimize-category O365 endpoints, so in many environments the rule is inert regardless of regex quality.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081666571743953164</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2081666571743953164">DFIR Radar</source>
-      <pubDate>Mon, 27 Jul 2026 09:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2081666571743953164</guid>
     </item>
   </channel>
 </rss>
