@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2026 21:04:38 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Aug 2026 22:03:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Weaponizing Windows Updates with NotWSUSpicious</title>
+      <link>https://specterops.io/blog/2026/08/05/weaponizing-windows-updates-with-notwsuspicious/</link>
+      <description>SpecterOps releases NotWSUSpicious, a tool that weaponizes enterprise WSUS servers configured with external MSSQL backends, turning the update pipeline into a payload delivery mechanism against any managed endpoint.
+
+Key details:
+
+- The attack requires WSUS to use an external MSSQL server with EPA disabled. PetitPotam coerces the WSUS computer account (WSUS1$) into authenticating to the attacker, ntlmrelayx relays that NTLM auth to MSSQL port 1433 via SOCKS, and a custom mssqlclient.py connects to the SUSDB database as the machine account (T1557.001, T1021.002).
+
+- NotWSUSpicious.py generates the full SQL stored-procedure chain: spImportUpdate, spSaveXmlFragment, spSetBatchURL, spCreateTargetGroup, spAddComputerToTargetGroup, and spDeployUpdate. The tool calculates SHA1 and SHA256 hashes of the payload and injects them into WSUS update metadata so the file passes integrity checks.
+
+- Payload delivery abuses BITS: a bundled BitsWebServer.py serves the malicious file over HTTP range requests, which WSUS fetches natively. The update appears legitimate to the target machine, which executes the payload at next check-in.
+
+- Detection opportunities: anomalous MSSQL sessions authenticating as a computer account (WSUS1$) to the SUSDB database, unexpected rows in SUSDB update tables with attacker-controlled GUIDs, and BITS traffic (HTTP 206 responses) from non-Microsoft hosts serving update files.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085124682911764782</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2085124682911764782">DFIR Radar</source>
+      <pubDate>Wed, 05 Aug 2026 22:03:59 +0000</pubDate>
+      <guid isPermaLink="false">2085124682911764782</guid>
+    </item>
     <item>
       <title>Shai-Hulud strikes again: CHAINDROP worm hits 400+ npm packages</title>
       <link>https://www.elastic.co/security-labs/shai-hulud-chaindrop-npm-supply-chain</link>
@@ -1735,17 +1756,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2081757239283519901">DFIR Radar</source>
       <pubDate>Mon, 27 Jul 2026 15:02:58 +0000</pubDate>
       <guid isPermaLink="false">2081757239283519901</guid>
-    </item>
-    <item>
-      <title>Vidar Malware: How the Multithreaded Windows Stealer Works</title>
-      <link>https://www.picussecurity.com/resource/blog/vidar-malware-how-the-multithreaded-windows-stealer-works</link>
-      <description>Vidar infostealer's new C rewrite adds a multithreaded engine and bypasses Chrome App-Bound Encryption by forking browser memory and injecting an APC to decrypt the master key.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081742027532759400</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2081742027532759400">DFIR Radar</source>
-      <pubDate>Mon, 27 Jul 2026 14:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2081742027532759400</guid>
     </item>
   </channel>
 </rss>
