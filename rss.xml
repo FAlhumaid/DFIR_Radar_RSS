@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2026 04:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Aug 2026 14:05:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Don’t Need Your Devices Anymore They Just Need Your Identity.</title>
+      <link>https://detect.fyi/attackers-dont-need-your-devices-anymore-they-just-need-your-identity-the-ba51f1cd6641?source=rss----d5fd8f494f6a---4</link>
+      <description>Identity-plane lateral movement bypasses EDR entirely: attackers pivot from a phished user to a rogue service principal to a victim's mailbox without ever touching a second device.
+
+- The attack chain runs across three identities, not machines. A stolen session token (AiTM phishing) gives the attacker a user context to enumerate the tenant via Graph API (GET /users, /groups, /directoryRoles), register a new Entra ID app with Mail.Read and Mail.Send, then use that service principal to read and reply from the CFO's mailbox. SPF and DKIM pass because the mail flows through Graph API legitimately.
+
+- Each stage lives in a different table. Stage 1 (token theft): IdentityLogonEvents and AADSignInEventsBeta. Stage 2 (recon): MicrosoftGraphActivityLogs, GET requests to enumeration endpoints. Stage 3 (pivot): CloudAppEvents, actions like "Add application" or "Add service principal credentials". Stage 4 (cross-identity access): CloudAppEvents where AccountType = "Application" hitting MailItemsAccessed or FileDownloaded.
+
+- Key pivot indicator: a non-admin user performing 3 or more distinct app registration or permission-grant actions within one hour in CloudAppEvents is a high-fidelity signal. Dormant service principals that suddenly receive new credentials with zero prior Graph activity are equally suspicious.
+
+Takeaway: Add the Identity-Plane Lateral Movement KQL from the article to your standard account-compromise runbook.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085004194675568828</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2085004194675568828">DFIR Radar</source>
+      <pubDate>Wed, 05 Aug 2026 14:05:13 +0000</pubDate>
+      <guid isPermaLink="false">2085004194675568828</guid>
+    </item>
     <item>
       <title>Agents vs. agents: how we triage HackerOne reports for $2 each, 85% as well as a human</title>
       <link>https://www.elastic.co/security-labs/ai-vulnerability-triage-bug-bounty-hackerone</link>
@@ -1711,25 +1730,6 @@ Update iLEAPP to the latest release before your next iOS exam. The new Biome par
       <source url="https://x.com/DFIR_Radar/status/2081424957737968101">DFIR Radar</source>
       <pubDate>Sun, 26 Jul 2026 17:02:36 +0000</pubDate>
       <guid isPermaLink="false">2081424957737968101</guid>
-    </item>
-    <item>
-      <title>Hackers Hijack Hotel Wi-Fi to Steal Microsoft 365 Credentials</title>
-      <link>https://securityaffairs.com/196017/security/hackers-hijack-hotel-wi-fi-to-steal-microsoft-365-credentials.html</link>
-      <description>APT28-linked actors hijack hotel and conference Wi-Fi gateways to steal Microsoft 365 credentials via DNS poisoning, active since at least June 2026 across the US 🇺🇸, India 🇮🇳, and Saudi Arabia 🇸🇦.
-
-- Attackers compromised Wi-Fi gateway management interfaces (exposed SSH, SNMP, web consoles) using weak or reused admin credentials, then poisoned DNS responses to redirect guests to credential-harvesting pages mimicking Microsoft 365 login. Fake domains include m365-owa[.]com and ms365-live[.]com. Targets span finance, law, healthcare, energy, and retail, anyone who travels for work.
-
-- Hardcoded DNS resolvers like 8.8.8.8 do not protect you here. The gateway rewrites DNS answers before they leave the network. Encrypted DNS in opportunistic mode (the default) also fails because it silently falls back to plaintext, and that fallback is exactly what gets hijacked. Only strict-mode DoH/DoT or a full-tunnel VPN closes the gap.
-
-- In roughly one-third of cases attackers also abused WPAD, tricking Windows into loading a malicious proxy config that routes all application traffic, not just auth, through attacker infrastructure. In a subset of cases they targeted the Microsoft device-code sign-in flow, walking away with MFA-cleared session tokens without ever needing a password.
-
-- ReliaQuest links tradecraft, not shared infrastructure, to APT28 (Fancy Bear / STRONTIUM) via overlap with the FrostArmada hotel-router campaign.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081379790301671848</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2081379790301671848">DFIR Radar</source>
-      <pubDate>Sun, 26 Jul 2026 14:03:07 +0000</pubDate>
-      <guid isPermaLink="false">2081379790301671848</guid>
     </item>
   </channel>
 </rss>
