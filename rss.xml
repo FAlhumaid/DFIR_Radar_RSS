@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2026 19:04:25 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Aug 2026 20:04:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Turning Enterprise Update Servers Into Backdoor Factories (0_o) – Part 1</title>
+      <link>https://specterops.io/blog/2026/08/05/turning-enterprise-update-servers-into-backdoor-factories-part-1/</link>
+      <description>WSUS NTLM relay technique weaponizes the upstream server's computer account to inject malicious updates directly into the SUSDB, enabling surgical payload delivery to individual targets without touching a domain controller.
+
+- When WSUS uses an external MSSQL backend, coercing the upstream WSUS computer account (e.g., WSUS1$) via PetitPotam and relaying with Ntlmrelayx grants a MSSQL session as that machine account. The account lands in the webService database role, which carries EXECUTE on stored procedures but no direct table access, so the entire attack chain runs through stored procedures only.
+
+- The attack chain calls six stored procedures in sequence: spImportUpdate (registers the malicious update with a custom UpdateXml payload), spSaveXmlFragment three times per update for UpdateIdentity, LocalizedProperties, and ExtendedProperties fragments, spSetBatchURL (points the file hash to an attacker-controlled download URL in tbFile), then spCreateTargetGroup and spAddComputerToTargetGroup to scope delivery to a single machine, and finally spDeployUpdate to approve and push the payload.
+
+- Surgical targeting is the key threat: spGetComputerTargetByName returns a ComputerID, which lets the attacker add one specific host to a custom TargetGroup. Only that host receives the malicious update, limiting noise and evading broad detection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085094728203137133</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2085094728203137133">DFIR Radar</source>
+      <pubDate>Wed, 05 Aug 2026 20:04:57 +0000</pubDate>
+      <guid isPermaLink="false">2085094728203137133</guid>
+    </item>
     <item>
       <title>Turning Enterprise Update Servers Into Backdoor Factories (0_o) – Part 2</title>
       <link>https://specterops.io/blog/2026/08/05/turning-enterprise-update-servers-into-backdoor-factories-part-2/</link>
@@ -1721,29 +1738,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2081726888146346018">DFIR Radar</source>
       <pubDate>Mon, 27 Jul 2026 13:02:22 +0000</pubDate>
       <guid isPermaLink="false">2081726888146346018</guid>
-    </item>
-    <item>
-      <title>GitLab Users Urged to Patch After Research Reveals Critical RCE Chain</title>
-      <link>https://securityaffairs.com/196062/hacking/gitlab-users-urged-to-patch-after-research-reveals-critical-rce-chain.html</link>
-      <description>Authenticated RCE on GitLab via chained Oj parser bugs: any user who can push and view diffs can execute commands as git, no admin or victim interaction required. Patch was silently shipped June 10.
-
-Key findings:
-
-- Attack chain: Jupyter notebook diff rendering passes raw repo bytes to Oj::Parser in a Puma worker. Two bugs, an out-of-bounds nesting stack write and a heap-pointer disclosure via truncated key length, are chained in a single diffs_stream request. Execution lands in system() with attacker-controlled arguments, running as the git account (T1190).
-
-- Scope: GitLab CE and EE 15.2.0 through 18.10.7, 18.11.0 through 18.11.4, and 19.0.0 through 19.0.1. Versions before 15.2 used a different parser and are not affected. Versions 15.2 through 18.9 are out of GitLab's patch trains and will not receive backports.
-
-- Impact: code execution as git exposes repository data, Rails secrets, service credentials, and internal services reachable by the application. Source-code disclosure, credential theft, repo modification, persistence, and lateral movement are all in scope.
-
-- The patch shipped June 10, 2026, buried in bug fixes, not the security table. Operators had no signal to treat it as urgent. A working public exploit dropped July 24. Treat this as actively exploitable.
-
-Upgrade to 18.10.8, 18.11.5, or 19.0.2 immediately. No configuration-only workaround is validated.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081711918046466438</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2081711918046466438">DFIR Radar</source>
-      <pubDate>Mon, 27 Jul 2026 12:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2081711918046466438</guid>
     </item>
   </channel>
 </rss>
