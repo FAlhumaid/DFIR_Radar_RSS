@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 05 Aug 2026 22:03:59 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Aug 2026 23:04:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>TP-Link Omada flaws could allow attackers to infiltrate industrial network infrastructure through zero-touch provisioning</title>
+      <link>https://industrialcyber.co/control-device-security/tp-link-omada-flaws-could-allow-attackers-to-infiltrate-industrial-network-infrastructure-through-zero-touch-provisioning/</link>
+      <description>15 new flaws in TP-Link Omada's Zero-Touch Provisioning platform chain together to compromise controllers, cloud services, and managed devices across enterprise and industrial networks at scale.
+
+Key findings:
+
+- Hard-coded private keys and TLS certs are the backbone of the chain: CVE-2025-15627 embeds a hardcoded private key in Omada protocol v1, CVE-2025-15628 does the same for a v2 TLS cert, and that same root key signs firmware updates across Omada, Festa, Tapo, Kasa, and VIGI product lines. One key extraction enables MitM across 70+ million app installs.
+
+- The attack chain runs from unauthenticated device adoption to root RCE. An external attacker enumerates sequential serial numbers (FSCT-2025-0011), races the cloud adoption handshake by spoofing a MAC (CVE-2025-15630), harvests credential hashes weakened by empty salts (CVE-2025-9290), then pivots to OS command injection as root via CVE-2025-7850.
+
+- Credential exposure is systemic: site passwords transmit in cleartext (CVE-2025-15544), device passwords are stored as unsalted MD5 encrypted with a hard-coded key (CVE-2025-15631), and the RC4 key protecting v1 protocol traffic is predictable (CVE-2025-15629).
+
+- VIGI surveillance and shared cloud accounts amplify blast radius. A compromised Omada cloud account can pivot into VIGI Cloud VMS, potentially exposing video feeds at critical facilities.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085139967899218275</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2085139967899218275">DFIR Radar</source>
+      <pubDate>Wed, 05 Aug 2026 23:04:43 +0000</pubDate>
+      <guid isPermaLink="false">2085139967899218275</guid>
+    </item>
     <item>
       <title>Weaponizing Windows Updates with NotWSUSpicious</title>
       <link>https://specterops.io/blog/2026/08/05/weaponizing-windows-updates-with-notwsuspicious/</link>
@@ -1735,27 +1756,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2081772309866491926">DFIR Radar</source>
       <pubDate>Mon, 27 Jul 2026 16:02:51 +0000</pubDate>
       <guid isPermaLink="false">2081772309866491926</guid>
-    </item>
-    <item>
-      <title>Detection primitives for eBPF rootkits</title>
-      <link>https://securitylabs.datadoghq.com/articles/detection-primitives-for-ebpf-rootkits/</link>
-      <description>eBPF rootkits VoidLink, LinkPro, and Atomic Arch abuse a small set of kernel helpers to defeat ss, bpftool, and ptrace. Load time is the one window where defenders hold the advantage.
-
-Key findings:
-
-- VoidLink hides TCP connections from ss by placing a kprobe/kretprobe pair around __sys_recvmsg and calling bpf_probe_write_user() to inflate a Netlink message length field. The hidden message is swallowed by its neighbor; NLMSG_OK never trips because the inflated length still fits within the buffer. The connection vanishes without breaking the parser.
-
-- LinkPro's Hide module hooks sys_enter_bpf and __x64_sys_bpf to intercept BPF_PROG_GET_NEXT_ID, BPF_MAP_GET_NEXT_ID, and BPF_LINK_GET_NEXT_ID calls, then fires bpf_override_return(ctx, -ENOENT) to truncate enumeration walks. Every program with a higher ID than the allowlist entry disappears from bpftool. A discrepancy between BPF_PROG_GET_NEXT_ID output and direct BPF_PROG_GET_FD_BY_ID lookups exposes this. LinkPro also writes "HIDING NEXT_ID: %u" to /sys/kernel/debug/tracing/trace_pipe on every interception.
-
-- Atomic Arch kills debuggers silently. Its tracepoint on tp/syscalls/sys_enter_ptrace checks for PTRACE_ATTACH or PTRACE_SEIZE, looks up the target PID in a hidden_pids map, and calls bpf_send_signal(SIGKILL) against the calling process. gdb or strace crashes with no explanation.
-
-- Load time is ground truth.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081757239283519901</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2081757239283519901">DFIR Radar</source>
-      <pubDate>Mon, 27 Jul 2026 15:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2081757239283519901</guid>
     </item>
   </channel>
 </rss>
