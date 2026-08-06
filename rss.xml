@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Aug 2026 03:05:23 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 04:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>22 Seconds to Compromise: How Automated SSH Actors Move From Login to Persistence Before You Can Blink &amp;#x5b;Guest Diary&amp;#x5d;, (Thu, Aug 6th)</title>
+      <link>https://isc.sans.edu/diary/rss/33220</link>
+      <description>A Cowrie SSH honeypot captured a fully automated intrusion that went from credential auth to persistent backdoor in 22 seconds, part of the ongoing mdrfckr campaign with 93 confirmed active IPs still scanning weeks later.
+
+- At 01:06:43 UTC on May 23, 2026, IP 163.7.8[.]79 (Byteplus, AS150436) authenticated as root using "Aa123123123", then executed a pre-scripted playbook: wiped and recreated .ssh/, injected a backdoor key (SHA256: a8460f446be540410004b1a8db4083773fa46f7fe76fa84219c93daa1669f8f2), changed the root password, and cleared hosts.deny. All of it in 22 seconds. No human hesitation, no exploration.
+
+- The session maps cleanly to T1078 (Valid Accounts), T1098 (Account Manipulation via authorized_keys), T1059 (Command Execution), and T1562 (Impair Defenses). Deleting the existing .ssh dir before re-creating it is the tell: the actor evicts all prior keys to ensure exclusive access.
+
+- 21 successful logins from 21 distinct IPs hit the honeypot in one 24-hour window, clustered 01:00-02:30 UTC, with a coordinated /24 subnet block (80.94.92[.]171, 80.94.92[.]184, 80.94.92[.]186) generating high-volume sessions simultaneously. This is distributed scanning infrastructure, not opportunistic individuals.
+
+- 93 IPs from the documented mdrfckr campaign list were still actively hitting the sensor weeks after first observation. AbuseIPDB shows 163.7.8[.]79 at 100% abuse confidence with 5,700+ reported incidents.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085214942160908664</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2085214942160908664">DFIR Radar</source>
+      <pubDate>Thu, 06 Aug 2026 04:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2085214942160908664</guid>
+    </item>
     <item>
       <title>Trojanized npm Packages Employ NullReceiver Tactic to Decode C2 IP from Blockchain</title>
       <link>https://thehackernews.com/2026/08/trojanized-npm-packages-decode-c2-ip.html</link>
@@ -1729,27 +1748,6 @@ Full IOC list and mitigation guidance are in the joint CISA/NSA/FBI advisory.
       <source url="https://x.com/DFIR_Radar/status/2081847852763144211">DFIR Radar</source>
       <pubDate>Mon, 27 Jul 2026 21:03:02 +0000</pubDate>
       <guid isPermaLink="false">2081847852763144211</guid>
-    </item>
-    <item>
-      <title>Azure VM Command Execution using Third-Party Extensions – Salt Minion</title>
-      <link>https://www.netspi.com/blog/technical-blog/cloud-pentesting/azure-vm-command-execution-using-third-party-extensions-part-2/</link>
-      <description>Abusing the Salt Minion Azure VM extension lets an attacker with extensions/write push arbitrary commands as root via a rogue Salt Master, with no licensing or cookbook infra required.
-
-Key findings:
-
-- Any principal holding Microsoft.Compute/virtualMachines/extensions/write (Owner, Contributor, Virtual Machine Contributor, Log Analytics Contributor, and several lesser-known roles like Defender Servers P1/P2 and VM Restore Operator) can deploy the Salt Minion extension (publisher: turtletraction.oss) pointing at an attacker-controlled master. The minion calls out over ZeroMQ on ports 4505/4506, accepts the master key, and executes pushed states as root/SYSTEM with no interactive session.
-
-- The demo payload hits the IMDS endpoint at 169.254.169[.]254 to steal the VM Managed Identity OAuth token, then exfiltrates it outbound. Once the minion key is accepted, arbitrary cmd.run commands run without deploying a new state file at all.
-
-- On Linux, forensic gold is in /var/log/salt/minion. Grep for cmd.run to see every executed command with timestamps and job IDs. Auditd confirms execution: uid=0, auid=4294967295 (no login session), tty=(none), with salt-minion python process as the ancestor via ppid tracing. On Windows, watch for the Salt Minion python process spawning cmd.exe.
-
-- Azure Activity Log is your first pivot.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2081832763351527622</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2081832763351527622">DFIR Radar</source>
-      <pubDate>Mon, 27 Jul 2026 20:03:05 +0000</pubDate>
-      <guid isPermaLink="false">2081832763351527622</guid>
     </item>
   </channel>
 </rss>
