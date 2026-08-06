@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Aug 2026 22:03:40 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 23:03:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ChainDrop: Inside a Self-Propagating npm Worm</title>
+      <link>https://unit42.paloaltonetworks.com/chaindrop-npm-worm-analysis/</link>
+      <description>ChainDrop is a self-propagating npm worm that steals GitHub Actions runner secrets and uses Ethereum smart contracts for C2, marking a shift in supply chain attack sophistication.
+
+- ChainDrop spreads by compromising npm packages and injecting malicious code that executes during install-time lifecycle hooks (postinstall), targeting any developer or CI/CD pipeline that installs an infected dependency.
+
+- The worm targets GitHub Actions runner environments specifically, extracting secrets and tokens from the runner context, meaning a single poisoned dependency in a workflow can expose repository secrets, cloud credentials, and signing keys.
+
+- C2 routing uses Ethereum smart contracts rather than hardcoded domains or IPs, making traditional domain-based blocklists and DNS sinkholes ineffective. The attacker updates the C2 endpoint by writing to the blockchain, and the malware reads it on-chain.
+
+- For DFIR, key artifacts include postinstall scripts in package.json, unexpected outbound connections to Ethereum RPC endpoints from CI runners, and anomalous environment variable access (process.env) in Node.js child processes during build jobs.
+
+Audit your npm dependency tree for unexpected postinstall hooks. In GitHub Actions, review runner logs for outbound calls to Ethereum JSON-RPC endpoints and treat any exposed GITHUB_TOKEN or cloud secret as fully compromised. IOC list and full technical details in the Unit 42 report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085501984052789623</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2085501984052789623">DFIR Radar</source>
+      <pubDate>Thu, 06 Aug 2026 23:03:15 +0000</pubDate>
+      <guid isPermaLink="false">2085501984052789623</guid>
+    </item>
     <item>
       <title>UNC6671 Rebrands: Multi-Brand Vishing Extortion Targets Financial Services and Enterprise Cloud Environments</title>
       <link>https://cloud.google.com/blog/topics/threat-intelligence/unc6671-targets-financial-services-and-enterprise-cloud-environments/</link>
@@ -1711,25 +1732,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2083344885726220629">DFIR Radar</source>
       <pubDate>Sat, 01 Aug 2026 00:11:42 +0000</pubDate>
       <guid isPermaLink="false">2083344885726220629</guid>
-    </item>
-    <item>
-      <title>Chaos in Teams vishing</title>
-      <link>https://www.sophos.com/en-us/blog/chaos-in-teams-vishing</link>
-      <description>STAC4749 used Microsoft Teams vishing to hit dozens of North American orgs from February to June 2026, deploying a custom loader, PyArmor backdoor, and Golang implants before landing Chaos ransomware in under 17 hours.
-
-- Initial access came via Teams calls from IT-themed .top domains (sequrityupdate[.]top, corp-connect[.]top, scan-security[.]top, supportsoft[.]top and others) using plausible employee personas. Attackers steered victims toward Quick Assist or RemSupp RMM, then enabled RDP via msconfig to move laterally. Call duration averaged just 2 minutes, meaning the social engineering window is extremely short.
-
-- Persistence landed in HKCU Run keys masquerading as Realtek and WinAudio components, pointing to payloads in AppData\Roaming (helper*.exe, 74fs*.exe, msupdate.exe, path1.exe). Secondary persistence used mklink-%.vbs scripts creating hidden Startup folder shortcuts disguised as SecurityHealth and OneDriveUpdate.
-
-- The PyArmor/PyInstaller backdoor fetched its AES key from a public GitHub repo, decrypted config, and beaconed to Cloudflare-fronted payload domains (fa5.flsdwnld[.]online and clusters using filesdwnld, fldwnld, artcnb naming). Golang implants launched with --token-raw arguments used pinned CA certificates (loop-CA, connectify-CA, james-bond-CA) tying payloads to specific C2 servers (193.29.57[.]37).
-
-- Chaos RaaS deployed in at least 3 intrusions, dropping readme.chaos.txt ransom notes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2082104649830879717</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2082104649830879717">DFIR Radar</source>
-      <pubDate>Tue, 28 Jul 2026 14:03:27 +0000</pubDate>
-      <guid isPermaLink="false">2082104649830879717</guid>
     </item>
   </channel>
 </rss>
