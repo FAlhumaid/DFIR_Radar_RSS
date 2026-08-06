@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Aug 2026 12:03:58 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 13:04:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>(TLP:CLEAR) Vulnerability Notification – N-able N-central Authentication Bypass Actively Exploited</title>
+      <link>https://www.waterisac.org/tlpclear-vulnerability-notification-n-able-n-central-authentication-bypass-actively-exploited</link>
+      <description>CVE-2026-18556 and CVE-2026-18577 (CVSS 8.2) in N-able N-central are actively exploited, giving attackers unauthenticated admin access to RMM servers and every downstream managed endpoint.
+
+- Two auth bypass flaws let an unauthenticated remote attacker gain full administrative control of N-central. N-able confirmed active exploitation on Aug 1, 2026. The first clean build is 2026.3.1.7; upgrading only to 2026.3 is NOT sufficient, as CVE-2026-18577 persisted through 2026.3.1.
+
+- Attackers abused N-central's built-in Take Control feature to reach managed endpoints, then registered a Cloudflare tunnel service for persistent access. Persistence lives on the downstream endpoint, not the RMM server, so patching N-central alone does not evict an attacker already inside.
+
+- Hunt for unexpected cloudflared services or svchost.exe running from a user's Documents folder. Review N-central ui_access_control.log and endpoint logs at C:\ProgramData\GetSupportService_N-Central\Logs\BASupSrvc_*.log.gz for unaccountable Take Control sessions, especially tied to apparent N-able support identities.
+
+- Published IOCs include IPs 173.249.252[.]200, 87.249.138[.]34, 37.19.210[.]32, 37.153.90[.]88, 92.118.112[.]181, 68.235.46[.]214 and domains mousears.synology[.]me and wagoosh.direct.quickconnect[.]to. Huntress notes the first four IPs are Mullvad/NordVPN exit nodes, so treat blocking as partial only.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085351328138567909</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2085351328138567909">DFIR Radar</source>
+      <pubDate>Thu, 06 Aug 2026 13:04:36 +0000</pubDate>
+      <guid isPermaLink="false">2085351328138567909</guid>
+    </item>
     <item>
       <title>DEW #166 - Figma's Agentic SecOps, AI-EDRs and Anthropic Evals Breaking into Companies</title>
       <link>https://www.detectionengineering.net/p/dew-166-figmas-agentic-secops-ai</link>
@@ -1729,27 +1748,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2082029132066476238">DFIR Radar</source>
       <pubDate>Tue, 28 Jul 2026 09:03:22 +0000</pubDate>
       <guid isPermaLink="false">2082029132066476238</guid>
-    </item>
-    <item>
-      <title>What Copilot and Gemini Leave Behind</title>
-      <link>https://andreafortuna.org/2026/07/28/browser-ai-forensics/</link>
-      <description>Browser-integrated AI assistants like Copilot and Gemini are persistent, storage-backed subsystems that leave forensic artifacts most examiners do not yet know where to look for.
-
-Key findings:
-
-- Copilot in Edge persists conversational state across IndexedDB at %LocalAppData%\Microsoft\Edge\User Data\Default\IndexedDB, Service Worker CacheStorage, and the legacy WebCacheV01.dat ESE database. The Container_n tables in WebCacheV01.dat record HTTP-level metadata for Copilot API calls, including timestamps and endpoint hosts. Searching those tables for "copilot" or the internal codename "sydney" gives you a fallback timeline even when IndexedDB has been cleared.
-
-- Gemini in Chrome stores session data at %LocalAppData%\Google\Chrome\User Data\Default\IndexedDB\https_gemini.google[.]com_0.indexeddb.leveldb. The Sync Data LevelDB store is the most overlooked artifact: if sync was enabled, it holds a pre-upload snapshot that may differ from what a cloud legal request returns.
-
-- Standard "clear browsing data" does not atomically wipe IndexedDB. Chromium marks records for deletion and relies on LevelDB compaction, so unallocated blocks frequently retain recoverable conversation fragments. Session restore and crash dump files can preserve side-panel content independently of any clearing routine.
-
-- Malicious browser extensions have already been documented harvesting LLM chat histories directly from IndexedDB and Service Worker storage.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2082013827076374535</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2082013827076374535">DFIR Radar</source>
-      <pubDate>Tue, 28 Jul 2026 08:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2082013827076374535</guid>
     </item>
   </channel>
 </rss>
