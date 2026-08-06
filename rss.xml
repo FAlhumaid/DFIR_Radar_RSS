@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Aug 2026 21:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 22:03:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>UNC6671 Rebrands: Multi-Brand Vishing Extortion Targets Financial Services and Enterprise Cloud Environments</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/unc6671-targets-financial-services-and-enterprise-cloud-environments/</link>
+      <description>UNC6671 did not retire with BlackFile: it rebranded across Redact, Pink, Helix, and Falcon, accelerating vishing-driven cloud extortion against financial services and private equity targets through mid-2026.
+
+- UNC6671 calls employees on personal mobile numbers, spoofs legitimate helpdesk numbers, and directs victims to AiTM credential-harvesting subdomains (e.g., [company].createssopasskey[.]com, [company].addssopasskey[.]com) to steal M365 and Okta session tokens. Post-compromise, automated scripts exfiltrate SaaS data while operators delete password-reset confirmations, security alerts, and MFA-change notifications to suppress detection (T1070).
+
+- Shared infrastructure ties all five brands together: passkeyhelpdesk[.]com targeted both Falcon and Helix victims simultaneously; setupsso[.]com and idokta[.]com bridged to BlackFile; passkeyms[.]com and mysecurepasskey[.]com bridged to Pink. Domain provisioning accelerated to one every 1.6 days in June-July 2026, with seven domains stood up in a 72-hour window July 20-22.
+
+- Blockchain analysis of 18 BlackFile wallets from January-May 2026 shows 141.65 BTC received (~$10.69M USD). Final payments averaged $750K in over 53% of tracked cases, and payments continued past the May 11 "shutdown" announcement confirming rebranding was financial cover, not retirement.
+
+- Hunt in Okta and Entra ID audit logs for system.multifactor.factor.setup events immediately preceded by user.authentication.auth_via_mfa failures.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085486991127564683</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2085486991127564683">DFIR Radar</source>
+      <pubDate>Thu, 06 Aug 2026 22:03:40 +0000</pubDate>
+      <guid isPermaLink="false">2085486991127564683</guid>
+    </item>
     <item>
       <title>(TLP:CLEAR) Backdoor Identified in Chinese-Made Zbtlink Router Firmware – ENDLESSDOORS</title>
       <link>https://www.waterisac.org/tlpclear-backdoor-identified-in-chinese-made-zbtlink-router-firmware-endlessdoors</link>
@@ -1711,25 +1730,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2082104649830879717">DFIR Radar</source>
       <pubDate>Tue, 28 Jul 2026 14:03:27 +0000</pubDate>
       <guid isPermaLink="false">2082104649830879717</guid>
-    </item>
-    <item>
-      <title>After the Signal Fix: Exploring Apple's notificationAndSuggestionDB.db</title>
-      <link>https://blog.digital-forensics.it/2026/07/after-signal-fix-exploring-apples.html</link>
-      <description>A newly documented iOS SQLite database inside DuetExpertCenter retains notification metadata across 36 fields for up to 60 days, outlasting Biome streams and surviving app deletion and message wipe.
-
-- notificationAndSuggestionDB.db lives at /private/var/mobile/Library/DuetExpertCenter/streams/ and has been confirmed on iOS 15 through iOS 26 in both lab and real-world images. No notification content is stored, but the "notifications" table logs BundleID, ThreadID, ContactID, rawIdentifier, received/outcome timestamps (MAC Absolute), isMessage, isGroupMessage, deliveryReason, and urgency across 36 columns.
-
-- For WhatsApp, ThreadID holds the chat JID (e.g., 393331234567@s.whatsapp[.]net) and rawIdentifier often carries the raw phone number. Signal records follow the same pattern with rawIdentifier mapping to the remote sender. SMS flips it: the phone number surfaces in ThreadID instead.
-
-- The ~60-day retention window matters because Biome notification streams typically age out around 28 days. Even after the source app is uninstalled or the message deleted, this DB can still place a specific BundleID receiving a notification at a precise timestamp, establishing communication activity without recovering content.
-
-- iLEAPP now ships a dedicated parser for this artifact. Investigators on the latest build can process it immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2082089528471494827</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2082089528471494827">DFIR Radar</source>
-      <pubDate>Tue, 28 Jul 2026 13:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2082089528471494827</guid>
     </item>
   </channel>
 </rss>
