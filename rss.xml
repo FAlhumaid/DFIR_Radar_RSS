@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 07 Aug 2026 10:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 11:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Researchers Discover Hidden Backdoor in 20 Router Models Allowing Remote Root Access</title>
+      <link>https://securityaffairs.com/196785/security/researchers-discover-hidden-backdoor-in-20-router-models-allowing-remote-root-access.html</link>
+      <description>A vendor-built backdoor named ENDLESSDOORS ships across 20 Zbtlink router models, granting unauthenticated remote root access via outbound connections that bypass firewalls entirely. No patch exists.
+
+- ENDLESSDOORS is built on rctl, a dormant 2015 open-source tool. Two userland processes masquerade as kernel threads named kworker (unbracketed, with real memory footprints) and launch automatically at boot via an init script called skworker. The implant dials out, so NAT and perimeter firewalls offer zero protection.
+
+- The protocol is deliberately minimal: the router sends a 39-byte hello containing a class label and its LAN MAC address, with no handshake, no key exchange, and no verification. The server responds with shell commands executed as uid 0 via popen(). The reserved string rctlbash opens a second connection to port 7001 and spawns a live /bin/sh pseudo-terminal root shell.
+
+- Four C2 endpoints serve the entire affected fleet: zbtctl.epplink[.]net resolving to 47.100.190[.]96 (Alibaba Cloud), hardcoded IP 47.107.224[.]89 (Alibaba Cloud), online-string[.]com resolving to 45.32.81[.]152 (Vultr), and rbdg4nzqadui.wikaba[.]com resolving to 43.248.136[.]125 (Jiangsu Dongyun Cloud).
+
+- Zbtlink markets hardware under Wiflyer, ZBT, and ZBTWiFi on Amazon, Alibaba, and Shopify. The vendor claims the backdoor was a maintenance feature limited to sample units, then quietly pulled firmware downloads, undermining that explanation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085683148742865323</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2085683148742865323">DFIR Radar</source>
+      <pubDate>Fri, 07 Aug 2026 11:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2085683148742865323</guid>
+    </item>
     <item>
       <title>Shai-Hulud Returns: ChainDrop Worm Hits npm, Infecting Hundreds of Packages</title>
       <link>https://www.opswat.com/blog/shai-hulud-returns-chaindrop-worm-hits-npm-infecting-hundreds-of-packages</link>
@@ -1627,29 +1646,6 @@ Immediately audit internet-facing PLCs. Disconnect direct public exposure, enfor
       <source url="https://x.com/DFIR_Radar/status/2083523806816256099">DFIR Radar</source>
       <pubDate>Sat, 01 Aug 2026 12:02:40 +0000</pubDate>
       <guid isPermaLink="false">2083523806816256099</guid>
-    </item>
-    <item>
-      <title>CosmosEscape: Taking Over Every Database in Azure Cosmos DB</title>
-      <link>https://www.wiz.io/blog/cosmosescape-taking-over-every-database-in-azure-cosmos-db</link>
-      <description>CosmosEscape: a Gremlin API sandbox escape in Azure Cosmos DB could have exposed every customer database on the platform, including Microsoft's own Entra ID, Teams, and Copilot data stores.
-
-Key findings:
-
-- The root cause was insufficient .NET reflection restrictions in Cosmos DB's custom Gremlin query engine. A crafted Gremlin query bypassed the sandbox, achieving arbitrary code execution on the multi-tenant DB Gateway (Service Fabric clusters) that processes customer queries.
-
-- From that foothold, Wiz recovered the "Cosmos Master Key," a platform-wide signing key that could retrieve the primary key of any Cosmos DB account across all tenants, regions, and API types (SQL, MongoDB, Cassandra, Gremlin) via publicly accessible endpoints.
-
-- The Master Key also unlocked the Config Store, a Cosmos DB database acting as a global account directory containing account names, subscription IDs, tenant IDs, and network settings. An attacker could enumerate all accounts in a region or filter by org identifiers, then pull primary keys for targeted databases.
-
-- Network-isolated and private Cosmos DB accounts were equally affected: the DB Gateway enforces network isolation, so owning it bypassed those controls entirely. Write access to the Config Store could also have overwritten isolation settings.
-
-- Disclosed Nov 20, 2025. Microsoft hotfixed the Gremlin API entry point within 48 hours. Full architectural remediation completed July 2026.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083508804872765671</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2083508804872765671">DFIR Radar</source>
-      <pubDate>Sat, 01 Aug 2026 11:03:04 +0000</pubDate>
-      <guid isPermaLink="false">2083508804872765671</guid>
     </item>
   </channel>
 </rss>
