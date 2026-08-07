@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 07 Aug 2026 12:02:37 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 13:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The security signal log tailing can't see: tracking npm cooldown removals with Elastic Agent</title>
+      <link>https://www.elastic.co/security-labs/npm-cooldown-removal-detection-elastic-agent</link>
+      <description>Elastic Security Labs built a CEL-based Elastic Agent integration to detect silent removal of npm's min-release-age supply-chain cooldown setting from developer workstations, closing a gap filestream cannot see.
+
+Key findings:
+
+- npm's min-release-age setting (available since npm 11.10) maps directly to T1195.001 (Compromise Software Dependencies and Development Tools). It blocks freshly published, potentially compromised packages from resolving during the highest-risk window. The danger is silent removal: a developer or script can delete the line from ~/.npmrc and filestream-based monitoring never fires because filestream only emits on append, not on content removal.
+
+- The CEL integration snapshots every .npmrc on a 6-hour heartbeat, hashes the content, and marks cooldown.absent = true in the next snapshot when min-release-age is gone. An agent-side JavaScript processor strips registry auth tokens before any data leaves the host, so //registry.npmjs.org/:_authToken lines never reach Elasticsearch.
+
+- Three filestream failures drove the switch: files under 1024 bytes are silently held back by the default fingerprint identity (switch to native/inode), clean_inactive and ignore_older must both be set to get periodic re-emission, and removal events simply never arrive.
+
+- The adoption dashboard requires a heartbeat model, not emit-on-change. One-shot events age out of the time window and make adoption appear to erode when the setting is still in place.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085713313787175193</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2085713313787175193">DFIR Radar</source>
+      <pubDate>Fri, 07 Aug 2026 13:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2085713313787175193</guid>
+    </item>
     <item>
       <title>Ransomware Threats in Europe H1 2026: A Deep Dive into Regional Attack Patterns and Dominant Threat Actors</title>
       <link>https://cyble.com/blog/ransomware-threats-in-europe-h1-2026/</link>
@@ -1617,27 +1638,6 @@ Patch to Active Storage 7.2.3.2, 8.0.5.1, or 8.1.3.1 AND upgrade libvips to 8.13
       <source url="https://x.com/DFIR_Radar/status/2083569165911097775">DFIR Radar</source>
       <pubDate>Sat, 01 Aug 2026 15:02:55 +0000</pubDate>
       <guid isPermaLink="false">2083569165911097775</guid>
-    </item>
-    <item>
-      <title>TeamPCP: How a Cloud Exploitation Group Evolved Into a Supply Chain Threat</title>
-      <link>https://threatmon.io/teampcp-how-a-cloud-exploitation-group-evolved-into-a-supply-chain-threat/</link>
-      <description>TeamPCP compromised 1,000+ organizations by pivoting from cloud cryptomining to cascading supply chain attacks, poisoning Trivy, npm, PyPI, and VS Code extensions in a single interconnected operation.
-
-- On Feb 27, 2026, a TeamPCP affiliate stole a PAT from Trivy's CI/CD pipeline. Incomplete credential rotation left residual access, and by March 19 they pushed malicious version 0.69.4 across GitHub Releases, Docker Hub, AWS ECR, and GitHub Container Registry, automatically harvesting credentials from every downstream pipeline that pulled it.
-
-- Stolen tokens triggered CanisterWorm, a self-propagating worm that poisoned dozens of npm packages in under a minute. Those credentials then enabled attacks on Checkmarx, PyPI, and LiteLLM (95M+ monthly downloads), plus simultaneous poisoning of Docker Hub, VS Code extensions, and GitHub Actions. Every breach funded the next.
-
-- C2 ran through Internet Computer Protocol blockchain canisters, reportedly the first documented use of blockchain for C2, making infrastructure takedowns ineffective while fallback nodes stayed live.
-
-- Monetization ran two tracks: a partnership with Vect RaaS offering affiliates 80-88% of ransoms, and their own CipherForge brand. Result: 500,000 credentials stolen, 300+ GB exfiltrated, victims including the European Commission.
-
-Pin all CI/CD dependencies to immutable commit SHAs, rotate credentials atomically from clean hosts, and audit CI runner egress.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083538954591011171</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2083538954591011171">DFIR Radar</source>
-      <pubDate>Sat, 01 Aug 2026 13:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2083538954591011171</guid>
     </item>
   </channel>
 </rss>
