@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 07 Aug 2026 14:03:03 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 15:02:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>July 2026 Detection Highlights: 10 New VTIs, 50+ YARA Rules, and 4 Config Extractors</title>
+      <link>https://www.vmray.com/july-2026-detection-highlights-10-new-vtis-50-yara-rules-and-4-config-extractors/</link>
+      <description>VMRay Labs ships 10 new VTIs, 50+ YARA rules, and 4 config extractors in July 2026, covering phishing kit fingerprinting, botnet C2 resilience, and a broad sweep of new stealer and loader families.
+
+- New VTIs target evasive infrastructure techniques: Web3 dead drop resolution (T1102.001) now flagged when phishing pages query smart contracts to retrieve next-stage addresses, a tactic observed in a live ClickFix campaign. Multi-step redirect chains get a heuristic VTI when navigation passes through an unusually long sequence of legitimate forwarders. Backup C2 config retrieval is now detected when a process fetches an updated list of alternative C2 domains at runtime.
+
+- Phishing kit behavioral fingerprinting added for both Sneaky2FA and Tycoon2FA: VMRay correlates challenge-response flows, hidden obfuscated resources, anti-analysis evasion attempts, and fake CAPTCHA sequences into meta VTIs rather than treating each signal in isolation. Brand impersonation now flagged by comparing sender display name against originating domain.
+
+- Phorpiex gets a dedicated UDP peer-to-peer VTI (T1095) detecting a process listening on a port while contacting an unusually large number of peers, plus a new config extractor. Config extractors also added for NetSupport Manager, ScreenConnect, and ValleyRAT (aka Winos), a Chinese-language-targeting C++ backdoor active since 2023.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085743468945568245</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2085743468945568245">DFIR Radar</source>
+      <pubDate>Fri, 07 Aug 2026 15:02:49 +0000</pubDate>
+      <guid isPermaLink="false">2085743468945568245</guid>
+    </item>
     <item>
       <title>Beyond ‘Fake Updates’: From Application Store-Themed Phishing to Large-Scale Distribution of ScreenConnect</title>
       <link>https://www.levelblue.com/blogs/spiderlabs-blog/beyond-fake-updates-from-application-store-themed-phishing-to-large-scale-distribution-of-screenconnect</link>
@@ -1609,27 +1626,6 @@ Defenders should prioritize detections on VSS deletion via vssadmin or WMI, Defe
       <source url="https://x.com/DFIR_Radar/status/2083599528511344779">DFIR Radar</source>
       <pubDate>Sat, 01 Aug 2026 17:03:34 +0000</pubDate>
       <guid isPermaLink="false">2083599528511344779</guid>
-    </item>
-    <item>
-      <title>KindaRails2Shell: CVE-2026-66066, Critical Arbitrary File Read and Possible Remote Code Execution in Ruby on Rails</title>
-      <link>https://www.rapid7.com/blog/post/etr-kindarails2shell-cve-2026-66066-critical-arbitrary-file-read-and-possible-remote-code-execution-in-ruby-on-rails</link>
-      <description>CVE-2026-66066 (CVSS 9.5) hits Ruby on Rails Active Storage via libvips: unauthenticated arbitrary file read with verified RCE escalation path. Patch urgently, forensic evidence may already be disappearing.
-
-- CVE-2026-66066 (CWE-1188, CVSSv4 9.5) affects Rails 7.0+ by default and Rails 6.x under non-default Vips config. Active Storage failed to disable libvips "untrusted" operations before processing user uploads. Only Vips processor is affected; Magick is not.
-
-- Attack chain: attacker uploads a file via the direct-upload endpoint masquerading as an image but structured as both a MATLAB level 5 and MAT 7.3 HDF5 container. HDF5's External File List reads bytes from an attacker-chosen path, returned as image pixel data. Requires the matload operation in the deployed libvips build. Direct-upload route is present by default even when the app UI does not use it.
-
-- Rapid7 verified an RCE escalation: recovered Rails signing material is used to forge an ImageProcessing 1.x variation key. No Marshal deserialization required. Replacing secret_key_base, Rails master key, storage credentials, and DB credentials is mandatory post-incident.
-
-- Rails published forensic tools to identify vulnerable apps and scan Active Storage blobs for crafted files. Scheduled cleanup of unattached blobs may destroy evidence, begin forensic review now.
-
-Patch to Active Storage 7.2.3.2, 8.0.5.1, or 8.1.3.1 AND upgrade libvips to 8.13+. Rails patch alone is insufficient on older libvips.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083584251451130038</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2083584251451130038">DFIR Radar</source>
-      <pubDate>Sat, 01 Aug 2026 16:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2083584251451130038</guid>
     </item>
   </channel>
 </rss>
