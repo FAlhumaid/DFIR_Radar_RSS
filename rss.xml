@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 07 Aug 2026 15:02:49 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 16:03:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rapid7 Analysis: Unauthenticated Remote Code Execution in JetBrains TeamCity (CVE-2026-63077)</title>
+      <link>https://www.rapid7.com/blog/post/ra-unauthenticated-rce-in-jetbrains-teamcity-cve-2026-63077</link>
+      <description>CVE-2026-63077 in JetBrains TeamCity is a critical unauthenticated RCE via unsafe XStream deserialization, now confirmed exploited in the wild and added to CISA KEV on August 5, 2026. Patch to 2026.1.3 immediately.
+
+- CVE-2026-63077 affects TeamCity through 2026.1.2. The root cause: XStreamHolder.setupSecurityIfNeeded() appended TeamCity's allowlist on top of XStream's default permissions rather than replacing them, leaving Map and Throwable hierarchies open. The patch inserts xstream.addPermission(NoTypePermission.NONE) before populating the allowlist, making it deny-by-default.
+
+- Attack chain requires two unauthenticated HTTP requests: POST to /app/agents/v1/register to obtain a session ID, then POST a crafted XML gadget chain to /app/agents/v1/commands/error. The gadget routes through HSQLMetadataStorage$SchemaMismatchException, BasicDataSource, FreeMarker BooleanModel, and TiedMapEntry to invoke BasicDataSource.getConnection(), which executes attacker SQL that writes a .jspws webshell into TeamCity's webroot for code execution.
+
+- Key forensic artifacts: teamcity-server.log will show ConversionException errors referencing freemarker.core._TemplateModelException, BasicDataSource wrapped into f.e.b.BooleanModel, and the path /linked-hash-map/entry[3]/set/org.apache.commons.collections.keyvalue.TiedMapEntry on POSTs to /app/agents/v1/commands/error. The javaLogging file will contain an HsqlException naming the dropped .jspws file path.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085758662837186959</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2085758662837186959">DFIR Radar</source>
+      <pubDate>Fri, 07 Aug 2026 16:03:12 +0000</pubDate>
+      <guid isPermaLink="false">2085758662837186959</guid>
+    </item>
     <item>
       <title>July 2026 Detection Highlights: 10 New VTIs, 50+ YARA Rules, and 4 Config Extractors</title>
       <link>https://www.vmray.com/july-2026-detection-highlights-10-new-vtis-50-yara-rules-and-4-config-extractors/</link>
@@ -1609,23 +1626,6 @@ Defenders should prioritize detections on VSS deletion via vssadmin or WMI, Defe
       <source url="https://x.com/DFIR_Radar/status/2083614422443188276">DFIR Radar</source>
       <pubDate>Sat, 01 Aug 2026 18:02:45 +0000</pubDate>
       <guid isPermaLink="false">2083614422443188276</guid>
-    </item>
-    <item>
-      <title>From WSProxy to Root: INC ransomware and SonicWall SMA Exploit Chain</title>
-      <link>https://www.resecurity.com/blog/article/from-wsproxy-to-root-inc-ransomware-and-sonicwall-sma-exploit-chain</link>
-      <description>SonicWall SMA 1000 zero-day chain CVE-2026-15409 (CVSS 10.0) + CVE-2026-15410 (CVSS 7.2) weaponized by INC Ransomware, actively exploited since June 22, 2026, before patch release. Both CVEs are in CISA KEV.
-
-- CVE-2026-15409 is a pre-auth WebSocket proxy bypass: an attacker sends a crafted GET to /wsproxy with User-Agent "SMA Connect Agent" and bmID=-3389, tunneling directly to localhost:1050 (Erlang/CouchDB) or localhost:8188 (ctrl-service). No credentials, no MFA, no session needed. CVE-2026-15410 is a path-traversal in the remove_hotfix workflow: supplying hotfix=../../../../../tmp/1234.sh causes ctrl-service to chmod and execute the file as root. Chained, these go from unauthenticated HTTP request to root shell.
-
-- Post-exploitation toolkit: ROOTRUN (setuid ELF at /usr/bin/xzfind, SHA256: 81a9af38...), KNUCKLEBALL (Python loader at /usr/lib/python3.11/site-packages/deploy_new.py), Suo5 (/tmp/agent_wp8.jar), and ORANGETAIL (/tmp/agent_wp9.jar), a Behinder-style Java web shell using AES-128-ECB. Both implants gate on a spoofed User-Agent: Mozilla/6.0 (Windows NT 11.0; Win64; x64)... Chrome/149.0.0.1. Persistence survives reboots via /etc/init.d/workplace and /var/lib/unit/conf.json rewrites.
-
-- Credential harvesting confirmed: /var/tmp/lib.sh launches tcpdump on TCP/389 to capture plaintext LDAP binds. INC Ransomware has listed new victims from the US 🇺🇸, Australia 🇦🇺, UAE 🇦🇪, and others on its DLS since July 17.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083599528511344779</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2083599528511344779">DFIR Radar</source>
-      <pubDate>Sat, 01 Aug 2026 17:03:34 +0000</pubDate>
-      <guid isPermaLink="false">2083599528511344779</guid>
     </item>
   </channel>
 </rss>
