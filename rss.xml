@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Aug 2026 23:03:15 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 00:02:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>OctLurk and SilkLurk: Analysis of a Modular Cyber Espionage Framework</title>
+      <link>https://blog.polyswarm.io/octlurk-and-silklurk-analysis-of-a-modular-cyber-espionage-framework</link>
+      <description>Chinese-linked espionage campaign deploys two undocumented backdoors, OctLurk and SilkLurk, against government and public-sector targets across Central Asia and the Middle East, with Afghanistan and Syria also in scope.
+
+Key findings:
+
+- OctLurk and SilkLurk are modular backdoors sharing a plugin-based architecture that allows operators to extend capability post-compromise. Both use victim-specific decryption keys and heavy obfuscation, meaning a sample pulled from one victim will not decrypt cleanly on another, complicating bulk sandbox analysis.
+
+- In-memory execution is central to both families, reducing on-disk footprint and making traditional file-hash hunting unreliable. Responders should prioritize memory forensics and look for anomalous injected modules in trusted processes.
+
+- LurkProxy is a companion traffic-proxying utility used to route attacker C2 communications, obscuring true infrastructure. Network defenders should flag internal hosts making repeated, low-volume outbound connections to uncommon ports, consistent with proxy relay behavior.
+
+- Targeted verticals include Ministries of Foreign Affairs, Law Enforcement, Healthcare, Research, and Logistics, indicating intelligence-collection intent rather than disruption. PlugX is listed as a related family, suggesting shared tooling or operator overlap with known Chinese 🇨🇳 espionage clusters.
+
+Prioritize memory acquisition on compromised hosts before remediation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085516958326255820</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2085516958326255820">DFIR Radar</source>
+      <pubDate>Fri, 07 Aug 2026 00:02:45 +0000</pubDate>
+      <guid isPermaLink="false">2085516958326255820</guid>
+    </item>
     <item>
       <title>ChainDrop: Inside a Self-Propagating npm Worm</title>
       <link>https://unit42.paloaltonetworks.com/chaindrop-npm-worm-analysis/</link>
@@ -1717,21 +1740,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2083358521295503534">DFIR Radar</source>
       <pubDate>Sat, 01 Aug 2026 01:05:53 +0000</pubDate>
       <guid isPermaLink="false">2083358521295503534</guid>
-    </item>
-    <item>
-      <title>OctLurk and SilkLurk: newly identified tailored backdoors in cyber-espionage campaign in Central Asia</title>
-      <link>https://securelist.com/octlurk-silklurk-backdoors-central-asia/120840/</link>
-      <description>Chinese-speaking actor deploys OctLurk and SilkLurk backdoors against Central Asian governments since January 2025, with victim-specific payload encryption, in-memory plugins, and PlugX as a second-stage implant.
-
-- OctLurk persists via a service named NgcCIntSvc loading oleasapi.dll (MD5 082d49ef9f14e6811d68c7e0e82e5069), established through a scheduled task named GoogleUpDate run as SYSTEM. The loader decrypts the payload path and backdoor bytes using double-XOR with two keys: one hardcoded and one derived from the C: drive serial number, then reflectively injects the DLL. C2 is dns.multitoconference[.]com on port 443. SilkLurk takes a different path: DLL side-loading against signed NVIDIA and Realtek binaries (nvgwls.exe, RtkNGUI64.exe) loading vulkan-1.dll or RtkNGUI64Loc.dll, with payload decryption keyed to the victim's computer name hash.
-
-- Post-compromise activity is thorough. Impacket secretsdump ran as Adobe.exe (MD5 32a5985543433a4f60da2fafd873b927) against domain controllers. A keylogger masquerading as AnyDesk.exe (MD5 2a571f6cee42a17d873f4c942649813f) captured keystrokes to dev0 and clipboard to dev1 under C:\Users\Public\Libraries\msect. Browser credentials were stolen from Chrome Login Data and Firefox logins.json via 64.exe (MD5 37dc84e4bcad92fa28f1e7778d088283). FSCAN (fc.exe, MD5 cf903e4a1629aa0582fd0363b5786676) ran internal network scans writing to %TEMP%\result.txt.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2083344885726220629</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2083344885726220629">DFIR Radar</source>
-      <pubDate>Sat, 01 Aug 2026 00:11:42 +0000</pubDate>
-      <guid isPermaLink="false">2083344885726220629</guid>
     </item>
   </channel>
 </rss>
