@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 18:02:28 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 20:03:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PSA: Supply Chain Compromise in BdThemes Ecosystem via Poisoned API Response</title>
+      <link>https://www.wordfence.com/blog/2026/08/psa-supply-chain-compromise-in-bdthemes-ecosystem-via-poisoned-api-response/</link>
+      <description>WordPress supply chain attack hits 7 BdThemes plugins via poisoned API response, delivering webshells and rogue admin accounts to every site running the Biggopti banner component, active since June 23, 2026.
+
+- No plugin files were modified on disk. Attackers gained write access to BdThemes' DigitalOcean Spaces bucket and replaced legitimate JSON served from api.sigmative[.]io with crafted payloads exploiting an unescaped display_id field (CVSS 5.4, unpatched) in the Biggopti admin banner component. The XSS fires in every admin browser on every wp-admin page load, making file-integrity scanners blind to the compromise.
+
+- The attack chain is multi-stage: XSS triggers a fetch to ia-cdn[.]com/fz/w2.js, which creates a rogue admin via the WP REST API, installs a webshell plugin (emer-run.php, MD5: 1024732009983dd5e54b4cf5593f04d4) under slug wp-smart-thumbnails, then drops two MU-plugin backdoors: a magic-login module (?_wplogin=token) and a stealth module that hides rogue accounts from the admin user list. Timestamps are backdated to September 2025.
+
+- Alternate payload x.js generates deterministic credentials from the site hostname: username bd_ + 6-char base36 hash, password Bd@26! + hash + x. Defenders can compute the exact rogue username for any suspected domain without needing C2 logs.
+
+- Linked to the same threat actors behind recent Advanced Responsive Video Embedder and OptinMonster supply chain attacks.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086181427641495958</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2086181427641495958">DFIR Radar</source>
+      <pubDate>Sat, 08 Aug 2026 20:03:07 +0000</pubDate>
+      <guid isPermaLink="false">2086181427641495958</guid>
+    </item>
     <item>
       <title>XSS2Shell (CVE-2026-64638): Patch WordPress Now</title>
       <link>https://socradar.io/blog/xss2shell-cve-2026-64638-wordpress/</link>
@@ -1563,27 +1582,6 @@ Hunt for javaw.exe spawned from %LOCALAPPDATA%, "Display Calibration" Run key en
       <source url="https://x.com/DFIR_Radar/status/2084278859160318405">DFIR Radar</source>
       <pubDate>Mon, 03 Aug 2026 14:02:59 +0000</pubDate>
       <guid isPermaLink="false">2084278859160318405</guid>
-    </item>
-    <item>
-      <title>An analysis of incidents at Brazilian educational institutions</title>
-      <link>https://securelist.com/incidents-at-brazilian-educational-institutions/120803/</link>
-      <description>Brazilian 🇧🇷 educational institutions hit by ransomware, insiders, and credential abuse in 18 months of IR cases. LockBit 3, DragonForce, and a Python keylogger reveal how low-sophistication TTPs cause high-impact damage.
-
-Key findings:
-
-- Kaspersky GERT handled cases from January 2025 to June 2026 across São Paulo, Rio de Janeiro, and Pernambuco. 40% were high-severity, driven almost entirely by ransomware. LockBit 3 (built from the 2022 leaked builder) and DragonForce were the dominant families. Initial access came from valid accounts (T1586), exposed public-facing apps, and insiders, not zero-days.
-
-- In Case 01, a leaked LockBit build arrived via stolen credentials. The attacker used PsExec for lateral movement (T1569.002), and a batch script disabled Windows Defender via registry writes to HKLM\SOFTWARE\Policies\Microsoft\Windows Defender and stopped the WinDefend service. USN Journal analysis exposed PsExec .KEY files revealing previously compromised hosts. Prefetch pinpointed PsExecSvc.exe and LBB.exe execution, reconstructing a 4.5-hour window starting around 05:30 UTC.
-
-- In Case 02, DragonForce was deployed via AnyDesk (T1219) after logs were wiped. Prefetch and Amcache.hve survived and yielded the SHA-1 of 1.EXE, confirming the variant. Evidence the attacker missed broke the case open.
-
-- In Case 03, a shared-account machine ran a Python keylogger (Windows Host Widgets.exe) from C:\Users\&lt;shared user&gt;\.vscode\dlo.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084264007683264586</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084264007683264586">DFIR Radar</source>
-      <pubDate>Mon, 03 Aug 2026 13:03:58 +0000</pubDate>
-      <guid isPermaLink="false">2084264007683264586</guid>
     </item>
   </channel>
 </rss>
