@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Aug 2026 08:03:44 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 09:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>A Deep Dive into LNK Files | Windows Forensics</title>
+      <link>https://infosecwriteups.com/a-deep-dive-into-lnk-files-windows-forensics-5a4338c803b5?source=rss----7b722bfd1b8d---4</link>
+      <description>LNK files outlive deleted originals: Windows shortcut metadata records file interaction, source location, and device identity long after the target file disappears.
+
+- LNK files are auto-created without user action when files are opened via File Explorer or Open/Save dialogs. Primary locations are C:\Users\&lt;Username&gt;\AppData\Roaming\Microsoft\Windows\Recent and the Office equivalent under AppData\Roaming\Microsoft\Office\Recent. They persist even after the original file is deleted, moved, or unplugged.
+
+- Each LNK contains two distinct timestamp sets: source timestamps (the shortcut itself) and target timestamps (the original file). If target Created is newer than target Modified, the file was likely copied or moved, not originally created there. Conflating the two is a common analytical error.
+
+- Volume serial number, volume label, drive type, UNC path, and machine name inside the LNK let you correlate removable-media access to USB registry artifacts without the drive being present. A LNK pointing to a removable drive cross-referenced with ShellBags and Jump Lists can identify the exact device and the folders browsed on it.
+
+- Attackers weaponize LNK files by embedding PowerShell or other commands in the target path and command-line arguments fields, disguising malicious execution as a legitimate shortcut. Examine those fields during malware triage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086740046615646536</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2086740046615646536">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 09:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2086740046615646536</guid>
+    </item>
     <item>
       <title>How Pass-ta-key attacks steal passkeys instead of passwords</title>
       <link>https://andreafortuna.org/2026/08/10/pass-ta-key-passkey-forensics/</link>
@@ -1557,27 +1576,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2084324356898050150">DFIR Radar</source>
       <pubDate>Mon, 03 Aug 2026 17:03:46 +0000</pubDate>
       <guid isPermaLink="false">2084324356898050150</guid>
-    </item>
-    <item>
-      <title>Special macOS Firewall: Safe Sideloading of the EIFT Extraction Agent</title>
-      <link>https://blog.elcomsoft.com/2026/08/special-macos-firewall-safe-sideloading-of-the-eift-extraction-agent/</link>
-      <description>ElcomSoft ships EIFT Firewall, a free macOS app that replaces a fragile 3-year-old pf script, creating a controlled USB network path for iOS extraction agent sideloading while producing a signed evidence log.
-
-Key details:
-
-- iOS agent sideloading requires the evidence device to contact ppq.apple[.]com (trust check for regular Apple IDs) and a rotating host under humb.apple[.]com (iOS 16+ first-launch check). The old pf script resolved the dynamic IP at script time and gave a 200-300 second window before rotation broke the allowlist. EIFT Firewall handles this natively, with no countdown.
-
-- The critical flaw in the 2023 script: it filtered an existing Internet Sharing path it did not own. If the phone reconnected after the script stopped, the device hit the open internet with no warning and no indication anything was wrong. EIFT Firewall builds and filters the same path atomically, fails closed, and blocks IPv6 entirely under the Apple Activation profile.
-
-- The app generates a .tar.gz evidence archive containing forensic-report.md, a DNS decision log, session and teardown status, device details, and an evidence-manifest.json with SHA-256 hashes. This is court-documentable in a way the script never was.
-
-- Wi-Fi, Bluetooth, and cellular must be disabled on the device manually before connecting. EIFT Firewall controls only the USB path it creates. If another uplink is live, the phone can bypass it entirely.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084309270766502365</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2084309270766502365">DFIR Radar</source>
-      <pubDate>Mon, 03 Aug 2026 16:03:50 +0000</pubDate>
-      <guid isPermaLink="false">2084309270766502365</guid>
     </item>
   </channel>
 </rss>
