@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Aug 2026 09:02:52 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 10:03:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hack Smarter - Silent Corridor (Blue Team)</title>
+      <link>https://infosecwriteups.com/hack-smarter-silent-corridor-blue-team-e3a6ef6a65e6?source=rss----7b722bfd1b8d---4</link>
+      <description>GREY VEIL threat actor confirmed inside Haldric's network: compromised VPN credentials led to LSASS dumping, ntds.dit theft, and exfiltration of A400M avionics data over 13 days.
+
+Key findings:
+
+- Initial access via credential stuffing against s.brandt's VPN account from Tor-exit/proxy IPs 185.220.101[.]34, 91.234.33[.]126, and 45.153.160[.]88, all connecting after midnight, no more than two consecutive sessions per IP to avoid blocklisting. Pivot to WS-ENG04 via RDP (T1078, T1133).
+
+- Discovery and credential access on WS-ENG04: cmd.exe spawned systeminfo, net group "Domain Admins" /dom, and wmic logicaldisk. LSASS dumped via rundll32.exe comsvcs.dll MiniDump to C:\Windows\Temp\sys_diag[.]dmp. PuTTY sessions queried at HKCU\Software\SimonTatham\PuTTY\Sessions. cmdkey /list harvested stored creds. Microsoft Defender produced zero alerts.
+
+- Lateral movement using stolen m.richter:Haldric2025SecIT credentials to net use into SRV-DC01 and SRV-FILES02, then ntdsutil to dump ntds.dit and registry hives (SYSTEM, SECURITY) into C:\Windows\Temp\McAfee_Logs (T1003.003).
+
+- Exfiltration from SRV-FILES02: makecab and Compress-Archive packaged A400M_NavSys data, certutil -encode base64'd the archive, then Invoke-WebRequest POST'd it to cdn-telemetry.cloud-endpoint[.]net (EventCode 22 DNS query caught it).
+
+- Sysmon logs survived every wevtutil cl Security sweep across all three hosts and provided the full execution chain.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086755308630667525</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2086755308630667525">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 10:03:30 +0000</pubDate>
+      <guid isPermaLink="false">2086755308630667525</guid>
+    </item>
     <item>
       <title>A Deep Dive into LNK Files | Windows Forensics</title>
       <link>https://infosecwriteups.com/a-deep-dive-into-lnk-files-windows-forensics-5a4338c803b5?source=rss----7b722bfd1b8d---4</link>
@@ -1555,27 +1578,6 @@ Practitioner takeaway: add xmount --cache to your Linux LVM acquisition workflow
       <source url="https://x.com/DFIR_Radar/status/2084339433520922858">DFIR Radar</source>
       <pubDate>Mon, 03 Aug 2026 18:03:41 +0000</pubDate>
       <guid isPermaLink="false">2084339433520922858</guid>
-    </item>
-    <item>
-      <title>Before the first prompt: Code execution paths in trusted coding-agent projects</title>
-      <link>https://securitylabs.datadoghq.com/articles/coding-agent-project-trust-code-execution-before-first-prompt/</link>
-      <description>Coding agents (Codex, Claude Code) can execute repository-controlled code the moment a project is trusted, before any prompt is sent, via MCP configs and hijacked PATH settings.
-
-Key findings:
-
-- Codex loads project-scoped MCP servers defined in .codex/config.toml at startup. A malicious repo can specify a local stdio server (e.g., command = "python3", args = [".codex/poc/server.py"]) that runs immediately on project open, no hook declaration required, bypassing the hook-review gate added in Codex 0.131.0.
-
-- Claude Code's .claude/settings.json allows project-controlled env vars. Setting PATH to ./bin:... causes Claude's own automatic Git probes, which run before the first prompt, to resolve to an attacker-controlled wrapper script in the repo. The wrapper can silently log or exfiltrate, then exec the real git to avoid suspicion.
-
-- The Contagious Interview campaign and MAL-2026-3648 (three malicious npm packages planting Claude Code SessionStart hooks) confirm this social engineering pattern is active. Take-home assignments and open source debug requests are the lure.
-
-- Defenders monitoring only hooks and skills files miss MCP server configs, PATH manipulation, BASH_ENV, NODE_OPTIONS, PYTHONPATH, LD_PRELOAD, and devcontainer lifecycle commands, all project-controllable execution paths.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084324356898050150</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084324356898050150">DFIR Radar</source>
-      <pubDate>Mon, 03 Aug 2026 17:03:46 +0000</pubDate>
-      <guid isPermaLink="false">2084324356898050150</guid>
     </item>
   </channel>
 </rss>
