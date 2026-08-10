@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Aug 2026 17:03:11 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 18:02:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Mobile Forensics: Extracting Data from WhatsApp</title>
+      <link>https://hackers-arise.com/mobile-forensics-extracting-data-from-whatsapp/</link>
+      <description>WhatsApp artifacts on Android and iOS mapped in detail: SQLite databases, encrypted backups, media trees, and shared prefs all hold evidence a mobile investigator needs to reconstruct communications.
+
+Key findings:
+
+- Android core evidence lives in /data/data/com.whatsapp/databases/: wa.db (contacts, phone numbers, display names) and msgstore.db (messages, timestamps, status, media references). Root or a physical image is required to read them directly. Encrypted backups at /data/media/0/WhatsApp/Databases/msgstore.db.cryptXX need the key from /data/data/com.whatsapp/files/ to decrypt.
+
+- Shared prefs and registration XMLs in /data/data/com.whatsapp/shared_prefs/ expose account phone number, display name, and app version. axolotl.db holds Signal/Double Ratchet cryptographic keys and account identifiers.
+
+- On iOS, ChatStorage.sqlite under AppDomainGroup-group.net.whatsapp.WhatsApp.shared is the primary target. Tables ZWAMESSAGE and ZWAMEDIAITEM carry message records and attachment metadata. ContactsV2.sqlite, BackedUpKeyValue.sqlite, and blockedcontacts.dat round out the account picture.
+
+- Deleted media may survive in /mnt/sdcard/WhatsApp/.trash/. Xiaomi "Second Space" moves the database to /data/user/10/com.whatsapp/databases/, so check alternate user ID paths on vendor-modified devices.
+
+Inspect the schema before querying: WhatsApp changes table and field names across versions.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086875916173783273</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2086875916173783273">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 18:02:45 +0000</pubDate>
+      <guid isPermaLink="false">2086875916173783273</guid>
+    </item>
     <item>
       <title>Abyssos: Technical Analysis of a New Modular RAT</title>
       <link>https://www.zscaler.com/blogs/security-research/abyssos-technical-analysis-new-modular-rat</link>
@@ -1545,25 +1568,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2084460788627198079">DFIR Radar</source>
       <pubDate>Tue, 04 Aug 2026 02:05:54 +0000</pubDate>
       <guid isPermaLink="false">2084460788627198079</guid>
-    </item>
-    <item>
-      <title>Hotel Wi-Fi attacks use custom malware to breach Microsoft 365 accounts</title>
-      <link>https://www.bleepingcomputer.com/news/security/hotel-wi-fi-attacks-use-custom-malware-to-breach-microsoft-365-accounts/</link>
-      <description>Russian 🇷🇺 APT29 sub-cluster Storm-2945 is hijacking hotel and conference Wi-Fi DNS to steal Microsoft 365 credentials, deploying two new malware families in a campaign Microsoft calls CaptiveCrunch, active since at least May 2026.
-
-- DNS and HTTP traffic on captive portal equipment is manipulated to redirect victims to fake M365 login pages, device code phishing flows abusing Microsoft Entra ID, or ClickFix fake update prompts delivering malware. Android APK delivery via ClickFix landings was also observed, extending the threat beyond Windows.
-
-- CornFlake is a Go-based RAT dropped via ClickFix that copies itself to %AppData%, registers as "Cloud Sync Service," and persists via Windows services, registry run keys, scheduled tasks, and a watchdog that restores any removed persistence mechanism. Capabilities include keylogging, clipboard and webcam surveillance, browser credential and cookie theft, M365 session token theft, and USB monitoring.
-
-- ChocoShell is an in-memory PowerShell stealer targeting browser cookies, saved passwords, M365 and Azure AD tokens, and Wi-Fi credentials. An unprotected web panel named FruitStone gave operators remote control: file browsing, PowerShell execution, screenshot and keystroke capture.
-
-Hunt for processes named "Cloud Sync Service" spawned from %AppData%, PowerShell running in-memory without a script path, and unexpected device code authentication flows in Entra ID sign-in logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084445804140569009</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084445804140569009">DFIR Radar</source>
-      <pubDate>Tue, 04 Aug 2026 01:06:23 +0000</pubDate>
-      <guid isPermaLink="false">2084445804140569009</guid>
     </item>
   </channel>
 </rss>
