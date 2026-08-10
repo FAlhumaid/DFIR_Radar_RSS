@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Aug 2026 11:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 12:03:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Every agent needs an oracle: How to trust AI-drafted detection rules</title>
+      <link>https://www.vmray.com/every-agent-needs-an-oracle-how-to-trust-ai-drafted-detection-rules/</link>
+      <description>AI-drafted Sigma rules need deterministic oracles on both ends, not just a capable model. A pipeline built around VMRay sandbox reports and Zircolite verification shows how to keep the model from certifying its own work.
+
+Key findings:
+
+- The core problem is the oracle problem: an LLM agent inherits every error from its source and produces output at machine speed with no pause. Open-source feeds fail machine consumers on five counts: they are not deduplicated, lack behavioral context (hashes without process lineage), go stale, carry no structured taxonomy, and blur repetition for corroboration. A bad input source produces confident, wrong Sigma rules.
+
+- VMRay satisfies all five oracle properties because the data is a transcript of execution, not an assessment. The Platform report carries monitored processes with full command lines and parent relationships, scored VTI findings, and parsed malware config including C2 infrastructure. UniqueSignal scopes the feed per threat actor or family, so duplicate records never inflate the coverage matrix.
+
+- A real ACRStealer run produced this process entry: powershell.exe spawned by wscript.exe running IEX (New-Object Net.WebClient).DownloadString from IP 172.67.201[.]79, with telegra[.]ph as a dead-drop C2 resolver. That command line became the CommandLine|contains fields in a T1071.001 Sigma rule directly. The model named the technique; the evidence chose the content.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086785386756350402</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2086785386756350402">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 12:03:02 +0000</pubDate>
+      <guid isPermaLink="false">2086785386756350402</guid>
+    </item>
     <item>
       <title>Inside the Mini Shai-Hulud Campaign: Anatomy of a Cross-Ecosystem Supply Chain Attack | Sweet blog</title>
       <link>https://www.sweet.security/blog/inside-the-mini-shai-hulud-campaign-anatomy-of-a-cross-ecosystem-supply-chain-attack</link>
@@ -1543,29 +1562,6 @@ On a compromised traveler's device: check for a "Cloud Sync Service" entry, Powe
       <source url="https://x.com/DFIR_Radar/status/2084369966430924920">DFIR Radar</source>
       <pubDate>Mon, 03 Aug 2026 20:05:01 +0000</pubDate>
       <guid isPermaLink="false">2084369966430924920</guid>
-    </item>
-    <item>
-      <title>Targeted Attack on Government Entities in the Middle East | Part 2</title>
-      <link>https://www.zscaler.com/blogs/security-research/targeted-attack-government-entities-middle-east-part-2</link>
-      <description>East Asia-linked actor expands from Central Asia to Middle East energy targets with BINDCLOAK, a modular C2 backdoor linked to OctLurk by shared SSL certs and code overlap.
-
-Key findings:
-
-- BINDCLOAK (MD5: 7a14a99d70d42d3f7bf72f843185fc07) is a 64-bit C++ DLL dropped during post-compromise activity, reflectively loaded by the MIXEDKEY loader. It exports curl_easy_escape and mn_dcode to masquerade as a legitimate library. C2: cert.hypersnet[.]com, tied to OctLurk C2 about.blsouqs[.]com via a shared SSL cert (serial 59fe1ef7707fe497d89f34505222862f).
-
-- C2 comms use a 28-byte structured message header with source/destination module IDs, then two-pass XOR: a hardcoded 105-byte key followed by an 83-byte PRNG key (seeded via GetTickCount) sent in cleartext, over a zlib-compressed payload on TLS/TCP (T1132.002, T1095).
-
-- EDR evasion: plugin DLLs are reflectively loaded into RWX memory (T1620), and imports are resolved by queuing LoadLibraryW via RtlQueueWorkItem to avoid suspicious calls from unbacked memory regions.
-
-- Privilege escalation via 11 C2 commands including COLLECT_USER_TOKEN (LogonUserW with actor-supplied creds), START_MODULE_WITH_USER_TOKEN, and GET_STATUS (WTSEnumerateProcessesW + LookupAccountSidW) mapping running processes for token theft (T1134.001, T1134.003).
-
-Hunt for DLLs exporting curl_easy_escape alongside mn_dcode, RtlQueueWorkItem spawning LoadLibraryW from non-image-backed memory, and TLS beacons to cert.hypersnet[.]com.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084354526522253388</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084354526522253388">DFIR Radar</source>
-      <pubDate>Mon, 03 Aug 2026 19:03:39 +0000</pubDate>
-      <guid isPermaLink="false">2084354526522253388</guid>
     </item>
   </channel>
 </rss>
