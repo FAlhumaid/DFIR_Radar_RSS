@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Aug 2026 13:03:22 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 14:03:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CNCMachineRMS: The Undocumented RAT At the End of a BabaDeda Chain</title>
+      <link>https://www.levelblue.com/blogs/spiderlabs-blog/cncmachinerms-the-undocumented-rat-at-the-end-of-a-babadeda-chain</link>
+      <description>CNCMachineRMS, an undocumented RAT with its own scripting engine, sits at the end of a BabaDeda loader chain that abuses a signed IBM SPSS binary and a date-formatting API to evade detection.
+
+- ClickFix lure drops WinWrapIDE.exe (signed, SHA256: 0562c588...2399f), which activates a COM scripting engine pointed at attacker-controlled DLLs. Four decoy DLLs load via normal import resolution, no suspicious LoadLibrary calls. The last decoy passes shellcode to EnumTimeFormatsEx as a callback, so the malware entry point is never called directly from attacker code.
+
+- The BabaDeda shellcode depends on HelperStandardizationApplication.bin (SHA256: 2922837a...c19) for its config. That file reads at 8 bits per byte but is not encrypted: it is a property tree under two obfuscation layers carrying a custom script and the 1.14 MB CNCMachineRMS payload embedded inside.
+
+- CNCMachineRMS has no imports and builds all 1,200+ strings on the stack at runtime. It runs a custom scripting language with namespaces like delayer::, autoruns::, and communicator:: so persistence behavior is reconfigured per campaign without recompiling. It screenshots on first contact, beacons every 600 seconds to notepadreleased[.]com or 85[.]158.110[.]78 on TCP/443, and resolves DNS over HTTPS via dns.google to avoid internal resolver logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086815603596386347</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2086815603596386347">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 14:03:06 +0000</pubDate>
+      <guid isPermaLink="false">2086815603596386347</guid>
+    </item>
     <item>
       <title>Smile, You’re on Camera. Part 2: Hiring Lazarus APT’s IT Workers in a Fake DeFi Startup</title>
       <link>https://any.run/cybersecurity-blog/lazarus-group-it-workers-investigation-part-two/</link>
@@ -1541,29 +1558,6 @@ Hunt for processes named "Cloud Sync Service" spawned from %AppData%, PowerShell
       <source url="https://x.com/DFIR_Radar/status/2084400130409799967">DFIR Radar</source>
       <pubDate>Mon, 03 Aug 2026 22:04:52 +0000</pubDate>
       <guid isPermaLink="false">2084400130409799967</guid>
-    </item>
-    <item>
-      <title>ConfigManBearPig 2.0 – Things Are Getting Cereal</title>
-      <link>https://specterops.io/blog/2026/08/03/configmanbearpig-2-0/</link>
-      <description>ConfigManBearPig 2.0 rewrites the SCCM attack-surface collector in Python, covering 9/9 TAKEOVER techniques against Microsoft Configuration Manager hierarchies, enumerable by any low-privileged domain user.
-
-Key details:
-
-- SCCM (Microsoft Configuration Manager) has 30+ documented attack techniques cataloged in Misconfiguration Manager. ConfigManBearPig 2.0 covers RECON 6/7, TAKEOVER 9/9 (paired with SharpHound and MSSQLHound), and EXEC 2/2, with all major paths accessible as a low-priv domain user.
-
-- The Python rewrite replaces a slow PowerShell predecessor, adds SOCKS proxy support (--proxy / -x), NT hash and Kerberos ticket auth (--nt-hash / --ticket), parallel multi-target execution (--threads), and CVE identification against observed SCCM build versions via SCCMVersionGuesser.
-
-- OPSEC note: the tool writes resource files and a DuckDB database to disk and generates heavy multi-protocol network traffic. For lighter footprint, use -m LDAP,DNS,Local or --dc-only to limit scope, or tunnel through SOCKS so no files land on disk.
-
-- Data feeds into BloodHound via OpenHound's OpenGraph schema, visualizing SCCM attack paths for both offensive enumeration and defensive remediation.
-
-Defenders: SCCM tradecraft detections are rare in the wild. Hunt for unusual LDAP queries against SCCM infrastructure, unexpected lateral movement to site servers, and review Misconfiguration Manager for detection ideas. Full tool at github.com/SpecterOps.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084384880704819527</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084384880704819527">DFIR Radar</source>
-      <pubDate>Mon, 03 Aug 2026 21:04:16 +0000</pubDate>
-      <guid isPermaLink="false">2084384880704819527</guid>
     </item>
   </channel>
 </rss>
