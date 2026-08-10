@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Aug 2026 22:02:13 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 23:02:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hunting Web Activity Before a Device Code Authentication (KQL Query)</title>
+      <link>https://detect.fyi/hunting-web-activity-before-a-device-code-authentication-kql-query-005337a661bc?source=rss----d5fd8f494f6a---4</link>
+      <description>Device Code phishing hunts don't require a known-bad URL. This KQL technique pivots from the authentication event itself, reconstructing the three URLs visited in the five minutes before the Device Code flow to surface behavioural context no IOC feed can provide.
+
+- Device Code phishing (T1528) abuses the OAuth device authorization flow to steal tokens without ever touching the user's credentials. IOC-based hunting works only after infrastructure is reported. This approach flips the model: anchor on the Cmsi:Cmsi event in EntraIdSignInEvents, then look backwards at DeviceNetworkEvents for the same AccountUpn over the preceding five minutes.
+
+- The KQL builds a unique DeviceCodeId per authentication, joins it to network telemetry, uses partition with top 3 by WebTime to preserve only the three most recent URLs, and enriches each RemoteIP with a country via geo_info_from_ip_address. Output is three URL/country pairs per authentication event, ready to filter.
+
+- Tuning is the payoff. Baseline out expected Microsoft endpoints (login.windows[.]net, mobile.events.data.microsoft[.]com) and known-good countries. What survives the allowlist, an unrecognised domain with zero TI reputation visited seconds before a Device Code auth from an unexpected country, is your lead regardless of whether any feed has ever seen that domain.
+
+Pivot from the sequence, not the indicator.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086951358440337582</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2086951358440337582">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 23:02:32 +0000</pubDate>
+      <guid isPermaLink="false">2086951358440337582</guid>
+    </item>
     <item>
       <title>Follow the File Hash: Hunting for Sensitive Files Leaving Your Organization with Defender Advanced…</title>
       <link>https://detect.fyi/follow-the-file-hash-hunting-for-sensitive-files-leaving-your-organization-with-defender-advanced-d6a7810619e4?source=rss----d5fd8f494f6a---4</link>
@@ -1561,17 +1580,6 @@ If these package versions touched any build or CI/CD environment, treat it as co
       <source url="https://x.com/DFIR_Radar/status/2084535555665412338">DFIR Radar</source>
       <pubDate>Tue, 04 Aug 2026 07:03:00 +0000</pubDate>
       <guid isPermaLink="false">2084535555665412338</guid>
-    </item>
-    <item>
-      <title>Access For Sale: Inside a Russian-Speaking Access Broker's Dual Operation</title>
-      <link>https://www.cloudsek.com/blog/access-for-sale-inside-a-russian-speaking-access-brokers-dual-operation</link>
-      <description>A Russian-speaking IAB's exposed server revealed dual operations: credential theft and AD compromise sold to ransomware groups, plus surveillance targeting Ukrainian 🇺🇦 defence and aerospace orgs. Full IOCs in the CloudSEK report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084520464542745071</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084520464542745071">DFIR Radar</source>
-      <pubDate>Tue, 04 Aug 2026 06:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2084520464542745071</guid>
     </item>
   </channel>
 </rss>
