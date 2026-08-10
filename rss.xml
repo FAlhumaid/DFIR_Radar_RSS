@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Aug 2026 16:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 17:03:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Abyssos: Technical Analysis of a New Modular RAT</title>
+      <link>https://www.zscaler.com/blogs/security-research/abyssos-technical-analysis-new-modular-rat</link>
+      <description>Abyssos is a new modular C++ RAT discovered in late June 2026, actively developed with credential theft, HVNC, keylogging, and a plugin architecture that can expand its reach post-compromise.
+
+- Abyssos v2.4F uses LLVM-based obfuscation (likely Pluto) with control flow flattening, bogus control flow, constant integer encryption, and stack-based string obfuscation. It detects VMware, KVM, Xen, VirtualBox, and QEMU via CPUID and process name checks (vmtoolsd.exe, VBoxService.exe, qemu-ga.exe, etc.) before terminating. Not all samples include anti-analysis, so do not rely on sandbox silence as a clean verdict.
+
+- C2 comms run over a custom TCP protocol encrypted with AES-GCM (hardcoded 32-byte key). The beacon registers victims with a HELLO pipe-delimited string including CPU arch, hostname, username, integrity level, public IP, and internal version. Mutex format is Global\[UUID4], e.g. Global\68AA60E5-6C45-4C01-9F0E-E25FC57C652F, with _Admin or _User suffix based on privilege.
+
+- Modules drop to %TEMP% with prefixes klog, rcv, rvg, gc, dcf, vul, rdp and export the function abyss. GRABCOOKIES exfils to %TEMP%\fontconfigs\; HVNC_CLONE_START stages browser cookies there for session hijacking via Chrome CDP on port 9222. Keylogger output writes to windows_update_cache.json in %TEMP%.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086860924057453004</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2086860924057453004">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 17:03:11 +0000</pubDate>
+      <guid isPermaLink="false">2086860924057453004</guid>
+    </item>
     <item>
       <title>DeadLock ransomware: Breaking down a Rust-based encryptor with decentralized recovery infrastructure</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/08/10/deadlock-ransomware-breaking-down-a-rust-based-encryptor-with-decentralized-recovery-infrastructure/</link>
@@ -1547,27 +1564,6 @@ Hunt for processes named "Cloud Sync Service" spawned from %AppData%, PowerShell
       <source url="https://x.com/DFIR_Radar/status/2084445804140569009">DFIR Radar</source>
       <pubDate>Tue, 04 Aug 2026 01:06:23 +0000</pubDate>
       <guid isPermaLink="false">2084445804140569009</guid>
-    </item>
-    <item>
-      <title>Detections Digest #20260803</title>
-      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260803</link>
-      <description>Weekly detection engineering roundup covers AI security, cloud identity schema drift, email obfuscation, and active CVE exploitation across 7 public repos.
-
-28 rule changes landed between Jul 27 and Aug 3, 2026. Here is what matters for defenders:
-
-- AI infrastructure and prompt injection now have detection coverage. SigmaHQ added Sigma rules for AWS Bedrock guardrail deletion and UpdateGuardrail API events in CloudTrail, flagging safety-control bypass attempts. SlimKQL added KQL queries surfacing high-risk AI agents exposed to indirect prompt injection via Exposure Graph, plus an Office 365 query aggregating prompt injection attempts by sender IP and domain.
-
-- Cloud identity schema drift broke existing rules. Azure sign-in Sigma rules were updated to use current SigninLogs fields (callerIpAddress, resultType 0 filtering). Legacy authentication hunting queries migrated from AADSignInEventsBeta to EntraIdSignInEvents. If you have not updated your queries, you likely have blind spots right now.
-
-- CertiGhost (CVE-2026-54121) exploitation detection correlates Event 4741 (computer account creation) with concurrent SMB and LDAP listener activity in DeviceNetworkEvents. A separate KQL rule catches web shell writes into WordPress wp-content on internet-facing servers.
-
-- Email detection gaps addressed: a new Sentinel KQL rule flags phishing submissions where Office 365 AIR returned "No threats found," surfacing false negatives for manual review.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084430109159870948</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2084430109159870948">DFIR Radar</source>
-      <pubDate>Tue, 04 Aug 2026 00:04:00 +0000</pubDate>
-      <guid isPermaLink="false">2084430109159870948</guid>
     </item>
   </channel>
 </rss>
