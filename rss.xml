@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Aug 2026 23:02:53 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2026 08:03:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How Pass-ta-key attacks steal passkeys instead of passwords</title>
+      <link>https://andreafortuna.org/2026/08/10/pass-ta-key-passkey-forensics/</link>
+      <description>Pass-ta-key techniques from Unit 42 show malware can hijack Google-synced passkeys in Chrome on Windows without touching a password or breaking WebAuthn crypto, leaving a concrete forensic trail defenders can hunt today.
+
+- Three techniques target Chrome's synced passkey architecture on Windows. Pass-ta-key (UV=0) uses Windows CNG calls (NCryptOpenStorageProvider, NCryptSignHash) to sign auth assertions with the wrapped identity key from passkey_enclave_state, no user prompt required. Silver Pass-ta-key forces re-enrollment and registers a rogue UV key, producing fraudulent UV=1 assertions. Golden Pass-ta-key extracts the 32-byte security domain secret transiently present in Chrome process memory during re-registration, decrypting every synced passkey offline. No CVE assigned, no active exploitation reported, but the technique class is mature.
+
+- Forensic footprint centers on three artifacts: reads of %LocalAppData%\Google\Chrome\User Data\Profile\Sync Data\LevelDB by non-browser processes (T1552.001), unexpected deletion or modification of passkey_enclave_state outside update windows (T1556), and cross-process memory access to chrome.exe (T1055). Sysmon Event IDs 10 and 11 cover all three.
+
+- Golden Pass-ta-key SDS extraction is timing-sensitive: the secret lives in memory only during forced re-enrollment. passkey_enclave_state recreation is the acquisition trigger.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086725165195653348</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2086725165195653348">DFIR Radar</source>
+      <pubDate>Mon, 10 Aug 2026 08:03:44 +0000</pubDate>
+      <guid isPermaLink="false">2086725165195653348</guid>
+    </item>
     <item>
       <title>Ultimate Threat Hunting Playbook for Russian Cyber Operations in a Hybrid Threat Environment</title>
       <link>https://detect.fyi/ultimate-threat-hunting-playbook-for-russian-cyber-operations-in-a-hybrid-threat-environment-357e91088b67?source=rss----d5fd8f494f6a---4</link>
@@ -1561,25 +1578,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2084309270766502365">DFIR Radar</source>
       <pubDate>Mon, 03 Aug 2026 16:03:50 +0000</pubDate>
       <guid isPermaLink="false">2084309270766502365</guid>
-    </item>
-    <item>
-      <title>CRPX0 — SCAMMER TURNED RANSOMWARE OPERATOR</title>
-      <link>https://theravenfile.com/2026/08/03/crpx0-scammer-turned-ransomware-operator/</link>
-      <description>CRPX0 ransomware group emerged July 2026 with 30+ victims in a month, primarily targeting US 🇺🇸 healthcare. The same operators ran a Flash Token crypto scam and Self-XSS scheme before pivoting to RaaS.
-
-- CRPX0 runs a full RaaS with HaaS and affiliate program, offering EXE, DLL, and VBS ClickFix stagers for Windows plus HTML-based Mac lures. The execution chain drops sync.dll or index.dll to %LOCALAPPDATA%, downloads a portable Python 3.10.11 runtime via tar.exe (LOLBin), disables AV services, and persists via an ONLOGON scheduled task. EDR unhooking targets ntdll.dll via PAGE_READWRITE memory remapping.
-
-- Real panel IPs were exposed behind Cloudflare: 23.224.4[.]114 through 23.224.4[.]118, all on ASN 40065 (CNSERVERS LLC), an infrastructure bloc previously tied to Cobalt Strike, BadBazaar, and CLEO MFT exploitation. DLS lives at crpx0[.]su and tlxoddx4odmc2qvsmtsbgwwsv5j45osb5sox7mz6izxliuju5mkulzad.onion.
-
-- Pre-ransomware history links the group to flash-token[.]shop (registered March 2026), BTC address 1Fv8YVf52MGqjfgnyjMoBo7ojoGnZmKCrV, and TOX ID 17EB54B8455144E088C7E77F88A97221C319F0CFE4FE306853EEB113EE8DB5607BB6EE481C7C. The same TOX ID appears on victim negotiation pages, tying the scam infrastructure directly to the ransomware operation.
-
-Hunt for sys_ followed by 8 hex characters in %TEMP%, scheduled tasks with ONLOGON triggers spawning Python, and tar.exe extracting py.zip. MD5s and sandbox report are in the article.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084293994935120089</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084293994935120089">DFIR Radar</source>
-      <pubDate>Mon, 03 Aug 2026 15:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2084293994935120089</guid>
     </item>
   </channel>
 </rss>
