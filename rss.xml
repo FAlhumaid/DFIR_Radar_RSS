@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 13:04:01 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 14:03:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rapid7 Analysis: Microsoft SharePoint JWT Token Authentication Bypass (CVE-2026-55040)</title>
+      <link>https://www.rapid7.com/blog/post/ra-microsoft-sharepoint-jwt-token-authentication-bypass-cve-2026-55040</link>
+      <description>CVE-2026-55040 is a critical auth bypass in SharePoint Server letting unauthenticated attackers forge JWT tokens and impersonate any user, including site admins, with a PoC now public.
+
+- The root cause is a four-weakness chain in SPJsonWebSecurityTokenHandlerV2: RequireSignedTokens is explicitly set to false, accepting alg:none outer tokens with no crypto check; the actor token x5t thumbprint is resolved against SharePoint's own STS cert (retrievable unauthenticated from /_layouts/15/metadata/json/1) but never signature-verified; issuer validation silently accepts certs not in TrustedSecurityTokenServices; and GetTokenSignature only checks non-empty string, so "AAAA" passes as a valid RSA signature.
+
+- Attack chain: fetch STS cert from /_layouts/15/metadata/json/1 unauthenticated, compute x5t, query domain controller via SMB null session on LSARPC to enumerate valid user SIDs, forge a nested JWT with alg:none outer header and a nameid SID targeting a domain admin, send Bearer token to any authenticated endpoint like /_api/web/currentuser and receive IsSiteAdmin:true.
+
+- Affected version confirmed: SharePoint Server Subscription Edition 16.0.19725.20210. Rapid7 published a PoC on July 14, 2026 alongside disclosure. Patch immediately; with public PoC this is a trivially exploitable critical.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087178103953006860</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2087178103953006860">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 14:03:33 +0000</pubDate>
+      <guid isPermaLink="false">2087178103953006860</guid>
+    </item>
     <item>
       <title>Head Mare APT is exploiting vulnerabilities in an unpatched TrueConf server to deliver PhantomCore and PhantomGraph to video conference participants</title>
       <link>https://securelist.com/tr/head-mare-targets-trueconf-server-with-phantomcore/120988/</link>
@@ -1545,17 +1562,6 @@ Takeaway: Add the Identity-Plane Lateral Movement KQL from the article to your s
       <source url="https://x.com/DFIR_Radar/status/2084792056526856601">DFIR Radar</source>
       <pubDate>Wed, 05 Aug 2026 00:02:15 +0000</pubDate>
       <guid isPermaLink="false">2084792056526856601</guid>
-    </item>
-    <item>
-      <title>QuickFox Supply Chain Attack Used to Deploy FDMTP Implant</title>
-      <link>https://feeds.fortinet.com/~/966214247/0/fortinet/blog/threat-research~QuickFox-Supply-Chain-Attack-Used-to-Deploy-FDMTP-Implant</link>
-      <description>A QuickFox VPN supply chain attack trojanized Windows installers to deploy the FDMTP implant, using selective targeting to control who gets infected. Hunt for unsigned QuickFox installer artifacts and FDMTP persistence on endpoints.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084776969695076487</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084776969695076487">DFIR Radar</source>
-      <pubDate>Tue, 04 Aug 2026 23:02:18 +0000</pubDate>
-      <guid isPermaLink="false">2084776969695076487</guid>
     </item>
   </channel>
 </rss>
