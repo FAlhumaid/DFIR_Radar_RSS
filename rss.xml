@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 16:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 17:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat Hunting Case Study: The Gentlemen</title>
+      <link>https://www.intel471.com/blog/threat-hunting-case-study-the-gentlemen</link>
+      <description>The Gentlemen ransomware group abuses privileged group manipulation and NETLOGON share staging to spread malware domain-wide before encryption begins. Hunt the technique early or face full-domain compromise.
+
+- The group's attack chain pivots on adding accounts to privileged groups (T1098), then staging payloads in the NETLOGON share on Windows domain controllers so Group Policy pushes the malware to every joined endpoint automatically.
+
+- The NETLOGON share (typically \\DC\NETLOGON) is a high-trust distribution path that most defenses under-monitor. Any file written there by a non-admin process or unexpected account is a critical signal worth immediate triage.
+
+- Hunt for Event ID 4728 or 4732 (member added to privileged group) followed closely by file creation events under SYSVOL\domain\scripts or the NETLOGON path. That sequence, group change then share write, is the pre-encryption tell.
+
+- Artifact focus: AD event logs on domain controllers, file system timestamps on NETLOGON, and Group Policy Object modification logs. Correlate with logon events (4624/4648) to identify the source account and lateral movement path.
+
+Takeaway: Build a detection pairing Event ID 4728/4732 with NETLOGON write activity in your SIEM. A new file in that share from an unexpected principal should page someone immediately. Full hunt methodology and IOCs are in the Intel 471 report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087223232932061651</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087223232932061651">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 17:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2087223232932061651</guid>
+    </item>
     <item>
       <title>Gunra Ransomware Builds a New Attack Network Through RaaS</title>
       <link>https://thecyberexpress.com/gunra-ransomware-expands-raas-operations/</link>
@@ -1553,25 +1574,6 @@ Takeaway: Add the Identity-Plane Lateral Movement KQL from the article to your s
       <source url="https://x.com/DFIR_Radar/status/2084837439508549681">DFIR Radar</source>
       <pubDate>Wed, 05 Aug 2026 03:02:35 +0000</pubDate>
       <guid isPermaLink="false">2084837439508549681</guid>
-    </item>
-    <item>
-      <title>ChainDrop supply chain compromise: Anatomy of a self-propagating worm</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/08/04/chaindrop-supply-chain-compromise-anatomy-self-propagating-worm/</link>
-      <description>ChainDrop: A self-propagating npm worm hit 400+ packages across unrelated publishers, stealing and reusing credentials to republish poisoned versions at scale.
-
-- Mini Shai-Hulud variant delivers via npm preinstall lifecycle hook in setup.mjs, executing before installation completes. The Bun-based payload skips Russian-language systems, detaches on workstations, stays attached in CI/CD to harvest workflow secrets and GitHub Actions OIDC tokens. Affected packages include keyv, flat-cache, and cache-manager ecosystems.
-
-- Credential theft spans npm tokens, GitHub CLI tokens, AWS, Kubernetes, and HashiCorp Vault, all validated via live API calls before use. Exfil is AES-256-GCM encrypted, RSA-OAEP wrapped, sent to npm-cache[.]com (port 443/router). C2 domain rotates via on-chain contract 0xE1f2395ee43e45A1556EC6438a88c31B83493103. Fallback: a public GitHub repo named "Shai-Hulud: Here We Go Again" with results-timestamp.json commits.
-
-- Worm propagation: stolen npm tokens republish every accessible package as a patch increment with no source commit, PR, or tag. GitHub credentials inject malware into .claude/settings.json and .vscode/tasks.json for persistence across future IDE sessions.
-
-- Key hashes: setup.mjs loader 54dc7ea5..., repository loader fd3ca400..., Math_*.js payload 9fc2570b... Hunt for bun.exe spawned from node_modules, or node.exe running setup.mjs. Rotate all npm, GitHub, AWS, and vault credentials from a clean host immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084822369928163525</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084822369928163525">DFIR Radar</source>
-      <pubDate>Wed, 05 Aug 2026 02:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2084822369928163525</guid>
     </item>
   </channel>
 </rss>
