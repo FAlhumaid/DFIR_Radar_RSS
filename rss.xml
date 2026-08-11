@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 12:03:18 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 13:04:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Head Mare APT is exploiting vulnerabilities in an unpatched TrueConf server to deliver PhantomCore and PhantomGraph to video conference participants</title>
+      <link>https://securelist.com/tr/head-mare-targets-trueconf-server-with-phantomcore/120988/</link>
+      <description>Head Mare-targeting APT trojanized TrueConf video conference installers via two zero-day server vulns, dropping PhantomCore and PhantomGraph backdoors on victim endpoints.
+
+- Head Mare chained KLCERT-26-057 and KLCERT-26-058 against TrueConf Server versions 5.3.x through 5.5.5 via unauthenticated port 4307/TCP. The first vuln allows remote script execution on the server; the second escapes the sandbox to reach NT AUTHORITY\SYSTEM. Once elevated, attackers replaced public/js/locale.php (MD5: 4d27b4eb1c5dbb3d8160f29b8119523e) with a web shell. Patches landed June 18, 2026 in versions 5.3.9, 5.4.9, and 5.5.5.
+
+- The web shell gave access to the TrueConf database and swapped the legitimate client installer with a trojanized build (748c9f8cb1065000616204935f96207f) containing PhantomCore. Persistence lands via HKCU\Software\Classes\CLSID\{0340F119-A598-4ed9-B0AC-6F6A12D3E755}\InprocServer32. Critically, even organizations that do not run their own TrueConf server are at risk if employees connect to a partner's compromised instance.
+
+- PhantomGraph (SysExcSvc.dll + SysReadSvc.dll installed as Windows services from %TEMP%) uses a Microsoft OneDrive account as C2, communicating via the Graph API. Commands execute through %TEMP%\cmd_cmd_*.bat batch files. Observed post-exploitation: lsass memory dumping via comsvcs.dll, SSH reverse tunnel creation, and reconnaissance via hostname/whoami. C2 IPs include 81.177.32[.]12 and 194.87.239[.]71.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087163120707924210</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087163120707924210">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 13:04:01 +0000</pubDate>
+      <guid isPermaLink="false">2087163120707924210</guid>
+    </item>
     <item>
       <title>“Ghostjacking” Exploits AI Agents’ Trusted Access to Evade Firewall Controls</title>
       <link>https://www.infosecurity-magazine.com/news/ghostjacking-ai-gents-access/</link>
@@ -1539,17 +1556,6 @@ Takeaway: Add the Identity-Plane Lateral Movement KQL from the article to your s
       <source url="https://x.com/DFIR_Radar/status/2084776969695076487">DFIR Radar</source>
       <pubDate>Tue, 04 Aug 2026 23:02:18 +0000</pubDate>
       <guid isPermaLink="false">2084776969695076487</guid>
-    </item>
-    <item>
-      <title>The Binary Hiding in Your Registry: Cracking Windows UCPD’s Dynamic Rules</title>
-      <link>https://binary.ninja/2026/08/04/ucpd-dynamic-rules.html</link>
-      <description>UCPD.sys loads a Base64-encoded, Authenticode-signed PE from HKLM\SYSTEM\CurrentControlSet\Services\UCPD\DR containing a TLV-structured denylist of 14 Microsoft binaries.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084761941763858621</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2084761941763858621">DFIR Radar</source>
-      <pubDate>Tue, 04 Aug 2026 22:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2084761941763858621</guid>
     </item>
   </channel>
 </rss>
