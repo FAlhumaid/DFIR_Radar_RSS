@@ -5,8 +5,23 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 21:04:07 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 22:03:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Tracking Shai-Hulud: Inside the ChainDrop NPM Worm</title>
+      <link>https://www.zscaler.com/blogs/security-research/tracking-shai-hulud-inside-chaindrop-npm-worm</link>
+      <description>ChainDrop npm worm poisons 400+ packages in under 4 hours by hijacking a maintainer's GitHub account, abusing trusted CI/CD pipelines to publish packages with valid SLSA Build Level 3 attestations, and anchoring C2 in an Ethereum smart contract.
+
+- TeamPCP's ChainDrop (a Shai-Hulud variant) entered npm on August 4, 2026 via a compromised keyv maintainer account. The attacker pushed setup.mjs and Math_Symbol.js to main branches and modified package.json to add a preinstall hook. Because the attacker operated as the legitimate maintainer, the existing GitHub Actions pipeline built and published keyv 6.0.0 with valid OIDC trusted-publisher provenance and SLSA Build L3 attestation. Signed provenance did not equal safe content.
+
+- Math_Symbol.js runs under the Bun runtime (downloaded at v1.3.13) deliberately to bypass EDRs monitoring Node.js child-process behavior. It harvests npm tokens, GitHub PATs, OIDC tokens, AWS/GCP/Azure credentials, Kubernetes configs (~/.kube/config), HashiCorp Vault tokens (VAULT_TOKEN), SSH keys, and Claude Code/Copilot configs. Stolen data is AES-256-GCM encrypted, RSA-4096 key-wrapped, and exfiltrated to attacker-created GitHub repos (description: "Shai-Hulud: Here We Go Again"). Fallback C2 via EtherHiding: Ethereum contract 0xE1f2395ee43e45A1556EC6438a88c31B83493103 delivers live domains, making blocklists ineffective.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087298986759823444</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2087298986759823444">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 22:03:54 +0000</pubDate>
+      <guid isPermaLink="false">2087298986759823444</guid>
+    </item>
     <item>
       <title>Consensual Forensics with Android Intrusion Logging</title>
       <link>https://www.stark4n6.com/2026/08/consensual-forensics-with-android.html</link>
@@ -1555,23 +1570,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085049315404165323">DFIR Radar</source>
       <pubDate>Wed, 05 Aug 2026 17:04:30 +0000</pubDate>
       <guid isPermaLink="false">2085049315404165323</guid>
-    </item>
-    <item>
-      <title>When Attackers Hijack Your Inbox: Detecting Mailbox Forwarding Rules with Microsoft Defender XDR</title>
-      <link>https://detect.fyi/when-attackers-hijack-your-inbox-detecting-mailbox-forwarding-rules-with-microsoft-defender-xdr-56a71567c6f2?source=rss----d5fd8f494f6a---4</link>
-      <description>BEC attackers silently hijack M365 mailboxes using forwarding rules. Five KQL hunting queries in Defender XDR Advanced Hunting expose the full post-compromise chain from suspicious sign-in to persistence.
-
-- Mailbox forwarding rules (New-InboxRule and Set-Mailbox ActionTypes in CloudAppEvents) are a core BEC persistence technique (T1114.003). Attackers use three variants: "Forward to" rules, "Redirect to" rules (which preserve original sender, making exfiltration harder to spot), and direct mailbox forwarding via Set-Mailbox. All three are captured by Microsoft Purview Audit and available in Defender XDR Advanced Hunting in near real time.
-
-- The correlation queries are where this gets powerful. Use Case 4 joins EntraIdSignInEvents with CloudAppEvents to flag a suspicious sign-in (geographic deviation, unmanaged device, missing user agent) followed by forwarding rule creation within 24 hours. Use Case 5 joins AlertEvidence with forwarding events to surface post-alert persistence within an 8-hour window, answering "what did the attacker do next."
-
-- Additional detection logic covers: forwarding rules on high-value accounts (exec, finance, legal) via a user filter; three or more mailboxes forwarding to the same external address (bulk compromise signal); and rules forwarding to consumer domains like gmail[.]com, yahoo[.]com, outlook[.]com, and proton[.]me.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085034254413537438</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2085034254413537438">DFIR Radar</source>
-      <pubDate>Wed, 05 Aug 2026 16:04:40 +0000</pubDate>
-      <guid isPermaLink="false">2085034254413537438</guid>
     </item>
   </channel>
 </rss>
