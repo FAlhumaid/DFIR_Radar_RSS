@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 19:03:29 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 20:04:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Bird Watching: Characterizing the Infrastructure and Behavior of Falcon-branded Extortion Operations</title>
+      <link>https://www.guidepointsecurity.com/blog/characterizing-infrastructure-behavior-falcon-branded-extortion/</link>
+      <description>UNC6671 / CORDIAL SPIDER runs a vishing-driven AitM operation under Falcon, Helix, Pink and Redact brands, hitting 76 organizations across financial services and legal sectors since April 2026, with $8M in confirmed extortion payments.
+
+- The Work Panel platform is a full cybercrime-as-a-service console with role-based access (caller, manager, admin), automated target recon via RocketReach API, NICENIC domain provisioning, and real-time AitM credential relay. Callers never see captured creds. Three panel deployments identified: betterdays2828199[.]com, panel.sqfepjvmrd[.]xyz on 31.7.56[.]61, and panel.whatarewedoingwiththesedomainshello[.]com on 31.7.56[.]52, all on AS51852 (Private Layer INC).
+
+- Post-auth pivot is the forensic chokepoint: once actors capture an Okta OTP via AitM, they authenticate and ride the OAuth token into M365, Salesforce, and connected SaaS. Evasion includes real-time deletion of concurrent security warning emails to the victim. Extortion arrives via TOX with a deadline after exfiltration completes.
+
+- Kit fingerprints are durable across domain rotation. Hunt for api_FyekIDWY.php in HTTP requests, ETag W/"1c-xHTlhvqhxGIJKu5AJR5p+il839Y" in responses, and static asset d15faff9a15a05e605bc9cfadacdfb4f16ff2c9d.svg. Response hashes c51eb785... (Okta) and 275a824c... (M365) confirm the same kit build across all 118 URLScan hits.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087268856079258080</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087268856079258080">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 20:04:10 +0000</pubDate>
+      <guid isPermaLink="false">2087268856079258080</guid>
+    </item>
     <item>
       <title>CVE-2026-63520: Microsoft SharePoint Remote Code Execution (FIXED)</title>
       <link>https://www.rapid7.com/blog/post/etr-cve-2026-63520-microsoft-sharepoint-remote-code-execution-fixed</link>
@@ -1561,25 +1578,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085019196627566620">DFIR Radar</source>
       <pubDate>Wed, 05 Aug 2026 15:04:49 +0000</pubDate>
       <guid isPermaLink="false">2085019196627566620</guid>
-    </item>
-    <item>
-      <title>Attackers Don’t Need Your Devices Anymore They Just Need Your Identity.</title>
-      <link>https://detect.fyi/attackers-dont-need-your-devices-anymore-they-just-need-your-identity-the-ba51f1cd6641?source=rss----d5fd8f494f6a---4</link>
-      <description>Identity-plane lateral movement bypasses EDR entirely: attackers pivot from a phished user to a rogue service principal to a victim's mailbox without ever touching a second device.
-
-- The attack chain runs across three identities, not machines. A stolen session token (AiTM phishing) gives the attacker a user context to enumerate the tenant via Graph API (GET /users, /groups, /directoryRoles), register a new Entra ID app with Mail.Read and Mail.Send, then use that service principal to read and reply from the CFO's mailbox. SPF and DKIM pass because the mail flows through Graph API legitimately.
-
-- Each stage lives in a different table. Stage 1 (token theft): IdentityLogonEvents and AADSignInEventsBeta. Stage 2 (recon): MicrosoftGraphActivityLogs, GET requests to enumeration endpoints. Stage 3 (pivot): CloudAppEvents, actions like "Add application" or "Add service principal credentials". Stage 4 (cross-identity access): CloudAppEvents where AccountType = "Application" hitting MailItemsAccessed or FileDownloaded.
-
-- Key pivot indicator: a non-admin user performing 3 or more distinct app registration or permission-grant actions within one hour in CloudAppEvents is a high-fidelity signal. Dormant service principals that suddenly receive new credentials with zero prior Graph activity are equally suspicious.
-
-Takeaway: Add the Identity-Plane Lateral Movement KQL from the article to your standard account-compromise runbook.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085004194675568828</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2085004194675568828">DFIR Radar</source>
-      <pubDate>Wed, 05 Aug 2026 14:05:13 +0000</pubDate>
-      <guid isPermaLink="false">2085004194675568828</guid>
     </item>
   </channel>
 </rss>
