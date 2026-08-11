@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 08:02:39 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 09:02:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Gunra ransomware expands globally as US, South Korean agencies warn of data theft, encryption and extortion tactics</title>
+      <link>https://industrialcyber.co/cisa/gunra-ransomware-expands-globally-as-us-south-korean-agencies-warn-of-data-theft-encryption-and-extortion-tactics/</link>
+      <description>Gunra ransomware, a Conti-derived RaaS now operating globally, exploits FortiOS/FortiProxy auth bypasses and VPN default creds to hit healthcare, government, critical manufacturing and more across six regions.
+
+Key findings:
+
+- Initial access via CVE-2024-55591 and CVE-2025-24472 (auth bypass in FortiOS/FortiProxy) plus default credentials on SSL-VPN appliances. Lateral movement uses Impacket over SMB and stolen session tokens. Persistence achieved by installing OpenSSH and creating backdoor VPN accounts with password-change bypass.
+
+- Credential theft via secretsdump.py against NTDS on domain controllers enabling pass-the-hash and pass-the-ticket. Actors also modified VDI portal files to bypass MFA and stole symmetric encryption keys from a Hiware access control server via SSH.
+
+- Gunra deletes logs and command history, operates 10 p.m. to 6 a.m., and uses IsDebuggerPresent to block analysis. The Windows encryptor uses FindFirstFileW/FindNextFileW to traverse all drives A through Z with no network indicators.
+
+- Critical decryption opportunity: Linux ELF variants as of March 2026 use a weak PRNG seeded with predictable system time. File timestamps can reconstruct encryption keys mathematically, making ransom payment unnecessary for Linux victims.
+
+Patch CVE-2024-55591 and CVE-2025-24472 immediately. For Linux victims, preserve file timestamps and attempt key reconstruction before paying. Audit VPN accounts for password-change bypass and review NTDS access logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087102430488007140</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087102430488007140">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 09:02:51 +0000</pubDate>
+      <guid isPermaLink="false">2087102430488007140</guid>
+    </item>
     <item>
       <title>Gunra Ransomware: Multithreaded ChaCha20 Encryption Explained</title>
       <link>https://www.picussecurity.com/resource/blog/gunra-ransomware-multithreaded-chacha20-encryption-explained</link>
@@ -1523,27 +1546,6 @@ Defender action: hunt proxy logs for service worker registration (sw.js fetches)
       <source url="https://x.com/DFIR_Radar/status/2084716722607530026">DFIR Radar</source>
       <pubDate>Tue, 04 Aug 2026 19:02:54 +0000</pubDate>
       <guid isPermaLink="false">2084716722607530026</guid>
-    </item>
-    <item>
-      <title>Massive ChainDrop npm supply-chain attack infects hundreds of packages</title>
-      <link>https://www.bleepingcomputer.com/news/security/massive-chaindrop-npm-supply-chain-attack-infects-hundreds-of-packages/</link>
-      <description>ChainDrop npm worm compromises 1,300+ packages with 2 billion monthly downloads, stealing cloud and developer credentials via a self-propagating supply-chain attack.
-
-- Initial access came from a compromised GitHub account belonging to the Keyv maintainer. The attacker pushed malicious commits directly to main branches, triggering legitimate GitHub Actions workflows to publish poisoned releases with valid provenance, making detection harder at install time.
-
-- Two malicious files land in every infected package: setup.mjs (dropper) and Math_Symbol.js (infostealer), with "preinstall": "node setup.mjs" in package.json ensuring automatic execution on npm install. setup.mjs downloads the Bun JavaScript runtime from GitHub to execute Math_Symbol.js, then deletes the runtime directory to reduce forensic footprint.
-
-- Credential targets are broad: GitHub PATs (ghp_, gho_, ghs_), npm tokens (npm_), AWS credentials and Secrets Manager values, Kubernetes secrets, HashiCorp Vault tokens, Azure and GCP credentials, Stripe, Slack, and Twilio keys. Every token is validated live against registry.npmjs[.]org/-/whoami before exfil.
-
-- Exfiltration hits a public GitHub repo described as "Shai-Hulud: Here We Go Again" and the domain npm-cache[.]com, a strong IOC. The worm self-propagates to other maintainers' packages that depend on already-infected packages.
-
-If npm install ran against any affected version, treat the workstation or CI/CD runner as fully compromised.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084701592553398692</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084701592553398692">DFIR Radar</source>
-      <pubDate>Tue, 04 Aug 2026 18:02:46 +0000</pubDate>
-      <guid isPermaLink="false">2084701592553398692</guid>
     </item>
   </channel>
 </rss>
