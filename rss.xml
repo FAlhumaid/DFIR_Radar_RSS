@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 04:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 05:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CopyEscape: Taking Over Docker Hosts with docker cp</title>
+      <link>https://www.imperva.com/blog/copyescape-taking-over-docker-hosts-with-docker-cp/</link>
+      <description>CVE-2026-17106: a container-to-host arbitrary file-write in docker cp lets a malicious container overwrite host files or achieve root code execution the moment a user runs a routine copy.
+
+Key findings:
+
+- The exploit chains two flaws in moby/go-archive v0.2.0: a TOCTOU race lets a live container swap a directory for an absolute symlink mid-walk, and the CLI extractor validates a constructed path but hands the raw symlink target to the kernel, writing outside the user-chosen destination. Validated on Docker Engine 29.6.1 and Docker Desktop 4.81.0.
+
+- Impact splits by privilege: on macOS the write lands as the local user, enabling overwrite of shell startup scripts or ~/Library/LaunchAgents persistence. On Linux with sudo docker cp, the PoC replaced /usr/bin/runc with a shell script, converting a file write into root code execution on the next Docker lifecycle call.
+
+- Also affects sbx cp in Docker Sandboxes: retrieving an artifact from an untrusted AI-agent sandbox triggers the same destination escape under CVE-2026-17106. Docker Sandboxes 0.38.0 (Aug 6) and Docker Desktop 4.86.0 with Engine 29.7.2 (Aug 10) ship the fixes.
+
+- DFIR risk: copying evidence from a suspected compromised container can trigger a waiting payload. The copy that looked like safe data collection becomes the delivery mechanism.
+
+Patch to Docker Engine/CLI 29.7.2 and Desktop 4.86.0 now. Until patched, stop the container before copying and avoid sudo docker cp.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087041988998938752</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2087041988998938752">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 05:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2087041988998938752</guid>
+    </item>
     <item>
       <title>Metabase Zero-Day Exploited in the Wild: Unauthenticated SQL Injection Leading to Full Admin Access</title>
       <link>https://www.resecurity.com/blog/article/metabase-zero-day-exploited-in-the-wild-unauthenticated-sql-injection-leading-to-full-admin-access</link>
@@ -1549,27 +1572,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2084656492305645853">DFIR Radar</source>
       <pubDate>Tue, 04 Aug 2026 15:03:34 +0000</pubDate>
       <guid isPermaLink="false">2084656492305645853</guid>
-    </item>
-    <item>
-      <title>Inside the keyv npm Compromise: preinstall Malware, Trusted Provenance, and IDE Hooks</title>
-      <link>https://snyk.io/blog/inside-keyv-npm-compromise-preinstall-malware-trusted-provenance-ide-hooks/</link>
-      <description>Active npm supply chain compromise: keyv and 10 related packages backdoored with credential-stealing malware on August 4, 2026, hitting packages with hundreds of millions of monthly downloads.
-
-Key findings:
-
-- 11 malicious releases published under maintainer jaredwray between 09:35 and 10:28 UTC, including keyv@6.0.0, flat-cache@6.1.24, file-entry-cache@11.1.6, and ecto@5.0.1. All carry byte-identical payloads: setup.mjs (29,918 bytes) and Math_Symbol.js (727,680 bytes). Eight were still tagged latest at 11:16 UTC. Advisory SNYK-JS-KEYV-18515941 classifies exploit maturity as Attacked.
-
-- Execution triggers via the preinstall lifecycle hook ("preinstall": "node setup.mjs"), meaning merely resolving and installing the package is enough. No import or function call needed. The hook runs with full developer or CI runner privileges.
-
-- Second stage targets GitHub and npm tokens, AWS/GCP/Azure credentials, private keys, Vault and Kubernetes tokens, and GitHub Actions runner memory. A gh-token-monitor persistence mechanism survives token revocation attempts. Hunt for it at ~/.local/bin/gh-token-monitor.sh, ~/.config/systemd/user/gh-token-monitor.service, and ~/Library/LaunchAgents/com.user.gh-token-monitor.plist before rotating any credentials.
-
-- A second execution path exists via IDE hooks: .vscode/tasks.json (runOn: folderOpen) and .claude/settings.json (SessionStart) were added in verified commit d8c850c7.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084641452290650549</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2084641452290650549">DFIR Radar</source>
-      <pubDate>Tue, 04 Aug 2026 14:03:48 +0000</pubDate>
-      <guid isPermaLink="false">2084641452290650549</guid>
     </item>
   </channel>
 </rss>
