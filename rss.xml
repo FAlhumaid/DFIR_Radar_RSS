@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 15:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 16:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Gunra Ransomware Builds a New Attack Network Through RaaS</title>
+      <link>https://thecyberexpress.com/gunra-ransomware-expands-raas-operations/</link>
+      <description>Gunra ransomware, derived from leaked Conti source code, has formalized a RaaS affiliate program and drawn a joint FBI/CISA advisory. The group runs double-extortion operations across healthcare, finance, manufacturing, and government sectors globally.
+
+- Initial access centers on two actively exploited FortiOS/FortiProxy authentication bypass flaws: CVE-2024-55591 and CVE-2025-24472. Gunra actors also abused default VPN credentials where account lockout was absent, then leveraged stolen session tokens to pivot into internal VDI, Active Directory servers, and IT workstations via Impacket and SMB lateral movement.
+
+- Data theft precedes encryption at scale. Actors used a malicious binary named main.exe to exfiltrate from Microsoft OneDrive and SharePoint, then staged compressed archives to Mega. Exfiltrated volumes reached tens of terabytes before ChaCha20/RSA-4096 encryption deployed. Watch for .ENCRT and .CRYPT file extensions. WMI is used to delete volume shadow copies (T1490) and backup infrastructure was wiped across primary and DR sites.
+
+- The affiliate program provides a management panel, configurable builder, and cross-platform payloads covering Windows and Linux. Gunra also operates under the alias Golden Community and recruits initial access brokers on dark web forums.
+
+Prioritize patching CVE-2024-55591 and CVE-2025-24472 immediately. Hunt for main.exe, anomalous OneDrive/SharePoint API activity, and outbound transfers to Mega.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087208268972122190</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087208268972122190">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 16:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2087208268972122190</guid>
+    </item>
     <item>
       <title>Bypassing Android Hardware Attestation from the Analyst's Chair</title>
       <link>http://blog.quarkslab.com/bypassing-android-hardware-attestation.html</link>
@@ -1553,25 +1572,6 @@ Takeaway: Add the Identity-Plane Lateral Movement KQL from the article to your s
       <source url="https://x.com/DFIR_Radar/status/2084822369928163525">DFIR Radar</source>
       <pubDate>Wed, 05 Aug 2026 02:02:42 +0000</pubDate>
       <guid isPermaLink="false">2084822369928163525</guid>
-    </item>
-    <item>
-      <title>N-able N-central exploitation results in RMM tool deployment</title>
-      <link>https://www.sophos.com/en-us/blog/nable-ncentral-exploitation-results-in-rmm-tool-deployment</link>
-      <description>CVE-2026-18577 in N-able N-central is actively exploited as a zero-day auth bypass, giving attackers privileged access to RMM infrastructure and a direct path to domain controllers, backup servers, and beyond.
-
-- CVE-2026-18577 is an authentication bypass in N-able N-central (hosted and on-prem), exploited in the wild from July 31 as a zero-day before the August 2 hotfix. N-able's incomplete fix for the related CVE-2026-18556 is reported as the root cause. Patch immediately.
-
-- Post-compromise actions included creating a domain account named "veeam," resetting existing DA passwords, and running nltest /dclist: and net group "domain admins" /domain for recon. Classic hands-on-keyboard AD targeting within hours of initial access.
-
-- The actor deployed AnyDesk, TacticalRMM (install_server.ps1, tacticalagent-v2.11.0-windows-amd64.exe), TeamViewer, RustDesk, SimpleHelp, and HopToDesk. Cloudflared was renamed MicrosoftEdgeUpdate64.exe or msmp.exe for persistence via Cloudflare Tunnel.
-
-- PhantomKiller EDR evasion tool (seen as 9.exe) loaded a kernel driver k.sys from C:\ProgramData\AnyDesk to kill security processes. The actor first ran tasklist piped to findstr soph and findstr ms to fingerprint defenses before deploying it. Sophos detection: CXmal/KillAV-BR.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084807682788139352</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2084807682788139352">DFIR Radar</source>
-      <pubDate>Wed, 05 Aug 2026 01:04:20 +0000</pubDate>
-      <guid isPermaLink="false">2084807682788139352</guid>
     </item>
   </channel>
 </rss>
