@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Aug 2026 14:03:33 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Aug 2026 15:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Bypassing Android Hardware Attestation from the Analyst's Chair</title>
+      <link>http://blog.quarkslab.com/bypassing-android-hardware-attestation.html</link>
+      <description>Android hardware attestation relayed, not broken: Quarkslab shows how a Frida hook and a clean burner phone flip a backend verdict from rejected to valid without touching crypto or firmware.
+
+Key findings:
+
+- The attestation chain's RootOfTrust (tag [704] in hardwareEnforced) is what kills analysis on a rooted device. verifiedBootState reports Unverified and deviceLocked is false because those values are written by secure hardware before Android boots, no userspace patch changes them. The relay sidesteps this entirely by having a stock, locked phone generate the chain instead.
+
+- The seam is KeystoreAttestation.generateAttestedKey(challenge: ByteArray). Frida hooks that single method, re-encodes the raw challenge bytes as unpadded base64url, ships it to the clean oracle device via HTTP POST /attest, and returns the resulting AttestedKey to the app. The local Keystore is never called. The app forwards a genuine chain it believes is its own.
+
+- The backend cannot distinguish a relayed chain from a local one. KeyDescription carries no field binding the attestation to a transport session, network address, or process. The nonce (attestationChallenge) is the only freshness signal, and the relay forwards it untouched.
+
+- The decisive mitigation is one backend comparison: read attestationApplicationId (tag [709], softwareEnforced) and reject any chain whose package name or signing certificate SHA-256 digest does not match the expected app.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087193254080950391</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2087193254080950391">DFIR Radar</source>
+      <pubDate>Tue, 11 Aug 2026 15:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2087193254080950391</guid>
+    </item>
     <item>
       <title>Rapid7 Analysis: Microsoft SharePoint JWT Token Authentication Bypass (CVE-2026-55040)</title>
       <link>https://www.rapid7.com/blog/post/ra-microsoft-sharepoint-jwt-token-authentication-bypass-cve-2026-55040</link>
@@ -1551,17 +1572,6 @@ Takeaway: Add the Identity-Plane Lateral Movement KQL from the article to your s
       <source url="https://x.com/DFIR_Radar/status/2084807682788139352">DFIR Radar</source>
       <pubDate>Wed, 05 Aug 2026 01:04:20 +0000</pubDate>
       <guid isPermaLink="false">2084807682788139352</guid>
-    </item>
-    <item>
-      <title>CVE-2026-18577: N-able N-central Authentication Bypass Lets Attackers Reach Managed Endpoints</title>
-      <link>https://socprime.com/blog/cve-2026-18577-analysis/</link>
-      <description>CVE-2026-18577 (CVSS 8.2), an auth bypass in N-able N-central, is actively exploited and CISA KEV-listed. Attackers used Take Control to drop svchost.exe in Documents and install a Cloudflared Windows service for tunnel persistence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2084792056526856601</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2084792056526856601">DFIR Radar</source>
-      <pubDate>Wed, 05 Aug 2026 00:02:15 +0000</pubDate>
-      <guid isPermaLink="false">2084792056526856601</guid>
     </item>
   </channel>
 </rss>
