@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 12 Aug 2026 10:04:07 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Aug 2026 11:04:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CERT Polska exposes multi-stage cyberattack on energy infrastructure involving VPN, private APN, OT network tunneling</title>
+      <link>https://industrialcyber.co/utilities-energy-power-water-waste/cert-polska-exposes-multi-stage-cyberattack-on-energy-infrastructure-involving-vpn-private-apn-ot-network-tunneling/</link>
+      <description>CERT Polska exposes a novel private APN pivot used to tunnel from a compromised wind farm into a CHP plant's OT network, shutting down a steam turbine and water treatment system on Dec. 29, 2025.
+
+- Initial access: FortiGate VPN concentrators at wind farm substations were internet-exposed with no MFA. The attacker pivoted to a Teltonika RUTX50 cellular router, used SSH tunneling into a private APN, and discovered a WAGO PFC200 PLC configured with default admin credentials. SSH was then enabled via the web interface and used as the OT network gateway into the CHP plant, a vector CERT Polska says has no prior known precedent.
+
+- Dec. 18-25 reconnaissance: the attacker scanned the APN for VNC, HTTP, S7, and Modbus services, made manual RDP credential attempts, and on Dec. 25 connected to three Siemens PLCs (S7-300, S7-1200, S7-1500) via S7 protocol, likely staging for disruption.
+
+- Dec. 29 impact: starting at 05:30, the attacker switched all three Siemens PLCs to STOP mode, password-locked them, reconfigured seven Moxa serial servers and three Moxa switches with unreachable IPs (127.0.0.1), and halted cogeneration. Recovery teams were still restoring systems while the attacker remained active.
+
+- Forensic loss: the WAGO PLC had its partition table corrupted by the attacker before exit. Factory resets of the Teltonika router and FortiGate destroyed remaining logs. PLC restoration wiped controller logs permanently, confirmed by Siemens.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087495349648736691</description>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2087495349648736691">DFIR Radar</source>
+      <pubDate>Wed, 12 Aug 2026 11:04:10 +0000</pubDate>
+      <guid isPermaLink="false">2087495349648736691</guid>
+    </item>
     <item>
       <title>Head Mare APT Group exploits vulnerabilities in unpatched TrueConf server to deliver PhantomCore malware to conference participants</title>
       <link>https://ics-cert.kaspersky.com/publications/reports/2026/08/12/head-mare-exploits-vulnerabilities-in-trueconf-server-to-deliver-phantomcore-malware/?utm_source=ics-cert.kaspersky.com&amp;utm_medium=rss&amp;utm_campaign=main</link>
@@ -1511,25 +1530,6 @@ Rotate all developer and cloud credentials on any system that installed affected
       <source url="https://x.com/DFIR_Radar/status/2085245590066348200">DFIR Radar</source>
       <pubDate>Thu, 06 Aug 2026 06:04:25 +0000</pubDate>
       <guid isPermaLink="false">2085245590066348200</guid>
-    </item>
-    <item>
-      <title>Fake Open VSX Extensions Harvest Private Repo and CI Data</title>
-      <link>https://www.infosecurity-magazine.com/news/open-vsx-evil-twin-extensions-git/</link>
-      <description>77 fake Open VSX extensions squatted real publisher namespaces and beaconed git identity, CI pipeline data, and private repo names to a single attacker-controlled domain, active July 26 to August 1, 2026.
-
-- All 77 packages impersonated real extensions by republishing their names under unauthorized accounts. Squatted namespaces included AMD, Azure, Salesforce OSS, Hyperledger, LEGO Education, a US 🇺🇸 federal agency, and marketplace.visualstudio itself. Every package beaconed to one domain registered just 11 days before the first package appeared, on a three-year term through a registrar that redacts registrant details.
-
-- 19 of the 77 carried a fuller payload: hostname, OS username, machine ID, editor details, git remote host, org name, commit email domain, branch, HEAD commit, GitHub repo name, GitLab project path, and Codespace name. On a build runner that is the full private repository name. The beacon retried for seven days across restarts, and if all HTTP endpoints failed, a DNS TXT query fetched a replacement collector address, letting the operator re-home infrastructure without pushing new packages.
-
-- One extension's telemetry disclosure actively lied: it claimed CI data covered marker names only, never values. The code sent both. The single most sensitive field was the one the disclosure said was withheld.
-
-- Open VSX removed the packages August 3 but the collector infrastructure was still live at time of writing.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085230532863098881</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2085230532863098881">DFIR Radar</source>
-      <pubDate>Thu, 06 Aug 2026 05:04:36 +0000</pubDate>
-      <guid isPermaLink="false">2085230532863098881</guid>
     </item>
   </channel>
 </rss>
