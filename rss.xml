@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 12 Aug 2026 03:04:04 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Aug 2026 04:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Deleting the Defenders: A Commodity BYOVD Toolkit That Erases Host Safeguards</title>
+      <link>https://www.vmray.com/deleting-the-defenders-a-commodity-byovd-toolkit-that-erases-host-safeguards/</link>
+      <description>Commodity BYOVD toolkit "Saked" delivered via WinRAR SFX archives wipes 281 files across Defender, 9+ AV vendors, backups, and recovery data before dropping a follow-on payload. Static detection misses it entirely.
+
+Key findings:
+
+- The dropper is a WinRAR SFX that extracts 7z.exe, cecho.exe, nircmd.exe, and a password-protected same.zip (password: stucha, Russian 🇷🇺 slang) to %TEMP%\saked, then runs a randomly named batch script. The script detects Defender and Windows Security services via tasklist and reg query, disables Windows Update (wuauserv, dosvc, bits, UsoSvc, WaaSMedicSvc via sc.exe config start= disabled), then launches mika.exe (SHA-256 9163d413..., compiled 2025-10-17, first seen 2026-02-08) with /DelWD. Static pivots on the shared imphash 12e12319... or Rich-header hash 5a0b7a24... return the entire commodity WinRAR SFX population, not this family.
+
+- The BYOVD path: mika.exe unpacks genuine IObit Unlocker 1.6.0.16 (IObitUnlocker.exe SHA-256 eaa9dc1c..., IObitUnlocker.sys SHA-256 1845fe85...) to %TEMP%\IObitUnlocker and issues one IObitUnlocker.exe /Delete /Advanced command targeting 281 paths. The driver opens \\.\IObitUnlockerDevice, receives IOCTL 0x222124 (CVE-2020-14974, CVE-2020-14975), calls ZwTerminateProcess on any non-safe-listed process holding a target file, then force-deletes it from kernel mode, including live Defender services. A runtime mutex "Unlocker by Eject NotOfficial" marks Saked's execution.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087389478478614856</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2087389478478614856">DFIR Radar</source>
+      <pubDate>Wed, 12 Aug 2026 04:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2087389478478614856</guid>
+    </item>
     <item>
       <title>Six npm Packages Read C2 Addresses From Ethereum Wallet</title>
       <link>https://www.infosecurity-magazine.com/news/npm-packages-ethereum-wallet-c2/</link>
@@ -1531,27 +1548,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085139967899218275">DFIR Radar</source>
       <pubDate>Wed, 05 Aug 2026 23:04:43 +0000</pubDate>
       <guid isPermaLink="false">2085139967899218275</guid>
-    </item>
-    <item>
-      <title>Weaponizing Windows Updates with NotWSUSpicious</title>
-      <link>https://specterops.io/blog/2026/08/05/weaponizing-windows-updates-with-notwsuspicious/</link>
-      <description>SpecterOps releases NotWSUSpicious, a tool that weaponizes enterprise WSUS servers configured with external MSSQL backends, turning the update pipeline into a payload delivery mechanism against any managed endpoint.
-
-Key details:
-
-- The attack requires WSUS to use an external MSSQL server with EPA disabled. PetitPotam coerces the WSUS computer account (WSUS1$) into authenticating to the attacker, ntlmrelayx relays that NTLM auth to MSSQL port 1433 via SOCKS, and a custom mssqlclient.py connects to the SUSDB database as the machine account (T1557.001, T1021.002).
-
-- NotWSUSpicious.py generates the full SQL stored-procedure chain: spImportUpdate, spSaveXmlFragment, spSetBatchURL, spCreateTargetGroup, spAddComputerToTargetGroup, and spDeployUpdate. The tool calculates SHA1 and SHA256 hashes of the payload and injects them into WSUS update metadata so the file passes integrity checks.
-
-- Payload delivery abuses BITS: a bundled BitsWebServer.py serves the malicious file over HTTP range requests, which WSUS fetches natively. The update appears legitimate to the target machine, which executes the payload at next check-in.
-
-- Detection opportunities: anomalous MSSQL sessions authenticating as a computer account (WSUS1$) to the SUSDB database, unexpected rows in SUSDB update tables with attacker-controlled GUIDs, and BITS traffic (HTTP 206 responses) from non-Microsoft hosts serving update files.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085124682911764782</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2085124682911764782">DFIR Radar</source>
-      <pubDate>Wed, 05 Aug 2026 22:03:59 +0000</pubDate>
-      <guid isPermaLink="false">2085124682911764782</guid>
     </item>
   </channel>
 </rss>
