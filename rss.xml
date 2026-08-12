@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 12 Aug 2026 09:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Aug 2026 10:04:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Head Mare APT Group exploits vulnerabilities in unpatched TrueConf server to deliver PhantomCore malware to conference participants</title>
+      <link>https://ics-cert.kaspersky.com/publications/reports/2026/08/12/head-mare-exploits-vulnerabilities-in-trueconf-server-to-deliver-phantomcore-malware/?utm_source=ics-cert.kaspersky.com&amp;utm_medium=rss&amp;utm_campaign=main</link>
+      <description>Head Mare APT trojanizes TrueConf installers via server-side RCE to deliver PhantomCore to every conference participant, including employees of unaffected organizations who join external meetings.
+
+Key details:
+
+- Two unpatched vulnerabilities (KLCERT-26-057 and KLCERT-26-058) in TrueConf Server, exploitable via port 4307/TCP on all versions since 2022, let Head Mare execute code as NT AUTHORITY\SYSTEM, drop a web shell at C:\Program Files\TrueConf Server\httpconf\site\public\js\locale.php, and replace the legitimate x64 client installer at ClientInstFiles\trueconf_windows_client_x64.exe. Patches landed June 18, 2026 in versions 5.3.9, 5.4.9, and 5.5.5.
+
+- PhantomCore (MD5: c5a460e4e68a088f6e51b2c6474642ec) drops to %LOCALAPPDATA%\TrueConf\Client\api-ms-win-crt-time-l1-1-0-2.dll and persists via COM hijack at HKCU\Software\Classes\CLSID\{0340F119-A598-4ed9-B0AC-6F6A12D3E755}\InprocServer32. A two-component backdoor (SysExcSvc and SysReadSvc services) uses Microsoft OneDrive for C2; on Linux, a separate backdoor uses GitHub as its C2 channel.
+
+- Supply-chain blast radius extends beyond TrueConf server owners: any employee who joined a meeting on a compromised server and clicked the update prompt is potentially infected, making participant-side hunting mandatory.
+
+Hunt for the COM hijack key, SysExcSvc/SysReadSvc services, and api-ms-win-crt-time-l1-1-0-2.dll in the TrueConf client path.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087480237026160754</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087480237026160754">DFIR Radar</source>
+      <pubDate>Wed, 12 Aug 2026 10:04:07 +0000</pubDate>
+      <guid isPermaLink="false">2087480237026160754</guid>
+    </item>
     <item>
       <title>Self-Propagating ChainDrop Worm Infects More Than 400 npm Packages in Major Software Supply Chain Attack</title>
       <link>https://blog.polyswarm.io/self-propagating-chaindrop-worm-infects-more-than-400-npm-packages-in-major-software-supply-chain-attack</link>
@@ -1509,25 +1530,6 @@ Rotate all developer and cloud credentials on any system that installed affected
       <source url="https://x.com/DFIR_Radar/status/2085230532863098881">DFIR Radar</source>
       <pubDate>Thu, 06 Aug 2026 05:04:36 +0000</pubDate>
       <guid isPermaLink="false">2085230532863098881</guid>
-    </item>
-    <item>
-      <title>22 Seconds to Compromise: How Automated SSH Actors Move From Login to Persistence Before You Can Blink &amp;#x5b;Guest Diary&amp;#x5d;, (Thu, Aug 6th)</title>
-      <link>https://isc.sans.edu/diary/rss/33220</link>
-      <description>A Cowrie SSH honeypot captured a fully automated intrusion that went from credential auth to persistent backdoor in 22 seconds, part of the ongoing mdrfckr campaign with 93 confirmed active IPs still scanning weeks later.
-
-- At 01:06:43 UTC on May 23, 2026, IP 163.7.8[.]79 (Byteplus, AS150436) authenticated as root using "Aa123123123", then executed a pre-scripted playbook: wiped and recreated .ssh/, injected a backdoor key (SHA256: a8460f446be540410004b1a8db4083773fa46f7fe76fa84219c93daa1669f8f2), changed the root password, and cleared hosts.deny. All of it in 22 seconds. No human hesitation, no exploration.
-
-- The session maps cleanly to T1078 (Valid Accounts), T1098 (Account Manipulation via authorized_keys), T1059 (Command Execution), and T1562 (Impair Defenses). Deleting the existing .ssh dir before re-creating it is the tell: the actor evicts all prior keys to ensure exclusive access.
-
-- 21 successful logins from 21 distinct IPs hit the honeypot in one 24-hour window, clustered 01:00-02:30 UTC, with a coordinated /24 subnet block (80.94.92[.]171, 80.94.92[.]184, 80.94.92[.]186) generating high-volume sessions simultaneously. This is distributed scanning infrastructure, not opportunistic individuals.
-
-- 93 IPs from the documented mdrfckr campaign list were still actively hitting the sensor weeks after first observation. AbuseIPDB shows 163.7.8[.]79 at 100% abuse confidence with 5,700+ reported incidents.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085214942160908664</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2085214942160908664">DFIR Radar</source>
-      <pubDate>Thu, 06 Aug 2026 04:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2085214942160908664</guid>
     </item>
   </channel>
 </rss>
