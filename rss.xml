@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 12 Aug 2026 11:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Aug 2026 12:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Russian-Linked Hackers Accessed Polish Power Plant OT Network Through Private APN, Says CERT.PL</title>
+      <link>https://www.infosecurity-magazine.com/news/attack-polish-power-plant-2025-led/</link>
+      <description>Sandworm-linked actors forced a Polish 🇵🇱 CHP plant turbine and water treatment shutdown by pivoting through a private APN, the first documented OT intrusion via this vector.
+
+- Initial access came through a compromised FortiGate VPN/firewall at a wind farm. Attackers then pivoted via a Teltonika cellular router over SSH to a private APN managed by a distribution system operator, reaching OT assets that operators assumed were isolated.
+
+- A WAGO PFC200 PLC with default admin credentials was exposed on the APN web interface. After owning it, actors SSH'd into the plant OT network, found three Siemens PLCs, set them to STOP mode, and password-locked them to block recovery. Steam turbine and water treatment both went offline.
+
+- Anti-forensics were deliberate and layered: logs destroyed, Moxa network devices sabotaged, WAGO controller physically damaged, Teltonika router factory-reset, and FortiGate restored to defaults, erasing the pivot path.
+
+- Part of the broader Sandworm December 2025 campaign hitting 30 Polish 🇵🇱 renewable energy facilities and a second CHP plant on Dec 29-30, 2025. Post-mortem took three months due to evidence destruction.
+
+Takeaway: Audit every private APN as an untrusted network segment. Hunt for SSH tunnels from cellular routers into OT. Default credentials on PLC web interfaces are the kill shot here. CERT.PL recommendations and full report are published.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087510267358015910</description>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2087510267358015910">DFIR Radar</source>
+      <pubDate>Wed, 12 Aug 2026 12:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2087510267358015910</guid>
+    </item>
     <item>
       <title>CERT Polska exposes multi-stage cyberattack on energy infrastructure involving VPN, private APN, OT network tunneling</title>
       <link>https://industrialcyber.co/utilities-energy-power-water-waste/cert-polska-exposes-multi-stage-cyberattack-on-energy-infrastructure-involving-vpn-private-apn-ot-network-tunneling/</link>
@@ -1507,29 +1528,6 @@ Inventory OT edge gear by model number, not brand label. Block the IOCs at egres
       <source url="https://x.com/DFIR_Radar/status/2085260308621529176">DFIR Radar</source>
       <pubDate>Thu, 06 Aug 2026 07:02:55 +0000</pubDate>
       <guid isPermaLink="false">2085260308621529176</guid>
-    </item>
-    <item>
-      <title>ChainDrop Worm Hits 400+ npm Packages with Two Billion Monthly Installs</title>
-      <link>https://www.infosecurity-magazine.com/news/chaindrop-worm-400-npm-two-billion/</link>
-      <description>ChainDrop worm poisons 430+ npm packages with 2 billion monthly installs, harvesting cloud and developer credentials through GitHub's own trusted publishing pipeline.
-
-Key findings:
-
-- Attackers compromised a keyv maintainer's GitHub account on August 4, pushed malicious commits directly to the main branch, then cut new releases. GitHub Actions signed them with valid provenance, so the poisoned versions landed on npm looking legitimate. Affected packages include flat-cache (557M downloads/month), file-entry-cache (557M), and cacheable (29M).
-
-- The infostealer targets npm and GitHub tokens, AWS credentials, Kubernetes secrets, HashiCorp Vault tokens, and Stripe and Slack tokens, then performs a broad file system scan. Stolen data is encrypted and exfiltrated to a public GitHub repo described as "Shai-Hulud: Here We Go Again."
-
-- Worm propagation is the critical escalation. The malware uses stolen tokens to spread across other maintainers and repositories, chaining compromises through trusted CI/CD workflows. Packages tied to Deliveroo, Picsart, and Qlik were among those hit.
-
-- DFIR scope is wider than direct installs. Even packages installed but not actively used can expose credentials. Treat any installation of an affected version as a credential breach event.
-
-Rotate all developer and cloud credentials on any system that installed affected package versions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085245590066348200</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2085245590066348200">DFIR Radar</source>
-      <pubDate>Thu, 06 Aug 2026 06:04:25 +0000</pubDate>
-      <guid isPermaLink="false">2085245590066348200</guid>
     </item>
   </channel>
 </rss>
