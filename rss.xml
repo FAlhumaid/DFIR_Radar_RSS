@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Aug 2026 14:03:18 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 15:02:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malware Crypting Services and the Threat Actors Who Sell Them</title>
+      <link>https://www.recordedfuture.com/research/malware-crypting-services-threat-actors</link>
+      <description>Crypting-as-a-service is a mature, competitive criminal market. Recorded Future's Insikt Group mapped 24 active providers selling layered evasion capability, not just payload encryption.
+
+Key findings:
+
+- Crypters combine encryption, in-memory execution, anti-sandbox checks, process injection, persistence, and re-crypting after detection. "GoldenCrypt" is named as a well-established provider affiliated with FvncBot, Albiriox, and Mirax malware families. PureRAT was linked to GhostCrypt in a May 2025 attack on a US 🇺🇸 accounting firm, per eSentire.
+
+- Providers verify evasion by scanning samples through KleenScan, a multi-AV platform that withholds samples from researchers, meaning FUD claims are being tested in ways that specifically avoid tipping off defenders.
+
+- The market is reputation-driven: tiered pricing, turnaround guarantees for re-crypting detected payloads, and partnerships with malware developers used as marketing. Access is gated by forums, Telegram, TOX, and clearnet sites, making attribution harder.
+
+- Crypted payloads target Windows .exe and .dll files almost exclusively. No macOS or Linux providers were identified. Payload language (.NET vs C/C++) affects what can be crypted and what additional capabilities are unlocked.
+
+Static AV and EDR are explicitly insufficient against crypted payloads by design.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087917834491863048</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2087917834491863048">DFIR Radar</source>
+      <pubDate>Thu, 13 Aug 2026 15:02:59 +0000</pubDate>
+      <guid isPermaLink="false">2087917834491863048</guid>
+    </item>
     <item>
       <title>Multi-Functional Linux Botnet “Evooo1Bot”</title>
       <link>https://feeds.fortinet.com/~/967797734/0/fortinet/blog/threat-research~MultiFunctional-Linux-Botnet-%e2%80%9cEvoooBot%e2%80%9d</link>
@@ -1597,23 +1620,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085667995750400303">DFIR Radar</source>
       <pubDate>Fri, 07 Aug 2026 10:02:55 +0000</pubDate>
       <guid isPermaLink="false">2085667995750400303</guid>
-    </item>
-    <item>
-      <title>When Agentic Glue Melts: Exploiting Cloudflare Code Mode and Workers</title>
-      <link>https://research.checkpoint.com/2026/when-agentic-glue-melts/</link>
-      <description>Five memory-corruption bugs in workerd, the runtime behind Cloudflare Workers and Code Mode, enable cross-tenant secret theft and sandbox escape to host RCE. Two rated Critical by Cloudflare. Patched in production; self-hosted deployments must update to v1.20260619.1.
-
-Key findings:
-
-- The attack surface is workerd's JSG layer, the C++ glue marshaling JavaScript calls into native code. Unlike V8, JSG had almost no prior public scrutiny, and the objects it allocates land on the tcmalloc heap, outside both the V8 sandbox cage and memory-protection keys. That means a bug there is not boxed in the way a V8 bug would be. Check Point found five bugs: two UAFs (node:zlib deflateParams and HTMLRewriter AttributesIterator), two URLPattern out-of-bounds reads, and a KV SQL authorizer bypass leading to arbitrary deserialization of attacker-controlled bytes into workerd's internal structured-clone deserializer.
-
-- Cross-tenant secret theft via URLPattern OOB: a nested capture group like /(ab(cde))/ causes V8 to report two capture groups while nameList holds only one name. The loop reads 24 bytes past the vector end, treats them as a kj::String, and dereferences ptr, returning bytes at an attacker-chosen address. Using tcmalloc free-list layout and VFS file buffers as stable in-place primitives, one Worker can sweep the shared heap and read another tenant's secrets (Bearer tokens, private keys) without touching the cage or MPK-protected pages.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085653013838848037</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2085653013838848037">DFIR Radar</source>
-      <pubDate>Fri, 07 Aug 2026 09:03:23 +0000</pubDate>
-      <guid isPermaLink="false">2085653013838848037</guid>
     </item>
   </channel>
 </rss>
