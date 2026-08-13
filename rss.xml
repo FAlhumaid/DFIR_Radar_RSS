@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Aug 2026 11:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 12:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Akira Affiliate Crashes Ransomware After Attempting EDR Evasion</title>
+      <link>https://www.infosecurity-magazine.com/news/akira-affiliate-crashes-ransomware/</link>
+      <description>Akira-targeted affiliate self-sabotaged encryption by rebooting into Safe Mode, blinding EDR and AV but starving the ransomware of virtual memory before it could detonate.
+
+- Initial access came via credential spraying against a SonicWall SSL VPN with no MFA. The attacker RDP'd to the domain controller, enumerated Active Directory, then moved to an application server and exfiltrated data using s5cmd (a fast S3 transfer tool), completing the double-extortion setup before attempting encryption.
+
+- Before dropping the payload, the affiliate ran msconfig.exe to force a "Safe Mode with Networking" reboot, a technique MITRE tracks as T1688 (Impair Defenses: Safe Mode Boot), previously linked to Snatch and AvosLocker. This killed the Huntress agent and disabled Defender real-time protection for the entire Safe Mode window.
+
+- The plan backfired: Safe Mode's constrained virtual memory environment caused akira.exe to hit an "Out of Virtual Memory" error, collapsing the process tree before encryption ran. A host with more RAM or a larger page file may not have been so lucky, and Akira's developers could retool the encryptor to run leaner.
+
+- Key forensic artifacts to hunt: msconfig.exe or bcdedit execution, Kernel-Boot Event ID 27 with a SAFEBOOT load option, Kernel-General Event ID 12 with BootMode=2, System Event ID 7036 showing third-party security services stopping, and additions to the Safe Mode minimal-service registry list.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087872610524967329</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087872610524967329">DFIR Radar</source>
+      <pubDate>Thu, 13 Aug 2026 12:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2087872610524967329</guid>
+    </item>
     <item>
       <title>North Korean Lazarus Group Uses Windows Zero-Day in Operation Dream Job</title>
       <link>https://securityaffairs.com/197098/uncategorized/north-korean-lazarus-group-uses-windows-zero-day-in-operation-dream-job.html</link>
@@ -1575,17 +1594,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085622616967069979">DFIR Radar</source>
       <pubDate>Fri, 07 Aug 2026 07:02:36 +0000</pubDate>
       <guid isPermaLink="false">2085622616967069979</guid>
-    </item>
-    <item>
-      <title>TeamPCP Traced Back to 2020 Cryptojacking Operation</title>
-      <link>https://www.infosecurity-magazine.com/news/teampcp-shadowray-ta-natalstatus/</link>
-      <description>TeamPCP, behind March 2026 supply chain hits on Trivy and LiteLLM, is now linked to cryptojacking ops dating to 2020 via shared infrastructure including masscan[.]cloud and reused staging scripts. IOCs and timeline in the Oligo report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085607457598918717</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2085607457598918717">DFIR Radar</source>
-      <pubDate>Fri, 07 Aug 2026 06:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2085607457598918717</guid>
     </item>
   </channel>
 </rss>
