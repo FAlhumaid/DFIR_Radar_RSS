@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Aug 2026 18:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 19:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Investigate GitHub PAT Compromise: Lessons From a Multi-Organization Campaign</title>
+      <link>https://www.wiz.io/blog/investigating-github-pat-compromise</link>
+      <description>GitHub PAT compromise fueled a coordinated multi-org campaign: mass repo cloning across multiple organizations between mid-May and early June 2026, with attackers pivoting toward exfiltrated cloud credentials.
+
+Key details:
+
+- Three distinct phases reconstructed: reconnaissance on May 15 via GitHub API /repositories/{id}/readme endpoint from 13.221.167[.]217 (us-east-1, Chrome UA), low-volume validation cloning May 29-31 from 107.174.201[.]183 (HostPapa) using git/2.25.1, then mass parallelized cloning on June 1 (09:14-14:55 UTC) across 102 AWS IPs in ca-central-1 using git/2.43.0
+
+- The reconnaissance phase generated api.request events, visible only via GitHub Enterprise Log Streaming, not standard audit logs. Orgs without streaming had zero visibility into the earliest stage.
+
+- Git events (git.clone, git.fetch, git.push) retain for only 7 days in GitHub Enterprise Cloud. If not streamed externally, the cloning scope may be unrecoverable.
+
+- Blast radius extends beyond source code: exfiltrated repos likely contained cloud credentials, API keys, and private keys. Any secret present in a cloned repo must be treated as compromised and rotated immediately, with rotation times documented for follow-on hunt activity.
+
+Takeaway: stream GitHub enterprise audit logs to an external SIEM or cloud security platform now, before an incident.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087978196767850847</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2087978196767850847">DFIR Radar</source>
+      <pubDate>Thu, 13 Aug 2026 19:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2087978196767850847</guid>
+    </item>
     <item>
       <title>Return of the Cookie Monster</title>
       <link>https://specterops.io/blog/2026/08/13/chrome-devtools-protocol-cookie-theft/</link>
@@ -1615,27 +1638,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085728425914839144">DFIR Radar</source>
       <pubDate>Fri, 07 Aug 2026 14:03:03 +0000</pubDate>
       <guid isPermaLink="false">2085728425914839144</guid>
-    </item>
-    <item>
-      <title>The security signal log tailing can't see: tracking npm cooldown removals with Elastic Agent</title>
-      <link>https://www.elastic.co/security-labs/npm-cooldown-removal-detection-elastic-agent</link>
-      <description>Elastic Security Labs built a CEL-based Elastic Agent integration to detect silent removal of npm's min-release-age supply-chain cooldown setting from developer workstations, closing a gap filestream cannot see.
-
-Key findings:
-
-- npm's min-release-age setting (available since npm 11.10) maps directly to T1195.001 (Compromise Software Dependencies and Development Tools). It blocks freshly published, potentially compromised packages from resolving during the highest-risk window. The danger is silent removal: a developer or script can delete the line from ~/.npmrc and filestream-based monitoring never fires because filestream only emits on append, not on content removal.
-
-- The CEL integration snapshots every .npmrc on a 6-hour heartbeat, hashes the content, and marks cooldown.absent = true in the next snapshot when min-release-age is gone. An agent-side JavaScript processor strips registry auth tokens before any data leaves the host, so //registry.npmjs.org/:_authToken lines never reach Elasticsearch.
-
-- Three filestream failures drove the switch: files under 1024 bytes are silently held back by the default fingerprint identity (switch to native/inode), clean_inactive and ignore_older must both be set to get periodic re-emission, and removal events simply never arrive.
-
-- The adoption dashboard requires a heartbeat model, not emit-on-change. One-shot events age out of the time window and make adoption appear to erode when the setting is still in place.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085713313787175193</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2085713313787175193">DFIR Radar</source>
-      <pubDate>Fri, 07 Aug 2026 13:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2085713313787175193</guid>
     </item>
   </channel>
 </rss>
