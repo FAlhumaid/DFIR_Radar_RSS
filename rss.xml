@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Aug 2026 15:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 16:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attack of The Extensions</title>
+      <link>https://specterops.io/blog/2026/08/13/chromium-extension-c2-persistence/</link>
+      <description>SilentChrome-BOF and the Ditto Mythic agent turn Chromium itself into a persistent C2 by silently sideloading extensions, Isolated Web Apps, and Native Messaging Hosts via Secure Preferences tampering.
+
+Key details:
+
+- SilentChrome-BOF (a Cobalt Strike BOF) bypasses Chromium's HMAC integrity checks by recalculating protection.macs and protection.super_mac using the user's SID as part of the HMAC seed, then drops the entire settings_encrypted_hash dictionary so Chromium self-heals on next launch. Targets: %LOCALAPPDATA%\Google\Chrome\User Data\Default\Secure Preferences and the Edge equivalent.
+
+- Ditto is the Mythic agent delivered as an unpacked Chrome extension. It checks in over HTTP(S), collects cookies, enumerates tabs, and captures history. Optional sidecars: a Rust Native Messaging Host (process listing, file ops, COFF execution via HKCU\Software\Google\Chrome\NativeMessagingHosts) and a signed IWA for Direct Sockets SOCKS pivoting.
+
+- Allowlist bypass: reusing the Base64 public key from a legitimate extension's CRX gives Ditto the same 32-character extension ID, impersonating an enterprise-approved extension.
+
+- Detection anchors: Sysmon Event ID 11 for non-browser writes to \User Data\Secure Preferences; Event IDs 12/13 for HKCU\SOFTWARE*\NativeMessagingHosts* creation; Event ID 1 for chrome.exe or msedge.exe spawning child processes via \\.\pipe\chrome.nativeMessaging pipes; process args containing --enable-isolated-web-apps-in-renderer or --app-id.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087932945944453449</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2087932945944453449">DFIR Radar</source>
+      <pubDate>Thu, 13 Aug 2026 16:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2087932945944453449</guid>
+    </item>
     <item>
       <title>Malware Crypting Services and the Threat Actors Who Sell Them</title>
       <link>https://www.recordedfuture.com/research/malware-crypting-services-threat-actors</link>
@@ -1609,17 +1630,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085683148742865323">DFIR Radar</source>
       <pubDate>Fri, 07 Aug 2026 11:03:08 +0000</pubDate>
       <guid isPermaLink="false">2085683148742865323</guid>
-    </item>
-    <item>
-      <title>Shai-Hulud Returns: ChainDrop Worm Hits npm, Infecting Hundreds of Packages</title>
-      <link>https://www.opswat.com/blog/shai-hulud-returns-chaindrop-worm-hits-npm-infecting-hundreds-of-packages</link>
-      <description>ChainDrop, a self-propagating npm worm, compromised keyv, a caching library present in millions of builds, and plants a secondary trigger that fires on project open, not just install.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085667995750400303</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2085667995750400303">DFIR Radar</source>
-      <pubDate>Fri, 07 Aug 2026 10:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2085667995750400303</guid>
     </item>
   </channel>
 </rss>
