@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Aug 2026 21:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Aug 2026 22:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Akira hackers disable EDR with Safe Mode, steal data but fail to encrypt</title>
+      <link>https://www.bleepingcomputer.com/news/security/akira-hackers-disable-edr-with-safe-mode-steal-data-but-fail-to-encrypt/</link>
+      <description>Akira ransomware affiliate disabled EDR via Safe Mode reboot, exfiltrated credentials and files via s5cmd to S3, but failed to encrypt after akira.exe crashed with out-of-memory errors.
+
+Key details:
+
+- Initial access through an MFA-less SonicWall VPN on August 4. Within two hours the attacker RDP'd to the domain controller, enumerated AD users and computers, then moved to an application server. Total dwell time before intervention: under five hours.
+
+- Exfil chain: WinRAR archived mapped file shares, s5cmd uploaded the archives to an attacker-controlled S3 bucket. AnyDesk was installed for persistent remote access and registered under the Safe Mode registry key so it survived reboots (T1562.001, T1048).
+
+- The Safe Mode pivot gave the attacker a 10-minute window with no working EDR and Defender real-time protection blinded. Scheduled Defender scans still ran in Safe Mode and detected akira.exe, but could not quarantine it until the system returned to normal mode, where real-time protection restored and removed the payload.
+
+- Ransomware failed due to low virtual memory and PowerShell out-of-memory errors, not detection. Data extortion remains viable even without encryption.
+
+Hunt for: BCDEdit or registry changes to Safe Mode service entries (HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot), AnyDesk persistence keys, and s5cmd.exe in process telemetry. MFA on every VPN account is the non-negotiable control here.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088023527144251514</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2088023527144251514">DFIR Radar</source>
+      <pubDate>Thu, 13 Aug 2026 22:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2088023527144251514</guid>
+    </item>
     <item>
       <title>Acronis exposes Patchcord cyber espionage campaign targeting telecom and critical infrastructure in South Asia</title>
       <link>https://industrialcyber.co/critical-infrastructure/acronis-exposes-patchcord-cyber-espionage-campaign-targeting-telecom-and-critical-infrastructure-in-south-asia/</link>
@@ -1631,23 +1654,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085773801649020947">DFIR Radar</source>
       <pubDate>Fri, 07 Aug 2026 17:03:21 +0000</pubDate>
       <guid isPermaLink="false">2085773801649020947</guid>
-    </item>
-    <item>
-      <title>Rapid7 Analysis: Unauthenticated Remote Code Execution in JetBrains TeamCity (CVE-2026-63077)</title>
-      <link>https://www.rapid7.com/blog/post/ra-unauthenticated-rce-in-jetbrains-teamcity-cve-2026-63077</link>
-      <description>CVE-2026-63077 in JetBrains TeamCity is a critical unauthenticated RCE via unsafe XStream deserialization, now confirmed exploited in the wild and added to CISA KEV on August 5, 2026. Patch to 2026.1.3 immediately.
-
-- CVE-2026-63077 affects TeamCity through 2026.1.2. The root cause: XStreamHolder.setupSecurityIfNeeded() appended TeamCity's allowlist on top of XStream's default permissions rather than replacing them, leaving Map and Throwable hierarchies open. The patch inserts xstream.addPermission(NoTypePermission.NONE) before populating the allowlist, making it deny-by-default.
-
-- Attack chain requires two unauthenticated HTTP requests: POST to /app/agents/v1/register to obtain a session ID, then POST a crafted XML gadget chain to /app/agents/v1/commands/error. The gadget routes through HSQLMetadataStorage$SchemaMismatchException, BasicDataSource, FreeMarker BooleanModel, and TiedMapEntry to invoke BasicDataSource.getConnection(), which executes attacker SQL that writes a .jspws webshell into TeamCity's webroot for code execution.
-
-- Key forensic artifacts: teamcity-server.log will show ConversionException errors referencing freemarker.core._TemplateModelException, BasicDataSource wrapped into f.e.b.BooleanModel, and the path /linked-hash-map/entry[3]/set/org.apache.commons.collections.keyvalue.TiedMapEntry on POSTs to /app/agents/v1/commands/error. The javaLogging file will contain an HsqlException naming the dropped .jspws file path.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085758662837186959</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2085758662837186959">DFIR Radar</source>
-      <pubDate>Fri, 07 Aug 2026 16:03:12 +0000</pubDate>
-      <guid isPermaLink="false">2085758662837186959</guid>
     </item>
   </channel>
 </rss>
