@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 08:03:16 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 09:03:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>APT group HoneyMyte upgrades CoolClient: the backdoor gets a kernel-level Windows rootkit</title>
+      <link>https://securelist.com/honeymyte-coolclient-driver-rootkit/121028/</link>
+      <description>HoneyMyte (Mustang Panda) upgrades CoolClient backdoor with a signed kernel-mode rootkit, targeting government entities in Myanmar 🇲🇲, Mongolia 🇲🇳, Pakistan 🇵🇰, and Russia 🇷🇺.
+
+Key findings:
+
+- Attack chain: PlugX lands first as the foothold, then drops CoolClient via DLL sideloading. A legitimate Sangfor binary (renamed defender.exe) loads malicious libngs.dll, which decrypts and injects through loadcert.ini into synchost.exe. Persistence runs via a scheduled task named "\Microsoft\Windows\Windows Defender Advanced Threat Protection Service" plus an AutoRun key (HKCU\...\Run, value: goopdate), and a service named media_updaten. Defender exclusions are added via WMIC before deployment.
+
+- The new msagent.sys kernel driver (signed with a 2013-era "Nanjing Ranyi Technology Co., Ltd." cert, serial 3E62DC5D8D612A2633E76BDFD60719DD) is dropped to C:\Program Files\Microsoft\Windows Defender\msagent.sys. It hides CoolClient files, registry keys (config in HKLM\SYSTEM\RNG, including Wid_H1deF5Dirs and Wid_H1deRegKeys values), and processes by unlinking them from ActiveProcessLinks. It also hooks Nsiproxy to scrub C2 IPs from network enumeration results.
+
+- The driver exposes 33 IOCTL handlers.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088189655590056037</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2088189655590056037">DFIR Radar</source>
+      <pubDate>Fri, 14 Aug 2026 09:03:05 +0000</pubDate>
+      <guid isPermaLink="false">2088189655590056037</guid>
+    </item>
     <item>
       <title>You’re Back In The Room (Citrix NetScaler Pre-Auth RCE CVE-2026-8452(?))</title>
       <link>https://labs.watchtowr.com/youre-back-in-the-room-citrix-netscaler-pre-auth-rce-cve-2026-8452/</link>
@@ -1621,25 +1640,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085879348519723443">DFIR Radar</source>
       <pubDate>Sat, 08 Aug 2026 00:02:45 +0000</pubDate>
       <guid isPermaLink="false">2085879348519723443</guid>
-    </item>
-    <item>
-      <title>RovoBlast: How One Click Triggered Atlassian’s AI Assistant to Leak Data</title>
-      <link>https://www.varonis.com/blog/rovoblast</link>
-      <description>RovoBlast: a single crafted link weaponizes Atlassian's Rovo AI assistant into a one-click data exfiltration engine across Jira, Confluence, Slack, and 50+ connected SaaS platforms. Patched, but the attack pattern lives on.
-
-- The entry point is the rovoChatPrompt URL parameter: hxxps://home.atlassian[.]com/chat?rovoChatPathway=chat&amp;rovoChatPrompt=PAYLOAD. One click injects attacker-controlled instructions directly into the victim's trusted Rovo session with no warning, no confirmation, and no taint label. Organization ID in the URL path can be left empty and Atlassian redirects to the user's default org, removing even that friction.
-
-- Rovo's ResearchAgent is the exfiltration engine. It performs multi-source web research AND multi-step autonomous browsing, meaning a seeded prompt can chain fetch internal data, transform it, and post it externally without any further user interaction. No jailbreaks, no chained requests required.
-
-- The blast radius is the entire connected estate. In testing, Rovo voluntarily enumerated every readable source: Jira, Confluence, Bitbucket, Slack, Google Workspace, Microsoft 365, databases, files, and archives. Actions execute under the victim's identity and blend into normal AI-assisted workflow logs, leaving minimal forensic distinction from legitimate use.
-
-Takeaway: Audit Rovo connector scope now.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085864251760202053</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2085864251760202053">DFIR Radar</source>
-      <pubDate>Fri, 07 Aug 2026 23:02:46 +0000</pubDate>
-      <guid isPermaLink="false">2085864251760202053</guid>
     </item>
   </channel>
 </rss>
