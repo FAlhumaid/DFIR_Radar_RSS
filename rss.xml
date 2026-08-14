@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 14:03:53 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 15:03:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Stealing the Artifact – JFrog Artifactory Vulnerability</title>
+      <link>https://www.netspi.com/blog/technical-blog/red-teaming/stealing-the-artifact-jfrog-artifactory-vulnerability/</link>
+      <description>Two chained CVEs in JFrog Artifactory let an unauthenticated attacker bypass auth, traverse paths, and exfiltrate arbitrary artifacts. All OSS and Enterprise versions below the patched releases were affected.
+
+Key findings:
+
+- CVE-2026-42018 (auth bypass): POSTing to /access/api/v1/aws/token/ with a trailing slash causes AntPathMatcher to skip AwsTokenAuthenticationFilter entirely. Spring's fallback AnonymousAuthenticationFilter then populates the security context, and the AWS token endpoint mints a valid JWT for the anonymous user, even when anonymous access is disabled. Patch: Artifactory 7.146.8.
+
+- CVE-2026-69107 (missing authz + path traversal): The JWT unlocks the deprecated stash API. An attacker POSTs arbitrary repoKey and relativePath values; FileInfo (sha1, sha256, size) is loaded into the session with no ACL check. The stash export then concatenates an attacker-controlled name containing ../ sequences with a base directory, and forceMkdir resolves the traversal, dropping the artifact into the Tomcat web root.
+
+- Bug 4 completes the production chain: jf-router does not normalize paths before proxying, so /artifactory/..;/markertag-20260713.141536/sample-v1.0.0 routes through Traefik to Tomcat, which strips the path parameter and serves the file unauthenticated.
+
+- The stash oracle is a bonus primitive: a 200 vs error response confirms whether a repo name and artifact path exist, enabling blind enumeration before full exfiltration.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088280305752744317</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2088280305752744317">DFIR Radar</source>
+      <pubDate>Fri, 14 Aug 2026 15:03:18 +0000</pubDate>
+      <guid isPermaLink="false">2088280305752744317</guid>
+    </item>
     <item>
       <title>LiteLLM Supply Chain Attack: Inside the AI Breach That Exposed 2,500+ Companies</title>
       <link>https://socradar.io/blog/litellm-supply-chain-attack/</link>
@@ -1647,17 +1668,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2086135971427373526">DFIR Radar</source>
       <pubDate>Sat, 08 Aug 2026 17:02:29 +0000</pubDate>
       <guid isPermaLink="false">2086135971427373526</guid>
-    </item>
-    <item>
-      <title>Hackers breach TrueConf to trojanize client installers with backdoors</title>
-      <link>https://www.bleepingcomputer.com/news/security/hackers-breach-trueconf-to-trojanize-client-installers-with-backdoors/</link>
-      <description>Head Mare hacktivists trojanized TrueConf installers on Russian 🇷🇺 enterprise servers using KLCERT-26-057 and KLCERT-26-058 to reach NT AUTHORITY\SYSTEM, drop a webshell at \public\js\locale.php.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086120868766204084</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2086120868766204084">DFIR Radar</source>
-      <pubDate>Sat, 08 Aug 2026 16:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2086120868766204084</guid>
     </item>
   </channel>
 </rss>
