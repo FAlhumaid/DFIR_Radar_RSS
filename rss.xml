@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 04:02:30 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 08:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>You’re Back In The Room (Citrix NetScaler Pre-Auth RCE CVE-2026-8452(?))</title>
+      <link>https://labs.watchtowr.com/youre-back-in-the-room-citrix-netscaler-pre-auth-rce-cve-2026-8452/</link>
+      <description>Citrix NetScaler pre-auth heap overflow (believed CVE-2026-8452) yields unauthenticated RCE via SAML PrefixList corruption, no credentials required, no ASLR to bypass.
+
+Key findings:
+
+- The bug lives in nsppe, NetScaler's packet-processing engine, during SAML signature canonicalization. An oversized ds:SignedInfo PrefixList attribute is copied into a fixed-size global buffer without bounds checking, overflowing into the adjacent nsb chunk's header fields at offsets +0x50 (data pointer) and +0x60 (freelist link). Affected: NetScaler ADC/Gateway 14.1 before 14.1-72.61 and 13.1 before 13.1-63.18, when configured as SAML SP or IdP.
+
+- The overflow produces a write-what-where primitive. nsppe is non-PIE with no ASLR and a RWX heap, so researchers overwrote the global function pointer tx_pkt_complete_fptr to redirect execution into attacker-controlled shellcode sitting at a predictable heap address (0x112d30000 on a fresh spawn).
+
+- Shellcode drops a PHP webshell to /var/vpn/theme/x.php using open/write/close syscalls, then tears down SIGSEGV/SIGBUS/SIGILL signal handlers via sigaction (FreeBSD syscall 416) to prevent pitboss from triggering a full reboot, allowing the webshell to survive. SUID is then set on /bin/sh for root escalation from the nobody webserver context.
+
+Responders: hunt for /var/vpn/theme/x.php and unexpected files under /var/vpn/theme/. Patch to 14.1-72.61 or 13.1-63.18 immediately; SAML-enabled appliances are exposed pre-auth.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088174598990803293</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2088174598990803293">DFIR Radar</source>
+      <pubDate>Fri, 14 Aug 2026 08:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2088174598990803293</guid>
+    </item>
     <item>
       <title>Bridewell reports infostealer threat to UK critical infrastructure sector, as manufacturing takes 40% of victims</title>
       <link>https://industrialcyber.co/manufacturing/bridewell-reports-infostealer-threat-to-uk-critical-infrastructure-sector-as-manufacturing-takes-40-of-victims/</link>
@@ -1619,17 +1640,6 @@ Takeaway: Audit Rovo connector scope now.
       <source url="https://x.com/DFIR_Radar/status/2085864251760202053">DFIR Radar</source>
       <pubDate>Fri, 07 Aug 2026 23:02:46 +0000</pubDate>
       <guid isPermaLink="false">2085864251760202053</guid>
-    </item>
-    <item>
-      <title>Metabase SQLi zero-day exploited in customer data-theft attacks</title>
-      <link>https://www.bleepingcomputer.com/news/security/framework-tally-disclose-metabase-data-theft-attacks/</link>
-      <description>A CVSS 10.0 unauthenticated SQLi zero-day in Metabase versions 1.58 and above was actively exploited on August 3, hitting Framework and Tally. Hunt logs for POST /api/session/reset_password returning 400 followed by GET /api/user/current.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085849099941584959</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2085849099941584959">DFIR Radar</source>
-      <pubDate>Fri, 07 Aug 2026 22:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2085849099941584959</guid>
     </item>
   </channel>
 </rss>
