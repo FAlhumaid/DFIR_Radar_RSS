@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 15:03:18 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 16:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Escalating a Blind Upload to RCE via Path Traversal into Cron and DNS-Restricted Callback Bypass</title>
+      <link>https://infosecwriteups.com/escalating-a-blind-upload-to-rce-via-path-traversal-into-cron-and-dns-restricted-callback-bypass-0f63db01be92?source=rss----7b722bfd1b8d---4</link>
+      <description>Unauthenticated blind file upload escalated to root RCE via path traversal into /etc/cron.d, bypassing forced UUID/.png renaming entirely. CVSS 3.1 score: 10.0 Critical.
+
+Key findings:
+
+- The endpoint at /app/api/files/upload required zero authentication and passed the uploadPath field directly into a filesystem write with no sanitization, allowing 14-segment traversal (../../../../../../../../../../../../../../etc/cron.d) to escape the upload root and land files anywhere the process could write. Absolute paths, encoded separators, and relative components were all accepted.
+
+- The backend ran as root, confirmed via a blind filesystem oracle: writing to /proc failed (kernel blocks arbitrary directory creation there) while /root and /etc succeeded. This write-only oracle answered yes/no questions about filesystem state by distinguishing directory-creation errors from success responses, enabling host fingerprinting (RHEL/CentOS, crond present, no .dockerenv).
+
+- Cron processed the UUID-named .png as a valid system crontab because it reads directory contents by file content, not extension. A self-removing crontab planted in /etc/cron.d executed as root one cycle later, confirmed by the oracle detecting /tmp/bugbounty-cronproof.
+
+- DNS egress was blocked, but curl --resolve mapped a controlled hostname directly to an attacker IP, bypassing the resolver entirely. The callback returned uid=0(root) gid=0(root) context=system_u:system_r:system_cronjob_t.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088295423094231376</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2088295423094231376">DFIR Radar</source>
+      <pubDate>Fri, 14 Aug 2026 16:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2088295423094231376</guid>
+    </item>
     <item>
       <title>Stealing the Artifact – JFrog Artifactory Vulnerability</title>
       <link>https://www.netspi.com/blog/technical-blog/red-teaming/stealing-the-artifact-jfrog-artifactory-vulnerability/</link>
@@ -1657,17 +1678,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2086151068740681984">DFIR Radar</source>
       <pubDate>Sat, 08 Aug 2026 18:02:28 +0000</pubDate>
       <guid isPermaLink="false">2086151068740681984</guid>
-    </item>
-    <item>
-      <title>Follow-Up Report of the December 2025 Energy Sector Incident</title>
-      <link>https://cert.pl/en/posts/2026/08/incident-follow-up-report-energy-sector-2025/</link>
-      <description>A second Polish 🇵🇱 combined heat and power plant was confirmed hit in the December 2025 energy sector attacks. CERT Poland 🇵🇱's three-month investigation uncovered a previously unseen attack vector abusing a private APN for network access.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086135971427373526</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2086135971427373526">DFIR Radar</source>
-      <pubDate>Sat, 08 Aug 2026 17:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2086135971427373526</guid>
     </item>
   </channel>
 </rss>
