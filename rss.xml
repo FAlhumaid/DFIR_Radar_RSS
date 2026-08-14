@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 19:03:33 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 20:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Plist Files: Structure, Forensic Value, and How to Analyze Them</title>
+      <link>https://belkasoft.com/plist-files-in-dfir</link>
+      <description>Plist files are everywhere in Apple investigations: Wi-Fi history, Bluetooth pairings, app state, device identity. Knowing how to read them correctly is not optional for macOS and iOS casework.
+
+Key findings:
+
+- Binary plist (bplist) is the default format since Mac OS X 10.2. It opens with the signature bplist00 and is parsed backward: trailer first (last 32 bytes), then offset table, then root object. The trailer supplies offset integer size, object reference size, object count, root object index, and offset table location. Every other read depends on those values. A parser that hardcodes root object index 0 will silently decode the wrong subtree when the root is elsewhere.
+
+- Dates are stored relative to the Cocoa epoch (January 1, 2001, 00:00:00 UTC), not the Unix epoch. Applying the wrong reference point shifts every timestamp by 31 years. Verify before you report.
+
+- NSKeyedArchiver files embed an object graph using UID references rather than flat key-value pairs. Spotting UID entries in a plist is your signal that you are not looking at a simple settings file. Walking those references by hand is slow and error-prone; the parser must resolve them for you.
+
+- High-value iOS plist paths: com.apple.wifi.known-networks.plist (SSID, BSSID, join timestamps, iOS 16+), com.apple.Bluetooth.plist (paired device names, hardware addresses, pairing timestamps), data_ark.plist (device name, time zone, phone number), and pair_records (trusted host identifiers).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088355634567623074</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2088355634567623074">DFIR Radar</source>
+      <pubDate>Fri, 14 Aug 2026 20:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2088355634567623074</guid>
+    </item>
     <item>
       <title>The LiteLLM Supply-Chain Attack — TeamPCP “SANDCLOCK” CI/CD Credential-Harvesting Campaign via a Backdoored Trivy GitHub Action</title>
       <link>https://www.resecurity.com/blog/article/the-litellm-supply-chain-attack-teampcp-sandclock-cicd-credential-harvesting-campaign-via-a-backdoored-trivy-github-action</link>
@@ -1673,23 +1694,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2086740046615646536">DFIR Radar</source>
       <pubDate>Mon, 10 Aug 2026 09:02:52 +0000</pubDate>
       <guid isPermaLink="false">2086740046615646536</guid>
-    </item>
-    <item>
-      <title>How Pass-ta-key attacks steal passkeys instead of passwords</title>
-      <link>https://andreafortuna.org/2026/08/10/pass-ta-key-passkey-forensics/</link>
-      <description>Pass-ta-key techniques from Unit 42 show malware can hijack Google-synced passkeys in Chrome on Windows without touching a password or breaking WebAuthn crypto, leaving a concrete forensic trail defenders can hunt today.
-
-- Three techniques target Chrome's synced passkey architecture on Windows. Pass-ta-key (UV=0) uses Windows CNG calls (NCryptOpenStorageProvider, NCryptSignHash) to sign auth assertions with the wrapped identity key from passkey_enclave_state, no user prompt required. Silver Pass-ta-key forces re-enrollment and registers a rogue UV key, producing fraudulent UV=1 assertions. Golden Pass-ta-key extracts the 32-byte security domain secret transiently present in Chrome process memory during re-registration, decrypting every synced passkey offline. No CVE assigned, no active exploitation reported, but the technique class is mature.
-
-- Forensic footprint centers on three artifacts: reads of %LocalAppData%\Google\Chrome\User Data\Profile\Sync Data\LevelDB by non-browser processes (T1552.001), unexpected deletion or modification of passkey_enclave_state outside update windows (T1556), and cross-process memory access to chrome.exe (T1055). Sysmon Event IDs 10 and 11 cover all three.
-
-- Golden Pass-ta-key SDS extraction is timing-sensitive: the secret lives in memory only during forced re-enrollment. passkey_enclave_state recreation is the acquisition trigger.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086725165195653348</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2086725165195653348">DFIR Radar</source>
-      <pubDate>Mon, 10 Aug 2026 08:03:44 +0000</pubDate>
-      <guid isPermaLink="false">2086725165195653348</guid>
     </item>
   </channel>
 </rss>
