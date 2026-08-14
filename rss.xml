@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 09:03:05 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 10:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Digital Forensics: AnyDesk – Favorite Tool of APTs</title>
+      <link>https://hackers-arise.com/digital-forensics-anydesk-favorite-tool-of-apts/</link>
+      <description>AnyDesk artifact guide: four log files that expose remote attacker sessions, connecting IPs, display names, OS fingerprints, and file transfer activity during IR.
+
+Key findings:
+
+- Four priority log paths: C:\Users\%username%\AppData\Roaming\AnyDesk\ad.trace, connection_trace.txt (portable installs), and C:\ProgramData\AnyDesk\ad_svc.trace, connection_trace.txt (service installs). The service-mode ad_svc.trace is the richest artifact, containing "Logged in from" with the attacker's external IP and "Accepting from" with their AnyDesk ID.
+
+- Grep ad.trace for "Incoming session request" to recover the attacker's display name and AnyDesk ID. One documented case showed a Linux machine connecting with the alias "IT Dep" to appear legitimate. Remote OS field also surfaces in these logs.
+
+- File transfer activity appears in ad.trace as "Preparing files in ..." entries. Correlate those timestamps with Windows artifacts (Prefetch, MFT, Shellbags) to reconstruct exactly what was staged or exfiltrated.
+
+- Threat context: Crypt Ghouls (Q4 2024 ICS-CERT) paired AnyDesk with Mimikatz and PsExec. BlackJack (Q3 2024) chained AnyDesk, Radmin, PuTTY, and ngrok across Russian 🇷🇺 government and ICS networks. Both groups used it for durable, low-noise persistence.
+
+Ingest all four paths into your SIEM and alert on AnyDesk connections outside business hours. PowerShell one-liner for triage: get-content ad.trace | select-string 'Remote OS','Incoming session','files','anynet.relay'.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088204673723388302</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2088204673723388302">DFIR Radar</source>
+      <pubDate>Fri, 14 Aug 2026 10:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2088204673723388302</guid>
+    </item>
     <item>
       <title>APT group HoneyMyte upgrades CoolClient: the backdoor gets a kernel-level Windows rootkit</title>
       <link>https://securelist.com/honeymyte-coolclient-driver-rootkit/121028/</link>
@@ -1629,17 +1652,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2085894466133451008">DFIR Radar</source>
       <pubDate>Sat, 08 Aug 2026 01:02:50 +0000</pubDate>
       <guid isPermaLink="false">2085894466133451008</guid>
-    </item>
-    <item>
-      <title>Securing your Amazon S3 buckets: Identifying and remediating over-permissioned access</title>
-      <link>https://aws.amazon.com/blogs/security/securing-your-amazon-s3-buckets-identifying-and-remediating-over-permissioned-access/</link>
-      <description>Over-permissioned S3 buckets remain a persistent exposure risk in AWS environments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2085879348519723443</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2085879348519723443">DFIR Radar</source>
-      <pubDate>Sat, 08 Aug 2026 00:02:45 +0000</pubDate>
-      <guid isPermaLink="false">2085879348519723443</guid>
     </item>
   </channel>
 </rss>
