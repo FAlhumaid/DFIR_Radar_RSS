@@ -5,8 +5,23 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Aug 2026 13:02:28 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Aug 2026 14:03:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>LiteLLM Supply Chain Attack: Inside the AI Breach That Exposed 2,500+ Companies</title>
+      <link>https://socradar.io/blog/litellm-supply-chain-attack/</link>
+      <description>TeamPCP (UNC6780) ran a five-day supply chain campaign through Trivy and LiteLLM, harvesting credentials from 2,500+ organizations across six CI/CD platforms before the widely-reported 40-minute PyPI window even opened.
+
+- The attack chain ran Trivy first, LiteLLM second. On March 19, TeamPCP force-pushed malicious commits to 76 trivy-action tags and published poisoned Trivy 0.69.4, exploiting an un-revoked token from a pull_request_target misconfiguration. LiteLLM's unpinned CI pulled the compromised scanner, which published 1.82.7 and 1.82.8 to PyPI on March 24. Row-level timestamps show 95% of the 2,188 organizations in the dataset had collection activity before March 24, with the earliest record at 18:05 UTC on March 19, eighteen minutes after the malicious Trivy build.
+
+- Execution required no import. Version 1.82.8 shipped litellm_init.pth, a Python startup file that ran the SANDCLOCK stealer at interpreter start regardless of whether any code imported LiteLLM. The payload escalated to root, swept SSH keys, AWS/GCP/Azure IMDS tokens, .kube/config, .env secrets, OPENAI_API_KEY, ANTHROPIC_API_KEY, and GitHub Actions masked variables from /proc/pid/mem. In Kubernetes environments it read secrets across all namespaces and attempted privileged alpine:latest pods in kube-system mounting the host filesystem.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088265350815301784</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2088265350815301784">DFIR Radar</source>
+      <pubDate>Fri, 14 Aug 2026 14:03:53 +0000</pubDate>
+      <guid isPermaLink="false">2088265350815301784</guid>
+    </item>
     <item>
       <title>ARM64 stack internals and obfuscation on Apple Silicon</title>
       <link>https://www.mdsec.co.uk/2026/08/arm64-stack-internals-and-obfuscation-on-apple-silicon/</link>
@@ -1643,23 +1658,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2086120868766204084">DFIR Radar</source>
       <pubDate>Sat, 08 Aug 2026 16:02:28 +0000</pubDate>
       <guid isPermaLink="false">2086120868766204084</guid>
-    </item>
-    <item>
-      <title>Cracking Kynx: The Stealer Hunting for Your Wallets, Games, and AI Tools</title>
-      <link>https://socradar.io/blog/kynx-stealer-wallets-games-ai-tools/</link>
-      <description>Kynx is a new C++ MaaS infostealer targeting browser credentials, 65 crypto wallet extensions, 16 gaming platforms, and 8 AI coding tools, with a scored anti-VM engine and a four-stage ABE bypass chain.
-
-- Kynx emerged on cheatglobal[.]com in January 2026, authored by kakayiyenfatali (Discord: antxchris), who admitted using Gemini to assist development. The binary analyzed was compiled June 3, 2026. It presents a fake "System update" banner on execution, suggesting delivery via cracked software or ClickFix lures. Before stealing anything, it scores the environment using PEB BeingDebugged (+10), CPUID hypervisor bit (+2), GetTickCount64 timing (+2), low core count (+1), and low RAM (+1). A score of 3+ aborts execution and logs the result to %TEMP%\kynx_early.txt.
-
-- Browser credential extraction follows a four-stage fallback chain (T1555.003): MCE downloads hxxps[://]kynxdev[.]xyz/payloads/mce[.]exe, then DBS from /payloads/dbs[.]exe, then ChromeElevator from /payloads/chromelevator[.]exe, then raw SQLite copy of Login Data and Cookies. Staging lands in %TEMP%\WinSysHealth-{6 digits}\ with a debug.txt progress log. Exfiltration hits hxxps[://]kynxdev[.]xyz/api/v1/ingest[.]php?cat={chunk} via chunked HTTP POST with X-Kynx-Token and X-Owner-ID headers (T1030, T1041).
-
-- Discord tokens are stolen by overwriting core index.js, deleting ProtectionPayload.dll and secure.dat, then regex-scanning leveldb databases.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086105939468320867</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2086105939468320867">DFIR Radar</source>
-      <pubDate>Sat, 08 Aug 2026 15:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2086105939468320867</guid>
     </item>
   </channel>
 </rss>
