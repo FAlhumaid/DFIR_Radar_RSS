@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2026 08:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 10:03:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Akira Ransomware Uses Safe Mode to Bypass EDR</title>
+      <link>https://securityaffairs.com/197339/malware/akira-ransomware-uses-safe-mode-to-bypass-edr.html</link>
+      <description>Akira ransomware affiliate used Safe Mode to kill EDR before encrypting, but the stripped-down memory environment crashed the encryptor. Data was already exfiltrated, so the victim faces extortion regardless.
+
+- Initial access via MFA-less SonicWall VPN at 03:52 UTC on August 4. Two hours of quiet followed before the operator RDP'd to the domain controller, dumped all AD users and group memberships via PowerShell with truncation disabled, archived file shares with WinRAR, and exfiltrated to an attacker-controlled S3 bucket using s5cmd. Encryption came last, meaning failed ransomware does not mean no harm.
+
+- The Safe Mode pivot is new for Akira in Huntress telemetry. The affiliate added AnyDesk to the Safe Mode service registry before rebooting, preserving remote access through the restart (T1562.001). EDR and Defender real-time protection were both down for roughly ten minutes.
+
+- akira.exe launched at 06:34:29 UTC, spawned its child-process burst at 06:36:21, and hit out-of-virtual-memory failures about 13 seconds later. Defender eventually flagged it as Ransom:Win32/Akira.B!ibt but could not quarantine in Safe Mode. Rebooting to normal mode restored Defender, which then removed the file automatically.
+
+Hunt for bcdedit or msconfig.exe activity, Kernel-Boot Event ID 27 with SAFEBOOT option, Kernel-General Event ID 12 with BootMode=2, and third-party services stopping abruptly.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089291966261666209</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2089291966261666209">DFIR Radar</source>
+      <pubDate>Mon, 17 Aug 2026 10:03:17 +0000</pubDate>
+      <guid isPermaLink="false">2089291966261666209</guid>
+    </item>
     <item>
       <title>Three NTFS bugs, one VHD file, and what your logs should already be telling you</title>
       <link>https://andreafortuna.org/2026/08/17/three-ntfs-bugs-one-vhd-file/</link>
@@ -1621,17 +1640,6 @@ Hunt tip: run the combined KQL against your tenant today scoped to high-value la
       <source url="https://x.com/DFIR_Radar/status/2086921165235261544">DFIR Radar</source>
       <pubDate>Mon, 10 Aug 2026 21:02:34 +0000</pubDate>
       <guid isPermaLink="false">2086921165235261544</guid>
-    </item>
-    <item>
-      <title>WordPress Plugins Compromised Without a Single File Change</title>
-      <link>https://www.infosecurity-magazine.com/news/bdthemes-wordpress-poisoned-api/</link>
-      <description>Attackers poisoned BdThemes' promotional API bucket to inject JavaScript into every wp-admin page load, using the admin's session to create rogue accounts via the REST API and drop a webshell.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086906099635257473</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2086906099635257473">DFIR Radar</source>
-      <pubDate>Mon, 10 Aug 2026 20:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2086906099635257473</guid>
     </item>
   </channel>
 </rss>
