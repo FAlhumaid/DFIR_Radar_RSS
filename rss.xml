@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2026 12:03:07 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 14:03:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Operation ASTERIX: Anatomy of a Crypto Fraud Pipeline</title>
+      <link>https://www.rapid7.com/blog/post/tr-operation-asterix-crypto-fraud-vishing-phishing</link>
+      <description>Operation ASTERIX: AI-assisted crypto fraud pipeline combines bulk phone validation, coordinated phishing and vishing, and counterfeit Trezor, Ledger, and Exodus apps to steal BIP39 seed phrases via Telegram exfiltration.
+
+- Attackers validated ~885,000 phone numbers across 54 countries against Crypto.com and Kraken APIs using 300 concurrent threads and rotating Bright Data proxies (T1589.002). A German 🇩🇪 dataset returned 13.6% confirmed accounts. Enriched lead records with names, emails, and exchange details were then used to make vishing calls sound like legitimate support contacts.
+
+- The fake Trezor Suite (app.asar SHA-256 ba9d459169a303067a4fe36c8b8582a5ea023b9c270dafe89613bab840501b19) ran as a hidden 1x1 pixel Electron window, killed the real Trezor process via kill -9, and swapped in its phishing UI (T1185, T1564.003). Stolen phrases were exfiltrated to Telegram prefixed with "TREZOR SECRET PHRASE" (T1567). Persistence via LaunchAgents com.trezormovement.agent.plist and io.trezor.agent.plist.
+
+- A trojanized Claude Code installer at macos-claude[.]com silently dropped fake Ledger Live into ~/Library/Application Support/.SystemData/.framework/.apps/ and hid the directory with chflags hidden. The Ledger Windows build included a clipboard hijacker replacing crypto addresses (T1115).
+
+- The operator used Claude Code and GitHub Copilot throughout development.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089352434002841914</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2089352434002841914">DFIR Radar</source>
+      <pubDate>Mon, 17 Aug 2026 14:03:33 +0000</pubDate>
+      <guid isPermaLink="false">2089352434002841914</guid>
+    </item>
     <item>
       <title>Update your Mac: Screen Sharing vulnerability exploited in the wild</title>
       <link>https://www.malwarebytes.com/blog/bugs/2026/08/update-your-mac-screen-sharing-vulnerability-exploited-in-the-wild</link>
@@ -1613,25 +1632,6 @@ Patch to Docker Engine/CLI 29.7.2 and Desktop 4.86.0 now. Until patched, stop th
       <source url="https://x.com/DFIR_Radar/status/2086966573601017863">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 00:03:00 +0000</pubDate>
       <guid isPermaLink="false">2086966573601017863</guid>
-    </item>
-    <item>
-      <title>Hunting Web Activity Before a Device Code Authentication (KQL Query)</title>
-      <link>https://detect.fyi/hunting-web-activity-before-a-device-code-authentication-kql-query-005337a661bc?source=rss----d5fd8f494f6a---4</link>
-      <description>Device Code phishing hunts don't require a known-bad URL. This KQL technique pivots from the authentication event itself, reconstructing the three URLs visited in the five minutes before the Device Code flow to surface behavioural context no IOC feed can provide.
-
-- Device Code phishing (T1528) abuses the OAuth device authorization flow to steal tokens without ever touching the user's credentials. IOC-based hunting works only after infrastructure is reported. This approach flips the model: anchor on the Cmsi:Cmsi event in EntraIdSignInEvents, then look backwards at DeviceNetworkEvents for the same AccountUpn over the preceding five minutes.
-
-- The KQL builds a unique DeviceCodeId per authentication, joins it to network telemetry, uses partition with top 3 by WebTime to preserve only the three most recent URLs, and enriches each RemoteIP with a country via geo_info_from_ip_address. Output is three URL/country pairs per authentication event, ready to filter.
-
-- Tuning is the payoff. Baseline out expected Microsoft endpoints (login.windows[.]net, mobile.events.data.microsoft[.]com) and known-good countries. What survives the allowlist, an unrecognised domain with zero TI reputation visited seconds before a Device Code auth from an unexpected country, is your lead regardless of whether any feed has ever seen that domain.
-
-Pivot from the sequence, not the indicator.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086951358440337582</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2086951358440337582">DFIR Radar</source>
-      <pubDate>Mon, 10 Aug 2026 23:02:32 +0000</pubDate>
-      <guid isPermaLink="false">2086951358440337582</guid>
     </item>
   </channel>
 </rss>
