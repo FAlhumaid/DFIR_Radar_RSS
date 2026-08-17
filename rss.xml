@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Aug 2026 18:02:53 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 08:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Three NTFS bugs, one VHD file, and what your logs should already be telling you</title>
+      <link>https://andreafortuna.org/2026/08/17/three-ntfs-bugs-one-vhd-file/</link>
+      <description>Three NTFS heap overflows in ntfs.sys, all triggerable via a single malicious VHD file, patched July 2026 across roughly 30 Windows client and server editions. No public PoC confirmed yet, but the forensic window before patching deserves scrutiny.
+
+- CVE-2026-50471 (CVSS 7.8), CVE-2026-50494 (CVSS 7.8), and CVE-2026-58640 (CVSS 7.3) all share the same CWE-122 root cause: ntfs.sys allocates a heap buffer using one size, writes using a mismatched length, corrupting adjacent kernel pool memory. CVE-2026-50494 is the most dangerous operationally as it requires only local low-privilege access with no user interaction to escalate to SYSTEM. The other two need a user to open the file, a trivial social engineering bar given VHD has no "are you sure" prompt on double-click since Windows 8.
+
+- The delivery chain is deliberately low-friction. Windows Explorer auto-mounts a VHD like a ZIP archive. Attackers can deliver it via email, chat, or cloud link with a plausible backup or disk image cover story. APT-C-60 already used VHDX as an attack vector in a documented campaign analyzed by Positive Technologies.
+
+- NTFS itself logs the attack. The USN Journal ($Extend\$UsnJrnl) retains create, rename, and delete events for roughly 20 days even after the VHD is removed. The $LogFile records low-level metadata transactions that can show heap corruption fingerprints even without a system crash.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089261688612663526</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2089261688612663526">DFIR Radar</source>
+      <pubDate>Mon, 17 Aug 2026 08:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2089261688612663526</guid>
+    </item>
     <item>
       <title>Mustang Panda Upgrades CoolClient With a Kernel Rootkit</title>
       <link>https://securityaffairs.com/197274/apt/mustang-panda-upgrades-coolclient-with-a-kernel-rootkit.html</link>
@@ -1615,17 +1632,6 @@ Hunt tip: run the combined KQL against your tenant today scoped to high-value la
       <source url="https://x.com/DFIR_Radar/status/2086906099635257473">DFIR Radar</source>
       <pubDate>Mon, 10 Aug 2026 20:02:42 +0000</pubDate>
       <guid isPermaLink="false">2086906099635257473</guid>
-    </item>
-    <item>
-      <title>Poland uncovers second heat plant cyberattack that went hidden for months</title>
-      <link>https://therecord.media/poland-uncovers-critical-infrastructure-attack-hidden</link>
-      <description>Polish 🇵🇱 investigators uncovered a second heat plant attack, hidden for months, where Russian 🇷🇺 FSB-linked actors pivoted from compromised wind farm firewalls through a private cellular network to a Siemens controller still using default.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086890924710273126</description>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2086890924710273126">DFIR Radar</source>
-      <pubDate>Mon, 10 Aug 2026 19:02:24 +0000</pubDate>
-      <guid isPermaLink="false">2086890924710273126</guid>
     </item>
   </channel>
 </rss>
