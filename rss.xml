@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2026 10:03:17 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 11:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From CI Pipeline to Ransomware &amp; Breaches: 6 High-Profile Breaches in the LiteLLM/Trivy Attack</title>
+      <link>https://www.infostealers.com/article/from-ci-pipeline-to-ransomware-breaches-6-high-profile-breaches-in-the-litellm-trivy-attack/</link>
+      <description>A poisoned LiteLLM/Trivy supply chain attack hit 250+ enterprises via CI/CD pipelines, exposing AWS keys, GitHub PATs, and RSA private keys that fueled ransomware extortion by the Vect group (TeamPCP).
+
+Key findings:
+
+- The attack harvested secrets directly from CI runner environment dumps: AWS STS session tokens, long-lived IAM keys, GitHub PATs, JWTs, RSA private keys, Artifactory tokens, Conjur API keys, and Docker configs with base64-encoded credentials. Secrets were logged in plain text inside pipeline logs, making exfiltration trivial once a poisoned container executed.
+
+- Six named victims illustrate the blast radius: Guesty (700GB, 4M emails, AWS/Kubernetes secrets), S&amp;P Global (250GB, thousands of secrets from terraform-actions workflows), Cisco (source code via scraped GitHub PATs and a Conjur API key), the European Commission (AWS IAM creds plus a hardcoded SSH key and GitLab CI tokens), Mercor (4TB including 939GB source code and SSNs/biometrics of 40,000+ contractors), and Telnyx (malicious PyPI SDK versions 4.87.1 and 4.87.2 published March 27, 2026).
+
+- Lapsus$ claimed to have sold Mercor's biometric, PII, and AI training data to Chinese 🇨🇳 enterprises. Meta paused a data contract and class-action lawsuits followed.
+
+- On the detection side: look for unexpected child processes spawned by CI runner agents, outbound connections from runner hosts to unfamiliar endpoints, and any secrets appearing in raw job logs stored in your artifact repository.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089307030238507082</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2089307030238507082">DFIR Radar</source>
+      <pubDate>Mon, 17 Aug 2026 11:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2089307030238507082</guid>
+    </item>
     <item>
       <title>Akira Ransomware Uses Safe Mode to Bypass EDR</title>
       <link>https://securityaffairs.com/197339/malware/akira-ransomware-uses-safe-mode-to-bypass-edr.html</link>
@@ -1621,25 +1642,6 @@ Hunt tip: run the combined KQL against your tenant today scoped to high-value la
       <source url="https://x.com/DFIR_Radar/status/2086936177895227706">DFIR Radar</source>
       <pubDate>Mon, 10 Aug 2026 22:02:13 +0000</pubDate>
       <guid isPermaLink="false">2086936177895227706</guid>
-    </item>
-    <item>
-      <title>Detections Digest #20260810</title>
-      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260810</link>
-      <description>Weekly detection rule digest covers 73 rule changes across 9 repos, with new Sigma coverage for ADCS CVE-2026-54121 (Certighost), AI agent threat rules, and email evasion detections topping the list.
-
-- SigmaHQ shipped 8 new rules for Certighost (CVE-2026-54121): watch Event ID 4886 for 'cdc' or 'rmd' attributes, certsrv.exe making outbound SMB/LDAP connections, and machine accounts matching 'GHOST*$'. Auxiliary rules cover DC machine account TGT/TGS requests (Event IDs 4768/4769) from non-DC source IPs. DCSync detection (Event ID 4662) now includes the DS-Replication-Synchronize GUID and drops the AccessMask requirement.
-
-- Splunk added consent.exe child process monitoring (linked to CVE-2024-30051 UAC bypass), PowerShell IEX over DNS TXT queries (Event ID 4104), and sniffing tool execution (Wireshark, tshark, tcpdump). Event ID 5145 Admin share rules tightened with explicit AccessMask bitwise checks (0x2, 0x4) and expanded to .cpl and .sys file extensions.
-
-- Sublime Security added 15 email rules: CSS clip-path and zero-value calc() hidden text, zero-width Unicode obfuscation, IP URL octal/decimal integer parsing, and infrastructure flags for SmartApe (AS56694) and Aeza Group LLC bulletproof hosts. SaaS abuse rules cover Evernote, Wufoo, and Cognito Forms.
-
-- Fibratus added a rule correlating SMB file creation (srv2.sys/srvnet.sys under PID 4) with subsequent DLL loads by rundll32.exe, regsvr32.exe, or lsass.exe, a direct SMB-to-DLL lateral movement detection.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2086921165235261544</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2086921165235261544">DFIR Radar</source>
-      <pubDate>Mon, 10 Aug 2026 21:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2086921165235261544</guid>
     </item>
   </channel>
 </rss>
