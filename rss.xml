@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2026 20:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 21:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Behavioral Malware Analysis: Investigating a Multi-Stage Malware Sample Inside an Isolated Lab</title>
+      <link>https://infosecwriteups.com/behavioral-malware-analysis-investigating-a-multi-stage-malware-sample-inside-an-isolated-lab-fba44d152d5b?source=rss----7b722bfd1b8d---4</link>
+      <description>A structured behavioral analysis of a simulated multi-stage sample documents the full execution chain from persistence through exfiltration, with detection content ready to operationalize.
+
+Key findings:
+
+- walkthrough.exe ran inside an isolated FLARE-VM/REMnux lab with INetSim and FakeDNS replacing live internet access. The six-stage chain covered registry persistence (HKCU\Software\Microsoft\Windows\CurrentVersion\Run\FakeMalware, T1547.001), C2 beaconing over HTTP, encrypted secondary payload retrieval via GET /payload.exe, process injection into Notepad.exe (T1055), and simulated data exfiltration via HTTP POST.
+
+- Every finding was cross-validated across four sources: Procmon RegSetValue events, Sysmon Event ID 13, Autoruns, and Regshot delta output. That four-source confirmation is the point: single-tool conclusions break; correlated telemetry holds in court and in post-incident review.
+
+- API Monitor caught the injection API calls that EDR might surface as alerts without context. Correlating those API events with Process Explorer's process tree and Wireshark's network capture reconstructed exactly when malicious code moved into a trusted process.
+
+- Detection content produced includes Sigma rules, Splunk SPL, Microsoft Sentinel KQL, and YARA rules, all mapped to MITRE ATT&amp;CK. Behavior-based detections survive hash changes; these are the artifacts worth porting to production.
+
+Full IOC list, detection rules, and lab documentation are on GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089458111052734598</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2089458111052734598">DFIR Radar</source>
+      <pubDate>Mon, 17 Aug 2026 21:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2089458111052734598</guid>
+    </item>
     <item>
       <title>Kimsuky Expands AI Capabilities Through a Local AI Development Environment in Operation GitPower</title>
       <link>https://blog.polyswarm.io/kimsuky-expands-ai-capabilities-through-a-local-ai-development-environment-in-operation-gitpower</link>
@@ -1629,29 +1652,6 @@ Patch CVE-2024-55591 and CVE-2025-24472 immediately. For Linux victims, preserve
       <source url="https://x.com/DFIR_Radar/status/2087057129853096353">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 06:02:50 +0000</pubDate>
       <guid isPermaLink="false">2087057129853096353</guid>
-    </item>
-    <item>
-      <title>CopyEscape: Taking Over Docker Hosts with docker cp</title>
-      <link>https://www.imperva.com/blog/copyescape-taking-over-docker-hosts-with-docker-cp/</link>
-      <description>CVE-2026-17106: a container-to-host arbitrary file-write in docker cp lets a malicious container overwrite host files or achieve root code execution the moment a user runs a routine copy.
-
-Key findings:
-
-- The exploit chains two flaws in moby/go-archive v0.2.0: a TOCTOU race lets a live container swap a directory for an absolute symlink mid-walk, and the CLI extractor validates a constructed path but hands the raw symlink target to the kernel, writing outside the user-chosen destination. Validated on Docker Engine 29.6.1 and Docker Desktop 4.81.0.
-
-- Impact splits by privilege: on macOS the write lands as the local user, enabling overwrite of shell startup scripts or ~/Library/LaunchAgents persistence. On Linux with sudo docker cp, the PoC replaced /usr/bin/runc with a shell script, converting a file write into root code execution on the next Docker lifecycle call.
-
-- Also affects sbx cp in Docker Sandboxes: retrieving an artifact from an untrusted AI-agent sandbox triggers the same destination escape under CVE-2026-17106. Docker Sandboxes 0.38.0 (Aug 6) and Docker Desktop 4.86.0 with Engine 29.7.2 (Aug 10) ship the fixes.
-
-- DFIR risk: copying evidence from a suspected compromised container can trigger a waiting payload. The copy that looked like safe data collection becomes the delivery mechanism.
-
-Patch to Docker Engine/CLI 29.7.2 and Desktop 4.86.0 now. Until patched, stop the container before copying and avoid sudo docker cp.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087041988998938752</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2087041988998938752">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 05:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2087041988998938752</guid>
     </item>
   </channel>
 </rss>
