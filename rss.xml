@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 14:03:07 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 15:03:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Clop Returns with Custom Implant in Mass-Extortion Campaign</title>
+      <link>https://reliaquest.com/blog/clop-returns-with-custom-implant-in-mass-extortion-campaign/</link>
+      <description>Clop returns with a purpose-built PTC Windchill implant exploiting CVE-2026-12569 (CVSS 9.3), an RCE flaw now in CISA KEV, actively exploited to mass-exfiltrate engineering IP and decrypt every credential in the application keystore.
+
+Key findings:
+
+- CVE-2026-12569 (CVSS 9.3) gives Clop RCE on PTC Windchill, an industrial PLM platform storing engineering designs and product IP. CISA added it to KEV with a three-day federal patch deadline, consistent with confirmed active exploitation at campaign launch.
+
+- The custom web shell (SHA-256: 321e1fb01eb3462b48ff6ccdef132acc1182e3f7456548439f0d4ead12fd98bf) is a full extortion platform on arrival. A single "S" command triggers the built-in "gs" function, which reads ieStructProperties.txt, decrypts the LDAP manager password, and returns all keystore credentials in plaintext, including AD, VPN, and email service accounts.
+
+- The built-in "fl" function queries Windchill's vault database via the app's own MethodContext and WTConnection classes, writes results to flst.txt, then exfiltrates. A custom Java class loader (Cldr) accepts Base64-encoded ZIP bytecode and runs it in-memory with no files written to disk, enabling ransomware or lateral movement on demand.
+
+- Commands route through the custom HTTP header X-windchill-req, responses are GZIP-compressed. Standard WAFs inspecting only URL paths or request bodies will miss this entirely. TLS inspection and header logging are required for visibility.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089729826940727440</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2089729826940727440">DFIR Radar</source>
+      <pubDate>Tue, 18 Aug 2026 15:03:11 +0000</pubDate>
+      <guid isPermaLink="false">2089729826940727440</guid>
+    </item>
     <item>
       <title>Thousands of Hacked WordPress Sites, One Operation: Unmasking StopAndProtect</title>
       <link>https://research.checkpoint.com/2026/thousands-of-hacked-wordpress-sites-one-operation-unmasking-stopandprotect/</link>
@@ -1643,27 +1664,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2087147842397946116">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 12:03:18 +0000</pubDate>
       <guid isPermaLink="false">2087147842397946116</guid>
-    </item>
-    <item>
-      <title>Fake popular sites offer a free app, instead take over PCs</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/08/fake-popular-sites-offer-a-free-app-instead-take-over-pcs</link>
-      <description>Lookalike sites for CNN, Avast, and Stremio are silently installing O&amp;O Syspectr, a legitimate signed RAT, pre-linked to attacker accounts. AV won't flag it because it is not malware.
-
-Key findings:
-
-- Attackers operate at least two Syspectr accounts. Account 4693fd-d903-4791-8f58-975261c93ca2 ties app.cnn-news[.]com, avast-premium[.]shop, and stremiotv[.]online together. Account 9158bf2a-ff25-4290-b96c-2dc5eb310391 runs syncminer[.]xyz and idleminer[.]pro. The account ID is embedded in the installer filename, making attribution straightforward once you have the file.
-
-- The installers are genuine, digitally-signed software from O&amp;O Software GmbH. Syspectr gives operators remote desktop, file browsing, command execution, and software installation at the admin level. Traditional AV has no basis to block a signed business tool, regardless of how it arrived.
-
-- O&amp;O responded within days: disabled Remote Desktop and Remote Console on free accounts, and suspended the abusive accounts. Their analysis confirmed attackers used Remote Console exclusively, not Remote Desktop.
-
-Responder action: Hunt endpoints for Syspectr via installed programs or the process oo-syspectr-agent.exe. On any suspicious installer, right-click, Properties, Details tab: File description and Product name will show O&amp;O Syspectr regardless of filename. If found without admin deployment, treat as full compromise, rotate credentials from a clean machine. Full IOC list in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087132645738127862</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087132645738127862">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 11:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2087132645738127862</guid>
     </item>
   </channel>
 </rss>
