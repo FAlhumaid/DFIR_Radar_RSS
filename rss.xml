@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 19:04:01 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 20:04:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CoSnitch: When Your AI Assistant Becomes Its Own Whistleblower</title>
+      <link>https://www.varonis.com/blog/cosnitch</link>
+      <description>CVE-2026-24301 (critical): Microsoft Copilot Personal's CoSnitch chain turns one link click into silent, cross-app data exfiltration with no anomalous signals for defenders to catch.
+
+- CVE-2026-24301 chains three flaws: auto-prompt execution via the undocumented ?autorun=1 URL parameter paired with ?q=, silent OAuth connector exfiltration encoding stolen data as base64 in a URL path fetched by Copilot itself, and indirect prompt injection via web summarization that writes attacker instructions into Copilot's persistent memory store. Patched August 18, 2026. No in-the-wild exploitation confirmed.
+
+- The exfil path is forensically invisible: Copilot issues a standard outbound HTTPS GET to an attacker webhook with the payload in the URL path (e.g., GET /exfil/SGV5LCBNe... to eo8el024afgbal3.m.pipedream[.]net). No anomalous headers, no unusual ports. Security tooling sees routine Copilot URL-fetch behavior.
+
+- Memory poisoning via web summarization survives password changes, session revocation, and device re-enrollment. The only artifact is an entry in Copilot's memory UI, which most users never inspect and no EDR or SIEM currently flags.
+
+- Discovery method is noteworthy: researchers used "meta-hacking," iteratively reframing refusals as follow-up questions until Copilot disclosed an undocumented parameter unprompted. This technique applies to any agentic LLM with a natural language interface.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089805567174889585</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2089805567174889585">DFIR Radar</source>
+      <pubDate>Tue, 18 Aug 2026 20:04:09 +0000</pubDate>
+      <guid isPermaLink="false">2089805567174889585</guid>
+    </item>
     <item>
       <title>Hunting MacSync Stealer infrastructure through behavioral pivots</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/08/18/hunting-macsync-stealer-infrastructure-through-behavioral-pivots/</link>
@@ -1657,25 +1676,6 @@ Takeaway: Build a detection pairing Event ID 4728/4732 with NETLOGON write activ
       <source url="https://x.com/DFIR_Radar/status/2087223232932061651">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 17:02:52 +0000</pubDate>
       <guid isPermaLink="false">2087223232932061651</guid>
-    </item>
-    <item>
-      <title>Gunra Ransomware Builds a New Attack Network Through RaaS</title>
-      <link>https://thecyberexpress.com/gunra-ransomware-expands-raas-operations/</link>
-      <description>Gunra ransomware, derived from leaked Conti source code, has formalized a RaaS affiliate program and drawn a joint FBI/CISA advisory. The group runs double-extortion operations across healthcare, finance, manufacturing, and government sectors globally.
-
-- Initial access centers on two actively exploited FortiOS/FortiProxy authentication bypass flaws: CVE-2024-55591 and CVE-2025-24472. Gunra actors also abused default VPN credentials where account lockout was absent, then leveraged stolen session tokens to pivot into internal VDI, Active Directory servers, and IT workstations via Impacket and SMB lateral movement.
-
-- Data theft precedes encryption at scale. Actors used a malicious binary named main.exe to exfiltrate from Microsoft OneDrive and SharePoint, then staged compressed archives to Mega. Exfiltrated volumes reached tens of terabytes before ChaCha20/RSA-4096 encryption deployed. Watch for .ENCRT and .CRYPT file extensions. WMI is used to delete volume shadow copies (T1490) and backup infrastructure was wiped across primary and DR sites.
-
-- The affiliate program provides a management panel, configurable builder, and cross-platform payloads covering Windows and Linux. Gunra also operates under the alias Golden Community and recruits initial access brokers on dark web forums.
-
-Prioritize patching CVE-2024-55591 and CVE-2025-24472 immediately. Hunt for main.exe, anomalous OneDrive/SharePoint API activity, and outbound transfers to Mega.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087208268972122190</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087208268972122190">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 16:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2087208268972122190</guid>
     </item>
   </channel>
 </rss>
