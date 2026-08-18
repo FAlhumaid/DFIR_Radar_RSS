@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 18:03:39 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 19:04:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hunting MacSync Stealer infrastructure through behavioral pivots</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/08/18/hunting-macsync-stealer-infrastructure-through-behavioral-pivots/</link>
+      <description>MacSync Stealer rotates through 30+ domains to steal macOS credentials, but its curl command patterns, URI paths, and chunked exfiltration parameters stay constant, giving defenders durable hunt pivots that outlast any single IOC.
+
+- ClickFix social engineering (T1059.004) tricks users into pasting commands into Terminal. curl retrieves payload over /curl/ paths, base64 and gunzip unpack it, then osascript chains AppleScript with sh, cp, rm, mkdir, and killall. Collected targets include Keychain material, browser credentials across Chrome/Brave/Edge/Arc/Vivaldi, SSH keys, AWS creds, Kubernetes configs, Apple Notes, and files with extensions like .pem, .seed, .wallet, and .kdbx from Desktop, Documents, and Downloads.
+
+- Data stages to /tmp/sync* paths, compresses to /tmp/osalogging.zip, splits into chunks, then uploads via curl HTTP PUT with --data-binary, an api-key header, macOS User-Agent, and parameters upload_id, chunk_index, and total_chunks to /gate?buildtxd= URIs (T1030, T1041). Artifacts are deleted post-exfil, but the create-upload-delete sequence is still correlatable.
+
+- Microsoft Defender Experts linked 30+ domains by requiring multiple behavioral traits to align: /curl/, /dynamic?txd=, /gate?buildtxd= URI patterns, curl -k -s --max-time flags, and a static api-key value shared across four confirmed C2 domains even as build tokens rotated per deployment.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089790436798030202</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2089790436798030202">DFIR Radar</source>
+      <pubDate>Tue, 18 Aug 2026 19:04:01 +0000</pubDate>
+      <guid isPermaLink="false">2089790436798030202</guid>
+    </item>
     <item>
       <title>Beware the Ransomware Rescuer: Ransom Busters</title>
       <link>https://www.guidepointsecurity.com/blog/beware-ransom-busters/</link>
@@ -1659,27 +1676,6 @@ Prioritize patching CVE-2024-55591 and CVE-2025-24472 immediately. Hunt for main
       <source url="https://x.com/DFIR_Radar/status/2087208268972122190">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 16:03:25 +0000</pubDate>
       <guid isPermaLink="false">2087208268972122190</guid>
-    </item>
-    <item>
-      <title>Bypassing Android Hardware Attestation from the Analyst's Chair</title>
-      <link>http://blog.quarkslab.com/bypassing-android-hardware-attestation.html</link>
-      <description>Android hardware attestation relayed, not broken: Quarkslab shows how a Frida hook and a clean burner phone flip a backend verdict from rejected to valid without touching crypto or firmware.
-
-Key findings:
-
-- The attestation chain's RootOfTrust (tag [704] in hardwareEnforced) is what kills analysis on a rooted device. verifiedBootState reports Unverified and deviceLocked is false because those values are written by secure hardware before Android boots, no userspace patch changes them. The relay sidesteps this entirely by having a stock, locked phone generate the chain instead.
-
-- The seam is KeystoreAttestation.generateAttestedKey(challenge: ByteArray). Frida hooks that single method, re-encodes the raw challenge bytes as unpadded base64url, ships it to the clean oracle device via HTTP POST /attest, and returns the resulting AttestedKey to the app. The local Keystore is never called. The app forwards a genuine chain it believes is its own.
-
-- The backend cannot distinguish a relayed chain from a local one. KeyDescription carries no field binding the attestation to a transport session, network address, or process. The nonce (attestationChallenge) is the only freshness signal, and the relay forwards it untouched.
-
-- The decisive mitigation is one backend comparison: read attestationApplicationId (tag [709], softwareEnforced) and reject any chain whose package name or signing certificate SHA-256 digest does not match the expected app.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087193254080950391</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2087193254080950391">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 15:03:45 +0000</pubDate>
-      <guid isPermaLink="false">2087193254080950391</guid>
     </item>
   </channel>
 </rss>
