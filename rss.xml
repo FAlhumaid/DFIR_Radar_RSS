@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 13:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 14:03:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Thousands of Hacked WordPress Sites, One Operation: Unmasking StopAndProtect</title>
+      <link>https://research.checkpoint.com/2026/thousands-of-hacked-wordpress-sites-one-operation-unmasking-stopandprotect/</link>
+      <description>StopAndProtect operation abuses ~2,000 hacked WordPress sites as C2, malware delivery, and stolen-data storage, hitting 6,000+ victims across the US 🇺🇸, Russia 🇷🇺, and India 🇮🇳 since May 2026.
+
+- ClickFix fake-CAPTCHA pages on compromised WordPress sites copy a hidden PowerShell command to the clipboard. Two PowerShell stages pull base64-encoded .NET assemblies loaded reflectively in memory, resolving to six Stage 3 components: SilentEncryptor (ransomware), SilentDataCollector (stealer with keylogger, WhatsApp contact harvesting, 30-second screenshots), NetworkShareScanner (SMB/USB worm), LockScreen, VBS spreader via WMI, and SimpleChatProxy for live operator-victim comms.
+
+- Persistence on compromised WordPress hosts uses a must-use plugin dropped to wp-content/mu-plugins/wp-sec.php, exposing a hidden REST endpoint wp-sec/v1/upload with hardcoded credentials. MU plugins load on every request and are invisible in the standard Plugins UI, making them a reliable server-side persistence mechanism to check during WordPress IR.
+
+- OPSEC failures exposed open directories on C2 servers, leaking ~31,000 victim screenshots and 700+ AES-CBC encrypted archives named by convention (computernamepass, computernamewallets, computernamedesktop_files). The operator's self-infection uploaded a VB6 automation tool and plaintext lists of ~2,000 compromised WordPress domains.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089714710522232936</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2089714710522232936">DFIR Radar</source>
+      <pubDate>Tue, 18 Aug 2026 14:03:07 +0000</pubDate>
+      <guid isPermaLink="false">2089714710522232936</guid>
+    </item>
     <item>
       <title>Defenders Arise: Examining 7Zip data extraction with Registry analysis</title>
       <link>https://thinkdfir.com/2026/08/18/defenders-arise-analysing-7zip-data-extraction-with-registry-analysis/</link>
@@ -1647,23 +1664,6 @@ Responder action: Hunt endpoints for Syspectr via installed programs or the proc
       <source url="https://x.com/DFIR_Radar/status/2087132645738127862">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 11:02:55 +0000</pubDate>
       <guid isPermaLink="false">2087132645738127862</guid>
-    </item>
-    <item>
-      <title>Project CAV3RN continues: Google Apps Script as C2 relay and DNS-based C2 channel selection</title>
-      <link>https://securelist.com/project-cav3rn-continues/120991/</link>
-      <description>Project CAV3RN, an espionage framework targeting Israel 🇮🇱, adds a DNS-driven C2 selector that switches between direct HTTPS and Google Apps Script relay per transaction, with operator-controlled channel rotation baked in.
-
-- GoogleService.dll (MD5: 981c7404d31b8ce35ec88a6b290f354d), a .NET 8 NativeAOT DLL, queries a DNS A-record at &amp;lt;nonce&amp;gt;&amp;lt;error-state&amp;gt;.&amp;lt;hex-client-ID&amp;gt;.m.studiotikva[.]com before every poll. The fourth octet of the response selects the channel: 120 = Google Apps Script or Direct HTTPS depending on error state, 130 = Direct HTTPS or close, 140 = exception. This means the operator can steer every individual C2 transaction at the DNS layer without touching the implant.
-
-- The Google Apps Script relay is kept fresh via .q and .p DNS subdomains. A 32-bit MD5 prefix check validates the stored deployment ID; a mismatch triggers chunked retrieval over .p queries, delivering a new 74-character ID in 19 DNS responses. The recovered ID is written back to conf.json on disk, the only persistent update the module makes.
-
-- The broker rnp.dll (MD5: 2dcd4a8ac166404977cd3c48418a8cd9) masquerades as the RNP OpenPGP library and hot-loads DLL components by scanning its host directory every second. Components must export GroupByCategory, CheckAvailability, IsPrimeNumber, and OrderByDate to be loaded. Payload XOR key is 0xAC; delimiter _;;_ separates commands from arguments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087117663525085532</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087117663525085532">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 10:03:23 +0000</pubDate>
-      <guid isPermaLink="false">2087117663525085532</guid>
     </item>
   </channel>
 </rss>
