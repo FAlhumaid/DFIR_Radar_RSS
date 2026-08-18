@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 08:02:36 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 10:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Mirage2FA Hijacks Companies’ Microsoft 365 Sessions, with Over 4K Victims in the US</title>
+      <link>https://any.run/cybersecurity-blog/mirage2fa-phishing-targets-us-companies/</link>
+      <description>Mirage2FA PhaaS bypasses MFA to steal live Microsoft 365 sessions via AiTM, hitting 4,500+ victims across Technology, Manufacturing, and Education since late 2024.
+
+Key findings:
+
+- Attack chain runs entirely in the browser: .htm/.xhtml/.svg stagers decode via XOR key 0xAD + Base64 + eval, retrieve harvesting logic from /[a-z]{3}/xls/[a-z0-9]+.js, then proxy the full M365 login over WebSocket in real time (T1566.001, T1027, T1539, T1557). No binary malware touches disk.
+
+- Session-cookie theft is the dominant outcome: 4,561 of 9,332 recorded compromise events. Password reset alone is insufficient. Full response requires revoking all Entra ID sessions, auditing mail-forwarding rules, and reviewing OAuth grants.
+
+- Infrastructure pivots on the /xls/*.js path and LINX* placeholder tokens (LINXB64EMAIL, LINXCODERSEMAIL). C2 anchor is 185.174.100[.]224 (AS-Colocrossing /24). Known loader domains include user.cheacker[.]store and hvr.volatilesour[.]store.
+
+- 33% of successful logins came from mobile, where limited URL visibility makes inspection harder. Amazon SES was used for high-volume distribution; HR and 401(k) lure themes recur.
+
+Hunt proxy and email gateway logs for GET /???/xls/*.js, outbound WebSocket after JS loader fetch, and Base64-encoded email addresses as DNS subdomain labels. Full IOC list and detection patterns are in the ANY.RUN report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089654211768098846</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2089654211768098846">DFIR Radar</source>
+      <pubDate>Tue, 18 Aug 2026 10:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2089654211768098846</guid>
+    </item>
     <item>
       <title>New Mirai-Based Evooo1Bot Botnet Targets Linux Devices</title>
       <link>https://securityaffairs.com/197434/malware/new-mirai-based-evooo1bot-botnet-targets-linux-devices.html</link>
@@ -1641,17 +1664,6 @@ Patch CVE-2024-55591 and CVE-2025-24472 immediately. For Linux victims, preserve
       <source url="https://x.com/DFIR_Radar/status/2087102430488007140">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 09:02:51 +0000</pubDate>
       <guid isPermaLink="false">2087102430488007140</guid>
-    </item>
-    <item>
-      <title>Gunra Ransomware: Multithreaded ChaCha20 Encryption Explained</title>
-      <link>https://www.picussecurity.com/resource/blog/gunra-ransomware-multithreaded-chacha20-encryption-explained</link>
-      <description>Gunra ransomware, built on leaked Conti source code, exploits FortiOS auth-bypass flaws CVE-2024-55591 and CVE-2025-24472 to plant superuser accounts before deploying ChaCha20+RSA-4096 encryption and appending .ENCRT.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087087282339852290</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2087087282339852290">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 08:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2087087282339852290</guid>
     </item>
   </channel>
 </rss>
