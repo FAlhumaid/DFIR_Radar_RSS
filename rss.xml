@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 10:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 13:03:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Defenders Arise: Examining 7Zip data extraction with Registry analysis</title>
+      <link>https://thinkdfir.com/2026/08/18/defenders-arise-analysing-7zip-data-extraction-with-registry-analysis/</link>
+      <description>7-Zip leaves Registry breadcrumbs when used to access raw physical disks or sensitive paths, a technique seen in real NTDS.dit theft. Here is where to look and what to hunt.
+
+Key findings:
+
+- The registry key Software\7-Zip\FM holds two high-value values: PanelPath0, which stores the last path open in the file manager, and FolderHistory, which stores a unicode-encoded MRU-style list of folders browsed. A value of \\. in PanelPath0 is a direct indicator the operator accessed the raw physical device view inside 7-Zip.
+
+- FolderHistory and CopyHistory both sit in the 7-Zip hive and are parsed similarly to ArchHistory in the Compression key. New entries are prepended, not appended, so the most recent interaction is at the start of the value data. Entries may only flush to disk on reboot, meaning a live system could hold unsaved history in memory.
+
+- The author confirmed a real case where attackers landed on a domain controller, ran 7-Zip, and exfiltrated NTDS.7z. The \\. path combined with history showing the [SYSTEM] NTFS metadata section or System32\config or the NTDS folder is a strong signal of credential-store access.
+
+- CopyHistory tracks the CopyTo dropdown but does not record what was actually copied out, so it shows intent and target path, not file names.
+
+Takeaway: Add Software\7-Zip\FM to your Registry triage and hunt for \\. in PanelPath0 and any NTDS, config, or sensitive path in FolderHistory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089699671765635349</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2089699671765635349">DFIR Radar</source>
+      <pubDate>Tue, 18 Aug 2026 13:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2089699671765635349</guid>
+    </item>
     <item>
       <title>Mirage2FA Hijacks Companies’ Microsoft 365 Sessions, with Over 4K Victims in the US</title>
       <link>https://any.run/cybersecurity-blog/mirage2fa-phishing-targets-us-companies/</link>
@@ -1641,29 +1664,6 @@ Responder action: Hunt endpoints for Syspectr via installed programs or the proc
       <source url="https://x.com/DFIR_Radar/status/2087117663525085532">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 10:03:23 +0000</pubDate>
       <guid isPermaLink="false">2087117663525085532</guid>
-    </item>
-    <item>
-      <title>Gunra ransomware expands globally as US, South Korean agencies warn of data theft, encryption and extortion tactics</title>
-      <link>https://industrialcyber.co/cisa/gunra-ransomware-expands-globally-as-us-south-korean-agencies-warn-of-data-theft-encryption-and-extortion-tactics/</link>
-      <description>Gunra ransomware, a Conti-derived RaaS now operating globally, exploits FortiOS/FortiProxy auth bypasses and VPN default creds to hit healthcare, government, critical manufacturing and more across six regions.
-
-Key findings:
-
-- Initial access via CVE-2024-55591 and CVE-2025-24472 (auth bypass in FortiOS/FortiProxy) plus default credentials on SSL-VPN appliances. Lateral movement uses Impacket over SMB and stolen session tokens. Persistence achieved by installing OpenSSH and creating backdoor VPN accounts with password-change bypass.
-
-- Credential theft via secretsdump.py against NTDS on domain controllers enabling pass-the-hash and pass-the-ticket. Actors also modified VDI portal files to bypass MFA and stole symmetric encryption keys from a Hiware access control server via SSH.
-
-- Gunra deletes logs and command history, operates 10 p.m. to 6 a.m., and uses IsDebuggerPresent to block analysis. The Windows encryptor uses FindFirstFileW/FindNextFileW to traverse all drives A through Z with no network indicators.
-
-- Critical decryption opportunity: Linux ELF variants as of March 2026 use a weak PRNG seeded with predictable system time. File timestamps can reconstruct encryption keys mathematically, making ransom payment unnecessary for Linux victims.
-
-Patch CVE-2024-55591 and CVE-2025-24472 immediately. For Linux victims, preserve file timestamps and attempt key reconstruction before paying. Audit VPN accounts for password-change bypass and review NTDS access logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087102430488007140</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087102430488007140">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 09:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2087102430488007140</guid>
     </item>
   </channel>
 </rss>
