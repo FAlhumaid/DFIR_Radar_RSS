@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Aug 2026 16:03:16 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 17:03:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>MacSync Stealer: How a Google Search for Claude Led to a macOS Infostealer</title>
+      <link>https://www.huntress.com/blog/fake-claude-macsync</link>
+      <description>MacSync Stealer uses Google-sponsored ads and a legitimate claude.ai shared conversation to deliver a six-stage macOS infostealer and RAT, observed hitting a Huntress customer in July 2026.
+
+Key findings:
+
+- Initial access via ClickFix: victim clicks a sponsored Google Ad for "How to install Claude Code on a Mac," lands on a real claude.ai shared-conversation page spoofed as "Apple Support," and pastes a curl one-liner into Terminal. The command fetches a polymorphic 1,442-byte zsh loader, hash-based detection will not work here; hunt on curl spawning Base64-decoded shell content instead.
+
+- Six-stage kill chain: zsh loader, in-memory daemon, server-side AppleScript stealer (never written to disk, logic lives behind an api-key gate), a Mach-O RAT persisting via LaunchAgent plist, a separately signed screen-recording capture agent, and trojanized crypto wallet apps. Stolen data archives to /tmp/osalogging.zip before cleanup.
+
+- The Mach-O RAT connects to 85.206.161[.]241:8443 over WebSocket TLS using its own embedded OpenSSL stack, bypassing macOS trust checks. A fallback C2 domain is XOR-obfuscated with key 0xAA. Credentials are written to .mpwd in the user Home folder for immediate RAT retrieval.
+
+- Stage 6 replaces 60 wallet browser extensions, 21 desktop wallet apps, and 3 hardware wallet companion apps. Trojanized Ledger app serves a fake error page to harvest seed phrases. Unlike passwords, crypto recovery phrases cannot be rotated or revoked.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089760054354251977</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2089760054354251977">DFIR Radar</source>
+      <pubDate>Tue, 18 Aug 2026 17:03:18 +0000</pubDate>
+      <guid isPermaLink="false">2089760054354251977</guid>
+    </item>
     <item>
       <title>TrendAI finds newer US data centers more exposed to OT risks, with 6,300 ICS and BAS devices accessible online</title>
       <link>https://industrialcyber.co/industrial-cyber-attacks/trendai-finds-newer-us-data-centers-more-exposed-to-ot-risks-with-6300-ics-and-bas-devices-accessible-online/</link>
@@ -1655,23 +1676,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2087178103953006860">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 14:03:33 +0000</pubDate>
       <guid isPermaLink="false">2087178103953006860</guid>
-    </item>
-    <item>
-      <title>Head Mare APT is exploiting vulnerabilities in an unpatched TrueConf server to deliver PhantomCore and PhantomGraph to video conference participants</title>
-      <link>https://securelist.com/tr/head-mare-targets-trueconf-server-with-phantomcore/120988/</link>
-      <description>Head Mare-targeting APT trojanized TrueConf video conference installers via two zero-day server vulns, dropping PhantomCore and PhantomGraph backdoors on victim endpoints.
-
-- Head Mare chained KLCERT-26-057 and KLCERT-26-058 against TrueConf Server versions 5.3.x through 5.5.5 via unauthenticated port 4307/TCP. The first vuln allows remote script execution on the server; the second escapes the sandbox to reach NT AUTHORITY\SYSTEM. Once elevated, attackers replaced public/js/locale.php (MD5: 4d27b4eb1c5dbb3d8160f29b8119523e) with a web shell. Patches landed June 18, 2026 in versions 5.3.9, 5.4.9, and 5.5.5.
-
-- The web shell gave access to the TrueConf database and swapped the legitimate client installer with a trojanized build (748c9f8cb1065000616204935f96207f) containing PhantomCore. Persistence lands via HKCU\Software\Classes\CLSID\{0340F119-A598-4ed9-B0AC-6F6A12D3E755}\InprocServer32. Critically, even organizations that do not run their own TrueConf server are at risk if employees connect to a partner's compromised instance.
-
-- PhantomGraph (SysExcSvc.dll + SysReadSvc.dll installed as Windows services from %TEMP%) uses a Microsoft OneDrive account as C2, communicating via the Graph API. Commands execute through %TEMP%\cmd_cmd_*.bat batch files. Observed post-exploitation: lsass memory dumping via comsvcs.dll, SSH reverse tunnel creation, and reconnaissance via hostname/whoami. C2 IPs include 81.177.32[.]12 and 194.87.239[.]71.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087163120707924210</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087163120707924210">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 13:04:01 +0000</pubDate>
-      <guid isPermaLink="false">2087163120707924210</guid>
     </item>
   </channel>
 </rss>
