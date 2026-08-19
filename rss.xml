@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Aug 2026 16:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 17:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BOFScale: A CDN-Fronted Tailnet from a BOF-PE</title>
+      <link>https://www.netspi.com/blog/technical-blog/red-teaming/bofscale-a-cdn-fronted-tailnet-from-a-bof-pe/</link>
+      <description>BOFScale runs a full Tailscale daemon as an in-process BOF-PE with no driver, no service, and no disk state, routing C2 traffic as standard WebSockets through CloudFront or Fastly.
+
+- Three components work together in-process inside the implant: tailscaled (modified Go daemon compiled as a CGo DLL, async BOF), tailscale (C++ BOF-PE HTTP/1.0 client over a random UUID named pipe), and socksportfwd (async SOCKS5 port forwarder binding 0.0.0.0:1080). State is kept in memory with -state mem:, no WinTun driver is needed via -tun=userspace-networking, and -no-logs-no-support kills telemetry. Child processes were eliminated by replacing ping.exe with direct IcmpSendEcho2 calls and removing wsl.exe and ipconfig.exe invocations.
+
+- The CDN-fronting works because the fork patches Tailscale to speak RFC 6455 WebSockets for both the DERP relay and the TS2021 control channel, which vanilla Tailscale cannot do. Traffic hits CloudFront or Fastly on port 443 as a standard Upgrade: websocket with Sec-WebSocket-Protocol: derp or ts2021 and forwards to a self-hosted Headscale stack. Ephemeral nodes auto-expire after 10 minutes.
+
+- The primary detection signals: Go runtime heap present inside a non-Go host process; a random UUID named pipe with SDDL D:(A;;GA;;;WD); SOCKS5 listener on 0.0.0.0:1080 owned by an unexpected process; and outbound WebSocket upgrades with derp or ts2021 subprotocols from a process that is not tailscaled.exe.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090122366856904880</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2090122366856904880">DFIR Radar</source>
+      <pubDate>Wed, 19 Aug 2026 17:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2090122366856904880</guid>
+    </item>
     <item>
       <title>Ray CVE-2025-62593: Critical Browser-Driven RCE via DNS Rebinding</title>
       <link>https://www.resecurity.com/blog/article/ray-cve-2025-62593-critical-browser-driven-rce-via-dns-rebinding</link>
@@ -1679,17 +1696,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2087419664389341342">DFIR Radar</source>
       <pubDate>Wed, 12 Aug 2026 06:03:25 +0000</pubDate>
       <guid isPermaLink="false">2087419664389341342</guid>
-    </item>
-    <item>
-      <title>Cursor Security Bug Allowed Repositories to Execute Commands Before Trust Verification</title>
-      <link>https://www.infosecurity-magazine.com/news/cursor-security-bug-command/</link>
-      <description>Cursor'sadvisory-free patch for its AI coding agent let a cloned repo execute arbitrary commands before trust verification, sandbox flag ignored. Update to build 2026.07.23-e383d2b. The sandbox bypass remains unresolved on current builds.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087404233167642798</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2087404233167642798">DFIR Radar</source>
-      <pubDate>Wed, 12 Aug 2026 05:02:06 +0000</pubDate>
-      <guid isPermaLink="false">2087404233167642798</guid>
     </item>
   </channel>
 </rss>
