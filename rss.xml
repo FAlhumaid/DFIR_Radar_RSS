@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Aug 2026 09:02:37 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 10:02:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Microsoft Tracks MacSync Stealer by Its Behavior, Not Its Domains</title>
+      <link>https://securityaffairs.com/197514/malware/microsoft-tracks-macsync-stealer-by-its-behavior-not-its-domains.html</link>
+      <description>MacSync Stealer evades domain blocklists by rotating C2 infrastructure faster than defenders can update them. Microsoft linked 30+ domains to the same campaign by hunting behavior, not addresses.
+
+Key findings:
+
+- Initial access is ClickFix social engineering: victims are tricked into pasting a curl command into macOS Terminal. The payload path follows a consistent /curl/[token] pattern, and native tools (sh, cp, rm, killall) plus osascript calls decode and execute it, blending into ordinary macOS scripting (T1059.004).
+
+- MacSync targets macOS Keychain, browser credentials and cookies, SSH keys, AWS credentials, Kubernetes configs, and Ledger/Trezor wallet data. High-value credential theft, not broad collection.
+
+- Exfiltration uses HTTP PUT requests with distinctive parameters: upload_id, chunk_index, and total_chunks, plus a static API-key header and a macOS User-Agent string. RST Cloud found that static API key shared across four confirmed C2 domains even while build tokens rotated, a durable hunting pivot.
+
+- Post-exfiltration cleanup deletes temporary archives, staging folders, and lock files under /tmp/sync*, reducing on-disk evidence. The behavioral sequence (archive creation, chunked upload, deletion) survives even when artifacts do not.
+
+Hunt for: curl spawning from a Terminal session with --data-binary and API-key headers, osascript chaining rapidly into outbound PUT traffic, and /tmp/sync* archive paths appearing before network egress.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090016623977521389</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2090016623977521389">DFIR Radar</source>
+      <pubDate>Wed, 19 Aug 2026 10:02:49 +0000</pubDate>
+      <guid isPermaLink="false">2090016623977521389</guid>
+    </item>
     <item>
       <title>50,000 Stripe Secrets Leaked in Public Code</title>
       <link>https://securityaffairs.com/197504/cyber-crime/50000-stripe-secrets-leaked-in-public-code.html</link>
@@ -1649,21 +1672,6 @@ Takeaway: Hunt for unsigned or recently modified DLLs at %AppData%\Microsoft\Dri
       <source url="https://x.com/DFIR_Radar/status/2087314037482893377">DFIR Radar</source>
       <pubDate>Tue, 11 Aug 2026 23:03:42 +0000</pubDate>
       <guid isPermaLink="false">2087314037482893377</guid>
-    </item>
-    <item>
-      <title>Tracking Shai-Hulud: Inside the ChainDrop NPM Worm</title>
-      <link>https://www.zscaler.com/blogs/security-research/tracking-shai-hulud-inside-chaindrop-npm-worm</link>
-      <description>ChainDrop npm worm poisons 400+ packages in under 4 hours by hijacking a maintainer's GitHub account, abusing trusted CI/CD pipelines to publish packages with valid SLSA Build Level 3 attestations, and anchoring C2 in an Ethereum smart contract.
-
-- TeamPCP's ChainDrop (a Shai-Hulud variant) entered npm on August 4, 2026 via a compromised keyv maintainer account. The attacker pushed setup.mjs and Math_Symbol.js to main branches and modified package.json to add a preinstall hook. Because the attacker operated as the legitimate maintainer, the existing GitHub Actions pipeline built and published keyv 6.0.0 with valid OIDC trusted-publisher provenance and SLSA Build L3 attestation. Signed provenance did not equal safe content.
-
-- Math_Symbol.js runs under the Bun runtime (downloaded at v1.3.13) deliberately to bypass EDRs monitoring Node.js child-process behavior. It harvests npm tokens, GitHub PATs, OIDC tokens, AWS/GCP/Azure credentials, Kubernetes configs (~/.kube/config), HashiCorp Vault tokens (VAULT_TOKEN), SSH keys, and Claude Code/Copilot configs. Stolen data is AES-256-GCM encrypted, RSA-4096 key-wrapped, and exfiltrated to attacker-created GitHub repos (description: "Shai-Hulud: Here We Go Again"). Fallback C2 via EtherHiding: Ethereum contract 0xE1f2395ee43e45A1556EC6438a88c31B83493103 delivers live domains, making blocklists ineffective.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087298986759823444</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2087298986759823444">DFIR Radar</source>
-      <pubDate>Tue, 11 Aug 2026 22:03:54 +0000</pubDate>
-      <guid isPermaLink="false">2087298986759823444</guid>
     </item>
   </channel>
 </rss>
