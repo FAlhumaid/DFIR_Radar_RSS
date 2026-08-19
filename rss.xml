@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Aug 2026 11:03:07 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 12:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Analyzing Stripe Vendors Breach: Confirmed Vendor Exposure and Claims of 20,000 Compromised APIs</title>
+      <link>https://www.infostealers.com/article/analyzing-stripe-breach-confirmed-vendor-exposure-and-claims-of-20000-compromised-apis/</link>
+      <description>Threat actor "Satanic" drops 669 Stripe vendors' data and 1,033 live API keys on pwnforums, claims 20,000 total keys compromised with staggered releases planned.
+
+- Initial August 18 dump is 2.37GB of a claimed 33GB haul: vendor directories organized by domain, containing JSON and CSV files with customer PII (names, emails, phone numbers, home addresses, IP addresses at transaction time), invoices, charges, and partial card digits. One single vendor account exposed 22,000+ customers and $5M+ in paid invoices.
+
+- Live "sk_live_" Stripe API keys with charge capabilities confirmed in the leak, granting attackers ability to read customer data, trigger refunds, alter settings, or reroute payments. Internal promotional codes also exposed, enabling immediate revenue drain before vendors detect abuse.
+
+- Attack vector points away from infostealers: no correlated infostealer infections found for affected domains, and victims span entirely different tech stacks. Most likely cause is automated mass-scanning for exposed .env files or debug logs leaking plaintext API keys, or a compromised shared hosting or deployment provider.
+
+Stripe vendors: rotate all "sk_live_" keys immediately, audit .env files and debug logs for public exposure, and check Stripe dashboard logs for unauthorized API calls, refund triggers, or settings changes. Hunt your web-accessible configs before the next batch drops.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090046781316895149</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2090046781316895149">DFIR Radar</source>
+      <pubDate>Wed, 19 Aug 2026 12:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2090046781316895149</guid>
+    </item>
     <item>
       <title>FBI, CISA, HHS update Medusa ransomware advisory, detail RaaS affiliate model, exploited flaws and attack tools</title>
       <link>https://industrialcyber.co/cisa/fbi-cisa-hhs-update-medusa-ransomware-advisory-detail-raas-affiliate-model-exploited-flaws-and-attack-tools/</link>
@@ -1653,29 +1672,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2087344264892100966">DFIR Radar</source>
       <pubDate>Wed, 12 Aug 2026 01:03:49 +0000</pubDate>
       <guid isPermaLink="false">2087344264892100966</guid>
-    </item>
-    <item>
-      <title>Fake CCleaner installs GhostDesk Chrome spyware</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/08/fake-ccleaner-installs-ghostdesk-chrome-spyware</link>
-      <description>Fake CCleaner installer drops GhostDesk, a Chrome extension spyware that keyloggs, harvests credentials, steals cookies, and captures screenshots via a WebSocket C2 chain.
-
-Key findings:
-
-- Initial access is a typosquat site, ccleanerwind[.]top, serving a fake CCleaner.exe (SHA256: c0b4a4af...b9ce23). The binary's internal name svc_it7p and original filename rt_mxk.exe betray the impersonation. The same CScript-based loader also delivers fake 7-Zip and Adobe Acrobat variants, all phoning home to the same C2.
-
-- The loader drops a legitimate cscript.exe, uses it to run scripts that query the machine GUID, write a reflexive loader to %AppData%\Microsoft\DriverStore\runtimebroker.dll, and patch Chrome's Security Extension manifest.json to add background.js and content.js from %LocalAppData%\cse.
-
-- C2 is established via a local WebSocket on 192.168.100.4:49727 bridged to liderongrade.duckdns[.]org:4444 (IP: 193.169.240[.]81). background.js maintains a secondary relay at 127.0.0.1:7345/ext for in-browser exfiltration of cookies, screenshots, and keystrokes.
-
-- content.js keyloggs input fields, intercepts POST/submit form data for credential and financial keywords, performs clipboard hijacking for crypto addresses, and injects arbitrary scripts into targeted pages.
-
-Takeaway: Hunt for unsigned or recently modified DLLs at %AppData%\Microsoft\DriverStore\runtimebroker.dll and inspect Chrome's Security Extension manifest.json for unexpected service worker entries.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087328835435917641</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2087328835435917641">DFIR Radar</source>
-      <pubDate>Wed, 12 Aug 2026 00:02:30 +0000</pubDate>
-      <guid isPermaLink="false">2087328835435917641</guid>
     </item>
   </channel>
 </rss>
