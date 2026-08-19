@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Aug 2026 15:03:04 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 16:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Ray CVE-2025-62593: Critical Browser-Driven RCE via DNS Rebinding</title>
+      <link>https://www.resecurity.com/blog/article/ray-cve-2025-62593-critical-browser-driven-rce-via-dns-rebinding</link>
+      <description>CVE-2025-62593 in Ray is actively exploited and CISA KEV-listed. A DNS rebinding and User-Agent bypass chain lets a malicious webpage submit jobs to a local Ray Dashboard, achieving RCE without credentials.
+
+Key findings:
+
+- CVE-2025-62593 (CVSS 4.0: 9.4 Critical, CVSS 3.1: 8.8 High) affects all Ray PyPI versions before 2.52.0. The Jobs API at /api/jobs/ required no authentication, and the only browser guard checked whether the User-Agent started with "Mozilla". Firefox and Safari allow JavaScript to override that header, so sending "User-Agent: Other" bypasses the check entirely. Chrome blocks the override, making it resilient to this specific path.
+
+- The six-stage chain: victim visits attacker page, DNS rebinding resolves the attacker domain to 127.0.0.1:8265, browser POSTs to /api/jobs/ with a forged User-Agent, Ray accepts the job, and the entrypoint executes with Ray process privileges. Post-exploitation targets cloud credentials, SSH keys, model artifacts, training data, and GPU resources for mining or lateral movement.
+
+- For responders hunting exploitation: look for POST requests to /api/jobs/ with non-Mozilla User-Agent strings, Ray worker processes spawning unexpected shells or interpreters, and DNS telemetry showing short-TTL domains that flip between external IPs and loopback. Check EDR for unusual child processes under Ray and unexplained outbound connections.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090107371746206098</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2090107371746206098">DFIR Radar</source>
+      <pubDate>Wed, 19 Aug 2026 16:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2090107371746206098</guid>
+    </item>
     <item>
       <title>MaaS Campaign Combines ClickFix, ErrTraffic and Cruciferra</title>
       <link>https://www.infosecurity-magazine.com/news/maas-clickfix-errtraffic-cruciferra/</link>
@@ -1671,23 +1690,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2087404233167642798">DFIR Radar</source>
       <pubDate>Wed, 12 Aug 2026 05:02:06 +0000</pubDate>
       <guid isPermaLink="false">2087404233167642798</guid>
-    </item>
-    <item>
-      <title>Deleting the Defenders: A Commodity BYOVD Toolkit That Erases Host Safeguards</title>
-      <link>https://www.vmray.com/deleting-the-defenders-a-commodity-byovd-toolkit-that-erases-host-safeguards/</link>
-      <description>Commodity BYOVD toolkit "Saked" delivered via WinRAR SFX archives wipes 281 files across Defender, 9+ AV vendors, backups, and recovery data before dropping a follow-on payload. Static detection misses it entirely.
-
-Key findings:
-
-- The dropper is a WinRAR SFX that extracts 7z.exe, cecho.exe, nircmd.exe, and a password-protected same.zip (password: stucha, Russian 🇷🇺 slang) to %TEMP%\saked, then runs a randomly named batch script. The script detects Defender and Windows Security services via tasklist and reg query, disables Windows Update (wuauserv, dosvc, bits, UsoSvc, WaaSMedicSvc via sc.exe config start= disabled), then launches mika.exe (SHA-256 9163d413..., compiled 2025-10-17, first seen 2026-02-08) with /DelWD. Static pivots on the shared imphash 12e12319... or Rich-header hash 5a0b7a24... return the entire commodity WinRAR SFX population, not this family.
-
-- The BYOVD path: mika.exe unpacks genuine IObit Unlocker 1.6.0.16 (IObitUnlocker.exe SHA-256 eaa9dc1c..., IObitUnlocker.sys SHA-256 1845fe85...) to %TEMP%\IObitUnlocker and issues one IObitUnlocker.exe /Delete /Advanced command targeting 281 paths. The driver opens \\.\IObitUnlockerDevice, receives IOCTL 0x222124 (CVE-2020-14974, CVE-2020-14975), calls ZwTerminateProcess on any non-safe-listed process holding a target file, then force-deletes it from kernel mode, including live Defender services. A runtime mutex "Unlocker by Eject NotOfficial" marks Saked's execution.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087389478478614856</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2087389478478614856">DFIR Radar</source>
-      <pubDate>Wed, 12 Aug 2026 04:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2087389478478614856</guid>
     </item>
   </channel>
 </rss>
