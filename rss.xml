@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Aug 2026 22:02:30 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2026 23:02:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>A question about arbitrary values in USB registry keys</title>
+      <link>https://thinkdfir.com/2026/08/20/a-question-about-arbitrary-values-in-usb-registry-keys/</link>
+      <description>USB registry key values decoded: the hex GUIDs under HKLM\SYSTEM\CurrentControlSet\Enum\USB\Properties aren't arbitrary, they map to documented device property IDs in the Windows SDK header devpkey.h.
+
+- The subkeys under the Properties key store four timestamps as FILETIME blobs, identified by decimal property IDs 100-103 in devpkey.h but displayed as hex 0x64-0x67 in the registry: InstallDate (0x64), FirstInstallDate (0x65), LastArrivalDate (0x66), and LastRemovalDate (0x67). The namespace GUIDs in the key names use commas, not dashes, matching devpkey.h notation.
+
+- Common forensic teaching maps 0x64 to "first install," but 0x64 is actually InstallDate, not FirstInstallDate. FirstInstallDate is 0x65. For USB storage media these two values are nearly always identical, but for other device types they may diverge, so the distinction matters when you need to prove first-ever connection versus most recent install.
+
+- devpkey.h ships with the Windows SDK and is the authoritative source for resolving these property namespaces and IDs. It is also available in WINE-related GitHub repos if you don't have the SDK handy.
+
+- Registry Explorer's USB plugin surfaces both 0x64 and 0x65 side by side, making comparison straightforward during triage.
+
+When documenting USB first-connection time, record both 0x64 and 0x65 and note they match. If they differ, treat 0x65 (FirstInstallDate) as the authoritative first-connection timestamp and note the discrepancy in your report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090212794155045147</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2090212794155045147">DFIR Radar</source>
+      <pubDate>Wed, 19 Aug 2026 23:02:19 +0000</pubDate>
+      <guid isPermaLink="false">2090212794155045147</guid>
+    </item>
     <item>
       <title>SilkParasite Espionage Campaign Targets Central Asian Governments with Five New RATs</title>
       <link>https://thehackernews.com/2026/08/silkparasite-espionage-campaign-targets.html</link>
@@ -1697,25 +1718,6 @@ Takeaway: Audit every private APN as an untrusted network segment. Hunt for SSH 
       <source url="https://x.com/DFIR_Radar/status/2087510267358015910">DFIR Radar</source>
       <pubDate>Wed, 12 Aug 2026 12:03:27 +0000</pubDate>
       <guid isPermaLink="false">2087510267358015910</guid>
-    </item>
-    <item>
-      <title>CERT Polska exposes multi-stage cyberattack on energy infrastructure involving VPN, private APN, OT network tunneling</title>
-      <link>https://industrialcyber.co/utilities-energy-power-water-waste/cert-polska-exposes-multi-stage-cyberattack-on-energy-infrastructure-involving-vpn-private-apn-ot-network-tunneling/</link>
-      <description>CERT Polska exposes a novel private APN pivot used to tunnel from a compromised wind farm into a CHP plant's OT network, shutting down a steam turbine and water treatment system on Dec. 29, 2025.
-
-- Initial access: FortiGate VPN concentrators at wind farm substations were internet-exposed with no MFA. The attacker pivoted to a Teltonika RUTX50 cellular router, used SSH tunneling into a private APN, and discovered a WAGO PFC200 PLC configured with default admin credentials. SSH was then enabled via the web interface and used as the OT network gateway into the CHP plant, a vector CERT Polska says has no prior known precedent.
-
-- Dec. 18-25 reconnaissance: the attacker scanned the APN for VNC, HTTP, S7, and Modbus services, made manual RDP credential attempts, and on Dec. 25 connected to three Siemens PLCs (S7-300, S7-1200, S7-1500) via S7 protocol, likely staging for disruption.
-
-- Dec. 29 impact: starting at 05:30, the attacker switched all three Siemens PLCs to STOP mode, password-locked them, reconfigured seven Moxa serial servers and three Moxa switches with unreachable IPs (127.0.0.1), and halted cogeneration. Recovery teams were still restoring systems while the attacker remained active.
-
-- Forensic loss: the WAGO PLC had its partition table corrupted by the attacker before exit. Factory resets of the Teltonika router and FortiGate destroyed remaining logs. PLC restoration wiped controller logs permanently, confirmed by Siemens.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087495349648736691</description>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2087495349648736691">DFIR Radar</source>
-      <pubDate>Wed, 12 Aug 2026 11:04:10 +0000</pubDate>
-      <guid isPermaLink="false">2087495349648736691</guid>
     </item>
   </channel>
 </rss>
