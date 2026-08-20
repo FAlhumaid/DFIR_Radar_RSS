@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Aug 2026 19:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 20:02:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers poison arrayref Rust crate to push infostealer malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-poison-arrayref-rust-crate-to-push-infostealer-malware/</link>
+      <description>North Korean 🇰🇵 actors poisoned three Rust crates during a 23-minute window on August 20, executing an infostealer on developer machines at compile time in a supply-chain attack touching 245M+ lifetime downloads.
+
+Key findings:
+
+- Compromised maintainer account for arrayref (53M downloads in 90 days) injected a dependency on proc-macro1, a typosquat of proc-macro2. Malicious releases: arrayref 0.3.10, append-only-vec 0.1.9, internment 0.8.7. The build.rs script in proc-macro1 runs automatically at compile time, reconstructing a cross-platform payload (Linux, Windows, macOS x86-64/ARM64) from base64 fragments.
+
+- On Windows the payload drops %TEMP%\rust-setup.ps1 and uses hidden wscript.exe plus a VBS launcher for execution. On Unix it writes to /tmp/rust-setup and runs it as a detached process. Persistence via Registry Run key (Windows), LaunchAgent (macOS), and systemd (Linux).
+
+- Second-stage capabilities include credential theft from Chrome, Brave, and Edge SQLite login databases, plus host info exfiltration. C2 observed at 23.254.165[.]112 on ports 9089 and 443. Wiz notes infrastructure overlap with North Korean 🇰🇵 campaigns Mastra and axios.
+
+- Exposure window was roughly 1.5 hours (07:15 to 08:41 UTC, August 20). Downstream projects at risk include blake3, egui, eframe, iced, and Ethereum/Solana tooling.
+
+Hunt Cargo.lock files for proc-macro1, check for /tmp/rust-setup or rust-setup.ps1, and review outbound traffic to 23.254.165[.]112.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090529880429506820</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2090529880429506820">DFIR Radar</source>
+      <pubDate>Thu, 20 Aug 2026 20:02:19 +0000</pubDate>
+      <guid isPermaLink="false">2090529880429506820</guid>
+    </item>
     <item>
       <title>NSA, CISA, FBI, DOE, and EPA Warn of Active AI-Assisted Attacks on Siemens S7 PLCs</title>
       <link>https://securityaffairs.com/197566/ics-scada/nsa-cisa-fbi-doe-and-epa-warn-of-active-ai-assisted-attacks-on-siemens-s7-plcs.html</link>
@@ -1697,25 +1720,6 @@ Apply the August 2026 Patch Tuesday update immediately.
       <source url="https://x.com/DFIR_Radar/status/2087842306913075677">DFIR Radar</source>
       <pubDate>Thu, 13 Aug 2026 10:02:51 +0000</pubDate>
       <guid isPermaLink="false">2087842306913075677</guid>
-    </item>
-    <item>
-      <title>Armored Likho expands its cyber-espionage toolkit</title>
-      <link>https://securelist.com/armored-likho-still-toolkit/121033/</link>
-      <description>Armored Likho expands against Russian 🇷🇺 targets with a Rust-built Still Toolkit stealing Telegram sessions and recording audio, marking a significant capability leap for this espionage group.
-
-- Infection starts with a Tauri-based fake donation app (dropper) that presents a believable catalog UI while decrypting and launching payloads in the background. The dropper architecture matches the February 2026 campaign, including the ICRYPTMP payload header and multi-part encryption format. Distribution method remains unknown.
-
-- Still Sync (Rust, gRPC/FlatBuffers over HTTPS) locates the Telegram tdata folder, abuses SeBackupPrivilege via CreateFileW with FILE_FLAG_BACKUP_SEMANTICS, Shadow Copy, and Robocopy in backup mode to exfiltrate session data, then authenticates to Telegram and pulls chat logs, media under 250MB, and contact lists. C2: tg4service[.]com:443.
-
-- Still Audio creates a service named auxhost, drops libmp3lame.dll, implements RMS-based VAD to record only live speech, and POSTs MP3s to /tgfrg. It uses a Dead Drop Resolver: after 3 days offline it fetches a Blowfish-ECB C2 URL from a GitHub repo (hxxps://raw.githubusercontent[.]com/mmarln/pi-mono/refs/heads/main/packages/pods/src/array12.json), same algorithm and key (5c8e153228edd3c6cbf75684) as prior AquilaRAT samples.
-
-- Key IOCs: orderapiserver[.]info (187.127.153[.]38), srwinservice[.]com (213.252.244[.]123). Dropper hash: C1D1EE16B92E6A138FFA048855F75D7D.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087827243733295422</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087827243733295422">DFIR Radar</source>
-      <pubDate>Thu, 13 Aug 2026 09:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2087827243733295422</guid>
     </item>
   </channel>
 </rss>
