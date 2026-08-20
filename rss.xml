@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Aug 2026 14:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 15:02:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Using Microsoft Graph and Powershell - Risk Detection Commands, (Thu, Aug 20th)</title>
+      <link>https://isc.sans.edu/diary/rss/33266</link>
+      <description>Microsoft Graph PowerShell cmdlets surface Entra ID risky login telemetry including MITRE T1078.004, giving defenders a scriptable triage path for impossible-travel and unfamiliar-device alerts.
+
+Key findings:
+
+- Get-MgRiskDetection (available on a basic Entra license) returns login risk events with IP, timestamp, user display name, and a JSON additionalinfo blob that includes riskReasons such as UnfamiliarDevice, UnfamiliarEASId, and UnfamiliarTenantIPsubnet, plus the raw user-agent string and MITRE technique T1078.004.
+
+- The additionalinfo field requires explicit JSON parsing. Filter it with: where { $_.Key -eq "riskReasons" } to reliably pull risk reasons rather than relying on array position, since user-agent can appear first in some records.
+
+- The location object is already populated on each detection record, so country-level geo enrichment needs no external API: ($RiskyLogins[n].location).countryorregion returns the ISO code directly.
+
+- Premium Entra licenses unlock Get-MgRiskyUser, Confirm-MgRiskyUserCompromised, and Get-MgRiskyUserHistory for persistent-risk-user workflows. Basic license gets detection events only, not the user risk state lifecycle.
+
+- Filter out noise early with riskState ne 'dismissed' and riskState ne 'remediated' to focus triage on open events. Pipe to out-gridview or out-csv for rapid analyst review.
+
+Connect-MgGraph with IdentityRiskyUser.Read.All and IdentityRiskEvent.Read.All scopes, then build the one-liner report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090454430365749646</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2090454430365749646">DFIR Radar</source>
+      <pubDate>Thu, 20 Aug 2026 15:02:30 +0000</pubDate>
+      <guid isPermaLink="false">2090454430365749646</guid>
+    </item>
     <item>
       <title>BTR Reforged: Weaponizing Defender’s Remediation Driver as a Kernel Operation Primitive</title>
       <link>https://research.checkpoint.com/2026/btr-reforged-weaponizing-defenders-remediation-driver-as-a-kernel-operation-primitive/</link>
@@ -1663,25 +1688,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2087706641504317725">DFIR Radar</source>
       <pubDate>Thu, 13 Aug 2026 01:03:46 +0000</pubDate>
       <guid isPermaLink="false">2087706641504317725</guid>
-    </item>
-    <item>
-      <title>"City-Forum" data-theft attacks target Salesforce, ServiceNow portals</title>
-      <link>https://www.bleepingcomputer.com/news/security/city-forum-data-theft-attacks-target-salesforce-servicenow-portals/</link>
-      <description>Ongoing "City-Forum" campaign systematically harvests data from misconfigured Salesforce Experience Cloud and ServiceNow portals, targeting telecoms, banks, and public-sector orgs worldwide with no vulnerability required.
-
-- Single attacker IP 158.220.87[.]79 (Contabo VPS, Germany 🇩🇪), associated with city-forum[.]com since at least March 2025, hits both platforms using the default Go-http-client/1.1 user agent. One organization logged over 560,000 events from this IP alone. The fingerprint is consistent across every observed intrusion.
-
-- On Salesforce, the attacker enumerates guest-accessible objects via /aura and /s/sfsites/aura endpoints (invoking HostConfigController.getConfigData, then SelectableListDataProviderController.getItems). Notably, they also abuse the newer LWR GraphQL endpoint at /webruntime/api/services/data/{version}/graphql, a technique not seen in public tooling like AuraInspector, S-RET, or CirrusGo.
-
-- On ServiceNow, POST requests to /api/now/sp/search?sysparm_cancelable=true enumerate exposed search sources anonymously. Critical gap: ServiceNow transaction logs omit the POST body, so defenders can see volume and data returned but not the exact search terms used.
-
-Takeaway: Hunt your Salesforce and ServiceNow logs for requests from 158.220.87[.]45 and user-agent Go-http-client/1.1. Audit guest-user sharing rules, object permissions, and self-registration endpoints now.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087691366323134567</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087691366323134567">DFIR Radar</source>
-      <pubDate>Thu, 13 Aug 2026 00:03:04 +0000</pubDate>
-      <guid isPermaLink="false">2087691366323134567</guid>
     </item>
   </channel>
 </rss>
