@@ -5,8 +5,23 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Aug 2026 13:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 14:03:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BTR Reforged: Weaponizing Defender’s Remediation Driver as a Kernel Operation Primitive</title>
+      <link>https://research.checkpoint.com/2026/btr-reforged-weaponizing-defenders-remediation-driver-as-a-kernel-operation-primitive/</link>
+      <description>Check Point Research reverse-engineered BTR.sys, the Windows Defender Boot-Time Removal driver, revealing it can be weaponized as a signed Microsoft kernel primitive to delete files, wipe registry keys, and kill EDR stacks without any exploit or BYOVD technique. Tested and confirmed working from Windows 7 through Windows 11 25H2.
+
+- BTR.sys is embedded in MpEngine.dll and dropped under System32\drivers with a randomized 8-character filename (e.g., mzqnjtaq.sys) when Defender needs a boot-time remediation. Its configuration is RC4-encrypted, stored in an Alternate Data Stream (:changelist), and read via the Args registry value at HKLM\SYSTEM\CurrentControlSet\Services\{Random}. The hard-coded 256-byte RC4 key is identical across all 18 analyzed versions spanning 15 years.
+
+- The PoC tool BTR_CLI constructs valid encrypted transactions supporting 6 action IDs: delete file, delete directory, move/arbitrary file write, delete registry key, delete registry value, and arbitrary registry write. Loaded via NtLoadDriver (bypassing SCM and suppressing Event ID 7045), it executes during the "Golden Window" as a Boot Bus Extender (Start=1) group driver, roughly 34 seconds before MsMpEng.exe starts, and preempts UCPD.sys entirely.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090439631665795460</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2090439631665795460">DFIR Radar</source>
+      <pubDate>Thu, 20 Aug 2026 14:03:42 +0000</pubDate>
+      <guid isPermaLink="false">2090439631665795460</guid>
+    </item>
     <item>
       <title>BRIDGEHEAD : An npm typosquatting campaign that crosses from WSL into Windows to plant a crypto-wallet stealer</title>
       <link>https://www.cloudsek.com/blog/bridgehead-npm-typosquatting-wsl-windows-crypto-wallet-stealer</link>
@@ -1667,17 +1682,6 @@ Takeaway: Hunt your Salesforce and ServiceNow logs for requests from 158.220.87[
       <source url="https://x.com/DFIR_Radar/status/2087691366323134567">DFIR Radar</source>
       <pubDate>Thu, 13 Aug 2026 00:03:04 +0000</pubDate>
       <guid isPermaLink="false">2087691366323134567</guid>
-    </item>
-    <item>
-      <title>Inside a Live ClickFix Campaign using EtherHiding to Hide Its Next Move</title>
-      <link>https://www.opswat.com/blog/inside-a-live-clickfix-campaign-using-etherhiding-to-hide-its-next-move</link>
-      <description>ClickFix (T1204.004) paired with EtherHiding stores attacker config in Polygon smart contracts, so blocking a malicious domain leaves the chain intact.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087676146108232161</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087676146108232161">DFIR Radar</source>
-      <pubDate>Wed, 12 Aug 2026 23:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2087676146108232161</guid>
     </item>
   </channel>
 </rss>
