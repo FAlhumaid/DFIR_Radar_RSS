@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Aug 2026 05:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 07:02:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>VEEAM UNDER FIRE: Understanding CVE-2026–44963 &amp; Ransomware Group Exploit Claims</title>
+      <link>https://theravenfile.com/2026/08/20/veeam-under-fire-understanding-cve-2026-44963-ransomware-group-exploit-claims/</link>
+      <description>CVE-2026-44963, a CVSS 9.4 deserialization RCE in Veeam Backup &amp; Replication 12.x, is actively referenced by Lynx Ransomware in negotiations, with unverified claims of a patch-bypass variant circulating on criminal forums.
+
+- CVE-2026-44963 abuses unsafe deserialization via BinaryFormatter/.NET Remoting (CWE-502). Any low-privilege domain user can achieve SYSTEM-level RCE on domain-joined Veeam servers running 12.x up to build 12.3.2.4465. Fixed in 12.3.2.4854 (June 2026). Version 13.x is not affected. Workgroup deployments are not vulnerable to this specific flaw.
+
+- Lynx Ransomware operators described exploiting Veeam to RCE, creating a local admin account, then dumping backup and domain admin credentials for full network compromise. They claimed a private unauthenticated variant that bypasses the patch. Unverified as of mid-August 2026, but a September 2025 underground sale matching the same privilege level and impact suggests CVE-2026-44963 was privately traded before official disclosure.
+
+- Credential harvesting from Veeam.Backup.Service.exe via CVE-2023-27532 remains the most common Veeam attack vector across ransomware groups, used in over 70% of observed cases. Backup servers are prioritized because attackers gain hypervisor credentials, can delete repositories, and destroy recovery options before deploying ransomware.
+
+Patch to 12.3.2.4854 immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090333621584359523</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2090333621584359523">DFIR Radar</source>
+      <pubDate>Thu, 20 Aug 2026 07:02:27 +0000</pubDate>
+      <guid isPermaLink="false">2090333621584359523</guid>
+    </item>
     <item>
       <title>The ToxicPanda Never Sleeps: ToxicPanda 2.0 Prepares its Next Strike on Mobile</title>
       <link>https://zimperium.com/blog/the-toxicpanda-never-sleeps-toxicpanda-2.0-prepares-its-next-strike-on-mobile</link>
@@ -1647,27 +1666,6 @@ Inspect site-packages directories for unauthorized .pth files and audit systemd 
       <source url="https://x.com/DFIR_Radar/status/2087600805515755594">DFIR Radar</source>
       <pubDate>Wed, 12 Aug 2026 18:03:13 +0000</pubDate>
       <guid isPermaLink="false">2087600805515755594</guid>
-    </item>
-    <item>
-      <title>Lazarus Used Post-Quantum Key Exchange to Deliver Zero-Day</title>
-      <link>https://www.infosecurity-magazine.com/news/lazarus-post-quantum-key-dream-job/</link>
-      <description>North Korea 🇰🇵's Lazarus group deployed a Windows kernel zero-day via a post-quantum encrypted channel against defense and aerospace firms in France 🇫🇷, Germany 🇩🇪, Brazil 🇧🇷, and India 🇮🇳, with a patch shipping August 11.
-
-- CVE-2026-68820 is a use-after-free race condition in AFD.sys, the Windows kernel socket driver, flagged by Microsoft as actively exploited in the wild. Check Point reported it July 28; the patch landed August 12 Patch Tuesday. Prioritize this one.
-
-- The exploit arrived through a layered crypto handshake: MISTPEN (an in-memory downloader using Microsoft Graph API and attacker-controlled OneDrive files for C2) loaded a fingerprinting module that negotiated Kyber/ML-KEM key exchange with the operator, then decrypted the payload in memory over GOST-CBC on top of AES. No exploit touches disk.
-
-- What landed was FudModule v3.1, Lazarus's kernel rootkit. It kills 94 ETW providers, removes minifilters, disables telemetry callbacks, wipes the NT Kernel Logger, and now tampers with Smart App Control by resetting policy state and forcing a code integrity reload.
-
-- Infrastructure ran through compromised Roundcube servers (CVE-2025-49113) and PrestaShop sites hosting RelayShell, a new PHP webshell passing traffic via session files across at least 17 relay servers. Three fake Enveil sites distributed Troy, a new backdoor with 17 operator commands, via a trojanized PDF viewer.
-
-Patch AFD.sys immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087585554288312547</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2087585554288312547">DFIR Radar</source>
-      <pubDate>Wed, 12 Aug 2026 17:02:37 +0000</pubDate>
-      <guid isPermaLink="false">2087585554288312547</guid>
     </item>
   </channel>
 </rss>
