@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Aug 2026 18:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2026 19:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NSA, CISA, FBI, DOE, and EPA Warn of Active AI-Assisted Attacks on Siemens S7 PLCs</title>
+      <link>https://securityaffairs.com/197566/ics-scada/nsa-cisa-fbi-doe-and-epa-warn-of-active-ai-assisted-attacks-on-siemens-s7-plcs.html</link>
+      <description>Five U.S. 🇺🇸 agencies warn of active AI-assisted attacks on Siemens S7 PLCs across critical infrastructure, with threat actors already in reconnaissance and pre-positioning stages.
+
+Key findings:
+
+- Attackers use Censys and ZoomEye to locate Internet-exposed S7-series PLCs (S7-200 through S7-1500 F-series safety controllers), then use snap7.dll and python-snap7, legitimate open-source libraries, to communicate over S7comm on TCP port 102. Read operations come before writes, meaning the actors are mapping targets and refining technique per CPU model before causing disruption.
+
+- AI-generated exploitation scripts are disguised as legitimate OT monitoring tools, lowering the technical bar for ICS-capable attacks and accelerating adaptation to defensive changes. Advisory CISA AA26-231A names this explicitly as an active threat, not a theoretical one.
+
+- Third-party exposure is a named risk. If a system integrator or MSP holds remote credentials for your S7 devices, those connections may be Internet-reachable without the asset owner's knowledge.
+
+- Targeted sectors: Critical Manufacturing, Energy, Water and Wastewater, Chemical, Food and Agriculture, Commercial Facilities, and Defense Industrial Base.
+
+Hunt for: S7comm sessions from non-engineering hosts, Python processes loading snap7.dll where unexpected, and TCP port 102 traffic from unexpected geolocations.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090514899860660473</description>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2090514899860660473">DFIR Radar</source>
+      <pubDate>Thu, 20 Aug 2026 19:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2090514899860660473</guid>
+    </item>
     <item>
       <title>N4D Mesh Controller: New infrastructure, a UPX-packed agent labeled "go-titan," and how to hunt for it</title>
       <link>https://securitylabs.datadoghq.com/articles/n4d-mesh-controller-go-titan-new-infrastructure-hunting/</link>
@@ -1693,27 +1716,6 @@ Apply the August 2026 Patch Tuesday update immediately.
       <source url="https://x.com/DFIR_Radar/status/2087827243733295422">DFIR Radar</source>
       <pubDate>Thu, 13 Aug 2026 09:03:00 +0000</pubDate>
       <guid isPermaLink="false">2087827243733295422</guid>
-    </item>
-    <item>
-      <title>When SQL Server Becomes the Initial Launcher: A Deep Dive into Weaxor Ransomware Execution</title>
-      <link>https://labs.k7computing.com/index.php/when-sql-server-becomes-the-initial-launcher-a-deep-dive-into-weaxor-ransomware-execution/</link>
-      <description>Weaxor ransomware (evolved from Mallox) abuses MS-SQL Server as its execution launchpad, chains obfuscated PowerShell and Cobalt Strike in memory, then encrypts files with ChaCha20 before wiping event logs to blind responders.
-
-Key findings:
-
-- SQL Server is the entry point. Attackers enabled xp_cmdshell and OLE Automation Procedures on a compromised sqlservr.exe, triggering the classic but critical parent-child alert: sqlservr.exe spawning cmd.exe (T1059.003). Logs were cleared via wevtapi.dll, but process lineage in EDR telemetry survived and anchored the reconstruction.
-
-- A two-stage PowerShell loader (Event ID 4104) uses XOR byte-array decryption then a Caesar-cipher plus array-reversal to deliver an AMSI bypass. The bypass sets amsiInitFailed to true via .NET reflection (T1562.001), drops update.exe to %TEMP%, and fetches a Cobalt Strike Beacon.
-
-- The Beacon avoids IAT inspection through custom PEB traversal and ROR13 API hashing, loads WinINet for proxy-aware C2 blending, and streams the final payload into RWX memory from 154.201.236[.]197, never touching disk (T1620).
-
-- Ransomware is injected into the signed Microsoft binary C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\SQLPS.exe (T1036.005), which then launches a randomly named EXE from System32. Files are encrypted with ChaCha20 in 64-byte blocks and renamed .weax (T1486). IOC hash: B76DD9D7A576D3653B52D9C4DF177A78.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087812382454358028</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2087812382454358028">DFIR Radar</source>
-      <pubDate>Thu, 13 Aug 2026 08:03:56 +0000</pubDate>
-      <guid isPermaLink="false">2087812382454358028</guid>
     </item>
   </channel>
 </rss>
