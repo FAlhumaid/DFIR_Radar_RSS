@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 21 Aug 2026 15:02:07 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2026 16:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>100,000 WordPress Sites Affected by Privilege Escalation Vulnerability in Pods WordPress Plugin</title>
+      <link>https://www.wordfence.com/blog/2026/08/100000-wordpress-sites-affected-by-privilege-escalation-vulnerability-in-pods-wordpress-plugin/</link>
+      <description>CVE-2026-19598 (CVSS 9.8): Unauthenticated privilege escalation in the Pods WordPress plugin lets any anonymous attacker overwrite admin passwords and take over sites. 100,000+ installs affected.
+
+Key findings:
+
+- The pods_admin AJAX router (wp-admin/admin-ajax.php, action=pods_admin) runs every access guard through pods_error(), which under the JSON+meta-box-loader path only logs the failure and returns false instead of halting the request. Because admin_ajax() discards that return value, all guards fall through silently.
+
+- An unauthenticated attacker sends a POST to the AJAX endpoint with the Accept: application/json header and meta-box-loader=1, then specifies method=save_user with a target user ID and a new password. The PodsAPI::save_user() method applies no additional auth checks before calling WordPress core user-write functions, enabling full account takeover.
+
+- Beyond password overwriting, the bypass exposes the entire pods_admin router: other reachable methods can write PHP to disk or delete arbitrary files, all without authentication.
+
+- Patched versions: 3.3.9.1, 3.2.8.3, 3.1.4.2, 3.0.10.4, 2.9.19.4, 2.8.23.4. WordPress.org is pushing a forced update, but verify your version now.
+
+Hunt your WAF and server logs for unauthenticated POST requests to admin-ajax.php with action=pods_admin and meta-box-loader=1. On affected hosts, audit recent wp_users password-change timestamps and wp_usermeta for unexpected admin role grants.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090831967415890259</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2090831967415890259">DFIR Radar</source>
+      <pubDate>Fri, 21 Aug 2026 16:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2090831967415890259</guid>
+    </item>
     <item>
       <title>Hackers abuse FTP server banners to deliver new Windows malware</title>
       <link>https://www.bleepingcomputer.com/news/security/hackers-abuse-ftp-server-banners-to-deliver-new-windows-malware/</link>
@@ -1645,17 +1668,6 @@ Responders: hunt for /var/vpn/theme/x.php and unexpected files under /var/vpn/th
       <source url="https://x.com/DFIR_Radar/status/2088114009983549596">DFIR Radar</source>
       <pubDate>Fri, 14 Aug 2026 04:02:30 +0000</pubDate>
       <guid isPermaLink="false">2088114009983549596</guid>
-    </item>
-    <item>
-      <title>(TLP:CLEAR) Vulnerability Notification – Cisco ASA and FTD Remote Access VPN DoS Actively Exploited</title>
-      <link>https://www.waterisac.org/tlpclear-vulnerability-notification-cisco-asa-and-ftd-remote-access-vpn-dos-actively-exploited</link>
-      <description>CVE-2026-20349 (CVSS 8.6), a no-auth DoS in Cisco ASA and FTD Remote Access VPN, is actively exploited and CISA KEV-listed. A crafted HTTP request crashes the device, killing both perimeter enforcement and remote access.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088084069859070400</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2088084069859070400">DFIR Radar</source>
-      <pubDate>Fri, 14 Aug 2026 02:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2088084069859070400</guid>
     </item>
   </channel>
 </rss>
