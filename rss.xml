@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 21 Aug 2026 01:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 21 Aug 2026 02:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Even MOAR Powershell, looking at Entra logins - the good, the bad and the password sprays, (Fri, Aug 21st)</title>
+      <link>https://isc.sans.edu/diary/rss/33268</link>
+      <description>Microsoft Entra sign-in logs are a goldmine for spotting password sprays and impossible-travel logins, yet most orgs stop checking them after moving to the cloud.
+
+Key findings:
+
+- Get-MgAuditLogSignIn with the filter "status/errorCode ne 0" surfaces failed logins with geo data (city, state, country) and failure reason buried inside the Location and Status nested objects. That enriched view is where password spray clusters become visible: same timeframe, rotating IPs, multiple accounts, escalating to lockout errors.
+
+- "IP address with malicious activity" in the FailureReason field is a strong signal the attacker is using a rotating proxy service, meaning individual IP blocks provide limited defence on their own. Focus on the pattern and volume, not just the single IP.
+
+- Filtering successful logins ("status/errorCode eq 0") and excluding expected countries (e.g., "CA", "US 🇺🇸") with Where $_.Country -notin $ExpectedCountries isolates impossible-travel and foreign-origin sessions quickly. IPv6 addresses appear here too, worth flagging.
+
+- The author found active password spray campaigns in a real client environment during this analysis, leading directly to Conditional Access policy tightening.
+
+Takeaway: Run Get-MgAuditLogSignIn against your tenant today with the scopes AuditLog.Read.All and Directory.Read.All. Filter failures for spray patterns and filter successes for out-of-country logins. Both queries are in the SANS ISC diary and are copy-paste ready.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2090620615442997339</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2090620615442997339">DFIR Radar</source>
+      <pubDate>Fri, 21 Aug 2026 02:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2090620615442997339</guid>
+    </item>
     <item>
       <title>Defeating AI-Assisted Reverse Engineering (or at Least Trying To)</title>
       <link>http://blog.quarkslab.com/defeating-ai-assisted-reverse-engineering-or-at-least-trying-to.html</link>
@@ -1695,29 +1718,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2087932945944453449">DFIR Radar</source>
       <pubDate>Thu, 13 Aug 2026 16:03:01 +0000</pubDate>
       <guid isPermaLink="false">2087932945944453449</guid>
-    </item>
-    <item>
-      <title>Malware Crypting Services and the Threat Actors Who Sell Them</title>
-      <link>https://www.recordedfuture.com/research/malware-crypting-services-threat-actors</link>
-      <description>Crypting-as-a-service is a mature, competitive criminal market. Recorded Future's Insikt Group mapped 24 active providers selling layered evasion capability, not just payload encryption.
-
-Key findings:
-
-- Crypters combine encryption, in-memory execution, anti-sandbox checks, process injection, persistence, and re-crypting after detection. "GoldenCrypt" is named as a well-established provider affiliated with FvncBot, Albiriox, and Mirax malware families. PureRAT was linked to GhostCrypt in a May 2025 attack on a US 🇺🇸 accounting firm, per eSentire.
-
-- Providers verify evasion by scanning samples through KleenScan, a multi-AV platform that withholds samples from researchers, meaning FUD claims are being tested in ways that specifically avoid tipping off defenders.
-
-- The market is reputation-driven: tiered pricing, turnaround guarantees for re-crypting detected payloads, and partnerships with malware developers used as marketing. Access is gated by forums, Telegram, TOX, and clearnet sites, making attribution harder.
-
-- Crypted payloads target Windows .exe and .dll files almost exclusively. No macOS or Linux providers were identified. Payload language (.NET vs C/C++) affects what can be crypted and what additional capabilities are unlocked.
-
-Static AV and EDR are explicitly insufficient against crypted payloads by design.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2087917834491863048</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2087917834491863048">DFIR Radar</source>
-      <pubDate>Thu, 13 Aug 2026 15:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2087917834491863048</guid>
     </item>
   </channel>
 </rss>
