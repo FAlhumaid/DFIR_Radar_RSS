@@ -5,8 +5,19 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Aug 2026 15:02:18 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Aug 2026 16:01:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-73570: Zimbra RCE Exploited</title>
+      <link>https://socradar.io/blog/cve-2026-73570-zimbra-rce/</link>
+      <description>CVE-2026-73570 (CVSS 8.9) in Zimbra ZCS before 10.1.20 is actively exploited via crafted SMTP requests hitting the zimbra-snmp component, giving unauthenticated RCE as the zimbra user.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091194165581553672</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2091194165581553672">DFIR Radar</source>
+      <pubDate>Sat, 22 Aug 2026 16:01:56 +0000</pubDate>
+      <guid isPermaLink="false">2091194165581553672</guid>
+    </item>
     <item>
       <title>Choosing the Right Detection Approach</title>
       <link>https://detect.fyi/choosing-the-right-detection-approach-b72a2bac69ff?source=rss----d5fd8f494f6a---4</link>
@@ -1613,27 +1624,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2088310528913608747">DFIR Radar</source>
       <pubDate>Fri, 14 Aug 2026 17:03:24 +0000</pubDate>
       <guid isPermaLink="false">2088310528913608747</guid>
-    </item>
-    <item>
-      <title>Escalating a Blind Upload to RCE via Path Traversal into Cron and DNS-Restricted Callback Bypass</title>
-      <link>https://infosecwriteups.com/escalating-a-blind-upload-to-rce-via-path-traversal-into-cron-and-dns-restricted-callback-bypass-0f63db01be92?source=rss----7b722bfd1b8d---4</link>
-      <description>Unauthenticated blind file upload escalated to root RCE via path traversal into /etc/cron.d, bypassing forced UUID/.png renaming entirely. CVSS 3.1 score: 10.0 Critical.
-
-Key findings:
-
-- The endpoint at /app/api/files/upload required zero authentication and passed the uploadPath field directly into a filesystem write with no sanitization, allowing 14-segment traversal (../../../../../../../../../../../../../../etc/cron.d) to escape the upload root and land files anywhere the process could write. Absolute paths, encoded separators, and relative components were all accepted.
-
-- The backend ran as root, confirmed via a blind filesystem oracle: writing to /proc failed (kernel blocks arbitrary directory creation there) while /root and /etc succeeded. This write-only oracle answered yes/no questions about filesystem state by distinguishing directory-creation errors from success responses, enabling host fingerprinting (RHEL/CentOS, crond present, no .dockerenv).
-
-- Cron processed the UUID-named .png as a valid system crontab because it reads directory contents by file content, not extension. A self-removing crontab planted in /etc/cron.d executed as root one cycle later, confirmed by the oracle detecting /tmp/bugbounty-cronproof.
-
-- DNS egress was blocked, but curl --resolve mapped a controlled hostname directly to an attacker IP, bypassing the resolver entirely. The callback returned uid=0(root) gid=0(root) context=system_u:system_r:system_cronjob_t.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088295423094231376</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2088295423094231376">DFIR Radar</source>
-      <pubDate>Fri, 14 Aug 2026 16:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2088295423094231376</guid>
     </item>
   </channel>
 </rss>
