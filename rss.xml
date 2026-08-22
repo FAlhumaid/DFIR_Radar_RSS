@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Aug 2026 10:02:18 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Aug 2026 13:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FTP Banners: The New Dead Drop Resolver Delivering Novel RATs</title>
+      <link>https://socradar.io/blog/ftp-banners-new-dead-drop-resolver-rats/</link>
+      <description>FTP banners weaponized as dead drop resolvers since July 2026, delivering two undocumented RATs: E4del (Electron/Discord masquerade) and PINHOLE (Pinterest/SurveyMonkey C2, Halo's Gate, Early Bird APC injection).
+
+- FTP banner abuse (T1071.002) is the delivery pivot. LNK files fetched from phishing ZIPs connect to port 21 and read commands directly from the server's banner response, then pull a DLL via WebDAV and execute it through rundll32.exe. Eight IPs confirmed active through August 2026: 157.254.194[.]31 and 167.148.41[.]164 stage E4del; 209.99.185[.]38 stages PINHOLE. PINHOLE operators run an FTP Stats Panel at hxxp[://]69.48.228[.]126:5000/ tracking execution counts and victim IPs.
+
+- E4del hides inside a signed Discord.exe (T1218.015), replacing app.asar logic (SHA256: fcc6fdf40f4dea8f508ef0b8c45a657461310a3f7947a8c687b476e0f0b41e26). It runs headless, persists via setLoginItemSettings (T1547), beacons to hxxps[://]157.254.194[.]31/beacon with AES-256-CBC (static key: "protected!"), and streams desktop via WebSocket. Anti-sandbox: terminates if the Windows username does not match the --init argument passed at launch.
+
+- PINHOLE stores its build token, DDR encryption key, and C2 URLs in NTFS ADS on desktop.ini files (T1564.004): %USERPROFILE%\Downloads\desktop.ini streams bt, ek, 1, 2, 3.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091149126478037399</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2091149126478037399">DFIR Radar</source>
+      <pubDate>Sat, 22 Aug 2026 13:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2091149126478037399</guid>
+    </item>
     <item>
       <title>Malware Hijacks Android Car Head Units</title>
       <link>https://securityaffairs.com/197700/hacking/malware-hijacks-android-car-head-units.html</link>
@@ -1627,21 +1644,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2088280305752744317">DFIR Radar</source>
       <pubDate>Fri, 14 Aug 2026 15:03:18 +0000</pubDate>
       <guid isPermaLink="false">2088280305752744317</guid>
-    </item>
-    <item>
-      <title>LiteLLM Supply Chain Attack: Inside the AI Breach That Exposed 2,500+ Companies</title>
-      <link>https://socradar.io/blog/litellm-supply-chain-attack/</link>
-      <description>TeamPCP (UNC6780) ran a five-day supply chain campaign through Trivy and LiteLLM, harvesting credentials from 2,500+ organizations across six CI/CD platforms before the widely-reported 40-minute PyPI window even opened.
-
-- The attack chain ran Trivy first, LiteLLM second. On March 19, TeamPCP force-pushed malicious commits to 76 trivy-action tags and published poisoned Trivy 0.69.4, exploiting an un-revoked token from a pull_request_target misconfiguration. LiteLLM's unpinned CI pulled the compromised scanner, which published 1.82.7 and 1.82.8 to PyPI on March 24. Row-level timestamps show 95% of the 2,188 organizations in the dataset had collection activity before March 24, with the earliest record at 18:05 UTC on March 19, eighteen minutes after the malicious Trivy build.
-
-- Execution required no import. Version 1.82.8 shipped litellm_init.pth, a Python startup file that ran the SANDCLOCK stealer at interpreter start regardless of whether any code imported LiteLLM. The payload escalated to root, swept SSH keys, AWS/GCP/Azure IMDS tokens, .kube/config, .env secrets, OPENAI_API_KEY, ANTHROPIC_API_KEY, and GitHub Actions masked variables from /proc/pid/mem. In Kubernetes environments it read secrets across all namespaces and attempted privileged alpine:latest pods in kube-system mounting the host filesystem.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088265350815301784</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2088265350815301784">DFIR Radar</source>
-      <pubDate>Fri, 14 Aug 2026 14:03:53 +0000</pubDate>
-      <guid isPermaLink="false">2088265350815301784</guid>
     </item>
   </channel>
 </rss>
