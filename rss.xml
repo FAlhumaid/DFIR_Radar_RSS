@@ -5,8 +5,19 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Aug 2026 09:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Aug 2026 10:02:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malware Hijacks Android Car Head Units</title>
+      <link>https://securityaffairs.com/197700/hacking/malware-hijacks-android-car-head-units.html</link>
+      <description>MoYu Group, linked to the BADBOX botnet, hijacked DoFun Android car head units by abusing the legitimate TWCore firmware updater via MQTT to silently push a multi-stage dropper named JarService.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091103656858747229</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2091103656858747229">DFIR Radar</source>
+      <pubDate>Sat, 22 Aug 2026 10:02:18 +0000</pubDate>
+      <guid isPermaLink="false">2091103656858747229</guid>
+    </item>
     <item>
       <title>Critical Flaw in NASA/JPL Open-Source Spacecraft Command Software Allowed Unauthenticated Command Execution</title>
       <link>https://securityaffairs.com/197689/hacking/critical-flaw-in-nasa-jpl-open-source-spacecraft-command-software.html</link>
@@ -1631,25 +1642,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2088265350815301784">DFIR Radar</source>
       <pubDate>Fri, 14 Aug 2026 14:03:53 +0000</pubDate>
       <guid isPermaLink="false">2088265350815301784</guid>
-    </item>
-    <item>
-      <title>ARM64 stack internals and obfuscation on Apple Silicon</title>
-      <link>https://www.mdsec.co.uk/2026/08/arm64-stack-internals-and-obfuscation-on-apple-silicon/</link>
-      <description>ARM64 call-stack spoofing lands on Apple Silicon: MDSec reverse-engineers how to build synthetic frame chains that fool macOS EDR sensors relying on spindump for thread-stack collection.
-
-- A major EDR vendor delegates call-stack collection to /usr/sbin/spindump, macOS's own diagnostic tool. That design choice becomes exploitable: spindump trusts the frame-pointer chain anchored at x29 and return addresses stored at [x29+0x8], walking the linked list without verifying whether frames were built by a real prologue or constructed in memory.
-
-- Synthetic frames work by reversing the unwinder's logic. Pick real executable PCs that have valid __TEXT,__unwind_info entries (compact-unwind mode 0x04000000 FRAME or 0x02000000 FRAMELESS), allocate matching memory at the required x29-relative offsets, then set live x29 and x30 so the unwinder walks the fake chain instead of the real call history.
-
-- On ARM64e Apple Silicon, every saved LR is PAC-signed with key B and the frame's entry SP as discriminator: signedLR = PACIB(rawPC, CFA) where CFA = FP + 0x10. Synthetic frames must replicate this per-frame signing or authentication fails. A trampoline gadget frame, a branch-to-register inside a dylib cache image, bridges the fake chain back to implant code in unbacked memory.
-
-- The DFIR impact: EDR call-stack telemetry on macOS can be fed a fabricated call history (dyld_start, then benign-looking framework symbols, then the target API), hiding the true origin.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088249897401167968</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2088249897401167968">DFIR Radar</source>
-      <pubDate>Fri, 14 Aug 2026 13:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2088249897401167968</guid>
     </item>
   </channel>
 </rss>
