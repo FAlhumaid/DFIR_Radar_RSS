@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 24 Aug 2026 10:02:23 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2026 11:02:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting (Evil) Dylibs</title>
+      <link>https://objective-see.org/blog/blog_0x89.html</link>
+      <description>macOS dylib abuse is a growing attacker technique: malicious dynamic libraries hide inside legitimate processes, inherit their trust, and often evade tools built for PE-centric detection.
+
+Key findings:
+
+- Attackers embed malicious code in dylibs because the library loads into a trusted process address space, making behavioral detections and process-tree analysis less reliable. The dylib's reputation is borrowed from its host.
+
+- Static enumeration of dylib dependencies is achievable with tools like otool and macholib, parsing the LC_LOAD_DYLIB load commands in a Mach-O binary. This reveals declared dependencies before execution and is a solid triage step for suspicious binaries.
+
+- At runtime, inspecting loaded libraries in live processes (via vmmap, dyld_info, or similar) shows what is actually mapped into memory, which can differ from static declarations if dylib injection or hijacking is in play.
+
+- Apple's Endpoint Security framework (ES) offers the ES_EVENT_TYPE_AUTH_DYLIB_MMAP event, which fires at load time and can be used to inspect or block a dylib before it executes, giving defenders a hard enforcement point unavailable in most commercial tooling.
+
+For responders: on a live Mac, enumerate all dylib paths loaded into suspicious processes and cross-reference against codesign -dv output. Unsigned or ad-hoc-signed libraries inside normally-signed process spaces are your hunting pivot. Full methodology and code samples are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091843529806938581</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2091843529806938581">DFIR Radar</source>
+      <pubDate>Mon, 24 Aug 2026 11:02:17 +0000</pubDate>
+      <guid isPermaLink="false">2091843529806938581</guid>
+    </item>
     <item>
       <title>Salesforce gave every org the same free scanner. Attackers already know what it misses.</title>
       <link>https://www.cybersecuritydive.com/spons/salesforce-gave-every-org-the-same-free-scanner-attackers-already-know-wha/828063/</link>
@@ -1589,17 +1612,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2088400961119158750">DFIR Radar</source>
       <pubDate>Fri, 14 Aug 2026 23:02:45 +0000</pubDate>
       <guid isPermaLink="false">2088400961119158750</guid>
-    </item>
-    <item>
-      <title>Trivy, Not LiteLLM Behind the 2,500 Org Compromise</title>
-      <link>https://www.securityweek.com/trivy-not-litellm-behind-the-2500-org-compromise/</link>
-      <description>The TeamPCP Shai-Hulud worm hit Aqua Security's Trivy scanner first on March 19, not LiteLLM: 95% of the 2,188 tracked orgs had data collected before the poisoned LiteLLM PyPI packages appeared March 24.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088385797472796765</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2088385797472796765">DFIR Radar</source>
-      <pubDate>Fri, 14 Aug 2026 22:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2088385797472796765</guid>
     </item>
   </channel>
 </rss>
