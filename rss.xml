@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 24 Aug 2026 20:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2026 21:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detections Digest #20260824</title>
+      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260824</link>
+      <description>Weekly detection engineering roundup: 39 new rules and 13 updates across 8 repos target ShieldBreak exploitation, RMM abuse, macOS CVE-2026-65400, and AI agent worm propagation.
+
+Key additions this week:
+
+- Splunk added ShieldBreak exploit coverage: watch for mpclient.dll loaded outside the Defender platform, Defender events referencing \globalroot kernel object paths, and NTFS ADS creation over loopback shares (Security EventCode 5145). Companion rules flag WerMgr.exe spawning SYSTEM-integrity children and phantom DLL creation tied to CVE-2020-7315.
+
+- RMM abuse detection expanded across three repos. New Sigma rules cover Teleport Connect installer execution (Teleport Connect Setup-*.exe), registry writes under HKLM/HKCU policy paths, and DNS queries to known RMM domains. A KQL hunt correlates email bombing, Teams phishing, and subsequent RMM execution in a single query.
+
+- A KQL rule for CVE-2026-65400 on macOS hunts SSFileCopyReceiver activity, pfctl alterations, LaunchDaemon persistence, hidden root file writes, and outbound mining traffic via Defender XDR telemetry.
+
+- Python supply-chain persistence rules now track .pth file creation, sitecustomize.py and usercustomize.py drops (as seen in VIPERTUNNEL), and outbound connections during package builds. A separate rule monitors Event 4663 for reads against accessTokens.json and TokenCache.dat.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091994620142219405</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2091994620142219405">DFIR Radar</source>
+      <pubDate>Mon, 24 Aug 2026 21:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2091994620142219405</guid>
+    </item>
     <item>
       <title>Fake Codex Download Uses Google Sites to Deliver macOS Malware</title>
       <link>https://www.infosecurity-magazine.com/news/fake-codex-download-google-sites/</link>
@@ -1641,23 +1662,6 @@ Hunt for bcdedit or msconfig.exe activity, Kernel-Boot Event ID 27 with SAFEBOOT
       <source url="https://x.com/DFIR_Radar/status/2089291966261666209">DFIR Radar</source>
       <pubDate>Mon, 17 Aug 2026 10:03:17 +0000</pubDate>
       <guid isPermaLink="false">2089291966261666209</guid>
-    </item>
-    <item>
-      <title>Three NTFS bugs, one VHD file, and what your logs should already be telling you</title>
-      <link>https://andreafortuna.org/2026/08/17/three-ntfs-bugs-one-vhd-file/</link>
-      <description>Three NTFS heap overflows in ntfs.sys, all triggerable via a single malicious VHD file, patched July 2026 across roughly 30 Windows client and server editions. No public PoC confirmed yet, but the forensic window before patching deserves scrutiny.
-
-- CVE-2026-50471 (CVSS 7.8), CVE-2026-50494 (CVSS 7.8), and CVE-2026-58640 (CVSS 7.3) all share the same CWE-122 root cause: ntfs.sys allocates a heap buffer using one size, writes using a mismatched length, corrupting adjacent kernel pool memory. CVE-2026-50494 is the most dangerous operationally as it requires only local low-privilege access with no user interaction to escalate to SYSTEM. The other two need a user to open the file, a trivial social engineering bar given VHD has no "are you sure" prompt on double-click since Windows 8.
-
-- The delivery chain is deliberately low-friction. Windows Explorer auto-mounts a VHD like a ZIP archive. Attackers can deliver it via email, chat, or cloud link with a plausible backup or disk image cover story. APT-C-60 already used VHDX as an attack vector in a documented campaign analyzed by Positive Technologies.
-
-- NTFS itself logs the attack. The USN Journal ($Extend\$UsnJrnl) retains create, rename, and delete events for roughly 20 days even after the VHD is removed. The $LogFile records low-level metadata transactions that can show heap corruption fingerprints even without a system crash.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089261688612663526</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2089261688612663526">DFIR Radar</source>
-      <pubDate>Mon, 17 Aug 2026 08:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2089261688612663526</guid>
     </item>
   </channel>
 </rss>
