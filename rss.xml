@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 23 Aug 2026 15:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2026 08:02:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>iAuthFlow v2: The $10,000 Phishing Toolkit That Survives Your Password Reset</title>
+      <link>https://securityaffairs.com/197748/cyber-crime/iauthflow-v2-the-10000-phishing-toolkit-that-survives-your-password-reset.html</link>
+      <description>iAuthFlow v2 phishing toolkit sold for $10,000 on Russian-language forums enrolls an attacker-controlled passkey into a victim's Google account in six seconds, surviving password resets entirely.
+
+Key details:
+
+- Browser-in-the-middle architecture relays victim credentials through an attacker-controlled Chromium instance in real time. The victim sees a fake Google login hosted on a trycloudflare[.]com subdomain with valid TLS. The attacker captures the authenticated session cookie, not just credentials.
+
+- Within that six-second window (21:37:18 login, 21:37:24 passkey saved), the toolkit navigates Google's passkey enrollment through the hijacked session. The enrolled passkey is stored attacker-side, likely via Chromium's software WebAuthn virtual authenticator.
+
+- A passkey is a cryptographic credential separate from the account password. Password resets end sessions and revoke app passwords but do not touch enrolled passkeys. The attacker simply selects "Try another way," authenticates with their passkey, and regains inbox access after the victim resets.
+
+- Advertised for Google, Microsoft, iCloud, and LinkedIn. This persistence logic applies to any platform supporting passkey enrollment from an authenticated session.
+
+Containment cannot stop at password reset and session revocation. Audit all enrolled passkeys and security keys, Gmail filters, forwarding rules, delegated access, and OAuth grants before closing.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091798298793312507</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2091798298793312507">DFIR Radar</source>
+      <pubDate>Mon, 24 Aug 2026 08:02:33 +0000</pubDate>
+      <guid isPermaLink="false">2091798298793312507</guid>
+    </item>
     <item>
       <title>ToxicPanda Android malware uses VPN permissions to block Google Play</title>
       <link>https://www.bleepingcomputer.com/news/security/toxicpanda-android-malware-uses-vpn-permissions-to-block-google-play/</link>
@@ -1587,27 +1610,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2088355634567623074">DFIR Radar</source>
       <pubDate>Fri, 14 Aug 2026 20:02:38 +0000</pubDate>
       <guid isPermaLink="false">2088355634567623074</guid>
-    </item>
-    <item>
-      <title>The LiteLLM Supply-Chain Attack — TeamPCP “SANDCLOCK” CI/CD Credential-Harvesting Campaign via a Backdoored Trivy GitHub Action</title>
-      <link>https://www.resecurity.com/blog/article/the-litellm-supply-chain-attack-teampcp-sandclock-cicd-credential-harvesting-campaign-via-a-backdoored-trivy-github-action</link>
-      <description>TeamPCP "SANDCLOCK" backdoored the Trivy GitHub Action in March 2026, harvesting 415,427 CI secret dumps from 898 orgs including Microsoft, NVIDIA, IBM, and PayPal across a chained supply-chain attack that poisoned LiteLLM on PyPI.
-
-Key findings:
-
-- The attack chain ran Trivy to LiteLLM: TeamPCP compromised aquasecurity/trivy-action on 19 Mar 2026 (T1195.001), victim CI pipelines auto-installed it, SANDCLOCK escalated to root, read /proc/pid/mem and process env, then published malicious litellm==1.82.7/1.82.8 to PyPI on 24 Mar. Capture files follow the naming pattern YYYYMMDD_HHMMSS_us_127.0.0.1.txt with records structured as "name":{"value":"secret","isSecret":true}.
-
-- The 152.5 GiB archive holds 415,427 per-run secret dumps across 2,038 repos. GITHUB_TOKEN (system.github.token) appeared in ~98% of sampled files. Alongside it: GitHub App private keys, AWS/GovCloud ECR tokens, GCP service accounts, JFrog JWTs, SSH keys, and signing passwords. Persistent secrets do not expire with the ephemeral token.
-
-- Named victims in the owners manifest include Microsoft, Azure, IBM, NVIDIA, FedEx, John Deere, Deloitte, S&amp;P Global, ID.me, Dräger, and a US 🇺🇸 GovCloud AWS ECR tenant (071032557399.dkr.ecr.us-gov-west-1.amazonaws[.]com), raising national-security sensitivity.
-
-Takeaway: If any repo in your org ran aquasecurity/trivy-action between 19-24 Mar 2026, treat all CI secrets from that window as compromised.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2088340765759906280</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2088340765759906280">DFIR Radar</source>
-      <pubDate>Fri, 14 Aug 2026 19:03:33 +0000</pubDate>
-      <guid isPermaLink="false">2088340765759906280</guid>
     </item>
   </channel>
 </rss>
