@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 24 Aug 2026 22:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2026 08:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Flexense SyncBreeze – Unauthenticated Remote Code Execution (0DAY-2025-0002)</title>
+      <link>https://www.crowdfense.com/flexense-syncbreeze-unauthenticated-remote-code-execution/</link>
+      <description>Flexense SyncBreeze Enterprise had an unauthenticated file-access flaw that chains with a credential exposure bug to deliver SYSTEM-level RCE, now patched in v18.1.26 as of May 2026.
+
+Key findings:
+
+- The core bug sits in libpal!SCA_NetServerAgent::ThreadFunc: command values 2-10 route to ExecuteInternalCommand with zero authorization checks, letting any unauthenticated client enumerate, upload, download, or delete files at SYSTEM privilege (T1190, T1083, T1105).
+
+- Chained exploitation: download C:\Program Files\Sync Breeze Enterprise\config\syncbreezeent.flx via the unauth path, decrypt it with the hardcoded password, extract cleartext credentials, log in as admin, then create a Space Monitor to trigger immediate SYSTEM-level command execution (T1059).
+
+- The config file still stores credentials in cleartext post-patch. An attacker with any other read path to that file can still extract valid credentials for lateral movement or spraying.
+
+- v18.1.26 adds authorization checks to ExecuteInternalCommand, closing the unauthenticated file-access path. Unpatched instances remain fully exploitable; a public POC exists.
+
+If you run SyncBreeze Enterprise, update to v18.1.26 immediately and audit who can reach the service port. Rotate all credentials stored in syncbreezeent.flx regardless of patch status. Hunt for unexpected Space Monitor entries and anomalous child processes spawned by the SyncBreeze service.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092160946131071371</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2092160946131071371">DFIR Radar</source>
+      <pubDate>Tue, 25 Aug 2026 08:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2092160946131071371</guid>
+    </item>
     <item>
       <title>Online False Positive Reduction via Statistical Process Controls</title>
       <link>https://detect.fyi/online-false-positive-reduction-via-statistical-process-controls-8609e682c8af?source=rss----d5fd8f494f6a---4</link>
@@ -1633,27 +1656,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2089322126520254847">DFIR Radar</source>
       <pubDate>Mon, 17 Aug 2026 12:03:07 +0000</pubDate>
       <guid isPermaLink="false">2089322126520254847</guid>
-    </item>
-    <item>
-      <title>From CI Pipeline to Ransomware &amp; Breaches: 6 High-Profile Breaches in the LiteLLM/Trivy Attack</title>
-      <link>https://www.infostealers.com/article/from-ci-pipeline-to-ransomware-breaches-6-high-profile-breaches-in-the-litellm-trivy-attack/</link>
-      <description>A poisoned LiteLLM/Trivy supply chain attack hit 250+ enterprises via CI/CD pipelines, exposing AWS keys, GitHub PATs, and RSA private keys that fueled ransomware extortion by the Vect group (TeamPCP).
-
-Key findings:
-
-- The attack harvested secrets directly from CI runner environment dumps: AWS STS session tokens, long-lived IAM keys, GitHub PATs, JWTs, RSA private keys, Artifactory tokens, Conjur API keys, and Docker configs with base64-encoded credentials. Secrets were logged in plain text inside pipeline logs, making exfiltration trivial once a poisoned container executed.
-
-- Six named victims illustrate the blast radius: Guesty (700GB, 4M emails, AWS/Kubernetes secrets), S&amp;P Global (250GB, thousands of secrets from terraform-actions workflows), Cisco (source code via scraped GitHub PATs and a Conjur API key), the European Commission (AWS IAM creds plus a hardcoded SSH key and GitLab CI tokens), Mercor (4TB including 939GB source code and SSNs/biometrics of 40,000+ contractors), and Telnyx (malicious PyPI SDK versions 4.87.1 and 4.87.2 published March 27, 2026).
-
-- Lapsus$ claimed to have sold Mercor's biometric, PII, and AI training data to Chinese 🇨🇳 enterprises. Meta paused a data contract and class-action lawsuits followed.
-
-- On the detection side: look for unexpected child processes spawned by CI runner agents, outbound connections from runner hosts to unfamiliar endpoints, and any secrets appearing in raw job logs stored in your artifact repository.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089307030238507082</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2089307030238507082">DFIR Radar</source>
-      <pubDate>Mon, 17 Aug 2026 11:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2089307030238507082</guid>
     </item>
   </channel>
 </rss>
