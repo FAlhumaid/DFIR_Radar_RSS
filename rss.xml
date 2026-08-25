@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Aug 2026 13:03:03 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2026 14:03:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How Play Achieves Encryption</title>
+      <link>https://www.guidepointsecurity.com/blog/how-play-achieves-encryption/</link>
+      <description>Play ransomware's documented playbook dissected from a real early-2026 case: SonicWall VPN entry, SystemBC C2, EDR stripped with the victim's own uninstaller, and SYSVOL used to push tools domain-wide before encrypting 1,200+ orgs.
+
+- Initial access traced to a compromised SonicWall VPN (T1133), confirmed via Shellbag artifacts showing attacker browsing the SonicWall program directory. The attacker-controlled host WINNITHERLANDS was the first logon, appearing two and a half months before encryption. A Kali Linux platform was also observed in logon artifacts, consistent with dual-OS hands-on-keyboard operations.
+
+- SystemBC deployed as C:\Windows\Tasks\4.dll (SHA256: 5717e8064...83a1c) and variants svhost.dll and svhost_V1.dll, beaconing to C2 45.32.78[.]243 (Vultr). Mimikatz ran from its original filename under AppData\Local\Temp, then PsExec distributed via SYSVOL\PerfLogs\ for domain-wide reach (T1484.001). GoGo.exe coordinated encryptor deployment alongside PsExec.
+
+- SentinelOne removed using the victim's own SentinelCleaner.exe (SHA256: e81ca38...3b1b), not a BYOVD exploit. This is a growing trend: vendor removal utilities executed with legitimate privileges, leaving no driver anomaly to detect. Enabling vendor-authenticated tamper protection blocks this path entirely.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092251475112304931</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2092251475112304931">DFIR Radar</source>
+      <pubDate>Tue, 25 Aug 2026 14:03:19 +0000</pubDate>
+      <guid isPermaLink="false">2092251475112304931</guid>
+    </item>
     <item>
       <title>Exposing AnonyMousKIT: AI-Powered PhaaS Supply Chain</title>
       <link>https://socradar.io/blog/anonymouskit-ai-phaas-supply-chain/</link>
@@ -1645,25 +1662,6 @@ Defenders: all rules are available across the linked public repos.
       <source url="https://x.com/DFIR_Radar/status/2089382313951924273">DFIR Radar</source>
       <pubDate>Mon, 17 Aug 2026 16:02:18 +0000</pubDate>
       <guid isPermaLink="false">2089382313951924273</guid>
-    </item>
-    <item>
-      <title>C2Looper: A New Backdoor Likely Tied To Ransomware With GitHub C2</title>
-      <link>https://www.zscaler.com/blogs/security-research/c2looper-new-backdoor-likely-tied-ransomware-github-c2</link>
-      <description>C2Looper, a new Rust-based backdoor likely tied to ransomware operations, uses GitHub as a C2 channel and was discovered actively evolving between an older HTTP variant and a v2 build identified in July 2026.
-
-Key findings:
-
-- C2Looper beacons to /api/beacon every second over plaintext HTTP, sending a JSON object with username, DNS hostname, and PID. Commands (run, shell, upload, download) execute via cmd.exe, with output staged to c2_out.txt before exfil. The upload command drops a PE as wtsapi32.dll into %LocalAppData%\Microsoft\OneDrive\ and DLL-sidelads it through a legitimate OneDrive binary to evade detection (T1574.002).
-
-- C2Looper v2 ditches the HTTP C2 entirely and uses GitHub repos, storing per-bot commands in cmd.json, output in result.json, and heartbeat in beacon.json. It adds an inject command that loads winspool.drv and executes shellcode by spawning a thread into its text section (T1055), plus a recon command running ipconfig /all, whoami /all, nltest /dclist, and domain admin/computer group enumeration.
-
-- Older variant IOCs: C2 at 45.158.196[.]23:8888 and 45.158.196[.]184:8888. Hashes: f96ff2f3abbff7f382ace509b90e54853b4b61c402ecde27d82f1c17b414867b (v2), f59f32c9af4fa8a5dbd4668df8893593bc0c4324816cbf9b956acedcbfb8cdb6 (older). Strings are XOR-encrypted with an 8-byte key; APIs resolved at runtime via LoadLibrary/GetProcAddress.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089367563297771935</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2089367563297771935">DFIR Radar</source>
-      <pubDate>Mon, 17 Aug 2026 15:03:41 +0000</pubDate>
-      <guid isPermaLink="false">2089367563297771935</guid>
     </item>
   </channel>
 </rss>
