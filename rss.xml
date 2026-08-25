@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Aug 2026 15:03:13 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2026 16:02:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside Elastic's agentic SOC: How we took AI alert triage from 60% to 92% accuracy</title>
+      <link>https://www.elastic.co/security-labs/alert-triage-agentic-soc-self-correcting-agents</link>
+      <description>Elastic's agentic SOC pipeline jumped from 60% to 92% AI triage accuracy, not by swapping models, but by engineering the right context window before any verdict is made.
+
+Key findings:
+
+- The accuracy gap was a context problem, not a model problem. Agents working only on current alert data were wrong 40% of the time. Analysts stopped reading summaries entirely. The fix: pre-fetching the detection rule's investigation guide via GET /api/alerting/rule/&lt;kibana.alert.rule.uuid&gt;, user risk signals from Workday (new hires, departing employees, high-risk cost centers), and 30 days of closed cases for that same rule ID before the agent reasons at all.
+
+- Three specialized agents replace one bloated agent. Pattern Finder ingests historical case records and returns structured JSON with FP rate, user risk flag, and severity recommendation. No tools, no external queries, no prompt injection risk. L1 Investigation Agent runs ES|QL queries and external enrichment, following the per-rule investigation guide as primary triage instructions. Summarizer formats the final Markdown output for cases and Slack, making no investigative decisions itself.
+
+- The feedback loop is the key mechanism. Each case stores AI Verdict, AI Confidence, and an analyst-toggled "AI Incorrect" custom field. PastCasesbyRulenameLookup feeds those fields back into the next agent run so the Pattern Finder can detect its own overclassification errors before making a new call.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092281438464848017</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2092281438464848017">DFIR Radar</source>
+      <pubDate>Tue, 25 Aug 2026 16:02:23 +0000</pubDate>
+      <guid isPermaLink="false">2092281438464848017</guid>
+    </item>
     <item>
       <title>Balonx Sistema: El Rostro Detrás del PhaaS que Impacta la Banca Mexicana</title>
       <link>https://www.group-ib.com/blog/balonx-sistema-mexico-phaas-es/</link>
@@ -1651,25 +1670,6 @@ Defenders: all rules are available across the linked public repos.
       <source url="https://x.com/DFIR_Radar/status/2089427883630690507">DFIR Radar</source>
       <pubDate>Mon, 17 Aug 2026 19:03:22 +0000</pubDate>
       <guid isPermaLink="false">2089427883630690507</guid>
-    </item>
-    <item>
-      <title>600,000 WordPress Sites Affected by Arbitrary File Upload Vulnerability in Forminator Forms WordPress Plugin</title>
-      <link>https://www.wordfence.com/blog/2026/08/600000-wordpress-sites-affected-by-arbitrary-file-upload-vulnerability-in-forminator-forms-wordpress-plugin/</link>
-      <description>CVE-2026-15748 (CVSS 9.8 Critical): Unauthenticated arbitrary file upload in Forminator Forms affects 600,000+ WordPress sites, enabling remote code execution via PHP webshell delivery.
-
-- CVE-2026-15748, CVSS 9.8. All Forminator Forms versions up to 1.56.1 are vulnerable. Patch is version 1.56.2, released July 31, 2026. Exploitation requires a published form with both a File Upload field and a Select field present simultaneously.
-
-- The attack chain is a logic flaw, not a simple bypass. An attacker submits a forged Select field value carrying a spoofed Upload record, injecting attacker-controlled field configuration into field_data_array before validation runs. The upload handler then trusts that configuration, including a custom MIME type and extension list.
-
-- The blocklist strips the literal "php" key but not regex-style alternatives. Supplying the pattern ph(p)|text/x-php bypasses exact-key matching in forminator_allowed_mime_types(), while WordPress's extension matcher still resolves ph(p) as .php, letting the file pass validation and land on disk.
-
-- RCE is achieved when the site uses a Custom File Upload Storage root. That directory lacks the .htaccess guard (written only during a specific load context), so a direct HTTP request executes the uploaded PHP webshell. Default upload directories are partially mitigated by .htaccess, but custom roots are not.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089412800846446751</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2089412800846446751">DFIR Radar</source>
-      <pubDate>Mon, 17 Aug 2026 18:03:26 +0000</pubDate>
-      <guid isPermaLink="false">2089412800846446751</guid>
     </item>
   </channel>
 </rss>
