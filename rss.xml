@@ -5,22 +5,24 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Aug 2026 07:26:10 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 26 Aug 2026 07:26:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>SLEEPWALKER: A Passive Backdoor With Its Own Command Language</title>
       <link>https://r136a1.dev/2026/08/24/sleepwalker-a-passive-backdoor-with-its-own-command-language/</link>
-      <description>SLEEPWALKER: a passive Windows backdoor that never beacons, carries no embedded payload, and hides commands inside its own custom bytecode language delivered via crafted network packets or DNS queries.
+      <description>SLEEPWALKER is a passive Windows backdoor with its own custom bytecode language, deployed via DLL side-loading into ESET's ERAAgent.exe, with no outbound C2 and no embedded payload.
 
-- SLEEPWALKER is a 64-bit Windows DLL (SHA-256: d347170752a28e2b8c4b8b9f3cab2e3a6541ba11682c94498d26eb9002779d60, 59,904 bytes, compiled 2024-06-10) that impersonates dpapi.dll and DLL side-loads into ERAAgent.exe, the ESET Management Agent process. It verifies the host process name at startup and stays completely inert in any other context. Persistence is solely through the side-load: it reactivates every time the ESET service restarts.
+- SLEEPWALKER masquerades as dpapi.dll (SHA-256: d347170752a28e2b8c4b8b9f3cab2e3a6541ba11682c94498d26eb9002779d60, compiled 2024-06-10), forging ESET version resources and exporting the same 7 DPAPI functions. It activates only when loaded into ERAAgent.exe, checked by process name alone. Persistence is the side-load itself: the DLL reloads every time the ESET Management Agent service starts.
 
-- Rather than opening a listening port, SLEEPWALKER sets the NIC to promiscuous mode and sniffs every packet for a magic trigger validated by a multi-step CRC-32 and XOR framing check before AES-256-CCM decryption. The recovered key is 0x746531ff378dbb4bb51d2aa2b1d38d905350a959583186baf4c690f5f316b3ae. Decryption alone is not enough: the payload is bytecode in a proprietary 23-instruction language that must itself be reverse-engineered. A second trigger channel encodes commands as Base32 AES-256-CCM ciphertext split across DNS labels, allowing delivery through networks that permit only port-53 traffic.
+- The backdoor sniffs all interfaces in promiscuous mode for a magic packet validated by a multi-step CRC-32 and XOR scheme before AES-256-CCM decryption. The embedded bootstrap decrypts to a single instruction: SNIFF_MAGIC_PACKET (opcode 0x87) on all interfaces, indefinitely. No outbound connections, no hard-coded C2. A second opcode (0x88) enables a DNS-based trigger hidden in Base32-encoded labels, not active in this sample.
 
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092513916643602883</description>
+- Commands are not plaintext or readable configs after decryption. They are bytecode for a 23-instruction interpreter covering scheduling (CRON_SCHEDULE with XOR-obfuscated nested programs), 6 transports including ICMP data smuggling and VMware VMCI guest-to-host channels, staged delivery with SHA-256 verification, and in-memory shellcode via RUN_SHELLCODE (VirtualProtect resolved at runtime).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092514008427319417</description>
       <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2092513916643602883">DFIR Radar</source>
-      <pubDate>Wed, 26 Aug 2026 07:26:10 +0000</pubDate>
-      <guid isPermaLink="false">2092513916643602883</guid>
+      <source url="https://x.com/DFIR_Radar/status/2092514008427319417">DFIR Radar</source>
+      <pubDate>Wed, 26 Aug 2026 07:26:32 +0000</pubDate>
+      <guid isPermaLink="false">2092514008427319417</guid>
     </item>
     <item>
       <title>CISA red team assessments expose critical infrastructure gaps in threat detection, response and OT security</title>
