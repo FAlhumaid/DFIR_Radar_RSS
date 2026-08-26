@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Aug 2026 20:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 26 Aug 2026 06:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From SQL Injection to Remote Code Execution: Following an Unexpected Attack Chain</title>
+      <link>https://infosecwriteups.com/from-sql-injection-to-remote-code-execution-following-an-unexpected-attack-chain-4cf6eb22dbb5?source=rss----7b722bfd1b8d---4</link>
+      <description>Error-based SQL injection in a URL path segment escalated to authenticated RCE through upload bypass and WAF evasion, exposing shared-hosting tenants beyond the original target.
+
+Key findings:
+
+- SQLi lived in a numeric path segment (/details/{id}/...), not a query string, so automated scanners missed it. The updatexml() error-based payload leaked the database name, version, and table structure, then a custom Python script dumped tbl_user bcrypt hashes for admin and superadmin accounts directly.
+
+- FILE privilege was absent, closing the direct webshell-via-OUTFILE path. The attacker pivoted to the admin panel at /manager/, authenticated with pulled credentials, and reached a gallery upload feature restricted to PNG/JPG, which was bypassed with minimal effort.
+
+- phpinfo() fingerprinting before payload throwing revealed LiteSpeed, CloudLinux, PHP 7.4.33, Monarx behavioral AV, and disabled functions: exec, passthru, shell_exec, system. eval() and proc_open() were not disabled. Monarx allowed exactly one execution then killed the process, a behavioral signal, not static detection.
+
+- WAF/AV evasion: base64-encoding the POST parameter name at runtime (never written in plaintext to disk) broke the behavioral pattern match. Stable RCE followed via proc_open().
+
+Takeaway: When reviewing uploads on shared hosting, hunt for files where parameter names only resolve at runtime. Static AV misses these.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092492956032708966</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2092492956032708966">DFIR Radar</source>
+      <pubDate>Wed, 26 Aug 2026 06:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2092492956032708966</guid>
+    </item>
     <item>
       <title>ZeroTokens Phishing Platform Steers Attacks in Real Time</title>
       <link>https://www.infosecurity-magazine.com/news/zerotokens-phishing-real-time/</link>
@@ -1645,17 +1668,6 @@ Hunt proxy and email gateway logs for GET /???/xls/*.js, outbound WebSocket afte
       <source url="https://x.com/DFIR_Radar/status/2089654211768098846">DFIR Radar</source>
       <pubDate>Tue, 18 Aug 2026 10:02:43 +0000</pubDate>
       <guid isPermaLink="false">2089654211768098846</guid>
-    </item>
-    <item>
-      <title>New Mirai-Based Evooo1Bot Botnet Targets Linux Devices</title>
-      <link>https://securityaffairs.com/197434/malware/new-mirai-based-evooo1bot-botnet-targets-linux-devices.html</link>
-      <description>Evooo1Bot, a new Mirai-derived Linux botnet active since July 2026, targets routers and IoT devices via 18 CVEs and SSH brute-force, then clears Bash history post-compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2089623984300028213</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2089623984300028213">DFIR Radar</source>
-      <pubDate>Tue, 18 Aug 2026 08:02:36 +0000</pubDate>
-      <guid isPermaLink="false">2089623984300028213</guid>
     </item>
   </channel>
 </rss>
