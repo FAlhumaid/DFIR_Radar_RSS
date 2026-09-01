@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 01 Sep 2026 21:03:04 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 22:02:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Wordfence Argus Finds Unauthenticated Arbitrary File Upload Vulnerability in Gravity Forms</title>
+      <link>https://www.wordfence.com/blog/2026/09/wordfence-argus-finds-unauthenticated-arbitrary-file-upload-vulnerability-in-gravity-forms/</link>
+      <description>CVE-2026-19513 (CVSS 8.1): Unauthenticated arbitrary file upload in Gravity Forms affects 1M+ WordPress installs, enabling remote code execution on NGINX-backed sites.
+
+Key details:
+
+- CVE-2026-19513, CVSS 8.1 High. Gravity Forms versions up to and including 3.0.2 allow unauthenticated attackers to write a PNG/PHP polyglot to the plugin's public temp upload directory with an attacker-chosen .php extension. The root cause is a cryptographic domain-confusion flaw: wp_hash() was reused without context separation for both public form state and chunk-continuation auth, letting attackers reuse a legitimate URL hash to authenticate a malicious upload continuation request.
+
+- Exploitation requires a public form with a multi-file upload field enabled. PNG and PDF are permitted by default, so no admin allowlist change is needed. The attacker supplies a benign carrier filename (safe.png) while forcing the sanitized temp destination to end in .php, then triggers a final-chunk rename that strips the .part suffix and leaves an executable file on disk.
+
+- Impact is server-dependent. Apache installs are partially mitigated by a .htaccess the plugin writes to the upload directory, blocking PHP execution. NGINX ignores .htaccess, making RCE directly reachable. Even on protected Apache installs, writing a .html file enables stored same-origin XSS.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094908730374848514</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2094908730374848514">DFIR Radar</source>
+      <pubDate>Tue, 01 Sep 2026 22:02:18 +0000</pubDate>
+      <guid isPermaLink="false">2094908730374848514</guid>
+    </item>
     <item>
       <title>5 Million WordPress Sites Affected by SQL Injection Vulnerability in All-in-One WP Migration and Backup WordPress Plugin</title>
       <link>https://www.wordfence.com/blog/2026/09/5-million-wordpress-sites-affected-by-sql-injection-vulnerability-in-all-in-one-wp-migration-and-backup-wordpress-plugin/</link>
@@ -1747,17 +1766,6 @@ For responders: on a live Mac, enumerate all dylib paths loaded into suspicious 
       <source url="https://x.com/DFIR_Radar/status/2091828456736653493">DFIR Radar</source>
       <pubDate>Mon, 24 Aug 2026 10:02:23 +0000</pubDate>
       <guid isPermaLink="false">2091828456736653493</guid>
-    </item>
-    <item>
-      <title>Researchers Uncover Thousands of Leaked AWS Keys</title>
-      <link>https://www.infosecurity-magazine.com/news/researchers-thousands-eaked-aws/</link>
-      <description>Truffle Security found 9,300+ live AWS keys in public git history, Hugging Face datasets, Docker images, and CI logs, 768 with full admin rights and 86% never rotated.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091813379568554052</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2091813379568554052">DFIR Radar</source>
-      <pubDate>Mon, 24 Aug 2026 09:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2091813379568554052</guid>
     </item>
   </channel>
 </rss>
