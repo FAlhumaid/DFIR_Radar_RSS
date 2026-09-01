@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 01 Sep 2026 20:02:12 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 21:03:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>5 Million WordPress Sites Affected by SQL Injection Vulnerability in All-in-One WP Migration and Backup WordPress Plugin</title>
+      <link>https://www.wordfence.com/blog/2026/09/5-million-wordpress-sites-affected-by-sql-injection-vulnerability-in-all-in-one-wp-migration-and-backup-wordpress-plugin/</link>
+      <description>CVE-2026-19949 (CVSS 8.8): Unauthenticated second-order SQL injection in All-in-One WP Migration and Backup affects 5 million WordPress sites, enabling full RCE with no credentials required.
+
+Key details:
+
+- CVE-2026-19949, CVSS 8.8 High. All versions up to and including 7.109 are vulnerable. Patch is version 7.110, released August 20, 2026. Update immediately.
+
+- Attack chain is multi-step but requires zero authentication. Attacker plants malicious payloads via WordPress trackback pings (no login needed), then waits for an admin to run a normal export/import cycle. The replace_table_values() regex in Ai1wm_Database mishandles backslash runs at string boundaries, promoting stored comment data into live SQL during restore.
+
+- The first injected row times out the restore pass, forcing a transaction commit that writes the real ai1wm_secret_key back to the options table. The second row reads that key and writes it to a publicly approved comment, leaking it via the unauthenticated REST comments endpoint.
+
+- With the secret key in hand, the attacker drives the import action directly, uploading a crafted .wpress archive containing a malicious must-use plugin dropped to wp-content/mu-plugins and executed on next page load. Full RCE as the web server user.
+
+Takeaway: Check your wp_comments table for trackbacks with trailing backslashes in comment_author or suspicious URLs in comment_author_url. Audit mu-plugins for unexpected files. Update to 7.110 now.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094893824480776389</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2094893824480776389">DFIR Radar</source>
+      <pubDate>Tue, 01 Sep 2026 21:03:04 +0000</pubDate>
+      <guid isPermaLink="false">2094893824480776389</guid>
+    </item>
     <item>
       <title>Fake GTA 6 leaked copy drains your crypto wallet</title>
       <link>https://www.malwarebytes.com/blog/scams/2026/09/fake-gta-6-leaked-copy-drains-your-crypto-wallet</link>
@@ -1735,29 +1758,6 @@ For responders: on a live Mac, enumerate all dylib paths loaded into suspicious 
       <source url="https://x.com/DFIR_Radar/status/2091813379568554052">DFIR Radar</source>
       <pubDate>Mon, 24 Aug 2026 09:02:29 +0000</pubDate>
       <guid isPermaLink="false">2091813379568554052</guid>
-    </item>
-    <item>
-      <title>iAuthFlow v2: The $10,000 Phishing Toolkit That Survives Your Password Reset</title>
-      <link>https://securityaffairs.com/197748/cyber-crime/iauthflow-v2-the-10000-phishing-toolkit-that-survives-your-password-reset.html</link>
-      <description>iAuthFlow v2 phishing toolkit sold for $10,000 on Russian-language forums enrolls an attacker-controlled passkey into a victim's Google account in six seconds, surviving password resets entirely.
-
-Key details:
-
-- Browser-in-the-middle architecture relays victim credentials through an attacker-controlled Chromium instance in real time. The victim sees a fake Google login hosted on a trycloudflare[.]com subdomain with valid TLS. The attacker captures the authenticated session cookie, not just credentials.
-
-- Within that six-second window (21:37:18 login, 21:37:24 passkey saved), the toolkit navigates Google's passkey enrollment through the hijacked session. The enrolled passkey is stored attacker-side, likely via Chromium's software WebAuthn virtual authenticator.
-
-- A passkey is a cryptographic credential separate from the account password. Password resets end sessions and revoke app passwords but do not touch enrolled passkeys. The attacker simply selects "Try another way," authenticates with their passkey, and regains inbox access after the victim resets.
-
-- Advertised for Google, Microsoft, iCloud, and LinkedIn. This persistence logic applies to any platform supporting passkey enrollment from an authenticated session.
-
-Containment cannot stop at password reset and session revocation. Audit all enrolled passkeys and security keys, Gmail filters, forwarding rules, delegated access, and OAuth grants before closing.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091798298793312507</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2091798298793312507">DFIR Radar</source>
-      <pubDate>Mon, 24 Aug 2026 08:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2091798298793312507</guid>
     </item>
   </channel>
 </rss>
