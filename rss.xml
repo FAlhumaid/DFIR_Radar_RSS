@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 02 Sep 2026 18:04:12 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Sep 2026 19:03:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How Attackers Learn Your Network Before They Attack It</title>
+      <link>https://zeek.org/2026/09/how-attackers-learn-your-network-before-they-attack-it/</link>
+      <description>Zeek's bro-simple-scan exposes how failed TCP connections betray reconnaissance, and why encoding network knowledge beats pure threshold counting for catching patient adversaries.
+
+- bro-simple-scan watches Zeek connection history strings, S (SYN with no response) and Sr (SYN plus RST), counting unique victim/port pairs per source. At 25 failures it fires one of three notices: Scan::Address_Scan (one source, many hosts), Scan::Port_Scan (one source, one host, many ports), or Scan::Random_Scan (scattered pattern). Darknet integration via bro-is-darknet drops the threshold to 10 when a source touches unused address space, and a separate knock-knock rule fires at 20 unique hosts on a single port (3 if darknet).
+
+- The structural blind spot is slow and distributed scanning. State ages out after 15 minutes by default, so a scanner pacing below two probes per half hour never accumulates enough failures. Split across 50 sources, no single source trips a per-source threshold even when the aggregate pattern is obvious.
+
+- Profile-based detection is the upgrade path. A SYN to a port no host in your network legitimately serves is high-confidence at count one. Zeek already logs every connection; building a baseline of which hosts serve which ports, and who talks to whom, inverts the detection question from "has this source failed enough?" to "does this connection make sense?"
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095226004826361920</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2095226004826361920">DFIR Radar</source>
+      <pubDate>Wed, 02 Sep 2026 19:03:02 +0000</pubDate>
+      <guid isPermaLink="false">2095226004826361920</guid>
+    </item>
     <item>
       <title>CVE-2026-81578: Exploited PaperCut Authentication Bypass Chains to Pre-Auth RCE</title>
       <link>https://socprime.com/blog/cve-2026-81578-analysis/</link>
@@ -1669,27 +1686,6 @@ Takeaway: When reviewing uploads on shared hosting, hunt for files where paramet
       <source url="https://x.com/DFIR_Radar/status/2092326772364972359">DFIR Radar</source>
       <pubDate>Tue, 25 Aug 2026 19:02:31 +0000</pubDate>
       <guid isPermaLink="false">2092326772364972359</guid>
-    </item>
-    <item>
-      <title>Threat Hunting using Pair Probabilities</title>
-      <link>https://detect.fyi/threat-hunting-using-pair-probabilities-55194ddb8309?source=rss----d5fd8f494f6a---4</link>
-      <description>Microsoft Defender for Endpoint's pair_probabilities_fl() function can be adapted into a probabilistic threat hunt that surfaces binaries running from statistically unusual directories, without writing a single signature.
-
-Key details:
-
-- The KQL function pair_probabilities_ext_fl() takes two categorical columns (A and B) and calculates P_AIB (how rare is this directory for this binary?) and P_BIA (how rare is this binary for this directory?), plus Lift and Jaccard metrics. A low P_AIB on cmd.exe is what flags it running once from \users\user\desktop versus 133,607 times from \windows\system32.
-
-- Path normalization is critical before feeding data in: user paths collapse to user, GUIDs to uuid, temp filenames to random.tmp, and drive letters are stripped. Without it, structural path variants inflate apparent rarity and flood results with noise.
-
-- The hunt targets a curated list of living-off-the-land binaries including cmd.exe, powershell.exe, rundll32.exe, certutil.exe, mshta.exe, wmic.exe, and others. A second variant dynamically identifies Microsoft-signed binaries normally resident in System32 or SysWOW64, making the scope environment-driven rather than static.
-
-- Key limitations: low observation counts make probabilities unreliable; if attacker behavior is already repetitive in your baseline window it blends in; and rarity is not malice, it is a triage signal only.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092311772380148042</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2092311772380148042">DFIR Radar</source>
-      <pubDate>Tue, 25 Aug 2026 18:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2092311772380148042</guid>
     </item>
   </channel>
 </rss>
