@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 02 Sep 2026 09:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Sep 2026 10:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Android App RCE via Dynamic Code Loading</title>
+      <link>https://infosecwriteups.com/android-app-rce-via-dynamic-code-loading-c333fffd0c87?source=rss----7b722bfd1b8d---4</link>
+      <description>Android document viewer app achieves RCE by chaining a path traversal in URI handling with dynamic native library loading, letting an attacker write and execute arbitrary code inside the app's sandbox.
+
+Key findings:
+
+- The vulnerable app's handleIntent() passes an attacker-controlled HTTP/HTTPS URI to copyFileFromUri(), which calls Uri.getLastPathSegment() without decoding percent-encoded characters. Supplying a URL like hxxps://192.168.x[.]x/..%2F..%2F..%2F..%2Fdata%2Fdata%2Fcom.mobilehackinglab.documentviewer%2Ffiles%2Fnative-libraries%2Fx86_64%2Flibdocviewer_pro.so causes the traversal to land outside the Downloads folder and write directly into the app's private files/ directory (T1083, T1105).
+
+- loadProLibrary() unconditionally calls System.load() on files/native-libraries/ABI/libdocviewer_pro.so at every launch. An attacker plants a malicious .so compiled with ndk-build; on next app open, the library executes with the app's UID.
+
+- The attack is delivered entirely via a crafted deep-link intent (scheme: file/http/https, mimeType: PDF), requiring no user permissions beyond what the app already holds.
+
+Takeaway: When reviewing Android apps, flag any combination of getLastPathSegment() feeding a file write path and System.load() referencing that same path. Check AndroidManifest.xml for exported Activities accepting deep links, then trace URI handling through to any file-write or library-load call. Full exploit chain is documented in the write-up.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095090142335692844</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2095090142335692844">DFIR Radar</source>
+      <pubDate>Wed, 02 Sep 2026 10:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2095090142335692844</guid>
+    </item>
     <item>
       <title>Hiding a Signup Button Isn’t Security: From Client-Side Controls to Cross-Tenant Data Exposure</title>
       <link>https://infosecwriteups.com/hiding-a-signup-button-isnt-security-from-client-side-controls-to-cross-tenant-data-exposure-7df0aefe37d5?source=rss----7b722bfd1b8d---4</link>
@@ -1693,27 +1714,6 @@ If you run SyncBreeze Enterprise, update to v18.1.26 immediately and audit who c
       <source url="https://x.com/DFIR_Radar/status/2092009797185130714">DFIR Radar</source>
       <pubDate>Mon, 24 Aug 2026 22:02:58 +0000</pubDate>
       <guid isPermaLink="false">2092009797185130714</guid>
-    </item>
-    <item>
-      <title>Detections Digest #20260824</title>
-      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260824</link>
-      <description>Weekly detection engineering roundup: 39 new rules and 13 updates across 8 repos target ShieldBreak exploitation, RMM abuse, macOS CVE-2026-65400, and AI agent worm propagation.
-
-Key additions this week:
-
-- Splunk added ShieldBreak exploit coverage: watch for mpclient.dll loaded outside the Defender platform, Defender events referencing \globalroot kernel object paths, and NTFS ADS creation over loopback shares (Security EventCode 5145). Companion rules flag WerMgr.exe spawning SYSTEM-integrity children and phantom DLL creation tied to CVE-2020-7315.
-
-- RMM abuse detection expanded across three repos. New Sigma rules cover Teleport Connect installer execution (Teleport Connect Setup-*.exe), registry writes under HKLM/HKCU policy paths, and DNS queries to known RMM domains. A KQL hunt correlates email bombing, Teams phishing, and subsequent RMM execution in a single query.
-
-- A KQL rule for CVE-2026-65400 on macOS hunts SSFileCopyReceiver activity, pfctl alterations, LaunchDaemon persistence, hidden root file writes, and outbound mining traffic via Defender XDR telemetry.
-
-- Python supply-chain persistence rules now track .pth file creation, sitecustomize.py and usercustomize.py drops (as seen in VIPERTUNNEL), and outbound connections during package builds. A separate rule monitors Event 4663 for reads against accessTokens.json and TokenCache.dat.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2091994620142219405</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2091994620142219405">DFIR Radar</source>
-      <pubDate>Mon, 24 Aug 2026 21:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2091994620142219405</guid>
     </item>
   </channel>
 </rss>
