@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 02 Sep 2026 16:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Sep 2026 17:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Chamilo LMS... It's raining 0days, hallelujah, it's raining 0days</title>
+      <link>http://blog.quarkslab.com/chamilo-lms-its-raining-0days-hallelujah-its-raining-0days.html</link>
+      <description>Chamilo LMS 1.11.36 has 11 zero-days including a fully weaponized pre-auth RCE chain. Schools and enterprises running this widely deployed open-source LMS are exposed to complete server compromise with no credentials required.
+
+Key findings:
+
+- The pre-auth RCE chain starts with CVE-2026-61600, an unauthenticated boolean-based blind SQLi in main/inc/ajax/model.ajax.php via the groupOp field of the JSON filters parameter. An attacker needs only a valid cidReq course code (enumerable from the home page) to dump the admin row including the confirmation_token field, enabling a full password reset without ever touching the admin's mailbox.
+
+- A second pre-auth primitive (no CVE assigned separately) allows unauthenticated POST requests to main/inc/ajax/user_manager.ajax.php with action update_users, overwriting the email of any user including admin (user_id=1). Chained with the password reset flow this gives complete account takeover. The admin row can be restored post-exploit to minimize detection.
+
+- CVE-2026-70647 is an unsafe deserialization in the course backup import feature. course_info.dat inside the ZIP is base64-encoded serialized PHP. An attacker modifies a Document object's path property to coiffeur.php in the web root, re-packages the ZIP, and imports it via the legitimate course import UI. Chamilo trusts the tampered metadata and writes the webshell to /app/courses/{course_code}/coiffeur.php.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095195893091758486</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2095195893091758486">DFIR Radar</source>
+      <pubDate>Wed, 02 Sep 2026 17:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2095195893091758486</guid>
+    </item>
     <item>
       <title>Attackers Actively Exploiting Critical Vulnerability in Elementor Pro Plugin</title>
       <link>https://www.wordfence.com/blog/2026/09/attackers-actively-exploiting-critical-vulnerability-in-elementor-pro-plugin/</link>
@@ -1667,25 +1686,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2092296464198521040">DFIR Radar</source>
       <pubDate>Tue, 25 Aug 2026 17:02:05 +0000</pubDate>
       <guid isPermaLink="false">2092296464198521040</guid>
-    </item>
-    <item>
-      <title>Inside Elastic's agentic SOC: How we took AI alert triage from 60% to 92% accuracy</title>
-      <link>https://www.elastic.co/security-labs/alert-triage-agentic-soc-self-correcting-agents</link>
-      <description>Elastic's agentic SOC pipeline jumped from 60% to 92% AI triage accuracy, not by swapping models, but by engineering the right context window before any verdict is made.
-
-Key findings:
-
-- The accuracy gap was a context problem, not a model problem. Agents working only on current alert data were wrong 40% of the time. Analysts stopped reading summaries entirely. The fix: pre-fetching the detection rule's investigation guide via GET /api/alerting/rule/&lt;kibana.alert.rule.uuid&gt;, user risk signals from Workday (new hires, departing employees, high-risk cost centers), and 30 days of closed cases for that same rule ID before the agent reasons at all.
-
-- Three specialized agents replace one bloated agent. Pattern Finder ingests historical case records and returns structured JSON with FP rate, user risk flag, and severity recommendation. No tools, no external queries, no prompt injection risk. L1 Investigation Agent runs ES|QL queries and external enrichment, following the per-rule investigation guide as primary triage instructions. Summarizer formats the final Markdown output for cases and Slack, making no investigative decisions itself.
-
-- The feedback loop is the key mechanism. Each case stores AI Verdict, AI Confidence, and an analyst-toggled "AI Incorrect" custom field. PastCasesbyRulenameLookup feeds those fields back into the next agent run so the Pattern Finder can detect its own overclassification errors before making a new call.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092281438464848017</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2092281438464848017">DFIR Radar</source>
-      <pubDate>Tue, 25 Aug 2026 16:02:23 +0000</pubDate>
-      <guid isPermaLink="false">2092281438464848017</guid>
     </item>
   </channel>
 </rss>
