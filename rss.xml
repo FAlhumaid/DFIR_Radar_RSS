@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2026 11:04:07 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 12:04:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>One Blank Field Bypasses Direct Send Control</title>
+      <link>https://reliaquest.com/blog/threat-spotlight-one-blank-field-bypasses-direct-send-control/</link>
+      <description>A single empty SMTP envelope field bypasses RejectDirectSend in Microsoft 365, letting unauthenticated senders spoof internal addresses with no credentials, no lookalike domain, and no infrastructure.
+
+- RejectDirectSend evaluates the domain in the SMTP MAIL FROM field, but an empty value (MAIL FROM:&lt;&gt;) gives it nothing to check. ReliaQuest confirmed this in a controlled tenant: the baseline message with an accepted-domain envelope sender was rejected with 550 5.7.68, while the empty-sender message was accepted and queued, headers showing spf=none, dkim=none, dmarc=fail action=oreject, SCL 9, and delivery to Junk. Junk delivery is not a win: the bypass already succeeded before antispam ran.
+
+- Active phishing use from September 2025 through August 2026 across multiple orgs, targeting executives, finance, and procurement with file-sharing and payment lures, several using SVG attachments framed as voicemails. Most messages reached inboxes via filtering exceptions on impersonated addresses, not inbox placement by default.
+
+- IP-restricted inbound connectors blocked every Direct Send attempt regardless of envelope sender in testing. This is the structural fix. RejectDirectSend alone is not sufficient.
+
+Hunt for messages where the envelope Return-Path is empty and the header From uses an accepted internal domain, cross-reference against SPF/DKIM/DMARC failures and any override that let them deliver.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095482987617923183</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2095482987617923183">DFIR Radar</source>
+      <pubDate>Thu, 03 Sep 2026 12:04:12 +0000</pubDate>
+      <guid isPermaLink="false">2095482987617923183</guid>
+    </item>
     <item>
       <title>Hackers push malicious Virtualizor update in BGP hijacking attack</title>
       <link>https://www.bleepingcomputer.com/news/security/hackers-push-malicious-virtualizor-update-in-bgp-hijacking-attack/</link>
@@ -1609,17 +1628,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2092598817640120711">DFIR Radar</source>
       <pubDate>Wed, 26 Aug 2026 13:03:32 +0000</pubDate>
       <guid isPermaLink="false">2092598817640120711</guid>
-    </item>
-    <item>
-      <title>ModeloRAT Malware: How the CrashFix Campaign Delivers a Python RAT</title>
-      <link>https://www.picussecurity.com/resource/blog/modelorat-malware-how-the-crashfix-campaign-delivers-a-python-rat</link>
-      <description>ModeloRAT is a Python-based Windows RAT delivered via a fake NexShield Chrome extension that crashes the browser and serves a repair prompt. C2 runs over HTTP port 80 using RC4-encrypted, zlib-compressed JSON.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092583320903361017</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2092583320903361017">DFIR Radar</source>
-      <pubDate>Wed, 26 Aug 2026 12:01:57 +0000</pubDate>
-      <guid isPermaLink="false">2092583320903361017</guid>
     </item>
   </channel>
 </rss>
