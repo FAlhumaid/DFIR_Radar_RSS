@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2026 20:02:48 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 21:02:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Actively Exploiting Critical Vulnerability in Super Forms Plugin</title>
+      <link>https://www.wordfence.com/blog/2026/09/attackers-actively-exploiting-critical-vulnerability-in-super-forms-plugin/</link>
+      <description>CVE-2026-14894 (CVSS 9.8): Unauthenticated arbitrary file upload in the Super Forms WordPress plugin is actively exploited at scale, with 250,000+ blocked attempts and PHP webshells being dropped on vulnerable sites.
+
+- CVE-2026-14894 affects Super Forms &lt;= 6.3.313. The submit_form() nopriv AJAX handler accepts a base64-encoded datauristring, decodes it, and writes it to disk using an attacker-controlled filename with zero file-type validation. A valid nonce is freely minted via the super_create_nonce nopriv endpoint, so the full exploit chain is just two unauthenticated HTTP POST requests to /wp-admin/admin-ajax.php.
+
+- The webshell observed in the wild is named Mushr00w_upl.php, a browser-based uploader used to stage further payloads. Exploitation began July 14, 2026, five days after disclosure, with a major spike August 18-25. Top offending IPs include 103.168.147[.]235 (106k+ requests) and 103.168.146[.]131 (82k+ requests).
+
+- For incident response: search the entire WordPress docroot for .php files created or modified on or after July 8, 2026. Check web server access logs for POST requests to /wp-admin/admin-ajax.php with action=super_submit_form. The filename Mushr00w_upl.php is a strong IOC but attackers vary filenames and can use path traversal to place shells outside the upload directory.
+
+Patch to Super Forms 6.3.314 immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095618521321635943</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2095618521321635943">DFIR Radar</source>
+      <pubDate>Thu, 03 Sep 2026 21:02:45 +0000</pubDate>
+      <guid isPermaLink="false">2095618521321635943</guid>
+    </item>
     <item>
       <title>StreamRat Android malware spreads through Meta and TikTok ads</title>
       <link>https://www.malwarebytes.com/blog/news/2026/09/streamrat-android-malware-spreads-through-meta-and-tiktok-ads</link>
@@ -1615,27 +1634,6 @@ Patch immediately. Run the Bishop Fox detection tool against your VSPC instance 
       <source url="https://x.com/DFIR_Radar/status/2092719388323455468">DFIR Radar</source>
       <pubDate>Wed, 26 Aug 2026 21:02:38 +0000</pubDate>
       <guid isPermaLink="false">2092719388323455468</guid>
-    </item>
-    <item>
-      <title>Inside Elastic's agentic SOC: How we took AI alert triage from 60% to 92% accuracy</title>
-      <link>https://www.elastic.co/security-labs/blog/alert-triage-agentic-soc-self-correcting-agents</link>
-      <description>Elastic's internal SOC pushed AI alert triage accuracy from 60% to 92% by enriching agent context, not by swapping models. The key: per-rule investigation guides, 30-day case history, and HR risk data fed before any verdict is made.
-
-Key findings:
-
-- Three specialized agents run in sequence inside Elastic Workflows: Pattern Finder (no tools, compares current alert to 30 days of closed cases for the same rule.uuid, outputs JSON), L1 Investigation (has tools, runs ES|QL queries, reaches a verdict), and Summarizer (formats the final Slack and case comment). Keeping them separate cut token cost significantly versus one large agent with many skills.
-
-- Context injected per alert includes the detection rule's investigation guide via GET /api/alerting/rule/{kibana.alert.rule.uuid}, Workday HR data (new hires within 90 days, departing employees, high-risk cost centers) keyed on user.email, and closure reasons plus analyst comments from the last 30 closed cases on that same rule.
-
-- The feedback loop is the accuracy driver. If the AI called True Positive but the analyst closed False Positive, that mismatch is stored in case custom fields (AI Verdict, AI Confidence, AI Incorrect boolean) and fed back into the Pattern Finder prompt on the next firing of that rule. The agent sees where it got it wrong.
-
-- Workflows are typed as Lookup (ES|QL, Kibana API, GET), Agent, or Action (POST to cases and Slack).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092704374749303010</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2092704374749303010">DFIR Radar</source>
-      <pubDate>Wed, 26 Aug 2026 20:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2092704374749303010</guid>
     </item>
   </channel>
 </rss>
