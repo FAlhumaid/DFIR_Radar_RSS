@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2026 21:02:45 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 22:03:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Incident response guide for AWS CloudTrail investigations – Part 2</title>
+      <link>https://aws.amazon.com/blogs/security/incident-response-guide-for-aws-cloudtrail-investigations-part-2/</link>
+      <description>SSRF to IMDSv1 credential theft cascades into multi-Region Amazon Bedrock misuse. AWS SIRT breaks down the full attack chain with annotated CloudTrail evidence and a response checklist.
+
+Key findings:
+
+- The chain started with an SSRF flaw in a web app on an EC2 instance carrying the "webdev" IAM role. Because IMDSv1 requires no session token, the attacker hit 169.254.169.254 and walked away with temporary role credentials. The CloudTrail smoking gun is ec2RoleDelivery: "1.0" in the userIdentity block. That single field confirms IMDSv1 delivery and the SSRF vector without needing application logs.
+
+- Four events tell the whole story: a failed CreateUser for "adm1n" (typosquatting with a numeral 1) at 15:53 UTC, a no-MFA ConsoleLogin success at 15:59, a ListFoundationModels recon call in us-east-2 at 17:20, then a Converse invocation of amazon.nova-pro-v1:0 at 17:25. Same source IP 75.3.231[.]105, same webdev role session throughout.
+
+- The Region hop from us-east-1 to us-east-2 was deliberate evasion. Inconsistent cross-Region monitoring let the Bedrock activity go initially unnoticed. sessionCredentialFromConsole: "true" in Event 3 ties the Bedrock calls back to the hijacked console session, not a fresh credential pull.
+
+- CloudTrail records the Converse call and token counts (944 input, 126 output) but NOT prompt or response content. If Bedrock model invocation logging was not enabled, the data sent to the model cannot be recovered post-incident.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095633880262836707</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2095633880262836707">DFIR Radar</source>
+      <pubDate>Thu, 03 Sep 2026 22:03:48 +0000</pubDate>
+      <guid isPermaLink="false">2095633880262836707</guid>
+    </item>
     <item>
       <title>Attackers Actively Exploiting Critical Vulnerability in Super Forms Plugin</title>
       <link>https://www.wordfence.com/blog/2026/09/attackers-actively-exploiting-critical-vulnerability-in-super-forms-plugin/</link>
@@ -1611,29 +1632,6 @@ Treat SCCM as Tier 0. Audit ADCS templates for CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT
       <source url="https://x.com/DFIR_Radar/status/2092734575923630132">DFIR Radar</source>
       <pubDate>Wed, 26 Aug 2026 22:02:59 +0000</pubDate>
       <guid isPermaLink="false">2092734575923630132</guid>
-    </item>
-    <item>
-      <title>A GUID is Not a Credential: Unauthenticated RCE in Veeam Service Provider Console</title>
-      <link>https://bishopfox.com/blog/a-guid-is-not-a-credential-unauthenticated-rce-in-veeam-service-provider-console</link>
-      <description>Unauthenticated RCE in Veeam Service Provider Console lets an attacker chain two critical flaws to execute code on a management server with access above every tenant's backups, no credentials needed.
-
-Key findings:
-
-- Two critical vulnerabilities chain together: the first flaw treats a predictable GUID as an authentication token, meaning any unauthenticated caller who supplies a valid-looking GUID can reach privileged internal API endpoints. The second flaw accepts attacker-controlled data passed through that unauthenticated path and executes it server-side, completing the RCE.
-
-- The attack surface is the management plane itself, the layer above every managed tenant and their backup infrastructure. Compromise here means an attacker can pivot into customer backup data and connected environments below it.
-
-- Bishop Fox confirmed the full exploit chain end to end and published a safe detection tool alongside IOCs. If you run Veeam Service Provider Console in your environment or your MSP does, you need to run that tool before anything else.
-
-- DFIR angle: check web and application server logs for unauthenticated requests hitting internal API routes, unusual GUID-bearing requests from external source IPs, and any unexpected process execution spawned by the Veeam service account.
-
-Patch immediately. Run the Bishop Fox detection tool against your VSPC instance and review service account activity for signs of prior exploitation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092719388323455468</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2092719388323455468">DFIR Radar</source>
-      <pubDate>Wed, 26 Aug 2026 21:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2092719388323455468</guid>
     </item>
   </channel>
 </rss>
