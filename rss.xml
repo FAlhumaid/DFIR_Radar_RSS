@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2026 12:04:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 13:03:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Contagious Interview steps outside the developer workflow</title>
+      <link>https://www.jamf.com/blog/contagious-interview-trojanized-macos-installers/</link>
+      <description>DPRK Contagious Interview expands beyond developer bait: 14 trojanized macOS apps impersonating tools like The Unarchiver, Sketch, and Bartender deliver OtterCookie via a four-stage chain.
+
+Key findings:
+
+- Unsigned DMGs and PKGs impersonate popular Mac apps. CFBundleExecutable in Info.plist is hijacked to point to a hidden .macos file compiled via Bunster (shell-to-Go). Gatekeeper blocks execution, so the quarantine xattr must be manually stripped, suggesting targeted delivery where victims are coached through the bypass.
+
+- The four-stage chain: .macos curls /task/mac from 162.0.239[.]85, which fetches tokenlinux.sh, which pulls Node.js and a malicious parser.js. Staging now uses the hidden ~/.task directory. Every retrieval URL beyond the first carries a signed HS256 JWT embedding victim IP, sessionId, step counter, and timestamps.
+
+- Final payload is OtterCookie: a Socket.IO RAT, browser and crypto wallet credential stealer, in-memory filesystem scanner, and clipboard clipper using pbpaste.
+
+- Infrastructure: staging on 162.0.239[.]85:3000, OtterCookie C2 on 147.124.202[.]205 across ports 7671, 7676, 7679. Associated domains include w3pi[.]social, softcus[.]net, and pobelstudio[.]com.
+
+Hunt for unsigned apps with modified Info.plist executables, outbound HTTP to port 3000, Node.js spawned from unexpected parents, and ~/.task directory creation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095497995458376178</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2095497995458376178">DFIR Radar</source>
+      <pubDate>Thu, 03 Sep 2026 13:03:50 +0000</pubDate>
+      <guid isPermaLink="false">2095497995458376178</guid>
+    </item>
     <item>
       <title>One Blank Field Bypasses Direct Send Control</title>
       <link>https://reliaquest.com/blog/threat-spotlight-one-blank-field-bypasses-direct-send-control/</link>
@@ -1611,23 +1634,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2092613817553625436">DFIR Radar</source>
       <pubDate>Wed, 26 Aug 2026 14:03:08 +0000</pubDate>
       <guid isPermaLink="false">2092613817553625436</guid>
-    </item>
-    <item>
-      <title>Edge Infrastructure Under Siege: What Two Independent Datasets Reveal About Who’s Exploiting Your Perimeter</title>
-      <link>https://www.sentinelone.com/blog/what-two-independent-datasets-reveal-about-whos-exploiting-your-perimeter/</link>
-      <description>Two independent datasets, one conclusion: state-sponsored and criminal actors converge on the same 11 edge vendors, with 79% vendor-level overlap despite sharing only 21% of CVEs.
-
-- SentinelOne DFIR casework (66 CVEs, 12 months) and Tenable exposure telemetry (33 CVEs, thousands of customer environments) independently arrived at the same seven edge vendors: Fortinet, Citrix, Ivanti, Palo Alto Networks, Cisco, Juniper, and VMware. 100% convergence on edge infrastructure specifically. 93 CVE-actor attribution pairs span Chinese 🇨🇳, Russian 🇷🇺, North Korean 🇰🇵, Iranian 🇮🇷, and ransomware nexuses. Twelve CVEs have confirmed multi-nexus attribution, including CVE-2024-3400 (PAN-OS) exploited by both a China-nexus actor and INC Ransomware, and CVE-2024-24919 (Check Point) hit independently by PurpleHaze (China 🇨🇳) and Fox Kitten (Iran 🇮🇷).
-
-- F5 leads on breadth: 54% of monitored customer environments carry at least one actively exploited CVE. Citrix leads on persistence: 461-day median time to patch, 71% of affected environments still unpatched after a full year. High-priority CVEs take 146 days to remediate versus 122 days for all others, a statistically significant 24-day gap in the wrong direction.
-
-- In FortiGate intrusions, responders found rogue admin accounts, exported device configs containing LDAP bind credentials, and subsequent domain joins with no SPN.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092598817640120711</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2092598817640120711">DFIR Radar</source>
-      <pubDate>Wed, 26 Aug 2026 13:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2092598817640120711</guid>
     </item>
   </channel>
 </rss>
