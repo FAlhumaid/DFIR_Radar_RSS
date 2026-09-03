@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2026 15:03:28 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 16:03:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From ClickFix to SilentEncryptor: A Simple Yet Destructive Path to Ransomware Deployment</title>
+      <link>https://stairwell.com/blog/from-clickfix-to-silentencryptor-a-simple-yet-destructive-path-to-ransomware-deployment/</link>
+      <description>StopAndProtect campaign uses ClickFix social engineering on hacked WordPress sites to deploy SilentEncryptor ransomware, active since May 2026 with 22 confirmed variants now identified.
+
+- ClickFix is the initial access vector (T1204.002): visitors to compromised WordPress sites see a fake CAPTCHA prompt that instructs them to copy and run a PowerShell command, handing the attacker execution without any exploit.
+
+- SilentEncryptor pulls its target list and ransom note dynamically from C2, meaning the attacker controls which endpoints get encrypted and can rotate messaging between victims. Three original samples share the embedded marker string "*V*RrETTY" and base64-encoded wallet paths covering Bitcoin, Ethereum, Exodus, Dash, Dogecoin, and others under AppData\Roaming.
+
+- A suspected OPSEC failure caused the threat actor to upload their own desktop files to C2, giving researchers rare visibility into the operation's infrastructure, all hosted on the same pool of vulnerable WordPress sites.
+
+- Stairwell's YARA rule scanned their malware corpus and surfaced 22 variants beyond the original three, with sample hashes including 65550f6d0ffec8421f703cdc7273d9c0563b3d480fe6702bad294a18afe72143 and a5b512c09a6b0add18397238d0c64ff34b6d95f4114efe808df03e3e11c29fb1.
+
+Deploy the YARA rule retroactively across your environment and hunt for PowerShell processes spawned from browser or clipboard activity. Full IOC list and YARA rule are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095543320546259226</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2095543320546259226">DFIR Radar</source>
+      <pubDate>Thu, 03 Sep 2026 16:03:56 +0000</pubDate>
+      <guid isPermaLink="false">2095543320546259226</guid>
+    </item>
     <item>
       <title>DEW #169 - Realistic AI SOC evaluation scenarios, tricking EDRs with fake telemetry and Anthropic/OAI cyber eval guardrails</title>
       <link>https://www.detectionengineering.net/p/dew-169-realistic-ai-soc-evaluation</link>
@@ -1627,25 +1648,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2092659103218733530">DFIR Radar</source>
       <pubDate>Wed, 26 Aug 2026 17:03:05 +0000</pubDate>
       <guid isPermaLink="false">2092659103218733530</guid>
-    </item>
-    <item>
-      <title>I’m in your logs now: deceiving analysts and blinding EDRs</title>
-      <link>https://medium.com/falconforce/im-in-your-logs-now-deceiving-analysts-and-blinding-edrs-6adada699be6?source=rss-5ca7329adb2b------2</link>
-      <description>ETW's design as a performance tool, not a security substrate, lets attackers flood cap limits, exhaust session buffers, and inject fake events to blind cloud EDRs and distract analysts from user-mode without admin rights.
-
-Key findings:
-
-- Any unelevated process can register a manifest-based ETW provider GUID and emit structurally valid events into active trace sessions. Olaf Hartong demonstrated fake LDAP searches, SharpHound-like enumeration, and AV re-enablement events arriving in MDE's cloud tables. The kernel does not distinguish the legitimate emitter from an impostor for most providers. MSRC applied a disallow list via NtTraceControl to a narrow set of "embarrassing" providers after a January 2025 report, but the majority remain unprotected.
-
-- MDE's LDAP client ETW provider has a hard event cap, with "first seen" deduplication over a 24-hour window per process/query combination. An attacker generating 1,000+ LDAP noise events before running real enumeration can consume the cap entirely, meaning the real activity never reaches the cloud dataset. Cap resets on reboot or after the window expires.
-
-- ETW real-time sessions use a shared non-paged pool buffer. If a consumer stops draining that buffer, the session controller instructs all providers feeding that session to stop emitting.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092644149447348280</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2092644149447348280">DFIR Radar</source>
-      <pubDate>Wed, 26 Aug 2026 16:03:40 +0000</pubDate>
-      <guid isPermaLink="false">2092644149447348280</guid>
     </item>
   </channel>
 </rss>
