@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Sep 2026 10:03:34 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Sep 2026 11:03:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attacking and Defending SCOM: Management Server Relay and Obtaining Run As Credentials</title>
+      <link>https://www.guidepointsecurity.com/blog/attacking-and-defending-scom/</link>
+      <description>Default SCOM deployments hand attackers a path from standard domain user to code execution on every monitored host, including domain controllers, via NTLM relay and DPAPI credential dumping.
+
+Key findings:
+
+- The relay attack targets the MSOMSdkSvc/ SPN sitting on the Management Server computer account by default. Using PetitPotam to coerce authentication and impacket-ntlmrelayx to relay it, an attacker inserts their SID into the AzMan_Role_SIDMember table in the OperationsManager database, granting Operations Console access from a standard domain account. SCOMHunter automates the enumeration and relay query.
+
+- Once in the Operations Console, attackers create Agent Tasks targeting any monitored host, including domain controllers, running as SYSTEM. A single task like "cmd.exe /c net group Domain Admins domainuser /add /domain" completes the escalation.
+
+- Run As credentials are stored as DPAPI-protected blobs in the registry under the HealthService key on every monitored host. SCOMHunter's DPAPI module pulls these over SMB, retrieves the MasterKey via LSA secrets, and decrypts them. Accounts set to Less secure distribution land on every agent automatically.
+
+Fix: Move the MSOMSdkSvc/ SPN off the Management Server computer account onto a gMSA using setspn. Set all Run As accounts to More secure distribution. Disable the web console PowerShell widget.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095830154744418732</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2095830154744418732">DFIR Radar</source>
+      <pubDate>Fri, 04 Sep 2026 11:03:43 +0000</pubDate>
+      <guid isPermaLink="false">2095830154744418732</guid>
+    </item>
     <item>
       <title>Angry Birds: Toy Ghouls’ new toys</title>
       <link>https://securelist.com/toy-ghouls-new-hivemq-and-element-backdoors/121270/</link>
@@ -1601,17 +1622,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2093006371826581874">DFIR Radar</source>
       <pubDate>Thu, 27 Aug 2026 16:03:00 +0000</pubDate>
       <guid isPermaLink="false">2093006371826581874</guid>
-    </item>
-    <item>
-      <title>Spark RAT Targets Cambodia, Abuses Vulnerable OPSWAT Driver to Disable Security Tools</title>
-      <link>https://thehackernews.com/2026/08/spark-rat-targets-cambodia-abuses.html</link>
-      <description>Spark RAT is targeting Cambodia 🇰🇭 via lure documents spanning government, public health, and real estate themes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092991283295895855</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2092991283295895855">DFIR Radar</source>
-      <pubDate>Thu, 27 Aug 2026 15:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2092991283295895855</guid>
     </item>
   </channel>
 </rss>
