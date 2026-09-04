@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2026 23:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Sep 2026 00:04:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Signature Optional - Analysis of CVE-2026-28323</title>
+      <link>https://bishopfox.com/blog/signature-optional-analysis-of-cve-2026-28323</link>
+      <description>CVE-2026-28323 in SolarWinds Web Help Desk allows full session takeover via a single forged SAML POST, no credentials required. Bishop Fox confirmed end-to-end exploitation.
+
+Key findings:
+
+- SolarWinds Web Help Desk treated SAML signature verification as optional and skipped all remaining spec-required validation steps, meaning an attacker could forge an arbitrary SAML assertion and the application accepted it as legitimate.
+
+- Bishop Fox confirmed the full exploit chain end to end: one crafted POST request with a forged SAML response, zero credentials, full authenticated session returned. No chained CVEs, no prior foothold needed. Exploitation is trivially reproducible.
+
+- DFIR artifact focus: hunt your web server access logs for POST requests to the SAML assertion consumer service endpoint with malformed or unsigned SAMLResponse values, especially those resulting in HTTP 200 or redirect responses that indicate session creation.
+
+- Scope: any SolarWinds Web Help Desk deployment with SAML SSO enabled is affected until the patch is applied. Web Help Desk is common in enterprise IT and MSP environments, making this a high-value lateral movement or initial access target.
+
+Patch immediately. If patching is delayed, disable SAML SSO and fall back to local authentication. Review auth logs for unexpected SSO-authenticated sessions, particularly service or admin accounts. Full technical root cause and detection detail are in the Bishop Fox report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095664289994486209</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2095664289994486209">DFIR Radar</source>
+      <pubDate>Fri, 04 Sep 2026 00:04:37 +0000</pubDate>
+      <guid isPermaLink="false">2095664289994486209</guid>
+    </item>
     <item>
       <title>Incident response guide for AWS CloudTrail investigations – Part 1</title>
       <link>https://aws.amazon.com/blogs/security/incident-response-guide-for-aws-cloudtrail-investigations-part-1/</link>
@@ -1627,17 +1650,6 @@ Treat SCCM as Tier 0. Audit ADCS templates for CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT
       <source url="https://x.com/DFIR_Radar/status/2092764746672193941">DFIR Radar</source>
       <pubDate>Thu, 27 Aug 2026 00:02:52 +0000</pubDate>
       <guid isPermaLink="false">2092764746672193941</guid>
-    </item>
-    <item>
-      <title>CVE-2026-60004: Critical Gitea RCE Exploited to Deploy Miner-Like Payloads</title>
-      <link>https://socprime.com/blog/cve-2026-60004-critical-gitea-rce-exploited-to-deploy-miner-like-payloads/</link>
-      <description>CVE-2026-60004 (CVSS 9.8) in Gitea is actively exploited and CISA KEV-listed; patch to 1.27.1 by Aug 28. Hunt for rogue accounts, diffpatch API calls, and Git hooks spawning child processes under the Gitea service account.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092749588880834631</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2092749588880834631">DFIR Radar</source>
-      <pubDate>Wed, 26 Aug 2026 23:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2092749588880834631</guid>
     </item>
   </channel>
 </rss>
