@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Sep 2026 09:02:49 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Sep 2026 10:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Angry Birds: Toy Ghouls’ new toys</title>
+      <link>https://securelist.com/toy-ghouls-new-hivemq-and-element-backdoors/121270/</link>
+      <description>Toy Ghouls deploys two custom backdoors using MQTT and Matrix as C2 channels against Russian 🇷🇺 organizations, marking a shift from public tools toward purpose-built tradecraft.
+
+Key findings:
+
+- Delivered via WinRM using Evil-WinRM and WinRM-fs, the backdoors (cplsupport.exe and wtass.exe) install as Windows services named "Problem Reports Control Panel" and "Windows Telemetry Aggregator Service." Config is sealed using ChaCha20-Poly1305 keyed to HKLM\Software\Microsoft\Cryptography\MachineGuid, binding it to the victim machine after first run.
+
+- The HiveMQ version C2s through broker.hivemq.com and executes commands via PowerShell.exe with -NonInteractive -NoProfile -Command in hidden mode. The Element version uses meet.element[.]tw on the Matrix protocol; commands prefix with cmd: and operator account is named panel-bot, recoverable from Element's SQLite databases on disk.
+
+- Both versions beacon system status and metrics (CPU, memory, disk) at configurable intervals and call http://ip-api.com/json on startup for geolocation, a useful first-beacon artifact in proxy or firewall logs.
+
+- IOCs: MD5 BFADBEEE63A4F0BF19EC9DEB8FA58F58 (cplsupport.exe), 7916C33688385525078BEE504C90F359 (wtass.exe). Registry: HKLM\Software\synapse\Config\SealedConfig, HKLM\Software\SynapseAgent\metrics_interval.
+
+Hunt for outbound TLS to broker.hivemq.com port 8883 and meet.element[.]tw from non-browser processes, plus PowerShell children of service host processes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095815017060823190</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2095815017060823190">DFIR Radar</source>
+      <pubDate>Fri, 04 Sep 2026 10:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2095815017060823190</guid>
+    </item>
     <item>
       <title>JFrog Artifactory CVE-2026-82329 Exploited</title>
       <link>https://socradar.io/blog/jfrog-artifactory-cve-2026-82329/</link>
@@ -1589,27 +1612,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2092991283295895855">DFIR Radar</source>
       <pubDate>Thu, 27 Aug 2026 15:03:03 +0000</pubDate>
       <guid isPermaLink="false">2092991283295895855</guid>
-    </item>
-    <item>
-      <title>BlueDelta Targets Defense and Diplomacy with HOOKEDGE</title>
-      <link>https://www.recordedfuture.com/research/bluedelta-targets-with-hookedge</link>
-      <description>BlueDelta (APT28/GRU) ran a six-month espionage campaign against European defense and diplomatic targets using HOOKEDGE, a refined batch-script backdoor that abuses webhook[.]site for C2 to blend with legitimate traffic.
-
-Key findings:
-
-- HOOKEDGE is a lightweight Windows batch-script backdoor sharing significant code and tradecraft overlap with BlueDelta's earlier HEADLACE implant. Initial access came via macro-enabled Word documents with diplomatic lures, including one impersonating Spain 🇪🇸's Ministry of the Presidency created shortly after a Spanish-Moldovan officials meeting, timed to Russian 🇷🇺 intelligence collection priorities ahead of Moldova's September 2025 elections.
-
-- The malware abuses webhook[.]site exclusively for C2, payload staging, and data exfiltration, letting malicious traffic blend with legitimate webhook activity. For higher-value targets, BlueDelta deployed a second-stage HOOKEDGE payload with a shorter beaconing interval, giving operators more responsive tasking while preserving webhook endpoint longevity.
-
-- BlueDelta continuously refined HOOKEDGE from September 2025 through April 2026, adjusting lure documents, execution methods, and beaconing intervals to evade sandboxes and adapt to free-tier API limits on webhook[.]site.
-
-Defenders should prioritize blocking macro execution on internet-sourced documents, then hunt for scheduled task creation paired with headless Microsoft Edge execution and outbound connections to webhook[.]site.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092976153992507792</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2092976153992507792">DFIR Radar</source>
-      <pubDate>Thu, 27 Aug 2026 14:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2092976153992507792</guid>
     </item>
   </channel>
 </rss>
