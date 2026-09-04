@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Sep 2026 00:04:37 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Sep 2026 01:03:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Coder's registry infrastructure compromised to push malicious modules</title>
+      <link>https://www.bleepingcomputer.com/news/security/coders-registry-infrastructure-compromised-to-push-malicious-modules/</link>
+      <description>Coder's Cloudflare registry hijacked on Aug 31 to push credential-stealing Terraform modules to developers at Dropbox, Palantir, the US 🇺🇸 government, and defense contractors.
+
+- Attacker gained access to Coder's Cloudflare infrastructure and injected unauthorized IP addresses into the registry.coder.com server pool. Between 07:35 and 21:45 UTC on August 31, Cloudflare routed a subset of module requests to attacker-controlled servers serving trojanized Terraform modules.
+
+- The malicious modules acted as infostealers, harvesting provisioner env vars, cloud and AI API keys, CI/CD credentials, SSH keys, OIDC tokens, terminal history, config-file secrets, and Coder database passwords when running inside coderd.
+
+- Exfiltration destination was the lookalike domain coder-infra[.]com. Because the attacker's infrastructure is outside Coder's control, the project cannot conclusively identify every compromised deployment.
+
+- Patched releases are 2.37.0, 2.36.4, 2.35.7, and 2.34.9. Before upgrading, hunt firewall, proxy, DNS, and VPC flow logs for connections to coder-infra[.]com, and search provisioner logs for data.external.telemetry.
+
+Rotate every secret class listed above immediately. Run Coder's published SQL query to identify affected cached modules and template versions, then purge them. Treat any secret exposed during the window as fully compromised.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095679060982874478</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2095679060982874478">DFIR Radar</source>
+      <pubDate>Fri, 04 Sep 2026 01:03:19 +0000</pubDate>
+      <guid isPermaLink="false">2095679060982874478</guid>
+    </item>
     <item>
       <title>Signature Optional - Analysis of CVE-2026-28323</title>
       <link>https://bishopfox.com/blog/signature-optional-analysis-of-cve-2026-28323</link>
@@ -1629,27 +1650,6 @@ When investigating ransomware incidents, check for operator-side OPSEC failures,
       <source url="https://x.com/DFIR_Radar/status/2092780008573911303">DFIR Radar</source>
       <pubDate>Thu, 27 Aug 2026 01:03:31 +0000</pubDate>
       <guid isPermaLink="false">2092780008573911303</guid>
-    </item>
-    <item>
-      <title>CISA Red Team Fully Compromised Two Critical Infrastructure Orgs</title>
-      <link>https://securityaffairs.com/197901/hacking/cisa-red-team-fully-compromised-two-critical-infrastructure-orgs.html</link>
-      <description>CISA red team fully compromised two critical infrastructure orgs via default creds, ESC1, and DCSync. One SOC detected and contained in minutes; the other never knew until CISA debriefed them.
-
-Key findings:
-
-- Organization A (Government Facilities) fell to a default-credential web app used to send internal phishing, then ESC1 abuse in AD Certificate Services let a low-priv user request admin certs. The red team reached all targeted systems, pivoted to cloud, and read SOC emails to confirm no detection. Multiple siloed SOCs with different EDR solutions and no cross-team visibility meant a real SCCM alert was marked false positive and never escalated.
-
-- Organization B (Water/Wastewater) caught the initial compromise fast and forced an assume-breach posture, but still had critical gaps: a plaintext password in an XML file on an SCCM share, leading to DCSync and krbtgt hash extraction, enabling Golden Tickets. RDP files on a jump server exposed an OT-adjacent bastion reachable via FTP creds and SSH.
-
-- Both orgs lacked Conditional Access for workload identities, letting the red team abuse Microsoft Graph API permissions to read tenant-wide email. Org A also had non-expiring AWS IAM keys sitting in user home directories.
-
-Treat SCCM as Tier 0. Audit ADCS templates for CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT. Hunt cleartext creds on shares. Enable Conditional Access for workload identities now. Full ATT&amp;CK mapping is in advisory AA26-237A.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2092764746672193941</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2092764746672193941">DFIR Radar</source>
-      <pubDate>Thu, 27 Aug 2026 00:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2092764746672193941</guid>
     </item>
   </channel>
 </rss>
