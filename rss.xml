@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Sep 2026 11:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Sep 2026 12:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Chinese Hackers Use AI Agents in Multi-Country Cyber Campaign</title>
+      <link>https://securityaffairs.com/198417/ai/chinese-hackers-use-ai-agents-in-multi-country-cyber-campaign.html</link>
+      <description>Chinese 🇨🇳 actors deploy the SecFlow AI orchestration framework across five countries, using Claude, Qwen, and DeepSeek to automate reconnaissance, exploitation, and credential theft against government and industrial targets.
+
+- Five accidentally exposed open directories let Hunt.io reconstruct the entire SecFlow operation from the inside. The framework split tasks across AI "workers" (reconnaissance, exploitation, collection, reporting) and routed model requests through private proxies tied to niestools[.]com, avoiding official APIs and attribution.
+
+- The deepest confirmed breach hit a Fengtai District government OA environment: ASPX webshells provided persistent access, LSASS was dumped in 37 chunks via an authenticated SOCKS route to evade size-based detection, and SAM/SYSTEM hives were pulled. 822 user records, 949 attachments (1.28 GB), and patient health data were exfiltrated.
+
+- The webshell toolkit, named GLUTTON by the operators, hid payloads inside PNG files using steganography. Code was XOR-encrypted and embedded in RGB channel data, then decoded and loaded directly into memory server-side. File-extension or content-type controls will not catch this.
+
+- A fake MySQL deserialization service flipped initial access: it accepted connections from vulnerable Java clients and returned crafted responses to trigger remote code execution on the connecting host, turning an outbound database query into inbound execution.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095845173787852946</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2095845173787852946">DFIR Radar</source>
+      <pubDate>Fri, 04 Sep 2026 12:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2095845173787852946</guid>
+    </item>
     <item>
       <title>Attacking and Defending SCOM: Management Server Relay and Obtaining Run As Credentials</title>
       <link>https://www.guidepointsecurity.com/blog/attacking-and-defending-scom/</link>
@@ -1601,27 +1620,6 @@ Update to 5.0.2 immediately.
       <source url="https://x.com/DFIR_Radar/status/2093021336662581447">DFIR Radar</source>
       <pubDate>Thu, 27 Aug 2026 17:02:28 +0000</pubDate>
       <guid isPermaLink="false">2093021336662581447</guid>
-    </item>
-    <item>
-      <title>Cleartext Credential Recovery in ServiceNow</title>
-      <link>https://specterops.io/blog/2026/08/27/cleartext-credential-recovery-servicenow/</link>
-      <description>Attackers with ServiceNow discovery_admin rights can backdoor the CredentialTestAjax script include to dump cleartext secrets, including SSH keys, Entra ID service principal secrets, and AWS keys, from the discovery_credentials table.
-
-Key details:
-
-- The technique targets the CredentialTestAjax script include via a POST to /xmlhttp.do. Inserting an early return before the SNC.CredentialTest.test() call forces the server to return the decrypted JSON blob to the client, bypassing the UI restriction that hides raw secrets even from admins. Works for all 27 discovery credential types, not just Windows accounts.
-
-- Requires discovery_admin (or agent_admin plus script_include_admin), which also grants read access to discovery_credentials via sys_id lookup. discovery_admin bundles script_include_admin by default, so one overprivileged account unlocks the full chain.
-
-- LDAP credentials stored in ldap_server_config use the Password2 field type. A separately created script include calling getDecryptedValue() recovers cleartext LDAP bind passwords and requires only script_include_admin, fewer rights than the existing forced-auth LDAP technique.
-
-- Forensic pivot: review the sys_script_include audit log for recent modifications to CredentialTestAjax or any newly created script includes. Correlate with /xmlhttp.do AJAX calls in HTTP access logs around the same timestamps.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2093006371826581874</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2093006371826581874">DFIR Radar</source>
-      <pubDate>Thu, 27 Aug 2026 16:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2093006371826581874</guid>
     </item>
   </channel>
 </rss>
