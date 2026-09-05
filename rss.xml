@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Sep 2026 22:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 05 Sep 2026 07:03:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PEEP: A Browser RAT Posing as a Chrome Extension</title>
+      <link>https://socradar.io/blog/peep-browser-rat-chrome-extension/</link>
+      <description>PEEP, a RedExt-derived browser RAT disguised as "Smart Bookmarks," converts Chrome and Edge into persistent backdoors with host-level command execution, session theft, and file access, all over plaintext HTTP.
+
+Key findings:
+
+- PEEP is a post-exploitation toolkit requiring prior admin or code execution access. Its PowerShell installers (install_silent.ps1, patch_secure_prefs.ps1) forge Chromium's Secure Preferences HMAC-SHA256 integrity values (protection.macs and super_mac) so the sideloaded extension passes the browser's own integrity check and silently re-enables at every launch (T1553). Four layered persistence mechanisms, Secure Preferences forgery, enterprise ExtensionInstallForcelist policy, external sideloading, and a ScriptCache "Ghost Anchor" fallback, mean no single cleanup action removes all of it.
+
+- The native-messaging host com.peep.lab (nm_host.exe, a 37.7 MB unsigned Node.js pkg binary) bridges the browser sandbox to the OS, supporting NM_SHELL (cmd/PowerShell/bash), filesystem read/write/delete, process listing, and service enumeration. The agent beacons every 30 seconds over plaintext HTTP to 206.237.30[.]232 (AS55933, Cloudie, Hong Kong) with X-PEEP-Agent-Key and X-PEEP-Agent-Id headers, auto-exfiltrating cookies, history, and open tabs to /api/exfil.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096132067654332497</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2096132067654332497">DFIR Radar</source>
+      <pubDate>Sat, 05 Sep 2026 07:03:24 +0000</pubDate>
+      <guid isPermaLink="false">2096132067654332497</guid>
+    </item>
     <item>
       <title>Outsider Phishing Kit Survives Takedown With 700 New Pages</title>
       <link>https://www.infosecurity-magazine.com/news/outsider-phishing-kit-survives/</link>
@@ -1577,25 +1594,6 @@ Patch to versions 25 or 26 emergency builds now.
       <source url="https://x.com/DFIR_Radar/status/2093293035303887177">DFIR Radar</source>
       <pubDate>Fri, 28 Aug 2026 11:02:06 +0000</pubDate>
       <guid isPermaLink="false">2093293035303887177</guid>
-    </item>
-    <item>
-      <title>When it Snows it Pours – Anatomy of a ServiceNow Red Team</title>
-      <link>https://www.mdsec.co.uk/2026/08/when-it-snows-it-pours-anatomy-of-a-servicenow-red-team/</link>
-      <description>ServiceNow is being abused as a full-spectrum attack platform: session hijack to tenant admin, cloud-to-on-prem pivot via MID servers, and fileless C2, all without detection across multiple real engagements.
-
-Key findings:
-
-- Initial access into tenants came from cookie hijacking, config.xml files left on file shares containing MID service account credentials, and two prior unauthenticated RCE zero-days. MDSec identified 24+ roles that allow privilege escalation via Glide script execution, including catalog_admin, import_admin, and sn_cmdb_editor, the last found assigned to 10,000+ users across HR, finance, legal, and third-party contractors across three engagements.
-
-- Persistence was achieved by backdooring the built-in "Discovery - Set Status" business rule to re-create a hidden admin user daily, and via scheduled jobs (SnowFall C2) making outbound GET/POST calls every 10 minutes to a redirector, executing arbitrary eval'd Glide script responses, entirely fileless and living in the SaaS layer.
-
-- Cloud-to-on-prem pivoting used the ECC Queue to send OS commands directly to named MID servers, or custom JAR plugins uploaded via the UI. From there: pivot to SCCM, own the estate.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2093278016470450454</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2093278016470450454">DFIR Radar</source>
-      <pubDate>Fri, 28 Aug 2026 10:02:25 +0000</pubDate>
-      <guid isPermaLink="false">2093278016470450454</guid>
     </item>
   </channel>
 </rss>
