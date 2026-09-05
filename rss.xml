@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 05 Sep 2026 09:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 05 Sep 2026 16:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Digital Forensics: Fixing a Corrupted Disk After File Exfiltration</title>
+      <link>https://hackers-arise.com/digital-forensics-repairing-a-damaged-hard-drive-and-extracting-the-data/</link>
+      <description>Corrupted MBR used to obstruct investigation into insider data exfiltration. NTFS artifacts including $MFT and $UsnJrnl expose the full attack chain despite deliberate anti-forensic wiping.
+
+Key findings:
+
+- The MBR's final two bytes (boot signature 0x55 0xAA) were overwritten to prevent tools like Autopsy and FTK Imager from reading the image. Repair requires a hex editor such as HxD: overwrite, never delete, those bytes to restore the signature before any further analysis.
+
+- After repair, export and parse MFT with MFTECmd.exe (Eric Zimmerman's EZTools): MFTECmd.exe -f ..\Evidence$MFT --csv ..\Evidence\ --csvf MFT.csv. Even deleted file records survive here, revealing Excel sheets, PDFs, and zip archives flagged as sensitive corporate data.
+
+- $UsnJrnl (J) logged the full exfiltration sequence: a folder named "data Exfil" was created, files were appended to "New Compressed (zipped) Folder.zip", then renamed and deleted. Parse J with MFTECmd, open in Timeline Explorer, and filter Update Reason to FileDelete.
+
+- DiskWipe.exe was found on the second partition. To confirm execution and tie actions to a user, extend the investigation into Prefetch, Shellbags, registry, and NTUSER.DAT.
+
+Always hash-verify the forensic image before touching it, then work only on a verified copy. MFT and $UsnJrnl together reconstruct what wipers try to erase.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096267973824491816</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2096267973824491816">DFIR Radar</source>
+      <pubDate>Sat, 05 Sep 2026 16:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2096267973824491816</guid>
+    </item>
     <item>
       <title>Elementor Pro RCE Flaw Under Active Attack</title>
       <link>https://socradar.io/blog/elementor-pro-rce-under-attack/</link>
@@ -1563,25 +1586,6 @@ Before patching, preserve server/logs directory, pc-app.exe process trees, and n
       <source url="https://x.com/DFIR_Radar/status/2093323619552125416">DFIR Radar</source>
       <pubDate>Fri, 28 Aug 2026 13:03:38 +0000</pubDate>
       <guid isPermaLink="false">2093323619552125416</guid>
-    </item>
-    <item>
-      <title>Gryxa: The AI-Built Toolkit That Watches How You Remove It</title>
-      <link>https://reliaquest.com/blog/gryxa-the-ai-built-toolkit-that-watches-how-you-remove-it/</link>
-      <description>Gryxa, a new AI-built toolkit used by a financially motivated single operator, compromises 324 hosts via RMM abuse and actively collects forensic evidence of defender remediation to improve its next move.
-
-Key findings:
-
-- Gryxa abuses legitimate RMM software for covert access, maintains persistence via at least 7 scheduled tasks across two layers (3 running as SYSTEM at 1/5/15-min intervals, 4 more mimicking Microsoft tasks), a permanent WMI event subscription, and an off-path file cache in C:\ProgramData\WinRTCS, C:\ProgramData\Microsoft\Windows\WER\Temp\.wucache, and C:\ProgramData\Microsoft\Diagnosis\State\.etlcache. Any deleted component rebuilds within 60 seconds.
-
-- Partial containment triggers a countermeasure: when the actor's relay is unreachable for 2 consecutive 5-min guard cycles, Gryxa disables Defender and stops EDR services; at 3 failures it reads the uninstall string from the registry and silently removes the endpoint agent in roughly 10-13 minutes. Defender is re-enabled once the relay recovers, so a healthy AV status is not evidence of a clean host.
-
-- A surviving component collects scheduled tasks, WMI subscriptions, installer logs, service-control logs, process-creation events, and an RMM inventory, packages them, and uploads to actor infrastructure, exposing the responder's tools, accounts, and sequence to the actor. This is a named console job: collect-forensics.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2093308230440997350</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2093308230440997350">DFIR Radar</source>
-      <pubDate>Fri, 28 Aug 2026 12:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2093308230440997350</guid>
     </item>
   </channel>
 </rss>
