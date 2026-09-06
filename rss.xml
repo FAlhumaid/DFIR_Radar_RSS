@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 06 Sep 2026 17:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 06 Sep 2026 18:02:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Your MikroTik Router May Already Be Compromised: Look for SSH User “-2”</title>
+      <link>https://securityaffairs.com/198538/security/your-mikrotik-router-may-already-be-compromised-look-for-ssh-user-2.html</link>
+      <description>MikroTik RouterOS zero-day chain "MikroTrick" under active exploitation since Sept 2, combining SSH auth bypass (CVE-2026-67276, CVSS 9.2) and privilege escalation to deliver unauthenticated full admin access.
+
+Key findings:
+
+- CVE-2026-67276 abuses a flaw in RSA public key verification: an attacker knowing a valid username and the public key can forge authentication without the private key. Chained with CVE-2026-86060 (privilege escalation), the result is root-level access with no credentials required on any internet-exposed RouterOS device with SSH open.
+
+- Exploitation began Sept 2, one day before MikroTik shipped patches on Sept 3, confirming this was a zero-day. Attacks originated from 82.192.72[.]4 (Leaseweb) serving a BusyBox MIPS binary plus ftpsrv.py, launch.sh, and serve.py. A second IP, 103.102.31[.]18, is also linked. Three of four files had zero VirusTotal detections at time of writing.
+
+- Detection artifacts: failed exploit attempts log the username -2, which is invalid and should never appear. Successful compromise shows ssh:-2@IP in /system history, followed by user creation ("ops" account confirmed), SSH key addition, firewall changes, or proxy/tunnel setup.
+
+- Patch to 7.24.2, 7.23.5, or 6.49.21 immediately. Devices behind MikroTik's default firewall with SSH not exposed are likely safe, but any device with SSH reachable from untrusted networks must be treated as compromised until inspected.
+
+Grep /system history for ssh:-2 entries now.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096660279023333595</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2096660279023333595">DFIR Radar</source>
+      <pubDate>Sun, 06 Sep 2026 18:02:19 +0000</pubDate>
+      <guid isPermaLink="false">2096660279023333595</guid>
+    </item>
     <item>
       <title>Attackers conceal phishing lures using invisible Unicode characters</title>
       <link>https://www.bleepingcomputer.com/news/security/attackers-conceal-phishing-lures-using-invisible-unicode-characters/</link>
@@ -1541,29 +1564,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2093383917202026715">DFIR Radar</source>
       <pubDate>Fri, 28 Aug 2026 17:03:14 +0000</pubDate>
       <guid isPermaLink="false">2093383917202026715</guid>
-    </item>
-    <item>
-      <title>TeamPCP Arrests: Two Charged in Australia Over the Supply Chain Campaign That Hit 1,000+ Organizations</title>
-      <link>https://socradar.io/blog/teampcp-arrest-two-australia-supply-chain-campaign/</link>
-      <description>Australian 🇦🇺 AFP and FBI charge two men over TeamPCP supply chain campaign that hit 1,000+ organizations, stealing 500,000+ credentials via poisoned Trivy and LiteLLM packages.
-
-Key findings:
-
-- TeamPCP (also tracked as UNC6780, PCPcat, ShellForce, DeadCatx3) exploited a privileged token surviving an incomplete rotation in Trivy's GitHub Actions workflows, then published poisoned Trivy releases that flowed into LiteLLM's build pipeline. Two malicious PyPI packages harvested cloud keys, SSH keys, Kubernetes tokens, database passwords, and AI provider credentials. The ecosystem flaw is CVE-2026-33634, added to CISA KEV on 26 March 2026.
-
-- Scope: 1,000+ organizations potentially compromised, 300+ GB exfiltrated, remediation costs estimated in the hundreds of millions. Affected packages arrived transitively through DSPy, MLflow, CrewAI, OpenHands, and Arize Phoenix.
-
-- Credentials from the March 2026 exposure were brokered on Telegram within weeks and tied to the Vect ransomware affiliate program, with panel access distributed through BreachForums in April 2026. Arrest does not retire that market.
-
-- AFP confirmed the syndicate is larger than two defendants and seized data remains under forensic examination. Further arrests are not ruled out.
-
-Practitioner action: Arrests change nothing about your exposure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2093368762892222587</description>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2093368762892222587">DFIR Radar</source>
-      <pubDate>Fri, 28 Aug 2026 16:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2093368762892222587</guid>
     </item>
   </channel>
 </rss>
