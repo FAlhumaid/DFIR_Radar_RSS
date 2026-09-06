@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 05 Sep 2026 20:03:29 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 06 Sep 2026 16:03:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rhysida in Germany - From an Early Ransomware Payload to the 2026 Stuttgart and Berlin Threat…</title>
+      <link>https://detect.fyi/rhysida-in-germany-from-an-early-ransomware-payload-to-the-2026-stuttgart-and-berlin-threat-33e551c2bc02?source=rss----d5fd8f494f6a---4</link>
+      <description>Rhysida hit German 🇩🇪 state administration in 2026: Stuttgart listed on the leak site in May, Berlin confirmed data exfiltration across five days in August before network separation. The attack chain runs far upstream of the ransomware binary.
+
+Key findings:
+
+- The Vanilla Tempest/Rhysida ecosystem chains malvertising to trojanized installers (including fake Teams from microsoft-teams[.]icu), Endico loader, Broomstick/Oyster backdoor, Vidar infostealer, and Supper for persistent post-compromise access before Rhysida deploys. Fox Tempest provided malware-signing-as-a-service via signspace[.]cloud, generating 1,000+ fraudulent certs so payloads passed trust checks.
+
+- Supper C2s active around the Stuttgart window: 213.232.236[.]211:80 (May 2026), 185.233.166[.]26:8443 and 194.61.120[.]130:443 (April 2026). Broomstick C2s include coretether[.]com, nucleusgate[.]com, registrywave[.]com. Persistence via a scheduled task named AlphaSecurity.
+
+- Recon sequence to hunt: nltest /dclist, nltest /trusted_domains, net group "domain admins" /domain, net group "domain computers" /domain, DirectoryServices.DirectorySearcher, all within a short window from the same host. Density and sequence matter more than any single command.
+
+- Impact artifacts are high-confidence but late: CriticalBreachDetected.pdf on disk or a burst of .rhysida extensions combined with VSS deletion and event-log clearing (T1490, T1486, T1070.001) should trigger immediate containment, ideally automated.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096630336994078980</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2096630336994078980">DFIR Radar</source>
+      <pubDate>Sun, 06 Sep 2026 16:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2096630336994078980</guid>
+    </item>
     <item>
       <title>PaperCut Flaws Exploited in Attacks on U.S. and European Schools</title>
       <link>https://securityaffairs.com/198476/hacking/papercut-flaws-exploited-in-attacks-on-u-s-and-european-schools.html</link>
@@ -1553,27 +1574,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2093353763843227906">DFIR Radar</source>
       <pubDate>Fri, 28 Aug 2026 15:03:25 +0000</pubDate>
       <guid isPermaLink="false">2093353763843227906</guid>
-    </item>
-    <item>
-      <title>Gryxa: The AI-Built Toolkit That Watches How You Remove It</title>
-      <link>https://reliaquest.com/blog/threat-spotlight-gryxa-ai-built-toolkit/</link>
-      <description>Gryxa, an AI-built RMM abuse toolkit, watches defenders remove it and uploads forensic evidence of the response to the threat actor, across 324 compromised hosts.
-
-Key findings:
-
-- Gryxa uses phishing (invoice_&lt;10digits&gt;.exe) to drop an RMM implant, then builds 7 scheduled tasks in two layers, a permanent WMI event subscription, and a hidden off-path file cache across C:\ProgramData\WinRTCS, .wucache, and .etlcache paths. Any deleted component rebuilds within one minute. Removing the visible RMM client alone does nothing.
-
-- Partial containment starts a clock. When Gryxa loses contact with its relay (wirbe[.]com, seczio[.]com, sevrz[.]com, gryxa[.]com, IPs 144.172.107[.]56 and 209.145.55[.]189), it disables Defender and issues silent uninstall commands against EDR within 10-13 minutes. Defender re-enables once the relay returns, and Defender exclusions it added are never reverted.
-
-- After the RMM implant is removed, a surviving component runs the built-in collect-forensics job: it packages scheduled tasks, event subscriptions, installer logs, process-creation logs, and an RMM inventory, then uploads the archive to actor infrastructure. The attacker reads your response before their next move.
-
-- Credentials from Chromium-based browsers exit via Telegram in plaintext to a single operator account. Around 40 crypto exchange domains are checked for priority; 69 wallet extension IDs are flagged for manual follow-up over the RMM session.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2093338625014374891</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2093338625014374891">DFIR Radar</source>
-      <pubDate>Fri, 28 Aug 2026 14:03:16 +0000</pubDate>
-      <guid isPermaLink="false">2093338625014374891</guid>
     </item>
   </channel>
 </rss>
