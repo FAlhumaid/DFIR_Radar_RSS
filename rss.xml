@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 06 Sep 2026 18:02:19 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2026 11:03:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dissecting a PHP web server rootkit</title>
+      <link>https://www.sophos.com/en-us/blog/dissecting-a-php-web-server-rootkit</link>
+      <description>A fileless PHP web shell implant targeting F5 BIG-IP APM systems uses custom ELF loading, APR function hooking, and in-memory mmap patching to deliver attacker access with zero on-disk web shell artifacts.
+
+Key findings:
+
+- CVE-2025-53521 is the initial access vector: an unauthenticated RCE in BIG-IP APM when an access policy is configured on a virtual server. The second-stage payload (SHA256: 26bd5b0722d1dbab5db749a063c49bc8638653ac2addfead7a9cb3d6d57bccc9, detected as Linux/Agnt-IC) is deployed by a first-stage installer that infects /usr/sbin/httpd and survives BIG-IP upgrade images by targeting /mnt/tm_install workflows.
+
+- Execution begins before Apache's main() by hijacking __libc_start_main via a custom ELF loader that reads /proc/self/exe, manually maps an embedded ELF, and installs a wrapper, giving the implant full API resolution before any application thread starts. RC4 with key TrswBWIl90Z5e38n hides all operational strings at rest.
+
+- The web shell never touches disk. The implant hooks apr_dso_load to detect libphp loading, then patches open, mmap, and fxstat inside libphp to intercept PHP's file reads of apm_css.php3, full_wt.php3, and webtop_popup_css.php3. At mmap time it prepends the embedded PHP payload in memory only. The shell checks for magic prefix BSOHAzPB, decrypts with key wSLjN1beuR, evals, and returns HTTP 201 with Content-Type: text/css to blend in.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096917330835992665</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2096917330835992665">DFIR Radar</source>
+      <pubDate>Mon, 07 Sep 2026 11:03:46 +0000</pubDate>
+      <guid isPermaLink="false">2096917330835992665</guid>
+    </item>
     <item>
       <title>Your MikroTik Router May Already Be Compromised: Look for SSH User “-2”</title>
       <link>https://securityaffairs.com/198538/security/your-mikrotik-router-may-already-be-compromised-look-for-ssh-user-2.html</link>
@@ -1543,27 +1562,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2093400654450770119">DFIR Radar</source>
       <pubDate>Fri, 28 Aug 2026 18:09:44 +0000</pubDate>
       <guid isPermaLink="false">2093400654450770119</guid>
-    </item>
-    <item>
-      <title>The AI Attack Surface: How Threat Actors Abuse Trusted AI Platforms</title>
-      <link>https://www.huntress.com/blog/ai-attack-surface</link>
-      <description>Threat actors are abusing legitimate AI platforms including Claude, ChatGPT, and Grok as malware delivery channels, hitting 29+ organizations via SEO poisoning, sponsored search, and shared conversations hosted on trusted domains.
-
-Key findings:
-
-- FakeAgent campaign: users searching Bing for the Claude desktop app landed on a malicious Claude Artifact at claude.ai, visually impersonating a legitimate download page. The fake installer redirected to downloading-api.it[.]com and dropped SectopRAT. Incidents continued through August even after the artifact was removed.
-
-- A fake "Apple Support install guide" was hosted on a real claude.ai/share URL and surfaced via a sponsored Google result. Victims pasted a curl command into Terminal, triggering a six-stage MacSync stealer kill chain that harvested cookies, credentials, keychain secrets, SSH keys, and Telegram sessions.
-
-- ChatGPT and Grok shared conversations were SEO-poisoned to rank for queries like "Clear disk space on macOS." The plausible-looking troubleshooting advice delivered ClickFix-style Terminal commands that installed the AMOS stealer. A separate August variant used a fake OpenAI Codex download with the same TTPs.
-
-- The trust chain is the attack: real domains, valid TLS, recognizable branding, and no lookalike URLs mean standard phishing indicators fail to fire.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2093383917202026715</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2093383917202026715">DFIR Radar</source>
-      <pubDate>Fri, 28 Aug 2026 17:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2093383917202026715</guid>
     </item>
   </channel>
 </rss>
