@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 07 Sep 2026 15:02:35 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2026 16:03:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-67276: MikroTik RouterOS SSH Zero-Day Exploited in Router Takeover Attacks</title>
+      <link>https://socprime.com/blog/cve-2026-67276-mikrotik-routeros-ssh-zero-day/</link>
+      <description>CVE-2026-67276 (CVSS 9.2): MikroTik RouterOS SSH auth-bypass was exploited as a zero-day before patches shipped, enabling full router takeover when chained with CVE-2026-86060.
+
+Active exploitation confirmed:
+
+- CVE-2026-67276 (CWE-347) lets an attacker authenticate via SSH as any RouterOS user without possessing the private key. RouterOS only partially validated the RSA public key modulus, so a crafted key passes verification. Knowing a valid username and the target account's public modulus is enough. Chained with CVE-2026-86060, a privilege-escalation bug triggered by SSH usernames beginning with a prohibited character, unauthenticated attackers gain full administrative control. CERT Polska named this two-stage chain MikroTrick. Exploitation confirmed from 82.192.72[.]4 and 103.102.31[.]18. Observed post-compromise artifact: a privileged account named ops.
+
+- Zero-day window is real. Evidence places exploitation at September 2, 2026, one day before MikroTik published fixes on September 3. Patch any device with public SSH exposure and treat it as potentially compromised, not just unpatched.
+
+- Log indicators to hunt now: "login failure for user -2 via ssh" and "user added by ssh:-2@IP". The string -2 is not a valid RouterOS username and maps directly to the privilege-manipulation stage.
+
+Patch to RouterOS 7.24.2, 7.23.5, or 6.49.21. Run /system/device-mode/print and check for Flagged status.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096992714755551450</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2096992714755551450">DFIR Radar</source>
+      <pubDate>Mon, 07 Sep 2026 16:03:18 +0000</pubDate>
+      <guid isPermaLink="false">2096992714755551450</guid>
+    </item>
     <item>
       <title>Hackers exploit new MikroTik RouterOS flaws to hijack routers</title>
       <link>https://www.bleepingcomputer.com/news/security/hackers-exploit-new-mikrotik-routeros-flaws-to-hijack-routers/</link>
@@ -1559,27 +1580,6 @@ Takeaway: Query CloudTrail now for ConsoleLogin events where userIdentity.type i
       <source url="https://x.com/DFIR_Radar/status/2094577672664101064">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 00:06:48 +0000</pubDate>
       <guid isPermaLink="false">2094577672664101064</guid>
-    </item>
-    <item>
-      <title>Operation RepoGhost: Exposing a Russian-Linked Malware Campaign Hiding in GitHub’s Open-Source…</title>
-      <link>https://infosecwriteups.com/operation-repoghost-exposing-a-russian-linked-malware-campaign-hiding-in-githubs-open-source-85a5dd6fa01e?source=rss----7b722bfd1b8d---4</link>
-      <description>Russian-linked Operation RepoGhost has run 52 malicious GitHub repos since Nov 2025, cycling through CountLoader, Nova macOS stealer, and a Go-based infostealer to hit developers, researchers, and crypto users.
-
-Key findings:
-
-- The infection chain abuses scriptrunner.exe (a signed Microsoft App-V binary) to proxy-execute PowerShell (T1218), pull a stager from Pastebin, download main.exe from 172.237.119[.]163:8000, and load an obfuscated .NET assembly (mid4) entirely in memory. C2 is 194.102.104[.]141:22310. No phishing email, no ZIP, no extra prompt: running the fake PoC or tool IS the infection.
-
-- The in-memory .NET payload checks Win32_OperatingSystem MUILanguages for ru-RU and exits if found, a classic self-exclusion pattern supporting Russian 🇷🇺 attribution alongside the use of CountLoader and Nova, both documented in Russian-speaking crimeware ecosystems.
-
-- Repos were boosted via inflated star/fork counts (one fake CVE-2026-41940 PoC had 313 stars, 39 forks) to rank in GitHub and Google searches, making SEO poisoning the discovery mechanism. Earlier payloads pulled NovaStealer from 217.156.122[.]146; CountLoader staged through python3-library-node[.]com and py-installer[.]cc.
-
-Takeaway: Hunt your environment for scriptrunner.exe spawning PowerShell (T1218), memory-only .NET assemblies, and outbound connections to 194.102.104[.]141:22310. Use ExtremeDumper on suspicious Go processes to recover injected assemblies.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2093595327752556609</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2093595327752556609">DFIR Radar</source>
-      <pubDate>Sat, 29 Aug 2026 07:03:18 +0000</pubDate>
-      <guid isPermaLink="false">2093595327752556609</guid>
     </item>
   </channel>
 </rss>
