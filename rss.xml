@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 07 Sep 2026 18:02:31 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2026 19:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>StyleSmuggler: The Magento Zero-Day Behind New Store Attacks</title>
+      <link>https://securityaffairs.com/198603/uncategorized/stylesmuggler-the-magento-zero-day-behind-new-store-attacks.html</link>
+      <description>StyleSmuggler: an actively exploited Magento zero-day gives unauthenticated attackers RCE on fully patched stores running 2.4.7 through 2.4.9, with exploitation observed since September 4, 2026.
+
+- Zero-day, no patch as of September 7. StyleSmuggler abuses Magento's template system via GraphQL-related handling and the styles property to inject PHP code, then triggers execution during the "Payment Transaction Failed Reminder" email render. No user interaction required. Stores running July/August 2026 patches with a clean patch-status result are still vulnerable.
+
+- Post-exploitation drops a Rust backdoor masquerading as [kworker/u:8:0], fc-cache, then chronyd. C2 sends 48-byte UDP packets to port 123 using the domain ntp.timesync.to[.]to disguised as NTP traffic. The implant beacons every 60 seconds and exfiltrates hostname, OS version, root status, and memory metrics. Linked C2 IP: 185.157.160[.]251.
+
+- A second actor deployed a PHP web shell inside pub/media using hash-named directories, only responding with a correct X-Cache-Token header. An OAST callback to 457cfa2fb7p5.daf892t5qau4og8pi4cghbc6fhm1dim3u.oast[.]site confirmed code execution.
+
+Interim control: disable GraphQL if no compensating WAF rule blocks this exploit. Hunt for fc-cache or chronyd running from temp or hidden paths, inspect outbound UDP/123, and review crontab command not allowed in web-service-user logs. Full IOC list, hashes, and C2 infrastructure in the Sansec report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097037978954559970</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2097037978954559970">DFIR Radar</source>
+      <pubDate>Mon, 07 Sep 2026 19:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2097037978954559970</guid>
+    </item>
     <item>
       <title>Tracking BigBear 2.0 Evilginx2 Phishing Campaign</title>
       <link>https://www.cloudsek.com/blog/tracking-bigbear-2-0-evilginx2-phishing-campaign</link>
@@ -1549,21 +1568,6 @@ Takeaway: Query CloudTrail now for ConsoleLogin events where userIdentity.type i
       <source url="https://x.com/DFIR_Radar/status/2094622147809309047">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 03:03:31 +0000</pubDate>
       <guid isPermaLink="false">2094622147809309047</guid>
-    </item>
-    <item>
-      <title>Breaking the Seal: Static Deobfuscation of JSCeal’s Compiled V8 Bytecode</title>
-      <link>https://research.checkpoint.com/2026/breaking-the-seal-static-deobfuscation-of-jsceals-compiled-v8-bytecode/</link>
-      <description>JSCeal crypto-stealer hides inside compiled V8 bytecode. Check Point Research built a fully static deobfuscation pipeline to crack it open without executing the malware, exposing keylogging, browser credential theft, and an HTTPS MITM proxy.
-
-- JSCeal (also tagged WEEVILPROXY or MeadowLocust) arrives as app.jsc, a Brotli-compressed V8 code cache executed by a bundled Node.js runtime. The delivery chain starts with malvertising, drops multiple PowerShell stages, and unpacks two ZIPs: node.zip (the runtime) and build.zip (the payload plus winpty-agent.exe, winpty.dll, and preflight.js). Because the JavaScript was obfuscated with javascript-obfuscator before V8 compilation, analysts receive RC4-encrypted string chunks, control-flow flattening, proxy indirection, and operation wrappers on top of version-sensitive bytecode.
-
-- Check Point's open-source jsc_deobfuscator pipeline (github.com/hasherezade/jsc_deobfuscator) layers: Brotli decompression, V8 disassembly (patched for the exact Node.js V8 10.2.154.26-node.25 build), View8 decompilation with pickle serialization, then ordered passes: value propagation, RC4 string reconstruction (~130k encoded chunks per sample), control-flow unflattening, proxy/operation resolution. An optional LLM renaming stage (Claude or GPT) labels the resulting function graph. All 23 collected payloads produced analyzable output.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094607131412484552</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2094607131412484552">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 02:03:51 +0000</pubDate>
-      <guid isPermaLink="false">2094607131412484552</guid>
     </item>
   </channel>
 </rss>
