@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 18:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 19:05:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Token Analysis and Tracking System (TATS)</title>
+      <link>https://specterops.io/blog/2026/09/08/token-analysis-and-tracking-system-tats/</link>
+      <description>TATS is a new open-source tool for live OAuth token tracking in Microsoft cloud environments, and it already uncovered two CAP gaps defenders need to understand.
+
+Key findings:
+
+- TATS (github.com/IceMoonHSV/TATS) collects and decodes OAuth tokens via Burp import, Chrome DevTools Protocol, or mitmproxy, storing them in a database with a web GUI. It visualizes exchanges as Mermaid graphs and sequence diagrams, tracks refresh token chains, and flags FOCI and brokered client ID (BroCI) behavior specific to Microsoft's OAuth deviations.
+
+- Audience mismatch: tokens issued with management.core.windows[.]net as the aud claim were accepted by management.azure[.]com and portal.azure[.]com, meaning Microsoft is not strictly enforcing audience binding as OAuth spec requires.
+
+- Pre-MFA token issuance: after username and password entry, access and refresh tokens were issued before the MFA prompt appeared. The amr claim confirmed MFA was absent. While the portal itself enforced MFA, those tokens could be brokered to nested apps like Key Vault if no explicit Conditional Access Policy (CAP) covered them.
+
+- The CAP gap is the real risk: relying solely on MFA enforcement at the admin portal level leaves nested applications exposed to token brokering abuse if they lack their own CAP.
+
+Defenders: audit your CAPs to confirm MFA is required at the resource level, not just the portal.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097400906207863001</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2097400906207863001">DFIR Radar</source>
+      <pubDate>Tue, 08 Sep 2026 19:05:19 +0000</pubDate>
+      <guid isPermaLink="false">2097400906207863001</guid>
+    </item>
     <item>
       <title>The Job Offer Has Claws: Mirage Kitten Deploys NodeRabbit and PollCat</title>
       <link>https://blog.polyswarm.io/the-job-offer-has-claws-mirage-kitten-deploys-noderabbit-and-pollcat</link>
@@ -1525,23 +1548,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2094803172044820542">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 15:02:51 +0000</pubDate>
       <guid isPermaLink="false">2094803172044820542</guid>
-    </item>
-    <item>
-      <title>EtherHiding Exposed: What Security Leaders Need to Know</title>
-      <link>https://www.guidepointsecurity.com/blog/etherhiding_exposed_what_security_leaders_need_to_know/</link>
-      <description>EtherHiding ClickFix campaign has backdoored at least 31 organizations, using the Polygon blockchain as unkillable C2 infrastructure. North Korean 🇰🇵 and Iranian 🇮🇷 state actors adopted the tactic by late 2025 and early 2026 respectively.
-
-- ClickFix delivers the payload: compromised WordPress/Magento sites show a fake CAPTCHA, instructing visitors to press Win+R and paste a command. This installs a backdoor that persists via a scheduled task named "Enter" (1-minute beacon cadence) and a Registry Run value named PersonalizedUpdates under HKCU:\...\Run. The malicious browser extension ID bpknfkhjjbjgagobdaekmnlgdhbbpcea is the durable host-based indicator, surviving cosmetic name changes.
-
-- C2 resilience via Polygon blockchain: infected machines query smart contract 0xde2d34339c279a7a79bc4fc1c4f37d3c055211b7 for live C2 addresses. The attacker rotates infrastructure for fractions of a cent per transaction. Blocking a single IP or domain does not sever access. Monitor the event topic 0x868f5f914e26b486c50b15494d56c6b2f2f17f6514343909bd36a034c19452cc on Polygon RPC endpoints for campaign activity.
-
-- Staging server onemm[.]net (origin IP 37.27.52[.]152) was confirmed running 7 CISA KEV-listed CVEs including CVE-2023-4911, CVE-2023-44487, and CVE-2024-6387 (regreSSHion). C2 domains include 3262d48df5d75e34[.]shop and hivinest[.]online; delivery via 45a3158594d6ba76[.]fun and Folfdighdd[.]xyz.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094788230822629661</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2094788230822629661">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 14:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2094788230822629661</guid>
     </item>
   </channel>
 </rss>
