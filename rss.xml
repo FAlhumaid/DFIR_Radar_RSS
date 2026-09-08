@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 15:03:31 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 16:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ClickFix moves into the browser: Cryptocurrency theft with Google-hosted C2</title>
+      <link>https://blog.talosintelligence.com/clickfix-moves-into-the-browser/</link>
+      <description>ClickFix evolves into the browser: actors abuse Google Visualization API as C2 to steal cryptocurrency by hijacking fetch calls, clipboard, and deposit addresses inside live trading sessions.
+
+Key findings:
+
+- Campaign ran from October 2025 through at least August 2026, targeting users of SwapZone[.]io and SimpleSwap[.]io via lures on Telegram, DarkForums, and paste[.]sh. The social engineering hook is a fake "API Logic Flaw" vulnerability report promising 25-38% bonus payouts, aimed squarely at would-be fraudsters.
+
+- C2 is a publicly published Google Sheets document queried via the unauthenticated Visualization API at docs.google[.]com/spreadsheets/d/[id]/gviz/tq. The first-stage loader, pasted by the victim into Chrome's address bar as javascript: or into Tampermonkey, pulls two obfuscated cells from the sheet, reconstructs a payload in memory, and injects it into the live page. Tampermonkey install also provides cross-session persistence.
+
+- The second-stage skimmer overrides the browser's fetch API to swap legitimate wallet addresses in JSON responses, hijacks clipboard copy events, and uses MutationObserver to re-apply replacements after DOM updates. 49 BTC addresses were embedded; 24 received funds totaling 0.159 BTC, with proceeds routed through 3,000+ additional addresses consistent with mixing.
+
+- Detection is hard: all C2 traffic originates from the browser and blends with legitimate Google Docs HTTPS.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097355172309520752</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2097355172309520752">DFIR Radar</source>
+      <pubDate>Tue, 08 Sep 2026 16:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2097355172309520752</guid>
+    </item>
     <item>
       <title>CVE-2026-86206, CVE-2026-86207: N-able N-central Authentication Bypass (FIXED)</title>
       <link>https://www.rapid7.com/blog/post/ve-cve-2026-86206-cve-2026-86207-n-able-n-central-authentication-bypass-fixed</link>
@@ -1507,27 +1528,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2094757673107370331">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 12:02:03 +0000</pubDate>
       <guid isPermaLink="false">2094757673107370331</guid>
-    </item>
-    <item>
-      <title>China-linked Fire Ant Hides Inside Trusted Infrastructure</title>
-      <link>https://securityaffairs.com/198183/apt/china-linked-fire-ant-hides-inside-trusted-infrastructure.html</link>
-      <description>Chinese 🇨🇳 espionage group Fire Ant hijacked Cisco IOS XR routers, TACACS auth servers, and Linux jump hosts, surgically erasing evidence to pivot toward critical infrastructure through trusted network relationships.
-
-Key findings:
-
-- Fire Ant deployed purpose-built IOS XR implants, not generic Linux malware. One component masqueraded as a boot service and ran only during odd-numbered hours to evade scheduled audits. Another hooked the syslog function directly, silently dropping any log message not containing the string "Health," making the router's own audit trail selectively false.
-
-- TACACS credential theft went beyond credential harvesting: Fire Ant injected a malicious library into the live authentication daemon, intercepting plaintext credentials from every legitimate admin login in real time, sitting inside the process that decides who to trust. XOR key 0xEF on captured credentials overlaps with previously documented UNC3886 tooling.
-
-- On Linux hosts, backdoors posed as system services, one impersonating a SentinelOne agent, remaining active in memory after its on-disk file was deleted. A passive backdoor inspected raw traffic for a magic string before activating, leaving no listening port to find. Some implants had been dormant since 2025.
-
-- Evidence was actively rewritten: wtmp, utmp, and btmp login records were edited to replace the router's real IP with an internal address, and sudo entries were stripped from system logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094742793025687658</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2094742793025687658">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 11:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2094742793025687658</guid>
     </item>
   </channel>
 </rss>
