@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 14:04:15 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 15:03:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-86206, CVE-2026-86207: N-able N-central Authentication Bypass (FIXED)</title>
+      <link>https://www.rapid7.com/blog/post/ve-cve-2026-86206-cve-2026-86207-n-able-n-central-authentication-bypass-fixed</link>
+      <description>Two chained flaws in N-able N-central let an unauthenticated remote attacker bypass auth and create a System Administrator account. Patch to version 2026.3.1.13 immediately.
+
+Key findings:
+
+- CVE-2026-86206 (CVSS 6.9) is a path-parsing and header-spoofing bypass. A crafted URI like /dms;/services/ServerUI fools Envoy into routing the request while Jetty strips the semicolon and dispatches to the protected SOAP servlet. Simultaneously, a Forwarded header with for="127.0.0.\1" causes Jetty to resolve the address as 127.0.0.1, while N-central's own LocalHostUtils parser sees an invalid value and fails open, granting local trust to a remote caller.
+
+- CVE-2026-86207 (CVSS 7.7) is an auth bypass in UserTwoFactorLogin. Built-in accounts (User ID 1 N-able Administrator, 50 Product Administrator, 51 N-able Support) have no legacy 2FA profile, so calling User.TwoFactorLogin with a dummy password throws an exception. The session-user binding set before the auth attempt is never cleaned up, leaving a fully authenticated SOAP session without valid credentials.
+
+- Chained, these give a remote unauthenticated attacker a privileged SOAP session they can use to create a new attacker-controlled System Administrator account via the ServerUI2 endpoint. All N-central versions before 2026.3.1.13 are vulnerable.
+
+On-premise N-central operators: apply N-central 2026.3 Hotfix 3 (2026.3.1.13) out-of-band now.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097340057921499235</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2097340057921499235">DFIR Radar</source>
+      <pubDate>Tue, 08 Sep 2026 15:03:31 +0000</pubDate>
+      <guid isPermaLink="false">2097340057921499235</guid>
+    </item>
     <item>
       <title>HVNC Backdoor Targets LATAM Organizations with Fake Tax and DocuSign Lures</title>
       <link>https://any.run/cybersecurity-blog/hvnc-backdoor-targets-latam/</link>
@@ -1507,29 +1528,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2094742793025687658">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 11:02:55 +0000</pubDate>
       <guid isPermaLink="false">2094742793025687658</guid>
-    </item>
-    <item>
-      <title>Hackers Are Probing PaperCut Servers, and 47% Still Have No Patch</title>
-      <link>https://securityaffairs.com/198107/uncategorized/hackers-are-probing-papercut-servers-and-47-still-have-no-patch.html</link>
-      <description>CVE-2026-81578 and CVE-2026-82078 chain enables pre-auth RCE on PaperCut servers, actively exploited in the wild. 47% of tracked installs have no patch available.
-
-Key findings:
-
-- Two-CVE chain: CVE-2026-81578 is an authorization bypass where PaperCut checks permissions on the displayed page, not the action performed, allowing unauthenticated config changes. CVE-2026-82078 then loads unsafe Java classes via database utilities, enabling arbitrary code execution. Huntress confirmed SYSTEM-level RCE by triggering pc-app.exe to spawn charmap.exe without credentials.
-
-- Real-world attacks observed in two environments were brief recon runs, whoami, ver, and tasklist only, lasting under two minutes. No secondary malware or C2 observed yet. Treat this as pre-operational staging, not a clean bill of health.
-
-- Key forensic artifact: attackers drop a malicious .class file into PaperCut's installation directory, delete Udydn.out and server.log to cover tracks, but the Derby database log at /data/internal/derby.log survives. Look for the string "jdbc:derby:memory:pwn" as a high-confidence IOC.
-
-- Version 23 and earlier have no patch yet and represent roughly 47% of the ~2,500 Huntress-tracked installs. A confirmed attack already hit a version 24 server before its fix shipped.
-
-Patch PaperCut NG immediately if on version 25. If on v23 or earlier, pull the Application Server off the public internet now.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094727601147261055</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2094727601147261055">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 10:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2094727601147261055</guid>
     </item>
   </channel>
 </rss>
