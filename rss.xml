@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 20:05:21 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 21:03:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>THost9 Android RAT Pairs Packed Loader With ADB Worm</title>
+      <link>https://www.infosecurity-magazine.com/news/thost9-android-rat-packed-loader/</link>
+      <description>THost9 Android RAT combines a packed loader with an ADB worm that auto-spreads across exposed devices, active in incidents from October 2024 through mid-2026.
+
+Key findings:
+
+- The loader hides its second-stage payload (tc9.dex) inside an APK asset, decoded with single-byte XOR then gzip-decompressed and loaded dynamically. It starts a foreground service, scrubs itself from Android's Recents view, and requests accessibility service control where protected settings are already granted.
+
+- The second stage adds shell execution, file transfers, tunneling, reverse-shell, and downloadable modules. One build exposed an unauthenticated local controller socket. A newer build exits on Frida detection, a direct anti-analysis countermeasure targeting researchers.
+
+- The ADB worm is the standout: it discovers exposed ADB services via local service-discovery or operator targets, expands a single address to a 65,025-host sweep using 50 concurrent workers, authenticates with pre-loaded ADB key material, retrieves the installer, and runs it. On privileged sessions it can modify ADB settings and drop itself into a system directory.
+
+- Incident records link THost9 and predecessor THost4 to compromised Android phones and Redroid containers with public ADB exposure, spanning October 2024 to a July 2026 remediation that rebounded a Redroid deployment to localhost after infection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097430702228742455</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2097430702228742455">DFIR Radar</source>
+      <pubDate>Tue, 08 Sep 2026 21:03:43 +0000</pubDate>
+      <guid isPermaLink="false">2097430702228742455</guid>
+    </item>
     <item>
       <title>Improper OTP Implementation to Full Account Takeover</title>
       <link>https://infosecwriteups.com/improper-otp-implementation-to-full-account-takeover-df21e126f10f?source=rss----7b722bfd1b8d---4</link>
@@ -1535,23 +1556,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2094833282756268405">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 17:02:30 +0000</pubDate>
       <guid isPermaLink="false">2094833282756268405</guid>
-    </item>
-    <item>
-      <title>The Crypto Wallet That Never Opened: Tampered Exodus Installer Hides a Modular RAT</title>
-      <link>https://www.huntress.com/blog/exodus-crypto-wallet-installer-rat</link>
-      <description>A tampered Exodus Wallet installer delivered a six-module, memory-resident RAT to four organizations in under 90 minutes, using Azure Table Storage as a dead drop and never once showing a window to the victim.
-
-- Four Huntress-protected orgs hit between late July and Aug 18 2026, three within 85 minutes of each other. Initial access came via .pdf.js double-extension lures (chrome.exe as parent), a ZIP-staged .js file, and an unused search-ms: WebDAV path on 35[.]212.159[.]20 / us05[.]org. The MSI (SHA256: c513a7346484ee69a2931c4a89956ee50aa63e4366ef989315e669d8f10d7485, 0/76 on VirusTotal) installs to %APPDATA%\ExdBackupTool\, bypassing UAC entirely.
-
-- Three files inside app.asar were modified: exodus_patch.js overwrites BrowserWindow.show(), focus(), and center() so the wallet runs silently forever; keystokeage.js (50 MB) hides a PE32+ loader using koffi FFI calls to VirtualAlloc, WriteProcessMemory, and CreateThread. The 10 MB payload (SHA256: 8c3b41ea5a85778145a6e5772bfee2eb0f8b027d0af199fb71a76dfb8bb29e5a) is AES-256-CBC encrypted inline, never touches disk, and loads six plugin DLLs: dll4_cmd, dll4_fileman, dll4_browser, dll4_socks, dll4_vnc, and dll4_script.
-
-- C2 runs as an Azure Table Storage dead drop: lgapistorage123[.]table.core.windows.net, table ftable434, T_ rows for tasking, R_ rows for results, deleted after read. No attacker-owned domain in the network path.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094818297329885558</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2094818297329885558">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 16:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2094818297329885558</guid>
     </item>
   </channel>
 </rss>
