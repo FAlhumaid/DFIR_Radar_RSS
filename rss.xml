@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 03:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 13:04:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ClearFake WebDAV infection chain delivers Amatera stealer, ZigCryptoStealer, and NetSupport Manager</title>
+      <link>https://blog.talosintelligence.com/clearfake-webdav-infection-chain/</link>
+      <description>ClearFake + ClickFix chain delivers Amatera stealer to a Ukrainian 🇺🇦 government org via WebDAV DLL execution, with Russian-attributed secondary payload deploying unauthorized NetSupport Manager for persistent access.
+
+- Initial pivot: April 2026 endpoint telemetry showed rundll32.exe loading "verification.google" over a WebDAV UNC path, invoking export ordinal. The loader uses DLL hollowing into a clean dbghelp.dll mapping via TpAllocWork callback and direct WoW64 syscall stubs to evade EDR hooks. Talos tracks this cluster as UAT-10820.
+
+- The "pf.ch" branch reconstructs the full ClearFake chain: a Cloudflare Worker injects JS into a compromised site, pulls encoded next-stage code from BNB Smart Chain contract 0x886d310Ac23e05EA705e24E513D19f53793832A9 via bsc-testnet-rpc.publicnode[.]com (EtherHiding), then a fake Google CAPTCHA ClickFix prompt runs rundll32 via the Windows Run dialog against leaguejazire[.]com subdomains.
+
+- Amatera resolves its C2 via a Telegra.ph dead drop (decoding to 145.249.109[.]147:443); the "verification.google" build connects directly to 45.150.34[.]2:443 masquerading as github[.]com via TLS SNI. Secondary payloads: "pf.ch" deploys ZigCryptoStealer (clipboard hijacker in Zig, C2 via BNB contract 0x7CC3cFC1Ac007B8c6566fD2C7419b15a75473468, current domain lb.propertyfind[.]cc) plus a fileless Go reverse proxy over WebSocket to update.dubbedmuch[.]cc.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097310170003239327</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2097310170003239327">DFIR Radar</source>
+      <pubDate>Tue, 08 Sep 2026 13:04:46 +0000</pubDate>
+      <guid isPermaLink="false">2097310170003239327</guid>
+    </item>
     <item>
       <title>Attackers Exploit Unpatched Magento Zero-Day to Backdoor Online Stores</title>
       <link>https://thecyberexpress.com/attackers-exploit-unpatched-magento-zero-day/</link>
@@ -1511,23 +1528,6 @@ Patch PaperCut NG immediately if on version 25. If on v23 or earlier, pull the A
       <source url="https://x.com/DFIR_Radar/status/2094712604371406954">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 09:02:58 +0000</pubDate>
       <guid isPermaLink="false">2094712604371406954</guid>
-    </item>
-    <item>
-      <title>Mirage Kitten targeting aviation and FinTech sectors across the Middle East and Africa with a new malware set</title>
-      <link>https://securelist.com/mirage-kitten-new-backdoors-noderabbit-pollcat/121244/</link>
-      <description>Mirage Kitten debuts two cross-platform Node.js RATs, NodeRabbit and PollCat, targeting aviation and FinTech sectors across the Middle East and Africa via fake recruiter coding challenges.
-
-- Delivery chain (T1566.001, T1195): fake LinkedIn recruiters push trojanized ZIP archives disguised as timed developer assessments hosted on Amazon S3. The malicious server.js silently imports colorized_terminal or pretty-log from a bundled node_modules directory, launching the implant from node_modules/.cache/.320697f1/index.js as a detached process. The README explicitly told candidates not to touch server.js.
-
-- NodeRabbit persistence varies by OS and variant: on Windows, Variant 1 drops msedge_update.js to %APPDATA%\Microsoft\EdgeUpdate with a Run key; Variant 2 impersonates Intel DSA via a scheduled task named IntelDriverSupportUpdate; Variant 3 escalates to SYSTEM-level tasks from ProgramData, injects Git hooks (.git/hooks/post-merge), and installs a fake "GitHub Copilot Helper" VS Code extension. C2 uses AES-256-GCM over Azure subdomains: plugplay.azurewebsites[.]net, visitfinancedentists[.]com, healthcomfsdpower[.]com.
-
-- PollCat registers via HTTP POST to sahi-finance[.]com or gamebarapp.azurewebsites[.]net, treating HTTP 400 as a successful handshake, identical to the older MiniFast/Retrograde backdoor.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094697470827942096</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2094697470827942096">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 08:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2094697470827942096</guid>
     </item>
   </channel>
 </rss>
