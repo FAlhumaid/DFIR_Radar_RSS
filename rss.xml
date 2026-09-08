@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 13:04:46 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 14:04:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>HVNC Backdoor Targets LATAM Organizations with Fake Tax and DocuSign Lures</title>
+      <link>https://any.run/cybersecurity-blog/hvnc-backdoor-targets-latam/</link>
+      <description>A custom HVNC backdoor is hitting LATAM banking and financial orgs via fake DocuSign and NFe tax-document lures, delivering persistent hidden remote access, keylogging, and Firefox session theft over raw TCP.
+
+Key details:
+
+- Four-stage chain: spoofed DocuSign page with anti-bot gating drops a ZIP containing an LNK shortcut. The LNK runs a hidden PowerShell one-liner (T1059.001) pulling a second stage from 40.124.169[.]27 (Azure staging host). An NSIS installer then drops UpdateAssistant.exe (177 KB, unsigned, masquerading as Microsoft) alongside 22 MB of real OpenCV and MSVC DLLs as camouflage.
+
+- The C2 host 5.230.249[.]49 is XOR-encoded (key 0x37) inside the binary; port 27015 or 27017 per build. The plaintext handshake opens with "HVNC-" and ships full victim fingerprint including AV discovery results. VERSION:1.2.0.4.71 is the durable hunt string across builds.
+
+- Persistence via T1547.001: binary copies itself to %APPDATA%\Roaming\Programs\Common\AppUpdateHelper.exe and drops a Startup folder LNK. Mutex pattern Global\AppUpdateHelper_* or Global\WinSvc_* with random suffix is stable across builds dating to March 2026.
+
+- IOC pivots linked the C2 to Sicredi/Cresol and Caixa Econômica Federal phishing clones (gerenciadorcaixa[.]digital), confirming a reusable kit rotating lures and payloads while keeping core infrastructure.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097325141411963189</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2097325141411963189">DFIR Radar</source>
+      <pubDate>Tue, 08 Sep 2026 14:04:15 +0000</pubDate>
+      <guid isPermaLink="false">2097325141411963189</guid>
+    </item>
     <item>
       <title>ClearFake WebDAV infection chain delivers Amatera stealer, ZigCryptoStealer, and NetSupport Manager</title>
       <link>https://blog.talosintelligence.com/clearfake-webdav-infection-chain/</link>
@@ -1509,25 +1530,6 @@ Patch PaperCut NG immediately if on version 25. If on v23 or earlier, pull the A
       <source url="https://x.com/DFIR_Radar/status/2094727601147261055">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 10:02:33 +0000</pubDate>
       <guid isPermaLink="false">2094727601147261055</guid>
-    </item>
-    <item>
-      <title>PaperCut RCE Chain: CVE-2026-82078 Exploited</title>
-      <link>https://socradar.io/blog/papercut-rce-cve-2026-82078/</link>
-      <description>PaperCut CVE-2026-82078 (CVSSv4 9.4) chained with auth bypass CVE-2026-81578 (CVSSv4 8.8) enables pre-auth RCE. PaperCut confirms active exploitation and customer incidents as of August 31, 2026.
-
-- CVE-2026-81578 bypasses authentication on the PaperCut NG/MF web management interface, letting an unauthenticated attacker modify system configuration before access validation completes. That config change feeds directly into CVE-2026-82078, an unsafe dynamic class-loading flaw (CWE-470) in database connection utilities that instantiates attacker-controlled Java classes from the application classpath, resulting in arbitrary bytecode execution in the PaperCut server process. No credentials required.
-
-- Huntress confirmed limited exploitation in two customer environments. Observed post-exploitation activity included base64-encoded discovery commands: whoami and ver. Ransomware deployment has not been confirmed, but the investigation is ongoing and the assessment may change.
-
-- Hunt artifacts per PaperCut guidance: suspicious pc-app.exe child processes, missing or truncated server.log, strings jdbc:derby:memory:pwn;create=true or cafebabe (Java class magic bytes) in logs, unexpected five-character .class files in the server lib directory, and unexpected .cmd or .out files in the PaperCut data content directory. Attackers are cleaning up, so absence of indicators does not clear a host.
-
-- Fixed versions: 24.1.10, 25.0.13, and 26.0.5 via Emergency Patch Release 2.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094712604371406954</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2094712604371406954">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 09:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2094712604371406954</guid>
     </item>
   </channel>
 </rss>
