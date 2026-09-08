@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 08 Sep 2026 19:05:19 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2026 20:05:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Improper OTP Implementation to Full Account Takeover</title>
+      <link>https://infosecwriteups.com/improper-otp-implementation-to-full-account-takeover-df21e126f10f?source=rss----7b722bfd1b8d---4</link>
+      <description>An OTP endpoint returned the one-time code in its own HTTP response body, collapsing MFA to zero protection and enabling full admin account takeover with no phishing or SIM-swap required. CVSS 3.1: 9.8.
+
+Key findings:
+
+- Account enumeration started in the production JavaScript bundle at /static/js/main.[hash].js, which exposed four internal email addresses. A POST to /Mail/Validation_Email confirmed valid accounts and returned each user's internal idPersonnal in plaintext, handing a definitive yes/no plus an internal record ID to any unauthenticated caller.
+
+- POST to /Mail/Insert_Rel_EmailCode returned the full OTP in the response body: {"email":"admin.user@targetapp.example[.]com","code":"085327","idPersonnal":5741}. The endpoint's job was to email the code, not echo it to the caller. No inbox access was needed.
+
+- The OTP was not single-use, had no enforced expiry, and was not bound to the session or device that requested it. Code 085327 was replayed directly as the second factor, producing an authenticated admin session. OWASP API2:2023 / A07:2021.
+
+- The full chain (enumeration, OTP leak, replay) used only the platform's public API with a generic bearer token and is trivially scriptable end-to-end.
+
+During pen tests and IR, hit every OTP-send endpoint with a proxy and read the raw response: if the code appears anywhere outside the out-of-band channel, MFA is theater. Also grep production JS bundles for hardcoded emails and internal IDs before they ship.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097416013772153165</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2097416013772153165">DFIR Radar</source>
+      <pubDate>Tue, 08 Sep 2026 20:05:21 +0000</pubDate>
+      <guid isPermaLink="false">2097416013772153165</guid>
+    </item>
     <item>
       <title>Token Analysis and Tracking System (TATS)</title>
       <link>https://specterops.io/blog/2026/09/08/token-analysis-and-tracking-system-tats/</link>
@@ -1529,25 +1552,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2094818297329885558">DFIR Radar</source>
       <pubDate>Tue, 01 Sep 2026 16:02:57 +0000</pubDate>
       <guid isPermaLink="false">2094818297329885558</guid>
-    </item>
-    <item>
-      <title>North Korea-linked IT Workers Are Getting Hired Inside Western Companies</title>
-      <link>https://securityaffairs.com/198227/apt/north-korea-linked-it-workers-are-getting-hired-inside-western-companies.html</link>
-      <description>North Korean 🇰🇵 FAMOUS CHOLLIMA infiltrates Western companies as legitimate remote hires, with five confirmed cases in 2026 alone spanning IT, sales, and healthcare roles.
-
-Key findings:
-
-- The threat is insider, not intrusion. Workers use stolen or fabricated identities, VPNs, and proxy services like Astrill and IPRoyal to pass hiring checks, complete onboarding, and perform real job duties while routing pay back to North Korea 🇰🇵. Traditional EDR and network controls largely miss this because there is nothing to block.
-
-- Document forensics cracked the first case. Three suspected workers at an Australian 🇦🇺 healthcare partner submitted Chinese 🇨🇳 passports with identical issue cities, dates one day apart, matching streets, photo metadata from the same iPhone model taken eight minutes apart, and the same typo ("hassic" for "hassle") across forged electricity bills. These artifacts only connect when reviewed together.
-
-- Hardware tells the story in case two. A corporate laptop cycled through a GL.iNet travel router, a residential WiFi network, then a PiKVM device before settling on permanent ethernet, the classic laptop farm setup. Within an hour the worker was testing microphones. Minutes before a Zoom call, they hit ip[.]me to confirm their proxy was live.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094803172044820542</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2094803172044820542">DFIR Radar</source>
-      <pubDate>Tue, 01 Sep 2026 15:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2094803172044820542</guid>
     </item>
   </channel>
 </rss>
