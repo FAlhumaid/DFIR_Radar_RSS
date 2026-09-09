@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 18:04:38 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 19:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From 88 lines to 1: Detecting DLL hijacking with Elastic Defend</title>
+      <link>https://www.elastic.co/security-labs/threat-command/dll-search-order-hijacking-elastic-defend</link>
+      <description>Elastic Defend 9.5.0 collapses an 88-line DLL hijacking rule into one field, validated against a real ClickFix campaign that sideloads mscoree.dll into a signed Microsoft binary to deliver an infostealer.
+
+Key findings:
+
+- The August 2026 ClickFix campaign (documented by eSentire) drops a malicious mscoree.dll beside vb7to8.exe, a legitimate signed Microsoft binary, exploiting Windows DLL search order (T1574.001). The sideloaded DLL then process-hollows ServiceModelReg.exe via a dynamically resolved CreateProcessW call with CREATE_SUSPENDED to load the Remus infostealer. A BYOVD component also attempts to kill EDR including Elastic Endpoint.
+
+- Elastic rebuilt the malicious DLL as a NativeAOT .NET library using ModuleInitializerAttribute to run attacker code before any export body executes. The alert fields tell the story instantly: process.name vb7to8.exe, dll.name mscoree.dll, dll.path C:\Users\ian\Desktop\mscoree.dll, dll.code_signature.trusted false, dll.Ext.defense_evasions "DLL Hijack: Masquerading".
+
+- The new sensor-side enrichment replaces roughly 2,600 named DLLs, 10 system path exclusions, and a six-branch signature check with one EQL line: library where host.os.type == "windows" and event.action == "load" and dll.Ext.defense_evasions : "DLL Hijack: Masquerading"
+
+- For hardening, verify HKLM\System\CurrentControlSet\Control\Session Manager\SafeDllSearchMode is set and restrict writes to directories beside privileged executables.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097762815855538666</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2097762815855538666">DFIR Radar</source>
+      <pubDate>Wed, 09 Sep 2026 19:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2097762815855538666</guid>
+    </item>
     <item>
       <title>REVSTEALER ramps up: analysis of up-and-coming infostealer</title>
       <link>https://www.elastic.co/security-labs/threat-command/revstealer-credential-harvesting-infostealer</link>
@@ -1521,17 +1542,6 @@ Hunt your access logs for POST requests to /wp-admin/admin-ajax.php with action=
       <source url="https://x.com/DFIR_Radar/status/2095135510586872017">DFIR Radar</source>
       <pubDate>Wed, 02 Sep 2026 13:03:26 +0000</pubDate>
       <guid isPermaLink="false">2095135510586872017</guid>
-    </item>
-    <item>
-      <title>Uncovering StreamRat: From Meta Ads to Full Device Takeover</title>
-      <link>https://www.threatfabric.com/blogs/from-meta-ads-to-full-device-takeover-uncovering-streamrat</link>
-      <description>StreamRat, a new Android banking trojan, targets Spanish-speaking users via fake streaming ads on Meta and TikTok, reaching ~570,000 potential victims.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095120209245786220</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2095120209245786220">DFIR Radar</source>
-      <pubDate>Wed, 02 Sep 2026 12:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2095120209245786220</guid>
     </item>
   </channel>
 </rss>
