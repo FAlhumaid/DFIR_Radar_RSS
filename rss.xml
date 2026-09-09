@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 06:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 08:04:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Vwork: Weaponized Open-source Software as an Addon for Gigabud</title>
+      <link>https://www.group-ib.com/blog/vwork-app-cloning-gigabud-goldfactory/</link>
+      <description>GoldFactory's Gigabud RAT now deploys Vwork, a weaponized fork of open-source Android app Shelter, to clone banking apps into a hidden work profile and bypass fraud detection across 11+ countries.
+
+- Vwork (package name net.yy.vwork) is a repackaged version of the legitimate Shelter cloning app. GoldFactory stripped its user-facing controls, translated the UI to Chinese 🇨🇳, hid its launcher icon (T1628.001), and exposed cloning functions as an API. Three new Gigabud C2 commands drive it: initVwa, cloneApp, and uploadCloneApps. Cloned packages are prefixed vwa- in C2 traffic, a hunt-ready pattern.
+
+- The evasion logic is deliberate. Gigabud infects the personal profile, triggers a fraud detection alert with no transaction loss, then Vwork provisions a clean work profile and clones the target banking app there (T1629, T1630). The bank sees a transaction from what looks like a new device with no malware signal. The fraud bypasses controls that already fired.
+
+- Both Gigabud and Vwork are packed with dpt-shell (T1406.002). Gigabud uses HTTPS on port 9000 and WebSocket on port 8888 for RTMP video streaming (T1437.001, T1509). C2 payload is AES-ECB encrypted. Full SHA-256 hashes for 7 Gigabud samples, 1 Vwork sample, and 1 modified banking APK are in the report.
+
+- Confirmed on Indonesian 🇮🇩 devices Feb-Jul 2026: 1,469 compromised devices, ~$961K in observed losses.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097596919002333287</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2097596919002333287">DFIR Radar</source>
+      <pubDate>Wed, 09 Sep 2026 08:04:12 +0000</pubDate>
+      <guid isPermaLink="false">2097596919002333287</guid>
+    </item>
     <item>
       <title>The Outsider Phishing Kit: A Resilient Threat in the Face of Law Enforcement Action</title>
       <link>https://www.group-ib.com/blog/chenlun-outsider-phaas-kit/</link>
@@ -1489,23 +1508,6 @@ Takeaway: Hunt your own APIs before attackers do. Replay registration and profil
       <source url="https://x.com/DFIR_Radar/status/2094969060253741296">DFIR Radar</source>
       <pubDate>Wed, 02 Sep 2026 02:02:02 +0000</pubDate>
       <guid isPermaLink="false">2094969060253741296</guid>
-    </item>
-    <item>
-      <title>Counterfeit installers to system compromise: Tracking a deceptive software download campaign</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/09/01/counterfeit-installers-system-compromise-tracking-deceptive-software-download-campaign/</link>
-      <description>Silver Fox (Yinhu) counterfeit-installer campaign hits Chinese-language users and China-based multinational operations across healthcare, manufacturing, government, and six other sectors with server-side polymorphic payloads and deep host sabotage.
-
-Key findings:
-
-- Initial access via brand-cloned .com.cn/.hl.cn download sites (pc-razerzone.com[.]cn, kaspersky-lab.hl[.]cn, 13+ others) serving dynamically generated ZIPs whose hash changes per request while the filename stays constant: app_setup.*, zinst.*, zintall.*, intsoft.*, innstll.*. Delivery rotates through gehie246[.]com/712down, yimxg25tiy[.]com/73inst, and similar endpoints. Hunt FileOriginReferrerUrl to tie lure page to delivery host even after domains rotate.
-
-- Four-stage payload chain: wrapper installer (a_instapp*.exe) drops a stable stage-one (SHA-256 676a2a7b94ca...) to a randomized C:\Users\Public\&lt;rand&gt;\&lt;rand&gt;.exe, advances to a Philips Speech-masqueraded later-stage (6d6ba2bc9ad4...) via DLL side-loading (XPSPLOG.dll, T1574.002), then a TrueUpdate-disguised loader (c6100166e2d3...) beacons to upitem.oss-cn-hangzhou.aliyuncs[.]com:443 to pull a fourth payload. Parallel vector: msiexec.exe -Embedding drops randomized payloads from world-writable paths (T1218.007).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094954557277127085</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2094954557277127085">DFIR Radar</source>
-      <pubDate>Wed, 02 Sep 2026 01:04:24 +0000</pubDate>
-      <guid isPermaLink="false">2094954557277127085</guid>
     </item>
   </channel>
 </rss>
