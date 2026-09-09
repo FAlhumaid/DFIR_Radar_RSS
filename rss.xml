@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 10:05:41 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 11:04:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PoisonedRefresh: A Fileless Linux Rootkit That Injects PHP Web Shells Into F5 BIG-IP APM Server Memory</title>
+      <link>https://securityaffairs.com/198746/malware/poisonedrefresh-a-fileless-linux-rootkit-that-injects-php-web-shells-into-f5-big-ip-apm-server-memory.html</link>
+      <description>PoisonedRefresh is a fileless Linux rootkit targeting F5 BIG-IP APM, injecting PHP web shells entirely into Apache process memory via CVE-2025-53521, an actively exploited unauthenticated RCE.
+
+- CVE-2025-53521 is the initial access vector: an unauthenticated RCE in BIG-IP APM when an access policy is configured on a virtual server. Previously misclassified as a DoS issue, F5 confirmed RCE status. Shadowserver counted 795 exposed endpoints at disclosure. Patch and follow F5 compromise-assessment guidance before any other hardening.
+
+- PoisonedRefresh (Sophos: Linux/Agnt-IC) is stage two. It intercepts __libc_start_main before Apache logging initializes, hooks apr_dso_load to wait for libphp, then patches mmap behavior inside libphp so Apache worker processes see a web shell prepended to legitimate BIG-IP APM webtop files (apm_css.php3, full_wt.php3, webtop_popup_css.php3). The on-disk files are never touched. SHA-256: 26bd5b0722d1dbab5db749a063c49bc8638653ac2addfead7a9cb3d6d57bccc9.
+
+- The web shell triggers on the magic prefix BSOHAzPB in php://input, decrypts commands with key wSLjN1beuR, and responds HTTP 201 with Content-Type: text/css to blend into normal APM traffic. A UNIX socket at /run/bigtlog.pipe (token Kzwd6jM5) provides an interactive bash shell without opening any TCP port.
+
+- Stage one hides inside a trojanized umount binary, infects /usr/sbin/httpd, and embeds in BIG-IP upgrade images for persistence across device updates.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097642397371154565</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2097642397371154565">DFIR Radar</source>
+      <pubDate>Wed, 09 Sep 2026 11:04:55 +0000</pubDate>
+      <guid isPermaLink="false">2097642397371154565</guid>
+    </item>
     <item>
       <title>CVE-2025-25249 Exploitation Delivers PivotC2, a FortiGate Post-Exploitation RAT</title>
       <link>https://socradar.io/blog/cve-2025-25249-pivotc2-fortigate-rat/</link>
@@ -1501,17 +1520,6 @@ Takeaway: Hunt your own APIs before attackers do. Replay registration and profil
       <source url="https://x.com/DFIR_Radar/status/2094999357032472981">DFIR Radar</source>
       <pubDate>Wed, 02 Sep 2026 04:02:25 +0000</pubDate>
       <guid isPermaLink="false">2094999357032472981</guid>
-    </item>
-    <item>
-      <title>Anatomy of an Attack: Detecting the Behavior of Medusa Ransomware Operations</title>
-      <link>https://www.extrahop.com/blog/aoa-detecting-the-behavior-of-medusa-ransomware-operations</link>
-      <description>Medusa ransomware affiliates follow a predictable "exfiltrate first, encrypt second" pattern even when endpoint defenses are disabled. Network-layer detection of anomalous data staging and lateral movement is your best visibility layer.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2094984445522563260</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2094984445522563260">DFIR Radar</source>
-      <pubDate>Wed, 02 Sep 2026 03:03:10 +0000</pubDate>
-      <guid isPermaLink="false">2094984445522563260</guid>
     </item>
   </channel>
 </rss>
