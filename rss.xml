@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 16:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 17:05:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Active exploitation of Cisco Secure Firewall Management Center vulnerabilities</title>
+      <link>https://blog.talosintelligence.com/fmc-ongoing-exploitation/</link>
+      <description>CVE-2026-20079 (CVSS 10.0) in Cisco Secure FMC is actively exploited by state-sponsored and ransomware actors, with Sandworm-linked Cyclops Blink malware and Qilin ransomware observed in post-compromise activity.
+
+- CVE-2026-20079 (CVSS 10.0, actively exploited in the wild) allows unauthenticated remote attackers to bypass auth and gain root on Cisco Secure FMC. CVE-2026-20316 (CVSS 5.3) enables login via static credentials and is chained with the critical flaw to escalate privileges. Both are listed in Talos in-the-wild abuse tracking. Snort SIDs 66075-66080 (CVE-2026-20079), 66883 (CVE-2026-20316), 66960-66961 (malware).
+
+- UAT-12197 dropped a JSP web shell in the Tomcat webroot decoding a parameter "F6C1F0E7", then placed cmd[.]jar to query the internal mdb database via OmniQuery.pl and exfiltrate credentials. SHA256: B037f45e02a289325a1a5eb0d4db6a9fce9954fd0fdfd07162cb4eb2acbef77d (web shell), Db491181ece3f319de6567ab6f6daa90c6879911cd890155e6b7d8cc7a1a8c8e (cmd.jar).
+
+- UAT-11823 (overlaps with Russian 🇷🇺 Sandworm) weaponized license.tmp as a Makeself package executed via package_info.pl to deploy a Netcat reverse shell to 208.123.119[.]215:3090, then pulled Cyclops Blink (hash: 6f98add5d1a7729192b6ad8491d85c505c64836f7881742d6b93bd8e3d2fe461) with DoH-based C2, persistence in /etc/init.d/, and packet sniffing capability.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097733036343193752</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2097733036343193752">DFIR Radar</source>
+      <pubDate>Wed, 09 Sep 2026 17:05:05 +0000</pubDate>
+      <guid isPermaLink="false">2097733036343193752</guid>
+    </item>
     <item>
       <title>Linux Detection Engineering - Fileless Execution</title>
       <link>https://www.elastic.co/security-labs/threat-command/memfd-create-linux-fileless-execution</link>
@@ -1515,27 +1532,6 @@ Hunt your access logs for POST requests to /wp-admin/admin-ajax.php with action=
       <source url="https://x.com/DFIR_Radar/status/2095105392372285788">DFIR Radar</source>
       <pubDate>Wed, 02 Sep 2026 11:03:45 +0000</pubDate>
       <guid isPermaLink="false">2095105392372285788</guid>
-    </item>
-    <item>
-      <title>Android App RCE via Dynamic Code Loading</title>
-      <link>https://infosecwriteups.com/android-app-rce-via-dynamic-code-loading-c333fffd0c87?source=rss----7b722bfd1b8d---4</link>
-      <description>Android document viewer app achieves RCE by chaining a path traversal in URI handling with dynamic native library loading, letting an attacker write and execute arbitrary code inside the app's sandbox.
-
-Key findings:
-
-- The vulnerable app's handleIntent() passes an attacker-controlled HTTP/HTTPS URI to copyFileFromUri(), which calls Uri.getLastPathSegment() without decoding percent-encoded characters. Supplying a URL like hxxps://192.168.x[.]x/..%2F..%2F..%2F..%2Fdata%2Fdata%2Fcom.mobilehackinglab.documentviewer%2Ffiles%2Fnative-libraries%2Fx86_64%2Flibdocviewer_pro.so causes the traversal to land outside the Downloads folder and write directly into the app's private files/ directory (T1083, T1105).
-
-- loadProLibrary() unconditionally calls System.load() on files/native-libraries/ABI/libdocviewer_pro.so at every launch. An attacker plants a malicious .so compiled with ndk-build; on next app open, the library executes with the app's UID.
-
-- The attack is delivered entirely via a crafted deep-link intent (scheme: file/http/https, mimeType: PDF), requiring no user permissions beyond what the app already holds.
-
-Takeaway: When reviewing Android apps, flag any combination of getLastPathSegment() feeding a file write path and System.load() referencing that same path. Check AndroidManifest.xml for exported Activities accepting deep links, then trace URI handling through to any file-write or library-load call. Full exploit chain is documented in the write-up.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095090142335692844</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2095090142335692844">DFIR Radar</source>
-      <pubDate>Wed, 02 Sep 2026 10:03:10 +0000</pubDate>
-      <guid isPermaLink="false">2095090142335692844</guid>
     </item>
   </channel>
 </rss>
