@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 22:04:59 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 23:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to correlate Kubernetes audit logs with container runtime data</title>
+      <link>https://www.elastic.co/security-labs/threat-command/kubernetes-audit-logs-container-escape</link>
+      <description>Kubernetes audit logs and container runtime data answer different questions. Joining them by hand is the only way to see a full container escape, including the tools the runtime never records.
+
+Key findings:
+
+- The two join keys that cover most cases: kubernetes.audit.user.extra.authentication.kubernetes.io/pod-name paired with orchestrator.resource.name when the pod-name extra is present, and kubernetes.audit.objectRef.name plus orchestrator.namespace when the call is attributed only as a service account in user.name. Neither source is complete alone.
+
+- In the EKS lab, a compromised workload service account ran discovery, read secrets, minted a token, created a privileged pod with hostPID, hostIPC, a privileged security context, and a hostPath mount to /, then execed in. The requestObject.spec fields in the audit log exposed that sensitivity; D4C alone would not have shown the pod spec.
+
+- nsenter and chroot never appeared in D4C process events. The runtime recorded only the target process (true in the lab; a shell in a real breakout). The decoded kubernetes.audit.requestURI on the pods/exec event is where the wrapper commands live. If you are only watching runtime, you miss the breakout mechanism entirely.
+
+- user_agent.original on the audit event flagged the SA using python-requests and curl, not a normal in-cluster controller. event.outcome separated forbidden recon from allowed secret reads.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097823207482888408</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2097823207482888408">DFIR Radar</source>
+      <pubDate>Wed, 09 Sep 2026 23:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2097823207482888408</guid>
+    </item>
     <item>
       <title>Passkey-themed social engineering leads to identity and cloud compromise</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/09/09/passkey-themed-social-engineering-leads-identity-cloud-compromise/</link>
@@ -1547,25 +1568,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2095195893091758486">DFIR Radar</source>
       <pubDate>Wed, 02 Sep 2026 17:03:23 +0000</pubDate>
       <guid isPermaLink="false">2095195893091758486</guid>
-    </item>
-    <item>
-      <title>Attackers Actively Exploiting Critical Vulnerability in Elementor Pro Plugin</title>
-      <link>https://www.wordfence.com/blog/2026/09/attackers-actively-exploiting-critical-vulnerability-in-elementor-pro-plugin/</link>
-      <description>CVE-2026-32475 (CVSS 9.8) in Elementor Pro is actively exploited, letting unauthenticated attackers upload PHP webshells and take over any WordPress site running the vulnerable plugin across 6 million active installs.
-
-- CVE-2026-32475 hits Elementor Pro &lt;= 4.2.1 via a validation logic flaw in Upload::validation(). Submitting a file upload field as an array where index [0] has an empty filename triggers UPLOAD_ERR_NO_FILE, which causes a premature 'return' instead of 'continue', killing all extension and MIME checks for every subsequent array element. Index [1] then delivers a .php webshell unchallenged, no authentication required.
-
-- The dropped file lands in wp-content/uploads/elementor/forms/ under a randomized name with the attacker-supplied .php extension. That directory should never contain PHP files: its presence is your primary IOC. The webshell observed chains system, passthru, shell_exec, exec, proc_open, and popen for maximum exec compatibility.
-
-- Exploitation began the same day of public disclosure, August 19th, 2026. Over 190,000 attempts blocked. Top attacking IPs include 185.196.220[.]85, 103.84.230[.]85, 103.90.148[.]202, and 216.126.225[.]208.
-
-Hunt your access logs for POST requests to /wp-admin/admin-ajax.php with action=elementor_pro_forms_send_form, then scan wp-content/uploads/elementor/forms/ for any .php file. Patch to 4.2.2 immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095180854205026516</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2095180854205026516">DFIR Radar</source>
-      <pubDate>Wed, 02 Sep 2026 16:03:37 +0000</pubDate>
-      <guid isPermaLink="false">2095180854205026516</guid>
     </item>
   </channel>
 </rss>
