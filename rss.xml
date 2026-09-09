@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 15:05:13 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 16:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Linux Detection Engineering - Fileless Execution</title>
+      <link>https://www.elastic.co/security-labs/threat-command/memfd-create-linux-fileless-execution</link>
+      <description>Linux fileless execution is not invisible: Elastic maps five memfd-based tradecraft patterns to concrete eBPF telemetry starting in Elastic Security 9.4.0, with detection rules and the open-source FENIX lab framework.
+
+- memfd_create is the pivot point. The syscall creates an anonymous memory-backed fd with no path on disk, then the payload is written in and executed via /proc/self/fd/N. Elastic Defend 9.4.0 on kernel 5.10.16+ now records this as a process event with process.Ext.memfd.name and process.Ext.memfd.flags fields, making the full chain queryable: download, memfd_create, exec sequence visible in EQL without relying on procfs paths in child processes. Real-world examples include the malicious sympy-dev PyPI package and VoidLink paired with a rootkit that scanned for memfd-backed PIDs to hide.
+
+- Five distinct execution classes each leave different artifacts: anonymous memfd-backed ELF exec (/proc/self/fd/N as execve path), interpreter one-liners where python3/perl/php calls memfd_create internally, fileless staging via curl/wget piped to an interpreter, deleted-file execution where /proc/PID/exe shows "path (deleted)" while the process runs on an open inode, and fileless LKM loading via finit_module on a memfd fd. Each class needs separate detection logic.
+
+- LKM loading gets new visibility: init_module and finit_module calls now surface as load_module event actions on process events in 9.4.0.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097717572112199792</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2097717572112199792">DFIR Radar</source>
+      <pubDate>Wed, 09 Sep 2026 16:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2097717572112199792</guid>
+    </item>
     <item>
       <title>ClickFix Moves into the Browser to Steal Cryptocurrency</title>
       <link>https://www.infosecurity-magazine.com/news/clickfix-browser-cryptocurrency/</link>
@@ -1519,29 +1536,6 @@ Takeaway: When reviewing Android apps, flag any combination of getLastPathSegmen
       <source url="https://x.com/DFIR_Radar/status/2095090142335692844">DFIR Radar</source>
       <pubDate>Wed, 02 Sep 2026 10:03:10 +0000</pubDate>
       <guid isPermaLink="false">2095090142335692844</guid>
-    </item>
-    <item>
-      <title>Hiding a Signup Button Isn’t Security: From Client-Side Controls to Cross-Tenant Data Exposure</title>
-      <link>https://infosecwriteups.com/hiding-a-signup-button-isnt-security-from-client-side-controls-to-cross-tenant-data-exposure-7df0aefe37d5?source=rss----7b722bfd1b8d---4</link>
-      <description>A hidden signup button and a client-side feature flag masked a full attack chain: unauthenticated account creation, email verification bypass, self-service privilege escalation, and cross-tenant API key exposure.
-
-Key findings:
-
-- The app set USER_SIGNUP: false in frontend JavaScript but never enforced the restriction server-side. POST /people/ accepted registration requests directly, and the 201 response included the confirm_token needed for verification, handing the attacker the email confirmation secret without inbox access.
-
-- Confirmation bypass used POST /people/password/ with that leaked token to set confirmed: true and receive a valid auth token, skipping the entire email verification step the application was designed to require.
-
-- Mass assignment on PUT /people/{uuid}/ let the newly authenticated user send is_staff: true and receive 200 OK. The backend applied the field with no authorization check, instantly elevating the account.
-
-- With a staff token, GET /people/?domain_uuid= accepted attacker-supplied tenant IDs and returned users from other organizations. GET /domains/ then returned api_keys arrays containing live credentials for multiple tenants.
-
-Takeaway: Hunt your own APIs before attackers do. Replay registration and profile-update requests with Burp, strip the UI entirely, and probe every writable field for mass assignment. Confirm_tokens must never appear in registration responses.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095075175876145639</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2095075175876145639">DFIR Radar</source>
-      <pubDate>Wed, 02 Sep 2026 09:03:42 +0000</pubDate>
-      <guid isPermaLink="false">2095075175876145639</guid>
     </item>
   </channel>
 </rss>
