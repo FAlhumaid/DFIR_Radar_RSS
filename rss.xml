@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 19:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 20:05:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Off Guard: Breaking LiteLLM from authentication bypass to cloud compromise</title>
+      <link>https://www.wiz.io/blog/off-guard-breaking-litellm-from-authentication-bypass-to-cloud-compromise</link>
+      <description>LiteLLM auth bypass chains to root-level RCE and IAM credential theft. CVE-2026-59822 is actively exploited in the wild and now on CISA KEV, present in roughly one-third of cloud environments.
+
+Key findings:
+
+- CVE-2026-59822 (MCP auth bypass): the MCP auth handler in user_api_key_auth_mcp.py catches 401s from invalid tokens and returns an empty UserAPIKeyAuth() object, granting a fully authenticated session. A single request with "Authorization: Bearer a" is enough. Honeypot data confirmed active exploitation as of 2026-07-07. Fix landed in v1.84.0.
+
+- CVE-2026-59821 (post-auth RCE): the guardrail registration endpoint (POST /guardrails) called exec(compile(...)) without stripping __builtins__ or running the forbidden-patterns check, giving submitted Python the full standard library. Code executed at registration time, not inference time. Fixed in v1.82.0 with sandbox enforcement and PROXY_ADMIN gating.
+
+- 9.6% of 3,074 scanned public instances accepted the default master key (sk-1234) or required no auth. Pre-patch, no-auth deployments granted PROXY_ADMIN to every request by default. Chaining default key plus CVE-2026-59821 (pre-v1.82.0) yields pre-auth root in one request.
+
+- Pass-through endpoints proxy requests to arbitrary URLs with no validation, including AWS IMDS. The x-pass- header prefix strips and forwards headers to the target, defeating IMDSv2 protections and enabling IAM credential exfiltration post-auth.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097778354875408828</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2097778354875408828">DFIR Radar</source>
+      <pubDate>Wed, 09 Sep 2026 20:05:10 +0000</pubDate>
+      <guid isPermaLink="false">2097778354875408828</guid>
+    </item>
     <item>
       <title>From 88 lines to 1: Detecting DLL hijacking with Elastic Defend</title>
       <link>https://www.elastic.co/security-labs/threat-command/dll-search-order-hijacking-elastic-defend</link>
@@ -1531,17 +1552,6 @@ Hunt your access logs for POST requests to /wp-admin/admin-ajax.php with action=
       <source url="https://x.com/DFIR_Radar/status/2095150497535549702">DFIR Radar</source>
       <pubDate>Wed, 02 Sep 2026 14:02:59 +0000</pubDate>
       <guid isPermaLink="false">2095150497535549702</guid>
-    </item>
-    <item>
-      <title>AI Security Incident Case: NVIDIA’s NemoClaw Chat Template Poisoning Vulnerability</title>
-      <link>https://nsfocusglobal.com/ai-security-incident-case-nvidias-nemoclaw-chat-template-poisoning-vulnerability/</link>
-      <description>CVE-2026-65105 (CVSS 8.1) in NVIDIA NemoClaw binds Ollama to 0.0.0.0:11434 with no auth, letting a malicious page use DNS rebinding to poison the chat template via /api/create. Audit Ollama model definitions for unexpected template changes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095135510586872017</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2095135510586872017">DFIR Radar</source>
-      <pubDate>Wed, 02 Sep 2026 13:03:26 +0000</pubDate>
-      <guid isPermaLink="false">2095135510586872017</guid>
     </item>
   </channel>
 </rss>
