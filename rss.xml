@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Sep 2026 12:04:47 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 13:04:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Redtail Payload Analysis &amp;#x5b;Guest Diary&amp;#x5d;, (Wed, Sep 9th)</title>
+      <link>https://isc.sans.edu/diary/rss/33326</link>
+      <description>RedTail cryptominer caught on a DShield honeypot shows active anti-analysis behavior: process masquerading, SIGKILL against monitoring tools, DoT-based network init, and cron persistence across both root and unprivileged contexts.
+
+SHA-256: 63be5f38b520b3143732962a5f8fec1f9abd1f483dbc741ed324e58f955dd35e (x86-64, UPX-packed, statically linked ELF). Delivered alongside ARM, ARM64, i686, and RISC-V variants. setup.sh selects the right binary by arch, stages it as a hidden dot-prefixed file in /tmp, /var/tmp, or /dev/shm, launches it with argument "ssh", then deletes the original redtail.* files.
+
+- RedTail masquerades via prctl(PR_SET_NAME, "php"), presenting as "php-fpm: pool www" or a PostgreSQL-like title. /proc/PID/exe still resolves to redtail.x86_64, making that the forensic tell. The listener port is dynamic (39539, 40219, 39983 observed), so hunting by port alone will miss it.
+
+- Persistence lands as an @reboot crontab entry under whichever account runs the binary: /var/spool/cron/crontabs/root (root) or the user crontab (unprivileged). RedTail then calls iptables -F and inserts an INPUT ACCEPT rule for its listener port.
+
+- Active defense disruption confirmed: RedTail reads /proc entries, matches inotifywait and strace command lines, and SIGKILLs them. Root run killed the root-owned inotifywait (PID 1199). Non-root run killed same-UID analysis processes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098034933570699355</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2098034933570699355">DFIR Radar</source>
+      <pubDate>Thu, 10 Sep 2026 13:04:43 +0000</pubDate>
+      <guid isPermaLink="false">2098034933570699355</guid>
+    </item>
     <item>
       <title>The Load Balancer as a Backdoor: Investigating DPRK-Linked Tradecraft Inside HAProxy</title>
       <link>https://threatmon.io/the-load-balancer-as-a-backdoor-investigating-dprk-linked-tradecraft-inside-haproxy/</link>
@@ -1559,17 +1578,6 @@ Hunt for messages where the envelope Return-Path is empty and the header From us
       <source url="https://x.com/DFIR_Radar/status/2095422144293548167">DFIR Radar</source>
       <pubDate>Thu, 03 Sep 2026 08:02:25 +0000</pubDate>
       <guid isPermaLink="false">2095422144293548167</guid>
-    </item>
-    <item>
-      <title>Honeypot-Omaha and batch.py &amp;#x5b;Guest Diary&amp;#x5d;, (Wed, Sep 2nd)</title>
-      <link>https://isc.sans.edu/diary/rss/33306</link>
-      <description>A SANS intern's batch.py script consolidates cowrie SSH honeypot logs from DShield sensors, querying ip-api.com and cve.org to correlate top talkers, credentials, and shell commands in one pipeline.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095407334365220988</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2095407334365220988">DFIR Radar</source>
-      <pubDate>Thu, 03 Sep 2026 07:03:34 +0000</pubDate>
-      <guid isPermaLink="false">2095407334365220988</guid>
     </item>
   </channel>
 </rss>
