@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Sep 2026 15:03:46 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 16:04:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unmasking SCCM Application Execution</title>
+      <link>https://specterops.io/blog/2026/09/10/unmasking-sccm-application-execution/</link>
+      <description>SCCM application execution hides behind WmiPrvSE.exe, not CcmExec.exe, making it far harder to detect than script-based SCCM abuse. SpecterOps maps the full DLL chain and delivers a Splunk-based detection strategy.
+
+- Script execution via SCCM (SCCMHunter) produces CcmExec.exe spawning PowerShell.exe directly, easy to catch. Application execution (SharpSCCM exec) goes CcmExec.exe to WmiPrvSE.exe to the payload, because CcmExec.exe loads CITaskMgr.dll, posts task properties to the root\CCM\CIModels WMI namespace via IWbemServices::ExecMethodAsync, and a pre-running WmiPrvSE.exe picks up that task asynchronously.
+
+- The full execution chain on the client side is WmiPrvSE.exe loading AppProvider.dll, ScriptHandler.dll, AppExcnLib.dll (CAppExecutionLibrary_RunCmdAsUser), then ccmcore.dll (CcmCreateProcessEx) wrapping KERNEL32.dll CreateProcessW to spawn the payload. No direct CcmExec.exe to payload relationship exists.
+
+- Key artifacts to collect: C:\Windows\CCM\AppEnforce.log and C:\Windows\CCM\Logs\execmgr.log on every SCCM client. These logs record the command line, app enforcement context, and DT GUID for every pushed application, including malicious ones.
+
+- Detection strategy: use Sysmon module-load events to find WmiPrvSE.exe instances that loaded AppProvider.dll, join on ProcessGUID to child process creation events, then group by child process image. Legitimate SCCM pushes hit large collections and produce many matching events.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098080131541557415</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2098080131541557415">DFIR Radar</source>
+      <pubDate>Thu, 10 Sep 2026 16:04:19 +0000</pubDate>
+      <guid isPermaLink="false">2098080131541557415</guid>
+    </item>
     <item>
       <title>SloppyRAT: A New Tool For Ransomware Attacks</title>
       <link>https://www.zscaler.com/blogs/security-research/sloppyrat-new-tool-ransomware-attacks</link>
@@ -1575,17 +1594,6 @@ Hunt for messages where the envelope Return-Path is empty and the header From us
       <source url="https://x.com/DFIR_Radar/status/2095467870209614269">DFIR Radar</source>
       <pubDate>Thu, 03 Sep 2026 11:04:07 +0000</pubDate>
       <guid isPermaLink="false">2095467870209614269</guid>
-    </item>
-    <item>
-      <title>The Credentials Were Rotated. They Still Worked. by Lucie Cardiet</title>
-      <link>https://www.vectra.ai/blog/the-credentials-were-rotated-they-still-worked</link>
-      <description>The TeamPCP credential archive spans March 19-24, 2026, meaning log hunts scoped to March 24 alone missed 95% of exposure. Aqua's rotation of known identities still left one token active for roughly 20 days.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095452791770652837</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2095452791770652837">DFIR Radar</source>
-      <pubDate>Thu, 03 Sep 2026 10:04:12 +0000</pubDate>
-      <guid isPermaLink="false">2095452791770652837</guid>
     </item>
   </channel>
 </rss>
