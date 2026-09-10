@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Sep 2026 22:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 23:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026-09-08: XWorm infection</title>
+      <link>https://www.malware-traffic-analysis.net/2026/09/08/index.html</link>
+      <description>XWorm delivered via Spanish-language invoice lure on September 8, 2026, using a RAR-disguised-as-LZH dropper feeding a JavaScript loader. Infection does not survive reboot, complicating live-system triage.
+
+- Phishing email arrived from amedrano.tornillo@gmail[.]com, relayed through 217.60.195[.]100, with subject "ENVIO DOCUMENTOS FACTURA 4558". The attachment (SHA-256: 9b4e654a8435d91c7f4e24e7fd844cbbb62328131b0065bc5a534c6e948c02c5) presents as an LZH archive but is actually RAR v5, a classic extension-spoofing trick (T1036.008) to confuse users and some security tools.
+
+- Extracted payload is a heavily obfuscated JavaScript file (SHA-256: 5ba1eee1204710adfe1963b730de79c7a8089b173e811052e7be464fc5da1a1d, 207 KB) named to match the lure. JS-based loaders drop directly into script host processes like wscript.exe or cscript.exe; look for those spawning unusual child processes or making outbound TCP connections.
+
+- XWorm C2 communicated over raw TCP to 43.228.157[.]141:7007, a non-HTTP channel that bypasses many proxy-based controls. Pivot on port 7007 outbound in your network logs and flag any wscript or cscript process with external TCP connections.
+
+- The infection did not persist across reboot, meaning volatile memory and live network state are your primary evidence sources. Capture RAM and full PCAP before pulling the plug; post-reboot, most artifacts may be gone.
+
+PCAP, malware samples, and notes are available in the MTA zip packages.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098185607105155280</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2098185607105155280">DFIR Radar</source>
+      <pubDate>Thu, 10 Sep 2026 23:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2098185607105155280</guid>
+    </item>
     <item>
       <title>MantaxOtax Android Malware Combines Ransomware With Spyware</title>
       <link>https://www.infosecurity-magazine.com/news/mantaxotax-android-malware/</link>
@@ -1541,25 +1562,6 @@ Patch to Super Forms 6.3.314 immediately.
       <source url="https://x.com/DFIR_Radar/status/2095588302380536317">DFIR Radar</source>
       <pubDate>Thu, 03 Sep 2026 19:02:40 +0000</pubDate>
       <guid isPermaLink="false">2095588302380536317</guid>
-    </item>
-    <item>
-      <title>ASCII smuggling crosses over from AI prompt injection to phishing evasion</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/09/03/ascii-smuggling-crosses-over-from-ai-prompt-injection-to-phishing-evasion/</link>
-      <description>An AI-era evasion technique jumped from prompt injection research into high-volume phishing: invisible Unicode tag characters (U+E0000-U+E007F) spliced into financial keywords to break spam filters, peaking at 2.37 million messages per day.
-
-Key findings:
-
-- Starting February 9, 2026, signature hits jumped from ~21,000 to 1.3 million messages overnight. The campaign ran weekdays only, paused every weekend, peaked February 26, and dropped sharply after May 15. Finance-themed lure words like "funding" were split as fun[U+E0020]ding, defeating literal string matches and disrupting ML tokenizers without alerting recipients. MITRE T1027 / AML.T0068.
-
-- ~150 disposable sender domains built from a recycled 28-token finance vocabulary (capital, fund, loan, loc, boost, etc.) relayed through ActiveCampaign infrastructure. Envelope senders follow the pattern em-[digits].[brand-domain]; click-tracking routes through acemlnd[.]com and activehosted[.]com. ~92% of volume originated from 173.236.20[.]0/24, a legitimate shared platform block useful for scoping, not blocking alone.
-
-- The detection gap: pipelines that do not normalize U+E0000-U+E007F before applying signatures or ML classifiers may miss the obfuscation. OCR-based content analysis sidesteps it entirely. Exclude England/Scotland/Wales flag emojis (legitimately encoded with tag characters) before treating the range as malicious.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095573291192733817</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2095573291192733817">DFIR Radar</source>
-      <pubDate>Thu, 03 Sep 2026 18:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2095573291192733817</guid>
     </item>
   </channel>
 </rss>
