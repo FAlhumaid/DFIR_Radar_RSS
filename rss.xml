@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Sep 2026 07:05:08 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 09:04:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Preinstalled but Not Safe. OnePlus OEM App Session Takeover Vulnerability</title>
+      <link>https://blog.doyensec.com/2026/09/10/oneplus-session-takeover.html</link>
+      <description>Unpatched OnePlus 13R OEM app lets any sideloaded app steal an authenticated cloud session token with zero user interaction. Disclosed publicly after nine months without a vendor fix.
+
+Key details:
+
+- The vulnerable component is OPAccountProvider in com.oneplus.account, exported via content://com.oneplus.account.provider.open. The permission guarding it, com.oneplus.account.READ_ACCOUNT_INFO, is not defined at signature-level protection, so any third-party app can simply declare it in its own manifest and call the provider without prompting the user.
+
+- The command "get_account_oneplus_token" returns oldSecondaryToken, an active OnePlus Cloud session credential. A malicious app queries the ContentResolver, pulls the token, and uses it against the uc-client-fr.oneplus[.]com API via the X-Token header, no additional privilege required.
+
+- Attack requires only app installation. No runtime permission dialog, no user confirmation. The vendor rated it high severity, paid a $720 bounty in March 2026, and as of September 9, 2026 on firmware CPH2691_16.0.10.500(EX01), the provider still returns a valid token.
+
+- Fix is straightforward: setting android:protectionLevel="signature" on the permission definition restricts provider access to apps signed with the same OEM certificate.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097974595056005323</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2097974595056005323">DFIR Radar</source>
+      <pubDate>Thu, 10 Sep 2026 09:04:57 +0000</pubDate>
+      <guid isPermaLink="false">2097974595056005323</guid>
+    </item>
     <item>
       <title>Four Nation-State Actors Used the Same Chrome Zero-Day Exploit Kit Within 12 Days</title>
       <link>https://securityaffairs.com/198783/apt/four-nation-state-actors-used-the-same-chrome-zero-day-exploit-kit-within-12-days.html</link>
@@ -1541,17 +1562,6 @@ Hunt for messages where the envelope Return-Path is empty and the header From us
       <source url="https://x.com/DFIR_Radar/status/2095391969061019692">DFIR Radar</source>
       <pubDate>Thu, 03 Sep 2026 06:02:31 +0000</pubDate>
       <guid isPermaLink="false">2095391969061019692</guid>
-    </item>
-    <item>
-      <title>When a Ransomware Operator Couldn’t Code, Claude Did It for Them</title>
-      <link>https://www.halcyon.ai/blog/anthropic-threat-report-ai-ransomware-operators</link>
-      <description>A UK- ransomware operator with no coding ability used Claude to build ChaCha20-encrypting malware with RecycledGate and FreshyCalls syscall-bypass evasion, sold in tiers up to $1,200.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095376965670707380</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2095376965670707380">DFIR Radar</source>
-      <pubDate>Thu, 03 Sep 2026 05:02:54 +0000</pubDate>
-      <guid isPermaLink="false">2095376965670707380</guid>
     </item>
   </channel>
 </rss>
