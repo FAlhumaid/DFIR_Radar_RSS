@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Sep 2026 09:04:57 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 12:04:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Load Balancer as a Backdoor: Investigating DPRK-Linked Tradecraft Inside HAProxy</title>
+      <link>https://threatmon.io/the-load-balancer-as-a-backdoor-investigating-dprk-linked-tradecraft-inside-haproxy/</link>
+      <description>North Korean 🇰🇵 operators trojanized HAProxy inside two South Korean 🇰🇷 organizations, embedding the "ted" backdoor directly into the load balancer binary to intercept traffic while the service ran normally.
+
+- ted was compiled into HAProxy 2.8.12 via a custom filter, not a HAProxy vulnerability. Once the attacker had host access, they replaced the legitimate binary with a trojanized build. The implant inspected HTTP requests, executed commands, transferred files, selectively altered responses per-visitor, and handled C2 exchanges inside HAProxy so those requests never reached backend servers, manipulating internal counters to suppress visibility.
+
+- Supporting toolkit included curlRAT for remote access, a trojanized SSH daemon capturing plaintext credentials at authentication time, a stager for environment reconnaissance, and modified Linux system daemons for persistence. Targets were automotive and media sector orgs; activity assessed DPRK-nexus at medium confidence, specific cluster (APT37, Lazarus, Kimsuky) unconfirmed.
+
+- The core detection problem: backend application logs may show no suspicious requests because ted consumed them inside HAProxy. Load balancer statistics were manipulated. A service reporting the correct version string is not evidence the binary is clean.
+
+Hunt by hashing production HAProxy binaries and diffing against trusted builds. Correlate upstream network captures against backend logs and flag discrepancies.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098019852711875066</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2098019852711875066">DFIR Radar</source>
+      <pubDate>Thu, 10 Sep 2026 12:04:47 +0000</pubDate>
+      <guid isPermaLink="false">2098019852711875066</guid>
+    </item>
     <item>
       <title>Preinstalled but Not Safe. OnePlus OEM App Session Takeover Vulnerability</title>
       <link>https://blog.doyensec.com/2026/09/10/oneplus-session-takeover.html</link>
@@ -1551,17 +1570,6 @@ Hunt for messages where the envelope Return-Path is empty and the header From us
       <source url="https://x.com/DFIR_Radar/status/2095407334365220988">DFIR Radar</source>
       <pubDate>Thu, 03 Sep 2026 07:03:34 +0000</pubDate>
       <guid isPermaLink="false">2095407334365220988</guid>
-    </item>
-    <item>
-      <title>CVE-2026-82329: Critical JFrog Artifactory Authentication Bypass Exploited in the Wild</title>
-      <link>https://socprime.com/blog/cve-2026-82329-analysis/</link>
-      <description>CVE-2026-82329 (CVSS 9.8) in JFrog Artifactory is actively exploited: unauthenticated attackers forge admin tokens via a "phantom" join key in JFrog Access.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095391969061019692</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2095391969061019692">DFIR Radar</source>
-      <pubDate>Thu, 03 Sep 2026 06:02:31 +0000</pubDate>
-      <guid isPermaLink="false">2095391969061019692</guid>
     </item>
   </channel>
 </rss>
