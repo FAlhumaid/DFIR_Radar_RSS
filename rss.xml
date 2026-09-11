@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 11 Sep 2026 09:03:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 13:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[remote] CVE-2026-80428 Unauthenticated PHP Object Injection via Shibboleth - ILIAS &lt; 9.22, 10.0 &lt; 10.10, 11.0 &lt; 11.3 - RCE</title>
+      <link>https://www.exploit-db.com/exploits/52682</link>
+      <description>CVE-2026-80428: Unauthenticated PHP object injection in ILIAS LMS chains two auth-exempt endpoints into RCE as the web server user, affecting ILIAS &lt; 9.22, 10.0 &lt; 10.10, and 11.0 &lt; 11.3.
+
+- CVE-2026-80428 is a two-stage chain. Stage 1 POSTs to ltiauth.php, which writes attacker-controlled session data to the session table. A "\w+|" marker in the parameter value breaks the custom session parser, causing raw serialized PHP to land in ilSession as if it were a legitimate value. Stage 2 POSTs a SOAP LogoutNotification to shib_logout.php, which deserializes every live session row with no class allowlist, triggering the payload.
+
+- The gadget is GuzzleHttp\Cookie\FileCookieJar, bundled in ILIAS's own vendor tree. __destruct() calls file_put_contents() with an attacker-supplied path and JSON-embedded PHP, dropping a webshell to the docroot. No authentication is required at any step.
+
+- Forensic artifacts to hunt: unexpected .php files in the ILIAS public docroot (random-hex names like util_a1b2c3.php), POST requests to /ltiauth.php and /shib_logout.php in web server logs, SOAP body content in POST payloads to shib_logout.php, and new session rows with serialized object strings in the ilSession database table.
+
+- A working public exploit was published 2026-08-31 by DigiProSec. v9 and v10 are confirmed exploitable; v11 has a code path issue that prevents exploitation as packaged, but patch regardless. Fixed in 9.22, 10.10, and 11.3.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098397081878839649</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2098397081878839649">DFIR Radar</source>
+      <pubDate>Fri, 11 Sep 2026 13:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2098397081878839649</guid>
+    </item>
     <item>
       <title>UK Council Attack Linked to Mass Exploitation of SonicWall Flaw</title>
       <link>https://securityaffairs.com/198864/hacking/uk-council-attack-linked-to-mass-exploitation-of-sonicwall-flaw.html</link>
@@ -1507,27 +1526,6 @@ Hunt for outbound TLS to broker.hivemq.com port 8883 and meet.element[.]tw from 
       <source url="https://x.com/DFIR_Radar/status/2095693997385855449">DFIR Radar</source>
       <pubDate>Fri, 04 Sep 2026 02:02:40 +0000</pubDate>
       <guid isPermaLink="false">2095693997385855449</guid>
-    </item>
-    <item>
-      <title>Coder's registry infrastructure compromised to push malicious modules</title>
-      <link>https://www.bleepingcomputer.com/news/security/coders-registry-infrastructure-compromised-to-push-malicious-modules/</link>
-      <description>Coder's Cloudflare registry hijacked on Aug 31 to push credential-stealing Terraform modules to developers at Dropbox, Palantir, the US 🇺🇸 government, and defense contractors.
-
-- Attacker gained access to Coder's Cloudflare infrastructure and injected unauthorized IP addresses into the registry.coder.com server pool. Between 07:35 and 21:45 UTC on August 31, Cloudflare routed a subset of module requests to attacker-controlled servers serving trojanized Terraform modules.
-
-- The malicious modules acted as infostealers, harvesting provisioner env vars, cloud and AI API keys, CI/CD credentials, SSH keys, OIDC tokens, terminal history, config-file secrets, and Coder database passwords when running inside coderd.
-
-- Exfiltration destination was the lookalike domain coder-infra[.]com. Because the attacker's infrastructure is outside Coder's control, the project cannot conclusively identify every compromised deployment.
-
-- Patched releases are 2.37.0, 2.36.4, 2.35.7, and 2.34.9. Before upgrading, hunt firewall, proxy, DNS, and VPC flow logs for connections to coder-infra[.]com, and search provisioner logs for data.external.telemetry.
-
-Rotate every secret class listed above immediately. Run Coder's published SQL query to identify affected cached modules and template versions, then purge them. Treat any secret exposed during the window as fully compromised.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095679060982874478</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2095679060982874478">DFIR Radar</source>
-      <pubDate>Fri, 04 Sep 2026 01:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2095679060982874478</guid>
     </item>
   </channel>
 </rss>
