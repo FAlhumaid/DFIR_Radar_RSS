@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 11 Sep 2026 13:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 14:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Suricata keyword highlight: subslice, part 2 — transforms, the prefilter, and what’s next</title>
+      <link>https://suricata.io/2026/09/11/suricata-keyword-highlight-subslice-part-2-transforms-the-prefilter-and-whats-next/</link>
+      <description>Suricata's subslice keyword gets a deep dive: how it chains with other transforms, integrates with the prefilter MPM, and where the keyword is headed next.
+
+- subslice can chain up to 15 transforms in sequence. A rule trimming http.user_agent to 4 bytes, lowercasing it, and matching "curl" looks like: http.user_agent; subslice: 0, 4, truncate; to_lowercase; content:"curl"; bsize:4. Plain content modifiers like depth: cannot do this because they cannot hand a bounded window to downstream transforms like to_sha256 or from_base64.
+
+- At prefilter time, Suricata registers the post-transform content as the fast_pattern in the multi-pattern matcher (MPM). subslice is cheap here: it only adjusts an offset and length, no copy, no hash. Two rules on the same sticky buffer with different chains get separate MPM entries, keeping them independent.
+
+- Transform results are cached per packet per chain. Multiple rules sharing subslice: 0, 4 on http.user_agent run the transform once total, not once per rule. Adding more rules on the same chain costs nothing extra.
+
+- Dynamic offsets are not yet supported. Redmine issue 8234 tracks two candidate syntaxes: an inline extract form and a byte_extract variable reference. Neither loads in current builds. Only the main branch has subslice at all.
+
+If you write Suricata rules for binary or length-prefixed protocols, test subslice on the main branch using the rule file, pcap, and generator script linked in the post.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098412185198194955</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2098412185198194955">DFIR Radar</source>
+      <pubDate>Fri, 11 Sep 2026 14:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2098412185198194955</guid>
+    </item>
     <item>
       <title>[remote] CVE-2026-80428 Unauthenticated PHP Object Injection via Shibboleth - ILIAS &lt; 9.22, 10.0 &lt; 10.10, 11.0 &lt; 11.3 - RCE</title>
       <link>https://www.exploit-db.com/exploits/52682</link>
@@ -1515,17 +1536,6 @@ Hunt for outbound TLS to broker.hivemq.com port 8883 and meet.element[.]tw from 
       <source url="https://x.com/DFIR_Radar/status/2095709170368676088">DFIR Radar</source>
       <pubDate>Fri, 04 Sep 2026 03:02:57 +0000</pubDate>
       <guid isPermaLink="false">2095709170368676088</guid>
-    </item>
-    <item>
-      <title>Pegasus and NoviSpy Used Against Serbian Protesters</title>
-      <link>https://securityaffairs.com/198377/intelligence/pegasus-and-novispy-used-against-serbian-protesters.html</link>
-      <description>Serbian student protesters and opposition figures were hit by iMessage zero-click Pegasus infections confirmed by Citizen Lab, plus NoviSpy installed on Android during police detention. Apple patched the exploit in iOS 18.4.1.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095693997385855449</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2095693997385855449">DFIR Radar</source>
-      <pubDate>Fri, 04 Sep 2026 02:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2095693997385855449</guid>
     </item>
   </channel>
 </rss>
