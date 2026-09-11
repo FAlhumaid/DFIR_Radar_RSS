@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 11 Sep 2026 15:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 16:03:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Linux Detection Engineering - Local Privilege Escalation</title>
+      <link>https://www.elastic.co/security-labs/threat-command/linux-privilege-escalation-detection-framework</link>
+      <description>Elastic Security Labs maps a durable, outcome-oriented Linux LPE detection framework against 11 public 2026 PoCs, covering page-cache corruption, namespace abuse, trusted-helper theft, and SUID misconfiguration without relying on per-CVE rules.
+
+Key findings:
+
+- Seven of 13 tracked 2026 Linux LPEs share a copy-on-write page-cache corruption primitive: Copy Fail (CVE-2026-31431), DirtyFrag (CVE-2026-43284/43500), Fragnesia (CVE-2026-46300), DirtyDecrypt (CVE-2026-31635), pedit COW (CVE-2026-46331), DirtyClone (CVE-2026-43503), and RefluXFS. The kernel trigger varies across AF_ALG, ESP/RxRPC, act_pedit, and skb helpers, but every exploit still ends the same way: a SUID helper or interpreter runs with effective uid 0. Qualys and others used LLM-assisted workflows to discover several of these, accelerating the per-bug-class pace.
+
+- The framework detects in two layers. Layer one is outcome-oriented: exec from a writable path (/tmp, /dev/shm, /var/tmp, /home, /run/user) followed by a uid_change to 0, correlated by parent entity ID within a short window. Layer two adds per-class signals: AF_ALG socket bursts plus splice for Copy Fail; unshare(CLONE_NEWUSER) preceding a root transition for CIFSwitch (CVE-2026-46243) and OVSwrap (CVE-2026-64531); busctl --system calls for ptrace_may_dream; and shadow-read alerts for chage_pwn (CVE-2026-46333).
+
+- CVE-2026-46333 (exit-time FD theft via pidfd_getfd) is worth special attention.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098442366059520256</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2098442366059520256">DFIR Radar</source>
+      <pubDate>Fri, 11 Sep 2026 16:03:42 +0000</pubDate>
+      <guid isPermaLink="false">2098442366059520256</guid>
+    </item>
     <item>
       <title>Android malware creates a hidden copy of your banking app</title>
       <link>https://www.malwarebytes.com/blog/mobile/2026/09/android-malware-creates-a-hidden-copy-of-your-banking-app</link>
@@ -1537,17 +1556,6 @@ Hunt for outbound TLS to broker.hivemq.com port 8883 and meet.element[.]tw from 
       <source url="https://x.com/DFIR_Radar/status/2095739483723645052">DFIR Radar</source>
       <pubDate>Fri, 04 Sep 2026 05:03:25 +0000</pubDate>
       <guid isPermaLink="false">2095739483723645052</guid>
-    </item>
-    <item>
-      <title>SonicWall Vulnerabilities Exploited in the Wild</title>
-      <link>https://www.truesec.com/hub/blog/sonicwall-vulnerabilities-exploited-in-the-wild</link>
-      <description>CVE-2026-83548 (SSRF) and CVE-2026-83549 (OS command injection) in SonicWall SMA1000 are chained for unauthenticated RCE and are in CISA KEV. Hunt syslogs for POST requests to /workplace/ with loopback addresses.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095724110232146171</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2095724110232146171">DFIR Radar</source>
-      <pubDate>Fri, 04 Sep 2026 04:02:19 +0000</pubDate>
-      <guid isPermaLink="false">2095724110232146171</guid>
     </item>
   </channel>
 </rss>
