@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 11 Sep 2026 18:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 19:04:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AD Rights Management Service (Part 2): Extraction, Offline Decryption, and the Unrotatable Key</title>
+      <link>https://www.huntress.com/blog/ad-rms-slc-encryption-key</link>
+      <description>The AD RMS Server Licensor Certificate private key can be silently exported by any member of the AD RMS Service Group, enabling permanent offline decryption of every RMS-protected document across the entire deployment's lifetime.
+
+Key findings:
+
+- Any account in the AD RMS Service Group can export the 1172-byte Server Licensor Certificate (SLC) private key. This key is the root of trust for the entire RMS deployment: whoever holds it can decrypt any document the deployment ever protected, without contacting any server.
+
+- Decryption is fully offline. An attacker who exfiltrates the SLC private key retains permanent read access to protected content even after the deployment is decommissioned and rebuilt, because the key does not rotate.
+
+- The "unrotatable" nature is the critical DFIR wrinkle: standard incident response playbooks that rebuild a compromised service do not revoke attacker access to already-protected documents. Scope extends to every file the RMS instance ever touched.
+
+- Forensic pivot: audit membership of the AD RMS Service Group and review export or backup operations against the RMS cluster's certificate store. Any unauthorized account membership or unexplained certificate export event is a high-fidelity indicator of key theft.
+
+Hunt: enumerate AD RMS Service Group members now and cross-reference against privileged account baselines. Unexplained additions are your lead.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098487751939125563</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2098487751939125563">DFIR Radar</source>
+      <pubDate>Fri, 11 Sep 2026 19:04:03 +0000</pubDate>
+      <guid isPermaLink="false">2098487751939125563</guid>
+    </item>
     <item>
       <title>BraZetsu: AI-Enhanced Reconnaissance Fuels Exilware’s Access Marketplace</title>
       <link>https://blog.polyswarm.io/brazetsu-ai-enhanced-reconnaissance-fuels-exilwares-access-marketplace</link>
@@ -1559,17 +1582,6 @@ Hunt for outbound TLS to broker.hivemq.com port 8883 and meet.element[.]tw from 
       <source url="https://x.com/DFIR_Radar/status/2095784685611938083">DFIR Radar</source>
       <pubDate>Fri, 04 Sep 2026 08:03:02 +0000</pubDate>
       <guid isPermaLink="false">2095784685611938083</guid>
-    </item>
-    <item>
-      <title>Pegasus, New NoviSpy Variant Found on Serbian Students and Opposition Figures</title>
-      <link>https://thecyberexpress.com/pegasus-novispy-spyware-serbia-students/</link>
-      <description>Pegasus (zero-click iMessage, patched in iOS 18.4.1) and a new NoviSpy Android variant hit Serbian student activists and opposition figures, with one infection occurring during police detention. Enable Lockdown Mode on iOS for at-risk devices.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2095769552655208716</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2095769552655208716">DFIR Radar</source>
-      <pubDate>Fri, 04 Sep 2026 07:02:54 +0000</pubDate>
-      <guid isPermaLink="false">2095769552655208716</guid>
     </item>
   </channel>
 </rss>
