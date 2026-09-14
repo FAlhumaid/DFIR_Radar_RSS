@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 14 Sep 2026 20:03:40 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 21:03:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat Hunting with JA4/JA4S (+ Practical KQL Queries)</title>
+      <link>https://detect.fyi/threat-hunting-with-ja4-ja4s-practical-kql-queries-ef673fc5fcc0?source=rss----d5fd8f494f6a---4</link>
+      <description>JA4/JA4S TLS fingerprinting brings a more durable hunting signal to Microsoft Defender and Entra ID logs, surfacing unusual clients and servers that IP and domain IOCs miss entirely.
+
+- JA4 is human-readable, not just a hash. The first segment of a fingerprint like t12d180700_4b22cbed5bed_2dae41c691ec decodes directly: TCP, TLS 1.2, SNI present, 18 cipher suites, 7 extensions, no ALPN. This lets hunters query individual fields rather than exact hashes, making baselining and anomaly detection far more flexible than JA3 ever allowed.
+
+- In EntraIdSignInEvents, the GatewayJA4 field exposes the client fingerprint for every sign-in. Parsing it with KQL to extract TLSVersion, CipherCount, ALPN, and the cipher/extension hashes lets you cluster sign-ins by client behavior. SNI absent ("i") or ALPN of "00" in a sea of h2 sign-ins is the kind of outlier worth pulling for review.
+
+- DeviceNetworkEvents carries both JA4 and JA4S inside AdditionalFields for TLS-inspected connections. JA4 tells you about the client; JA4S tells you about the server that answered. Pairing them lets you profile both sides of a session and spot mismatches, unusual server responses, or automated tooling.
+
+- The FoxIO JA4+ mapping CSV can be pulled via externaldata() and joined to enrich fingerprints with known application, library, and OS context. Match rates are low in practice, but a hit on a known C2 framework or unusual library is valuable pivot.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099604908202704950</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2099604908202704950">DFIR Radar</source>
+      <pubDate>Mon, 14 Sep 2026 21:03:14 +0000</pubDate>
+      <guid isPermaLink="false">2099604908202704950</guid>
+    </item>
     <item>
       <title>Google Doc Sidebar Sends Mac and Windows Users Down Different Paths to Malware</title>
       <link>https://www.huntress.com/blog/google-doc-sidebar-malware-mac-windows</link>
@@ -1575,29 +1594,6 @@ Patch to RouterOS 7.24.2, 7.23.5, or 6.49.21. Run /system/device-mode/print and 
       <source url="https://x.com/DFIR_Radar/status/2096977433077436749">DFIR Radar</source>
       <pubDate>Mon, 07 Sep 2026 15:02:35 +0000</pubDate>
       <guid isPermaLink="false">2096977433077436749</guid>
-    </item>
-    <item>
-      <title>StyleSmuggler: Unpatched Magento and Adobe Commerce Zero-Day Exploited</title>
-      <link>https://socradar.io/blog/stylesmuggler-magento-adobe-commerce-0day/</link>
-      <description>StyleSmuggler: unauthenticated RCE zero-day hitting Magento Open Source and Adobe Commerce is actively exploited in the wild, no CVE assigned, no patch from Adobe as of Sept 7, 2026.
-
-Key findings:
-
-- Zero-day with no CVE, no CVSS, no Adobe advisory. Sansec confirmed full unauthenticated RCE across Magento Open Source 2.4.7, 2.4.8, and 2.4.9, including stores running the latest July and August 2026 patches. Adobe Commerce status unconfirmed but treat all deployments as vulnerable.
-
-- Two-stage exploit: attacker plants PHP code in var/report/ or var/log/system.log, then triggers Magento's built-in "Payment Transaction Failed Reminder" email. The planted code executes during template rendering server-side. No user interaction needed, works even if email delivery fails.
-
-- Implant is a stripped, statically linked Rust binary (1.9 MB, x86-64/arm64) masquerading as a Linux kernel thread with bracketed process names. It writes directly to the cron spool every 5 minutes and reads Magento session data via Redis. No C2 connection detected in at least one confirmed case.
-
-- Disrex Group confirmed breaches at two stores within an 8-hour window. Multiple source IPs seen, including residential proxy pools. No attribution published.
-
-Immediate actions: disable GraphQL, add proc_open to PHP disable_functions, mount /tmp and /var/tmp with noexec.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096962556531188019</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2096962556531188019">DFIR Radar</source>
-      <pubDate>Mon, 07 Sep 2026 14:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2096962556531188019</guid>
     </item>
   </channel>
 </rss>
