@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 14 Sep 2026 18:03:45 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 19:04:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Actively Exploiting Critical Vulnerability in WooCommerce Wholesale Lead Capture Plugin</title>
+      <link>https://www.wordfence.com/blog/2026/09/attackers-actively-exploiting-critical-vulnerability-in-woocommerce-wholesale-lead-capture-plugin/</link>
+      <description>CVE-2026-27540 (CVSS 9.8): Unauthenticated arbitrary file upload in WooCommerce Wholesale Lead Capture lets attackers drop PHP webshells and achieve full RCE. Actively exploited, 100k+ blocked attempts since February.
+
+- CVE-2026-27540 affects the wwlc_file_upload_handler AJAX endpoint, reachable with zero authentication. The flaw: allowed file types are read from the attacker-controlled file_settings POST parameter, not server-side config. An attacker simply includes "php" in that forged JSON list, bypasses extension checks, and uploads a .php webshell directly into the WordPress uploads directory. test_type is explicitly set to false in the upload call, killing WordPress's own MIME check too.
+
+- Real attack traffic shows POST requests to /wp-admin/admin-ajax.php with action=wwlc_file_upload_handler carrying shell.php, a webshell that fingerprints the host and provides a browser upload form for staging further payloads. Top offending IPs: 92.241.13[.]213, 31.59.129[.]150, 2a0f:85c1:840:5389[.]1, 92.241.13[.]140, 23.137.105[.]214.
+
+- Exploitation peaks hit June 4-17, July 1, and August 30, 2026. Roughly 6,000 installations are exposed. Patch version 2.0.3.2 exists; anything at or below 2.0.3.1 is vulnerable.
+
+Grep web server access logs for POST /wp-admin/admin-ajax.php containing wwlc_file_upload_handler, then audit wp-content/uploads for unexpected .php files and review wp_users for unknown administrator accounts added post-compromise.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099574905805361426</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2099574905805361426">DFIR Radar</source>
+      <pubDate>Mon, 14 Sep 2026 19:04:01 +0000</pubDate>
+      <guid isPermaLink="false">2099574905805361426</guid>
+    </item>
     <item>
       <title>Gamers Get Played: Fake GTA6 Leaks Deliver a Grab Bag of Malware</title>
       <link>https://blog.polyswarm.io/gamers-get-played-fake-gta6-leaks-deliver-a-grab-bag-of-malware</link>
@@ -1577,27 +1596,6 @@ Immediate actions: disable GraphQL, add proc_open to PHP disable_functions, moun
       <source url="https://x.com/DFIR_Radar/status/2096947522665353414">DFIR Radar</source>
       <pubDate>Mon, 07 Sep 2026 13:03:44 +0000</pubDate>
       <guid isPermaLink="false">2096947522665353414</guid>
-    </item>
-    <item>
-      <title>Attackers Exploited MikroTik RouterOS Flaws a Day Before Patches Shipped</title>
-      <link>https://thecyberexpress.com/mikrotik-routeros-exploited-before-patch/</link>
-      <description>MikroTik RouterOS exploited a day before patches shipped: a two-flaw SSH chain rated 9.2+9.2 gave unauthenticated attackers full admin control across 122,500+ internet-exposed devices.
-
-Key details:
-
-- CVE-2026-67276 (CVSS 9.2) is an SSH auth bypass: RouterOS checked key type and modulus but not the exponent, so an attacker knowing only a username and RSA modulus could forge a valid key and authenticate without the private key. CVE-2026-86060 (CVSS 9.2) escalates via argument injection in the SSH username field. Chained, they hand unauthenticated attackers complete router control (T1190, T1078).
-
-- Exposure is global. Shadowserver puts 122,500+ devices with SSH open to the internet: Brazil 🇧🇷 11,300, United States 🇺🇸 and Indonesia 🇮🇩 7,100 each, Czech 🇨🇿 Republic 6,300, Ukraine 🇺🇦 5,100. CERT.LV confirmed 12 compromised devices in Latvia 🇱🇻 and notified critical infrastructure operators Sept. 3, a day after attacks began.
-
-- Artifact checklist from both agencies: failed logins for user "-2", system history entries reading "ssh:-2@", creation of a privileged account named "ops", and a "Flagged" startup marker in RouterOS. Attack IPs: 82.192.72[.]4 (successful compromise), 103.102.31[.]18 (attempts).
-
-- Patches landed Sept. 3 in versions 6.49.21, 7.23.4, 7.24.2, and 7.25beta3. A binary diff published Sept. 4 reconstructed three fixes and released working PoC code. A separate CVE-2026-67276 PoC is now on GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096932294082646379</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2096932294082646379">DFIR Radar</source>
-      <pubDate>Mon, 07 Sep 2026 12:03:13 +0000</pubDate>
-      <guid isPermaLink="false">2096932294082646379</guid>
     </item>
   </channel>
 </rss>
