@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 14 Sep 2026 07:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 09:02:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Smish. Click. Drained: Inside the Smishing Triad’s Phishing Cockpit</title>
+      <link>https://www.group-ib.com/blog/smishing-triad-outsider-jwr/</link>
+      <description>The Smishing Triad's JWR phishing kit gives operators a live cockpit to steer victims through credential and card theft in real time, a technical leap beyond static phishing pages.
+
+Key details:
+
+- JWR kit communicates between operator and victim via encrypted WebSockets, letting the Outsider operator cluster intercept OTPs, replay credentials, and redirect victims mid-session without reloading the page. This is active adversary-in-the-middle, not passive harvest.
+
+- AES-256-CTR encrypts the kit's communications, making network-layer inspection of the session content significantly harder. Defenders relying solely on payload inspection will miss the exfiltration channel.
+
+- The kit is multi-stage: smishing lure leads to a branded phishing page, victim input is relayed live to the operator cockpit, and the operator drives the next prompt (card details, OTP, address) based on what the victim submits. Each stage is a separate artifact opportunity.
+
+- Infrastructure artifacts matter here. WebSocket upgrade requests, short-lived domains mimicking postal and banking brands, and the operator panel's login page are the fingerprints to hunt.
+
+Hunt your proxy and DNS logs for WebSocket upgrade requests (HTTP 101) to recently registered domains impersonating delivery or financial brands. TLS certificate transparency logs are a useful pivot. Full IOC list and operator infrastructure indicators are in the Group-IB report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099423560167231611</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2099423560167231611">DFIR Radar</source>
+      <pubDate>Mon, 14 Sep 2026 09:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2099423560167231611</guid>
+    </item>
     <item>
       <title>SETTRA RANSOMWARE</title>
       <link>https://theravenfile.com/2026/09/14/settra-ransomware/</link>
@@ -1569,23 +1592,6 @@ Always hash-verify the forensic image before touching it, then work only on a ve
       <source url="https://x.com/DFIR_Radar/status/2096162021557346473">DFIR Radar</source>
       <pubDate>Sat, 05 Sep 2026 09:02:26 +0000</pubDate>
       <guid isPermaLink="false">2096162021557346473</guid>
-    </item>
-    <item>
-      <title>PEEP: A Browser RAT Posing as a Chrome Extension</title>
-      <link>https://socradar.io/blog/peep-browser-rat-chrome-extension/</link>
-      <description>PEEP, a RedExt-derived browser RAT disguised as "Smart Bookmarks," converts Chrome and Edge into persistent backdoors with host-level command execution, session theft, and file access, all over plaintext HTTP.
-
-Key findings:
-
-- PEEP is a post-exploitation toolkit requiring prior admin or code execution access. Its PowerShell installers (install_silent.ps1, patch_secure_prefs.ps1) forge Chromium's Secure Preferences HMAC-SHA256 integrity values (protection.macs and super_mac) so the sideloaded extension passes the browser's own integrity check and silently re-enables at every launch (T1553). Four layered persistence mechanisms, Secure Preferences forgery, enterprise ExtensionInstallForcelist policy, external sideloading, and a ScriptCache "Ghost Anchor" fallback, mean no single cleanup action removes all of it.
-
-- The native-messaging host com.peep.lab (nm_host.exe, a 37.7 MB unsigned Node.js pkg binary) bridges the browser sandbox to the OS, supporting NM_SHELL (cmd/PowerShell/bash), filesystem read/write/delete, process listing, and service enumeration. The agent beacons every 30 seconds over plaintext HTTP to 206.237.30[.]232 (AS55933, Cloudie, Hong Kong) with X-PEEP-Agent-Key and X-PEEP-Agent-Id headers, auto-exfiltrating cookies, history, and open tabs to /api/exfil.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096132067654332497</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2096132067654332497">DFIR Radar</source>
-      <pubDate>Sat, 05 Sep 2026 07:03:24 +0000</pubDate>
-      <guid isPermaLink="false">2096132067654332497</guid>
     </item>
   </channel>
 </rss>
