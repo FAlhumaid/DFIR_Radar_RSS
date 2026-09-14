@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 14 Sep 2026 12:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2026 13:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When the web shell isn’t on disk: the F5 BIG-IP rootkit that lives in memory</title>
+      <link>https://andreafortuna.org/2026/09/14/f5-big-ip-rootkit-in-memory/</link>
+      <description>An F5 BIG-IP APM rootkit (named PoisonedRefresh by ESET) hooks Apache and PHP at runtime to serve a web shell that never touches disk, exploiting CVE-2025-53521, an unauthenticated RCE now in CISA KEV.
+
+- CVE-2025-53521 is the door. An unauthenticated RCE in BIG-IP APM, added to CISA KEV in March 2026 after active exploitation was confirmed. F5 initially misclassified the severity, correcting it only after weaponization was observed. The implant arrives as a second-stage payload post-exploitation, meaning initial access is already behind you by the time the rootkit appears.
+
+- The implant is a stripped, statically linked ELF that hijacks __libc_start_main to hook apr_dso_load, then waits for libphp to load. It intercepts Apache's file reads for apm_css.php3, full_wt.php3, and webtop_popup_css.php3, substituting a malicious in-memory version. The on-disk file, its hash, and FIM alerts all stay clean. T1505.003 assumed the shell was findable on disk. This breaks that model.
+
+- A second access path creates a Unix domain socket at /run/bigtlog.pipe. After a token check, connections are redirected to /bin/bash. No TCP listener, no reverse shell to an external IP. Network monitoring sees nothing unusual.
+
+- The related installer can infect the Apache binary and persist through BIG-IP upgrade images. Rebooting or upgrading does not guarantee remediation, and it destroys the volatile evidence that explains what happened.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099484171408138741</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2099484171408138741">DFIR Radar</source>
+      <pubDate>Mon, 14 Sep 2026 13:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2099484171408138741</guid>
+    </item>
     <item>
       <title>LNK Metadata</title>
       <link>https://windowsir.blogspot.com/2026/09/lnk-metadata.html</link>
@@ -1579,29 +1598,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2096328382128754961">DFIR Radar</source>
       <pubDate>Sat, 05 Sep 2026 20:03:29 +0000</pubDate>
       <guid isPermaLink="false">2096328382128754961</guid>
-    </item>
-    <item>
-      <title>Digital Forensics: Fixing a Corrupted Disk After File Exfiltration</title>
-      <link>https://hackers-arise.com/digital-forensics-repairing-a-damaged-hard-drive-and-extracting-the-data/</link>
-      <description>Corrupted MBR used to obstruct investigation into insider data exfiltration. NTFS artifacts including $MFT and $UsnJrnl expose the full attack chain despite deliberate anti-forensic wiping.
-
-Key findings:
-
-- The MBR's final two bytes (boot signature 0x55 0xAA) were overwritten to prevent tools like Autopsy and FTK Imager from reading the image. Repair requires a hex editor such as HxD: overwrite, never delete, those bytes to restore the signature before any further analysis.
-
-- After repair, export and parse MFT with MFTECmd.exe (Eric Zimmerman's EZTools): MFTECmd.exe -f ..\Evidence$MFT --csv ..\Evidence\ --csvf MFT.csv. Even deleted file records survive here, revealing Excel sheets, PDFs, and zip archives flagged as sensitive corporate data.
-
-- $UsnJrnl (J) logged the full exfiltration sequence: a folder named "data Exfil" was created, files were appended to "New Compressed (zipped) Folder.zip", then renamed and deleted. Parse J with MFTECmd, open in Timeline Explorer, and filter Update Reason to FileDelete.
-
-- DiskWipe.exe was found on the second partition. To confirm execution and tie actions to a user, extend the investigation into Prefetch, Shellbags, registry, and NTUSER.DAT.
-
-Always hash-verify the forensic image before touching it, then work only on a verified copy. MFT and $UsnJrnl together reconstruct what wipers try to erase.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2096267973824491816</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2096267973824491816">DFIR Radar</source>
-      <pubDate>Sat, 05 Sep 2026 16:03:27 +0000</pubDate>
-      <guid isPermaLink="false">2096267973824491816</guid>
     </item>
   </channel>
 </rss>
