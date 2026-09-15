@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Sep 2026 13:03:31 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Sep 2026 14:03:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ParaShells: Parallels Desktop Turns Appliance Install Into a Root Shell</title>
+      <link>https://jfrog.com/blog/parallels-desktop-turns-appliance-install-into-root-shell/</link>
+      <description>CVE-2026-90894: Parallels Desktop local privilege escalation lets any unprivileged macOS user reach root via argument injection into a world-writable IPC socket. Fixed in Desktop 27.0.0.
+
+Key details:
+
+- CVE-2026-90894 affects Parallels Desktop 26.4.0 (build 57513) on macOS arm64. The root helper prl_disp_service runs as uid 0 and exposes /var/run/prl_disp_service.socket at mode 0777, meaning any local process can connect. PrlSrv_LoginLocal authenticates via peercred only, with no Parallels Team ID check, so an unsigned script from a non-admin account logs in successfully.
+
+- The exploit chain: attacker calls InstallAppliance with a sVmParentPath containing an embedded quote, e.g. /tmp/sprl_p_505" --use-compress-program=/tmp/u505 ". Qt's QProcess::splitCommand treats the quote as syntax, not a filename character, rewriting the tar argv to include --use-compress-program=/tmp/u505. Because prl_disp_service launches tar as root, the attacker's compress-program script runs as uid 0. No VM needs to be running.
+
+- Post-exploitation: the PoC script writes a NOPASSWD sudoers fragment to /etc/sudoers.d/ and opens an interactive root shell. A failed appliance extract error (-41508) is the only visible anomaly after the payload runs.
+
+- Attack surface is broad. Parallels is common on developer laptops. A malicious Homebrew formula, poisoned npm preinstall, or browser download landing as a low-privileged user gains a clean path to root if Desktop is installed.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099861701755601376</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2099861701755601376">DFIR Radar</source>
+      <pubDate>Tue, 15 Sep 2026 14:03:38 +0000</pubDate>
+      <guid isPermaLink="false">2099861701755601376</guid>
+    </item>
     <item>
       <title>CVE-2026-76461: Critical Cisco Secure Email Gateway Vulnerability Exploited in the Wild</title>
       <link>https://www.rapid7.com/blog/post/etr-cve-2026-76461-critical-cisco-secure-email-gateway-vulnerability-exploited-in-the-wild</link>
@@ -1569,23 +1590,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2097325141411963189">DFIR Radar</source>
       <pubDate>Tue, 08 Sep 2026 14:04:15 +0000</pubDate>
       <guid isPermaLink="false">2097325141411963189</guid>
-    </item>
-    <item>
-      <title>ClearFake WebDAV infection chain delivers Amatera stealer, ZigCryptoStealer, and NetSupport Manager</title>
-      <link>https://blog.talosintelligence.com/clearfake-webdav-infection-chain/</link>
-      <description>ClearFake + ClickFix chain delivers Amatera stealer to a Ukrainian 🇺🇦 government org via WebDAV DLL execution, with Russian-attributed secondary payload deploying unauthorized NetSupport Manager for persistent access.
-
-- Initial pivot: April 2026 endpoint telemetry showed rundll32.exe loading "verification.google" over a WebDAV UNC path, invoking export ordinal. The loader uses DLL hollowing into a clean dbghelp.dll mapping via TpAllocWork callback and direct WoW64 syscall stubs to evade EDR hooks. Talos tracks this cluster as UAT-10820.
-
-- The "pf.ch" branch reconstructs the full ClearFake chain: a Cloudflare Worker injects JS into a compromised site, pulls encoded next-stage code from BNB Smart Chain contract 0x886d310Ac23e05EA705e24E513D19f53793832A9 via bsc-testnet-rpc.publicnode[.]com (EtherHiding), then a fake Google CAPTCHA ClickFix prompt runs rundll32 via the Windows Run dialog against leaguejazire[.]com subdomains.
-
-- Amatera resolves its C2 via a Telegra.ph dead drop (decoding to 145.249.109[.]147:443); the "verification.google" build connects directly to 45.150.34[.]2:443 masquerading as github[.]com via TLS SNI. Secondary payloads: "pf.ch" deploys ZigCryptoStealer (clipboard hijacker in Zig, C2 via BNB contract 0x7CC3cFC1Ac007B8c6566fD2C7419b15a75473468, current domain lb.propertyfind[.]cc) plus a fileless Go reverse proxy over WebSocket to update.dubbedmuch[.]cc.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097310170003239327</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2097310170003239327">DFIR Radar</source>
-      <pubDate>Tue, 08 Sep 2026 13:04:46 +0000</pubDate>
-      <guid isPermaLink="false">2097310170003239327</guid>
     </item>
   </channel>
 </rss>
