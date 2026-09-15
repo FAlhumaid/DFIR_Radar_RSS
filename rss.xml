@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Sep 2026 15:03:32 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Sep 2026 16:04:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The extension you never installed: KREMLIN forges Chrome's own integrity checks to steal banking sessions</title>
+      <link>https://www.elastic.co/security-labs/threat-command/malicious-browser-extension-kremlin-banking-malware</link>
+      <description>Brazilian 🇧🇷 banking operation REF9334 built a malicious Chrome extension that forges Chromium's own integrity checks, bypassing the Web Store entirely to steal session tokens from 1,500+ confirmed victims across seven campaigns since May 2025.
+
+Key findings:
+
+- KREMLIN's installer (c8c38634dd44d7c6162c66174a6ee23ee404265125166e8d757681bdd66a4268) forces Chrome closed, launches it under a debugger with --no-startup-window, scans chrome.dll's .rdata for the string "OSCrypt.AppBoundProvider.Decrypt.ResultCode", and uses ReadProcessMemory to pull the App-Bound OSCrypt key live from browser memory. It then recomputes both legacy HMACs and newer encrypted hashes using a seed from resources.pak, rewrites Secure Preferences, and activates the extension silently. No Web Store, no user prompt.
+
+- The infection chain starts with a JS file masquerading as a Brazilian 🇧🇷 bank document. Stage 2 queries Ethereum smart contract 0xCD7360A83E5cdbBbbbcEB0e78748babA6740d07b as a dead-drop resolver (T1102.001) to fetch payload URLs, with SentinelOne's signed SentinelMemoryScanner.exe used to sideload the main malicious DLL masquerading as SentinelAgentCore.dll. Persistence lands as scheduled task MicrosoftNodeRuntimeUpdater.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099892133100425429</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2099892133100425429">DFIR Radar</source>
+      <pubDate>Tue, 15 Sep 2026 16:04:34 +0000</pubDate>
+      <guid isPermaLink="false">2099892133100425429</guid>
+    </item>
     <item>
       <title>August 2026 Detection Highlights: Stronger Phishing Detection, 7 New VTIs, and 50+ YARA Rules</title>
       <link>https://www.vmray.com/august-2026-detection-highlights-stronger-phishing-detection-7-new-vtis-and-50-yara-rules/</link>
@@ -1567,27 +1584,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2097355172309520752">DFIR Radar</source>
       <pubDate>Tue, 08 Sep 2026 16:03:36 +0000</pubDate>
       <guid isPermaLink="false">2097355172309520752</guid>
-    </item>
-    <item>
-      <title>CVE-2026-86206, CVE-2026-86207: N-able N-central Authentication Bypass (FIXED)</title>
-      <link>https://www.rapid7.com/blog/post/ve-cve-2026-86206-cve-2026-86207-n-able-n-central-authentication-bypass-fixed</link>
-      <description>Two chained flaws in N-able N-central let an unauthenticated remote attacker bypass auth and create a System Administrator account. Patch to version 2026.3.1.13 immediately.
-
-Key findings:
-
-- CVE-2026-86206 (CVSS 6.9) is a path-parsing and header-spoofing bypass. A crafted URI like /dms;/services/ServerUI fools Envoy into routing the request while Jetty strips the semicolon and dispatches to the protected SOAP servlet. Simultaneously, a Forwarded header with for="127.0.0.\1" causes Jetty to resolve the address as 127.0.0.1, while N-central's own LocalHostUtils parser sees an invalid value and fails open, granting local trust to a remote caller.
-
-- CVE-2026-86207 (CVSS 7.7) is an auth bypass in UserTwoFactorLogin. Built-in accounts (User ID 1 N-able Administrator, 50 Product Administrator, 51 N-able Support) have no legacy 2FA profile, so calling User.TwoFactorLogin with a dummy password throws an exception. The session-user binding set before the auth attempt is never cleaned up, leaving a fully authenticated SOAP session without valid credentials.
-
-- Chained, these give a remote unauthenticated attacker a privileged SOAP session they can use to create a new attacker-controlled System Administrator account via the ServerUI2 endpoint. All N-central versions before 2026.3.1.13 are vulnerable.
-
-On-premise N-central operators: apply N-central 2026.3 Hotfix 3 (2026.3.1.13) out-of-band now.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097340057921499235</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2097340057921499235">DFIR Radar</source>
-      <pubDate>Tue, 08 Sep 2026 15:03:31 +0000</pubDate>
-      <guid isPermaLink="false">2097340057921499235</guid>
     </item>
   </channel>
 </rss>
