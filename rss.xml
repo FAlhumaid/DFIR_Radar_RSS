@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Sep 2026 17:03:33 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Sep 2026 18:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Multiple Vulnerabilities in Frappe LMS Leading to Remote Code Execution</title>
+      <link>https://rhinosecuritylabs.com/research/multiple-vulnerabilities-in-frappe-lms-leading-to-remote-code-execution/</link>
+      <description>Two chained CVEs in Frappe LMS let a student-level user achieve RCE on the server. CVE-2026-39405 (path traversal to RCE) and CVE-2026-34606 (stored XSS sanitization bypass) combine into a full exploit chain. Patch to v2.50.1 immediately.
+
+- CVE-2026-39405: The extract_package function passes an unsanitized chapter title into os.path.join before extracting a SCORM ZIP. A title like ../../../../../apps/lms/lms/lms lets an attacker overwrite api.py with a backdoored version. The backdoor listens on the public get_job_details endpoint, executing shell commands when the string |$&gt; appears in the job parameter.
+
+- CVE-2026-34606: Frappe LMS sanitizes rich-text on submission, but passes stored HTML through BeautifulSoup's get_text() to generate profile previews. get_text() reassembles split text nodes into a valid script tag without re-sanitizing, so a bio payload like p tags splitting script&gt;alert()&lt; reassembles into a live XSS payload visible to any viewer.
+
+- The chain: student injects XSS into their bio, an admin views the profile, the payload triggers the SCORM upload and overwrites api.py, then the backdoor endpoint is open to unauthenticated callers.
+
+Confirmed vulnerable: v2.44.0. Fixed: v2.50.1. PoC code is published in the Rhino Security Labs CVE GitHub repository.
+
+Hunt for unexpected modifications to apps/lms/lms/api.py and review web server logs for POST requests to /api/method/lms.lms.api.get_job_details containing |$&gt;.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099922110609019236</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2099922110609019236">DFIR Radar</source>
+      <pubDate>Tue, 15 Sep 2026 18:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2099922110609019236</guid>
+    </item>
     <item>
       <title>Iranian cyber targeting of dissidents, activists and journalists</title>
       <link>https://www.ncsc.gov.uk/news/iranian-cyber-targeting-of-dissidents-activists-and-journalists</link>
@@ -1557,29 +1578,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2097385515737624693">DFIR Radar</source>
       <pubDate>Tue, 08 Sep 2026 18:04:10 +0000</pubDate>
       <guid isPermaLink="false">2097385515737624693</guid>
-    </item>
-    <item>
-      <title>CVE-2026-75650: Adobe Patches Actively Exploited Magento Zero-Day Used to Deploy Backdoors</title>
-      <link>https://socprime.com/blog/cve-2026-75650-critical-magento-zero-day-rce/</link>
-      <description>CVE-2026-75650, CVSS 10.0 zero-day in Adobe Commerce and Magento Open Source, is actively exploited. Unauthenticated RCE via template injection deployed Rust backdoors and PHP web shells before Adobe's Sept 7 patch.
-
-Key findings:
-
-- StyleSmuggler (CWE-1336) poisons a server-accessible file (app log or var/report/) with attacker PHP, then triggers Magento's template engine through the Payment Transaction Failed Reminder email flow to include and execute it. No account, no user interaction required. Full August 2026 security updates offered zero protection.
-
-- Two distinct post-exploitation paths confirmed: a Rust-based Linux implant masquerading as [kworker/u:8:0], fc-cache, or chronyd, persisting via cron and UDP/123 NTP-like traffic; and a PHP web shell dropped under pub/media/catalog/product/cache/ returning 404 until triggered with X-Cache-Token header. C2 infrastructure resolved to 185.157.160[.]251.
-
-- First exploitation confirmed Sept 4 at 22:20 UTC, three days before Adobe bulletin APSB26-146 and hotfix VULN-39341 shipped. Any internet-facing store in that window must be treated as potentially compromised, not just unpatched.
-
-- Malware survived file deletion by relocating outside the webroot, re-establishing cron persistence, and continuing execution. Deleting the web shell is not remediation.
-
-Apply VULN-39341 and rotate Commerce encryption keys now.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097370283606725113</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2097370283606725113">DFIR Radar</source>
-      <pubDate>Tue, 08 Sep 2026 17:03:38 +0000</pubDate>
-      <guid isPermaLink="false">2097370283606725113</guid>
     </item>
   </channel>
 </rss>
