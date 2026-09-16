@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Sep 2026 21:03:34 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2026 22:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BambooToken: The Malware That Speaks MQTT to Stay Under the Radar</title>
+      <link>https://securityaffairs.com/199205/malware/bambootoken-the-malware-that-speaks-mqtt-to-stay-under-the-radar.html</link>
+      <description>BambooToken uses MQTT broker infrastructure to hide C2 traffic, sideloads via trusted Chinese 🇨🇳 financial software, and has targeted routers, crypto backends, and a GitLab server across Asia and beyond since early 2023.
+
+- Lumen Black Lotus Labs uncovered this unattributed, multiplatform campaign running from February 2023 through July 2026. Early samples used plain HTTP; by 2024-2025 the malware pivoted to MQTT publish-subscribe comms routed through a broker, meaning the victim machine never contacts the C2 directly. Cloudflare fronting adds another layer, and two command domains have appeared in Cloudflare Radar popularity rankings, suggesting meaningful scale.
+
+- Windows delivery abuses DLL sideloading via Tendyron OnKey software (used in Chinese 🇨🇳 banking and government) and a Kingsoft Office impersonator. Neither vendor's signing cert was compromised; the actor exploited a legitimately signed binary that loads an attacker-controlled DLL alongside it.
+
+- A December 2025 Linux build expanded host recon and uses a distinct MQTT topic set. Windows agents poll installed AV every five seconds. Dormant code includes a keylogger, clipboard theft, audio recording, and screen/webcam capture.
+
+- Victims span MikroTik and DrayTek routers in Singapore 🇸🇬, Cambodia 🇰🇭, and Vietnam 🇻🇳, plus mobile-app backends, crypto platforms, a hotel, a biomedical firm, a law firm, a financial company, and a GitLab instance in Hong Kong.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100344865678610736</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2100344865678610736">DFIR Radar</source>
+      <pubDate>Wed, 16 Sep 2026 22:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2100344865678610736</guid>
+    </item>
     <item>
       <title>RatHat: AI-Powered Mobile Threat is Here for Your Credentials &amp; Bank Accounts</title>
       <link>https://zimperium.com/blog/rathat-ai-powered-mobile-threat-is-here-for-your-credentials-bank-accounts</link>
@@ -1553,27 +1572,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2097793395012088195">DFIR Radar</source>
       <pubDate>Wed, 09 Sep 2026 21:04:55 +0000</pubDate>
       <guid isPermaLink="false">2097793395012088195</guid>
-    </item>
-    <item>
-      <title>Off Guard: Breaking LiteLLM from authentication bypass to cloud compromise</title>
-      <link>https://www.wiz.io/blog/off-guard-breaking-litellm-from-authentication-bypass-to-cloud-compromise</link>
-      <description>LiteLLM auth bypass chains to root-level RCE and IAM credential theft. CVE-2026-59822 is actively exploited in the wild and now on CISA KEV, present in roughly one-third of cloud environments.
-
-Key findings:
-
-- CVE-2026-59822 (MCP auth bypass): the MCP auth handler in user_api_key_auth_mcp.py catches 401s from invalid tokens and returns an empty UserAPIKeyAuth() object, granting a fully authenticated session. A single request with "Authorization: Bearer a" is enough. Honeypot data confirmed active exploitation as of 2026-07-07. Fix landed in v1.84.0.
-
-- CVE-2026-59821 (post-auth RCE): the guardrail registration endpoint (POST /guardrails) called exec(compile(...)) without stripping __builtins__ or running the forbidden-patterns check, giving submitted Python the full standard library. Code executed at registration time, not inference time. Fixed in v1.82.0 with sandbox enforcement and PROXY_ADMIN gating.
-
-- 9.6% of 3,074 scanned public instances accepted the default master key (sk-1234) or required no auth. Pre-patch, no-auth deployments granted PROXY_ADMIN to every request by default. Chaining default key plus CVE-2026-59821 (pre-v1.82.0) yields pre-auth root in one request.
-
-- Pass-through endpoints proxy requests to arbitrary URLs with no validation, including AWS IMDS. The x-pass- header prefix strips and forwards headers to the target, defeating IMDSv2 protections and enabling IAM credential exfiltration post-auth.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097778354875408828</description>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2097778354875408828">DFIR Radar</source>
-      <pubDate>Wed, 09 Sep 2026 20:05:10 +0000</pubDate>
-      <guid isPermaLink="false">2097778354875408828</guid>
     </item>
   </channel>
 </rss>
