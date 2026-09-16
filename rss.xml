@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Sep 2026 17:04:45 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2026 18:04:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Agentic Ransomware: From Human-Operated to AI-Operated Attacks</title>
+      <link>https://socradar.io/blog/agentic-ransomware-human-to-ai-attacks/</link>
+      <description>Fully autonomous AI ransomware is no longer theoretical: JADEPUFFER ran a complete intrusion-to-extortion campaign in July 2026 with no human operator, correcting failures in 31 seconds and destroying AI model files worth up to $500K to rebuild.
+
+- JADEPUFFER exploited CVE-2025-3248, an unauthenticated RCE in Langflow's /api/v1/validate/code endpoint (CISA KEV since May 2025), delivered Base64-encoded Python payloads, harvested API keys and cloud creds from config files and an exposed MinIO bucket using default credentials, installed a crontab beacon every 30 min to 45.131.66[.]106:4444, then encrypted 1,342 Nacos config records using MySQL AES_ENCRYPT and dropped ransom notes pointing to e78393397@proton[.]me. A second wave deployed ENCFORGE targeting ~180 ML file extensions: model checkpoints, vector DBs, training data.
+
+- FortiBleed, the earlier case, shows agentic-integrated ransomware: affiliate TOXMAN built PENTEST LAB, a 14-agent Docker framework using nuclei, ffuf, and sqlmap coordinated via OpenRouter (~$4,554 in API credits), generating zero-days and playbooks for the INC and Lynx groups. Human operators ran the actual intrusions against 86,644+ FortiGate devices across 194 countries. Related CVE-2026-24858 (CVSS 9.8) covers a FortiCloud SSO bypass; primary access was credential reuse on ports 443, 4443, 8443, 10443.
+
+- DFIR artifact angle: JADEPUFFER narrates its own actions in code comments, an unusual detection signal.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100284612874256498</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2100284612874256498">DFIR Radar</source>
+      <pubDate>Wed, 16 Sep 2026 18:04:08 +0000</pubDate>
+      <guid isPermaLink="false">2100284612874256498</guid>
+    </item>
     <item>
       <title>Mapping out your unknown: A threat hunter’s guide to GitHub</title>
       <link>https://securitylabs.datadoghq.com/articles/mapping-out-your-unknown-threat-hunters-guide-to-github/</link>
@@ -1571,23 +1588,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2097733036343193752">DFIR Radar</source>
       <pubDate>Wed, 09 Sep 2026 17:05:05 +0000</pubDate>
       <guid isPermaLink="false">2097733036343193752</guid>
-    </item>
-    <item>
-      <title>Linux Detection Engineering - Fileless Execution</title>
-      <link>https://www.elastic.co/security-labs/threat-command/memfd-create-linux-fileless-execution</link>
-      <description>Linux fileless execution is not invisible: Elastic maps five memfd-based tradecraft patterns to concrete eBPF telemetry starting in Elastic Security 9.4.0, with detection rules and the open-source FENIX lab framework.
-
-- memfd_create is the pivot point. The syscall creates an anonymous memory-backed fd with no path on disk, then the payload is written in and executed via /proc/self/fd/N. Elastic Defend 9.4.0 on kernel 5.10.16+ now records this as a process event with process.Ext.memfd.name and process.Ext.memfd.flags fields, making the full chain queryable: download, memfd_create, exec sequence visible in EQL without relying on procfs paths in child processes. Real-world examples include the malicious sympy-dev PyPI package and VoidLink paired with a rootkit that scanned for memfd-backed PIDs to hide.
-
-- Five distinct execution classes each leave different artifacts: anonymous memfd-backed ELF exec (/proc/self/fd/N as execve path), interpreter one-liners where python3/perl/php calls memfd_create internally, fileless staging via curl/wget piped to an interpreter, deleted-file execution where /proc/PID/exe shows "path (deleted)" while the process runs on an open inode, and fileless LKM loading via finit_module on a memfd fd. Each class needs separate detection logic.
-
-- LKM loading gets new visibility: init_module and finit_module calls now surface as load_module event actions on process events in 9.4.0.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097717572112199792</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2097717572112199792">DFIR Radar</source>
-      <pubDate>Wed, 09 Sep 2026 16:03:38 +0000</pubDate>
-      <guid isPermaLink="false">2097717572112199792</guid>
     </item>
   </channel>
 </rss>
