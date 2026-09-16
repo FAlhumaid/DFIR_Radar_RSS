@@ -5,8 +5,23 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Sep 2026 08:03:11 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2026 10:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NightEagle targets Russian companies</title>
+      <link>https://securelist.com/tr/nighteagle-apt-ghostcontainer-and-tunneling/121323/</link>
+      <description>Chinese-linked APT NightEagle (APT-Q-95) pivots to hit Russian 🇷🇺 businesses, deploying a custom Exchange backdoor and abusing legitimate tunneling tools to stay hidden across full AD compromises.
+
+- Initial access came via stolen VPN credentials, with connections masquerading through Cloudflare WARP and European VPS infrastructure. NightEagle then planted GhostContainer, a .NET backdoor, on Microsoft Exchange servers by extracting ASP.NET ViewState crypto keys (CVE-2020-0688 component) to inject an in-memory payload. C2 commands arrive through x-owa-urlpostdata headers, and the backdoor actively patches amsi.dll and ntdll.dll in memory to blind AMSI and event logging.
+
+- For tunneling, the group pulled tools from typosquatted-looking GitHub repos (github[.]com/mirror-js/mirror-js, github[.]com/browserthemes/resourcepack) disguised as js-webpack.zip and resource-pack.zip. Binaries inside impersonated Adobe, TrueConf, and 1C software. They combined Microsoft Dev Tunnels to expose RDP (port 3389) externally on *.devtunnels[.]ms and rdp2tcp for TCP-over-RDP forwarding. Key artifact: Event IDs 132 and 148 in Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational.evtx will show channel name rdp2tcp instead of standard RDP channels.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100163666028982272</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2100163666028982272">DFIR Radar</source>
+      <pubDate>Wed, 16 Sep 2026 10:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2100163666028982272</guid>
+    </item>
     <item>
       <title>CISA, NSA, global cyber agencies issue guidance to detect and mitigate 17 Active Directory compromise techniques</title>
       <link>https://industrialcyber.co/cisa/cisa-nsa-global-cyber-agencies-issue-guidance-to-detect-and-mitigate-17-active-directory-compromise-techniques/</link>
@@ -1567,21 +1582,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2097642397371154565">DFIR Radar</source>
       <pubDate>Wed, 09 Sep 2026 11:04:55 +0000</pubDate>
       <guid isPermaLink="false">2097642397371154565</guid>
-    </item>
-    <item>
-      <title>CVE-2025-25249 Exploitation Delivers PivotC2, a FortiGate Post-Exploitation RAT</title>
-      <link>https://socradar.io/blog/cve-2025-25249-pivotc2-fortigate-rat/</link>
-      <description>CVE-2025-25249 actively exploited since July 2026: Russian-speaking crew drops PivotC2, a Node.js RAT purpose-built for FortiGate post-exploitation, hitting 178 confirmed devices from a 30,000-IP target list.
-
-- CVE-2025-25249 (CVSS 9.8) is a heap-based buffer overflow in the FortiOS/FortiSwitchManager cw_acd daemon, reachable unauthenticated over UDP 5246. The exploit binary fortirun.bin (SHA256: 2d338f...) fingerprints firmware via CAPWAP discovery, leaks live memory pointers to defeat ASLR, groans the heap with crafted Add Station messages, then corrupts a doubly-linked free list to gain write-what-where and pivot execution into Node.js, which ships natively with FortiOS, no dropper needed.
-
-- PivotC2 (v0.2.3, AI-assisted) lands at /tmp/.i.js after a Base64+XOR (key: pivot) stager fetches it from hxxps://146.103.99[.]177:8443/0c5b76709523. It beacons out over a single TLS socket, multiplexing shells, file ops, SOCKS5/HTTP tunneling, port forwarding, and CIDR scanning. Auto-mode autonomously harvests /data/config/sys_global.conf.gz, /data/config/sys_vd_root+root.conf.gz, and /data/etc/fsv_sync.dat, then decrypts ENC credentials (AES-256-CBC or AES-128-GCM) yielding VPN PSKs, SSL-VPN creds, LDAP bind secrets, and admin accounts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097627493024862493</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2097627493024862493">DFIR Radar</source>
-      <pubDate>Wed, 09 Sep 2026 10:05:41 +0000</pubDate>
-      <guid isPermaLink="false">2097627493024862493</guid>
     </item>
   </channel>
 </rss>
