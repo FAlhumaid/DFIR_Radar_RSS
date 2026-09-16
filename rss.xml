@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Sep 2026 13:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2026 14:04:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>One Patch Behind: Nightmare-Eclipse's ShieldCrash and the Defender Bypass That Won't Stay Fixed</title>
+      <link>https://www.levelblue.com/blogs/spiderlabs-blog/one-patch-behind-nightmare-eclipses-shieldcrash-and-the-defender-bypass-that-wont-stay-fixed</link>
+      <description>Nightmare-Eclipse drops ShieldCrash, a third-generation Windows Defender privilege-escalation PoC that survived both Microsoft's July and September 2026 patches. The same object-manager abuse mechanism has now outlasted two remediation rounds.
+
+- ShieldCrash is the follow-on to ShieldBreak (CVE-2026-69414, patched September 2026), which itself bypassed RoguePlanet (patched July 2026). All three exploit the same object-manager mount-and-symlink path into Defender's shadow scanning subsystem. The actor released it as a deliberate skeleton: LevelBlue testing confirmed it returns ntdll.dll regardless of target, not a working arbitrary-file-read primitive, but the mechanism is real and fires live Defender detections.
+
+- Staging artifacts are consistent and actionable. Every run created three ShieldCrash_GUID directories, two under C:\ and one in %TEMP%. On incomplete runs, C:\ShieldCrash_GUID folders held archives containing bfsvc.exe, eicar.com, and mrkaspy.jpg. One folder carried Everyone: Full Control permissions despite running as a standard user, a significant anomaly.
+
+- The object-manager chain is the durable detection target. EDR telemetry (SentinelOne and CrowdStrike) recorded C:\ShieldCrash_GUID mounted to \BaseNamedObjects\Restricted, then a symlink from \BaseNamedObjects\Restricted\BERN:stream to sensitive paths like C:\Windows\System32\config\ELAM. On an unpatched Windows 11 asset, MsMpEng.exe was observed reading the specified target file directly.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100224226657521775</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2100224226657521775">DFIR Radar</source>
+      <pubDate>Wed, 16 Sep 2026 14:04:11 +0000</pubDate>
+      <guid isPermaLink="false">2100224226657521775</guid>
+    </item>
     <item>
       <title>TrustSink: How a Rogue External MFA Provider Steals Passwords</title>
       <link>https://www.varonis.com/blog/trustsink</link>
@@ -1563,25 +1580,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2097672515971617007">DFIR Radar</source>
       <pubDate>Wed, 09 Sep 2026 13:04:36 +0000</pubDate>
       <guid isPermaLink="false">2097672515971617007</guid>
-    </item>
-    <item>
-      <title>CERT Polska alerts MikroTik RouterOS vulnerabilities actively being exploited in ‘MikroTrick’ attack chain</title>
-      <link>https://industrialcyber.co/critical-infrastructure/cert-polska-alerts-that-mikrotik-routeros-vulnerabilities-actively-being-exploited-in-mikrotrick-attack-chain/</link>
-      <description>MikroTik RouterOS hit by actively exploited two-flaw chain 'MikroTrick,' enabling unauthenticated full admin takeover of internet-exposed devices via SSH. Attacks confirmed since at least Sept. 2, 2026.
-
-- CVE-2026-67276 (CVSS 9.2): SSH auth bypass via improper RSA public key comparison. An attacker knowing only a username and public modulus can craft a substitute key and log in without the private key, inheriting that account's privileges. CVE-2026-86060 (CVSS 9.2): crafted username triggers privilege escalation to full admin on SSH login. These two form the MikroTrick chain. CVE-2026-67277 (CVSS 8.8) adds kernel memory leakage and remote DoS via the bandwidth-test service.
-
-- Observed attacker behavior: creation of a privileged account named 'ops,' failed logins under user '-2' followed by SSH-based user addition. Traffic originated from 82.192.72[.]4 and 103.102.31[.]18.
-
-- Post-update, RouterOS scans config at startup and sets a 'Flagged' marker if it detects known compromise traces. Absence of that marker does NOT clear the device. Check logs for the compromise message and inspect for unknown users, scripts, scheduler tasks, proxies, and tunnels.
-
-- Fixed in RouterOS 7.25beta3, 7.24.2, 7.23.4, and 6.49.21. If patching is blocked, immediately restrict SSH, WWW/WWW-SSL, and bandwidth-test to trusted management IPs only.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097657018710389236</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2097657018710389236">DFIR Radar</source>
-      <pubDate>Wed, 09 Sep 2026 12:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2097657018710389236</guid>
     </item>
   </channel>
 </rss>
