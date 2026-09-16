@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Sep 2026 16:04:38 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2026 17:04:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Mapping out your unknown: A threat hunter’s guide to GitHub</title>
+      <link>https://securitylabs.datadoghq.com/articles/mapping-out-your-unknown-threat-hunters-guide-to-github/</link>
+      <description>GitHub audit logs contain the hunting surface most orgs have not fully mapped: attacker TTPs from initial token compromise through bulk source code exfiltration are traceable if you know which fields and event types to query.
+
+- Initial access arrives via leaked PATs, device code phishing (victim authorizes a real GitHub URL without knowing the attacker generated the code), or malicious OAuth apps and IDE extensions with broad scopes. Hunt oauth_authorization.create events, group by oauth_application_name or integration, and flag uncommon app names or token_scopes. The hashed_token field stays consistent across all event types, making it your anchor for tracing a single token's full activity chain.
+
+- Discovery and secrets enumeration leaves api.request events on routes like /organizations/:organization_id/secret-scanning/alerts and /repositories/:repository_id/actions/secrets. No secret value is exposed, but the listing request and actor are logged. Group by actor over 1-hour windows and escalate anyone hitting a high count of distinct repositories, which is the clearest anomaly signal outside an authorized audit.
+
+- Bulk collection surfaces in git.clone (repository_public:false) and repo.download_zip (public_repo:false) events. Breadth and pace distinguish attacker from developer: a backend engineer cloning repos across every product area, or dozens of ZIP downloads in under five minutes, warrants immediate triage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100269667394724138</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2100269667394724138">DFIR Radar</source>
+      <pubDate>Wed, 16 Sep 2026 17:04:45 +0000</pubDate>
+      <guid isPermaLink="false">2100269667394724138</guid>
+    </item>
     <item>
       <title>Operation RapidRust: APT36 Deploys RUSTYSHADE, RUSTYMOVE, PSNATCH, and BASHNATCH</title>
       <link>https://www.zscaler.com/blogs/security-research/operation-rapidrust-apt36-deploys-rustyshade-rustymove-psnatch-and</link>
@@ -1571,23 +1588,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2097717572112199792">DFIR Radar</source>
       <pubDate>Wed, 09 Sep 2026 16:03:38 +0000</pubDate>
       <guid isPermaLink="false">2097717572112199792</guid>
-    </item>
-    <item>
-      <title>ClickFix Moves into the Browser to Steal Cryptocurrency</title>
-      <link>https://www.infosecurity-magazine.com/news/clickfix-browser-cryptocurrency/</link>
-      <description>ClickFix evolves from OS command injection to in-browser JavaScript hijacking, targeting crypto traders with fake vulnerability lures and a persistent Google Sheets-hosted payload chain.
-
-- The lure is social engineering aimed at would-be fraudsters: victims on Telegram, DarkForums, and paste sites were told a non-existent API flaw at crypto swap services would pay up to 38% more on deposits. They were instructed to paste JavaScript into Chrome's address bar, or from mid-April 2026, install Tampermonkey and add a malicious script. The appeal to targets who believed they were committing fraud is deliberate, suppressing victim reporting.
-
-- Payload delivery abused the Google Visualization API to pull obfuscated code from a publicly published Google Sheets document. The request originated from the victim's own browser, blending into normal traffic. Payload cells were hidden by formatting text white on white. Talos recovered 21 second-stage payloads, rotated with fresh XOR keys and randomized variable names but functionally identical.
-
-- The injected scripts acted as a full in-browser skimmer: monitoring page changes, replacing displayed deposit addresses, overriding the browser's fetch API to substitute attacker wallets before responses rendered, and replacing clipboard contents on copy. The Tampermonkey variant reloaded on every site visit for persistence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097702867977039919</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2097702867977039919">DFIR Radar</source>
-      <pubDate>Wed, 09 Sep 2026 15:05:13 +0000</pubDate>
-      <guid isPermaLink="false">2097702867977039919</guid>
     </item>
   </channel>
 </rss>
