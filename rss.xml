@@ -5,8 +5,23 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Sep 2026 17:03:20 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 18:03:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>EtherHiding Exposed: Inside a Blockchain-powered Malware Campaign Hiding in Plain Sight</title>
+      <link>https://www.guidepointsecurity.com/blog/etherhiding-exposed-deep-dive/</link>
+      <description>A BEC investigation uncovered a blockchain-powered C2 campaign active since November 2025, using Polygon smart contracts to store live C2 addresses across 31 compromised websites, with a backdoor now delivering a real-time banking trojan targeting 479 financial domains.
+
+- EtherHiding on Polygon: the C2 agent holds nine hardcoded Polygon RPC endpoints and sends a read-only eth_call to a smart contract to retrieve an encrypted C2 domain, decrypted with a repeating-key XOR (key: $%)W$fgl34). Two operator wallets (0xd802...826a, 0x6a6e...dfde) deployed 15 contracts across six waves. Template B contracts emit no on-chain events, a deliberate counter-forensics move against the event-sweep that exposed Template A. Active C2 domains: hivinest[.]online, insinght[.]site, 3262d48df5d75e34[.]shop.
+
+- Attack chain: compromised sites inject JavaScript that calls traffic-distribution domains (additionalver[.]com, promo-chatgpt[.]com). A cookie-gating mechanism limits exposure. ClickFix lure drops a scheduled task named "Enter" running every 60 seconds (T1053.005). On success, two PowerShell scripts land in %Temp%: a C2 agent and a persistence script writing HKCU\...\Run\PersonalizedUpdates (T1547.001), then deleting the task to cover tracks.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100646894800367722</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2100646894800367722">DFIR Radar</source>
+      <pubDate>Thu, 17 Sep 2026 18:03:43 +0000</pubDate>
+      <guid isPermaLink="false">2100646894800367722</guid>
+    </item>
     <item>
       <title>New Chinese-Made ‘RatHat’ Android Malware Leverages AI to Steal Financial Data</title>
       <link>https://www.infosecurity-magazine.com/news/rathat-android-malware-ai-steal/</link>
@@ -1571,25 +1586,6 @@ Hunt for anomalous large outbound transfers to non-corporate cloud storage in th
       <source url="https://x.com/DFIR_Radar/status/2098095140061475312">DFIR Radar</source>
       <pubDate>Thu, 10 Sep 2026 17:03:57 +0000</pubDate>
       <guid isPermaLink="false">2098095140061475312</guid>
-    </item>
-    <item>
-      <title>Unmasking SCCM Application Execution</title>
-      <link>https://specterops.io/blog/2026/09/10/unmasking-sccm-application-execution/</link>
-      <description>SCCM application execution hides behind WmiPrvSE.exe, not CcmExec.exe, making it far harder to detect than script-based SCCM abuse. SpecterOps maps the full DLL chain and delivers a Splunk-based detection strategy.
-
-- Script execution via SCCM (SCCMHunter) produces CcmExec.exe spawning PowerShell.exe directly, easy to catch. Application execution (SharpSCCM exec) goes CcmExec.exe to WmiPrvSE.exe to the payload, because CcmExec.exe loads CITaskMgr.dll, posts task properties to the root\CCM\CIModels WMI namespace via IWbemServices::ExecMethodAsync, and a pre-running WmiPrvSE.exe picks up that task asynchronously.
-
-- The full execution chain on the client side is WmiPrvSE.exe loading AppProvider.dll, ScriptHandler.dll, AppExcnLib.dll (CAppExecutionLibrary_RunCmdAsUser), then ccmcore.dll (CcmCreateProcessEx) wrapping KERNEL32.dll CreateProcessW to spawn the payload. No direct CcmExec.exe to payload relationship exists.
-
-- Key artifacts to collect: C:\Windows\CCM\AppEnforce.log and C:\Windows\CCM\Logs\execmgr.log on every SCCM client. These logs record the command line, app enforcement context, and DT GUID for every pushed application, including malicious ones.
-
-- Detection strategy: use Sysmon module-load events to find WmiPrvSE.exe instances that loaded AppProvider.dll, join on ProcessGUID to child process creation events, then group by child process image. Legitimate SCCM pushes hit large collections and produce many matching events.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098080131541557415</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2098080131541557415">DFIR Radar</source>
-      <pubDate>Thu, 10 Sep 2026 16:04:19 +0000</pubDate>
-      <guid isPermaLink="false">2098080131541557415</guid>
     </item>
   </channel>
 </rss>
