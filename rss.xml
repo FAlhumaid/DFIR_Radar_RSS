@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Sep 2026 05:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 08:03:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The skb that wasn't freed - the Fragnesia primitive via Open vSwitch</title>
+      <link>https://blog.doyensec.com/2026/09/17/ovs.html</link>
+      <description>New LPE bug family: Open vSwitch strips SKBFL_SHARED_FRAG from a live forwarded skb, reopening the Fragnesia page-cache write primitive. Deterministic root on default Arch, Fedora, Debian, Amazon Linux, and RHEL with no race condition required.
+
+Tracked as CVE-2026-90049, CVE-2026-89487, and CVE-2026-80977. Public since 2026-08-13, fixed in mainline and stable on 2026-09-04. Actively exploitable on unpatched kernels today.
+
+- Root cause is in queue_userspace_packet() inside net/openvswitch/datapath.c. When an OVS upcall fails, skb_tx_error() calls skb_zcopy_clear(), which clears the entire SKBFL_ALL_ZEROCOPY group including SKBFL_SHARED_FRAG. Because do_execute_actions() ignores the upcall return value, the same skb, now missing its ownership marker but still carrying foreign page-cache frags, continues down the action pipeline to OUTPUT. If that output reaches esp_input(), the gate at skb_has_shared_frag() passes and the in-place AES-GCM decrypt writes attacker-controlled plaintext directly into the page-cache folio.
+
+- Exploitation requires three things an unprivileged user can satisfy: CAP_NET_ADMIN inside a user namespace (GENL_UNS_ADMIN_PERM on all OVS genl ops, so unshare -Urn is enough), openvswitch.ko autoloading on first genl family resolution (no CAP_SYS_MODULE needed), and an MSG_ZEROCOPY send over a PROT_READ MAP_SHARED mapping of a root-owned file so SKBFL_DONT_ORPHAN keeps the page-cache frag from being copied during the upcall.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100495804062454061</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2100495804062454061">DFIR Radar</source>
+      <pubDate>Thu, 17 Sep 2026 08:03:20 +0000</pubDate>
+      <guid isPermaLink="false">2100495804062454061</guid>
+    </item>
     <item>
       <title>How I Tricked OpenClaw Into Attacking Its Own Network: A NAT64 SSRF Bypass</title>
       <link>https://infosecwriteups.com/how-i-tricked-openclaw-into-attacking-its-own-network-a-nat64-ssrf-bypass-9b93a7f11cd9?source=rss----7b722bfd1b8d---4</link>
@@ -1547,17 +1564,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2097868667211891148">DFIR Radar</source>
       <pubDate>Thu, 10 Sep 2026 02:04:02 +0000</pubDate>
       <guid isPermaLink="false">2097868667211891148</guid>
-    </item>
-    <item>
-      <title>Gigabud Uses Android App Cloning to Evade Fraud Detection</title>
-      <link>https://www.infosecurity-magazine.com/news/gigabud-android-app-cloning-fraud/</link>
-      <description>GoldFactory's Gigabud Android trojan pairs with Vwork, a weaponized Shelter fork, to clone banking apps into a work profile, breaking fraud detection by isolating the transaction from any malware alert in the personal profile.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097853494912802957</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2097853494912802957">DFIR Radar</source>
-      <pubDate>Thu, 10 Sep 2026 01:03:45 +0000</pubDate>
-      <guid isPermaLink="false">2097853494912802957</guid>
     </item>
   </channel>
 </rss>
