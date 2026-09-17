@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Sep 2026 22:03:09 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 23:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>100,000 WordPress Sites Exposed to Remote Code Execution via PHP Object Injection Vulnerability Found by Wordfence Argus in Tutor LMS</title>
+      <link>https://www.wordfence.com/blog/2026/09/100000-wordpress-sites-exposed-to-remote-code-execution-via-php-object-injection-vulnerability-found-by-wordfence-argus-in-tutor-lms/</link>
+      <description>CVE-2026-78175 (CVSS 8.8): PHP Object Injection in Tutor LMS lets any subscriber-level user achieve full RCE on 100,000+ WordPress sites via a serialization length-desync and GuzzleHttp POP chain.
+
+- CVE-2026-78175, CVSS 8.8 (High). Affects Tutor LMS versions 4.0.7 and below. The entry point is the tutor_save_withdraw_account AJAX handler in classes/Withdraw.php, which lacks a capability check and relies solely on a nonce that any logged-in user can obtain from the homepage. Since most Tutor LMS installs enable open student registration, an anonymous visitor can self-register and immediately exploit the flaw.
+
+- The root cause is esc_sql() misapplied to values destined for update_user_meta(). WordPress internally expands each % character to a 66-byte HMAC token, serializes the inflated string, then collapses the token back on DB write, leaving serialized length declarations 65 bytes larger than actual content. A second request triggers unserialize() on the corrupted blob, over-reading into attacker-controlled POST keys and materializing injected objects.
+
+- The POP chain works by injecting a reference to ecommerce\PaymentGateways\Paypal\vendor\autoload, which the plugin's spl_autoload_register loader in classes/RestAPI.php resolves and includes, bootstrapping the bundled Guzzle autoloader.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100722216069673175</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2100722216069673175">DFIR Radar</source>
+      <pubDate>Thu, 17 Sep 2026 23:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2100722216069673175</guid>
+    </item>
     <item>
       <title>T-Mobile rewards points expiry texts are a phishing scam</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/09/t-mobile-rewards-points-expiry-texts-are-a-phishing-scam</link>
@@ -1567,17 +1584,6 @@ PCAP, malware samples, and notes are available in the MTA zip packages.
       <source url="https://x.com/DFIR_Radar/status/2098170447208628661">DFIR Radar</source>
       <pubDate>Thu, 10 Sep 2026 22:03:12 +0000</pubDate>
       <guid isPermaLink="false">2098170447208628661</guid>
-    </item>
-    <item>
-      <title>What the Hugging Face Incident Teaches Us About Behavioral Detection in Agentic Attacks by Snehal Patel</title>
-      <link>https://www.vectra.ai/blog/what-the-hugging-face-incident-teaches-us-about-behavioral-detection-in-agentic-attacks</link>
-      <description>The Hugging Face incident reconstructed ~17,600 agent actions spanning Kubernetes, AWS, VPN, and source control. The TTPs shifted; the objectives did not: discovery, credential abuse, privilege escalation, lateral movement.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098155346397483140</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2098155346397483140">DFIR Radar</source>
-      <pubDate>Thu, 10 Sep 2026 21:03:11 +0000</pubDate>
-      <guid isPermaLink="false">2098155346397483140</guid>
     </item>
   </channel>
 </rss>
