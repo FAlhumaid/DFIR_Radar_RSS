@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Sep 2026 14:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 15:03:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>LausivLoader analysis, or how to pass data between malware stages, (Thu, Sep 17th)</title>
+      <link>https://isc.sans.edu/diary/rss/33348</link>
+      <description>LausivLoader, a multi-stage malware caught in a mail gateway quarantine, uses an unusual inter-stage data passing technique worth understanding for triage and memory forensics.
+
+- Initial access via malspam impersonating a legitimate company employee, asking the recipient to review attached requirements and quote a fiber optic system, a low-suspicion lure designed to bypass scrutiny (T1566.001)
+
+- The loader family, named LausivLoader, is notable for how it passes data between its stages, a technique that has direct implications for how analysts approach memory acquisition and stage reconstruction during triage
+
+- Mail gateway quarantine logs were the first artifact trail here: the message was caught before execution, making the gateway telemetry the earliest evidence source to preserve in a similar incident
+
+- For DFIR practitioners, inter-stage data passing often means artifacts do not reside cleanly on disk; look for injected memory regions, hollowed processes, or shared memory objects that link loader stages together
+
+Hunt for suspicious child processes spawned from email client or document reader processes, and pull full memory captures early. If a loader stage passes config or payload data in memory rather than via disk, a late acquisition loses the handoff. Full analysis is in the SANS ISC report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100601601400488162</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2100601601400488162">DFIR Radar</source>
+      <pubDate>Thu, 17 Sep 2026 15:03:44 +0000</pubDate>
+      <guid isPermaLink="false">2100601601400488162</guid>
+    </item>
     <item>
       <title>Unpacking a laZzzy Donut</title>
       <link>https://trustedsec.com/blog/unpacking-a-lazzzy-donut</link>
@@ -1571,25 +1592,6 @@ Hunt for anomalous large outbound transfers to non-corporate cloud storage in th
       <source url="https://x.com/DFIR_Radar/status/2098049732757086634">DFIR Radar</source>
       <pubDate>Thu, 10 Sep 2026 14:03:31 +0000</pubDate>
       <guid isPermaLink="false">2098049732757086634</guid>
-    </item>
-    <item>
-      <title>Redtail Payload Analysis &amp;#x5b;Guest Diary&amp;#x5d;, (Wed, Sep 9th)</title>
-      <link>https://isc.sans.edu/diary/rss/33326</link>
-      <description>RedTail cryptominer caught on a DShield honeypot shows active anti-analysis behavior: process masquerading, SIGKILL against monitoring tools, DoT-based network init, and cron persistence across both root and unprivileged contexts.
-
-SHA-256: 63be5f38b520b3143732962a5f8fec1f9abd1f483dbc741ed324e58f955dd35e (x86-64, UPX-packed, statically linked ELF). Delivered alongside ARM, ARM64, i686, and RISC-V variants. setup.sh selects the right binary by arch, stages it as a hidden dot-prefixed file in /tmp, /var/tmp, or /dev/shm, launches it with argument "ssh", then deletes the original redtail.* files.
-
-- RedTail masquerades via prctl(PR_SET_NAME, "php"), presenting as "php-fpm: pool www" or a PostgreSQL-like title. /proc/PID/exe still resolves to redtail.x86_64, making that the forensic tell. The listener port is dynamic (39539, 40219, 39983 observed), so hunting by port alone will miss it.
-
-- Persistence lands as an @reboot crontab entry under whichever account runs the binary: /var/spool/cron/crontabs/root (root) or the user crontab (unprivileged). RedTail then calls iptables -F and inserts an INPUT ACCEPT rule for its listener port.
-
-- Active defense disruption confirmed: RedTail reads /proc entries, matches inotifywait and strace command lines, and SIGKILLs them. Root run killed the root-owned inotifywait (PID 1199). Non-root run killed same-UID analysis processes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098034933570699355</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2098034933570699355">DFIR Radar</source>
-      <pubDate>Thu, 10 Sep 2026 13:04:43 +0000</pubDate>
-      <guid isPermaLink="false">2098034933570699355</guid>
     </item>
   </channel>
 </rss>
