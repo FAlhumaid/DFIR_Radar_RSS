@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Sep 2026 13:03:39 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 14:03:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unpacking a laZzzy Donut</title>
+      <link>https://trustedsec.com/blog/unpacking-a-lazzzy-donut</link>
+      <description>Six-stage loader chain pairs Python obfuscation with Donut shellcode and laZzzy PE encryption, fully unpacked via static analysis without executing the payload.
+
+- The chain opens with a heavily obfuscated Python script that decodes through multiple layers before dropping an encrypted blob. Each stage exists to burn analyst time and evade automated sandboxes that give up before the final payload surfaces.
+
+- Donut is the shellcode generation framework at the heart of this chain. It converts PE files into position-independent shellcode for in-memory execution, leaving no dropped binary on disk (T1620). That makes filesystem-based detection and most sandbox verdicts blind to the final payload.
+
+- laZzzy handles the PE encryption wrapping the inner payload. It uses XOR and AES to protect the payload until runtime, so static AV signatures on the final executable are useless until each layer is manually peeled back.
+
+- The full six-stage sequence was reconstructed without execution, using static Python deobfuscation and manual shellcode parsing. This matters for DFIR: sandbox-evading loaders can still be fully analyzed if you work the layers offline rather than waiting for runtime behavior.
+
+Prioritize memory forensics on suspected hosts: Donut payloads land in injected or hollowed processes and never touch disk. Dump process memory and scan for Donut shellcode headers.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100586404657184864</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2100586404657184864">DFIR Radar</source>
+      <pubDate>Thu, 17 Sep 2026 14:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2100586404657184864</guid>
+    </item>
     <item>
       <title>The Odyssey and trojans again: MovieReaper attacks users in multiple countries via compromised torrents</title>
       <link>https://securelist.com/moviereaper-malware-torrent-odyssey-solana/121344/</link>
@@ -1569,25 +1590,6 @@ SHA-256: 63be5f38b520b3143732962a5f8fec1f9abd1f483dbc741ed324e58f955dd35e (x86-6
       <source url="https://x.com/DFIR_Radar/status/2098034933570699355">DFIR Radar</source>
       <pubDate>Thu, 10 Sep 2026 13:04:43 +0000</pubDate>
       <guid isPermaLink="false">2098034933570699355</guid>
-    </item>
-    <item>
-      <title>The Load Balancer as a Backdoor: Investigating DPRK-Linked Tradecraft Inside HAProxy</title>
-      <link>https://threatmon.io/the-load-balancer-as-a-backdoor-investigating-dprk-linked-tradecraft-inside-haproxy/</link>
-      <description>North Korean 🇰🇵 operators trojanized HAProxy inside two South Korean 🇰🇷 organizations, embedding the "ted" backdoor directly into the load balancer binary to intercept traffic while the service ran normally.
-
-- ted was compiled into HAProxy 2.8.12 via a custom filter, not a HAProxy vulnerability. Once the attacker had host access, they replaced the legitimate binary with a trojanized build. The implant inspected HTTP requests, executed commands, transferred files, selectively altered responses per-visitor, and handled C2 exchanges inside HAProxy so those requests never reached backend servers, manipulating internal counters to suppress visibility.
-
-- Supporting toolkit included curlRAT for remote access, a trojanized SSH daemon capturing plaintext credentials at authentication time, a stager for environment reconnaissance, and modified Linux system daemons for persistence. Targets were automotive and media sector orgs; activity assessed DPRK-nexus at medium confidence, specific cluster (APT37, Lazarus, Kimsuky) unconfirmed.
-
-- The core detection problem: backend application logs may show no suspicious requests because ted consumed them inside HAProxy. Load balancer statistics were manipulated. A service reporting the correct version string is not evidence the binary is clean.
-
-Hunt by hashing production HAProxy binaries and diffing against trusted builds. Correlate upstream network captures against backend logs and flag discrepancies.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098019852711875066</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2098019852711875066">DFIR Radar</source>
-      <pubDate>Thu, 10 Sep 2026 12:04:47 +0000</pubDate>
-      <guid isPermaLink="false">2098019852711875066</guid>
     </item>
   </channel>
 </rss>
