@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Sep 2026 01:05:07 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 05:02:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How I Tricked OpenClaw Into Attacking Its Own Network: A NAT64 SSRF Bypass</title>
+      <link>https://infosecwriteups.com/how-i-tricked-openclaw-into-attacking-its-own-network-a-nat64-ssrf-bypass-9b93a7f11cd9?source=rss----7b722bfd1b8d---4</link>
+      <description>A parser-differential bug in OpenClaw's SSRF guard let a crafted NAT64 IPv6 literal route to 169.254.169.254 while showing the guard a harmless 8.8.8.8. Fixed in v2026.8.1.
+
+- OpenClaw (formerly Clawdbot/Moltbot) is an always-on AI gateway running inside user trust boundaries with a web_fetch tool, image-URL ingestion, and inbound media resolution. Every one of those is an SSRF primitive if the address guard can be fooled.
+
+- The guard correctly decoded IPv4-mapped, 6to4, Teredo, and the well-known 64:ff9b::/96 NAT64 prefix. The flaw: ipaddr.js v2.4.0 folds the RFC 8215 64:ff9b:1::/48 prefix under the same "rfc6052" label. The guard read parts[6]/parts[7] (the trailing 32 bits) for both, but in the /48 layout the real embedded IPv4 lives in hextets 3-5. The trailing bits are RFC 6052-mandated ignored suffix, meaning attacker-controlled scratch space.
+
+- The crafted address 64:ff9b:1:a9fe:a9:fe00:808:808 embeds 169.254.169.254 in the correct /48 slots and places 8.8.8.8 in the ignored suffix. Guard sees 8.8.8.8 and passes. A real NAT64 router decodes 169.254.169.254 and forwards there. Precondition: host must have an actual 64:ff9b:1::/48 NAT64 gateway present.
+
+- Patch is in v2026.8.1 and all later releases. Affected builds confirmed: beta range 2026.7.2-beta.1 through 2026.8.1-beta.2, with possible earlier stable versions still under review.
+
+Hunt tip: if you build SSRF guards, audit any case where a library classification label implies a memory layout.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100450382761902149</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2100450382761902149">DFIR Radar</source>
+      <pubDate>Thu, 17 Sep 2026 05:02:51 +0000</pubDate>
+      <guid isPermaLink="false">2100450382761902149</guid>
+    </item>
     <item>
       <title>CVE-2026-76461: Cisco Email Gateway Flaw Exploited</title>
       <link>https://socradar.io/blog/cve-2026-76461-cisco-email-gateway-flaw/</link>
@@ -1537,17 +1558,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2097853494912802957">DFIR Radar</source>
       <pubDate>Thu, 10 Sep 2026 01:03:45 +0000</pubDate>
       <guid isPermaLink="false">2097853494912802957</guid>
-    </item>
-    <item>
-      <title>Threat Matrix: Mapping threats across cloud web applications</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/09/09/threat-matrix-mapping-threats-across-cloud-web-applications/</link>
-      <description>Microsoft's new Cloud Web Applications Threat Matrix extends MITRE ATT&amp;CK across app code, workload identities, deployment pipelines, and connected cloud resources.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2097838751716380689</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2097838751716380689">DFIR Radar</source>
-      <pubDate>Thu, 10 Sep 2026 00:05:09 +0000</pubDate>
-      <guid isPermaLink="false">2097838751716380689</guid>
     </item>
   </channel>
 </rss>
