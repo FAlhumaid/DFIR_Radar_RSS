@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Sep 2026 00:03:05 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2026 01:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>MikroTrick: Inside the RouterOS Takeover Chain</title>
+      <link>https://bishopfox.com/blog/mikrotrick-inside-the-routeros-takeover-chain</link>
+      <description>MikroTik routers were being exploited before patches went public. Bishop Fox reproduced the full unauthenticated takeover chain and found persistence artifacts on real compromised devices that survive a patch.
+
+Key findings:
+
+- The attack chain is unauthenticated, meaning no credentials are needed to gain control of the router. Exploitation happened before fixes were publicly available, placing every exposed MikroTik device in the window of risk regardless of patch timing.
+
+- Bishop Fox recovered persistence artifacts on real-world compromised devices, confirming attackers were not just popping shells and leaving. Responders cannot treat a patched router as a clean router without investigating what was left behind.
+
+- The reproduction of the full takeover chain gives defenders a concrete attack path to model detections against. The methodology matters here: the chain exists, it works, and it was used in the wild before defenders had a patch to apply.
+
+- RouterOS forensics are non-standard. Evidence lives in the router's file system, scheduler jobs, user accounts, scripts, and firewall rules. These artifacts do not surface in traditional endpoint telemetry and require direct device inspection.
+
+If you manage MikroTik devices, patching is not enough. Pull the user list, scheduler entries, scripts, and firewall rules from every device and compare against a known-good baseline.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100752531601109401</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2100752531601109401">DFIR Radar</source>
+      <pubDate>Fri, 18 Sep 2026 01:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2100752531601109401</guid>
+    </item>
     <item>
       <title>Building an AI Detection Engine That Understands Agent Intent</title>
       <link>https://www.wiz.io/blog/building-an-ai-detection-engine-for-agent-intent</link>
@@ -1563,27 +1586,6 @@ Patch to firmware 12.4.3-03453 or later, but assume compromise first. Hunt /tmp 
       <source url="https://x.com/DFIR_Radar/status/2098200528778096645">DFIR Radar</source>
       <pubDate>Fri, 11 Sep 2026 00:02:44 +0000</pubDate>
       <guid isPermaLink="false">2098200528778096645</guid>
-    </item>
-    <item>
-      <title>2026-09-08: XWorm infection</title>
-      <link>https://www.malware-traffic-analysis.net/2026/09/08/index.html</link>
-      <description>XWorm delivered via Spanish-language invoice lure on September 8, 2026, using a RAR-disguised-as-LZH dropper feeding a JavaScript loader. Infection does not survive reboot, complicating live-system triage.
-
-- Phishing email arrived from amedrano.tornillo@gmail[.]com, relayed through 217.60.195[.]100, with subject "ENVIO DOCUMENTOS FACTURA 4558". The attachment (SHA-256: 9b4e654a8435d91c7f4e24e7fd844cbbb62328131b0065bc5a534c6e948c02c5) presents as an LZH archive but is actually RAR v5, a classic extension-spoofing trick (T1036.008) to confuse users and some security tools.
-
-- Extracted payload is a heavily obfuscated JavaScript file (SHA-256: 5ba1eee1204710adfe1963b730de79c7a8089b173e811052e7be464fc5da1a1d, 207 KB) named to match the lure. JS-based loaders drop directly into script host processes like wscript.exe or cscript.exe; look for those spawning unusual child processes or making outbound TCP connections.
-
-- XWorm C2 communicated over raw TCP to 43.228.157[.]141:7007, a non-HTTP channel that bypasses many proxy-based controls. Pivot on port 7007 outbound in your network logs and flag any wscript or cscript process with external TCP connections.
-
-- The infection did not persist across reboot, meaning volatile memory and live network state are your primary evidence sources. Capture RAM and full PCAP before pulling the plug; post-reboot, most artifacts may be gone.
-
-PCAP, malware samples, and notes are available in the MTA zip packages.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098185607105155280</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2098185607105155280">DFIR Radar</source>
-      <pubDate>Thu, 10 Sep 2026 23:03:26 +0000</pubDate>
-      <guid isPermaLink="false">2098185607105155280</guid>
     </item>
   </channel>
 </rss>
