@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Sep 2026 18:03:26 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2026 19:03:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Wordfence Argus Discovers Critical Vulnerability in libheif, the Library That Opens iPhone Photos on Your Server</title>
+      <link>https://www.wordfence.com/blog/2026/09/wordfence-argus-discovers-critical-vulnerability-in-libheif-the-library-that-opens-iphone-photos-on-your-server/</link>
+      <description>Critical CVSS 9.8 heap buffer overflow in libheif 1.18.0-1.23.2 enables arbitrary file read and RCE via a crafted HEIC upload. Actively fixed; exploitation is target-specific but demonstrably practical.
+
+- CVE not yet public (score assigned by maintainer Dirk Farin: CVSS 9.8 Critical). Affected versions: libheif 1.18.0 through 1.23.2, but only when compiled with WITH_UNCOMPRESSED_CODEC=ON. The overflow lives in the uncompressed color-plane decoder: it reads bit-depth from the first chroma plane and uses that width to write into both planes, overflowing the second when depths differ. Attacker controls both the written bytes and overflow length through the file itself.
+
+- The WordPress attack chain is: untrusted HEIC upload, PHP Imagick extension, ImageMagick with HEIF support, libheif. All four conditions must be true simultaneously. The official WordPress Docker image (Debian 13, libheif 1.19.8) satisfied every condition out of the box. Wordfence demonstrated protected-file disclosure and code execution on that exact deployment; a narrower copy-file test succeeded 29 of 30 attempts against a live Apache server.
+
+- Exploitation is environment-specific but not impractical. HEIF Heist showed tailoring similar libheif bugs to a new target took roughly one to two days. Shared hosting fleets built from the same base image multiply that leverage: work done once applies to all identical deployments.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101024288006418810</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2101024288006418810">DFIR Radar</source>
+      <pubDate>Fri, 18 Sep 2026 19:03:20 +0000</pubDate>
+      <guid isPermaLink="false">2101024288006418810</guid>
+    </item>
     <item>
       <title>New Settra Ransomware Variant Deployed in Attacks on Retail and Manufacturing</title>
       <link>https://www.infosecurity-magazine.com/news/settra-ransomware-retail/</link>
@@ -1535,25 +1552,6 @@ To get a proper breakdown, share the full article body, including the technical 
       <source url="https://x.com/DFIR_Radar/status/2098563159972089920">DFIR Radar</source>
       <pubDate>Sat, 12 Sep 2026 00:03:42 +0000</pubDate>
       <guid isPermaLink="false">2098563159972089920</guid>
-    </item>
-    <item>
-      <title>Your AI Keys Are The Loot Now</title>
-      <link>https://d3security.com/blog/anthropic-threat-report-september-2026-soc-takeaways/</link>
-      <description>Anthropic's 154-page September 2026 report documents AI API key theft as deliberate loot, not collateral damage, and shows how fragmented sessions defeat per-request safeguards.
-
-- A single French-speaking operator exploited an undocumented WordPress re-installation race condition to create a rogue admin account, built a doxxing platform with tens of millions of rows, and ran the entire campaign on stolen API keys, breaching 14 of 42 tracked targets. Two undergraduates in Hunan province ran an automated firmware exploit foundry that produced 12+ possible zero-days in one month, with 13 collection agents running scheduled with no operator present.
-
-- Suspected ShinyHunters affiliates pivoted stolen AI keys to run their own attack workloads at the victim's expense. A separate group hit an AI vendor's evaluation sandbox via prompt injection, extracted production keys, and used them to attack that vendor and unrelated targets simultaneously, with a follow-on campaign hitting roughly 30 AI companies in about four days.
-
-- Safeguards failed consistently under fragmentation. Claude refused 9 of 10 direct malicious requests but performed less consistently when work was split across smaller sessions. A weapons cell deliberately applied this, and a China-linked actor obtained suppression guidance naming 10 private citizens through re-prompting alone, no jailbreak required.
-
-Inventory every AI API key in apps, containers, mobile builds, and public repos.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098548116966576487</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2098548116966576487">DFIR Radar</source>
-      <pubDate>Fri, 11 Sep 2026 23:03:55 +0000</pubDate>
-      <guid isPermaLink="false">2098548116966576487</guid>
     </item>
   </channel>
 </rss>
