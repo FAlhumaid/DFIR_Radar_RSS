@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Sep 2026 15:04:26 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2026 16:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake LastPass Authenticator GitHub repos push new Rapuncel infostealer</title>
+      <link>https://www.bleepingcomputer.com/news/security/fake-lastpass-authenticator-github-repos-push-new-rapuncel-infostealer/</link>
+      <description>New infostealer Rapuncel pairs with a Microsoft-signed EDR killer driver to gut endpoint defenses before stealing credentials. SEO-poisoned GitHub repos impersonating LastPass and 39 other brands are the lure.
+
+Key findings:
+
+- Attack chain: victims land on fake GitHub repos via search, click download, get redirected to payload servers, and receive a ZIP inflated to 148MB to bypass size-based scanning. Inside, vsdbg.exe (a renamed legitimate Visual Studio debugger) sideloads vsdbg.dll, which deploys both Rapuncel and the kernel driver Alinubx.sys, disguised as an NVIDIA component nvfsflt64.sys and registering as the NvFsFilter service.
+
+- The driver is Microsoft-signed through the Windows Hardware Compatibility Publisher chain and is not currently on the vulnerable drivers blocklist. It uses ObOpenObjectByPointer with AccessMode=KernelMode to bypass PPL and terminate a hardcoded list of 145 AV and EDR processes. Defenders relying on PPL protection get no warning.
+
+- Rapuncel harvests credentials from 25 browsers (bypassing Chrome and Edge app-bound encryption via DLL injection into the browser process), 30 crypto wallets, Discord, Steam, Telegram sessions, Windows Credential Manager, and keyword-named documents. Exfil goes to 2.26.126[.]50 over raw TCP formatted as HTTP. Persistence is a Windows service that re-kills any recovered security tools before each launch.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100978969625428318</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2100978969625428318">DFIR Radar</source>
+      <pubDate>Fri, 18 Sep 2026 16:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2100978969625428318</guid>
+    </item>
     <item>
       <title>Attacker infrastructure, but vibe-coded: tracking the evolution of credential harvesting platforms</title>
       <link>https://securitylabs.datadoghq.com/articles/attacker-infrastructure-but-vibe-coded/</link>
@@ -1535,27 +1554,6 @@ Inventory every AI API key in apps, containers, mobile builds, and public repos.
       <source url="https://x.com/DFIR_Radar/status/2098517889259020426">DFIR Radar</source>
       <pubDate>Fri, 11 Sep 2026 21:03:48 +0000</pubDate>
       <guid isPermaLink="false">2098517889259020426</guid>
-    </item>
-    <item>
-      <title>Corporate Endpoint Triage: How It Works and What to Use</title>
-      <link>https://belkasoft.com/corporate-endpoint-triage</link>
-      <description>Corporate endpoint triage with Belkasoft T: how to rapidly inspect a live Windows workstation, collect only what matters, and make the escalation call without pulling the machine from production.
-
-Key findings:
-
-- Triage follows the order of volatility (NIST SP 800-86): RAM first, then network state and processes, then disk artifacts. Belkasoft T prompts for memory acquisition at launch, requires admin rights for a full dump, and can fall back to Belkasoft Live RAM Capturer. Plan for standard-user execution on corporate endpoints, it still yields useful results but loses memory, other user folders, and locked system files.
-
-- The tool detects 1,500+ application profiles (browsers, chat, cloud sync, crypto wallets, mobile backups) plus registry hives, jumplists, LNK files, prefetch, and event logs. Detection and collection are separated: the operator reviews what was found before choosing what to export.
-
-- Footprint is real and should be documented. Windows logs the connected USB device and the last executable run from it. AV may inspect and log the binary. Record the run in case notes so those entries are explained rather than discovered by someone else later.
-
-- Output lands as a .tar partial image readable by Belkasoft X and other forensic tools, alongside an HTML file list. For endpoints nobody can reach physically, Belkasoft R (agent-based, GPO or WMI deployment) handles remote acquisition.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098503056572797017</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2098503056572797017">DFIR Radar</source>
-      <pubDate>Fri, 11 Sep 2026 20:04:52 +0000</pubDate>
-      <guid isPermaLink="false">2098503056572797017</guid>
     </item>
   </channel>
 </rss>
