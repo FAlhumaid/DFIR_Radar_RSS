@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Sep 2026 14:03:24 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2026 15:04:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attacker infrastructure, but vibe-coded: tracking the evolution of credential harvesting platforms</title>
+      <link>https://securitylabs.datadoghq.com/articles/attacker-infrastructure-but-vibe-coded/</link>
+      <description>AI-assisted attacker ops platforms "Loot" and "UltraVault" exposed without auth, holding 42,000+ stolen secrets including AWS keys and live AI provider credentials across 15 LLM services.
+
+Key findings:
+
+- UltraVault is a full post-exploitation console: one-click AWS pair correlation via /api/pairs and /api/actions/aws_pair, 14 LPE exploit recommendations per victim host, web shell re-establishment via wp_reshell and wp_rexploit, and credential minting, all accessible without authentication. Five named exploit chains are tracked internally: react2shell, wp2shell, xss2shell, joomla2shell, and deep.
+
+- The platform's AI credential inventory spans 1,778 records across OpenAI, Gemini, Anthropic, and others. Only 2.7% of the 42,286 total secrets are listed as live, but the platform continuously re-probes stolen keys, including AWS Bedrock calls: GetCallerIdentity, ListFoundationModels, then InvokeModel bursts across regions in under a minute.
+
+- Two user agents flag this activity for detection: a Boto3 client advertising kali-cloud in its platform string (os/linux.16.8+kali-cloud-amd64) and bare Python-urllib/3.13 with no SDK. Temporary STS credentials with ASIA-prefixed access key IDs were also actively validated by the same host.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100964165745537517</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2100964165745537517">DFIR Radar</source>
+      <pubDate>Fri, 18 Sep 2026 15:04:26 +0000</pubDate>
+      <guid isPermaLink="false">2100964165745537517</guid>
+    </item>
     <item>
       <title>Nozomi identifies 12 vulnerabilities in Siemens SCALANCE LPE9403, enabling root access and OT network attacks</title>
       <link>https://industrialcyber.co/industrial-cyber-attacks/nozomi-identifies-12-vulnerabilities-in-siemens-scalance-lpe9403-enabling-root-access-and-ot-network-attacks/</link>
@@ -1537,29 +1556,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2098503056572797017">DFIR Radar</source>
       <pubDate>Fri, 11 Sep 2026 20:04:52 +0000</pubDate>
       <guid isPermaLink="false">2098503056572797017</guid>
-    </item>
-    <item>
-      <title>AD Rights Management Service (Part 2): Extraction, Offline Decryption, and the Unrotatable Key</title>
-      <link>https://www.huntress.com/blog/ad-rms-slc-encryption-key</link>
-      <description>The AD RMS Server Licensor Certificate private key can be silently exported by any member of the AD RMS Service Group, enabling permanent offline decryption of every RMS-protected document across the entire deployment's lifetime.
-
-Key findings:
-
-- Any account in the AD RMS Service Group can export the 1172-byte Server Licensor Certificate (SLC) private key. This key is the root of trust for the entire RMS deployment: whoever holds it can decrypt any document the deployment ever protected, without contacting any server.
-
-- Decryption is fully offline. An attacker who exfiltrates the SLC private key retains permanent read access to protected content even after the deployment is decommissioned and rebuilt, because the key does not rotate.
-
-- The "unrotatable" nature is the critical DFIR wrinkle: standard incident response playbooks that rebuild a compromised service do not revoke attacker access to already-protected documents. Scope extends to every file the RMS instance ever touched.
-
-- Forensic pivot: audit membership of the AD RMS Service Group and review export or backup operations against the RMS cluster's certificate store. Any unauthorized account membership or unexplained certificate export event is a high-fidelity indicator of key theft.
-
-Hunt: enumerate AD RMS Service Group members now and cross-reference against privileged account baselines. Unexplained additions are your lead.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098487751939125563</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2098487751939125563">DFIR Radar</source>
-      <pubDate>Fri, 11 Sep 2026 19:04:03 +0000</pubDate>
-      <guid isPermaLink="false">2098487751939125563</guid>
     </item>
   </channel>
 </rss>
