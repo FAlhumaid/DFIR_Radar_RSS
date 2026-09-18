@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Sep 2026 08:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2026 10:03:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Sysmon Modular, a new toolkit for building and tuning your configuration</title>
+      <link>https://medium.com/@olafhartong/sysmon-modular-a-new-toolkit-for-building-and-tuning-your-configuration-d80fde488968?source=rss-5ca7329adb2b------2</link>
+      <description>Sysmon Modular gets a Go-native toolkit for building, validating, and diff-ing configurations, plus new modules covering AI agents, credential artifacts, and browser extensions.
+
+Key details:
+
+- The core utility is now a single Go binary with no third-party dependencies, shipping prebuilt for Windows, Linux, and macOS on x64 and ARM64. It replaces the older PowerShell and Python scripts as the supported path. Commands cover merge, validate, diff, analyze, and coverage, with ATT&amp;CK Navigator layer output defaulting to ATT&amp;CK 18.
+
+- The diff command compares parsed rule expressions and their Boolean grouping rather than raw XML text, so an AND-to-OR change stays visible while a formatting change does not. The analyze command flags hazardous exclusions such as a well-known binary excluded by filename alone rather than full path, which can suppress a different binary using that name from an unexpected directory.
+
+- New modules cover security-control changes, credential artifacts, browser and editor extensions, and AI agent execution, including Claude, Codex, Cursor, Copilot, Gemini CLI, and others launched as node.exe. Four FileCreate (Event 11) modules track agent configuration and hook files, mapped to T1546, consistent with MITRE now explicitly listing AI coding-agent hook persistence.
+
+- Pre-built consolidated configs move to GitHub Releases, built by CI/CD for Sysmon 15.21, 14.16, 13.34, and 12.03. Update any automation pulling raw-repository URLs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100888437528350914</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2100888437528350914">DFIR Radar</source>
+      <pubDate>Fri, 18 Sep 2026 10:03:31 +0000</pubDate>
+      <guid isPermaLink="false">2100888437528350914</guid>
+    </item>
     <item>
       <title>New RatHat Android malware uses AI to automate device control</title>
       <link>https://www.bleepingcomputer.com/news/security/new-rathat-android-malware-uses-ai-to-automate-device-control/</link>
@@ -1563,27 +1584,6 @@ Responder takeaway: on a suspicious Android device, enumerate work profiles (Set
       <source url="https://x.com/DFIR_Radar/status/2098427074629218330">DFIR Radar</source>
       <pubDate>Fri, 11 Sep 2026 15:02:57 +0000</pubDate>
       <guid isPermaLink="false">2098427074629218330</guid>
-    </item>
-    <item>
-      <title>Suricata keyword highlight: subslice, part 2 — transforms, the prefilter, and what’s next</title>
-      <link>https://suricata.io/2026/09/11/suricata-keyword-highlight-subslice-part-2-transforms-the-prefilter-and-whats-next/</link>
-      <description>Suricata's subslice keyword gets a deep dive: how it chains with other transforms, integrates with the prefilter MPM, and where the keyword is headed next.
-
-- subslice can chain up to 15 transforms in sequence. A rule trimming http.user_agent to 4 bytes, lowercasing it, and matching "curl" looks like: http.user_agent; subslice: 0, 4, truncate; to_lowercase; content:"curl"; bsize:4. Plain content modifiers like depth: cannot do this because they cannot hand a bounded window to downstream transforms like to_sha256 or from_base64.
-
-- At prefilter time, Suricata registers the post-transform content as the fast_pattern in the multi-pattern matcher (MPM). subslice is cheap here: it only adjusts an offset and length, no copy, no hash. Two rules on the same sticky buffer with different chains get separate MPM entries, keeping them independent.
-
-- Transform results are cached per packet per chain. Multiple rules sharing subslice: 0, 4 on http.user_agent run the transform once total, not once per rule. Adding more rules on the same chain costs nothing extra.
-
-- Dynamic offsets are not yet supported. Redmine issue 8234 tracks two candidate syntaxes: an inline extract form and a byte_extract variable reference. Neither loads in current builds. Only the main branch has subslice at all.
-
-If you write Suricata rules for binary or length-prefixed protocols, test subslice on the main branch using the rule file, pcap, and generator script linked in the post.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098412185198194955</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2098412185198194955">DFIR Radar</source>
-      <pubDate>Fri, 11 Sep 2026 14:03:47 +0000</pubDate>
-      <guid isPermaLink="false">2098412185198194955</guid>
     </item>
   </channel>
 </rss>
