@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 20 Sep 2026 10:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 20 Sep 2026 16:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Released an open-source Windows timeline correlator (wfcr) to tackle triage fragmentation and anti-forensics</title>
+      <link>https://www.reddit.com/r/dfir/comments/1wlc7b7/released_an_opensource_windows_timeline/</link>
+      <description>Open-source tool WFCR correlates Windows dead-box artifacts into a single master timeline, with built-in heuristics to flag timestomping and ghost execution automatically.
+
+Key details:
+
+- Ingests $MFT, Shimcache (AppCompatCache), Amcache, BAM/DAM, and SRUM (SRUDB.dat) in a single offline pass, normalizing timestamps across all sources and emitting JSON Lines for Splunk, Elastic, or Sentinel, or CSV for Timeline Explorer
+
+- Anti-forensic detection uses $STANDARD_INFORMATION vs $FILE_NAME temporal drift to catch API-level timestomping (SetFileTime), flagging manipulation that raw parsers silently miss
+
+- Ghost execution logic cross-references Shimcache, Amcache, and BAM execution records against currently allocated MFT paths, surfacing binaries that ran and were deleted from disk, a common attacker cleanup step
+
+- SRUM correlation dynamically resolves the SruDbIdMapTable schema at runtime rather than relying on hardcoded offsets, linking network byte transfer volumes back to specific executing binaries and user SIDs
+
+Takeaway: if you are spending hours manually stitching CSV exports across subsystems, WFCR is worth a test run. Point it at your dead-box artifact collection and let the correlation logic surface timestamp drift and wiped payloads before you start your manual review. Validated on Python 3.10-3.12 on native Windows runners. Repo and simulated triage demo are on GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101703590645584236</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2101703590645584236">DFIR Radar</source>
+      <pubDate>Sun, 20 Sep 2026 16:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2101703590645584236</guid>
+    </item>
     <item>
       <title>GHAPPIER - One loader, sixty-five repositories, twenty-two accounts: an unreported loader family beside DPRK's PolinRider campaign</title>
       <link>https://www.cloudsek.com/blog/ghappier-malware-loader-npm-supply-chain-attack</link>
@@ -1549,25 +1572,6 @@ Hunt your proxy and DNS logs for WebSocket upgrade requests (HTTP 101) to recent
       <source url="https://x.com/DFIR_Radar/status/2099030959584645370">DFIR Radar</source>
       <pubDate>Sun, 13 Sep 2026 07:02:34 +0000</pubDate>
       <guid isPermaLink="false">2099030959584645370</guid>
-    </item>
-    <item>
-      <title>“Eye” spy: Cyclops Blink returns with extended capabilities</title>
-      <link>https://www.sophos.com/en-us/blog/-eye-spy-cyclops-blink-returns-with-extended-capabilities</link>
-      <description>Russian 🇷🇺 IRON VIKING (Sandworm) returns with an evolved Cyclops Blink implant targeting Cisco FMC devices, adding network scanning and packet surveillance to its 2022 toolkit.
-
-- Found as /lib/tz/timezone_check on compromised Cisco FMC devices, this x86-64 Linux ELF drops 2022's WatchGuard-specific firmware hooks for generic SysV init persistence: startup symlinks at /etc/rc2-5.d/S89timezone_check survive reboots and require root-level write access to /lib and /etc, confirming high-privilege execution at install time.
-
-- The five-module framework adds two capabilities absent from 2022 samples: Module 0x11 performs raw-socket TCP scanning across 60+ ports (SSH, SNMP, LDAP, BGP, VMware) from the appliance's trusted network position, and Module 0x12 captures raw Ethernet frames using AF_PACKET/SOCK_RAW, compiling operator-supplied search terms into an Aho-Corasick matcher to selectively exfiltrate credentials, tokens, and session cookies as pcap records.
-
-- C2 uses outbound TLS (certificate verification disabled) to 89.34.96[.]56 over TCP 43856 or 49172, beaconing hourly. DNS-over-HTTPS resolves hostnames via direct TLS POST to 8.8.8.8:443/dns-query, bypassing local DNS logs. The malformed User-Agent mixing Firefox rv:129.0 with a Chrome token is a strong network detection signal.
-
-- The controller masquerades as [kworker/0:1] in process listings.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2098668726027780442</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2098668726027780442">DFIR Radar</source>
-      <pubDate>Sat, 12 Sep 2026 07:03:10 +0000</pubDate>
-      <guid isPermaLink="false">2098668726027780442</guid>
     </item>
   </channel>
 </rss>
