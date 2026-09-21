@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 21 Sep 2026 16:03:40 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 17:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Analyse de l’attaque de la supply chain TanStack</title>
+      <link>https://crowdsec.net/blog/tanstack-supply-chain-attaque-analyse</link>
+      <description>CrowdSec's private source code leaked after threat actor TeamPCP backdoored 42 TanStack/NPM packages with the Shai Hulud credential-stealer, pivoting through a former employee's GitHub token to clone ~170 private repos.
+
+- TeamPCP (UNC6780) compromised TanStack on May 11, 2026, injecting the Shai Hulud backdoor into 42 NPM packages targeting credentials and tokens. A former CrowdSec developer, still in the GitHub org to finish a project, installed a backdoored TanStack package. Shai Hulud harvested a valid GitHub OAuth token (gho_ prefix), which was used May 22 between 05:52-06:01 UTC from a Toronto IP to clone ~170 private repos. The token had no audit trail in GitHub org logs because CrowdSec lacked an Enterprise plan, the only tier retaining Git activity beyond 7 days.
+
+- The one live credential in the dump was an AWS SNS token (assertible-zapier-sns-sender), probed Aug 17 from 23.234.84[.]102 via GetCallerIdentity and ListTopics. Strict scoping meant it could only publish to one SNS topic; the attacker hit a dead end. No infra, database, CI/CD pipeline, or open-source code was modified.
+
+- DFIR complexity: the OAuth token was created, used, and expired before CrowdSec knew of the breach. GitHub support was essential, providing Git activity within the 2-hour dump window tied to the ex-employee's account, confirming the supply chain vector and ruling out insider threat.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102081364493210048</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2102081364493210048">DFIR Radar</source>
+      <pubDate>Mon, 21 Sep 2026 17:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2102081364493210048</guid>
+    </item>
     <item>
       <title>Transforming Bedrock Guardrails events into OCSF with CloudWatch</title>
       <link>https://aws.amazon.com/blogs/security/transforming-bedrock-guardrails-events-into-ocsf-with-cloudwatch/</link>
@@ -1553,25 +1570,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2099589917869588850">DFIR Radar</source>
       <pubDate>Mon, 14 Sep 2026 20:03:40 +0000</pubDate>
       <guid isPermaLink="false">2099589917869588850</guid>
-    </item>
-    <item>
-      <title>Attackers Actively Exploiting Critical Vulnerability in WooCommerce Wholesale Lead Capture Plugin</title>
-      <link>https://www.wordfence.com/blog/2026/09/attackers-actively-exploiting-critical-vulnerability-in-woocommerce-wholesale-lead-capture-plugin/</link>
-      <description>CVE-2026-27540 (CVSS 9.8): Unauthenticated arbitrary file upload in WooCommerce Wholesale Lead Capture lets attackers drop PHP webshells and achieve full RCE. Actively exploited, 100k+ blocked attempts since February.
-
-- CVE-2026-27540 affects the wwlc_file_upload_handler AJAX endpoint, reachable with zero authentication. The flaw: allowed file types are read from the attacker-controlled file_settings POST parameter, not server-side config. An attacker simply includes "php" in that forged JSON list, bypasses extension checks, and uploads a .php webshell directly into the WordPress uploads directory. test_type is explicitly set to false in the upload call, killing WordPress's own MIME check too.
-
-- Real attack traffic shows POST requests to /wp-admin/admin-ajax.php with action=wwlc_file_upload_handler carrying shell.php, a webshell that fingerprints the host and provides a browser upload form for staging further payloads. Top offending IPs: 92.241.13[.]213, 31.59.129[.]150, 2a0f:85c1:840:5389[.]1, 92.241.13[.]140, 23.137.105[.]214.
-
-- Exploitation peaks hit June 4-17, July 1, and August 30, 2026. Roughly 6,000 installations are exposed. Patch version 2.0.3.2 exists; anything at or below 2.0.3.1 is vulnerable.
-
-Grep web server access logs for POST /wp-admin/admin-ajax.php containing wwlc_file_upload_handler, then audit wp-content/uploads for unexpected .php files and review wp_users for unknown administrator accounts added post-compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099574905805361426</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2099574905805361426">DFIR Radar</source>
-      <pubDate>Mon, 14 Sep 2026 19:04:01 +0000</pubDate>
-      <guid isPermaLink="false">2099574905805361426</guid>
     </item>
   </channel>
 </rss>
