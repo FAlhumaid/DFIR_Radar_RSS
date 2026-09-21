@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 20 Sep 2026 19:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 02:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026-09-14: Backdoor using ScreenConnect from malicious emailt</title>
+      <link>https://www.malware-traffic-analysis.net/2026/09/14/index.html</link>
+      <description>A malicious email impersonating the Social Security Administration delivers a trojanized ScreenConnect installer, giving attackers persistent remote access under the cover of legitimate RMM traffic.
+
+- Lure email originates from allsecured[.]net (23.227.202[.]93), spoofing SSA branding with subject "Your Monthly SSA Electronic Statement is Available for Download." The t[.]co redirect chains to icci-sa[.]com/xgov, a fake SSA portal serving the payload via social_secur1tiy_administr3tion.php?download=exe. Typosquatted filenames are a deliberate friction-raiser against quick triage.
+
+- The downloaded file, ScreenConnect.ClientSetup.exe (SHA-256: f1d103dd77d09697fa30fa14c4f39e394b0331a33ffd2ef5df2916dbe79e474b, 12.8 MB, PE32), is a customized ScreenConnect client pre-configured to beacon an attacker-controlled relay. Post-infection traffic hits 15.204.43[.]235 on port 443, resolving to instance-udppxf-relay.screenconnect[.]com.
+
+- RMM abuse (T1219) is the core TTP. Because ScreenConnect traffic is encrypted and the binary is a signed installer, many endpoint and network controls treat it as noise. Defenders should look for ScreenConnect installed outside of managed software inventory, especially under user-writable paths or spawned from a browser or email client process.
+
+Hunt: flag ScreenConnect.ClientSetup.exe executions where the parent is a browser, mail client, or scripting host. Full IOC list and PCAP are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101854607529959844</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2101854607529959844">DFIR Radar</source>
+      <pubDate>Mon, 21 Sep 2026 02:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2101854607529959844</guid>
+    </item>
     <item>
       <title>The Sound of Silence: SAP SM49/SM69 and the OS Commands Your SIEM Never Hears</title>
       <link>https://detect.fyi/the-sound-of-silence-sap-sm49-sm69-and-the-os-commands-your-siem-never-hears-e408848cb6e2?source=rss----d5fd8f494f6a---4</link>
@@ -1571,25 +1590,6 @@ Hunt your proxy and DNS logs for WebSocket upgrade requests (HTTP 101) to recent
       <source url="https://x.com/DFIR_Radar/status/2099423560167231611">DFIR Radar</source>
       <pubDate>Mon, 14 Sep 2026 09:02:37 +0000</pubDate>
       <guid isPermaLink="false">2099423560167231611</guid>
-    </item>
-    <item>
-      <title>SETTRA RANSOMWARE</title>
-      <link>https://theravenfile.com/2026/09/14/settra-ransomware/</link>
-      <description>Settra, a ransomware group active since June 2026, has claimed 64 victims across the US 🇺🇸, Germany 🇩🇪, UK 🇬🇧, and Canada 🇨🇦, exfiltrating up to 3.2TB per target while deliberately avoiding healthcare.
-
-- Settra operates its own DLS at settra5ldqwgtw5q7z5awbsvlksakyfojuc5slgrz5lvapune4fantqd[.]onion and a negotiation panel at settra5ceeidlmbt2d7zupsb3r7djl2azjj4mho5kznmdap6vnoxoxqd[.]onion, both running nginx and protected by Anubis proof-of-work (EdDSA/Ed25519 JWT). File servers are separate non-vanity onion nodes, three active now after migrating from four deprecated nodes in late August 2026.
-
-- The ransom note drops as RESTORE_FILES.txt and instructs victims to log into the negotiation portal using a "LOGIN ID." A secondary "Return Key" is generated on first login to gate session continuity, meaning researchers replaying the Login ID get a fresh key and lose access to prior chat history. TOX handle D288571294F08ADDFE46DF631194745143BE8B40F9F846379040DC40EB39BC2E8CE056B66927 is the out-of-band contact.
-
-- Victim profiling on the DLS is AI-assisted, surfacing financial balance sheets, bank names, insurance payouts, and employee termination letters. Infostealer credentials are assessed as a likely initial access vector for roughly 50% of victims, consistent with the breadth of targets across sectors and geographies.
-
-- Ten victims including zayo[.]com (460GB) and medevolve[.]com (820GB) have been de-listed, suggesting ransom payment or a pressure tactic.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099393452387495971</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2099393452387495971">DFIR Radar</source>
-      <pubDate>Mon, 14 Sep 2026 07:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2099393452387495971</guid>
     </item>
   </channel>
 </rss>
