@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 21 Sep 2026 10:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 11:02:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Serverless, Not Riskless: Exploiting Unauthenticated API Gateways in AWS</title>
+      <link>https://www.guidepointsecurity.com/blog/serverless-not-riskless-exploiting-unauthenticated-api-gateways-in-aws/</link>
+      <description>Unauthenticated AWS API Gateway endpoints backed by over-permissioned Lambda functions create a zero-credential path from a single HTTP request to IAM credential theft and Secrets Manager access.
+
+Key findings:
+
+- API Gateway sets authorizationType to NONE by default on every method. No account-level policy or SCP blocks unauthenticated deployment, so the responsibility falls entirely on the developer. All stages, including dev and staging, are equally exploitable and are often configured with fewer restrictions than prod.
+
+- The full attack chain uses only AWS CLI and plain curl. Enumerate APIs with get-rest-apis, pull source code via get-function (available to ReadOnly roles), identify eval() or exec() sinks in the code, then inject __import__('os').environ['AWS_ACCESS_KEY_ID'] through an unauthenticated GET. All three STS credential values return in the HTTP response body, no exploit tooling required.
+
+- GuardDuty has directly relevant findings: UnauthorizedAccess:IAMUser/InstanceCredentialExfiltration fires when Lambda credentials are used from a non-AWS IP, and CredentialAccess:Lambda/AnomalousBehavior fires on unusual execution role usage. CloudTrail logs every subsequent API call with source IP, user agent, and request parameters. API Gateway access logging is off by default and must be explicitly enabled.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101990543995589103</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2101990543995589103">DFIR Radar</source>
+      <pubDate>Mon, 21 Sep 2026 11:02:54 +0000</pubDate>
+      <guid isPermaLink="false">2101990543995589103</guid>
+    </item>
     <item>
       <title>Group Policy hijacked: PAYLOAD ransomware weaponizes Active Directory GPO</title>
       <link>https://securelist.com/tr/payload-ransomware-via-group-policy/121335/</link>
@@ -1555,25 +1574,6 @@ Re-tag anything mapped to old Defense Evasion into TA0005 or TA0112 now. Your co
       <source url="https://x.com/DFIR_Radar/status/2099499141156237549">DFIR Radar</source>
       <pubDate>Mon, 14 Sep 2026 14:02:57 +0000</pubDate>
       <guid isPermaLink="false">2099499141156237549</guid>
-    </item>
-    <item>
-      <title>When the web shell isn’t on disk: the F5 BIG-IP rootkit that lives in memory</title>
-      <link>https://andreafortuna.org/2026/09/14/f5-big-ip-rootkit-in-memory/</link>
-      <description>An F5 BIG-IP APM rootkit (named PoisonedRefresh by ESET) hooks Apache and PHP at runtime to serve a web shell that never touches disk, exploiting CVE-2025-53521, an unauthenticated RCE now in CISA KEV.
-
-- CVE-2025-53521 is the door. An unauthenticated RCE in BIG-IP APM, added to CISA KEV in March 2026 after active exploitation was confirmed. F5 initially misclassified the severity, correcting it only after weaponization was observed. The implant arrives as a second-stage payload post-exploitation, meaning initial access is already behind you by the time the rootkit appears.
-
-- The implant is a stripped, statically linked ELF that hijacks __libc_start_main to hook apr_dso_load, then waits for libphp to load. It intercepts Apache's file reads for apm_css.php3, full_wt.php3, and webtop_popup_css.php3, substituting a malicious in-memory version. The on-disk file, its hash, and FIM alerts all stay clean. T1505.003 assumed the shell was findable on disk. This breaks that model.
-
-- A second access path creates a Unix domain socket at /run/bigtlog.pipe. After a token check, connections are redirected to /bin/bash. No TCP listener, no reverse shell to an external IP. Network monitoring sees nothing unusual.
-
-- The related installer can infect the Apache binary and persist through BIG-IP upgrade images. Rebooting or upgrading does not guarantee remediation, and it destroys the volatile evidence that explains what happened.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099484171408138741</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2099484171408138741">DFIR Radar</source>
-      <pubDate>Mon, 14 Sep 2026 13:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2099484171408138741</guid>
     </item>
   </channel>
 </rss>
