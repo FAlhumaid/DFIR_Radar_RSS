@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 21 Sep 2026 09:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 10:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Group Policy hijacked: PAYLOAD ransomware weaponizes Active Directory GPO</title>
+      <link>https://securelist.com/tr/payload-ransomware-via-group-policy/121335/</link>
+      <description>PAYLOAD ransomware hits a Middle East manufacturer via Active Directory GPO abuse, achieving domain-wide disruption without dropping a single malicious binary on any endpoint.
+
+- Initial access (T1078, T1133) came through a compromised credential authenticated over FortiGate SSL VPN on 11 April. By 13 April the actor held domain admin-equivalent rights and created two GPOs linked at the domain root: PAYLOAD ({C897F2C7-C2AC-4E6F-BF48-58036FF29E79}) and win Firewall Off ({22099AD2-E062-4F56-B574-5099BBA4E7A6}). No malware touched a disk. The entire offensive toolkit lived inside Active Directory.
+
+- PAYLOAD GPO wrote payload.jpg and hello.txt to SYSVOL, set legalnoticecaption to "Welcome to Payload!" via HKLM\...\Policies\System\legalnoticecaption, replaced wallpaper and lock screen, and disabled the local Administrator account via GptTmpl.inf. Firewall GPO (T1562.004) stripped host defenses domain-wide. Impact detonated 14 April when machines rebooted, one day after GPO creation, severing the causal link unless directory service auditing was in place.
+
+- Forensic artifacts that matter: MFT timestamps confirmed SYSVOL staging on 13 April. Group Policy History and Shadow registry keys (HKLM\...\Group Policy\History and State\Machine\GPO-List) recorded policy application. A Loopback-GPO-List entry confirmed user config applied regardless of logged-on user. No .payload extensions, no malicious scheduled tasks, no Run keys, no injected processes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101975625393201287</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2101975625393201287">DFIR Radar</source>
+      <pubDate>Mon, 21 Sep 2026 10:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2101975625393201287</guid>
+    </item>
     <item>
       <title>ClickFix Lures Deploy ChainScript RAT Using Polygon to Rotate C2 Infrastructure</title>
       <link>https://thehackernews.com/2026/09/clickfix-lures-deploy-chainscript-rat.html</link>
@@ -1557,27 +1574,6 @@ Re-tag anything mapped to old Defense Evasion into TA0005 or TA0112 now. Your co
       <source url="https://x.com/DFIR_Radar/status/2099484171408138741">DFIR Radar</source>
       <pubDate>Mon, 14 Sep 2026 13:03:28 +0000</pubDate>
       <guid isPermaLink="false">2099484171408138741</guid>
-    </item>
-    <item>
-      <title>LNK Metadata</title>
-      <link>https://windowsir.blogspot.com/2026/09/lnk-metadata.html</link>
-      <description>LNK metadata goes far deeper than the embedded command line. The RustGate v2 delivery file exposes machine ID, MAC address, SID, volume serial, and shell item timestamps that fingerprint the attacker's build environment.
-
-- The LNK for RustGate v2 shows working dir C:\Windows\Temp, basepath rundll32.exe, and a command line pulling hxxp://5.252.177[.]210:8090/test.bat via curl before executing it minimized. Icon spoofed as msedge.exe to deceive the victim.
-
-- Shell item timestamps inside the LNK recorded rundll32.exe with a creation time of 2025-12-02, while Windows and System32 show 2024-04-01 creation, giving a bracketed window for when the LNK was staged on the threat actor's machine.
-
-- The TrackerDataBlock names the build host "server" and records MAC address 00:50:56:c0:00:08 (a VMware NIC prefix), placing LNK creation inside a VM. The PropertyStoreDataBlock adds a user SID (S-1-5-21-2202213833-2675363039-2741304641-1002) and a parsing path under C:\Users\Public\Pictures, narrowing the actor's environment further.
-
-- All metadata fields are fully populated, meaning the actor used no sanitization tool. Comparing these values across multiple LNK files from the same campaign allows clustering, as JPCERT/CC and APT29 researchers demonstrated: identical machine IDs, MACs, or volume serials link files even when hashes differ.
-
-Parse every LNK with LECmd or a purpose-built tool and record all data blocks, not just the command line.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099468916498063692</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2099468916498063692">DFIR Radar</source>
-      <pubDate>Mon, 14 Sep 2026 12:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2099468916498063692</guid>
     </item>
   </channel>
 </rss>
