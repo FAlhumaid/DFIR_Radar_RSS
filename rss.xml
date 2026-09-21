@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 21 Sep 2026 18:03:17 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 19:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ChainScript: the RAT that hides its command server inside a blockchain contract</title>
+      <link>https://securityaffairs.com/199471/malware/chainscript-the-rat-that-hides-its-command-server-inside-a-blockchain-contract.html</link>
+      <description>ChainScript is a Node.js RAT that resolves its C2 address from a Polygon blockchain smart contract, making infrastructure takedown nearly useless. ClickFix lure, fake Spotify MSI, full shell access, no admin rights required.
+
+- Infection chain: victim pastes a ClickFix command, msiexec.exe fetches a fake Spotify installer, which drops a full Node.js runtime plus app\src\index.js into user-profile folders with Microsoft-sounding names. A hidden PowerShell script launches a VBScript, which starts node.exe. No elevation required, so UAC is never triggered. Process ancestry to hunt: msiexec spawning wscript, wscript spawning node.exe running app\src\index.js.
+
+- C2 discovery uses EtherHiding against Polygon contract 0xf9099d0d747368cce8C10226CC9AF2bFD4DDbCF4 (chain ID 137, function selector 0x4ab7874e). The agent sends an eth_call, ABI-decodes a ws:// or wss:// string, caches it five minutes, then opens a WebSocket. Blackpoint watched the contract serve two different C2 addresses 12 minutes apart, proving live rotation without touching the implant.
+
+- Capabilities: interactive shell, file read/write, desktop screenshots, payload delivery, crypto wallet enumeration, arbitrary JavaScript execution, and a self-destruct cleanup command. Variants impersonate Zoom Workplace and Microsoft Teams alongside Spotify.
+
+Hunt for node.exe making outbound JSON-RPC calls to Polygon RPC endpoints followed immediately by a WebSocket connection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102111457135468696</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2102111457135468696">DFIR Radar</source>
+      <pubDate>Mon, 21 Sep 2026 19:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2102111457135468696</guid>
+    </item>
     <item>
       <title>Windows Exploitation Techniques: Dangling COM Object Registrations</title>
       <link>https://projectzero.google/2026/09/windows-dangling-com.html</link>
@@ -1553,25 +1572,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2099619971479552296">DFIR Radar</source>
       <pubDate>Mon, 14 Sep 2026 22:03:05 +0000</pubDate>
       <guid isPermaLink="false">2099619971479552296</guid>
-    </item>
-    <item>
-      <title>Threat Hunting with JA4/JA4S (+ Practical KQL Queries)</title>
-      <link>https://detect.fyi/threat-hunting-with-ja4-ja4s-practical-kql-queries-ef673fc5fcc0?source=rss----d5fd8f494f6a---4</link>
-      <description>JA4/JA4S TLS fingerprinting brings a more durable hunting signal to Microsoft Defender and Entra ID logs, surfacing unusual clients and servers that IP and domain IOCs miss entirely.
-
-- JA4 is human-readable, not just a hash. The first segment of a fingerprint like t12d180700_4b22cbed5bed_2dae41c691ec decodes directly: TCP, TLS 1.2, SNI present, 18 cipher suites, 7 extensions, no ALPN. This lets hunters query individual fields rather than exact hashes, making baselining and anomaly detection far more flexible than JA3 ever allowed.
-
-- In EntraIdSignInEvents, the GatewayJA4 field exposes the client fingerprint for every sign-in. Parsing it with KQL to extract TLSVersion, CipherCount, ALPN, and the cipher/extension hashes lets you cluster sign-ins by client behavior. SNI absent ("i") or ALPN of "00" in a sea of h2 sign-ins is the kind of outlier worth pulling for review.
-
-- DeviceNetworkEvents carries both JA4 and JA4S inside AdditionalFields for TLS-inspected connections. JA4 tells you about the client; JA4S tells you about the server that answered. Pairing them lets you profile both sides of a session and spot mismatches, unusual server responses, or automated tooling.
-
-- The FoxIO JA4+ mapping CSV can be pulled via externaldata() and joined to enrich fingerprints with known application, library, and OS context. Match rates are low in practice, but a hit on a known C2 framework or unusual library is valuable pivot.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099604908202704950</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2099604908202704950">DFIR Radar</source>
-      <pubDate>Mon, 14 Sep 2026 21:03:14 +0000</pubDate>
-      <guid isPermaLink="false">2099604908202704950</guid>
     </item>
   </channel>
 </rss>
