@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 21 Sep 2026 14:02:53 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 15:03:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Vidar Adds Virtual Machine and Custom Stream Ciphers For String Obfuscation</title>
+      <link>https://www.zscaler.com/blogs/security-research/vidar-adds-virtual-machine-and-custom-stream-ciphers-string-obfuscation</link>
+      <description>Vidar infostealer upgraded from XOR to a per-build custom VM plus stream cipher between May and September 2026, deliberately breaking static signatures with every new sample.
+
+Key findings:
+
+- Starting with internal version 2.0 in June 2026, Vidar replaced ChaCha20 with a lightweight bytecode interpreter running a 256-entry dispatch table and 14 opcode handlers (XOR, add, subtract, rotate, NOT, multiply, sbox lookup). Crucially, opcodes, constants, and the 4-byte XOR seed change per build, so a signature written against one sample breaks on the next.
+
+- The VM serves two roles: direct string deobfuscation, or decrypting the key and nonce fed into a secondary custom stream cipher. From v2.2 onward the cipher uses ARX transformations seeded with FNV-1a prime 0x01000193 and golden-ratio constant 0x9E3779B9, with unique operation sequences per build.
+
+- Decrypted strings confirm full infostealer capability: browser credential harvesting, HWID generation failure strings, HTTP Accept headers for C2 comms, and wallet/plugin grab statistics (e.g. "browsers: %d (%d rules), wallets: %d").
+
+- Four confirmed sample hashes span the v2.0-to-v3.4 arc: v2.0 1628bb03db87f67661349e169d73ee14ed490bd, v2.5 625a381981fc2d4c25c981d98b1d66bb2cf5da2d, v3.1 2d43d592630ad1e012da63ef7279f95dd4a8e949, v3.4 979048a749d8f28d877c7068b1b336ecd1e34986.
+
+Detection pivot: static string-based YARA will miss per-build variants.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102051191580692753</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2102051191580692753">DFIR Radar</source>
+      <pubDate>Mon, 21 Sep 2026 15:03:53 +0000</pubDate>
+      <guid isPermaLink="false">2102051191580692753</guid>
+    </item>
     <item>
       <title>Attackers Abuse npm Trusted Publishing in GHAPPIER Campaign</title>
       <link>https://www.infosecurity-magazine.com/news/attackers-abuse-npm-trusted/</link>
@@ -1555,23 +1578,6 @@ Grep web server access logs for POST /wp-admin/admin-ajax.php containing wwlc_fi
       <source url="https://x.com/DFIR_Radar/status/2099559731375358186">DFIR Radar</source>
       <pubDate>Mon, 14 Sep 2026 18:03:45 +0000</pubDate>
       <guid isPermaLink="false">2099559731375358186</guid>
-    </item>
-    <item>
-      <title>Wordfence Argus Identifies Two Critical Unauthenticated Vulnerability Chains Leading to Remote Code Execution in The Events Calendar Plugin</title>
-      <link>https://www.wordfence.com/blog/2026/09/wordfence-argus-identifies-two-critical-unauthenticated-vulnerability-chains-leading-to-remote-code-execution-in-the-events-calendar-plugin/</link>
-      <description>Two unauthenticated RCE chains (CVSS 9.8) in The Events Calendar WordPress plugin threaten 600,000+ sites. Both fire through pending-comment preview with zero login required, patched in version 6.17.4.1.
-
-- CVE-2026-78006 (CVSS 9.8): PHP Object Injection via is_safe_widget_instance() in Service_Provider.php. The guard calls unserialize() with allowed_classes =&gt; false, but PHP fires __unserialize() and __wakeup() magic methods during pre-parse before the return value is checked. A malformed tail token causes the guard to see false, declare the payload safe, and forge a valid wp_hash(). Core's real unserialize() then constructs Lazy_Post_Collection, whose custom_unserialize() passes attacker-controlled 'callback' and 'ids' directly to array_map(), enabling OS command execution as the web server user.
-
-- CVE-2026-78159 (CVSS 9.8): Arbitrary-callable RCE via Element_Classes::parse_array() in common/src/Tribe/Template.php. A plain array bypasses the object guard entirely. Attacker-controlled 'classes' keys reach parse_array(), which calls is_callable() without restricting to closures. Supplying wp_update_user with ID and user_pass entries resets the admin password to a known value; attacker logs in and uploads a malicious plugin.
-
-- Shared entry point: get_v1_single_event_html() buffers the full page including comments and passes it through do_blocks(). WordPress's KSES sanitizer preserves HTML comment delimiters, so Gutenberg block markup survives.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099544516378447897</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2099544516378447897">DFIR Radar</source>
-      <pubDate>Mon, 14 Sep 2026 17:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2099544516378447897</guid>
     </item>
   </channel>
 </rss>
