@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 21 Sep 2026 17:03:47 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Sep 2026 18:03:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Windows Exploitation Techniques: Dangling COM Object Registrations</title>
+      <link>https://projectzero.google/2026/09/windows-dangling-com.html</link>
+      <description>CVE-2026-66804 is an incomplete fix for the "Dark Elevator" LPE bug, abusing a dangling COM registration for CrossDevice to plant a DLL and achieve SYSTEM via a mis-configured Shell Create Object Handler service.
+
+Key findings:
+
+- The root cause is a stale CLSID {E9F83CF2-E0C0-4CA7-AF01-E90C70BEF496} registered system-wide pointing to %PROGRAMDATA%\CrossDevice\CrossDevice.Streaming.Source.dll, a path that does not exist but sits in C:\ProgramData, which any user can write to. Planting the DLL there is the primitive.
+
+- Execution into a privileged process abuses custom COM marshaling (T1559.001). A fake IMarshal implementation returns the dangling CLSID, and that Custom OBJREF is sent to the Shell Create Object Handler (CLSID 135fd325-45b7-4c30-89f8-4386961669f0), a dllhost running as NT AUTHORITY\SYSTEM with CustomMarshalAllowed: True.
+
+- The target service is not auto-started; an attacker first triggers the \Microsoft\Windows\Shell\CreateObjectTask scheduled task (accessible to normal users) and creates the global event ShellCreateObjectTaskReadyEvent to keep it alive, then calls ICreateObject::Proc3 passing the fake marshaled object to trigger unconditional unmarshaling and DLL load.
+
+- A PowerShell hunting script using OleViewDotNet can enumerate all in-process COM classes from the machine hive where LoadLibrary fails, surfacing other dangling registrations beyond CrossDevice.
+
+Patch CVE-2026-66804 immediately.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102096338661888100</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2102096338661888100">DFIR Radar</source>
+      <pubDate>Mon, 21 Sep 2026 18:03:17 +0000</pubDate>
+      <guid isPermaLink="false">2102096338661888100</guid>
+    </item>
     <item>
       <title>Analyse de l’attaque de la supply chain TanStack</title>
       <link>https://crowdsec.net/blog/tanstack-supply-chain-attaque-analyse</link>
@@ -1549,27 +1572,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2099604908202704950">DFIR Radar</source>
       <pubDate>Mon, 14 Sep 2026 21:03:14 +0000</pubDate>
       <guid isPermaLink="false">2099604908202704950</guid>
-    </item>
-    <item>
-      <title>Google Doc Sidebar Sends Mac and Windows Users Down Different Paths to Malware</title>
-      <link>https://www.huntress.com/blog/google-doc-sidebar-malware-mac-windows</link>
-      <description>A crypto-themed X lure used a live Google Doc with a bound Apps Script to fingerprint, triage, and route victims to OS-specific malware, including a rogue CA that survives process kill and partial cleanup.
-
-Key details:
-
-- The Google Doc sidebar was a Google Apps Script running client-side in the browser. Opening the doc while signed in, clicking nothing, triggered a VIEW beacon over Telegram that reported the victim's IP, geolocation, browser, and installed crypto wallet extensions (MetaMask, Phantom, Tron, Solana). Passive document viewing is passive recon delivery.
-
-- Windows victims faced a three-stage PowerShell loader chain pulling encrypted payloads, ClickOnce abuse to install a fake "Google API Connector" signed with a stolen Norwegian 🇳🇴 company cert, and a distraction fake progress bar. Three code-signing certs were abused total, including one stolen from Discord Inc.
-
-- The most dangerous final-stage payload hollowed MsBuild.exe and installed a self-signed CA presenting as Google Trust Services (CN=WR3), a fabricated www.virustotal[.]com leaf cert, a hosts-file entry, and a LocalProxy firewall rule. The CA is regenerated per host, so thumbprint blocklists are useless. The CA, hosts entry, and firewall rule all survive reboot even after the process dies.
-
-- macOS victims received an AMOS infostealer variant via piped zsh or a DMG from GitHub, targeting keychain, browser data, cookies, Telegram, Apple Notes, and crypto wallets.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099589917869588850</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2099589917869588850">DFIR Radar</source>
-      <pubDate>Mon, 14 Sep 2026 20:03:40 +0000</pubDate>
-      <guid isPermaLink="false">2099589917869588850</guid>
     </item>
   </channel>
 </rss>
