@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 22 Sep 2026 07:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 08:03:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>IoT Forensics on the Rise: Extracting More Apple Watch, Apple TV and HomePod Models</title>
+      <link>https://blog.elcomsoft.com/2026/09/iot-forensics-on-the-rise-extracting-more-apple-watch-apple-tv-and-homepod-models/</link>
+      <description>The usbliter8 SecureROM exploit enables bootloader-level full file system and decrypted keychain extraction from Apple Watch S4/S5, Apple TV 4K 2nd gen, and HomePod mini, devices that have no backup path and were largely forensic dead ends.
+
+Key findings:
+
+- usbliter8, published by Paradigm Shift in June 2026, targets a bug in the USB controller of A12 (T8020) and S4/S5 (T8006) silicon. Malformed undersized USB control packets trigger it, requiring a microcontroller board (Waveshare RP2350, under $10) because standard host controllers cannot emit out-of-spec packets. Physical access and DFU mode are mandatory. The exploit lives in SecureROM, so it is unpatchable by software update.
+
+- Apple Watch is the forensic prize here. It holds its own copy of health and activity data, GPS workout tracks logged roughly once per second, SMS/iMessage, contacts, Wallet passes, Wi-Fi and Bluetooth events, and a keychain. The default passcode is four digits, often the first four of the paired iPhone passcode. No passcode means no extraction, full stop.
+
+- Apple TV 4K 2nd gen (A2169, tvOS 14-26) has no passcode at all. It exposes Wi-Fi credentials, Apple account tokens, iCloud Photos metadata with EXIF location, knowledgeC usage records, and if used as a home hub, a timeline of every other household device.
+
+- ElcomSoft published their own fork at github[.]com/Elcomsoft/usbliter8 with read/write/execute primitives and BootROM signature patches, putting it on par with checkm8.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102307685659971595</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2102307685659971595">DFIR Radar</source>
+      <pubDate>Tue, 22 Sep 2026 08:03:06 +0000</pubDate>
+      <guid isPermaLink="false">2102307685659971595</guid>
+    </item>
     <item>
       <title>HKCERT highlights internet-edge device risks as attackers target VPNs, firewalls and remote access systems</title>
       <link>https://industrialcyber.co/threats-attacks/hkcert-highlights-internet-edge-device-risks-as-attackers-target-vpns-firewalls-and-remote-access-systems/</link>
@@ -1549,23 +1570,6 @@ Hunt for unexpected modifications to apps/lms/lms/api.py and review web server l
       <source url="https://x.com/DFIR_Radar/status/2099906979582148953">DFIR Radar</source>
       <pubDate>Tue, 15 Sep 2026 17:03:33 +0000</pubDate>
       <guid isPermaLink="false">2099906979582148953</guid>
-    </item>
-    <item>
-      <title>The extension you never installed: KREMLIN forges Chrome's own integrity checks to steal banking sessions</title>
-      <link>https://www.elastic.co/security-labs/threat-command/malicious-browser-extension-kremlin-banking-malware</link>
-      <description>Brazilian 🇧🇷 banking operation REF9334 built a malicious Chrome extension that forges Chromium's own integrity checks, bypassing the Web Store entirely to steal session tokens from 1,500+ confirmed victims across seven campaigns since May 2025.
-
-Key findings:
-
-- KREMLIN's installer (c8c38634dd44d7c6162c66174a6ee23ee404265125166e8d757681bdd66a4268) forces Chrome closed, launches it under a debugger with --no-startup-window, scans chrome.dll's .rdata for the string "OSCrypt.AppBoundProvider.Decrypt.ResultCode", and uses ReadProcessMemory to pull the App-Bound OSCrypt key live from browser memory. It then recomputes both legacy HMACs and newer encrypted hashes using a seed from resources.pak, rewrites Secure Preferences, and activates the extension silently. No Web Store, no user prompt.
-
-- The infection chain starts with a JS file masquerading as a Brazilian 🇧🇷 bank document. Stage 2 queries Ethereum smart contract 0xCD7360A83E5cdbBbbbcEB0e78748babA6740d07b as a dead-drop resolver (T1102.001) to fetch payload URLs, with SentinelOne's signed SentinelMemoryScanner.exe used to sideload the main malicious DLL masquerading as SentinelAgentCore.dll. Persistence lands as scheduled task MicrosoftNodeRuntimeUpdater.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099892133100425429</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2099892133100425429">DFIR Radar</source>
-      <pubDate>Tue, 15 Sep 2026 16:04:34 +0000</pubDate>
-      <guid isPermaLink="false">2099892133100425429</guid>
     </item>
   </channel>
 </rss>
