@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 22 Sep 2026 09:02:45 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 10:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Closed Quorum: Inside the first reported autonomous AI C2 implant</title>
+      <link>https://blog.talosintelligence.com/the-closed-quorum-inside-the-first-reported-autonomous-ai-c2-implant/</link>
+      <description>CLOSEDQUORUM is the first publicly documented Windows implant to replace a human-operated C2 with a voting panel of commercial LLMs, delegating tactical decisions autonomously after deployment.
+
+- CLOSEDQUORUM is a 16.4MB 64-bit Go binary (CGO_ENABLED=1, mixing Go and C for direct Windows syscalls) that queries DeepSeek, Qwen, Mistral, and Gemini in sequence via main.ModelOrchestrator and main.interModelDiscussion(). The system prompt reads "You are an advanced malware strategist. Provide ONLY executable decisions." Models vote on inject/persist/steal/move; plurality wins. No dedicated attacker C2 server is required: the C2 is commercial API infrastructure.
+
+- The steal decision simultaneously triggers lsassDump() (SeDebugPrivilege + MiniDumpWriteDump, T1003.001), dumpBrowserCredentials() hitting Chrome/Edge Login Data and Firefox logins.json (T1555.003), and extractCryptoWallets() targeting MetaMask, Exodus, and Ethereum (T1005). Staged material lands in C:\Windows\Temp\ before AES-256-GCM + Base64 exfil to a Discord webhook (T1567.004). The key derives from the current date, not a hardcoded secret.
+
+- Persistence is triple-redundant: a WindowsUpdate Registry Run key (T1547.001), a schtasks.exe scheduled task (T1053.005), and a WMI event subscription executing C:\Windows\Temp\wmi.ps1 every 60 seconds (T1546.003, T1059.001). ETW is patched inline by overwriting EtwEventWrite with a RET instruction (T1685).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102338014718365729</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2102338014718365729">DFIR Radar</source>
+      <pubDate>Tue, 22 Sep 2026 10:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2102338014718365729</guid>
+    </item>
     <item>
       <title>The Tale of Two INC Ransom Notes: A Ransomware Timeline | Huntress</title>
       <link>https://www.huntress.com/blog/two-inc-ransom-notes</link>
@@ -1553,27 +1570,6 @@ Investigators targeting fraud networks: map Fragment Market username and virtual
       <source url="https://x.com/DFIR_Radar/status/2099937075365621922">DFIR Radar</source>
       <pubDate>Tue, 15 Sep 2026 19:03:09 +0000</pubDate>
       <guid isPermaLink="false">2099937075365621922</guid>
-    </item>
-    <item>
-      <title>Multiple Vulnerabilities in Frappe LMS Leading to Remote Code Execution</title>
-      <link>https://rhinosecuritylabs.com/research/multiple-vulnerabilities-in-frappe-lms-leading-to-remote-code-execution/</link>
-      <description>Two chained CVEs in Frappe LMS let a student-level user achieve RCE on the server. CVE-2026-39405 (path traversal to RCE) and CVE-2026-34606 (stored XSS sanitization bypass) combine into a full exploit chain. Patch to v2.50.1 immediately.
-
-- CVE-2026-39405: The extract_package function passes an unsanitized chapter title into os.path.join before extracting a SCORM ZIP. A title like ../../../../../apps/lms/lms/lms lets an attacker overwrite api.py with a backdoored version. The backdoor listens on the public get_job_details endpoint, executing shell commands when the string |$&gt; appears in the job parameter.
-
-- CVE-2026-34606: Frappe LMS sanitizes rich-text on submission, but passes stored HTML through BeautifulSoup's get_text() to generate profile previews. get_text() reassembles split text nodes into a valid script tag without re-sanitizing, so a bio payload like p tags splitting script&gt;alert()&lt; reassembles into a live XSS payload visible to any viewer.
-
-- The chain: student injects XSS into their bio, an admin views the profile, the payload triggers the SCORM upload and overwrites api.py, then the backdoor endpoint is open to unauthenticated callers.
-
-Confirmed vulnerable: v2.44.0. Fixed: v2.50.1. PoC code is published in the Rhino Security Labs CVE GitHub repository.
-
-Hunt for unexpected modifications to apps/lms/lms/api.py and review web server logs for POST requests to /api/method/lms.lms.api.get_job_details containing |$&gt;.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099922110609019236</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2099922110609019236">DFIR Radar</source>
-      <pubDate>Tue, 15 Sep 2026 18:03:41 +0000</pubDate>
-      <guid isPermaLink="false">2099922110609019236</guid>
     </item>
   </channel>
 </rss>
