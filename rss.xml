@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 22 Sep 2026 12:03:18 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 14:03:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-78902: XSS to RCE in pfSense with one DNS request</title>
+      <link>https://www.netspi.com/blog/technical-blog/web-application-pentesting/cve-2026-78902-xss-to-rce-in-pfsense-with-one-dns-request/</link>
+      <description>CVE-2026-78902 turns a single DNS request into root on pfSense. An attacker on the LAN poisons the pfBlockerNG reply log via crafted DNS TXT RDATA, triggering stored XSS that chains to full RCE when an admin loads the Stats tab.
+
+- CVE-2026-78902 affects pfBlockerNG on pfSense when Unbound Python mode and DNS Reply Logging are both enabled. The flaw originates in pfb_unbound.py: convert_other() passes printable ASCII chars including &lt;, &gt;, ", and = through without sanitization, and the resulting r_addr value is written raw into /var/log/pfblockerng/dns_reply.log and unified.log.
+
+- pfblockerng_alerts.php renders $fields[8] (the resolved address) directly into HTML with no htmlspecialchars() call, both in visible cell content and a title attribute. The Stats tab is the dangerous sink: it reads the full log file, de-duplicates with uniq -c, and renders aggregated values into table cells, filter-button attributes, and pie chart labels, all unescaped, persisting for the lifetime of the log entry.
+
+- The full chain: attacker controls a DNS server returning a crafted TXT record, forces any LAN client to resolve it through pfSense, payload is logged, admin views Stats tab, XSS fires, fetches /diag_command.php, scrapes a CSRF token, POSTs a shell command, and a reverse root shell connects back.
+
+- Netgate patched within 24 hours (v.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102398438436745689</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2102398438436745689">DFIR Radar</source>
+      <pubDate>Tue, 22 Sep 2026 14:03:43 +0000</pubDate>
+      <guid isPermaLink="false">2102398438436745689</guid>
+    </item>
     <item>
       <title>CSuite Targets US and EU Organizations with Device-Code Phishing and Remote Access</title>
       <link>https://any.run/cybersecurity-blog/csuite-attack-analysis/</link>
@@ -1565,17 +1584,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2099982397529841720">DFIR Radar</source>
       <pubDate>Tue, 15 Sep 2026 22:03:14 +0000</pubDate>
       <guid isPermaLink="false">2099982397529841720</guid>
-    </item>
-    <item>
-      <title>How Money Laundering, Scams, and Espionage Hide in a Web Full of Casino Garbage</title>
-      <link>https://www.infoblox.com/blog/threat-intelligence/how-money-laundering-scams-and-espionage-hide-in-a-web-full-of-casino-garbage/</link>
-      <description>China-aligned PeckBirdy APT hides C2 inside fake casino and adult sites; mcp-source[.]online had zero VirusTotal detections despite active WebSocket C2 use.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2099967364401889569</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2099967364401889569">DFIR Radar</source>
-      <pubDate>Tue, 15 Sep 2026 21:03:30 +0000</pubDate>
-      <guid isPermaLink="false">2099967364401889569</guid>
     </item>
   </channel>
 </rss>
