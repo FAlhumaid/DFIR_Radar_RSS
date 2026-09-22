@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 22 Sep 2026 20:03:19 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 21:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Process Parameter Poisoning: Inside a Novel EDR Evasion Technique</title>
+      <link>https://flashpoint.io/blog/process-parameter-poisoning-edr-evasion-technique/</link>
+      <description>Process Parameter Poisoning abuses undocumented Windows STARTUPINFO fields to inject shellcode into foreign processes, achieving zero EDR alerts in lab testing by avoiding all monitored memory APIs.
+
+Key findings:
+
+- The technique hides shellcode inside STARTUPINFO-&gt;lpReserved (or WindowTitle, CommandLine, Environment entries) before calling CreateProcessW(), bypassing VirtualAllocEx(), WriteProcessMemory(), and MapViewOfFile2() entirely. The payload lands in RTL_USER_PROCESS_PARAMETERS-&gt;ShellInfo.Buffer inside the new process's PEB, never touching the APIs EDR hooks watch. MITRE T1055, T1055.003, T1564.010.
+
+- Execution flows through NtQueryInformationProcess() to locate PebBaseAddress, NtReadVirtualMemory() to read RTL_USER_PROCESS_PARAMETERS, a memory permission change to PAGE_EXECUTE_READ, then GetThreadContext()/SetThreadContext() to redirect the instruction pointer. No explicit suspend/resume APIs are called, so rules keyed to those calls miss it.
+
+- Flashpoint validated a Rust POC with custom shellcode (no NULL bytes, no self-modifying encoders). Combined with DLL unhooking and the non-Microsoft block DLL policy on the sacrificial process, no XDR alerts or blocks fired.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102503870379196460</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2102503870379196460">DFIR Radar</source>
+      <pubDate>Tue, 22 Sep 2026 21:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2102503870379196460</guid>
+    </item>
     <item>
       <title>PamStealer adapts again: a move to Swift with a server-side decryption chain</title>
       <link>https://www.jamf.com/blog/pamstealer-wavel-macos-infostealer/</link>
@@ -1605,23 +1624,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2100088112944742848">DFIR Radar</source>
       <pubDate>Wed, 16 Sep 2026 05:03:19 +0000</pubDate>
       <guid isPermaLink="false">2100088112944742848</guid>
-    </item>
-    <item>
-      <title>Ransomware Landscape in H1 2026: Statistics and Key Issues</title>
-      <link>https://medium.com/s2wblog/ransomware-landscape-in-h1-2026-statistics-and-key-issues-f15683e233cd?source=rss----30a8766b5c42---4</link>
-      <description>Ransomware surged to 5,984 victims in H1 2026, up 1,555 from H1 2025, with 119 active groups and 44 new entrants reshaping the extortion ecosystem.
-
-- The US 🇺🇸 absorbed 45.9% of all victims (2,069 cases, up 28.5% YoY). Manufacturing led industries with 612 victims (13.1%). Government entered the top 10 for the first time with 177 attacks. Top 5 risk-ranked groups: Qilin, PLAY, LockBit, Interlock, INC. Qilin exploited Check Point VPN CVEs (CVE-2026-50751, CVE-2026-50752) as zero-days and topped attack volume across the half.
-
-- The RaaS supply chain is fragmenting into specialist roles: developers, pentesters, IABs, negotiators, and now media liaisons. Qilin affiliates offered journalist outreach and video production services. Nova posted open job listings targeting cybersecurity reporters. IAB access pricing dropped from $1,439 to $439 on average, lowering barriers. 0APT's Elite Partner Program tiered affiliates with access to zero-days, EDR killers, and ESXi tools based on performance.
-
-- RAMP's law enforcement takedown on January 28, 2026 displaced RaaS activity to TierOne and Rehub, where posts jumped to 1,173 versus 199 previously, averaging 235/month. DDW mentions of "Ransomware" and "Affiliate" rose 49.9% month-over-month while Telegram dropped 50.7%. Monitor TierOne, Rehub, and BreachForums for recruitment and IAB listings.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100073222511218865</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100073222511218865">DFIR Radar</source>
-      <pubDate>Wed, 16 Sep 2026 04:04:09 +0000</pubDate>
-      <guid isPermaLink="false">2100073222511218865</guid>
     </item>
   </channel>
 </rss>
