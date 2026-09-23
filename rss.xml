@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 13:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 14:04:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>OAuth Token Theft Through Microsoft's Front Door | Huntress</title>
+      <link>https://www.huntress.com/blog/stealing-oauth-tokens-through-microsofts-front-door</link>
+      <description>A Microsoft-signed binary, WWAHost.exe, can be weaponized via a sideloaded AppX package to present a real Microsoft login dialog and steal OAuth tokens including refresh tokens, bypassing MFA entirely because the user authenticates legitimately.
+
+Key findings:
+
+- The attack chain requires Developer Mode enabled (HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock, AllowDevelopmentWithoutDevLicense=1) or an enterprise AllowAllTrustedApps sideloading policy. Once set, a standard user runs Add-AppxPackage -Register with no UAC prompt. The AppX manifest declares WindowsRuntimeAccess="all" in ContentUriRules, granting attacker-hosted JavaScript full WinRT API access inside a trusted Microsoft process.
+
+- The JavaScript calls the legacy WebAuthenticationBroker using Microsoft Office's own client ID (d3590ed6-52b3-4102-aeff-aad2292ab01c) and an oob redirect URI. The user sees a real login.microsoftonline[.]com dialog, completes MFA, and the auth code returns directly to the attacker. The captured token carries the full Office delegated scope set: Mail.ReadWrite, Files.ReadWrite.All, Teams, Directory.Read.All, and AuditLog.Create.
+
+- Entra sign-in logs show Application "Microsoft Office," Status Success, no risk flags, indistinguishable from a routine sign-in except for one field: the user agent MSAuthHost/1.0 on Trident for the broker leg, while exfil traffic to attacker infrastructure carries MSAppHost/3.0 on EdgeHTML. That divergence is the detection.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102761007256883700</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2102761007256883700">DFIR Radar</source>
+      <pubDate>Wed, 23 Sep 2026 14:04:26 +0000</pubDate>
+      <guid isPermaLink="false">2102761007256883700</guid>
+    </item>
     <item>
       <title>Low-Level Extraction of the Apple Watch S4/S5</title>
       <link>https://blog.elcomsoft.com/2026/09/low-level-extraction-of-the-apple-watch-s4-s5/</link>
@@ -1603,25 +1622,6 @@ Hunt tip: if you build SSRF guards, audit any case where a library classificatio
       <source url="https://x.com/DFIR_Radar/status/2100329766746251356">DFIR Radar</source>
       <pubDate>Wed, 16 Sep 2026 21:03:34 +0000</pubDate>
       <guid isPermaLink="false">2100329766746251356</guid>
-    </item>
-    <item>
-      <title>PHP Webshell Campaign Targets WordPress Through Critical WooCommerce Plugin Bug</title>
-      <link>https://www.infosecurity-magazine.com/news/woocommerce-wholesale-lead-capture/</link>
-      <description>CVE-2026-27540 (CVSS 9.8) in WooCommerce Wholesale Lead Capture lets unauthenticated attackers upload PHP webshells, with 100,000+ exploitation attempts blocked and active campaigns running since June.
-
-- CVE-2026-27540 affects the wwlc_file_upload_handler AJAX action, reachable with no authentication. The plugin reads the permitted file extension list from the attacker's own request rather than server-side config, so submitting php in a forged settings parameter bypasses the only upload barrier. WordPress's upload function is called with type checking disabled, making the extension allowlist the sole control, and the attacker owns it.
-
-- Exploitation is a single unauthenticated POST to admin-ajax.php with the wwlc_file_upload_handler action. Uploaded files are commonly named shell.php and drop a webshell that reports host details and provides a browser-based file-write interface for staging further payloads. All plugin versions through 2.0.3.1 are vulnerable; the patch landed February 20 in 2.0.3.2.
-
-- Wordfence blocked 100,000+ attempts with heaviest activity June 4-17, plus spikes July 1 and August 30, meaning active exploitation has continued for months post-patch across an estimated 6,000 active installs.
-
-Hunt: grep web server access logs for POST requests to admin-ajax.php containing wwlc_file_upload_handler. Audit the WordPress uploads directory for PHP files, especially recently created ones. Check for unknown administrator accounts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100314602710151374</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2100314602710151374">DFIR Radar</source>
-      <pubDate>Wed, 16 Sep 2026 20:03:18 +0000</pubDate>
-      <guid isPermaLink="false">2100314602710151374</guid>
     </item>
   </channel>
 </rss>
