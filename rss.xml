@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 10:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 11:03:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Operation Conflict Compass: Konni Targets Ukraine via Malicious LNK Lures</title>
+      <link>https://socradar.io/blog/operation-conflict-compass-konni-ukraine-lnk-lure/</link>
+      <description>DPRK Konni group targets Ukraine-focused diplomats and think tanks in Operation Conflict Compass, deploying a new modular downloader called VelvetCake via LNK lures and trojanized Zoom installers.
+
+- Initial access arrives as ZIP archives containing LNK files masquerading as PDFs (T1566.001, T1036.007). Lure themes include Russia-Ukraine 🇺🇦 peace frameworks, Strait of Hormuz food security impacts, and a Ukrainian 🇺🇦 social researcher CV, pointing squarely at diplomatic entities, NGOs, and defense think tanks. A trojanized Zoom installer (SHA256: 0db1e8a3075ffc2f5caa91abaeabb6ba4365ae0eda64d179374614a79e317733) delivers the same payload chain (T1566.002).
+
+- The LNK drops two payloads from a GitHub staging repo: update1.vbs creates a scheduled task named OneDriveUpdateScheduler that runs update2.ps1 every minute via explorer.exe (T1053.005). An alternate variant skips disk writes entirely, using Net.WebClient.DownloadString and iex to execute VelvetCake in memory directly from C2.
+
+- VelvetCake (T1095) opens a raw TCP socket to 111.92.246[.]145:12345, authenticates with hardcoded PASSWORD MySecurePass123, pulls queued PowerShell scripts, executes them, exfiltrates output files from C:UsersPublic via UPLOAD with a 0x12345678 header flag, then deletes artifacts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102715523330871741</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2102715523330871741">DFIR Radar</source>
+      <pubDate>Wed, 23 Sep 2026 11:03:42 +0000</pubDate>
+      <guid isPermaLink="false">2102715523330871741</guid>
+    </item>
     <item>
       <title>Inside a multi stage toll fraud operation targeting Poland</title>
       <link>https://cert.pl/en/posts/2026/09/tollfraud-analysis/</link>
@@ -1591,23 +1608,6 @@ Hunt: grep web server access logs for POST requests to admin-ajax.php containing
       <source url="https://x.com/DFIR_Radar/status/2100284612874256498">DFIR Radar</source>
       <pubDate>Wed, 16 Sep 2026 18:04:08 +0000</pubDate>
       <guid isPermaLink="false">2100284612874256498</guid>
-    </item>
-    <item>
-      <title>Mapping out your unknown: A threat hunter’s guide to GitHub</title>
-      <link>https://securitylabs.datadoghq.com/articles/mapping-out-your-unknown-threat-hunters-guide-to-github/</link>
-      <description>GitHub audit logs contain the hunting surface most orgs have not fully mapped: attacker TTPs from initial token compromise through bulk source code exfiltration are traceable if you know which fields and event types to query.
-
-- Initial access arrives via leaked PATs, device code phishing (victim authorizes a real GitHub URL without knowing the attacker generated the code), or malicious OAuth apps and IDE extensions with broad scopes. Hunt oauth_authorization.create events, group by oauth_application_name or integration, and flag uncommon app names or token_scopes. The hashed_token field stays consistent across all event types, making it your anchor for tracing a single token's full activity chain.
-
-- Discovery and secrets enumeration leaves api.request events on routes like /organizations/:organization_id/secret-scanning/alerts and /repositories/:repository_id/actions/secrets. No secret value is exposed, but the listing request and actor are logged. Group by actor over 1-hour windows and escalate anyone hitting a high count of distinct repositories, which is the clearest anomaly signal outside an authorized audit.
-
-- Bulk collection surfaces in git.clone (repository_public:false) and repo.download_zip (public_repo:false) events. Breadth and pace distinguish attacker from developer: a backend engineer cloning repos across every product area, or dozens of ZIP downloads in under five minutes, warrants immediate triage.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100269667394724138</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2100269667394724138">DFIR Radar</source>
-      <pubDate>Wed, 16 Sep 2026 17:04:45 +0000</pubDate>
-      <guid isPermaLink="false">2100269667394724138</guid>
     </item>
   </channel>
 </rss>
