@@ -5,8 +5,19 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 19:03:47 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 20:03:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers start exploiting critical WordPress flaw for code execution</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-start-exploiting-critical-wordpress-flaw-for-code-execution/</link>
+      <description>CVE-2026-87902, a 9.2 CVSS unauthenticated path traversal in WordPress, is now being actively exploited for RCE within hours of the 7.1.2 patch.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102851488003547308</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2102851488003547308">DFIR Radar</source>
+      <pubDate>Wed, 23 Sep 2026 20:03:59 +0000</pubDate>
+      <guid isPermaLink="false">2102851488003547308</guid>
+    </item>
     <item>
       <title>Malicious AI agents steal 600K credit cards, infect 100+ sites with skimmers</title>
       <link>https://www.bleepingcomputer.com/news/security/malicious-ai-agents-steal-600k-credit-cards-infect-100-plus-sites-with-skimmers/</link>
@@ -1611,27 +1622,6 @@ Tracked as CVE-2026-90049, CVE-2026-89487, and CVE-2026-80977. Public since 2026
       <source url="https://x.com/DFIR_Radar/status/2100495804062454061">DFIR Radar</source>
       <pubDate>Thu, 17 Sep 2026 08:03:20 +0000</pubDate>
       <guid isPermaLink="false">2100495804062454061</guid>
-    </item>
-    <item>
-      <title>How I Tricked OpenClaw Into Attacking Its Own Network: A NAT64 SSRF Bypass</title>
-      <link>https://infosecwriteups.com/how-i-tricked-openclaw-into-attacking-its-own-network-a-nat64-ssrf-bypass-9b93a7f11cd9?source=rss----7b722bfd1b8d---4</link>
-      <description>A parser-differential bug in OpenClaw's SSRF guard let a crafted NAT64 IPv6 literal route to 169.254.169.254 while showing the guard a harmless 8.8.8.8. Fixed in v2026.8.1.
-
-- OpenClaw (formerly Clawdbot/Moltbot) is an always-on AI gateway running inside user trust boundaries with a web_fetch tool, image-URL ingestion, and inbound media resolution. Every one of those is an SSRF primitive if the address guard can be fooled.
-
-- The guard correctly decoded IPv4-mapped, 6to4, Teredo, and the well-known 64:ff9b::/96 NAT64 prefix. The flaw: ipaddr.js v2.4.0 folds the RFC 8215 64:ff9b:1::/48 prefix under the same "rfc6052" label. The guard read parts[6]/parts[7] (the trailing 32 bits) for both, but in the /48 layout the real embedded IPv4 lives in hextets 3-5. The trailing bits are RFC 6052-mandated ignored suffix, meaning attacker-controlled scratch space.
-
-- The crafted address 64:ff9b:1:a9fe:a9:fe00:808:808 embeds 169.254.169.254 in the correct /48 slots and places 8.8.8.8 in the ignored suffix. Guard sees 8.8.8.8 and passes. A real NAT64 router decodes 169.254.169.254 and forwards there. Precondition: host must have an actual 64:ff9b:1::/48 NAT64 gateway present.
-
-- Patch is in v2026.8.1 and all later releases. Affected builds confirmed: beta range 2026.7.2-beta.1 through 2026.8.1-beta.2, with possible earlier stable versions still under review.
-
-Hunt tip: if you build SSRF guards, audit any case where a library classification label implies a memory layout.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100450382761902149</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2100450382761902149">DFIR Radar</source>
-      <pubDate>Thu, 17 Sep 2026 05:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2100450382761902149</guid>
     </item>
   </channel>
 </rss>
