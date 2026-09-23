@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 21:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 22:03:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hunting Invisible Unicode in Emails (+ KQL Queries)</title>
+      <link>https://detect.fyi/hunting-invisible-unicode-in-emails-kql-queries-71722628161c?source=rss----d5fd8f494f6a---4</link>
+      <description>Invisible Unicode characters in email subjects and sender display names can silently bypass string-matching detections while leaving the rendered message visually unchanged to the human reader.
+
+- Attackers insert zero-width and directional Unicode characters (U+200B-U+200F, U+202A-U+202E, U+2060-U+206F, U+FEFF) inside words like "Microsoft" to break exact-match filters. The user sees nothing different; a parser or security product may see a completely different string, undermining keyword-based detections and potentially manipulating AI email agents that process extracted text rather than rendered HTML.
+
+- The hunting approach targets EmailEvents in Microsoft Defender XDR via KQL, extracting suspicious characters from Subject and SenderDisplayName using extract_all with the Unicode ranges above, then building a composite risk score: +40 for Unicode symbols/icons in subject (U+2600-U+27BF), +20 for hidden Unicode in subject, +20 for hidden Unicode in SenderDisplayName, +20 for multi-country sender infrastructure.
+
+- The query retains NetworkMessageId and RecipientEmailAddress, making it suitable as a Defender XDR Custom Detection rule, not just a one-time hunt. Output is sorted by RiskScore descending so the highest-signal emails surface first.
+
+Takeaway: Run the full KQL from the report against your EmailEvents table. A non-zero RiskScore is a hunting lead, not a verdict.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102881672127496426</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2102881672127496426">DFIR Radar</source>
+      <pubDate>Wed, 23 Sep 2026 22:03:56 +0000</pubDate>
+      <guid isPermaLink="false">2102881672127496426</guid>
+    </item>
     <item>
       <title>F5 BIG-IP APM Zero-Day Exploited in Zero-Day RCE Attacks</title>
       <link>https://securityaffairs.com/199619/security/f5-big-ip-apm-zero-day-exploited-in-zero-day-rce-attacks.html</link>
@@ -1597,25 +1616,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2100526123474100653">DFIR Radar</source>
       <pubDate>Thu, 17 Sep 2026 10:03:49 +0000</pubDate>
       <guid isPermaLink="false">2100526123474100653</guid>
-    </item>
-    <item>
-      <title>Chosen Brick, Iran’s Surveillance Malware</title>
-      <link>https://securityaffairs.com/199217/malware/chosen-brick-irans-surveillance-malware.html</link>
-      <description>Iranian 🇮🇷 intelligence deploys Chosen Brick malware against dissidents, journalists, and activists in the UK 🇬🇧, US 🇺🇸, and Netherlands 🇳🇱, with stolen data appearing on pro-regime leak sites, creating physical safety risks beyond the digital intrusion.
-
-- Attack chain begins on WhatsApp or Telegram, not email. Operators spend weeks building rapport, then impersonate known contacts or platform support staff (T1566.003) before delivering fake installers disguised as Pictory, Telegram, KeePass, Norton, or MRI scan results. The decoy screen runs while the payload installs silently in the background.
-
-- Chosen Brick targets Windows only. Persistence lands in HKCU\Software\Microsoft\Windows\CurrentVersion\Run, with observed value names "SMQDService" and "winappx." The malware adds Defender exclusions and deploys to C:\Windows \SysWOW64 (note the deliberate space) to evade allowlists.
-
-- C2 runs entirely over Telegram bots, one bot ID per victim to compartmentalize infections (T1041). Data exfiltrates to VultrObjects and StorjShare (T1567.002). Newer variants proxy traffic through HTTPS or SOCKS5 (T1090.002) to obscure Telegram usage.
-
-- Hunt for mutex strings "ytyjyujyu" and "noi672pp434awkc12f" in memory. In proxy and DNS logs, flag unexpected connections to vultrobjects[.]com, storjshare[.]io, iproyal[.]com, and lightningproxies[.]net alongside api.telegram[.]org. Context is everything; none of these domains are malicious in isolation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100510870757667024</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100510870757667024">DFIR Radar</source>
-      <pubDate>Thu, 17 Sep 2026 09:03:12 +0000</pubDate>
-      <guid isPermaLink="false">2100510870757667024</guid>
     </item>
   </channel>
 </rss>
