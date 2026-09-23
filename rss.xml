@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 09:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 10:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside a multi stage toll fraud operation targeting Poland</title>
+      <link>https://cert.pl/en/posts/2026/09/tollfraud-analysis/</link>
+      <description>Polish 🇵🇱 users hit by a sophisticated toll fraud ring using Meta ads and Google Play apps to silently charge premium SMS and carrier billing without victim awareness.
+
+Key details:
+
+- CERT Polska preserved 1,235 fraudulent Meta ads, linking 852 of them to 17 malicious Android applications distributed through Google Play, connected via shared code and overlapping infrastructure
+
+- The full execution chain was reconstructed end-to-end: deceptive ads lure victims to install apps, which then receive silent tasking to trigger premium SMS subscriptions or carrier billing charges without user interaction
+
+- Attribution confidence is high because investigators observed live tasking in action, meaning the C2 infrastructure was caught actively instructing devices to commit fraud in real time
+
+- Linkage across 17 apps was established through code similarity and shared infrastructure, a classic cluster pivot that suggests a single threat actor or affiliate operating at scale
+
+- The fraud mechanism abuses legitimate carrier billing and premium SMS systems, meaning charges appear on phone bills rather than payment cards, making victim detection and chargeback significantly harder
+
+Hunt for Android apps with SEND_SMS, READ_PHONE_STATE, and RECEIVE_WAP_PUSH permissions installed from Play around the campaign window. Cross-reference billing anomalies with app install timestamps. Full IOC list, ad samples, and infrastructure details are in the CERT Polska report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102700177740169566</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2102700177740169566">DFIR Radar</source>
+      <pubDate>Wed, 23 Sep 2026 10:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2102700177740169566</guid>
+    </item>
     <item>
       <title>RemControl: AI Built the Overlays. Victims Lose their PINs</title>
       <link>https://www.group-ib.com/blog/remcontrol-android-banking-trojan/</link>
@@ -1583,27 +1608,6 @@ Hunt: grep web server access logs for POST requests to admin-ajax.php containing
       <source url="https://x.com/DFIR_Radar/status/2100269667394724138">DFIR Radar</source>
       <pubDate>Wed, 16 Sep 2026 17:04:45 +0000</pubDate>
       <guid isPermaLink="false">2100269667394724138</guid>
-    </item>
-    <item>
-      <title>Operation RapidRust: APT36 Deploys RUSTYSHADE, RUSTYMOVE, PSNATCH, and BASHNATCH</title>
-      <link>https://www.zscaler.com/blogs/security-research/operation-rapidrust-apt36-deploys-rustyshade-rustymove-psnatch-and</link>
-      <description>APT36 deploys four new tools against Indian 🇮🇳 and Afghan government and defense targets, including a Rust backdoor using GitHub repos for C2 and a USB worm built to jump air gaps.
-
-Key details:
-
-- RUSTYSHADE is a 64-bit Rust backdoor that polls attacker-controlled private GitHub repos via the REST API, encrypting all traffic with AES-256-GCM. The key is derived from the SHA256 hash of a hardcoded GitHub PAT. Messages carry the prefix HCENC1: before base64-encoded nonce+ciphertext+tag. Commands land in command.txt; output goes to results.txt. Supported commands include screenshot capture, webcam photo via WIA.CommonDialog, file download, and shell execution via cmd.exe.
-
-- RUSTYMOVE is a Rust-based USB propagation tool persisted via a scheduled task named StandAloneOneDriveUpdater-2626 (Automata-20.exe). It monitors for USB, SD, MMC, and 1394 media and copies DriverInstaller.zip (RUSTYSHADE) and a malicious LNK to the root of each new volume, targeting air-gapped networks.
-
-- PSNATCH (PowerShell) and BASHNATCH (Bash) steal files modified within 120 days from Desktop, Downloads, Documents, OneDrive, and D: through H: drives, exfiltrating up to 5 GB per run to private GitHub repos. Tracking state lives at %APPDATA%\SmartUploader\uploaded_files.json on Windows.
-
-- Post-compromise activity ran weekdays only, 04:00-11:00 UTC, suggesting a Pakistan-aligned operator schedule.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100254540226261138</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100254540226261138">DFIR Radar</source>
-      <pubDate>Wed, 16 Sep 2026 16:04:38 +0000</pubDate>
-      <guid isPermaLink="false">2100254540226261138</guid>
     </item>
   </channel>
 </rss>
