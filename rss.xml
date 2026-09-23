@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Sep 2026 00:02:48 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2026 01:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Macfinger ClickFix campaign, (Tue, Sep 22nd)</title>
+      <link>https://isc.sans.edu/diary/rss/33360</link>
+      <description>"Macfinger" ClickFix campaign injects scripts into legitimate websites to fingerprint and socially engineer macOS users into running AMOS Stealer variants. Active now with fresh IOCs from 2026-09-22.
+
+- Compromised legitimate sites serve injected JavaScript that loads from velvet-otter-glagceis[.]life, presenting a fake bot-protection page. ClickFix instructions trick the user into running a command manually, the classic clipboard-paste social engineering move (T1204.002). While the page is displayed, the domain fires repeated HTTPS POST requests to /collect, tracking user behavior in real time.
+
+- On execution, a Bash script drops from 45.150.33[.]128 (SHA-256: 9d87b41c2b29ccbeac851b98f1a7dce4ab4781fec0cbc55fa6f93a6299a3d564). It then pulls one of two Mach-O 64-bit payloads depending on architecture: arm64 (33 MB, hash: b68cdb1b...) or x86_64 (34 MB, hash: 1a3765e8...). Both are identified as AMOS Stealer variants.
+
+- Post-infection C2 runs to 95.163.153[.]80 over TCP port 8133. Within seconds of execution, traffic shifts from POST /api/t telemetry to POST /api/credentials, confirming active credential harvesting. The implant also calls ipinfo[.]io for geolocation and pulls /api/shell/agent, suggesting a remote shell capability.
+
+Hunt for unexpected Bash execution followed by Mach-O downloads on macOS endpoints, and block 45.150.33[.]128 and 95.163.153[.]80:8133. Full IOC list including hashes and traffic patterns is in the SANS ISC report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102564356802126157</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2102564356802126157">DFIR Radar</source>
+      <pubDate>Wed, 23 Sep 2026 01:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2102564356802126157</guid>
+    </item>
     <item>
       <title>MikroTrick: technical analysis, disclosure process, and the use of LLM agents</title>
       <link>https://cert.pl/en/posts/2026/09/mikrotrick-technical-analysis/</link>
@@ -1593,21 +1612,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2100209124243804463">DFIR Radar</source>
       <pubDate>Wed, 16 Sep 2026 13:04:10 +0000</pubDate>
       <guid isPermaLink="false">2100209124243804463</guid>
-    </item>
-    <item>
-      <title>NightEagle targets Russian companies</title>
-      <link>https://securelist.com/tr/nighteagle-apt-ghostcontainer-and-tunneling/121323/</link>
-      <description>Chinese-linked APT NightEagle (APT-Q-95) pivots to hit Russian 🇷🇺 businesses, deploying a custom Exchange backdoor and abusing legitimate tunneling tools to stay hidden across full AD compromises.
-
-- Initial access came via stolen VPN credentials, with connections masquerading through Cloudflare WARP and European VPS infrastructure. NightEagle then planted GhostContainer, a .NET backdoor, on Microsoft Exchange servers by extracting ASP.NET ViewState crypto keys (CVE-2020-0688 component) to inject an in-memory payload. C2 commands arrive through x-owa-urlpostdata headers, and the backdoor actively patches amsi.dll and ntdll.dll in memory to blind AMSI and event logging.
-
-- For tunneling, the group pulled tools from typosquatted-looking GitHub repos (github[.]com/mirror-js/mirror-js, github[.]com/browserthemes/resourcepack) disguised as js-webpack.zip and resource-pack.zip. Binaries inside impersonated Adobe, TrueConf, and 1C software. They combined Microsoft Dev Tunnels to expose RDP (port 3389) externally on *.devtunnels[.]ms and rdp2tcp for TCP-over-RDP forwarding. Key artifact: Event IDs 132 and 148 in Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational.evtx will show channel name rdp2tcp instead of standard RDP channels.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100163666028982272</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100163666028982272">DFIR Radar</source>
-      <pubDate>Wed, 16 Sep 2026 10:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2100163666028982272</guid>
     </item>
   </channel>
 </rss>
