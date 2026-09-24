@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 06:03:17 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 07:03:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CLOSEDQUORUM, the malware that asks four AI models what to do next</title>
+      <link>https://securityaffairs.com/199640/malware/closedquorum-the-malware-that-asks-four-ai-models-what-to-do-next.html</link>
+      <description>CLOSEDQUORUM delegates tactical C2 to a four-LLM voting panel, no human operator required. Cisco Talos documents the first Windows implant to replace attacker decision-making with AI consensus, targeting credentials and crypto wallets.
+
+Key details:
+
+- Four commercial LLMs (DeepSeek, Qwen, Mistral, Google Gemini) each receive a host-context prompt and return one of four actions: steal, inject, persist, or move. Majority vote wins; ties break by fixed model priority. No C2 server, no human in the loop during execution.
+
+- "Steal" runs simultaneously: LSASS memory dump, browser credential harvest from Chrome, Edge, and Firefox, and crypto wallet scanning for MetaMask and Exodus. Exfil goes AES-256-GCM encrypted to a Discord webhook as base64 blocks, bypassing domain/IP blocklists entirely.
+
+- The encryption is theater: the key derives from the current date, meaning the developer can decrypt any operator's haul by knowing the day. Dev builds contain real API keys baked in at compile time, suggesting a credentials-as-a-service model sold to paying operators.
+
+- Detection rests on behavioral correlation, not a single IOC: a Windows process polling multiple AI provider APIs plus Discord in a short window, combined with LSASS access or suspended process creation, is the signature Talos flags.
+
+Hunt for Windows executables making outbound HTTPS to AI provider endpoints and Discord webhooks within the same short interval while also touching LSASS.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103017541148750294</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2103017541148750294">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 07:03:49 +0000</pubDate>
+      <guid isPermaLink="false">2103017541148750294</guid>
+    </item>
     <item>
       <title>Meta’s Muse AI Assistant Rolled Out With a Serious Security Flaw</title>
       <link>https://www.wired.com/story/metas-muse-ai-agent-zero-day/</link>
@@ -1561,21 +1584,6 @@ If you manage MikroTik devices, patching is not enough. Pull the user list, sche
       <source url="https://x.com/DFIR_Radar/status/2100661807224668500">DFIR Radar</source>
       <pubDate>Thu, 17 Sep 2026 19:02:58 +0000</pubDate>
       <guid isPermaLink="false">2100661807224668500</guid>
-    </item>
-    <item>
-      <title>EtherHiding Exposed: Inside a Blockchain-powered Malware Campaign Hiding in Plain Sight</title>
-      <link>https://www.guidepointsecurity.com/blog/etherhiding-exposed-deep-dive/</link>
-      <description>A BEC investigation uncovered a blockchain-powered C2 campaign active since November 2025, using Polygon smart contracts to store live C2 addresses across 31 compromised websites, with a backdoor now delivering a real-time banking trojan targeting 479 financial domains.
-
-- EtherHiding on Polygon: the C2 agent holds nine hardcoded Polygon RPC endpoints and sends a read-only eth_call to a smart contract to retrieve an encrypted C2 domain, decrypted with a repeating-key XOR (key: $%)W$fgl34). Two operator wallets (0xd802...826a, 0x6a6e...dfde) deployed 15 contracts across six waves. Template B contracts emit no on-chain events, a deliberate counter-forensics move against the event-sweep that exposed Template A. Active C2 domains: hivinest[.]online, insinght[.]site, 3262d48df5d75e34[.]shop.
-
-- Attack chain: compromised sites inject JavaScript that calls traffic-distribution domains (additionalver[.]com, promo-chatgpt[.]com). A cookie-gating mechanism limits exposure. ClickFix lure drops a scheduled task named "Enter" running every 60 seconds (T1053.005). On success, two PowerShell scripts land in %Temp%: a C2 agent and a persistence script writing HKCU\...\Run\PersonalizedUpdates (T1547.001), then deleting the task to cover tracks.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100646894800367722</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100646894800367722">DFIR Radar</source>
-      <pubDate>Thu, 17 Sep 2026 18:03:43 +0000</pubDate>
-      <guid isPermaLink="false">2100646894800367722</guid>
     </item>
   </channel>
 </rss>
