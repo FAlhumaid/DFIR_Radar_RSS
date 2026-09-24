@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 19:03:28 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 20:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI Helps Uncover MikroTrick Attack Chain in MikroTik RouterOS</title>
+      <link>https://securityaffairs.com/199678/hacking/ai-helps-uncover-mikrotrick-attack-chain-in-mikrotik-routeros.html</link>
+      <description>MikroTick chains two RouterOS SSH flaws for unauthenticated admin access, actively exploited in the wild before patches shipped, now on CISA KEV with a three-day remediation deadline.
+
+Both CVEs are actively exploited. CISA added them to the Known Exploited Vulnerabilities catalog on September 10, 2026.
+
+- CVE-2026-67279 and CVE-2026-86060 form the MikroTrick chain against MikroTik RouterOS SSH. CVE-2026-67279 allows an unauthenticated client to open a session channel by triggering an SSH rekey during the authentication phase: RouterOS incorrectly skips to channel handling as if auth had already succeeded. CVE-2026-86060 is the privilege escalation half. RouterOS passes the username as a command-line argument to the login process before auth completes, with no sanitization. Sending "-2" as the username causes the login process to treat it as a file descriptor option pointing to fd 2, the attacker-controlled terminal channel. Setting a privilege mask of 655358 then grants full administrative rights. No password, no SSH key, no successful authentication required.
+
+- The exploit was circulating before the patches existed. Logs collected from the MikroTik forum, Reddit, and direct CERT Polska reports all point to a consistent source IP: 82.192.72[.]4. In confirmed cases, the attacker pulled diagnostic files off compromised routers after gaining access. MikroTik's September 3, 2026 patch introduced two defensive tells in the code: login now rejects usernames starting with a hyphen or a space, and a hardcoded check watches for a privileged account named "ops" appearing spontaneously and auto-disables it, confirming the vendor knew exploitation was occurring.
+
+- The log signature is unusually clear. Every exploitation attempt leaves the same two-line sequence: a failed login for the user "-2" followed immediately by the creation of a fully privileged "ops" account. That pattern was already appearing in forum posts from administrators who had no idea what they were looking at. If you have RouterOS devices with SSH exposed, search your auth logs for that exact sequence right now before doing anything else. A failed login that results in a new admin account is not a logging anomaly, it is evidence of compromise.
+
+- AI-assisted patch diffing closed the disclosure gap to hours, not weeks. CERT Polska used GPT-5.5-cyber and GPT-5.6-sol via OpenAI's GTAC program alongside locally hosted open-weight models to build a lab of 40 virtual RouterOS instances spanning 24 versions. AI agents analyzed binaries, fuzzed out-of-order SSH protocol behavior, and monitored forums for spread. A public post on npratley[.]net identified the key SSH changes by September 4, under 24 hours after the patch dropped. The "-2" file descriptor trick was being discussed openly on Reddit and MikroTik's forum by September 5. The asymmetry CERT Polska flags is the real problem: reverse engineering is now dramatically cheaper and faster, but forensic cleanup and patch deployment still move at the old pace.
+
+Responder action: pull SSH auth logs on every RouterOS device in your environment and grep for the username "-2" and for account creation events showing a new account named "ops." Both artifacts map directly to this exploit chain. Check for unauthorized diagnostic file exports as a post-compromise indicator. Patch to the versions MikroTik released September 3, 2026, prioritizing any device with SSH reachable from the internet. CISA's three-day deadline on these KEV entries reflects real, confirmed exploitation, not theoretical risk. Full advisory and IOCs are available in the CERT Polska report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103213553654145295</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2103213553654145295">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 20:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2103213553654145295</guid>
+    </item>
     <item>
       <title>Beyond the ransomware: Tracking Storm-2570’s consistent tradecraft across deployments</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/09/24/beyond-ransomware-tracking-storm-2570-consistent-tradecraft-across-deployments/</link>
@@ -1625,17 +1648,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2100828044319424836">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 06:03:32 +0000</pubDate>
       <guid isPermaLink="false">2100828044319424836</guid>
-    </item>
-    <item>
-      <title>CVE-2026-87886: Acronis Backup Plugin Privilege Escalation Flaw Exploited in Targeted Attacks</title>
-      <link>https://socprime.com/blog/cve-2026-87886-acronis-backu-plugin-flaw-exploited/</link>
-      <description>CVE-2026-87886 (CVSS 7.8), a local privilege-escalation flaw in Acronis Backup plugins for cPanel/WHM and Plesk via insecure file permissions, is actively exploited and CISA KEV-listed.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100812756509176112</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2100812756509176112">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 05:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2100812756509176112</guid>
     </item>
   </channel>
 </rss>
