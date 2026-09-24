@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 20:02:42 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 21:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Measuring MITRE ATT&amp;CK detection coverage: what the percentage counts and what it hides</title>
+      <link>https://socprime.com/blog/measuring-mitre-attck-detection-coverage-what-the-percentage-counts-and-what-it-hides/</link>
+      <description>ATT&amp;CK coverage percentages are widely misread: a library figure counts rules in a catalog, not detections that actually fire in your environment, and ATT&amp;CK v19's tactic split makes pre-v19 numbers incomparable without recomputation.
+
+Key findings:
+
+- Four distinct coverage types exist and only one matters operationally. Library coverage counts techniques with at least one rule in a vendor catalog. Deployed coverage counts rules installed and enabled in your SIEM or XDR. Collected coverage counts techniques whose required data sources are ingesting and passing quality gates (freshness, null-rate, field-semantics). Validated coverage counts only techniques where a deployed rule has proven to fire against a real or simulated execution. A vendor's headline number is almost always Library. The number that describes your defended environment is Validated. Conflating them is the core failure mode.
+
+- Data quality gates at the source layer are where programs quietly lose ground. A log source can be technically ingested while schema drift or a rising null-rate makes every detection built on top of it unreliable. The article gives concrete examples: T1110 Brute Force requires identity provider auth logs (Okta, Microsoft Entra ID) passing their contract; T1059 Command and Scripting Interpreter requires EDR process telemetry with clean field semantics; T1071 Application Layer Protocol requires network sensor, proxy, and DNS logs. A technique whose required source fails its gates scores zero, same as a technique with no source at all.
+
+- ATT&amp;CK v19 (released 2026-04-28) changed the denominator. The former Defense Evasion tactic was split into two new tactics: Stealth and Defense Impairment. Any coverage percentage computed before that split describes a different taxonomy. Pre-v19 numbers cannot be compared to post-v19 numbers without re-mapping rules to the new structure, recomputing per tactic, and publishing the delta explicitly. Relabeling the old number is not a valid update.
+
+- Time-to-coverage is an underused but measurable program health metric. Track the interval from technique or procedure publication (t0) to a detection deployed and proven to fire in production (t1). Measure median and P90 by technique class, since a commodity technique and a novel procedure carry meaningfully different response windows. This metric exposes pipeline maturity in a way a static coverage heatmap cannot.
+
+Practitioner takeaway: before accepting any coverage number, ask three questions the article names explicitly: what is the denominator (prioritized threat-model set or full ATT&amp;CK matrix), which log sources does the figure assume are collected and passing quality gates, and which ATT&amp;CK version was it computed on. If any answer is unknown, the number describes a catalog, not a defended environment. Run your own five-step validation: inventory deployed rules, map to ATT&amp;CK v19 technique IDs, confirm each required data source passes freshness and null-rate gates, prove each rule fires using Atomic Red Team, MITRE Caldera, or AttackIQ, then compute per tactic. ATT&amp;CK Navigator supports the mapping; tools like CardinalOps and Prime Hunt reconcile claimed mappings against live Splunk, Elastic, or Microsoft Sentinel environments to surface the library-to-validated gap directly.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103228841657283008</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2103228841657283008">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 21:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2103228841657283008</guid>
+    </item>
     <item>
       <title>AI Helps Uncover MikroTrick Attack Chain in MikroTik RouterOS</title>
       <link>https://securityaffairs.com/199678/hacking/ai-helps-uncover-mikrotrick-attack-chain-in-mikrotik-routeros.html</link>
@@ -1631,23 +1654,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2100843009961300136">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 07:03:00 +0000</pubDate>
       <guid isPermaLink="false">2100843009961300136</guid>
-    </item>
-    <item>
-      <title>Beware the SparroWock: The backdoor that bites, the commands that catch</title>
-      <link>https://www.welivesecurity.com/en/eset-research/beware-sparrowock-backdoor-bites-commands-catch/</link>
-      <description>Chinese 🇨🇳 APT FamousSparrow deploys new SparroWocky backdoor against Latin American governments, replacing SparrowDoor as its primary implant since August 2025.
-
-- FamousSparrow pivoted geographically hard: 90% of targets from mid-2025 into 2026 are Latin American government entities across Argentina 🇦🇷, Ecuador, Guatemala, Honduras 🇭🇳, Panama, Peru 🇵🇪, Puerto Rico, and Venezuela. ESET ties this to China 🇨🇳's reaction to US 🇺🇸 pressure in the region, including Panama's legal challenge to a Chinese-operated port concession. Initial access via exploiting public-facing Exchange servers (T1190).
-
-- SparroWocky is a distinct C++ backdoor, not a SparrowDoor variant. Deployed via DLL side-loading trident loader (T1574.001): legitimate EXE, patched malicious DLL (seen as winfsp-x64.dll, DukeQt.dll), and RC4-encrypted .dat payload file. Magic bytes MZ/PE are stripped from the in-memory payload to evade scanners. SHA-1 of primary sample: 44F0A22B143B79FA760BF31E14C8FFF714C8A2A1.
-
-- Evasion stack is deep: SilentMoonwalk call stack spoofing, MinHook hooking CreateThread to display AnimateWindow as thread start address, custom API hashing (T1027.007), and forged PEB_LDR_DATA_TABLE_ENTRY structures to hide reflectively loaded PEs. BOF execution (command 0x14) via embedded COFF Loader lets operators run Cobalt Strike-compatible modules in-process.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100828044319424836</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100828044319424836">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 06:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2100828044319424836</guid>
     </item>
   </channel>
 </rss>
