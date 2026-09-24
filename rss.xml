@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 18:03:34 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 19:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Beyond the ransomware: Tracking Storm-2570’s consistent tradecraft across deployments</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/09/24/beyond-ransomware-tracking-storm-2570-consistent-tradecraft-across-deployments/</link>
+      <description>Storm-2570 is a cross-ecosystem ransomware affiliate deploying Qilin, DragonForce, Anubis, and BERT across critical sectors in the US 🇺🇸, UK 🇬🇧, Canada 🇨🇦, Spain 🇪🇸, and Netherlands 🇳🇱. Microsoft Threat Intelligence has tracked this actor since April 2025, and the key insight is this: the payload changes, but the tradecraft does not.
+
+- Storm-2570 operates as a RaaS affiliate across multiple ecosystems simultaneously, giving it flexibility to shift between operators while maintaining identical post-compromise behavior. Victims span healthcare, education, government, financial services, energy, critical manufacturing, and more. The actor renames MeshAgent binaries with victim organization names (e.g., meshagent64-[orgname].exe) and uses Base64-encoded commands through MeshCentral to evade cursory process review. NinjaRMM, Atera, ScreenConnect, Splashtop, and Remotely_Agent round out a deep bench of RMM tools deployed in the same intrusion, not as alternatives but as layers.
+
+- Persistence and covert access are maintained through Cloudflare Tunnel (Cloudflared.exe) configured as a LocalSystem service, providing an encrypted outbound channel that bypasses inbound firewall restrictions. ngrok exposes TCP 3389 for RDP, and rdp.bat modifies Terminal Server registry settings and adds a firewall rule allowing port 3389, often pushed via PsExec with host lists (@ip.txt) to reach newly scanned targets. This combination of tunneling plus RDP enablement scripts plus PsExec with host lists is one of the most consistent fingerprints in the actor's chain.
+
+- Credential access follows a predictable pattern: Mimikatz, LaZagne, and pypykatz for in-memory harvesting, plus ntdsutil to create an IFM backup of the Active Directory database, staging NTDS.dit and supporting registry hives under C:\Windows\Temp\[random] for offline hash extraction. This confirms domain controller access before ransomware deployment. Defense evasion precedes encryption: Storm-2570 disables real-time monitoring, adds Microsoft Defender exclusions for C:\PerfLogs, and modifies registry values under Defender service keys including DisableAntiSpyware, DisableRealtimeMonitoring, and WinDefend service entries.
+
+- Exfiltration uses s5cmd.exe (Amazon S3 compatible CLI) staged alongside a credentials file containing AWS access keys, executing run cp operations with file-extension filters to push documents, spreadsheets, databases, mail files, and archives to attacker-controlled S3 buckets. Rclone handles real-time sync throughout the intrusion. This double-extortion workflow means data is already leaving before encryption begins. Lateral movement ties it together with Impacket and NetExec over SMB, PsExec across ip.txt host lists, and MeshAgent pushed to newly compromised hosts.
+
+- Microsoft Defender for Endpoint detections to know: "Ransomware-linked threat actor detected", "Suspicious Atera activity", "Renaming of legitimate tools for possible data exfiltration", "Defender detection bypass", and "Process memory dump". Antivirus signatures cover HackTool:Win32/Mimikatz, HackTool:Win32/LaZagne, Ransom:Win32/Qilin, Ransom:Win32/DragonForce, and Ransom:Win64/Anubis among others.
+
+Hunt now in Microsoft Sentinel using the two KQL queries in the report: one targeting PsExec command lines containing @ip.txt, and one hunting renamed MeshAgent binaries across DeviceProcessEvents, DeviceFileEvents, and DeviceRegistryEvents. Prioritize any environment where Cloudflared.exe runs as a LocalSystem service alongside MeshAgent variants with org-themed names. Enable tamper protection and DisableLocalAdminMerge immediately to block the Defender exclusion abuse. Full detection list and hunting queries are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103198648964198886</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103198648964198886">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 19:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2103198648964198886</guid>
+    </item>
     <item>
       <title>One Tap Too Far: Using Shortcuts to Bypass Chrome for iOS Call Prompts</title>
       <link>https://blog.doyensec.com/2026/09/24/chrome-ios-policy-bypass.html</link>
@@ -538,7 +561,7 @@ Hunt for Android apps with SEND_SMS, READ_PHONE_STATE, and RECEIVE_WAP_PUSH perm
       <guid isPermaLink="false">2102685199549022393</guid>
     </item>
     <item>
-      <title>[object Object]</title>
+      <title>DarkMe RAT: A VB6 APT Trojan Turned Conventional Infostealer</title>
       <link>https://www.huntress.com/blog/darkme-rat-abandons-exploits</link>
       <description>Water Hydra's DarkMe RAT drops zero-day delivery for plain .pif phishing, reaching beyond forex traders into corporate environments. The loader chain is unchanged; only the entry point got cheaper.
 
@@ -1613,25 +1636,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2100812756509176112">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 05:02:47 +0000</pubDate>
       <guid isPermaLink="false">2100812756509176112</guid>
-    </item>
-    <item>
-      <title>From Registry-Stored PowerShell to In-Memory Cryptocurrency Mining: A Multi-Stage Infection Chain</title>
-      <link>https://labs.k7computing.com/index.php/from-registry-stored-powershell-to-in-memory-cryptocurrency-mining-a-multi-stage-infection-chain/</link>
-      <description>XMRig cryptominer delivered through a five-stage chain using Registry-stored PowerShell, DNS TXT C2, and .NET assemblies hidden inside PNG and WAV files, all executing fully in memory.
-
-- Registry key HKLM:\Software\uf42a9660377\vstdfehzr holds a binary-encoded PowerShell payload executed via vstdfehze.ps1 with -executionPolicy Bypass. DNS TXT queries to sslvalidcert[.]com, later txtcdn[.]net and httptls[.]org via DNS-over-HTTPS, resolve C2 addresses and steer payload delivery, using an X-HWID header to track infected hosts.
-
-- PNG steganography: frames-1zm.pages[.]dev/frames.png carries a hidden script in the red pixel channel. WAV files (Atsg.wav, Tmav.wav, Realtek HD Audio.wav from publicwavlib.pages[.]dev) embed .NET assemblies in the lower nibbles of audio bytes past the 44-byte header, all loaded via [Reflection.Assembly]::Load() with nothing written to disk.
-
-- Persistence is layered: hidden Scheduled Tasks run the encrypted payload at logon and on interval; a WMI permanent event subscription fires on a Registry condition change. Defender exclusions are added broadly, PowerShell history is wiped, and telemetry is weakened via a .NET DLL loaded in-memory.
-
-- Final payload is XMRig (RandomX rx/0), configured remotely via config-rg7.pages[.]dev/config.txt. WinRing0.sys is dropped for MSR access. C2 at 104.21.2[.]193:8443 persists independently of mining, meaning the host stays controllable even after the miner is found.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100797811252224370</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2100797811252224370">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 04:03:24 +0000</pubDate>
-      <guid isPermaLink="false">2100797811252224370</guid>
     </item>
   </channel>
 </rss>
