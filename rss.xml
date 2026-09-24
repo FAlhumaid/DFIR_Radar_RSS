@@ -5,8 +5,27 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 11:04:23 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 14:04:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Uncovering a SectopRAT Variant Embedded in Legitimate Software</title>
+      <link>https://feeds.fortinet.com/~/969841961/0/fortinet/blog/threat-research~Uncovering-a-SectopRAT-Variant-Embedded-in-Legitimate-Software</link>
+      <description>SectopRAT (ArechClient2) hidden inside a tampered legitimate DAW installer, using DLL IAT hijacking, API hashing, and in-memory .NET loading to deploy a full-featured RAT with 29 C2 commands.
+
+Key findings:
+
+- The attack chain starts with legitimate software (a long-standing Italian 🇮🇹 DAW) placed under C:\ProgramData rather than its normal install path, a red flag on its own. FrameworkBase.dll was tampered to import the malicious sdkcra.dll (SHA-256: 37FCBCB21D16866784050682C58424C91D3A736F6FD599271FA6E53CF5CA8A92) via IAT modification. ReportDump.exe, the app's crash reporter, was configured as a scheduled task to silently trigger the chain on boot (T1053.005, T1027).
+
+- sdkcra.dll decrypts shellcode that abuses EnumSystemCodePagesW() as a callback to execute 187 dynamically resolved, hash-obfuscated APIs, then reads pool.db (SHA-256: 95F6ABD3C43EF4B33CD61D054527233DD2CE705804D44A04BE96CFB73BB52E3A) at offset 0x1DC18, decrypts 0xE5A00 bytes with key 0xBC, and reflectively loads a 64-bit .NET SectopRAT payload entirely in memory (T1140).
+
+- C2 is 98.142.252[.]140:15847 over AES-encrypted TCP with JSON commands. If unreachable, the malware queries 12 backup domains (bsc-dataseed1.binance[.]org through bsc-dataseed4.ninicoin[.]io) for a hex-encoded, Base64-wrapped, AES-encrypted fallback IP (T1008). A secondary channel at 98.142.252[.]140:9000/wmglb delivers WbElevation.dll for browser credential harvesting.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103123481588343176</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2103123481588343176">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 14:04:47 +0000</pubDate>
+      <guid isPermaLink="false">2103123481588343176</guid>
+    </item>
     <item>
       <title>Hunting a Global Formbook Campaign with Machine Learning</title>
       <link>https://www.vmray.com/hunting-a-global-formbook-campaign-with-machine-learning/</link>
@@ -1591,23 +1610,6 @@ If you manage MikroTik devices, patching is not enough. Pull the user list, sche
       <source url="https://x.com/DFIR_Radar/status/2100737331900620980">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 00:03:05 +0000</pubDate>
       <guid isPermaLink="false">2100737331900620980</guid>
-    </item>
-    <item>
-      <title>100,000 WordPress Sites Exposed to Remote Code Execution via PHP Object Injection Vulnerability Found by Wordfence Argus in Tutor LMS</title>
-      <link>https://www.wordfence.com/blog/2026/09/100000-wordpress-sites-exposed-to-remote-code-execution-via-php-object-injection-vulnerability-found-by-wordfence-argus-in-tutor-lms/</link>
-      <description>CVE-2026-78175 (CVSS 8.8): PHP Object Injection in Tutor LMS lets any subscriber-level user achieve full RCE on 100,000+ WordPress sites via a serialization length-desync and GuzzleHttp POP chain.
-
-- CVE-2026-78175, CVSS 8.8 (High). Affects Tutor LMS versions 4.0.7 and below. The entry point is the tutor_save_withdraw_account AJAX handler in classes/Withdraw.php, which lacks a capability check and relies solely on a nonce that any logged-in user can obtain from the homepage. Since most Tutor LMS installs enable open student registration, an anonymous visitor can self-register and immediately exploit the flaw.
-
-- The root cause is esc_sql() misapplied to values destined for update_user_meta(). WordPress internally expands each % character to a 66-byte HMAC token, serializes the inflated string, then collapses the token back on DB write, leaving serialized length declarations 65 bytes larger than actual content. A second request triggers unserialize() on the corrupted blob, over-reading into attacker-controlled POST keys and materializing injected objects.
-
-- The POP chain works by injecting a reference to ecommerce\PaymentGateways\Paypal\vendor\autoload, which the plugin's spl_autoload_register loader in classes/RestAPI.php resolves and includes, bootstrapping the bundled Guzzle autoloader.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100722216069673175</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2100722216069673175">DFIR Radar</source>
-      <pubDate>Thu, 17 Sep 2026 23:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2100722216069673175</guid>
     </item>
   </channel>
 </rss>
