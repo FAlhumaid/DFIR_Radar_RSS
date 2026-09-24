@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 15:03:39 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 16:03:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Not So Silent Miner: Threat Actor Compiles Cryptominer on the Endpoint</title>
+      <link>https://www.huntress.com/blog/threat-actor-compiles-cryptominer</link>
+      <description>A threat actor exploited Samsung MagicINFO CVE-2025-4632 to deploy a Monero miner compiled live on the victim endpoint using SilentXMRMiner Builder, generating unusually noisy EDR telemetry.
+
+Key findings:
+
+- Initial access came through CVE-2025-4632, an arbitrary file write as SYSTEM in Samsung MagicINFO Premium running on Apache Tomcat. The parent process tomcat9.exe is your pivot point: any cmd.exe or PowerShell spawned from it is post-exploitation. The actor hit the same vector twice, eight days apart, after the first incident was reported but not fully remediated.
+
+- AnyDesk was pulled three times from 194.87.89[.]30:8899 via certutil, then Invoke-WebRequest, then a third method that evaded Defender. A local account named oldadministrator was created, sharing the password F@x2020!@# with AnyDesk. Defender was then disabled via SystemSettingsAdminFlows.exe to clear the way for compilation.
+
+- The build chain under Silent XMR Miner Builder.exe spawned csc.exe, cvtres.exe, donut.exe, tcc.exe, cc1.exe, and gcc.exe as child processes. All compilers ran under an unsigned parent, which is a high-fidelity hunt signal even without knowing the final payload.
+
+- The resulting miner (SHA256: 0d202e16408770e8b6cceb14e1e3e72946b154bf881d27fe33d0060315b30dd1) injected into explorer.exe and connected to auto.c3pool[.]org:19999. Explorer.exe with XMRig mining arguments is never legitimate.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103153456953364859</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103153456953364859">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 16:03:54 +0000</pubDate>
+      <guid isPermaLink="false">2103153456953364859</guid>
+    </item>
     <item>
       <title>Detection Validation and Decay</title>
       <link>https://socprime.com/blog/detection-validation-and-decay/</link>
@@ -1593,29 +1614,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2100767527592656953">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 02:03:04 +0000</pubDate>
       <guid isPermaLink="false">2100767527592656953</guid>
-    </item>
-    <item>
-      <title>MikroTrick: Inside the RouterOS Takeover Chain</title>
-      <link>https://bishopfox.com/blog/mikrotrick-inside-the-routeros-takeover-chain</link>
-      <description>MikroTik routers were being exploited before patches went public. Bishop Fox reproduced the full unauthenticated takeover chain and found persistence artifacts on real compromised devices that survive a patch.
-
-Key findings:
-
-- The attack chain is unauthenticated, meaning no credentials are needed to gain control of the router. Exploitation happened before fixes were publicly available, placing every exposed MikroTik device in the window of risk regardless of patch timing.
-
-- Bishop Fox recovered persistence artifacts on real-world compromised devices, confirming attackers were not just popping shells and leaving. Responders cannot treat a patched router as a clean router without investigating what was left behind.
-
-- The reproduction of the full takeover chain gives defenders a concrete attack path to model detections against. The methodology matters here: the chain exists, it works, and it was used in the wild before defenders had a patch to apply.
-
-- RouterOS forensics are non-standard. Evidence lives in the router's file system, scheduler jobs, user accounts, scripts, and firewall rules. These artifacts do not surface in traditional endpoint telemetry and require direct device inspection.
-
-If you manage MikroTik devices, patching is not enough. Pull the user list, scheduler entries, scripts, and firewall rules from every device and compare against a known-good baseline.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100752531601109401</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100752531601109401">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 01:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2100752531601109401</guid>
     </item>
   </channel>
 </rss>
