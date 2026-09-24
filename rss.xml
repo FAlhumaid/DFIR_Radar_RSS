@@ -5,8 +5,25 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 09:03:36 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 10:04:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>MacSync under the microscope: new delivery methods and a new payload</title>
+      <link>https://securelist.com/macsync-new-version/121383/</link>
+      <description>MacSync infostealer overhauled in September 2026: binary droppers replace AppleScripts, iCloud abused for payload delivery, and a new Objective-C/Swift backdoor added to the chain.
+
+- MacSync, a MaaS crypto/infostealer first advertised as Mac.c in 2025, now uses a multi-stage binary infection chain starting with a malicious DMG. The loader strips the com.apple.quarantine xattr, XOR-decrypts a URL from its overlay using key 736f6e6f6d61626c6407, then fetches stage two from either an attacker server or a public iCloud Calendar (caldav.icloud[.]com). The calendar file is piped line by line into zsh -s, where the interpreter ignores calendar syntax until it hits the malicious DESCRIPTION field, a clean living-off-the-land trick that bypasses many content filters.
+
+- Subsequent droppers decrypt payloads with AES-CBC (keys and IVs are in the report), and the stage four dropper adds VM detection via sysctl kern.hv_vmm_present and machdep.cpu.brand_string, plus PT_DENY_ATTACH to block debugger attachment. Final-stage modules are delivered using ECDH Curve25519 key exchange (pkgunpack utility) with per-session keys, AES-GCM decryption, and deliberate buffer zeroing after use to frustrate memory forensics.
+
+- The Swift infostealer harvests browser data, keychain files, SSH/AWS/Kubernetes/GIT configs, Telegram data, ZSH/Bash history, and crypto wallet data. It uses the PAM API (not dscl) for password verification, a technique first observed in July 2026 with Pam Stealer.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103062921450242112</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2103062921450242112">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 10:04:08 +0000</pubDate>
+      <guid isPermaLink="false">2103062921450242112</guid>
+    </item>
     <item>
       <title>Rogue RMM Abuse: How Attackers Exploit Remote Access Tools</title>
       <link>https://www.huntress.com/blog/rogue-rmm-abuse-phishing-persistent-access</link>
@@ -1585,17 +1602,6 @@ If you manage MikroTik devices, patching is not enough. Pull the user list, sche
       <source url="https://x.com/DFIR_Radar/status/2100707151341601079">DFIR Radar</source>
       <pubDate>Thu, 17 Sep 2026 22:03:09 +0000</pubDate>
       <guid isPermaLink="false">2100707151341601079</guid>
-    </item>
-    <item>
-      <title>Chatbot Conundrum: Phishing Attempts of OpenAI’s ChatGPT</title>
-      <link>https://cofense.com/blog/chatbot-conundrum-phishing-attempts-of-openai-s-chatgpt</link>
-      <description>A ChatGPT billing phish uses a Google API redirect to bypass SEGs before dropping victims on a cloned login page at e83cedb076.nxcli[.]io. The sender domain support@9527db6e1a.nxcli[.]io exposes the lure. IOCs in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100692511555486202</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2100692511555486202">DFIR Radar</source>
-      <pubDate>Thu, 17 Sep 2026 21:04:59 +0000</pubDate>
-      <guid isPermaLink="false">2100692511555486202</guid>
     </item>
   </channel>
 </rss>
