@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 17:04:26 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2026 18:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>One Tap Too Far: Using Shortcuts to Bypass Chrome for iOS Call Prompts</title>
+      <link>https://blog.doyensec.com/2026/09/24/chrome-ios-policy-bypass.html</link>
+      <description>CVE-2026-13795: A single tap on a malicious webpage bypassed Chrome for iOS call-initiation protections by routing tel: through Apple Shortcuts as a callback, triggering phone calls without user confirmation.
+
+- Chrome for iOS explicitly guards tel: and facetime: URLs via a user-gesture check in app_launcher_tab_helper.mm, but it granted shortcuts:// and its legacy alias workflow:// unconditional trust as Apple-native apps, skipping the confirmation prompt entirely.
+
+- The attack chain: malicious anchor tag pointing to shortcuts://run-shortcut?name=nonexistent&amp;x-error=tel%3A%2F%2FNUMBER, one tap sends Chrome to Shortcuts, the nonexistent shortcut errors, Shortcuts fires the x-error callback directly to iOS, and Chrome never sees the tel: URL. facetime: works the same way.
+
+- The bypass is clean because Shortcuts calls UIApplication openURL for the callback itself. Chrome approved step one and was never consulted for step two, the step that caused the sensitive action.
+
+- The Chromium fix (issue 476591032, change 7838361) moves the prompt to the first handoff: Chrome now alerts before opening any shortcuts:// or workflow:// URL, covering x-success, x-cancel, and x-error in one stroke.
+
+Hunt for this in mobile threat triage: look for single-tap navigations to shortcuts:// or workflow:// containing URL-encoded tel: or facetime: parameters in query strings. Patch Chrome for iOS to the version including change 7838361.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103183570877427854</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2103183570877427854">DFIR Radar</source>
+      <pubDate>Thu, 24 Sep 2026 18:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2103183570877427854</guid>
+    </item>
     <item>
       <title>Replicating part of the OpenAI attack on Hugging Face</title>
       <link>https://www.silverfort.com/blog/replicating-part-of-the-openai-attack-on-hugging-face/</link>
@@ -1611,17 +1632,6 @@ Key details:
       <source url="https://x.com/DFIR_Radar/status/2100797811252224370">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 04:03:24 +0000</pubDate>
       <guid isPermaLink="false">2100797811252224370</guid>
-    </item>
-    <item>
-      <title>Getting started with runtime security and Falco</title>
-      <link>https://webflow.sysdig.com/blog/intro-runtime-security-falco</link>
-      <description>Falco, the CNCF-graduated open source runtime security tool, detects threats like shell spawns in containers by reading kernel syscalls and enriching alerts with Kubernetes context such as pod name, namespace, and container ID.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100783134577221671</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2100783134577221671">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 03:05:05 +0000</pubDate>
-      <guid isPermaLink="false">2100783134577221671</guid>
     </item>
   </channel>
 </rss>
