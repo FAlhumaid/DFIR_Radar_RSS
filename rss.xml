@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 16:04:08 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 17:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ClickFix Campaign Abuses Trusted Websites to Deploy Psychedelic Stealer</title>
+      <link>https://securityaffairs.com/199731/malware/clickfix-campaign-abuses-trusted-websites-to-deploy-psychedelic-stealer.html</link>
+      <description>ClickFix campaign hijacks Ukrainian 🇺🇦 business websites to serve a fake Cloudflare CAPTCHA, deploying Psychedelic Stealer with persistent C2 tasking and crypto wallet harvesting across 32 countries.
+
+- Six legitimate Ukrainian 🇺🇦 businesses, including a hair clinic, a bookseller, and an automotive retailer, had hidden iframes injected into their pages. Visitors who already trusted those sites were shown a convincing fake Cloudflare verification page, complete with a randomly generated hex "Ray ID" in the footer and a fixed "visitor identifier," both meaningless imitations of real Cloudflare markers. The page was written in Ukrainian 🇺🇦 but its HTML carried Russian-language comments and declared lang="ru", a construction detail worth noting for attribution context.
+
+- The CAPTCHA click silently copies a msiexec.exe command to the clipboard and instructs the user to run it via Windows+R. No PowerShell is involved at this stage, a deliberate choice that bypasses detection controls focused on PowerShell execution. The downloaded MSI drops a 64-bit executable named psychedeliclove.exe. Psychedelic Stealer targets saved passwords from Chrome, Edge, Brave, Opera, Opera GX, Vivaldi, and Yandex, harvests browser account tokens, and goes after Exodus, Atomic Wallet, Electrum, Bitcoin Core, and Litecoin Core wallets.
+
+- The implant is more than a one-shot stealer. It installs browser components, sets up a native messaging bridge for local process communication, creates a scheduled task named psychedelicloveUtils for persistence, profiles the host including antivirus status, and polls a C2 for follow-on tasks. Task state is tracked in executed_tasks.json and downloaded payloads land in downloads\taskid_filename. Supported payload types include EXE, COM, BAT, CMD, MSI, and PowerShell, meaning initial access is a foothold, not a finished operation.
+
+- The campaign is managed through a panel called "РУБЛЁВКА TDS" (Rublevka TDS), named after the wealthy Rublevka district near Moscow. The panel centralizes payload URL control across all compromised sites without requiring per-page edits, and tracks CAPTCHA page opens, clicks, and Done-button events. At collection time it showed 557 views, 426 clicks, and 79 complete events across 32 countries, with Ukraine 🇺🇦 accounting for 446 views and 351 clicks. The infrastructure domain uasputnik[.]com was registered September 9, 2026, and lure URLs appeared within the same week.
+
+- Network indicators to hunt: outbound traffic to uasputnik[.]com followed by a request to admin777111777.php signals early-stage delivery. Later-stage C2 traffic goes to 193.178.159[.]128:8080, specifically to /api/v1/agent/ and /api/v1/ext/ endpoints with an X-API-Key header. On the endpoint, look for msiexec.exe spawned from explorer.exe or a Run dialog context, the psychedeliclove.exe binary on disk, the scheduled task psychedelicloveUtils, and the executed_tasks.json file.
+
+Hunt for msiexec.exe launched interactively by a user process rather than by an installer chain, cross-reference with the network IOCs above, and check scheduled tasks for psychedelicloveUtils. Prioritize any host where both the network indicator and the task are present. Full IOC details are in the Arctic Wolf Labs report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103530752923123867</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103530752923123867">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 17:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2103530752923123867</guid>
+    </item>
     <item>
       <title>Dark Web Profile: Blue Locker Ransomware</title>
       <link>https://socradar.io/blog/dark-web-profile-blue-locker-ransomware/</link>
@@ -1685,29 +1708,6 @@ Hunt for MeshAgent binaries running from AppData\Local\Temp and unexpected outbo
       <source url="https://x.com/DFIR_Radar/status/2101733848337784887">DFIR Radar</source>
       <pubDate>Sun, 20 Sep 2026 18:02:53 +0000</pubDate>
       <guid isPermaLink="false">2101733848337784887</guid>
-    </item>
-    <item>
-      <title>Released an open-source Windows timeline correlator (wfcr) to tackle triage fragmentation and anti-forensics</title>
-      <link>https://www.reddit.com/r/dfir/comments/1wlc7b7/released_an_opensource_windows_timeline/</link>
-      <description>Open-source tool WFCR correlates Windows dead-box artifacts into a single master timeline, with built-in heuristics to flag timestomping and ghost execution automatically.
-
-Key details:
-
-- Ingests $MFT, Shimcache (AppCompatCache), Amcache, BAM/DAM, and SRUM (SRUDB.dat) in a single offline pass, normalizing timestamps across all sources and emitting JSON Lines for Splunk, Elastic, or Sentinel, or CSV for Timeline Explorer
-
-- Anti-forensic detection uses $STANDARD_INFORMATION vs $FILE_NAME temporal drift to catch API-level timestomping (SetFileTime), flagging manipulation that raw parsers silently miss
-
-- Ghost execution logic cross-references Shimcache, Amcache, and BAM execution records against currently allocated MFT paths, surfacing binaries that ran and were deleted from disk, a common attacker cleanup step
-
-- SRUM correlation dynamically resolves the SruDbIdMapTable schema at runtime rather than relying on hardcoded offsets, linking network byte transfer volumes back to specific executing binaries and user SIDs
-
-Takeaway: if you are spending hours manually stitching CSV exports across subsystems, WFCR is worth a test run. Point it at your dead-box artifact collection and let the correlation logic surface timestamp drift and wiped payloads before you start your manual review. Validated on Python 3.10-3.12 on native Windows runners. Repo and simulated triage demo are on GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101703590645584236</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2101703590645584236">DFIR Radar</source>
-      <pubDate>Sun, 20 Sep 2026 16:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2101703590645584236</guid>
     </item>
   </channel>
 </rss>
