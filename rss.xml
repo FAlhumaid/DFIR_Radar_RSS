@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 08:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 09:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Port Scanning vs Service Detection: What an Open Port Really Means</title>
+      <link>https://threatmon.io/port-scanning-vs-service-detection-what-an-open-port-really-means/</link>
+      <description>Nightmare Eclipse: Abdelhamid Naceri's 2026 exploit stream targets Microsoft Defender, Windows recovery paths, and third-party endpoint agents across a chain of releases and remediation bypasses, with exploitation confirmed in the wild for two CVEs.
+
+Key findings:
+
+- The Nightmare Eclipse releases span local privilege escalation, protected-data access, recovery-path abuse, and endpoint-update disruption across Microsoft Defender, Kaspersky, CrowdStrike Falcon, Avast, and NVIDIA components. The core technique is consistent with Naceri's earlier Windows research: a trusted, high-privilege component processes files or state that a lower-privileged user can influence. CVEs confirmed in the Microsoft advisory data include CVE-2026-33825 (BlueHammer, platform first-fixed 4.18.26030.3011), CVE-2026-41091 (RedSun, engine 1.1.26040.8), CVE-2026-45498 (UnDefend, platform 4.18.26040.7), CVE-2026-50656 (RoguePlanet, engine 1.1.26060.3008), and CVE-2026-69414 (ShieldBreak, engine 1.1.26080.3). Microsoft marked exploitation as detected for RedSun and UnDefend.
+
+- The remediation chain between RoguePlanet, ShieldBreak, and ShieldCrash is the clearest DFIR signal in this cluster. RoguePlanet is a Defender race condition yielding a SYSTEM shell. ShieldBreak bypasses the RoguePlanet fix targeting the same underlying workflow on Windows Server 2025. ShieldCrash then demonstrates arbitrary protected-file read as SYSTEM after the ShieldBreak remediation. A "patched" status against CVE-2026-50656 does not resolve exposure to CVE-2026-69414, and ShieldCrash represents a further distinct capability. Tracking the affected workflow and component version matters more than a product-level patch check.
+
+- BlueHammer, RedSun, and UnDefend appeared in a documented intrusion. Investigators recorded unsuccessful elevation attempts and successful termination of UnDefend. The operators are not linked to Naceri. That incident is the artifact DFIR teams should anchor on: a failed elevation is not a contained intrusion. Investigate the originating account, parent process, remote-access session, and staging directory regardless of whether the tool succeeded.
+
+- BigDiskBuster targets Defender update availability by monitoring update-related directories and attempting large temporary allocations during the update workflow. Files use delete-on-close behavior, meaning they may be gone by the time an analyst reviews the host, leaving normal free-space readings. Update failures and storage telemetry rather than current disk state are the relevant forensic surface. An endpoint agent can remain running while its platform or security intelligence goes stale, a gap that may not surface in agent-health dashboards without independent monitoring.
+
+- Naceri alleges his Microsoft work account and MSRC database access remained active for two months after he was notified of dismissal. He states he did not retrieve or modify data. The claim raises an access-control question during the separation period. Resolving it requires authentication logs, repository access records, and precise timeline alignment between the September 2024 meeting, the March 2025 termination letter, and the June 30, 2025 contractual end date. This is a direct example of why offboarding verification should cover active sessions and vulnerability-management system permissions, not just account disable status.
+
+Practitioner action: Verify Defender engine and platform versions against each CVE's first-fixed version separately. Do not treat the RoguePlanet fix as covering ShieldBreak or ShieldCrash. For BigDiskBuster exposure, retain historical update-event logs and storage telemetry independently of the endpoint agent. Correlate persistent update failures with large temporary file creation and unfamiliar processes from user-writable locations. Full IOC context, tool-specific prerequisites, and vendor remediation milestones are in the ThreatMon report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103410097372414203</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103410097372414203">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 09:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2103410097372414203</guid>
+    </item>
     <item>
       <title>Operation Master: Deconstructing a Multi-Tiered Intrusion and Monetization Pipeline</title>
       <link>https://socradar.io/blog/operation-master-intrusion-monetization-pipeline/</link>
@@ -1639,23 +1664,6 @@ Takeaway: audit any npm package in your environment that updated recently for si
       <source url="https://x.com/DFIR_Radar/status/2101039383725932787">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 20:03:19 +0000</pubDate>
       <guid isPermaLink="false">2101039383725932787</guid>
-    </item>
-    <item>
-      <title>Wordfence Argus Discovers Critical Vulnerability in libheif, the Library That Opens iPhone Photos on Your Server</title>
-      <link>https://www.wordfence.com/blog/2026/09/wordfence-argus-discovers-critical-vulnerability-in-libheif-the-library-that-opens-iphone-photos-on-your-server/</link>
-      <description>Critical CVSS 9.8 heap buffer overflow in libheif 1.18.0-1.23.2 enables arbitrary file read and RCE via a crafted HEIC upload. Actively fixed; exploitation is target-specific but demonstrably practical.
-
-- CVE not yet public (score assigned by maintainer Dirk Farin: CVSS 9.8 Critical). Affected versions: libheif 1.18.0 through 1.23.2, but only when compiled with WITH_UNCOMPRESSED_CODEC=ON. The overflow lives in the uncompressed color-plane decoder: it reads bit-depth from the first chroma plane and uses that width to write into both planes, overflowing the second when depths differ. Attacker controls both the written bytes and overflow length through the file itself.
-
-- The WordPress attack chain is: untrusted HEIC upload, PHP Imagick extension, ImageMagick with HEIF support, libheif. All four conditions must be true simultaneously. The official WordPress Docker image (Debian 13, libheif 1.19.8) satisfied every condition out of the box. Wordfence demonstrated protected-file disclosure and code execution on that exact deployment; a narrower copy-file test succeeded 29 of 30 attempts against a live Apache server.
-
-- Exploitation is environment-specific but not impractical. HEIF Heist showed tailoring similar libheif bugs to a new target took roughly one to two days. Shared hosting fleets built from the same base image multiply that leverage: work done once applies to all identical deployments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101024288006418810</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2101024288006418810">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 19:03:20 +0000</pubDate>
-      <guid isPermaLink="false">2101024288006418810</guid>
     </item>
   </channel>
 </rss>
