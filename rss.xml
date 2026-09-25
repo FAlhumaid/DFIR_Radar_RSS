@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 03:02:31 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 04:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Stealer Factory: Unpacking a Python-Based MaaS Infostealer Builder</title>
+      <link>https://labs.k7computing.com/index.php/the-stealer-factory-unpacking-a-python-based-maas-infostealer-builder/</link>
+      <description>A Python-based MaaS infostealer builder lets low-skill operators compile customized credential stealers with XOR-obfuscated webhooks, dual persistence, and anti-VM evasion baked in at build time.
+
+Key findings:
+
+- The builder ships as a nested archive (my new program called 2.rar containing TokenGrabberBuilder.zip) with a GUI that auto-installs dependencies via pip at runtime, stores the operator's webhook URL in webhook.txt in the working directory, XOR-encodes it with key 0x5A then Base64-encodes it before injecting it into the payload, and offers three output modes: Nuitka (compiles to native machine code, defeats uncompyle6 and decompile3), PyInstaller (recoverable .pyc, unpackable with pyinstxtractor), or raw stealer.py for manual deployment. The interface explicitly labels Nuitka as "slower, stronger AV evasion," making the evasion intent explicit in the product itself.
+
+- The payload's _debug_check() function runs four pre-execution environment checks: IsDebuggerPresent() via ctypes, process-name blacklisting for VirtualBox/Xen/QEMU/Parallels artifacts via psutil, a disk-size heuristic that exits if total capacity is under 50 GB, and a PID-derived variable sleep to outlast sandbox timeouts. All sensitive strings, including registry paths, SQL queries, and API endpoints, are stored as Base64-plus-XOR blobs decoded at runtime into the _E dictionary, and high-risk imports are loaded lazily through getter functions rather than at startup.
+
+- Persistence uses two independent mechanisms: a Registry Run key written to HKCU\Software\Microsoft\Windows\CurrentVersion\Run under the deceptive name "WindowsUpdate," and an ONLOGON scheduled task created with creationflags=0x08000000 (CREATE_NO_WINDOW) with stdout and stderr redirected to DEVNULL. Both survive reboots independently, so removing one does not clean the infection.
+
+- Data harvesting targets 17 Chromium-based browsers (Login Data, History, Web Data, Cookies via DPAPI and AES-256-GCM decryption), Firefox profiles (places.sqlite, cookies.sqlite in plaintext), Discord tokens via LevelDB scanning and regex with live validation against /api/v9/users/@me, Roblox .ROBLOSECURITY cookies validated before packaging, and Wi-Fi passwords via netsh wlan show profiles key=clear. All harvested material is assembled in memory as StolenData_USERNAME.zip using Python's BytesIO to avoid touching the filesystem, then POSTed to the XOR-decoded webhook URL.
+
+- Three IOCs are listed in the report: MD5 hashes 610f0c65a3f8e88559f89ed90ea9ee5c and 429ed63ab3fbda8d22d0ac750ecfe8cc (Password-Stealer 006dba241) and 9ffe0e45c7a3f20e4481206c1c3b0854 (Trojan 006e632e1).
+
+For response and hunting: query EDR and process logs for pip.exe spawned by non-development parent processes, creation of a Run key value named "WindowsUpdate" under HKCU\Software\Microsoft\Windows\CurrentVersion\Run, and schtasks activity with ONLOGON triggers tied to Python interpreters. Recover webhook.txt from the working directory if the builder was run locally. For the payload, hunt for Python processes making outbound HTTP POST requests to webhook endpoints and accessing SQLite files under browser profile directories. Because the exfil ZIP is constructed entirely in memory, filesystem forensics will not catch it in transit. Focus on network telemetry, DNS, and proxy logs for POST traffic to Discord or unknown webhook infrastructure. Full IOC list is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103334559165083798</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2103334559165083798">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 04:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2103334559165083798</guid>
+    </item>
     <item>
       <title>Placeholder third-party[.]com Referenced Across 1,700+ Repositories Now Serves Malicious Content</title>
       <link>https://thehackernews.com/2026/09/placeholder-third-partycom-referenced.html</link>
@@ -1623,27 +1648,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2100964165745537517">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 15:04:26 +0000</pubDate>
       <guid isPermaLink="false">2100964165745537517</guid>
-    </item>
-    <item>
-      <title>Nozomi identifies 12 vulnerabilities in Siemens SCALANCE LPE9403, enabling root access and OT network attacks</title>
-      <link>https://industrialcyber.co/industrial-cyber-attacks/nozomi-identifies-12-vulnerabilities-in-siemens-scalance-lpe9403-enabling-root-access-and-ot-network-attacks/</link>
-      <description>12 vulnerabilities in Siemens SCALANCE LPE9403 enable chained root access, telemetry manipulation, and lateral movement across OT networks. Patch to firmware V4.0 HF0 or above immediately.
-
-- CVE-2025-40572, CVE-2025-40573, and CVE-2025-40574 chain to escalate a read-only local account to root on the LPE9403 (CVSS up to 8.5). From there, an attacker controls telemetry before it reaches SCADA, falsifying sensor values and suppressing alarms while the physical process runs in an unsafe state.
-
-- If SINEMA Remote Connect Edge Client V2.1 or below is installed, CVE-2025-40582 (command injection) lets a compromised SINEMA server push root commands to every connected LPE device. One rogue server becomes multi-site OT compromise. CVE-2025-40581 adds authentication bypass; CVE-2025-40583 exposes credentials in cleartext.
-
-- The second attack path requires only SSH access plus the SINEMA auth bypass to redirect the client to an attacker-controlled server, triggering the command injection and achieving root without touching the SINEMA infrastructure at all.
-
-- Impact at root: credential and config exfiltration, network mapping of OT assets, service disruption, and persistent footholds that bridge separate OT segments for lateral movement.
-
-Update SCALANCE LPE9403 firmware to V4.0 HF0, segment the device from untrusted networks, and audit SINEMA Remote Connect server trust relationships.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100948808490483925</description>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2100948808490483925">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 14:03:24 +0000</pubDate>
-      <guid isPermaLink="false">2100948808490483925</guid>
     </item>
   </channel>
 </rss>
