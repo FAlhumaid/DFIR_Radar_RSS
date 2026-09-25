@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 18:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 19:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Master Key Included: Detecting SolarWinds ARM CVE-2026-28326</title>
+      <link>https://bishopfox.com/blog/detecting-solarwinds-arm-cve-2026-28326</link>
+      <description>CVE-2026-28326 is an unauthenticated RCE in SolarWinds Access Rights Manager, CVSS 8.8 (adjacent) to 9.8 (flat network), confirmed NT AUTHORITY\SYSTEM execution, patched in build 2026.2.1.7.
+
+- The root cause is a hardcoded shared HMAC secret shipped in the installer, identical across every deployment. ARM's gRPC listener on TCP 55555 accepts a fallback authentication path: present no client certificate, compute an HMAC token from the static key over attacker-controlled request fields, and the gate passes. The key is recoverable by anyone who can download the product. No nonce, no challenge, no binding to the channel. A valid token is mintable offline without touching the server.
+
+- TLS on port 55555 does not close this. ARM configures the listener to request a client certificate and verify it if presented, but not to require one. A caller presenting nothing completes the TLS handshake anonymously, lands unauthenticated, and faces only the application-layer HMAC check as the sole control. The difference between "request" and "require" is one enum value in the configuration call. Any service described as mutual-TLS protected warrants the same verification.
+
+- Past the gate, the connection reaches a BinaryFormatter deserialization sink carrying .NET Remoting traffic. The only protection was a denylist of 27 regex patterns over known gadget type names, applied to an unbounded type space. Bishop Fox built a working exploit chain against an unpatched lab server and confirmed command execution as NT AUTHORITY\SYSTEM via an out-of-band HTTP callback and a dropped file. Builds 2026.2.0.42 and earlier are affected.
+
+- The firewall posture governs real-world CVSS. ARM's Windows Firewall rule for 55555 ships disabled and scoped to 127.0.0.1, but SolarWinds' own prerequisites instruct administrators to open it inbound so collectors can reach the server. On any working multi-host deployment the port is open. ARM console operators (ordinary admin workstations) are inside that allowlist. A flat or permissive internal network elevates the effective score to 9.8 AV:N. Read the actual firewall rule; do not inherit the vendor's adjacency assumption.
+
+- Before patching, look for evidence of prior use. The GrantMA service exposes GET /api/armconfig/network/Connections: a record showing IsAuthenticated: false paired with a populated ClientCertThumbPrint is the signature the vulnerable fallback path produces and a legitimate client login does not. This list is memory-only and purges entries after three days, so query it before the service restart that applies the patch wipes it. The patch rewrites the gate entirely, replacing the HMAC fallback with a localhost-only check tied to a per-process random GUID, so patching removes the path rather than hardening it.
+
+Takeaway: patch to 2026.2.1.7, query the connection list now before you restart the service, then read the actual firewall rule governing 55555 and treat a permissive rule as a separate exposure finding. Bishop Fox's detection tool (available on GitHub as CVE-2026-28326-check) fingerprints patch state from outside using two anonymous gRPC probes: a vulnerable build returns gRPC status 14 UNAVAILABLE on the Remoting/Send call, while a patched build returns gRPC status 16 UNAUTHENTICATED with the message "Client certificate not found. Please register your application first." An inconclusive result is not a clean one.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103560954331967600</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2103560954331967600">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 19:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2103560954331967600</guid>
+    </item>
     <item>
       <title>Storm-3168: Agentic-driven cloud attacks using compromised service principals</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/</link>
@@ -1693,23 +1716,6 @@ Hunt: flag ScreenConnect.ClientSetup.exe executions where the parent is a browse
       <source url="https://x.com/DFIR_Radar/status/2101854607529959844">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 02:02:44 +0000</pubDate>
       <guid isPermaLink="false">2101854607529959844</guid>
-    </item>
-    <item>
-      <title>The Sound of Silence: SAP SM49/SM69 and the OS Commands Your SIEM Never Hears</title>
-      <link>https://detect.fyi/the-sound-of-silence-sap-sm49-sm69-and-the-os-commands-your-siem-never-hears-e408848cb6e2?source=rss----d5fd8f494f6a---4</link>
-      <description>SAP SM49/SM69 external OS command execution leaves no trace in the Security Audit Log on the most common invocation path, creating a silent blind spot most SIEM deployments never close.
-
-- SM49/SM69 commands run via sapxpg as the sidadm OS user. The SAP Security Audit Log (SAL) records only "Transaction SM49 started" for the interactive dialog path and a generic RFC logon (AU5) for the RFC path. No event type exists in the SAL schema for the command name, binary, or runtime parameters. A SIEM ingesting only SAL sees a session open and nothing more.
-
-- The runtime parameter string is where the real risk lives. On this SAP NetWeaver AS ABAP 7.52 system, 72 of 75 Linux-applicable shipped commands allow additional parameters at runtime. A user can point find at /tmp and pass -exec /usr/bin/id as a runtime argument. The SM69 definition never reflects this. Reviewing command definitions alone does not reveal what actually ran.
-
-- OS auditd is the only source that captures the full argv on every path (dialog, RFC, background), because every invocation funnels through sapxpg. The verified process chain is: SAP work process → sapxpg → binary. The background job log (TBTC* tables) also records the command and parameters, but only for scheduled jobs, not interactive runs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101748898947838120</description>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2101748898947838120">DFIR Radar</source>
-      <pubDate>Sun, 20 Sep 2026 19:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2101748898947838120</guid>
     </item>
   </channel>
 </rss>
