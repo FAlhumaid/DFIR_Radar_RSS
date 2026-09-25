@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 07:03:30 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 08:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Operation Master: Deconstructing a Multi-Tiered Intrusion and Monetization Pipeline</title>
+      <link>https://socradar.io/blog/operation-master-intrusion-monetization-pipeline/</link>
+      <description>Operation Master exposed: a single Brazilian 🇧🇷 threat actor ran a full intrusion-to-fraud pipeline, exploiting CVE-2026-0257 across 7 GlobalProtect gateways in four countries, stealing 600+ companies' data, then weaponizing it inside an automated multi-tenant invoice fraud platform that generated 2.4M+ messages and R$150.4M in attempted PIX fraud.
+
+- CVE-2026-0257 (GlobalProtect authentication bypass) was the primary at-scale access vector. The actor forged auth cookies from target certificate context and fed candidates through a 30-worker automated exploit loop driven by continuous masscan output across 277.5M scanned hosts. The same CVE is being exploited separately by ransomware actors including Qilin, making it a high-priority patch target. Beyond VPN access, parallel campaigns hit SQLi targets via sqlmap and xp_cmdshell chains to pivot from database access to host execution, with DNS subdomain tunneling (470,268 queries from a single compromised host, structured as task.row.chunk.base64.x.random.victim-hostname) as the primary exfil rail, and rclone syncing to MEGA as a redundant second channel. Staged webshells (beacon.dll, wmsvc.dll, gopher_new.exe) and AdaptixC2 on 91.92.241[.]187 (ports 8443/4444/4321) provided C2 over HTTP and raw TCP. Additional techniques: SAM/SYSTEM/SECURITY hive theft (T1003.002), ntds.dit recovery (T1003.003), GodPotato token impersonation, PwnKit (CVE-2021-4034), CVE-2024-1086, and CVE-2023-7028 (CVSS 10.0 GitLab dual-email reset) hardcoding cyberkill2025[@]gmail.com as the attacker-controlled recovery address.
+
+- The fraud monetization layer is a Node.js multi-tenant "master-panel" at /opt/master-panel/, running under PM2, backed by PostgreSQL and SQLite, and exposed externally on yzs[.]fi. Lookalike domains igreenfaturas[.]to, wattiofaturas[.]com, and nuvfaturas[.]com hosted per-victim invoice pages with URL parameters embedding the victim's real name, due date, consumption, and billing amount pulled from stolen utility databases. Email delivery routed through 12 hijacked M365 mailboxes (retail, healthcare, education) to inherit sender reputation. SMS ran across 8 SMPP gateways. PIX payments routed through a serverless Vercel proxy at pix-proxy-sable.vercel[.]app. The lead source was 1.8M records scraped via a passwordless JWT flaw in iGreen Energia's API. The fraud engine logged 622,666 personalized links, 317,696 click events, and R$38.9M in fraudulent invoices opened by victims.
+
+- Attribution converges on forum persona masterblack and primary email cyberkill2025[@]gmail.com, which appears across: 34 fraud panel lead test records, the GitLab CVE-2023-7028 exploit hardcoding, OSINT API registrations (Shodan, VirusTotal, SecurityTrails, WPScan, AlienVault OTX), a recovered pentest report listing the operator, and a leaked hacker forum database record directly linking the email to the masterblack account that sold stolen iGreen and Wattio data weeks before the fraud campaigns began. The two-stage strategy, sell the data first, then phish the same victims with their own billing records, is confirmed by the 9 to 14 week gap between forum sale listings and bulk tenant seeding. The operator's AI agent workspace (36+ offensive subagents, ~45 persistent memory files) was exposed via a misconfigured cloud backup reachable from the first exploitation server at 85.120.216[.]8.
+
+- Key detection opportunities from the article: sqlservr.exe spawning cmd.exe or PowerShell is a high-fidelity signal for the xp_cmdshell chain. High-entropy DNS queries from database service identities indicate active tunneling. rclone or unauthorized cloud-sync binaries on servers warrant immediate investigation. OAuth device-code grants without corresponding enrollment events indicate T1598 phishing. Unauthorized reads of SAM, SYSTEM, SECURITY hives or ntds.dit by service accounts are critical alerts. For the fraud infrastructure specifically, URL parameters matching the schema ?ref=, venc=, v=, v0=, kwh= on lookalike utility domains are a structural indicator of the invoice fraud platform's output.
+
+Full IOC table (IPs, domains, SHA-256 hashes for all beacon and agent variants, qTox IDs) and the complete MITRE ATT&amp;CK mapping are in the SOCRadar report. Prioritize hunting for AdaptixC2 gopher agent artifacts (gopher_new.exe SHA-256 54caa256483876debd21c264bfc31bd96f925b2167f6d9358ab7ee0c87e6e37b, beacon.dll SHA-256 d566ccdd099b0decb7e7288c20097f34da2613e3ffe8c5acbc1a1d01b6fe217c) and block the four operation server IPs: 85.120.216[.]8, 91.92.241[.]187, 91.92.241[.]184, and 185.242.3[.]14.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103394978336571482</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103394978336571482">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 08:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2103394978336571482</guid>
+    </item>
     <item>
       <title>A Closer Look at Malware From the Macfinger ClickFix Campaign, (Fri, Sep 25th)</title>
       <link>https://isc.sans.edu/diary/rss/33368</link>
@@ -1635,17 +1656,6 @@ Takeaway: audit any npm package in your environment that updated recently for si
       <source url="https://x.com/DFIR_Radar/status/2101024288006418810">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 19:03:20 +0000</pubDate>
       <guid isPermaLink="false">2101024288006418810</guid>
-    </item>
-    <item>
-      <title>New Settra Ransomware Variant Deployed in Attacks on Retail and Manufacturing</title>
-      <link>https://www.infosecurity-magazine.com/news/settra-ransomware-retail/</link>
-      <description>Settra ransomware hits retail and manufacturing using MeshAgent RMM for C2, drops executables from C:\Perflogs named after the victim domain, and wipes recovery via diskpart and cipher /w. Hunt for BYOVD installs and cleared Event Logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101009213287735421</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2101009213287735421">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 18:03:26 +0000</pubDate>
-      <guid isPermaLink="false">2101009213287735421</guid>
     </item>
   </channel>
 </rss>
