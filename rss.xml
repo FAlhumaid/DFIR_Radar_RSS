@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 17:03:08 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 18:03:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Storm-3168: Agentic-driven cloud attacks using compromised service principals</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/</link>
+      <description>Storm-3168 (JADEPUFFER) used compromised Azure service principals to destroy storage, key vaults, and app resources in a 7-minute automated blitz, then pivoted to credential harvesting, marking the first detailed view of this agentic ransomware operator's Azure activity.
+
+Key findings:
+
+- Initial access likely came from a service principal's client ID, client secret, and tenant ID exposed in plaintext in a public GitHub issue. The employee later edited the issue to remove the secret, but GitHub's public edit history retained the credentials in full. This is the core forensic lesson: removing an exposed secret does not invalidate it. Revoke and rotate immediately, then audit the identity's full activity history from the date of first exposure forward.
+
+- Two compromised service principals divided the work under a coordinated, automated playbook. The first ran reconnaissance for 15+ hours, executing 300+ read operations across VMs, subscriptions, and resource groups. The second began its own enumeration 90 minutes later, then pivoted to App Service config stores looking for additional credentials. Both shared the same network fingerprint and user agent string: python-requests/2.34.2. MITRE ATT&amp;CK techniques T1078.004 (Valid Accounts: Cloud Accounts) and T1526 (Cloud Service Discovery) map to this phase.
+
+- The destructive sequence ran for approximately 7 minutes and included 100+ Azure Storage account deletion attempts, plus Key Vault, Function App, and App Service plan deletions. SQL database deletions were attempted in parallel but failed due to an unsupported API version, an investigative artifact worth noting: failed ARM operations in logs can expose intended scope even when the action didn't land. Azure resource locks and storage-level deletion protection blocked a subset of storage deletions, demonstrating that independent safeguards hold even when the compromised identity holds broad administrative rights. T1485 (Data Destruction) and T1490 (Inhibit System Recovery) apply here.
+
+- Approximately 30 minutes after the destructive phase, the same service principal issued 30+ successful ListKeys requests against Azure Storage Accounts via ARM, including Site Recovery-related accounts. Five unique OAuth tokens were observed for this identity, four scoped to deletion, one to inventory and key retrieval, with two deletion tokens active simultaneously during a 70-second window. This token segmentation is a strong indicator of scripted or agentic orchestration and is visible in Azure AD sign-in and ARM audit logs.
+
+- IOCs from the report: 45.131.66[.]106 (App Service probing and malicious ARM requests), 34.153.223[.]102 (App Service probing), 64.20.53[.]230 (App Service probing). Storm-3168 linked infrastructure also probed WordPress admin paths, PHP-CGI endpoints, and LangFlow's /api/v1/validate/code endpoint across multiple Azure App Services throughout 2026.
+
+Practitioner takeaway: Start your hunt in Azure Activity Logs and Entra audit logs. Look for service principals issuing bulk delete operations against Storage, Key Vault, or SQL resources in compressed time windows, especially where multiple tokens for the same identity overlap. Flag any ListKeys call following a destructive sequence as a likely credential-harvesting pivot. Check ARM logs for failed deletes: the unsupported API version error on SQL here revealed intended scope the attacker couldn't execute. Cross-reference all service principal activity back to public repos, issues, and CI/CD configs for plaintext credential exposure. The full IOC list and Microsoft Defender XDR detection alert names are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103545962849587308</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2103545962849587308">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 18:03:35 +0000</pubDate>
+      <guid isPermaLink="false">2103545962849587308</guid>
+    </item>
     <item>
       <title>ClickFix Campaign Abuses Trusted Websites to Deploy Psychedelic Stealer</title>
       <link>https://securityaffairs.com/199731/malware/clickfix-campaign-abuses-trusted-websites-to-deploy-psychedelic-stealer.html</link>
@@ -1685,29 +1710,6 @@ Hunt: flag ScreenConnect.ClientSetup.exe executions where the parent is a browse
       <source url="https://x.com/DFIR_Radar/status/2101748898947838120">DFIR Radar</source>
       <pubDate>Sun, 20 Sep 2026 19:02:41 +0000</pubDate>
       <guid isPermaLink="false">2101748898947838120</guid>
-    </item>
-    <item>
-      <title>2026-09-15: SmartApeSG ClickFix to unidentified RAT to MeshAgent</title>
-      <link>https://www.malware-traffic-analysis.net/2026/09/15/index.html</link>
-      <description>SmartApeSG's ClickFix lure chains a fake browser verification page through an unidentified RAT into MeshAgent, landing a fully interactive remote access foothold on compromised Windows hosts.
-
-Key findings:
-
-- SmartApeSG serves a fake verification page mimicking a browser check, with embedded ClickFix instructions that trick users into manually running a malicious command (T1204.002), bypassing security prompts without any exploit required.
-
-- The infection chain drops an unidentified RAT that establishes persistence on the host before pulling down MeshAgent, the legitimate open-source remote management tool used here as a hands-on-keyboard backdoor via a malicious Mesh C2 server.
-
-- MeshAgent persists from AppData\Local\Temp and registers as a persistent service on the infected Windows host. That directory and run keys are your first stop. The login console screenshot confirms attacker-controlled C2 infrastructure behind it.
-
-- All three artifact sets are available: a pcap (18.7 MB) for traffic analysis, collected malware files (34.1 MB), and a zipped IOC list, each password-protected under the site's current scheme (check the About page).
-
-Hunt for MeshAgent binaries running from AppData\Local\Temp and unexpected outbound connections to Mesh C2 infrastructure. Parent process on the initial command execution will reflect the ClickFix run dialog. Full IOC list and pcap are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101733848337784887</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2101733848337784887">DFIR Radar</source>
-      <pubDate>Sun, 20 Sep 2026 18:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2101733848337784887</guid>
     </item>
   </channel>
 </rss>
