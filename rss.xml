@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 09:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 10:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>RemControl Banking Trojan Gives Attackers Remote Control of Android Devices</title>
+      <link>https://www.infosecurity-magazine.com/news/banking-trojan-remote-control/</link>
+      <description>Android banking trojan RemControl abuses Accessibility Services for full device takeover, targeting 30+ banking institutions across Western Europe, the Middle East, and Canada 🇨🇦 since July 2026.
+
+Key findings:
+
+- The dropper delivery chain is worth understanding in full. Victims are lured to fake Google Play Store pages impersonating the TVTap IPTV app, with pages dynamically localized via user-agent and IP geolocation. The dropper then launches a local VPN service to route Google Play Protect traffic through a null channel, effectively blinding Android's built-in malware scanner. It also generates a fresh signing key via the Android Keystore and uses it to sign the RemControl payload on the fly, defeating hash-based detection before installation even completes. VPN-based Play Protect suppression is being flagged by Group-IB as a recurring pattern in Android dropper development.
+
+- Once installed, RemControl requests Accessibility Service permissions. If granted, the trojan achieves full device control: it inflates full-screen WebView overlays impersonating targeted banking apps to harvest PIN codes, mobile banking codes, and card expiry dates. It also performs real-time screen capture that returns a machine-readable map of every visible UI element including coordinates, text content, and interactive state, plus keylogging and pattern lock capture to track unlocks and input.
+
+- The threat actor behind RemControl is tracked as UNKK, assessed as Russian-speaking. Notably, Group-IB assesses the developer used an AI assistant to build significant portions of the C2 backend and phishing overlays by framing credential-theft API endpoints as a parental monitoring application. The C2 panel API documentation was inadvertently exposed during analysis, giving researchers deep infrastructure visibility. The euphemistic language in the documentation, referring to banking victims as "a person staring at the quiz" and credential theft as "quiz completion," is a direct artifact of that AI-assisted development approach.
+
+- C2 communications use a Telegram dead-drop to obscure the real server address, with the primary channel being a WebSocket using a JSON envelope with fields cmd, udid, rid, and data. RemControl also implements self-preservation: it actively blocks application removal and prevents access to factory reset screens, making victim-side remediation difficult without specialized tooling or ADB access.
+
+Responder takeaway: On Android forensics engagements, look for unauthorized Accessibility Service grants in Settings logs and check the installed app signing certificate against the developer's claimed identity. A freshly generated Keystore signing key on a sideloaded APK is a hard indicator. Hunt for WebSocket connections to Telegram-adjacent infrastructure and inspect JSON traffic for the cmd/udid/rid/data envelope pattern. For threat hunters monitoring enterprise mobile fleets, flag any app invoking VPN APIs alongside Accessibility Service requests. The full technical breakdown and IOC detail are in the Group-IB report published September 23.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103425136439492908</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2103425136439492908">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 10:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2103425136439492908</guid>
+    </item>
     <item>
       <title>Port Scanning vs Service Detection: What an Open Port Really Means</title>
       <link>https://threatmon.io/port-scanning-vs-service-detection-what-an-open-port-really-means/</link>
@@ -1653,17 +1676,6 @@ Takeaway: audit any npm package in your environment that updated recently for si
       <source url="https://x.com/DFIR_Radar/status/2101054492594598109">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 21:03:22 +0000</pubDate>
       <guid isPermaLink="false">2101054492594598109</guid>
-    </item>
-    <item>
-      <title>An Undercover Google Analyst Infiltrated a Notorious Supply-Chain Hacking Gang</title>
-      <link>https://www.wired.com/story/an-undercover-google-analyst-infiltrated-a-notorious-supply-chain-hacking-gang/</link>
-      <description>Google/Mandiant's undercover analyst sat inside TeamPCP's 12-person CanisterWorm chat from March, watching a supply-chain campaign that hit Trivy, LiteLLM, and GitHub. A Gmail OPSEC slip tied to sheepstealing led to the AFP arrest.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101039383725932787</description>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2101039383725932787">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 20:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2101039383725932787</guid>
     </item>
   </channel>
 </rss>
