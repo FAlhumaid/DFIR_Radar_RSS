@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 12:03:17 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 13:03:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI-Powered CARBONATO Botnet Steals Credentials to Fund Its Own LLM Gateway</title>
+      <link>https://securityaffairs.com/199716/malware/ai-powered-carbonato-botnet-steals-credentials-to-fund-its-own-llm-gateway.html</link>
+      <description>AI-augmented botnet CARBONATO exploits unauthenticated Docker daemons to deploy an LLM-driven agent that steals AI API keys to fund the operators' own compute gateway, active since at least October 2024.
+
+Key findings:
+
+- Initial access is brutally simple: CARBONATO scans for Docker daemons listening unauthenticated on port 2375, then uses the Docker API itself to spin up a privileged container with the host filesystem mounted and runs commands directly on the underlying machine. entry.sh (versioned at 5.3) bootstraps the foothold by opening a reverse SSH tunnel to a relay in AS262145, a Costa Rican network, installing an SSH server, injecting the crew's own key, and firing a Telegram deployment report containing the container ID, hostname, IP, and country. The tunnel port is not random: it is derived from the MD5 hash of the victim's IP, letting operators recalculate the reconnect port without storing any state.
+
+- Persistence is layered and hardened. Cron jobs, systemd timers, rc.local, and OpenRC entries are all written and then marked immutable so basic cleanup fails. The malicious container runs under the name "systemd-resolved," displays a fake systemd-networkd resolver banner, and masquerades its process arguments as a kernel thread named [kworker/u2:0]. A watchdog re-pulls the implant from the registry if the container disappears.
+
+- The AI angle is what sets CARBONATO apart. The implant installs Hermes Agent, an MIT-licensed open-source framework from Nous Research, entirely unmodified. The only change is the persona file: /root/.hermes/SOUL.md is overwritten with a 39-line prompt that renames the agent "GH0ST" and directs it to execute tasks from Telegram, maintain persistence, and collect credentials. Operators send tasks via Telegram; the agent forwards them with the persona to an LLM gateway, which writes terminal commands, reads output, and decides next actions autonomously. The binary is clean; the malicious logic lives entirely in the prompt.
+
+- Credential theft is explicitly prioritized. The SOUL.md prompt names 14 AI providers (OpenAI, Anthropic, Google Gemini, OpenRouter, Groq, Mistral, Cohere, and others) and ranks their API keys above SSH credentials, access tokens, and databases. The reason: the operators were running their own LLM gateway, observed live on September 3, serving 27 models through its API on a free tier funded entirely by stolen keys. The botnet's economy is self-sustaining: compromise hosts, steal AI credentials, use them to run the AI that runs the botnet.
+
+- Attribution signals are convergent. Fourteen of 162 image configurations carry UTC-06:00 timestamps matching the America/Costa_Rica timezone. The Telegram operator handle is "Carbo506" and +506 is Costa Rica's country calling code. Tunnel infrastructure terminates in AS262145, a Costa Rican network. Deployment messages are written in voseo Spanish 🇪🇸. ThreatDown's researchers stumbled into the entire toolchain by finding the operators' own unauthenticated registry, which leaked 59 repositories, 234 tags, 605 verified file blobs, C2 addresses, bot tokens, and the shared password for the AI gateway in a single passive collection session.
+
+Takeaway: Hunt for /root/.hermes/SOUL.md containing the string "GH0ST" and .env files carrying CARBONATO_API_KEY. Flag unexplained outbound Telegram traffic from server workloads. For container environments, audit for privileged containers with the host filesystem mounted and parent process Docker daemon spawning SSH servers. Rotate AI API keys stored anywhere on exposed infrastructure and monitor provider dashboards for unexpected usage spikes. The full IOC list and technical details are in the ThreatDown report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103470343344320982</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103470343344320982">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 13:03:05 +0000</pubDate>
+      <guid isPermaLink="false">2103470343344320982</guid>
+    </item>
     <item>
       <title>Check Point Pre-Auth Flaws Under Attack</title>
       <link>https://socradar.io/blog/check-point-pre-auth-flaws/</link>
@@ -1679,17 +1704,6 @@ Takeaway: audit any npm package in your environment that updated recently for si
       <source url="https://x.com/DFIR_Radar/status/2101115015881179530">DFIR Radar</source>
       <pubDate>Sat, 19 Sep 2026 01:03:51 +0000</pubDate>
       <guid isPermaLink="false">2101115015881179530</guid>
-    </item>
-    <item>
-      <title>CVE-2026-76460: Cisco ISE Flaw Actively Exploited</title>
-      <link>https://socradar.io/blog/cve-2026-76460-cisco-ise-flaw/</link>
-      <description>CVE-2026-76460 (CVSS 10.0) is an unauthenticated auth bypass in Cisco ISE actively exploited and added to CISA KEV with a federal remediation deadline of September 19.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101084486196965418</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2101084486196965418">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 23:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2101084486196965418</guid>
     </item>
   </channel>
 </rss>
