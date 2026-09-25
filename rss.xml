@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 20:03:40 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 21:02:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat Actors Use Google Ads To Target Ledger Users</title>
+      <link>https://www.zscaler.com/blogs/security-research/threat-actors-use-google-ads-target-ledger-users</link>
+      <description>Crypto wallet phishing campaign abuses Google Ads, Cloud Storage, Vercel, and Google Sites in a layered redirect chain to steal Ledger recovery phrases from US 🇺🇸, European, and Asian users.
+
+Key findings:
+
+- The attack chain ran entirely through trusted platforms to bypass reputation-based filtering. A malicious sponsored Google ad, placed under a compromised verified advertiser account (listed with a Germany 🇩🇪 location), sent victims to a Google Cloud Storage URL, which redirected to a Vercel-hosted page, which then loaded a Google Sites page displaying the phishing content inside an iframe. Every hop used infrastructure with inherent trust signals that made blocking by domain reputation alone unreliable.
+
+- The Vercel redirect domain rotated approximately every 15-20 minutes during analysis, meaning any IOC-based block on a specific Vercel subdomain would have a short effective window. Two captured HTML samples confirmed the JavaScript redirect pointed to different Vercel-hosted domains across that interval. The attacker could update the delivery chain while the Google Cloud Storage page remained static and unchanged.
+
+- The phishing page impersonated Ledger's interface with download options for Windows, macOS, Linux, and mobile. It tracked device metadata and monitored keypresses, touches, and mouse movements, sending behavioral data to a Vercel-hosted endpoint, likely to distinguish real victims from automated sandboxes. A Cloudflare Web Analytics beacon was also embedded with an analytics token, giving the attacker passive visibility into visitor behavior.
+
+- Recovery phrase collection used BIP-39 autocomplete pulled from api/bip39-english.txt to help users correctly type their 12-24 word seed. On first submission the phrase was sent to the attacker-controlled Vercel endpoint. The page then returned a fake "Invalid seed" error to prompt a second submission, which was also exfiltrated. An invisible hCaptcha widget was initialized during submission. No server-side comparison of the two entries was observed, confirming the double-submission was purely a collection mechanism.
+
+- IOCs from the report include Google Cloud Storage bucket URLs: storage.googleapis[.]com/apf-leg-ad-23798/, storage.googleapis[.]com/ledg-leg1-79230/, storage.googleapis[.]com/apf-leg-ad-22076/, and storage.googleapis[.]com/apf-leg-ad-32595/. Google Sites URLs: sites.google[.]com/view/start-ledger-wallet, sites.google[.]com/view/apps-ledger-wallet, and sites.google[.]com/view/download-ledger-wallet-pc. Vercel domains include soyyoo-cwpc5n0e.vercel[.]app, rpc-gbz5.vercel[.]app, whyavc-qwmv6stx.vercel[.]app, router-wdoi.vercel[.]app, and node-f1ey.vercel[.]app.
+
+For defenders: standard domain-reputation controls will not catch this campaign because every stage runs on legitimate platforms. Hunt proxy and DNS logs for the GCS bucket paths and Google Sites URLs above, and alert on iframe loads sourced from sites.google[.]com pointing outbound to vercel[.]app subdomains. For broader coverage, flag any page embedding an iframe that loads cross-origin content from a Vercel subdomain alongside a BIP-39 wordlist fetch, an invisible hCaptcha initialization, or behavioral telemetry POSTs. The full IOC list is in the Zscaler ThreatLabz report alongside the detection name HTML.Phish.Ledger.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103591000182600068</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103591000182600068">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 21:02:32 +0000</pubDate>
+      <guid isPermaLink="false">2103591000182600068</guid>
+    </item>
     <item>
       <title>From Debugging to Code Execution: RCE in Microsoft DevLabs’ DebugMCP?</title>
       <link>https://www.imperva.com/blog/from-debugging-to-code-execution-rce-in-microsoft-devlabs-debugmcp/</link>
@@ -1711,17 +1736,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2101975625393201287">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 10:03:37 +0000</pubDate>
       <guid isPermaLink="false">2101975625393201287</guid>
-    </item>
-    <item>
-      <title>ClickFix Lures Deploy ChainScript RAT Using Polygon to Rotate C2 Infrastructure</title>
-      <link>https://thehackernews.com/2026/09/clickfix-lures-deploy-chainscript-rat.html</link>
-      <description>ChainScript RAT spreads via ClickFix lures disguised as Spotify, Zoom, and Teams. It rotates C2 infrastructure through Polygon blockchain. Hunt for build names ComponentTask33, UpdateDigital, HostShared, and OrchidViolet66.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101960335192097005</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2101960335192097005">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 09:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2101960335192097005</guid>
     </item>
   </channel>
 </rss>
