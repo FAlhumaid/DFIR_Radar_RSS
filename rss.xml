@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 19:03:09 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 20:03:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From Debugging to Code Execution: RCE in Microsoft DevLabs’ DebugMCP?</title>
+      <link>https://www.imperva.com/blog/from-debugging-to-code-execution-rce-in-microsoft-devlabs-debugmcp/</link>
+      <description>Drive-by RCE in Microsoft DevLabs' DebugMCP v1.1.4 lets a malicious webpage execute arbitrary code on a developer's machine via DNS rebinding and a UNC path file execution primitive, no user interaction beyond visiting a page.
+
+Technical breakdown:
+
+- DebugMCP installs from the VS Code Marketplace with one click and immediately starts an unauthenticated JSON-RPC MCP server on port 3001, listening without host or origin validation. The custom Express configuration skips the createMcpExpressApp middleware introduced in modelcontextprotocol SDK v1.23.0, which would have added validateHostHeader and validateOriginHeader by default. That omission is the core of the DNS rebinding exposure, also referenced as related to CVE-2025-53967 in structure.
+
+- The transport was configured in stateless mode: sessionIdGenerator set to undefined causes validateSession to return immediately, bypassing the initialize handshake entirely. A single no-cors HTTP POST to /mcp?transport=streamable_http is enough to invoke any tool, no prior session establishment required.
+
+- The start_debugging tool accepts a fileFullPath argument with no sanitization. On Windows, UNC paths of the form \\ATTACKER\SHARE\payload.py are passed straight through to VS Code's debugging infrastructure and then to the Python launcher, which reaches out to the attacker's SMB share, fetches the script, and executes it under the victim's user context.
+
+- The full attack chain: victim visits attacker page, DNS TTL expires (1-2 seconds), rebind resolves attacker domain to 127.0.0.1, browser considers the subsequent fetch to evil.attacker[.]com:3001 same-origin, request hits local DebugMCP, Python launcher pulls payload from attacker SMB share, code runs. Firefox versions before 153 and browsers lacking Local Network Access protections do not block this. The fix shipped silently in commit 86776b2 with no advisory or CVE issued; v1.2.0 contains the patch.
+
+- Impact is severe because the target is a developer workstation: live AWS keys, SSH keys, GitHub tokens, active cloud CLI sessions, VPN tunnels, and push access to production branches are all inherited by the payload silently. This is a realistic supply-chain pivot path: compromising a developer machine is often a shorter route to production than attacking production directly.
+
+Practitioners responding to a potential exploitation event should examine VS Code extension logs and the DebugMCP server output on port 3001 for unexpected JSON-RPC tool calls, particularly start_debugging invocations with UNC paths. On Windows, look for outbound SMB (port 445) connections originating from the VS Code Python launcher process at the time of the suspected visit. Browser history and DNS cache artifacts can help correlate the rebind timing. For hunting across a developer fleet, query for processes where the VS Code debugger process spawned unexpected child processes or made outbound network connections to external IPs. Developers still on v1.1.4 must update to v1.2.0 or later. Audit all listening loopback ports on developer machines and enforce authentication on any MCP server in your environment. Full disclosure and PoC detail are in the Imperva report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103576185347194993</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2103576185347194993">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 20:03:40 +0000</pubDate>
+      <guid isPermaLink="false">2103576185347194993</guid>
+    </item>
     <item>
       <title>Master Key Included: Detecting SolarWinds ARM CVE-2026-28326</title>
       <link>https://bishopfox.com/blog/detecting-solarwinds-arm-cve-2026-28326</link>
@@ -1697,25 +1722,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2101960335192097005">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 09:02:51 +0000</pubDate>
       <guid isPermaLink="false">2101960335192097005</guid>
-    </item>
-    <item>
-      <title>2026-09-14: Backdoor using ScreenConnect from malicious emailt</title>
-      <link>https://www.malware-traffic-analysis.net/2026/09/14/index.html</link>
-      <description>A malicious email impersonating the Social Security Administration delivers a trojanized ScreenConnect installer, giving attackers persistent remote access under the cover of legitimate RMM traffic.
-
-- Lure email originates from allsecured[.]net (23.227.202[.]93), spoofing SSA branding with subject "Your Monthly SSA Electronic Statement is Available for Download." The t[.]co redirect chains to icci-sa[.]com/xgov, a fake SSA portal serving the payload via social_secur1tiy_administr3tion.php?download=exe. Typosquatted filenames are a deliberate friction-raiser against quick triage.
-
-- The downloaded file, ScreenConnect.ClientSetup.exe (SHA-256: f1d103dd77d09697fa30fa14c4f39e394b0331a33ffd2ef5df2916dbe79e474b, 12.8 MB, PE32), is a customized ScreenConnect client pre-configured to beacon an attacker-controlled relay. Post-infection traffic hits 15.204.43[.]235 on port 443, resolving to instance-udppxf-relay.screenconnect[.]com.
-
-- RMM abuse (T1219) is the core TTP. Because ScreenConnect traffic is encrypted and the binary is a signed installer, many endpoint and network controls treat it as noise. Defenders should look for ScreenConnect installed outside of managed software inventory, especially under user-writable paths or spawned from a browser or email client process.
-
-Hunt: flag ScreenConnect.ClientSetup.exe executions where the parent is a browser, mail client, or scripting host. Full IOC list and PCAP are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101854607529959844</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2101854607529959844">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 02:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2101854607529959844</guid>
     </item>
   </channel>
 </rss>
