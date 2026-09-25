@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 06:03:36 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 07:03:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>A Closer Look at Malware From the Macfinger ClickFix Campaign, (Fri, Sep 25th)</title>
+      <link>https://isc.sans.edu/diary/rss/33368</link>
+      <description>The Macfinger ClickFix campaign is delivering an unidentified macOS information stealer distinct from AMOS Stealer, actively targeting macOS 27.0 (Golden Gate) with a multi-stage shell script loader chain and websocket-based C2 exfiltration.
+
+Key findings:
+
+- The infection chain starts at the fake CAPTCHA domain hollow-badger-moasfraum[.]life, which clipboard-injects a Terminal command. That command pulls a shell script loader from hxxp[:]//45.131.215[.]56/8031e818c7a46?force=1, which then checks uname -m and fetches the architecture-appropriate Mach-O binary: arm64 from hxxp[:]//45.131.215[.]56/a7a11f95?force=1 or x86_64 from hxxp[:]//45.131.215[.]56/4e04813226b1b93?force=1. The C2 address is base64-encoded inside the loader script itself.
+
+- Persistence is established via a LaunchAgent plist at /Users/[username]/Library/LaunchAgents/com.apple.softwareupdated.plist, executing a binary dropped at /Users/[username]/Library/Caches/com.apple.softwareupdate/SoftwareUpdate. The initial staging location is /Users/[username]/Library/Caches/com.apple.securityd/com.apple.periodic. Notably, three on-disk copies of the binary carry different SHA-256 hashes and slightly different file sizes despite appearing functionally identical, suggesting per-drop mutation.
+
+- Post-infection C2 traffic hits hxxp[:]//95.163.153[.]80:8133 across three endpoints: /api/t for check-in and execution status (exec_start, exec_ok), /api/credentials for encrypted data exfiltration via HTTP POST, and /api/shell/agent. The User-Agent is Go-http-client/1.1. A protocol upgrade to websocket traffic is requested during the session, a behavior that separates this stealer from AMOS and is a strong network detection anchor.
+
+- The malware solicits a broad permission sweep via macOS TCC prompts: Notes.app control via bash, Documents/Desktop/Downloads folder access via Terminal.app, Apple Music library, photo library, administrator password via a fake System Error dialog, and a separate macOS Keychain password prompt. Any of these TCC permission grants will appear in the TCC.db at /Library/Application Support/com.apple.TCC/TCC.db and the user-level equivalent, making them forensic artifacts that survive binary removal.
+
+- Five SHA-256 hashes are documented in the report: shell script loader (c6da028e0a8a25a35efa28ba508a556d1b53d1e61113c0aaebf31a49a5668912), x86_64 binary (457ed02b0a63ccf872e8459c91e2d1d6844a75414358849333f518cc538055b7), arm64 binary from the hosting URL (5a2242b862ef52fe7a08af596198412a7676c948bcd64a25ce5d2e6d4b35c6fb), first on-disk arm64 copy (3e26e006210ed398f98c090e9f1c982e76b3b73f1ce3e04ee1bf8d45c56e1a89), and the persistent binary (4a5952849232691849ed900609d7ff271ce296fe3cee4a81b58c28f2839fb5b6).
+
+Hunt priority: check LaunchAgents for com.apple.softwareupdated.plist and the two Caches paths listed above, then pivot to TCC.db to confirm which permissions were granted. On the network side, alert on Go-http-client/1.1 User-Agent combined with websocket upgrade requests to port 8133. The full IOC list, a pcap of the infection traffic, and malware samples are available in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103379851822706982</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2103379851822706982">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 07:03:30 +0000</pubDate>
+      <guid isPermaLink="false">2103379851822706982</guid>
+    </item>
     <item>
       <title>How Cloudflare addressed a cross-tenant data exposure vulnerability in Containers</title>
       <link>https://blog.cloudflare.com/containers-cross-tenant-vulnerability/</link>
@@ -1621,17 +1646,6 @@ Takeaway: audit any npm package in your environment that updated recently for si
       <source url="https://x.com/DFIR_Radar/status/2101009213287735421">DFIR Radar</source>
       <pubDate>Fri, 18 Sep 2026 18:03:26 +0000</pubDate>
       <guid isPermaLink="false">2101009213287735421</guid>
-    </item>
-    <item>
-      <title>Browser Forensics: Analyzing Suspicious Extensions with ExtAnalysis</title>
-      <link>https://hackers-arise.com/browser-forensics-analyzing-suspicious-extensions-with-extanalysis/</link>
-      <description>ExtAnalysis is an open-source Flask-based tool for static analysis of Chrome, Firefox, Edge, and Brave extensions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2100994058282017056</description>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2100994058282017056">DFIR Radar</source>
-      <pubDate>Fri, 18 Sep 2026 17:03:13 +0000</pubDate>
-      <guid isPermaLink="false">2100994058282017056</guid>
     </item>
   </channel>
 </rss>
