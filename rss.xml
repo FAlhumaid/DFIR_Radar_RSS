@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 15:03:40 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 16:04:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dark Web Profile: Blue Locker Ransomware</title>
+      <link>https://socradar.io/blog/dark-web-profile-blue-locker-ransomware/</link>
+      <description>Blue Locker ransomware hit Pakistan 🇵🇰's second-largest oil and gas producer in August 2025, wiping backups and halting financial operations for two days. Attribution pulls toward Iranian-linked Proton family code, but the picture is deliberately murky.
+
+- The August 6, 2025 attack on Pakistan 🇵🇰 Petroleum Limited encrypted servers and VMs, deleted shadow copies via wmic SHADOWCOPY DELETE (T1490), and stopped critical services (T1489) before triggering encryption. Operators claimed 1 TB exfiltrated. Pakistan 🇵🇰's NCERT issued an emergency advisory to 39 government ministries, including the Cabinet Division, FIA, FBR, and PEMRA. PPL denied sensitive data loss, but financial systems were down for two days at a company supplying roughly one-fifth of Pakistan 🇵🇰's natural gas.
+
+- Attribution is genuinely unresolved. Resecurity links Blue Locker to the Proton ransomware family, sharing code with Shinra, Zola, Limba, and Cipher, all assessed with probable Iranian 🇮🇷 origins by Israel 🇮🇱's INCD and Fortinet's FortiGuard Labs. Separately, researcher rivitna classifies the same .blue / restore_file.txt artifacts as MemeCryptor, an open-source GitHub project by "DarkFunct" inspired by Conti, using ChaCha20+RSA with BMP steganography for key hiding. These threads are not mutually exclusive: Proton source has been sold on dark web forums and MemeCryptor is publicly available. The binary also contains Chinese-language strings including a reference to Qihoo 360's "ZhuDongFangYu" component, assessed as deliberate false flags, not evidence of Chinese 🇨🇳 origin.
+
+- Name collision is a real contamination risk. Three distinct malware families share the .blue space: Blue Locker / MemeCryptor drops restore_file.txt and appends .blue. Proton / Shinra V2 also appends .blue but renames files to random 10-character strings and uses-files.txt or.txt. Phobos "Blue" is an entirely separate codebase. Validate against specific IOC sets before merging into a timeline or threat cluster.
+
+- The attack chain uses a PowerShell loader for initial staging (NCERT mapped T1059.003), UAC bypass via registry manipulation (T1548.002), and persistence via registry Run keys under HKLMSOFTWAREMicrosoftWindowsNTCurrentVersionRun (T1547.001). The mutex string wbizecif48njqgpprzkm6769 prevents duplicate execution. Chrome.exe is forcibly terminated to unlock its credential database before encryption. Timestamps are manipulated (T1070.006) and sandbox checks (T1497) run before payload execution. Negotiation runs over ProtonMail hyebwma@protonmail[.]com, Jabber hsbwabwy@xmpp[.]jp, and a Tox ID, with no dedicated Tor leak site.
+
+- Defanged IOCs from the NCERT advisory include domains shinra-encrypt-support[.]xyz, blue-decryptor[.]site, backup-leaks[.]fun, and locker-c2[.]onion, plus IPs including 185.225.69[.]140, 195.3.145[.]99, 91.243.113[.]21, and 103.150.199[.]23. SHA-256 hashes include d3cc6cc4538d57f2d1f8a9d46a3e8be73ed849f7fe37d1d969c0377cf1d0fadc and e6bd4ed287d1336206f5b4b65011e570267418799eb60c2d0d7496d5d9e95a33. Full IOC list including MD5 and SHA-1 from NCA-38 is in the report.
+
+Hunt for the mutex wbizecif48njqgpprzkm6769, registry Run key writes under CurrentVersionRun paired with a randomly named binary in %Temp%, and chrome.exe termination followed immediately by file rename activity. The restore_file.txt ransom note and .blue extension are your on-disk confirmation, but timestomping means do not rely on file modification times for sequencing. Correlate against the NCERT NCA-38 IOC set before attributing to Proton or any other cluster.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103515904621322673</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103515904621322673">DFIR Radar</source>
+      <pubDate>Fri, 25 Sep 2026 16:04:08 +0000</pubDate>
+      <guid isPermaLink="false">2103515904621322673</guid>
+    </item>
     <item>
       <title>Kothamine malware uses Tailscale’s tailcat to evade network detection</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/09/kothamine-malware-uses-tailscales-tailcat-to-evade-network-detection</link>
@@ -1685,29 +1708,6 @@ Takeaway: if you are spending hours manually stitching CSV exports across subsys
       <source url="https://x.com/DFIR_Radar/status/2101703590645584236">DFIR Radar</source>
       <pubDate>Sun, 20 Sep 2026 16:02:39 +0000</pubDate>
       <guid isPermaLink="false">2101703590645584236</guid>
-    </item>
-    <item>
-      <title>GHAPPIER - One loader, sixty-five repositories, twenty-two accounts: an unreported loader family beside DPRK's PolinRider campaign</title>
-      <link>https://www.cloudsek.com/blog/ghappier-malware-loader-npm-supply-chain-attack</link>
-      <description>North Korean 🇰🇵 loader family GHAPPIER spans 65 GitHub repos and 22 accounts, hiding inside npm supply-chain poisoning tied to the DPRK PolinRider campaign.
-
-Key details:
-
-- GHAPPIER operates across at least 65 public repositories, 73 infected files, and 22 GitHub accounts, giving it unusual breadth for a loader operation previously absent from public reporting.
-
-- Initial access rides a compromised legitimate npm package whose malicious release carried valid provenance through trusted publishing infrastructure, making the payload harder to reject on reputation alone (T1195.002).
-
-- CloudSEK links portions of this infrastructure to the PolinRider campaign, a known DPRK-attributed operation, suggesting GHAPPIER is a supporting loader layer rather than a standalone tool.
-
-- The scale of repository and account seeding points to persistent, deliberate staging: defenders cannot treat any single repo or account as the sole exposure point.
-
-Takeaway: audit any npm package in your environment that updated recently for signs of injected loader stages. Check GitHub dependency graphs for repos matching this seeding pattern. Full IOC list, infected file hashes, and account indicators are in the CloudSEK report; pull them before triaging affected pipelines.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2101613025773920337</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2101613025773920337">DFIR Radar</source>
-      <pubDate>Sun, 20 Sep 2026 10:02:46 +0000</pubDate>
-      <guid isPermaLink="false">2101613025773920337</guid>
     </item>
   </channel>
 </rss>
