@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 25 Sep 2026 23:02:50 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 26 Sep 2026 00:03:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ShinyHunters Renewed Mass Exploitation Campaign Targeting Oracle PeopleSoft</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft/</link>
+      <description>ShinyHunters (UNC6240)-targeting group bypasses WAF mitigations to resume mass exploitation of CVE-2026-35273 in Oracle PeopleSoft, deploying web shells and a signed backdoor across dozens of systems globally in higher education, healthcare, government, and more.
+
+- CVE-2026-35273 was first exploited as a zero-day in May-June 2026, primarily against universities. Oracle patched it June 10. UNC6240 returned in this wave targeting organizations that blocked /PSEMHUB/ at the WAF but never patched: they simply re-encoded the path as /%50SEMHUB/ (where %50 decodes to "P"). WAF and reverse proxy rules matching the literal string before URL normalization never fire. WebLogic decodes it and routes the request normally. This is a textbook WAF bypass, and it worked at scale because defenders trusted their perimeter rule as a compensating control.
+
+- The attack chain is methodical. Before full exploitation, servers receive 5-15 POST requests to /%50SEMHUB/hub carrying a serialized Java object that confirms exploitability without writing files, a quiet fingerprint step responders will find only in WebLogic access logs. Exploitation then follows one of two paths: JSP web shell drop into PSEMHUB.war (x.jsp for command execution, u.jsp/u2.jsp for chunked file upload), or fileless command execution where output returns directly in the HTTP response and no JSP is written at all. Detections keyed only on new JSP file creation will miss the fileless path entirely. On load-balanced environments, the actor sent burst POST requests to seed every node behind the balancer.
+
+- On compromised Windows hosts, UNC6240 uploaded Ple64.exe (tracked as SIDEEYE), a 5.2 MB trojanized Light Alloy media player installer signed with a valid EV certificate issued to Tobias Weihmann Software Development OU via Sectigo. It runs a three-stage in-memory chain: Stage 1 decompresses a VMProtect 3-protected launcher, which decrypts and loads Stage 3, the SIDEEYE C++ backdoor. SIDEEYE calls home to 162.219.30[.]165 over raw TCP on ports 3333 (control) and 3334 (data) and supports credential theft, file and process management, and reverse shell/proxy. Neo-reGeorg tunnel.jsp and tunnel.jspx were staged alongside for SOCKS5 tunneling through HTTP/HTTPS. On Linux, MeshAgent was dropped to /tmp (meshagent, meshagent.msh, meshagent.db) under the PeopleSoft service account; September 2026 intrusions pivoted to winmanage-me[.]network on 104.219.234[.]138.
+
+- Scope and impact are serious. A quarter of observed post-exploitation commands ran as root or NT AUTHORITY\SYSTEM. The rest ran as PeopleSoft or WebLogic service accounts, still enough to reach database connection strings, HR and payroll tables, and student records. UNC6240 has an established extortion pattern: steal data, threaten public release. Affected sectors include higher education, healthcare, government, technology, agriculture, and transportation globally.
+
+Practitioner takeaway: If you blocked /PSEMHUB/ at the WAF and considered it mitigated, assume that control has failed and treat unpatched hosts as potentially compromised. Hunt WebLogic access logs for /%50SEMHUB/ and all percent-encoded or mixed-case variants of that path, enforce blocking on the URL-normalized form. Scan PSEMHUB.war/ and PORTAL.war/ for x.jsp, u.jsp, u2.jsp, tunnel.jsp, tunnel.jspx, and Ple64.exe. Alert on cmd.exe or /bin/sh spawned by the WebLogic Java process, especially invoking base64 -d, tasklist, start /b, or curl. Check /tmp for meshagent binaries and review outbound TCP to ports 3333/3334 and rsync (TCP 873). Rotate all credentials reachable from the PeopleSoft tier. Google Security Operations customers: detection rules including "Oracle PeopleSoft Suspicious File Write to Web Application Archive Directory" are available or pending in the Mandiant Frontline Threats rule pack. Full IOC list is in the report for registered GTI users.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103636424004157635</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2103636424004157635">DFIR Radar</source>
+      <pubDate>Sat, 26 Sep 2026 00:03:02 +0000</pubDate>
+      <guid isPermaLink="false">2103636424004157635</guid>
+    </item>
     <item>
       <title>Parsers for Gmail, Outlook Safe Links, Social Media IDs added in Unfurl</title>
       <link>https://hindsig.ht/blog/unfurl-parses-gmail-safe-links-and-social-media-ids/</link>
@@ -1711,17 +1732,6 @@ Treat any lockfile pinning 0.2.21 as an IOC.
       <source url="https://x.com/DFIR_Radar/status/2102020907569230108">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 13:03:33 +0000</pubDate>
       <guid isPermaLink="false">2102020907569230108</guid>
-    </item>
-    <item>
-      <title>How Click2Shell Exploits WordPress Theme Installation for RCE</title>
-      <link>https://www.picussecurity.com/resource/blog/how-click2shell-exploits-wordpress-theme-installation-for-rce</link>
-      <description>Click2Shell chains a jQuery selector injection in WordPress theme preview links to force theme installation, then abuses the installed theme's insecure AJAX plugin installer in functions.php to execute attacker-controlled PHP.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102005584593629453</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102005584593629453">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 12:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2102005584593629453</guid>
     </item>
   </channel>
 </rss>
