@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 26 Sep 2026 01:03:11 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2026 08:02:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Infostealer Incursion: How Stolen Credentials Breach Cloud, Code, and AI Environments</title>
+      <link>https://www.wiz.io/blog/infostealer-incursion-cloud-ai-credentials</link>
+      <description>Infostealers targeting developer endpoints are the primary on-ramp to cloud, code, and AI environments. Lumma, RedLine, and Vidar account for 85.7% of detected incidents, and AWS credentials alone represent 46% of all compromised secrets harvested from infected machines.
+
+Key findings:
+
+- The infostealer supply chain is industrialized. Lumma C2, RedLine, and Vidar dominate MaaS platforms renting for a few hundred dollars a month. Stolen logs flow through Initial Access Brokers who validate credentials before selling verified access to ransomware operators. The window from a developer's phishing click to a live credential listing can be hours. Beyond passwords, NordStellar identified over 400 distinct non-credential secret types being harvested, including API keys, OAuth tokens, PATs, and active session cookies. GitHub credentials appear in roughly 50% of all infostealer families analyzed, ranking it the fourth most targeted secret type overall. AI platforms represent 5% of stolen secrets, led by OpenAI API keys, with Claude Code credentials now appearing in post-exploitation tooling like PEASS-ng (linPEAS/winPEAS) via sensitive_files.yaml.
+
+- The file paths targeted are hardcoded and predictable, which cuts both ways for defenders. On AWS: ~/.aws/credentials (long-term IAM Access Key ID and Secret Access Key), ~/.aws/sso/cache/ (OIDC tokens lasting up to 90 days, continuously mintable into fresh STS credentials), and ~/.aws/cli/cache/ (short-lived STS tokens, 1-12 hours). On Azure: %USERPROFILE%\.azure\accessTokens.json (raw plaintext access tokens and long-lived refresh tokens), %USERPROFILE%\.azure\msal_token_cache.* (MSAL session data), and %localappdata%\.IdentityService\msal.cache or msalv2.cache (Entra ID tokens with Application Client IDs enabling app impersonation). Vidar 2.0 specifically enumerates %USERPROFILE%\.azuredirectory for Azure credential extraction. On GCP: ~/.config/gcloud/credentials.db and access_tokens.db (SQLite databases with OAuth 2.0 refresh tokens that do not auto-expire), and application_default_credentials.json. The TeamPCP LiteLLM supply chain infostealer had these exact GCP paths hardcoded.
+
+- Session token theft is the preferred MFA bypass, and browser stores are the primary collection point. Infostealers extract cookies from on-disk browser caches or directly from browser process memory via code injection or debug API attachment. For GitHub, the cookies user_session, __Host-user_session_same_site, and _gh_sess grant full account access and bypass MFA entirely. For GitLab, the _gitlab_session cookie serves the same purpose. ChatGPT sessions are hijacked via the __Secure-next-auth.session-token cookie, exposing chat history that frequently contains proprietary code and internal business data. Ghost Loader specifically pulls ~/.ssh/id_rsa for long-term GitHub access. GitLab Runner config.toml files (containing glrt- prefixed tokens) let attackers register rogue CI/CD runners and intercept pipeline secrets. For Claude Code on Linux, ~/.claude/.credentials.json (mode 0600) stores portable OAuth refresh tokens: copying that file to another machine grants immediate access and the ability to invoke configured MCP servers.
+
+- CI/CD pipelines are now a direct infostealer target without phishing. Miasma-style malware compromises software dependencies and hijacks build processes, targeting CI tokens, cloud credentials, and deployment artifacts directly in pipeline execution environments rather than on developer workstations. CVE-2023-7028 in self-hosted GitLab instances was exploited to distribute StealC via the Amadey loader, harvesting browser credentials and session cookies at scale.
+
+- DFIR takeaway: When responding to a suspected infostealer incident on a developer endpoint, your first priority is revoking the long-lived tokens before hunting the malware. The AWS SSO OIDC tokens in ~/.aws/sso/cache/ and GCP OAuth refresh tokens in credentials.db can remain valid for 90 days or indefinitely unless explicitly revoked. Start there, then pull accessTokens.json and the MSAL caches on Azure. For GitHub and GitLab, check for rogue runners registered after the infection window and audit CI/CD variable access logs. Hunt browser process memory access anomalies (child processes or unexpected processes calling browser debug APIs) and scan for vbc.exe abuse or trojanized executables (Roblox.exe, ValorantSkinChanger.exe) as execution lures. The full file path appendix for all targeted secrets across AWS, Azure, GCP, GitHub, GitLab, OpenAI, and Claude Code is in the Wiz report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104119455508840650</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2104119455508840650">DFIR Radar</source>
+      <pubDate>Sun, 27 Sep 2026 08:02:26 +0000</pubDate>
+      <guid isPermaLink="false">2104119455508840650</guid>
+    </item>
     <item>
       <title>Zero-Click Vulnerabilities in Salesforce Agentforce Expose Wider AI Agent Risk</title>
       <link>https://www.infosecurity-magazine.com/news/vulnerabilities-salesforce-ai/</link>
@@ -1705,27 +1728,6 @@ Detection pivot: static string-based YARA will miss per-build variants.
       <source url="https://x.com/DFIR_Radar/status/2102051191580692753">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 15:03:53 +0000</pubDate>
       <guid isPermaLink="false">2102051191580692753</guid>
-    </item>
-    <item>
-      <title>Attackers Abuse npm Trusted Publishing in GHAPPIER Campaign</title>
-      <link>https://www.infosecurity-magazine.com/news/attackers-abuse-npm-trusted/</link>
-      <description>Supply chain attack on npm abused trusted publishing to ship GHAPPIER, a 4-stage loader with a self-deleting remote shell, inside a signed package with valid Sigstore provenance.
-
-- The attacker controlled the @dforge-core/dforge-mcp maintainer account for 105 minutes on September 9, pushing versions 0.2.20 (failed) and 0.2.21 (successful, live for 35 minutes 38 seconds). CloudSEK suspects initial access came via a malicious extension or package on a developer machine, consistent with PolinRider's documented credential harvesting. Every action used a stolen key; nothing was exploited in GitHub or npm.
-
-- GHAPPIER is a single-line loader buried in a 99KB file. It triggers on MCP server launch, not on install, meaning systems that installed 0.2.21 but never started the server did not execute the chain. The final stage is a general-purpose remote shell that deletes itself from disk while running, leaving no persistent implant to find.
-
-- Provenance is the forensic trap here. The Sigstore attestation naming the attacker's commit is still in the public log and passes npm audit signatures. Valid provenance does not mean honest source; push access equaled publish access under OIDC trusted publishing.
-
-- A second payload in another victim's repo exactly matched PolinRider, a campaign tracked since March 2026 that reads C2 config from an empty Ethereum transaction (~$0.20), leaving no domain to seize or block.
-
-Treat any lockfile pinning 0.2.21 as an IOC.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102035840289415580</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102035840289415580">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 14:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2102035840289415580</guid>
     </item>
   </channel>
 </rss>
