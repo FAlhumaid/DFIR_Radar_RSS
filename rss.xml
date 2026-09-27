@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 27 Sep 2026 08:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2026 18:02:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Introducing ADE-Skills — Adversarial Detection Engineering Knowledge Base</title>
+      <link>https://detect.fyi/introducing-ade-skills-adversarial-detection-engineering-knowledge-base-397a8910c982?source=rss----d5fd8f494f6a---4</link>
+      <description>ADE-Skills launches as a public knowledge base for adversarial detection engineering, cataloging 37 technique files and nearly 600 candidate bypass findings across Elastic, Microsoft Sentinel, and Sigma rulesets.
+
+Key details:
+
+- The core of the repo is a four-category taxonomy of detection-logic failure modes: ADE1 covers reformatting in actions (NTFS 8.3 short names, PowerShell tick-escaping, environment-variable splicing), ADE2 covers omitted equivalence-class members (certutil -verifyctl/-decode/-URL while only -urlcache is watched, pwsh.exe while only powershell.exe is listed), ADE3 covers context manipulation (process-name cloning, activity spreading across entities, correlation-window timing, parent-process spoofing), and ADE4 covers Boolean and field-logic errors including negated filters that reference fields absent from a customer's telemetry, which can silently swallow true positives or disable themselves depending on how the backend evaluates a missing field.
+
+- Each of the 37 technique files follows a fixed structure: summary, ADE classification, the technique, a vulnerable rule, a hardened rule, detection layers that survive the bypass, implementation nuances, and references. A good number are anchored to named vendor rules, giving practitioners a direct line from the abstract gap to a concrete rule they may already be running.
+
+- Platform-specific bug-pattern catalogs cover Elastic Security, Microsoft Sentinel, and Sigma. Highlighted assumptions that quietly fail include Windows 4688 command-line auditing being off by default and script block logging disappearing after a PowerShell v2 downgrade, both of which can make a rule receive no data at all rather than fire incorrectly.
+
+- The findings catalog contains 593 candidate bypass findings machine-extracted from public rulesets and mapped to the taxonomy with affected fields, the gap, and a suggested fix. The false-negative checklist provides four lenses: does the rule receive the data it needs, does it hinge on a threshold a slower technique avoids, does it cover only one binary or version when others are in scope, and is it tuned against a baseline that does not match the environment.
+
+Practitioner takeaway: pull a rule you own, identify every member of its equivalence class (LOLBin aliases, alternate flags, short-name paths), confirm the required telemetry is actually enabled on the hosts that matter, and check any negated filters against fields your SIEM actually populates. The ADE-Skills repo at github[.]com/Adversarial-Detection-Engineering/adeskills ships MIT-licensed with the full taxonomy, worked technique files, the findings catalog, and Redamon scoping tooling. The findings catalog and hardened-rule examples are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104270484145655840</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2104270484145655840">DFIR Radar</source>
+      <pubDate>Sun, 27 Sep 2026 18:02:34 +0000</pubDate>
+      <guid isPermaLink="false">2104270484145655840</guid>
+    </item>
     <item>
       <title>The Infostealer Incursion: How Stolen Credentials Breach Cloud, Code, and AI Environments</title>
       <link>https://www.wiz.io/blog/infostealer-incursion-cloud-ai-credentials</link>
@@ -1705,29 +1728,6 @@ Patch CVE-2026-66804 immediately.
       <source url="https://x.com/DFIR_Radar/status/2102066236880494701">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 16:03:40 +0000</pubDate>
       <guid isPermaLink="false">2102066236880494701</guid>
-    </item>
-    <item>
-      <title>Vidar Adds Virtual Machine and Custom Stream Ciphers For String Obfuscation</title>
-      <link>https://www.zscaler.com/blogs/security-research/vidar-adds-virtual-machine-and-custom-stream-ciphers-string-obfuscation</link>
-      <description>Vidar infostealer upgraded from XOR to a per-build custom VM plus stream cipher between May and September 2026, deliberately breaking static signatures with every new sample.
-
-Key findings:
-
-- Starting with internal version 2.0 in June 2026, Vidar replaced ChaCha20 with a lightweight bytecode interpreter running a 256-entry dispatch table and 14 opcode handlers (XOR, add, subtract, rotate, NOT, multiply, sbox lookup). Crucially, opcodes, constants, and the 4-byte XOR seed change per build, so a signature written against one sample breaks on the next.
-
-- The VM serves two roles: direct string deobfuscation, or decrypting the key and nonce fed into a secondary custom stream cipher. From v2.2 onward the cipher uses ARX transformations seeded with FNV-1a prime 0x01000193 and golden-ratio constant 0x9E3779B9, with unique operation sequences per build.
-
-- Decrypted strings confirm full infostealer capability: browser credential harvesting, HWID generation failure strings, HTTP Accept headers for C2 comms, and wallet/plugin grab statistics (e.g. "browsers: %d (%d rules), wallets: %d").
-
-- Four confirmed sample hashes span the v2.0-to-v3.4 arc: v2.0 1628bb03db87f67661349e169d73ee14ed490bd, v2.5 625a381981fc2d4c25c981d98b1d66bb2cf5da2d, v3.1 2d43d592630ad1e012da63ef7279f95dd4a8e949, v3.4 979048a749d8f28d877c7068b1b336ecd1e34986.
-
-Detection pivot: static string-based YARA will miss per-build variants.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102051191580692753</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2102051191580692753">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 15:03:53 +0000</pubDate>
-      <guid isPermaLink="false">2102051191580692753</guid>
     </item>
   </channel>
 </rss>
