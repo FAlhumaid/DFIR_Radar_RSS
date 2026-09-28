@@ -5,8 +5,29 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2026 16:03:20 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 17:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NeedyMantis: Unpacking a post-compromise malware family used in targeted operations</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/09/28/needymantis-unpacking-a-post-compromise-malware-family-used-in-targeted-operations/</link>
+      <description>NeedyMantis is a modular, post-compromise C++ and shellcode framework linked to Chinese 🇨🇳 threat actors, hitting telecoms, universities, and government contractors since at least October 2025.
+
+- Storm-3069 is the named operator Microsoft associates with NeedyMantis, tied to the DAEMON Tools supply chain compromise previously reported by Kaspersky. Microsoft has not attributed Storm-3069 to a Chinese 🇨🇳 nation-state but notes all observed activity aligns with Chinese 🇨🇳 interests and selective deployment patterns. Additional NeedyMantis activity beyond Storm-3069 suggests more than one operator may have access to the framework.
+
+- The delivery chain starts with DLL sideloading: a malicious first-stage loader masquerades as a legitimate DLL (WinSparkle.dll, libcurl.dll, vim64.dll, dbghelp.dll, jli.dll, nvml.dll) dropped alongside real software such as Poedit, curl, Vim, or TightVNC. The archive holding the payloads uses a custom XOR-encoded, RtlDecompressBuffer-compressed file format with per-sample offsets and keys. One observed incident used Impacket to copy the malicious bundle from a network share and execute it on a target host. The first-stage loader SHA-256 is e842dd7642c8e04b5ec20b6393848a9c904e4832930950c16664fe7800ba382e, and the WinSparkle archive is 9cb68f986043a576e19d32184c583b7d8f571c7219d8dc0065dced1c13f077ef.
+
+- A file named encryptbase64.ps1 (actually x64 shellcode despite the extension) serves as the second-stage loader, decoding an embedded payload using ROR-based API hashing with rotation value 11. The main component loads configuration from a file named dnsapi.dll (not the real Windows DLL) and the communications module from ws2_32.dll (also fake). C2 is corp.tripswithengine[.]com on port 443 via URI /library/zip/. The initial beacon is an HTTPS GET where system information (hostname, username, process list, ProgramFiles contents) is Base64 and RtlCompressBuffer-encoded into a Set-Cookie header. The session upgrades to WebSockets, then a binary protocol with RC4 encryption keyed from a 1024-byte random buffer exchanged at handshake. The hard-coded user-agent is firefox/21.0, a reliable hunt anchor.
+
+- The main component creates a mutex formatted as username-processname (e.g., Contoso-Poedit.exe) and supports dynamic module loading and unloading via commands 1020 and 1030, making the full capability set unknown until modules are recovered from operator infrastructure. Config, communications, and shellcode loader are all stored inside the custom archive as files with spoofed Windows system DLL names.
+
+Hunt priority: query for the spoofed DLL paths (WinSparkle.dll in Poedit dirs, libcurl.dll under ProgramData\USOShared, vim64.dll under ProgramData\VIM or TightVNC\VIM, dbghelp.dll under ProgramData\office or broadcom, jli.dll under ProgramData\Intel, nvml.dll under ProgramFiles\modifiable or ProgramData\ics), outbound connections or any log entries referencing corp.tripswithengine[.]com, and user-agent string firefox/21.0 in proxy and firewall logs. The mutex pattern username-processname is a host-based artifact worth sweeping for. Microsoft's report includes KQL hunting queries for Defender XDR and Sentinel, plus the full IOC table and Microsoft Defender Antivirus detections (TrojanDropper:Win64/NeedyMantis, Behavior:Win64/NeedyMantis).
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104617980101574843</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2104617980101574843">DFIR Radar</source>
+      <pubDate>Mon, 28 Sep 2026 17:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2104617980101574843</guid>
+    </item>
     <item>
       <title>Quarantined isn't contained: Agentic phishing response with Elastic and Sublime</title>
       <link>https://www.elastic.co/security-labs/blog/phishing-incident-response-sublime-security</link>
@@ -1737,27 +1758,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2102201965769900058">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 01:03:01 +0000</pubDate>
       <guid isPermaLink="false">2102201965769900058</guid>
-    </item>
-    <item>
-      <title>WaterPlum Hackers Steal $10.7M in Crypto From IT Workers</title>
-      <link>https://thecyberexpress.com/waterplum-cyber-group-targets-it-professionals/</link>
-      <description>North Korean 🇰🇵 WaterPlum group infected 30,000+ devices across 100+ countries via fake job interviews, stealing $10.7M in crypto from IT workers between Dec 2025 and Jul 2026.
-
-Key details:
-
-- WaterPlum (aka "Contagious Interview") operates under North Korea 🇰🇵's 313 General Bureau. Actors pose as AI, crypto, or NFT recruiters, instructing victims to download malicious npm packages during fake technical interviews. Payloads include BeaverTail, InvisibleFerret, OtterCookie, OtterCandy, and StoatWaffle, delivered via coding assignments or "fix this error" video call scenarios.
-
-- Once installed, the malware establishes RAT persistence while infostealers exfiltrate crypto wallet credentials, browser passwords, clipboard contents, keystrokes, and ID documents to C2 infrastructure. Over 7,000 wallets were compromised in the campaign window.
-
-- A joint advisory (Sep 18, 2026) from the US 🇺🇸 FBI, Japan 🇯🇵 NPA, Australia 🇦🇺's ASD, and Germany 🇩🇪's BfV confirmed overlapping IP addresses across laptop farms, job platforms, and applications, indicating shared coordinated infrastructure between WaterPlum and broader North Korean 🇰🇵 IT worker operations.
-
-Practitioner takeaway: Hunt for npm package execution spawning unexpected child processes, especially on developer endpoints. Forensic triage should prioritize clipboard history, browser credential stores, and wallet config files.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102186814064955452</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102186814064955452">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 00:02:48 +0000</pubDate>
-      <guid isPermaLink="false">2102186814064955452</guid>
     </item>
   </channel>
 </rss>
