@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2026 13:02:51 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 14:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Storm-3168, Linked to JADEPUFFER, Abused Stolen Azure Identities</title>
+      <link>https://securityaffairs.com/199905/cyber-crime/storm-3168-linked-to-jadepuffer-abused-stolen-azure-identities.html</link>
+      <description>Storm-3168, tracked by Sysdig as JADEPUFFER, used two stolen Azure service principals to destroy over 100 storage accounts in seven minutes and harvest keys, in what Sysdig called the first documented agentic ransomware operation.
+
+Key findings:
+
+- The initial access vector is the headline forensic lesson. Credentials (client ID, client secret, and tenant ID) for one of the compromised service principals were posted in plaintext in a public GitHub issue by an employee of the victim organization. The issue was later edited to remove the secret, but GitHub preserves the full edit history, leaving the credentials accessible. Microsoft explicitly could not confirm this was the route used, but the warning is unambiguous: removing a post does not invalidate the credential. Defenders should treat any secret visible in public edit history as fully compromised and requiring immediate revocation, not just redaction.
+
+- The attack split work across two service principals from the same tenant to separate reconnaissance from destruction. The first identity spent 15 hours 30 minutes completing more than 300 read operations. Ninety minutes later, the second enumerated the same environment across two subscriptions in five seconds. Both used the same Storm-3168 infrastructure, the same network fingerprint, and the user agent python-requests/2.34.2, a consistent behavioral signature across the operation. Overlapping token streams and precise inter-operation timing point to fully scripted or automated execution.
+
+- The destructive phase lasted approximately seven minutes inside a 35-minute window of more than 150 destructive and credential-related operations. The second identity attempted deletion of over 100 storage accounts, a Key Vault, a Function App, and an App Service plan. It also targeted Azure Site Recovery and Azure Backup protection locks, and prioritized storage accounts with names referencing Terraform and backups, signaling deliberate recovery interference. Azure resource locks and deletion protection stopped several deletions, demonstrating that independent controls survive even broad Contributor-level compromise.
+
+- Thirty minutes after the last deletion, the identity returned for keys. More than 30 successful ListKeys requests followed, including against Azure Site Recovery-linked accounts. One storage account in the same resource group as the deleted Key Vault was deliberately spared during destruction, then hit with a successful key request afterward, suggesting staged data theft preparation rather than pure destruction.
+
+- The three IP addresses linked to Storm-3168 probing and malicious requests are 45.131.66[.]106, 34.153.223[.]102, and 64.20.53[.]230. Separate scanning from the same infrastructure targeted Azure App Services across different customers, hitting WordPress admin paths, PHP-CGI, and the LangFlow code validation endpoint at /api/v1/validate/code. None of those probes reached the affected subscriptions.
+
+Hunt your Azure Activity Logs for ListKeys operations on storage accounts following resource deletion events, especially within the same resource group and within 30 minutes of destructive activity. Flag any service principal using python-requests/2.34.2 making bulk read operations. Audit service principal permissions for overly broad Storage Account Contributor or Contributor roles and cross-reference against GitHub, public issue trackers, and repository histories for exposed client secrets. Full IOC details and Microsoft's defensive guidance are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104572540534260063</description>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2104572540534260063">DFIR Radar</source>
+      <pubDate>Mon, 28 Sep 2026 14:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2104572540534260063</guid>
+    </item>
     <item>
       <title>ShinyHunters Breached the FBI by Bypassing the Fix by Lucie Cardiet</title>
       <link>https://www.vectra.ai/blog/shinyhunters-breached-the-fbi-by-bypassing-the-fix</link>
@@ -1727,25 +1752,6 @@ Practitioner takeaway: Hunt for npm package execution spawning unexpected child 
       <source url="https://x.com/DFIR_Radar/status/2102171724905402766">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 23:02:50 +0000</pubDate>
       <guid isPermaLink="false">2102171724905402766</guid>
-    </item>
-    <item>
-      <title>Mind the (Patch) Gap, Part 2: Fake Websites Used to Deploy Chrome &amp; Windows 0-Day Exploits</title>
-      <link>https://www.volexity.com/blog/2026/09/21/mind-the-patch-gap-part-2-fake-websites-used-to-deploy-chrome-windows-0-day-exploits/</link>
-      <description>Chinese 🇨🇳 APT UTA0565 weaponized three chained zero-days (CVE-2026-85046, CVE-2026-87491, CVE-2026-85880) via typosquatted sites days before patches existed, dropping a new backdoor tracked as CLEANGULP.
-
-- UTA0565 ran campaigns on Sept 3-4, 2026 using the same Chrome renderer and Windows LPE exploit chain documented against two other Chinese 🇨🇳 APT groups. Lures included a Hong Kong activist appeal targeting Asian government entities and a spoofed Center for American 🇺🇸 Progress email. Spoofed domains: chinadigitaltimes[.]top and americanprgoress[.]top loaded exploit logic silently via a hidden iframe pointing to config.html.
-
-- The final payload, chrome_cleanup.exe (SHA256: 8858ea412dc306b3558885af18006c5ca24689e8875733b5e13b3c2692e603cb), is CLEANGULP: a C-based backdoor obfuscated with control flow flattening. It installs to %LOCALAPPDATA%\Microsoft\IME\MicrosoftIME.exe and persists via a scheduled task named "MicrosoftIME" (T1053.005).
-
-- CLEANGULP beacons via HTTP POST to thecovnresation[.]com at /beacon/pre-register with AES-256-GCM encrypted, Base64-encoded bodies using a custom alphabet. The AES key is the SHA256 of that alphabet: cbeeb7dd5e89261cde032825fd10bb80bad2e3fbf5b91fdc9137ad463ffa8f21. Supported commands include shell, upload, download, and BOF execution.
-
-Hunt for MicrosoftIME.exe under %LOCALAPPDATA%\Microsoft\IME\, the "MicrosoftIME" scheduled task, and HTTP POSTs to /beacon/pre-register.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102156707975811547</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102156707975811547">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 22:03:10 +0000</pubDate>
-      <guid isPermaLink="false">2102156707975811547</guid>
     </item>
   </channel>
 </rss>
