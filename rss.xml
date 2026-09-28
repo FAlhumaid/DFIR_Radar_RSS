@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2026 08:03:01 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 10:03:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>16,415 Stolen Passwords, One Open Door: How Blackhatsect0r &amp; DXQRTXX Exposed Themselves</title>
+      <link>https://threatmon.io/16415-stolen-passwords-one-open-door-how-blackhatsect0r-dxqrtxx-exposed-themselves/</link>
+      <description>A threat actor crew exposed their own live operational server through the same HTTP misconfiguration they had mocked victims for, handing researchers a full view of 16,415 stolen credentials, custom C2 source code, and months of internal chat logs.
+
+Key findings:
+
+- ThreatMon discovered a publicly reachable server belonging to the Blackhatsect0r / DXQRTXX crew, active May to August 2026, left open via unauthenticated directory listing. The exposure handed researchers the complete workshop: GHOST C2 v6.0, a roughly 13,000-line Go-based command-and-control framework with modules for scanning, credential extraction, exploitation, and reverse-shell handling, alongside a 17,826-line Python Discovery Engine that queries Certificate Transparency logs and brute-forces subdomains every two minutes against a queue built to hold over one million targets. SQLite databases held 16,415 credential records covering database dumps, SMTP accounts, AWS access keys, GitHub tokens, and API keys, plus a target list of roughly 498,000 URLs including 449 French 🇫🇷 government subdomains.
+
+- Two targeted operations showed sustained manual tradecraft layered on top of automated scanning. Against ANTAI, France 🇫🇷's traffic-fine payment portal, the crew reverse-engineered the Angular JavaScript bundle and pulled three hardcoded cryptographic constants: an AES IV, a PBKDF2 salt, and a passphrase (troiscitronbosechatjouerbelierlawingssourisfermentpoids), then used ghost_token_forger.py to mint valid authentication tokens without credentials. They followed up with JWT algorithm confusion testing (none, HS256, HS384), HTTP request smuggling against an F5 BIG-IP at 90.102.74[.]9, and WAF bypass via X-HTTP-Method-Override headers against the Worldline perimeter.
+
+- Against Coinstable.io, GHOST C2 found an exposed .env file containing a JWT signing secret literally set to the string "secret". The script coinstable_admin.py forged an administrator token with is_admin, can_withdraw, and 2fa_verified all set to true, then enumerated the full user list via admin API a thousand accounts at a time. coinstable_drain.py queried BTC, LTC, USDT, ETH, DOGE, and MATIC balances directly against the backend at 212.27.13[.]112 and staged withdrawals to attacker-controlled wallets, with a third script attempting weak confirmation codes (000000, 123456, 111111) before hunting undocumented endpoints.
+
+- The crew operated a public Telegram channel (649 subscribers) under the identity DXQ SQUAD, including associated handles ElPr0fessor999, KushSEC, and Whitwhy Dx. The channel evolved from database leak announcements to distributing offensive tooling, including a 62MB Cobalt Strike package, with a follower poll in August choosing tools over stolen data by a clear margin. On July 28 DXQRTXX posted an OPSEC warning to the channel; the server containing their credential vault and source code was open the entire time.
+
+DFIR takeaway: the two exploitation chains here leave examinable artifacts defenders can hunt for now. Frontend JavaScript bundles shipping cryptographic constants or passphrases are scanner-visible from the outside; internally, check application deployments for secrets committed to client-side code using static analysis against build artifacts. For the .env exposure pattern, review web server access logs for requests to /.env, /.env.local, and similar paths, these show as GET 200 responses and are a strong indicator of active reconnaissance or exfiltration. JWT abuse leaves a fingerprint in application logs: look for tokens with alg:none or unexpected algorithm values, and admin-scoped claims appearing on accounts that never completed normal auth flows. The ANTAI WAF bypass via X-HTTP-Method-Override is worth adding to detection rules if your stack honors that header. Full IOC list and operational detail are in the ThreatMon report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104512247015837986</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2104512247015837986">DFIR Radar</source>
+      <pubDate>Mon, 28 Sep 2026 10:03:15 +0000</pubDate>
+      <guid isPermaLink="false">2104512247015837986</guid>
+    </item>
     <item>
       <title>Citrix NetScaler Zero-Days FAQ: CVE-2026-88771 &amp; 88772</title>
       <link>https://socradar.io/blog/citrix-netscaler-cve-2026-88771-88772/</link>
@@ -1713,29 +1736,6 @@ Hunt for node.exe making outbound JSON-RPC calls to Polygon RPC endpoints follow
       <source url="https://x.com/DFIR_Radar/status/2102111457135468696">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 19:03:22 +0000</pubDate>
       <guid isPermaLink="false">2102111457135468696</guid>
-    </item>
-    <item>
-      <title>Windows Exploitation Techniques: Dangling COM Object Registrations</title>
-      <link>https://projectzero.google/2026/09/windows-dangling-com.html</link>
-      <description>CVE-2026-66804 is an incomplete fix for the "Dark Elevator" LPE bug, abusing a dangling COM registration for CrossDevice to plant a DLL and achieve SYSTEM via a mis-configured Shell Create Object Handler service.
-
-Key findings:
-
-- The root cause is a stale CLSID {E9F83CF2-E0C0-4CA7-AF01-E90C70BEF496} registered system-wide pointing to %PROGRAMDATA%\CrossDevice\CrossDevice.Streaming.Source.dll, a path that does not exist but sits in C:\ProgramData, which any user can write to. Planting the DLL there is the primitive.
-
-- Execution into a privileged process abuses custom COM marshaling (T1559.001). A fake IMarshal implementation returns the dangling CLSID, and that Custom OBJREF is sent to the Shell Create Object Handler (CLSID 135fd325-45b7-4c30-89f8-4386961669f0), a dllhost running as NT AUTHORITY\SYSTEM with CustomMarshalAllowed: True.
-
-- The target service is not auto-started; an attacker first triggers the \Microsoft\Windows\Shell\CreateObjectTask scheduled task (accessible to normal users) and creates the global event ShellCreateObjectTaskReadyEvent to keep it alive, then calls ICreateObject::Proc3 passing the fake marshaled object to trigger unconditional unmarshaling and DLL load.
-
-- A PowerShell hunting script using OleViewDotNet can enumerate all in-process COM classes from the machine hive where LoadLibrary fails, surfacing other dangling registrations beyond CrossDevice.
-
-Patch CVE-2026-66804 immediately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102096338661888100</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2102096338661888100">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 18:03:17 +0000</pubDate>
-      <guid isPermaLink="false">2102096338661888100</guid>
     </item>
   </channel>
 </rss>
