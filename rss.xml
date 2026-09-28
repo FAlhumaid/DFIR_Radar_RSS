@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2026 01:01:52 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 08:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Citrix NetScaler Zero-Days FAQ: CVE-2026-88771 &amp; 88772</title>
+      <link>https://socradar.io/blog/citrix-netscaler-cve-2026-88771-88772/</link>
+      <description>Two critical NetScaler zero-days, CVE-2026-88771 and CVE-2026-88772 (both CVSS v4.0 9.5), are actively exploited globally. CISA added both to KEV on Sept 27 with a Sept 30 remediation deadline for federal agencies.
+
+Key details:
+
+- CVE-2026-88771 is an improper input validation flaw (CWE-20) enabling unauthenticated remote command execution on any affected NetScaler ADC or Gateway build, no special configuration required. CVE-2026-88772 is a memory overflow (CWE-119, CWE classification) that enables RCE or DoS when DTLS is enabled, and Citrix notes DTLS is on by default for VPN virtual servers. Both carry CVSS v4.0 scores of 9.5 and were exploited before public patches existed. No public PoC has been independently verified, but real-world exploitation is confirmed by Citrix and CISA. No attribution to a specific actor has been established.
+
+- Fixed builds per Citrix CTX697096: NetScaler ADC/Gateway 14.1 needs 14.1-73.37 or later; 13.1 needs 13.1-64.23 or later; 14.1-FIPS needs 14.1-73.37 FIPS or later; 13.1-FIPS/NDcPP needs 13.1-37.279 or later. A recent patch cycle does not guarantee protection; the exact running build must be verified. Secure Private Access Hybrid deployments using customer-managed NetScaler instances are also in scope. Citrix-managed cloud services are handled by Cloud Software Group.
+
+- The DFIR posture shift here is critical: patching closes the hole but does not answer whether the appliance was already compromised during the zero-day window. CISA explicitly warns that applying updates can reduce forensic visibility. The Dutch 🇳🇱 NCSC has advised preserving logging and memory evidence before remediation on exposed systems. For suspected-compromised appliances, Citrix's own guidance recommends generating a Packet Engine core file before upgrading (note: triggers a warm restart).
+
+- Evidence to preserve before disruptive changes includes: local and remotely forwarded NetScaler syslog, NetScaler Console data, SIEM and perimeter telemetry, VPN and authentication logs, appliance configuration, VM snapshots for VPX deployments, technical support bundles, and network connections to systems behind the appliance. Document system time, timezone, and NTP settings before isolation. NetScaler Console's File Integrity Monitoring can flag modified or newly added files, though Citrix cautions it does not catch every technique.
+
+- Citrix has made IOCs available through NetScaler Console's IoC detection feature, which can run compromise-detection scans against managed appliances. Citrix explicitly warns these IOCs do not cover every TTP or attacker infrastructure component. A clean scan is not proof of no compromise. Organizations with reasonable suspicion of compromise should pursue broader forensic investigation beyond a single indicator scan.
+
+Practitioner takeaway: Do not treat this as patch-and-close. Inventory every customer-managed NetScaler ADC and Gateway instance, verify the exact running build against CTX697096, and determine whether the appliance was internet-facing while vulnerable. If it was, run a compromise assessment: pull NetScaler Console IOC scans, review File Integrity Monitoring output, examine authentication and VPN logs for anomalous sessions, and check outbound connections from the appliance to unexpected destinations. Where compromise is suspected, preserve the Packet Engine core file and VM snapshot first, then isolate, revoke exposed credentials and secrets, and rebuild from known-good state. Disabling DTLS reduces the CVE-2026-88772 attack surface but leaves CVE-2026-88771 fully exploitable. IOCs are available via NetScaler Console for managed appliances.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104481993064861939</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2104481993064861939">DFIR Radar</source>
+      <pubDate>Mon, 28 Sep 2026 08:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2104481993064861939</guid>
+    </item>
     <item>
       <title>Active Exploitation of Check Point Security Gateway and Security Management Vulnerabilities</title>
       <link>https://www.truesec.com/hub/blog/check-point-security-gateway-security-management-cve-2026-85102-cve-2026-93616</link>
@@ -1711,23 +1736,6 @@ Patch CVE-2026-66804 immediately.
       <source url="https://x.com/DFIR_Radar/status/2102096338661888100">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 18:03:17 +0000</pubDate>
       <guid isPermaLink="false">2102096338661888100</guid>
-    </item>
-    <item>
-      <title>Analyse de l’attaque de la supply chain TanStack</title>
-      <link>https://crowdsec.net/blog/tanstack-supply-chain-attaque-analyse</link>
-      <description>CrowdSec's private source code leaked after threat actor TeamPCP backdoored 42 TanStack/NPM packages with the Shai Hulud credential-stealer, pivoting through a former employee's GitHub token to clone ~170 private repos.
-
-- TeamPCP (UNC6780) compromised TanStack on May 11, 2026, injecting the Shai Hulud backdoor into 42 NPM packages targeting credentials and tokens. A former CrowdSec developer, still in the GitHub org to finish a project, installed a backdoored TanStack package. Shai Hulud harvested a valid GitHub OAuth token (gho_ prefix), which was used May 22 between 05:52-06:01 UTC from a Toronto IP to clone ~170 private repos. The token had no audit trail in GitHub org logs because CrowdSec lacked an Enterprise plan, the only tier retaining Git activity beyond 7 days.
-
-- The one live credential in the dump was an AWS SNS token (assertible-zapier-sns-sender), probed Aug 17 from 23.234.84[.]102 via GetCallerIdentity and ListTopics. Strict scoping meant it could only publish to one SNS topic; the attacker hit a dead end. No infra, database, CI/CD pipeline, or open-source code was modified.
-
-- DFIR complexity: the OAuth token was created, used, and expired before CrowdSec knew of the breach. GitHub support was essential, providing Git activity within the 2-hour dump window tied to the ex-employee's account, confirming the supply chain vector and ruling out insider threat.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102081364493210048</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102081364493210048">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 17:03:47 +0000</pubDate>
-      <guid isPermaLink="false">2102081364493210048</guid>
     </item>
   </channel>
 </rss>
