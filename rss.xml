@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2026 19:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 20:02:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detections Digest #20260928</title>
+      <link>https://detections-digest.rulecheck.io/p/detections-digest-20260928</link>
+      <description>Weekly detection engineering roundup: 80 new rules and 43 updates across 11 repositories cover RMM abuse, LSASS dumping, email evasion, BYOVD, and Kubernetes container threats from Sep 21-28, 2026.
+
+Key findings this week:
+
+- RMM abuse detection expanded significantly via magicsword-io/LOLRMM and RussianPanda95/Yara-Rules, with 41 new rules covering process creation, file artifacts, registry persistence under Run keys and service installation paths, and outbound network connections for tools including Zecurit, Allocentra, OpenDesk, RMMCRAT, BlackCrypt, LightRmmAgent, and RemoteAgentAgent. A new YARA rule for RMMCRAT specifically targets PE headers combined with embedded RMMC and RMM Agent configuration strings. The generic DNS rule covering known RMM infrastructure was also refreshed with updated domain and IP indicators. Hunt for agent binaries in AppData, ProgramData, and Program Files alongside Run key writes and outbound DNS to unfamiliar cloud hosting endpoints.
+
+- LSASS and token access detections in splunk/security_content and SigmaHQ/sigma moved from static GrantedAccess string matching to bitwise evaluations against Sysmon Event ID 10 telemetry. This matters because minor mask variations broke prior rules. Updated rules now cover read permissions on lsass.exe, Winlogon duplicate handle access, WMI token impersonation via wmiprvse.exe, and injection into notepad.exe. The Dumpert LSASS dumper detection shifted to IMPHASH-based matching rather than MD5 or command-line paths, which are trivially modified. Cross-reference Sysmon Event ID 10 bitwise access masks with process lineage and file_path fields for Task Manager dump artifacts.
+
+- Email evasion coverage in sublime-security/sublime-rules received 12 new and 12 updated rules. New detections parse .ics calendar invites with oversized guest lists carrying voicemail, purchase order, missed call, and BEC lures, and decode hex-obfuscated recipient strings embedded in URL fragments and QR codes across PDF, ICS, and image attachments. Rules also flag Google Cloud Storage links to short HTML paths, newly registered domains on suspicious TLDs serving single-character HTML files, client-side JavaScript beaconing visitor tokens via dynamic Image objects, and Teams help desk impersonation correlated with mail bombing within a one-hour window. Updated rules unwrap Mimecast-protected links and refresh Spamhaus ASN-DROP coverage, removing prefixes tied to AS63023 and AS62563.
+
+- BYOVD and in-memory defense evasion coverage updated across magicsword-io/LOLDrivers, rabbitstack/fibratus, and kevoreilly/CAPEv2. LOLDrivers rules added MD5, SHA1, SHA256, and IMPHASH values alongside driver filenames in ImageLoaded telemetry to catch hypervisor-protected code integrity bypasses. Four Fibratus rules for process hollowing, ghostly hollowing, activation context manipulation, and NTDLL remapping via file mapping were updated for engine version 3.2.0, refining section type filters including IMAGE and IMAGE_NO_EXECUTE. A new YARA rule in CAPEv2 detects Defendnot, a tool that impairs Windows Defender, via PE magic bytes and characteristic debug strings.
+
+- Kubernetes container threat detection expanded through benscha/KQLAdvancedHunting with 13 new KQL rules querying CloudProcessEvents and CloudAuditEvents in Microsoft Defender XDR. Coverage includes reverse shells using network redirection, XMRig and Kinsing cryptominer execution, first-seen container binary baselining, container escape via nsenter, chroot, unshare, and socket interaction, service account token and ca.crt file reads, Kubernetes secret enumeration across namespaces, cluster-admin role binding creation, and deployment from unapproved registries. GitOps controllers ArgoCD and Flux are excluded to reduce noise. A new jkerai1 rule monitors AzureActivity for modifications to Azure public and private DNS zones, a low-visibility path adversaries use for traffic redirection.
+
+Practitioner takeaway: the shift from static hash and string matching to bitwise access mask evaluation in LSASS rules is the most operationally significant change this week, since it closes a known evasion gap. Prioritize pulling updated Sysmon Event ID 10 rules from splunk/security_content and SigmaHQ/sigma into your pipeline. For RMM hunting, stack process, file path, registry, and network rules together rather than running them in isolation: a single layer is easy to miss, four correlated layers is a detection story. Full rule sets, IOCs, and YARA content are available in the linked repositories.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104663154303328623</description>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2104663154303328623">DFIR Radar</source>
+      <pubDate>Mon, 28 Sep 2026 20:02:54 +0000</pubDate>
+      <guid isPermaLink="false">2104663154303328623</guid>
+    </item>
     <item>
       <title>CVE-2026-88771 and CVE-2026-88772: Critical Citrix NetScaler Zero-Days Exploited in the Wild</title>
       <link>https://socprime.com/blog/cve-2026-88771-and-cve-2026-88772-analysis/</link>
@@ -1747,17 +1772,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2102247518457438359">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 04:04:01 +0000</pubDate>
       <guid isPermaLink="false">2102247518457438359</guid>
-    </item>
-    <item>
-      <title>New Exvicy ClickFix Framework Built on Rival ErrTraffic's Code</title>
-      <link>https://www.infosecurity-magazine.com/news/exvicy-clickfix-framework/</link>
-      <description>Exvicy, a new ClickFix MaaS tied to a Russian-speaking actor, injects obfuscated JavaScript into compromised WordPress sites to run a fake Cloudflare Turnstile lure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102232053831938468</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102232053831938468">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 03:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2102232053831938468</guid>
     </item>
   </channel>
 </rss>
