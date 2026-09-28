@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2026 10:03:15 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 11:03:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Oh Look, The Foot Gun Went Off Again (Citrix NetScaler PreAuth Command Injection CVE-2026-88771)</title>
+      <link>https://labs.watchtowr.com/oh-look-the-foot-gun-went-off-again-citrix-netscaler-preauth-command-injection-cve-2026-88771/</link>
+      <description>CVE-2026-88771: Pre-auth command injection in Citrix NetScaler Gateway gives unauthenticated attackers root on the appliance, exploited as a zero-day before any patch existed. Part of an eight-CVE bulletin including a second zero-day (CVE-2026-88772).
+
+Key findings:
+
+- CVE-2026-88771 carries a CVSS 4.0 score of 9.5 Critical and was actively exploited in the wild before Citrix issued a fix. The root cause is in ns_monuploadd_err.pl, a Perl script that historically parsed Pitboss crash logs using a backtick shell pipeline (grep | sed | awk). Attacker-controlled text passed via the login field of POST /nf/auth/doAuthentication.do gets written to NetScaler logs verbatim, then later consumed by that script. Because the old code interpolated the unsanitized log value directly into a second backtick command executing find, semicolons in the attacker's input were treated as shell command separators, executing arbitrary code as root. The second zero-day, CVE-2026-88772 (CVSS 9.5), is a DTLS memory overflow affecting VPN virtual servers enabled by default.
+
+- The injection path is broad. Watchtowr's report confirms the vulnerable log sink is not limited to the authentication endpoint: failed logins, rate-limited requests, User-Agent headers, and other HTTP fields that land in logs can all carry the payload. The Citrix management interface is also in scope. A single unauthenticated POST with a crafted login parameter like "pitboss PPE unexpectedly died NSPPE;:id&gt;/var/tmp/watchTowr;# X" is sufficient to plant the payload in the log. Execution happens when ns_monuploadd_err.pl runs, which can take up to 24 hours under normal scheduling, though Watchtowr notes a technique to force immediate execution exists and is being withheld.
+
+- For forensic examination, look for suspicious entries in NetScaler's SSLVPN and AAATM log streams referencing "AAAD API: sending login req" or "process_kernel_socket: call to authenticate user" where the username field contains shell metacharacters (semicolons, backticks, pipes, redirection operators). The log format timestamps these with GMT and PPE identifier (e.g. 0-PPE-0). Any unexpected files in /var/tmp or /tmp, especially those owned by root and created in that timeframe, should be treated as command execution artifacts. Check /var/log and syslog-forwarded equivalents for the log entries shown in the report.
+
+- The fixed versions are NetScaler ADC and Gateway 14.1-73.37, 13.1-64.23, 14.1-FIPS 14.1-73.37, and 13.1-FIPS/NDcPP 13.1-37.279. The fix replaces the shell pipeline with safe Perl file I/O and a strict regex that captures only (NSPPE-\d{2}) and (\d+) from log lines, then passes find arguments as a list rather than a shell string, eliminating interpolation entirely. CVE-2026-88778 (CVSS 8.8) requires an additional step beyond patching: Enhanced ISN Generation must be explicitly enabled.
+
+Hunt priority: search NetScaler logs for login-field values containing semicolons, backticks, or redirection characters in SSLVPN Message and AAATM Message entries. Correlate creation timestamps of unexpected files under /var/tmp and /tmp against those log events. Given that exploitation predates the patch and Watchtowr describes APT-level interest, treat any unpatched appliance exposed to the internet as potentially already compromised and consider forensic imaging before upgrading.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104527372196466921</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2104527372196466921">DFIR Radar</source>
+      <pubDate>Mon, 28 Sep 2026 11:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2104527372196466921</guid>
+    </item>
     <item>
       <title>16,415 Stolen Passwords, One Open Door: How Blackhatsect0r &amp; DXQRTXX Exposed Themselves</title>
       <link>https://threatmon.io/16415-stolen-passwords-one-open-door-how-blackhatsect0r-dxqrtxx-exposed-themselves/</link>
@@ -1717,25 +1740,6 @@ Hunt for MicrosoftIME.exe under %LOCALAPPDATA%\Microsoft\IME\, the "MicrosoftIME
       <source url="https://x.com/DFIR_Radar/status/2102126562808332416">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 20:03:23 +0000</pubDate>
       <guid isPermaLink="false">2102126562808332416</guid>
-    </item>
-    <item>
-      <title>ChainScript: the RAT that hides its command server inside a blockchain contract</title>
-      <link>https://securityaffairs.com/199471/malware/chainscript-the-rat-that-hides-its-command-server-inside-a-blockchain-contract.html</link>
-      <description>ChainScript is a Node.js RAT that resolves its C2 address from a Polygon blockchain smart contract, making infrastructure takedown nearly useless. ClickFix lure, fake Spotify MSI, full shell access, no admin rights required.
-
-- Infection chain: victim pastes a ClickFix command, msiexec.exe fetches a fake Spotify installer, which drops a full Node.js runtime plus app\src\index.js into user-profile folders with Microsoft-sounding names. A hidden PowerShell script launches a VBScript, which starts node.exe. No elevation required, so UAC is never triggered. Process ancestry to hunt: msiexec spawning wscript, wscript spawning node.exe running app\src\index.js.
-
-- C2 discovery uses EtherHiding against Polygon contract 0xf9099d0d747368cce8C10226CC9AF2bFD4DDbCF4 (chain ID 137, function selector 0x4ab7874e). The agent sends an eth_call, ABI-decodes a ws:// or wss:// string, caches it five minutes, then opens a WebSocket. Blackpoint watched the contract serve two different C2 addresses 12 minutes apart, proving live rotation without touching the implant.
-
-- Capabilities: interactive shell, file read/write, desktop screenshots, payload delivery, crypto wallet enumeration, arbitrary JavaScript execution, and a self-destruct cleanup command. Variants impersonate Zoom Workplace and Microsoft Teams alongside Spotify.
-
-Hunt for node.exe making outbound JSON-RPC calls to Polygon RPC endpoints followed immediately by a WebSocket connection.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102111457135468696</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2102111457135468696">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 19:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2102111457135468696</guid>
     </item>
   </channel>
 </rss>
