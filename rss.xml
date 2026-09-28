@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 28 Sep 2026 12:02:17 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 13:02:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ShinyHunters Breached the FBI by Bypassing the Fix by Lucie Cardiet</title>
+      <link>https://www.vectra.ai/blog/shinyhunters-breached-the-fbi-by-bypassing-the-fix</link>
+      <description>ShinyHunters breached the FBI's jobs portal via an unpatched Oracle PeopleSoft flaw, bypassing a published firewall workaround to steal agent PII and pivot into AWS government cloud storage.
+
+Key findings:
+
+- CVE-2026-35273 is the Oracle PeopleSoft vulnerability at the center of this. Oracle patched it June 10, 2026, following Mandiant's report of zero-day exploitation against universities. Organizations that only applied the recommended firewall rule as a temporary control were not protected: by September, ShinyHunters had identified a single-character substitution in the web request that caused the firewall rule to miss the attack entirely while PeopleSoft processed it normally. The patch closed the hole; the workaround did not.
+
+- The attack chain here is meaningfully different from ShinyHunters' prior campaigns. Earlier operations, including the Anodot/Snowflake wave and related helpdesk social engineering runs, relied on stolen credentials, token theft from SaaS integration providers, or MFA reset abuse. The login succeeded and looked legitimate. The FBI breach required no password at all: exploitation of a publicly accessible web application established a foothold directly on the server, then pivoted into FBI-managed Amazon government cloud storage. If your detection logic is tuned for post-authentication anomalies, you are watching the wrong layer for this intrusion class.
+
+- Mandiant tracks this activity as UNC6240. ShinyHunters is the name on the leak site. Those are not interchangeable designations, and conflating them obscures which operators ran which campaigns and through which infrastructure. The report notes that when Scattered Spider, Lapsus$, and ShinyHunters announced they were going dark last September, the techniques and infrastructure did not follow. Operator branding changes; access methods persist.
+
+- Scope of the September wave is broader than the FBI headline. Mandiant observed compromised PeopleSoft systems across higher education, technology, healthcare, agriculture, transportation, and government organizations globally. The FBI case has press; the others are being worked through quietly. ShinyHunters claims 2 to 3 terabytes exfiltrated from the FBI portal and downstream storage. The FBI has confirmed only that it is investigating.
+
+- The group's stated motivation breaks from their pattern. Rather than a financial ransom, they published a PSA on their dark web leak site demanding the FBI retract or remove a May 2026 advisory that attributed harassment, swatting, and sextortion tactics to them. The deadline was September 30. The advisory remains up as of publication. Using stolen government personnel data as leverage against law enforcement's own public documentation is a different threat model than a standard pay-or-leak demand, and it changes what escalation looks like in the response timeline.
+
+Practitioner takeaway: If you run Oracle PeopleSoft, the only confirmed protection is the patch for CVE-2026-35273 released June 10. Firewall-only mitigations are bypass-able as of September and should not be treated as closed controls. On already-exposed systems, Mandiant's follow-up report published September 25 covers what to look for on potentially compromised hosts. For hunting, the pivot from a PeopleSoft web tier into cloud-hosted storage is your lateral movement signal: look for outbound connections and data staging activity originating from the PeopleSoft application server process, not from an identity event. Full remediation guidance is in the Mandiant report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104557446266327468</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2104557446266327468">DFIR Radar</source>
+      <pubDate>Mon, 28 Sep 2026 13:02:51 +0000</pubDate>
+      <guid isPermaLink="false">2104557446266327468</guid>
+    </item>
     <item>
       <title>Multiple Critical Vulnerabilities in Citrix NetScaler ADC and NetScaler Gateway</title>
       <link>https://www.truesec.com/hub/blog/multiple-critical-vulnerabilities-in-citrix-netscaler-adc-and-netscaler-gateway</link>
@@ -1721,17 +1746,6 @@ Hunt for MicrosoftIME.exe under %LOCALAPPDATA%\Microsoft\IME\, the "MicrosoftIME
       <source url="https://x.com/DFIR_Radar/status/2102156707975811547">DFIR Radar</source>
       <pubDate>Mon, 21 Sep 2026 22:03:10 +0000</pubDate>
       <guid isPermaLink="false">2102156707975811547</guid>
-    </item>
-    <item>
-      <title>Fake LastPass Authenticator Installer Abuses Microsoft-Signed Driver to Kill Antivirus and EDR</title>
-      <link>https://thehackernews.com/2026/09/fake-lastpass-authenticator-installer.html</link>
-      <description>A fake LastPass Authenticator installer on GitHub drops a Microsoft-signed kernel driver to kill AV and EDR before launching a password stealer. The WHCP-signed driver scored zero detections on VirusTotal.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102141544165683353</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2102141544165683353">DFIR Radar</source>
-      <pubDate>Mon, 21 Sep 2026 21:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2102141544165683353</guid>
     </item>
   </channel>
 </rss>
