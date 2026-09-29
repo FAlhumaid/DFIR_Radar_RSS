@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 16:03:36 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 17:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside The Com: Understanding the Ecosystem Behind Scattered Spider, LAPSUS$, ShinyHunters, and FALCON</title>
+      <link>https://blog.pulsedive.com/inside-the-com-understanding-the-ecosystem-behind-scattered-spider-lapsus-shinyhunters-and-falcon/</link>
+      <description>The Com ecosystem explained: how LAPSUS$, Scattered Spider, ShinyHunters, and the emerging Scattered LAPSUS$ Hunters brand share infrastructure, TTPs, and members, making actor attribution secondary to behavioral defense.
+
+Key findings:
+
+- The Com is not a single threat actor. It is a decentralized, English-speaking cybercriminal substrate organized around loosely affiliated crews that share social-engineering tradecraft, rebrand freely, and recruit across Telegram and Discord. The financially motivated pillar has produced LAPSUS$, Scattered Spider, and ShinyHunters. The August 2025 emergence of Scattered LAPSUS$ Hunters (SLH) demonstrates that convergence: a merged brand running the Sh1nySp1d3r RaaS, linked to Silent Ransom Group, and claiming intrusions at SoundCloud, Betterment, and Crunchbase in 2026. SLH has also been observed exploiting CVE-2025-61882, a critical Oracle E-Business Suite vulnerability, during intrusions.
+
+- The shared TTP table in the report is the most operationally useful piece for defenders. Initial access is almost always social engineering: vishing and help-desk impersonation (Scattered Spider, LAPSUS$, FALCON), SIM swapping (Beige, Star Fraud, LAPSUS$, Scattered Spider), and AitM phishing via passkey- or SSO-themed domains (FALCON and sibling brands Redact, Pink, Helix). Once in, the playbook shifts to MFA bombing, OAuth token abuse against Salesforce and Salesloft, and bulk exfiltration from SharePoint, OneDrive, and Box via automated scripts. Ransomware is rented, not built: ALPHV/BlackCat, DragonForce, Qilin, and Sh1nySp1d3r have all been used as RaaS partners.
+
+- Domain infrastructure patterns are a practical hunt pivot. Scattered Spider registers phishing domains in the format organization-sso[.]com, organization-okta[.]com, and organization-helpdesk[.]com. ReliaQuest found 81% impersonate technology vendors, targeting SSO, identity providers, and VPNs. SLH flips the convention: helpdesk-organization[.]com, sso-organization[.]com, ticket-organization[.]com. Pink and FALCON concentrate on the passkey theme (*passkey[.]com), register predominantly through NICENIC, and front with Cloudflare and DDoS-Guard. Critically, these domains are registered shortly before an intrusion and taken down immediately after, so real-time brand monitoring and new-domain alerting matter more than blocklists.
+
+- Law enforcement has made meaningful progress but not stopped the ecosystem. Noah Urban became the first convicted Scattered Spider member in August 2025, receiving a 10-year US 🇺🇸 sentence and $13M restitution. A July 2026 DOJ complaint ties the Flowers/Jubair cluster to approximately 120 network intrusions, at least 47 US 🇺🇸 victims between May 2022 and September 2025, and over $115M in paid ransoms. Owen Flowers (18) and Thalha Jubair (20) were sentenced to 5.5 years each at Woolwich Crown Court for the Transport for London hack, which caused £29M in losses, took 148 systems offline, and forced 27,000 staff to reset passwords in person. Investigators correlated physical SIM-swapping hardware to suspects and tracked Telegram handles back to real identities. BreachForums was seized by US 🇺🇸 and French 🇫🇷 law enforcement in October 2025 following public extortion campaigns against Salesforce.
+
+- The defensive priority is identity hardening, not perimeter controls. These groups win by abusing valid credentials and help-desk processes, not by finding unpatched services. Phishing-resistant FIDO2 or passkey MFA eliminates SIM-swap and MFA bombing paths. Help desks must verify caller identity independently before any password reset or MFA device enrollment. OAuth and connected-app scopes should be audited regularly, secrets must leave documentation and move into secrets managers, and bulk-export monitoring on SharePoint, OneDrive, Box, and Salesforce should be active. Monitor for new domain registrations containing your organization name or brand terms: attacker infrastructure appears and disappears within the intrusion window.
+
+Practitioner takeaway: hunt your identity logs first. Look for new MFA device registrations, Okta and Azure AD policy changes, OAuth application grants, and help-desk ticket activity preceding any privilege escalation. Cross-reference against newly registered lookalike domains using the wildcard patterns in the report (*-sso[.]com, *-okta[.]com, *-helpdesk[.]com, *passkey[.]com, and the SLH inverse formats). The full IOC patterns, TTP matrix, and domain query examples are in the Pulsedive report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104980377228185666</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2104980377228185666">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 17:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2104980377228185666</guid>
+    </item>
     <item>
       <title>Star Blizzard refines phishing and malware delivery with the RedFlick technique</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/09/29/star-blizzard-refines-phishing-and-malware-delivery-with-the-redflick-technique/</link>
@@ -1753,29 +1778,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2102503870379196460">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 21:02:40 +0000</pubDate>
       <guid isPermaLink="false">2102503870379196460</guid>
-    </item>
-    <item>
-      <title>PamStealer adapts again: a move to Swift with a server-side decryption chain</title>
-      <link>https://www.jamf.com/blog/pamstealer-wavel-macos-infostealer/</link>
-      <description>PamStealer's third known variant now targets macOS in Swift, using a server-dependent decryption chain that makes offline payload recovery impossible without server cooperation.
-
-Key findings:
-
-- Distributed as a fake app installer; once launched, it contacts a C2 to retrieve a decryption key that exists only server-side, meaning the final payload cannot be statically recovered if the server goes dark, a deliberate anti-forensics design (T1027)
-
-- The shift from earlier variants to Swift signals active development and an effort to blend with legitimate macOS tooling, complicating signature-based detection and binary analysis
-
-- PamStealer targets credentials, browser data, and sensitive user files, consistent with prior variants in the family
-
-- The purpose-built decryption utility is a standalone component, giving analysts a discrete artifact to hunt for during triage even when the payload itself is unrecoverable
-
-Takeaway: on a suspected macOS host, prioritize memory acquisition before isolation. The decrypted payload lives in memory after execution even when it cannot be reconstructed from disk. Hunt for unsigned Swift binaries in user-writable paths, unexpected outbound connections at install time, and new Login Items or LaunchAgents dropped alongside the fake installer. Full technical details and IOCs are in the Jamf Threat Labs report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102488932957180332</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2102488932957180332">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 20:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2102488932957180332</guid>
     </item>
   </channel>
 </rss>
