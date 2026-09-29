@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 17:03:26 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 18:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From AI Agents to RCE - Building a Vulnerability Research Workflow</title>
+      <link>http://blog.quarkslab.com/from-ai-agents-to-rce-building-a-vulnerability-research-workflow.html</link>
+      <description>AI-assisted workflow chains two FreeRDP bugs into client-side RCE in four days on a half-million-line C codebase, demonstrating that agentic tooling can compress serious research timelines without eliminating the researcher.
+
+Key findings:
+
+- Quarkslab's harness runs an eight-stage pipeline: graph, recon, slicing, analysis, triage, PoC, chain, exploit. A deterministic core indexes the target (13,506 functions, 3,105 types, 31,705 call edges for FreeRDP at commit 993499447) and runs static taint to attacker-controlled sinks. AI agents sit above that layer to form hypotheses, filter noise, and drive toward a PoC. The core is tuned for recall on purpose: it over-produces so the agent layer absorbs the noise before a researcher ever sees it.
+
+- Two vulnerabilities were confirmed. First: a routing-token heap overflow in libfreerdp/core/nego.c. A malicious server sends a LoadBalanceInfo payload via Server Redirection PDU. FreeRDP stores that length in nego-&gt;RoutingTokenLength with no equivalent size restriction to the one guarding the direct protocol path. At Stream_Write inside nego_send_negotiation_request (nego.c:1083/1098), a 615-byte token is copied into a 512-byte heap allocation. ASan confirmed the write: "heap-buffer-overflow WRITE of size 615" reached through rdp_client_redirect. Critically, this only fires with WITH_VERBOSE_WINPR_ASSERT=OFF, the default on Debian and Ubuntu builds. Second: a heap disclosure in channels/urbdrc/client/data_transfer. An error in a USB-redirection completion path leaves attacker-supplied OutputBufferSize in place with no data written, and the client later uses that size when emitting the response, leaking heap contents. ASan heap-fill validation confirmed 64 bytes of 0xcd pattern in the emitted PDU.
+
+- The chaining stage combined both: the overflow provides a blind attacker-controlled heap write; the USB disclosure provides visibility into heap contents. A server redirection can force reconnect and trigger the write after the session is established. That composition made RCE plausible. The agent automated layout hypothesis testing and harness generation, but researcher intervention was required twice during exploitation: once to derive the libc base from the leak and once to compose the final payload. The result was ASLR defeat and code execution confirmed by /tmp/pwned.
+
+- The pipeline processed 130 findings from the two slices discussed, reduced them to 36 clusters, and confirmed 20 as real and reachable. The two exploitable findings came from slices ranked 166th and 109th out of 304, reinforcing that automated ranking is a search-space map, not a verdict. The report also contextualises the threat: one operator breached nine Mexican 🇲🇽 government agencies using Claude Code and GPT-4.1 across 305 servers, exfiltrating close to 200 million records. The ratio was five commands executed per instruction typed. Agentic tooling does not raise the skill ceiling; it raises the work-per-operator ceiling.
+
+Hunt priority: if you maintain or monitor FreeRDP-based clients (Remmina, GNOME Connections, KRDC, Apache Guacamole's guacd), check whether WITH_VERBOSE_WINPR_ASSERT is disabled in your builds, because that silent difference is what allows the heap write to reach memcpy. Review server-redirection flows in network logs for abnormally large LoadBalanceInfo payloads and unexpected reconnect sequences mid-session. Both advisories (routing token heap overflow and USB redirection heap disclosure) have been filed with the FreeRDP maintainers. Check the report for advisory links and the full exploitation walk-through to understand what post-connection artifacts the chain leaves behind.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104995295624896600</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2104995295624896600">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 18:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2104995295624896600</guid>
+    </item>
     <item>
       <title>Inside The Com: Understanding the Ecosystem Behind Scattered Spider, LAPSUS$, ShinyHunters, and FALCON</title>
       <link>https://blog.pulsedive.com/inside-the-com-understanding-the-ecosystem-behind-scattered-spider-lapsus-shinyhunters-and-falcon/</link>
@@ -1759,25 +1782,6 @@ When logging infrastructure is absent, run log2timeline against NTUSER.DAT first
       <source url="https://x.com/DFIR_Radar/status/2102519050601451668">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 22:03:00 +0000</pubDate>
       <guid isPermaLink="false">2102519050601451668</guid>
-    </item>
-    <item>
-      <title>Process Parameter Poisoning: Inside a Novel EDR Evasion Technique</title>
-      <link>https://flashpoint.io/blog/process-parameter-poisoning-edr-evasion-technique/</link>
-      <description>Process Parameter Poisoning abuses undocumented Windows STARTUPINFO fields to inject shellcode into foreign processes, achieving zero EDR alerts in lab testing by avoiding all monitored memory APIs.
-
-Key findings:
-
-- The technique hides shellcode inside STARTUPINFO-&gt;lpReserved (or WindowTitle, CommandLine, Environment entries) before calling CreateProcessW(), bypassing VirtualAllocEx(), WriteProcessMemory(), and MapViewOfFile2() entirely. The payload lands in RTL_USER_PROCESS_PARAMETERS-&gt;ShellInfo.Buffer inside the new process's PEB, never touching the APIs EDR hooks watch. MITRE T1055, T1055.003, T1564.010.
-
-- Execution flows through NtQueryInformationProcess() to locate PebBaseAddress, NtReadVirtualMemory() to read RTL_USER_PROCESS_PARAMETERS, a memory permission change to PAGE_EXECUTE_READ, then GetThreadContext()/SetThreadContext() to redirect the instruction pointer. No explicit suspend/resume APIs are called, so rules keyed to those calls miss it.
-
-- Flashpoint validated a Rust POC with custom shellcode (no NULL bytes, no self-modifying encoders). Combined with DLL unhooking and the non-Microsoft block DLL policy on the sacrificial process, no XDR alerts or blocks fired.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102503870379196460</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2102503870379196460">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 21:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2102503870379196460</guid>
     </item>
   </channel>
 </rss>
