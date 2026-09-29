@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 19:03:09 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 20:04:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>​​Beyond source code: A path to the keys to the kingdom</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/09/29/beyond-source-code-a-path-to-the-keys-to-the-kingdom/</link>
+      <description>Storm-3068 turned a self-service password reset into full access across Azure DevOps, Kubernetes clusters, and cloud infrastructure, without touching a single piece of malware.
+
+Key findings:
+
+- Initial access came through a self-service password reset, after which Storm-3068 registered its own authentication methods to the compromised account, locking in persistent identity control. No exploit, no phishing payload: just an abused account recovery workflow that handed the attacker a fully owned identity.
+
+- Azure DevOps was the pivot point. The threat actor used legitimate administrative tools and automated scripts to enumerate repositories, projects, pipelines, and deployment environments. Because Azure DevOps sits at the intersection of identity, development, and cloud operations, it functioned as a roadmap to the broader environment, not just a code host.
+
+- Storm-3068 built a malicious pipeline authorized to access more than 50 resources. The pipeline deployed a kube agent and executed jobs to harvest kubeconfig files containing cluster connection details and auth tokens. Seven stolen kubeconfig files were ultimately committed to a repository, giving the attacker direct credentials to targeted Kubernetes clusters.
+
+- To maintain remote access, the threat actor modified pipeline scripts to install the Atera remote management agent and download the Chisel tunneling utility. Chisel was used to establish a reverse tunnel to an external IP, exposing the Kubernetes API server to attacker-controlled infrastructure.
+
+- DART reconstructed the full attack chain using Azure DevOps audit logs and Git version history, two artifact sources that responders should treat as primary evidence in any DevOps-involved intrusion. Those logs revealed timeline, pipeline modifications, repository additions, and lateral movement paths that endpoint telemetry alone would have missed.
+
+Takeaway: In any identity-driven cloud intrusion, pull Azure DevOps audit logs and full Git commit history early. Look for pipeline creation or modification events, newly registered authentication methods on user accounts, and kube agent deployments in build jobs. Hunt for Chisel or similar tunneling binaries dropped by pipeline runners, and review service connections for any that authenticate to more resources than the owning project justifies. Least-privilege pipeline permissions and phishing-resistant MFA on accounts with DevOps access are the structural controls this case argues for. The full report is available from Microsoft Security.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105025951117828417</description>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105025951117828417">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 20:04:31 +0000</pubDate>
+      <guid isPermaLink="false">2105025951117828417</guid>
+    </item>
     <item>
       <title>Ransomware Response Playbook for MSPs | Todyl</title>
       <link>https://www.todyl.com/blog/ransomware-response-playbook-for-msps</link>
@@ -1773,17 +1798,6 @@ Hunt for unexpected Bash execution followed by Mach-O downloads on macOS endpoin
       <source url="https://x.com/DFIR_Radar/status/2102549200550391899">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 00:02:48 +0000</pubDate>
       <guid isPermaLink="false">2102549200550391899</guid>
-    </item>
-    <item>
-      <title>Rogue external MFA providers can steal passwords during logins</title>
-      <link>https://www.bleepingcomputer.com/news/security/rogue-external-mfa-providers-can-steal-passwords-during-logins/</link>
-      <description>TrustSink, a post-compromise technique by Varonis, lets attackers with Global Admin or Authentication Policy Admin access register a rogue External Authentication Method in Microsoft Entra to capture plaintext passwords mid-login.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102534062652944394</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102534062652944394">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 23:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2102534062652944394</guid>
     </item>
   </channel>
 </rss>
