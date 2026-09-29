@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 21:05:15 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 22:02:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Star Blizzard scales phishing operations with RedFlick malware delivery</title>
+      <link>https://fieldeffect.com/blog/star-blizzard-scales-phishing-operations</link>
+      <description>Russian 🇷🇺 Star Blizzard scales up phishing with a new RedFlick delivery chain, deploying the CosmicPulse backdoor across 100+ organizations in at least 13 campaigns targeting Ukraine-linked entities in the US 🇺🇸 and UK.
+
+Key findings:
+
+- Star Blizzard shifted from tight spear-phishing to broader engagement campaigns in 2026, first sending clean, attachment-free emails to build rapport, then following up after a reply with a password-protected RAR or ZIP archive. The archive password arrives as an image inside the message body, bypassing text-based inspection. Targets span government, diplomacy, research, public policy, journalism, and financial sectors with connections to Ukraine 🇺🇦.
+
+- The archive contains VHDX files or LNK files disguised as PDF documents. Execution launches scripts and legitimate Windows utilities that pull additional components from attacker-controlled infrastructure. Beginning in April 2026, RedFlick installers created scheduled tasks, collected basic host information, enabled WebDAV access, and staged components used to install the CosmicPulse backdoor for persistent access.
+
+- In July 2026, Star Blizzard added another layer: a password-protected RAR nested inside a ZIP. The enclosed shortcut downloaded a PDF with encoded data that PowerShell extracted and executed to retrieve an MSI installer. Microsoft confirmed RedFlick communicating with remote infrastructure, creating scheduled tasks, and deploying CosmicPulse in at least one confirmed incident.
+
+- The technique is designed to exploit normal business workflows. Conference invitations, policy discussions, research collaboration, and document-sharing requests give the malware delivery stage cover as a routine exchange. Recipients who have already replied are filtered as engaged targets before any malicious payload is introduced, raising the likelihood of successful execution.
+
+- The infection chain offers multiple detection checkpoints on the endpoint even when the archive itself cannot be inspected: archive extraction, VHDX mounting, LNK execution, PowerShell spawning from unusual parents, WebDAV activity, MSI installs, scheduled-task creation, and outbound connections to unfamiliar external infrastructure. Correlating these events in sequence reveals the RedFlick chain more reliably than attachment scanning alone.
+
+Hunt in email telemetry for password-protected archives arriving in thread context after an earlier attachment-free message, then pivot to the endpoint. Look for the VHDX mount, LNK or MSI execution, PowerShell network retrievals, and newly created scheduled tasks in close temporal proximity. If execution is confirmed, isolate the host, preserve the full email thread and original archive, enumerate all scheduled tasks and persistence mechanisms, collect process and network telemetry, and review the affected user's mailbox rules, active sessions, and recent communications for signs of follow-on targeting or lateral movement.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105055579354140798</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105055579354140798">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 22:02:15 +0000</pubDate>
+      <guid isPermaLink="false">2105055579354140798</guid>
+    </item>
     <item>
       <title>Zilliz / Attu | 2.6.5</title>
       <link>https://bishopfox.com/blog/zilliz-attu-2-6-5</link>
@@ -1807,17 +1832,6 @@ Hunt for Android apps with SEND_SMS, READ_PHONE_STATE, and RECEIVE_WAP_PUSH perm
       <source url="https://x.com/DFIR_Radar/status/2102670170036801810">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 08:03:29 +0000</pubDate>
       <guid isPermaLink="false">2102670170036801810</guid>
-    </item>
-    <item>
-      <title>EvilTokens PhaaS disrupted after compromising 12,000 Microsoft accounts</title>
-      <link>https://www.bleepingcomputer.com/news/security/eviltokens-phaas-disrupted-after-compromising-12-000-microsoft-accounts/</link>
-      <description>Microsoft's DCU disrupted EvilTokens (Storm-2992), a PhaaS that abused OAuth 2.0 device-code flow to bypass MFA and compromise 12,000 inboxes across 10,000 orgs. Post-compromise, it used Microsoft Graph and AI to map targets and stage BEC.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102579344224751965</description>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2102579344224751965">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 02:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2102579344224751965</guid>
     </item>
   </channel>
 </rss>
