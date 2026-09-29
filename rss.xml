@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 20:04:31 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 20:12:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Digital Forensics: iOS Forensics – Basics</title>
+      <link>https://hackers-arise.com/digital-forensics-ios-forensics-basics/</link>
+      <description>iOS forensics fundamentals explained through the lens of encryption classes, BFU/AFU state, and the 72-hour reboot window introduced in iOS 18.1, with practical guidance on extraction methods and key artifacts.
+
+Key findings:
+
+- File protection classes are the foundation of every iOS acquisition decision. Class A data (mail bodies) re-encrypts when the screen locks. Class C, where app data, chats, and photo libraries live, unlocks on first passcode entry after reboot and stays accessible even through screen locks until the next reboot. Class D uses a device-only key and never needs a passcode. Knowing which class holds your target data tells you whether an AFU phone is enough or whether you needed to be faster.
+
+- BFU vs. AFU is not a tool limitation, it is a hardware reality. BFU gives triage-level output at best: device info, iOS version, thin metadata. AFU opens Class C and analysts estimate that gets you roughly 95% of a full dump. No toolset, including Cellebrite Inseyets or its predecessor suite (Premium, PA7), changes this equation on current hardware. Brute-force passcode support is limited to specific older models on specific iOS versions, not a blanket capability.
+
+- Since iOS 18.1, a phone sitting idle for roughly 72 hours reboots itself with no user-configurable override. Labs have already seen properly isolated AFU phones drop back to BFU in storage. A Faraday bag is not a long-term holding solution anymore: document the phone's state at seizure, get it into acquisition fast, and treat the clock as evidence-critical.
+
+- Pairing records created when a user tapped "Trust This Computer" live on the host machine and can allow a lab system to communicate with a locked AFU phone without a new unlock, but only before USB Restricted Mode fires (roughly one hour after the phone locks). Every computer the subject owned is therefore a secondary evidence source. Lockdown Mode is a separate hardening feature: toggling it reboots the phone and destroys AFU state. The report cites a 2026 case where Lockdown Mode prevented extraction of a seized reporter's powered-on iPhone.
+
+- The artifacts that matter most are the ones investigators most commonly miss. Always collect WAL and SHM files alongside SQLite databases for iMessage, WhatsApp, Signal, and Telegram: deleted rows often remain in the freelist or WAL until a vacuum runs. KnowledgeC and its successor Biome log app-in-focus events, unlock events, notifications, and web activity, enabling screen-state reconstruction. PowerLog confirms the device was powered and connected at a given time. Photos.sqlite covers hidden, recently deleted images, and iCloud sync state. On modern iPhones there is no unallocated space to carve for deleted iMessages: the key is destroyed and the database is cleaned up later, any claim of raw-flash iMessage recovery on current hardware deserves hard scrutiny.
+
+Practitioner takeaway: at seizure, immediately document BFU or AFU state and timestamp it. If AFU, treat 72 hours as your hard acquisition deadline and do not rely on Faraday storage to preserve that state. Before touching the phone, locate and preserve pairing records from every associated computer. During analysis, pull KnowledgeC/Biome and PowerLog from the full file system image alongside every chat database's WAL and SHM files: those behavioral stores and transaction logs are where timeline reconstruction actually happens.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105027954384556370</description>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2105027954384556370">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 20:12:29 +0000</pubDate>
+      <guid isPermaLink="false">2105027954384556370</guid>
+    </item>
     <item>
       <title>​​Beyond source code: A path to the keys to the kingdom</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/09/29/beyond-source-code-a-path-to-the-keys-to-the-kingdom/</link>
@@ -1787,17 +1812,6 @@ Hunt for unexpected Bash execution followed by Mach-O downloads on macOS endpoin
       <source url="https://x.com/DFIR_Radar/status/2102564356802126157">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 01:03:01 +0000</pubDate>
       <guid isPermaLink="false">2102564356802126157</guid>
-    </item>
-    <item>
-      <title>MikroTrick: technical analysis, disclosure process, and the use of LLM agents</title>
-      <link>https://cert.pl/en/posts/2026/09/mikrotrick-technical-analysis/</link>
-      <description>CVE-2026-67279 and CVE-2026-86060 chained in MikroTick RouterOS attacks enable full unauthenticated device takeover, confirmed exploited in the wild. Review RouterOS logs for unauthenticated sessions and unexpected config changes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102549200550391899</description>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2102549200550391899">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 00:02:48 +0000</pubDate>
-      <guid isPermaLink="false">2102549200550391899</guid>
     </item>
   </channel>
 </rss>
