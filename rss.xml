@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 02:02:31 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 06:02:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From KMS Auto to Scareware: Tracking a Multi-Stage Intrusion Linked to APT36?</title>
+      <link>https://labs.k7computing.com/index.php/from-kms-auto-to-scareware-tracking-a-multi-stage-intrusion-linked-to-apt36/</link>
+      <description>A cracked KMS activation tool seeds a multi-day intrusion chain ending in APT36-branded scareware, with XMRig, ScreenConnect, and MeshAgent deployed as stepping stones across 12-24 hour intervals.
+
+Key findings:
+
+- KMS Auto executed from an untrusted source served as the initial access vector (T1204.002). What looked like a routine software activation event was the entry point for a staged compromise. The critical forensic tell is not the tool itself but where it ran from and what child processes followed. Execution from unusual directories with subsequent miner or RAT activity should immediately escalate triage priority.
+
+- XMRig deployed post-compromise for cryptocurrency mining (T1496), followed hours later by ScreenConnect dropped to C:\ProgramData\HvHosts\ScreenConnect.WindowsClient.exe and C:\ProgramData\OneDriveServer\OneDriveServer\OneDriveServer\ScreenConnect.WindowsClient.exe. MeshAgent was then added as a redundant backdoor. The consistent 12-24 hour staging interval between each capability drop is a behavioral signature worth hunting across endpoint telemetry.
+
+- The final payload, SecurityHealthServices.exe, masquerades as a Windows Defender process (T1036.005) and lands in %ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup for persistence (T1547.001). It carries APT36 and Transparent Tribe Pakistan 🇵🇰 branding in its metadata and icon, changes the desktop wallpaper to a Pakistani 🇵🇰 flag, and throws a locked overlay screen. Despite the ransomware theater, no file encryption occurs. It appends a second .exe extension to filenames and drops self-copies with super-hidden attributes into AppData (T1564.001). The ransom note contains no wallet address, no payment deadline, and no contact channel, which is the clearest indicator this is scareware, not ransomware.
+
+- Attribution to APT36 (Transparent Tribe, Mythic Leopard, COPPER FIELDSTONE) is not confirmed by K7 Labs. The metadata and branding could be planted misdirection. The overall pattern, a home user hit by a cracked tool leading to a mining and RMM chain capped with a psychological payload, does not match APT36's known surgical espionage tradecraft against military and diplomatic targets. Treat the APT36 label as an artifact of the payload, not a confirmed attribution.
+
+- Five hashes are listed in the IOC table: three Trojan detections tied to the scareware payload, one CryptoMiner detection for the XMRig component, and one RemoteTool detection for ScreenConnect. Full IOC list is in the report.
+
+Hunt for the staging pattern: KMSAuto execution outside system directories, followed within 24 hours by XMRig process creation, then ScreenConnect or MeshAgent installation, then a new Startup folder entry named SecurityHealthServices.exe. Cross-reference Run and RunOnce registry keys and the C:\Users\Public\Recovery path for dropped batch scripts, VBS files, and XML configs. The double-.exe extension rename on non-encrypted files is a low-cost sweep for active scareware infections. Full IOC list is in the K7 Labs report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104813974336200868</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2104813974336200868">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 06:02:12 +0000</pubDate>
+      <guid isPermaLink="false">2104813974336200868</guid>
+    </item>
     <item>
       <title>AI Accounts Are Becoming the New Target for Infostealers</title>
       <link>https://securityaffairs.com/199933/ai/ai-accounts-are-becoming-the-new-target-for-infostealers.html</link>
@@ -1755,27 +1780,6 @@ Hunt for LLM provider endpoint strings and tool-call syntax co-occurring with of
       <source url="https://x.com/DFIR_Radar/status/2102338014718365729">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 10:03:37 +0000</pubDate>
       <guid isPermaLink="false">2102338014718365729</guid>
-    </item>
-    <item>
-      <title>The Tale of Two INC Ransom Notes: A Ransomware Timeline | Huntress</title>
-      <link>https://www.huntress.com/blog/two-inc-ransom-notes</link>
-      <description>INC ransomware hit 175 endpoints across a single org, with a 17-day gap between attack phases suggesting an IAB handoff to a ransomware affiliate, plus two ransom notes dropped 53 minutes apart.
-
-Key findings:
-
-- Phase one (early August): a scheduled task named Nonweighise\Cancellationizing\Illuminateers, with a nonsense description, pointed to C:\ProgramData\Vendettister\jocularities.ps1, a heavily obfuscated PowerShell implant beaconing to throughoutes[.]net. RDP lateral movement followed via a compromised domain account. Then 17 days of silence.
-
-- Phase two (late August): AnyDesk was installed with C2 at 213.111.185[.]108 and used to push netscan.exe and a BYOVD tool. hwau.exe landed in C:\Users\Public on a domain controller and loaded the HwAudio kernel-driver service via C:\Users\Public\HWAuidoOs2Ec.sys to kill EDR/AV before ransomware ran. Impacket atexec.py created temporary scheduled tasks to execute the payload.
-
-- Two ransom notes: INC-README.txt first, then DATALEAK_PRESS_RELEASE.txt 53 minutes later. The second contained a detailed file-path inventory of stolen data, plus threats to notify media, employees, and partners within 48 hours. All copies were hash-identical, indicating scripted deployment.
-
-- A renamed Vicarius vRx binary (HealthUpdater.exe) sat in C:\Program Files\7-Zip\, a living-off-the-land abuse of a legitimate vulnerability-remediation tool to blend in.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102322696163840018</description>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102322696163840018">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 09:02:45 +0000</pubDate>
-      <guid isPermaLink="false">2102322696163840018</guid>
     </item>
   </channel>
 </rss>
