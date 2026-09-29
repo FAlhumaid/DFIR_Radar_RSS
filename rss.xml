@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 13:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 14:04:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Here We Go Again (Citrix NetScaler DTLS Preauth Memory Overflow CVE-2026-88772)</title>
+      <link>https://labs.watchtowr.com/here-we-go-again-citrix-netscaler-dtls-preauth-memory-overflow-cve-2026-88772/</link>
+      <description>CVE-2026-88772: Citrix NetScaler DTLS preauth memory overflow reaches RCE via a 137,825-byte scratch buffer overwrite, exploited in the wild as a zero-day. No login required, DTLS on by default.
+
+Key findings:
+
+- CVE-2026-88772 carries a CVSS 4.0 score of 9.5 Critical and was confirmed exploited in the wild before Citrix patched it in bulletin CTX697096. It is one of eight vulnerabilities fixed together, two of which (CVE-2026-88771 and CVE-2026-88772) were actively exploited zero-days. DTLS must be enabled, which is the default on VPN virtual servers unless an admin explicitly set -dtls OFF. No authentication is required: the attacker only needs to complete a DTLS cookie exchange to prove their IP is reachable, then send 120 crafted records.
+
+- The root cause is in nsppe, the core NetScaler binary. A function that stitches an NSB (NetScaler Buffer) chain into a fixed 0x8c00-byte (35,840-byte) scratch buffer in the .bss section calls memcpy in a loop with no bounds check. The patch (comparing r15d against edx before each memcpy and rejecting oversized chains) is visible in the diff between build 73.30 and 73.37. The overflow lands 173,665 bytes into a 35,840-byte region: 137,825 bytes of attacker-controlled data spill into adjacent writable nsppe memory.
+
+- The exploit chain is fully preauth and walks a clean path to shellcode: craft 120 DTLS records where each claims fragment_length=1 of a 120-byte message but carries ~1,447 bytes of NSB data, triggering reassembly to mark the message complete while the NSB chain holds ~174 KB. The overflow first corrupts a global list pointer (constant 0x357f820 in 14.1-73.30, no PIE), then overwrites a fake vtable at 0x355c800 to hijack a periodic background-thread virtual call. Because nsppe has no PIE and no stack canary, fixed ROP gadgets (pop rdi/ret at 0x4e705d, etc.) chain a FreeBSD SYS_mprotect syscall (74) to mark the payload page RWX and hand off to shellcode.
+
+- The appliance runs FreeBSD, carries No RELRO, no stack canary, and no PIE, meaning the 41 MB nsppe binary sits at a fixed base (0x400000) across all affected builds. The entire exploit is deterministic once the cookie exchange succeeds. watchTowr's proof-of-concept detection artifact generator sends 120 records totaling 176,640 bytes over 9462/UDP to confirm susceptibility.
+
+- Fixed versions: NetScaler ADC and Gateway 14.1-73.37 and later, 13.1-64.23 and later, 14.1-FIPS 14.1-73.37 FIPS and later, 13.1-FIPS and 13.1-NDcPP 13.1-37.279 and later. Note that CVE-2026-88778 (predictable ISN) requires enabling Enhanced ISN Generation separately, the upgrade alone does not fix it.
+
+Responder action: hunt your perimeter logs for large volumes of DTLS traffic to 9462/UDP from a single source, specifically 120-record bursts totaling roughly 176 KB, which is the artifact this exploit leaves in network captures. On the appliance itself, look for nsppe crash dumps or core files in /var/crash and check for unexpected processes spawned from nsppe after a SIGSEGV. If you cannot patch immediately, explicitly set -dtls OFF on VPN virtual servers to remove the attack surface. The watchTowr detection artifact generator and the full IOC list are available in the report on their GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104935242150936728</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2104935242150936728">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 14:04:04 +0000</pubDate>
+      <guid isPermaLink="false">2104935242150936728</guid>
+    </item>
     <item>
       <title>Fake iPhone Duo preorder scam triggers DarkSword attack</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/09/fake-iphone-duo-preorder-scam-triggers-darksword-attack</link>
@@ -1739,23 +1764,6 @@ SHA1 hashes for all 11 versions are in the ReversingLabs report.
       <source url="https://x.com/DFIR_Radar/status/2102458618973209002">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 18:02:52 +0000</pubDate>
       <guid isPermaLink="false">2102458618973209002</guid>
-    </item>
-    <item>
-      <title>Unmasking EvilTokens: Getting to the root of device code phishing</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/09/22/unmasking-eviltokens-getting-to-the-root-of-device-code-phishing/</link>
-      <description>Storm-2992's EvilTokens PhaaS platform weaponized OAuth device code flow at scale, compromising 12,000+ inboxes across 10,000+ organizations before Microsoft DCU disrupted its infrastructure.
-
-- EvilTokens, tracked to Storm-2992, sold via Telegram at $1,500 upfront plus $500/month. The kit abuses legitimate OAuth device code authentication: the attacker initiates the flow, delivers the code to the victim via phishing, then polls /state every 3-5 seconds via checkStatus() until the victim authenticates, handing the attacker a valid session token without ever touching credentials.
-
-- Post-compromise actions moved fast: within 10 minutes of token theft, actors registered new devices to obtain Primary Refresh Tokens (PRTs) for durable persistence. Later stages included malicious inbox rule creation, Microsoft Graph API reconnaissance to map org structure, and targeted financial exfiltration focused on wire transfer details and executive correspondence.
-
-- Defense evasion relied on Vercel (.vercel[.]app), Cloudflare Workers (.workers[.]dev), and AWS Lambda to blend phishing redirects into legitimate cloud traffic, plus fake CAPTCHAs and multi-stage redirect chains to defeat URL scanners.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102443802090754450</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102443802090754450">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 17:03:59 +0000</pubDate>
-      <guid isPermaLink="false">2102443802090754450</guid>
     </item>
   </channel>
 </rss>
