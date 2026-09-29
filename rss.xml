@@ -5,8 +5,33 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 06:02:12 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 08:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Abuse ChatGPT Custom GPTs to Deliver RAT via ClickFix</title>
+      <link>https://www.huntress.com/blog/chatgpt-custom-gpts-clickfix-rat</link>
+      <description>Custom GPT lure funnels victims into an 8-stage ClickFix-to-RAT chain. Attackers paid for Google Ads to surface a fake ChatGPT model, then deployed DLL sideloading, steganography, and an encrypted custom file system to land a full-featured RAT with DNS-over-HTTPS C2.
+
+Key findings:
+
+- The lure chain starts with a Google-Ads-sponsored result pointing to attacker-created Custom GPTs titled "Plus 5.6" at hxxps://chatgpt[.]com/g/g-6ab595ad6554819181b686d4876efb80-plus-5-6 (taken down) and hxxps://chatgpt[.]com/g/g-6ab6ba039440819185ed491740b11cf8-plus-5-6 (still active at publication). The GPT serves a single scripted reply directing users to a Google Sites ClickFix page at hxxps://sites.google[.]com/view/antibot172881, where a fake Cloudflare CAPTCHA prompts them to paste a PowerShell command. That command uses a decimal-form IP, 1614733393 resolving to 96.62.224[.]81, to evade dotted-IP detection rules, drops a GUID-named MSI from %TEMP%, then deletes itself.
+
+- The MSI (ISOSimple.msi, SHA256: 6761aad48a3f987238994d92bca97e4b8550e0150607bd67b47b1b6366a371fc) installs silently to %LOCALAPPDATA%\Programs\Advanced Printer Configuration Reader\, hides from Programs and Features via ARPSYSTEMCOMPONENT=1, and abuses a legitimate Canon-signed COTFileReadApp.exe to sideload a patched ceiinfolog.dll (signature stripped, SHA256: e58831766e8d4313db9f8b85f90c3a840aa0d84cfeac285beefa40e39ad0d1fb). That patched DLL adds one import, rdCore.dll, so Windows loads the malicious chain the moment the Canon app loads its own logger. Persistence lands as both an HKCU Run value and a scheduled task, both named Canon Configuration Reader, both pointing back to COTFileReadApp.exe.
+
+- The loader hides inside Common.Integrator.Preview.wav (SHA256: 54c94f85ba6e950903d5ff42c0971c5a9d0741596be26e06afe7d60ec38edf31). The RIFF/WAVE header claims roughly 700 KB; the real file is over 1 MB. At offset 0x24362, real audio samples give way to 341,395 bytes of ciphertext decrypted by a rolling XOR with two stirred counters. The resulting in-memory shellcode (SHA256: 20c7befc174a61117770535e809046c75e93c71284bf1a9c6cd532f55b315f53) runs AMSI bypass against amsi.dll, unhooks ntdll.dll to evade EDR hooks, hosts the .NET CLR v4.0.30319 in memory, and performs anti-VM checks against VMware, VirtualBox, Hyper-V, QEMU, Xen, and Parallels driver and service names before opening an encrypted custom archive, monitor.raw (SHA256: e614b7d5a7a363fb1b355a87e2e8d9e8a05bbbca08f2cee3d606bdb5015ac53b), which holds 315 folders, 806 files, a persistence script, and the final RAT shellcode.
+
+- The RAT (SHA256: ab65bbfc505dbe1cebe6021fb36e2011f6aa1d64f5d87cee1cbee3fc2a0c7907) is full-featured: remote desktop, screen broadcast, camera and microphone capture, credential harvesting from 17 browsers, a file manager with full-content search, and a payload deployer that handles EXE, DLL, MSI, PowerShell, Batch, VBScript, JScript, and ZIP. C2 discovery uses DNS-over-HTTPS through Cloudflare, Google, and Quad9 resolvers, so C2 lookups never appear in local DNS logs. On investigated hosts the RAT dropped a legitimately signed GOMCam2024.exe to %LOCALAPPDATA%\AppstorageFile\ and launched chrome.exe with a throwaway profile from %TEMP%.
+
+- A version 2 swap replaced Canon with Stardock's DeElevate64.exe and DeElevator64.dll, renamed persistence to "Stardock DeElevation Tool," and moved the loader from a WAV into a real Microsoft NuGet package, Build.dat (SHA256: d3fda1e6cf886fd530bf62e2d16c39ad23ed12a2c933fc211f1f4876ceaa033e). The RAT payload is byte-for-byte identical across both versions. A third MSI, UltraFreeISOCreateWizardSolution.msi, was observed on the same server on 2026-09-23, confirming the signed-host costume rotation is ongoing.
+
+Hunt for behavior, not names: detect PowerShell spawning msiexec on a GUID-named MSI in %TEMP%, any signed binary launched by msiexec from a non-standard %LOCALAPPDATA%\Programs\ subdirectory, and HKCU Run values or scheduled tasks that reappear within minutes of deletion. Before removing persistence, kill the parent process first or the embedded script will restore both within 150-875 seconds. When investigating, check for unsigned DLLs alongside the signed host binary, and audit outbound HTTPS to Cloudflare, Google, and Quad9 resolvers for C2 lookups masquerading as ordinary DoH traffic. The full IOC table and file hashes are in the Huntress report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104844378464469471</description>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2104844378464469471">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 08:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2104844378464469471</guid>
+    </item>
     <item>
       <title>From KMS Auto to Scareware: Tracking a Multi-Stage Intrusion Linked to APT36?</title>
       <link>https://labs.k7computing.com/index.php/from-kms-auto-to-scareware-tracking-a-multi-stage-intrusion-linked-to-apt36/</link>
@@ -1763,23 +1788,6 @@ Hunt for LLM provider endpoint strings and tool-call syntax co-occurring with of
       <source url="https://x.com/DFIR_Radar/status/2102353023377011056">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 11:03:16 +0000</pubDate>
       <guid isPermaLink="false">2102353023377011056</guid>
-    </item>
-    <item>
-      <title>The Closed Quorum: Inside the first reported autonomous AI C2 implant</title>
-      <link>https://blog.talosintelligence.com/the-closed-quorum-inside-the-first-reported-autonomous-ai-c2-implant/</link>
-      <description>CLOSEDQUORUM is the first publicly documented Windows implant to replace a human-operated C2 with a voting panel of commercial LLMs, delegating tactical decisions autonomously after deployment.
-
-- CLOSEDQUORUM is a 16.4MB 64-bit Go binary (CGO_ENABLED=1, mixing Go and C for direct Windows syscalls) that queries DeepSeek, Qwen, Mistral, and Gemini in sequence via main.ModelOrchestrator and main.interModelDiscussion(). The system prompt reads "You are an advanced malware strategist. Provide ONLY executable decisions." Models vote on inject/persist/steal/move; plurality wins. No dedicated attacker C2 server is required: the C2 is commercial API infrastructure.
-
-- The steal decision simultaneously triggers lsassDump() (SeDebugPrivilege + MiniDumpWriteDump, T1003.001), dumpBrowserCredentials() hitting Chrome/Edge Login Data and Firefox logins.json (T1555.003), and extractCryptoWallets() targeting MetaMask, Exodus, and Ethereum (T1005). Staged material lands in C:\Windows\Temp\ before AES-256-GCM + Base64 exfil to a Discord webhook (T1567.004). The key derives from the current date, not a hardcoded secret.
-
-- Persistence is triple-redundant: a WindowsUpdate Registry Run key (T1547.001), a schtasks.exe scheduled task (T1053.005), and a WMI event subscription executing C:\Windows\Temp\wmi.ps1 every 60 seconds (T1546.003, T1059.001). ETW is patched inline by overwriting EtwEventWrite with a RET instruction (T1685).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102338014718365729</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102338014718365729">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 10:03:37 +0000</pubDate>
-      <guid isPermaLink="false">2102338014718365729</guid>
     </item>
   </channel>
 </rss>
