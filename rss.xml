@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 14:04:04 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 15:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Defending Against Active Exploitation of Citrix NetScaler ADC and Gateway Appliances</title>
+      <link>https://cloud.google.com/blog/topics/threat-intelligence/defending-against-active-exploitation-of-citrix-netscaler-adc-and-gateway-appliances/</link>
+      <description>Two zero-days actively exploited in Citrix NetScaler ADC and Gateway since early September 2026, with government, financial, education, and legal sectors in North America and Europe targeted.
+
+Key findings:
+
+- CVE-2026-88772 is the primary zero-day: a pre-authentication heap corruption flaw in the NetScaler Packet Processing Engine (NSPPE) triggered over DTLS on UDP/443. Malformed DTLS record headers corrupt memory and redirect code execution to root-level shellcode on the underlying FreeBSD platform. Exploitation leaves two distinct log artifacts: an SSL_HANDSHAKE_FAILURE event with ClientVersion DTLSv1.0 and reason "Handshake failure-Internal Error" in syslog, followed by NSPPE process termination messages from the pitboss watchdog in /var/log/messages. A DTLS failure followed within minutes by an NSPPE crash on the same appliance is Mandiant's strongest exploitation signal. CVE-2026-88771 is a second zero-day being actively exploited per vendor disclosure; the compensating controls for CVE-2026-88772 (disabling DTLS, blocking UDP/443) do not mitigate it.
+
+- Post-exploitation persistence is achieved by modifying /etc/httpd.conf to treat non-PHP extensions as executable PHP scripts. Two variants were observed: registering .deb files as PHP handlers with web shells staged in /netscaler/gui/vpn/scripts/linux, and a stealthier AliasMatch directive that maps HTTP requests for /vpn/media/*.ico to corresponding .sig files in the same directory. The setuid bit is then asserted on /bin/sh (chmod u+s /bin/sh) to give the unprivileged web server process persistent root execution. The installer triggers a full appliance reboot via /netscaler/nsshutdown -R to apply changes.
+
+- Two novel malware families anchor the post-exploitation toolkit. WHIPSHOT is a PHP web shell disguised as a Debian package in /netscaler/ns_gui/vpn/scripts/linux/. It reads C2 commands from chunked HTTP headers (HTTP_X_UX_0 through HTTP_X_UX_95), Base64-decodes the stream, and forwards it over loopback to SLAPSHOT. It returns a spoofed HTTP 404 while embedding tunneled responses in the body. SLAPSHOT is a Python TCP tunneler that binds to an ephemeral loopback port, writes it to /tmp/.uxdport, and uses fcntl.flock on /tmp/.uxdlock to enforce a single instance. It speaks a custom binary protocol (4-byte big-endian length prefix plus JSON) supporting open, push, pull, exch, close, and ping actions. SLAPSHOT self-terminates after 10 minutes of idle to reduce its memory footprint. Other standalone installer shells extract Base64-encoded commands from native NetScaler headers HTTP_NSC_LDAP and HTTP_NSC_CLIENTTYPE, executing via eval() while returning HTTP 404 and scrubbing their paths from /etc/crontab with a regex wiper.
+
+- Key forensic hunt steps: check /etc/httpd.conf for AddHandler application/x-httpd-php on non-.php extensions and AliasMatch directives pointing /vpn/media/ or /vpn/theme/ to script directories. Run "file" and grep for PHP markers across /var/netscaler/gui/vpn/scripts/linux/, /var/netscaler/gui/vpns/scripts/vista/, /var/netscaler/gui/vpns/scripts/mac/, and /netscaler/ns_gui/vpn/media/. Check ls -l /bin/sh for -rwsr-xr-x with root ownership. Inspect /tmp/ for .uxdport and .uxdlock. Review httperror logs for .sig or .deb execution errors that persist even after access logs are wiped, and httpaccess.log for 404 responses to .ico paths returning bodies over 5KB. Review /var/log/sh.log for nsshutdown -R and httpd -k restart commands outside change windows.
+
+Practitioner takeaway: Patch to NetScaler 14.1-73.37 or 13.1-64.23 immediately. If you cannot patch, disable DTLS and block inbound UDP/443 upstream of the appliance (not via local ACL, which still lets traffic reach the vulnerable NSPPE). For confirmed compromise, halt HA synchronization before validating the standby node to prevent replication of the malicious httpd.conf. Rotate all LDAP bind accounts, RADIUS secrets, TLS certificates, and private keys after patching, not before. The report includes a full IOC collection in GTI plus five YARA rules covering WHIPSHOT, SLAPSHOT, unauthorized httpd.conf directives, NSC header web shells, and persistence installers. Defenders should confirm that /var/log/messages and web server access and error logs are forwarded to SIEM, as they are not included in standard ns.log syslog forwarding and contain the primary exploitation evidence.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104950180101378467</description>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2104950180101378467">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 15:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2104950180101378467</guid>
+    </item>
     <item>
       <title>Here We Go Again (Citrix NetScaler DTLS Preauth Memory Overflow CVE-2026-88772)</title>
       <link>https://labs.watchtowr.com/here-we-go-again-citrix-netscaler-dtls-preauth-memory-overflow-cve-2026-88772/</link>
@@ -1741,29 +1764,6 @@ Takeaway: on a suspected macOS host, prioritize memory acquisition before isolat
       <source url="https://x.com/DFIR_Radar/status/2102473870192050424">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 19:03:28 +0000</pubDate>
       <guid isPermaLink="false">2102473870192050424</guid>
-    </item>
-    <item>
-      <title>Malicious npm campaign targets developers integrating Twilio</title>
-      <link>https://www.reversinglabs.com/blog/malicious-npm-campaign-twilio</link>
-      <description>Malicious npm package tw-pkgprobe-7731 masqueraded as a Twilio bug bounty research tool to steal ACCOUNT_SID and AUTH_TOKEN credentials from developers, with 11 versions published in a single day.
-
-Key findings:
-
-- tw-pkgprobe-7731 (npm account: twdepprobe7731) published 11 versions on August 14, 2026. Early versions (1.0.0) fingerprinted the host for Twilio developer environments and exfiltrated env vars plus system info via webhook. Version 1.0.4 added explicit theft of process.env.ACCOUNT_SID and process.env.AUTH_TOKEN. Later versions probed internal Twilio hostnames including support-api.us1.twilio[.]com and kafka-ui.au1.twilio[.]com, and queried the AWS metadata endpoint at 169.254.169[.]254/latest/meta-data/.
-
-- The attack chain relied on social engineering: comments inside the package falsely claimed HackerOne safe-harbor authorization. The package name and publishing account violate Twilio's actual bug bounty naming conventions, exposing the cover story.
-
-- No obfuscation, typosquatting, or fabricated reputation signals were used, pointing to a less sophisticated actor. The payload logic lived in daemon.js, scanning node_modules and injecting a custom package.json and index.js into matching Twilio SID-named directories.
-
-- Stolen ACCOUNT_SID and AUTH_TOKEN grant full API access: attackers can send spam, intercept OTPs, or run up billing charges on the victim's account.
-
-SHA1 hashes for all 11 versions are in the ReversingLabs report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102458618973209002</description>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2102458618973209002">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 18:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2102458618973209002</guid>
     </item>
   </channel>
 </rss>
