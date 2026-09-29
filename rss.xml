@@ -5,8 +5,31 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 29 Sep 2026 09:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 10:02:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New THOR Detection Coverage for Citrix NetScaler CVE-2026-88771 and CVE-2026-88772</title>
+      <link>https://www.nextron-systems.com/2026/09/29/new-thor-detection-coverage-for-citrix-netscaler-cve-2026-88771-and-cve-2026-88772/</link>
+      <description>Citrix NetScaler CVE-2026-88771 and CVE-2026-88772 are actively exploited in the wild, with pre-disclosure exploitation observed by GreyNoise on September 24, three days before Citrix published bulletin CTX697096.
+
+Key findings:
+
+- CVE-2026-88771 is an unauthenticated command injection vulnerability affecting default NetScaler ADC and Gateway deployments. No special feature configuration is required for exposure. GreyNoise captured exploitation attempts before public disclosure and documented a post-exploitation chain involving privilege changes and installation of a hidden, password-protected PHP webshell. The webshell combines command pass-through with cookie decoding and was configured so CSS-looking request paths route to it, a deliberate evasion choice. CVE-2026-88772 is a DTLS memory overflow enabling remote code execution or denial of service, affecting systems with DTLS enabled including VPN virtual servers where DTLS has not been explicitly disabled.
+
+- Nextron has released four detection rules in the THOR Preview channel covering this activity. LOG_SUSP_EXPL_CVE_2026_88771_Sep26 hunts exploitation traces in NetScaler log data by correlating process-failure messages with attacker-controlled log content and shell metacharacters from the command injection path. WEBSHELL_CSS_PassThrough_Sep26 detects the compact PHP webshell pattern by behavior rather than filename, which matters because the actor hid the file. EXPL_CVE_2026_88772_POC_Sep26 flags PoC-related artifacts, not live exploitation. A YAML IOC set (id: 99f5048e-e8f1-40cd-ba39-9877dc2c67e7) converts 12 filesystem checks from Citrix's own IOC scanner script into four file-rule definitions covering suspicious PHP and XHTML files in NetScaler web directories, unusual signature files, and specific package artifacts.
+
+- The YAML IOC set deliberately excludes 22 checks from the Citrix scanner that depend on log content, process state, file ownership, or runtime context. Those conditions cannot be represented as file-path IOCs. Responders should treat the file-rule set as a triage layer, not a complete compromise determination. The path expressions are case-insensitive and support mounted-image prefixes, making them usable directly against forensic images or collected filesystem trees pulled from appliances.
+
+- Because exploitation was observed before Citrix's September 27 public disclosure, patching alone does not answer the question of whether an appliance was already compromised during the exposure window. Organizations need a compromise assessment of any NetScaler ADC or Gateway system that was internet-exposed before the patch was applied, not just an update check.
+
+Practitioner takeaway: preserve NetScaler logs and a full filesystem snapshot before patching. Run the THOR Preview signatures (thor-util update --sigdev) and the YAML IOC set against the collected evidence. Focus log review on process-failure messages correlated with shell metacharacters, and look for hidden files in NetScaler web directories with PHP or XHTML extensions. Citrix's fixed releases are documented in CTX697096. Nextron states Preview signatures will update daily as the situation develops, so pull fresh signatures before each scan run. Full IOC set and detection rules are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104874391423090822</description>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2104874391423090822">DFIR Radar</source>
+      <pubDate>Tue, 29 Sep 2026 10:02:16 +0000</pubDate>
+      <guid isPermaLink="false">2104874391423090822</guid>
+    </item>
     <item>
       <title>Why AI Coding Agents Don't Trigger Your Existing Detection Stack by Lucie Cardiet</title>
       <link>https://www.vectra.ai/blog/why-ai-coding-agents-dont-trigger-your-existing-detection-stack</link>
@@ -1759,23 +1782,6 @@ Hunt for WinMerge.exe making outbound HTTPS connections, files written to C:\Pyt
       <source url="https://x.com/DFIR_Radar/status/2102398438436745689">DFIR Radar</source>
       <pubDate>Tue, 22 Sep 2026 14:03:43 +0000</pubDate>
       <guid isPermaLink="false">2102398438436745689</guid>
-    </item>
-    <item>
-      <title>CSuite Targets US and EU Organizations with Device-Code Phishing and Remote Access</title>
-      <link>https://any.run/cybersecurity-blog/csuite-attack-analysis/</link>
-      <description>CSuite operation combines device-code phishing, Microsoft 365 session hijacking, and legitimate RMM tools to compromise US 🇺🇸 and EU organizations across identity and endpoint simultaneously, active February through September 2026.
-
-- CSuite runs two parallel attack arms tied to the same panel (CSuite v1.1): one arm deploys renamed RMM agents (ScreenConnect, Action1, Atera, Syncro, PDQ Connect) masquerading as Adobe, DocuSign, and Zoom installers; the other steals M365 credentials or captures live sessions via device-code flows (T1621). The ScreenConnect client registers a credential provider and appends ScreenConnect.WindowsAuthenticationPackage.dll to LSA (T1547.002), surviving safe mode. 60% of 216 confirmed victims were US-based.
-
-- The shared gate script m/js/utils.js (SHA-256: c0eb04dc...) ran unchanged across 170 hosts for seven months. It fingerprints visitors against 40 bot signatures and 32 security-vendor strings including mimecast, proofpoint, crowdstrike, and virustotal before serving the phishing page. Failed checks trigger a CPU-exhaustion trap armed on a 30-120 second timer to burn automated analysis.
-
-- Batch droppers self-elevate via "fltmc &gt;nul" or "net session" checks, relaunch through PowerShell Start-Process -Verb RunAs, then call msiexec /i against raw GitHub URLs (github[.]com/Ivan3900/...) or self-hosted ScreenConnect relays at 91.92.41[.]114:8041 and 64.204.180[.]203:8040.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102368133054963988</description>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102368133054963988">DFIR Radar</source>
-      <pubDate>Tue, 22 Sep 2026 12:03:18 +0000</pubDate>
-      <guid isPermaLink="false">2102368133054963988</guid>
     </item>
   </channel>
 </rss>
