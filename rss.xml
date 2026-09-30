@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 01:02:08 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 02:02:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Developer is the New Perimeter: How Supply Chain Attacks Are Becoming Cloud Breaches</title>
+      <link>https://blog.qualys.com/?p=42475</link>
+      <description>Supply chain attacks from Sep 2025 through May 2026 show a repeating kill chain: malicious packages steal cloud credentials at install time, before any application code runs, turning developer machines and CI/CD pipelines into cloud breach entry points.
+
+Key findings:
+
+- Three named campaigns define the pattern. Shai-Hulud (emerging September 2025) injected worm code into popular npm packages including [@]ctrl/tinycolor, exfiltrating credentials to attacker-controlled GitHub repos. Its May 2026 Mini variant hit 639 package versions across 323 [@]antv packages, including echarts-for-react at 1.1 million weekly downloads, targeting GITHUB_TOKEN, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, KUBECONFIG, and VAULT_TOKEN via the preinstall lifecycle hook. Credentials were stolen even when the install was cancelled after the hook fired.
+
+- BufferZoneCorp (Ruby gems and Go modules) went further than credential theft: it redirected GOPROXY, disabled checksum verification, dropped fake go binary wrappers into the CI runner PATH (T1574.007), and appended attacker SSH public keys to ~/.ssh/authorized_keys (T1098.004), meaning the build host itself was modified for persistent access. TeamPCP compromised Trivy, Checkmarx KICS, LiteLLM, and a Telnyx library, then bypassed GitHub secret masking by reading runner process memory directly and used stolen PATs to force-push malicious commits across version tags.
+
+- The credential harvest targets are predictable and plaintext: ~/.aws/credentials, ~/.kube/config, .npmrc, .netrc, and SSH key files (T1552.001, T1552.004). Once credentials reach the attacker, the documented post-compromise cloud activity includes IAM reconnaissance, EC2/Lambda/S3 enumeration (T1526), S3 data exfiltration (T1530), and IMDS probing for temporary instance credentials (T1552.005). UNC6426 escalated from a compromised nx npm package to AWS admin access in 72 hours.
+
+- The IMDS attack surface is underappreciated here. Most of these payloads probe 169.254.169.254 with simple GET requests, which IMDSv2 blocks by requiring a session-token PUT first. AWS Config rule ec2-imdsv2-check and an SCP preventing IMDSv1 instance launches directly cuts off this vector. Where CI/CD runners have no legitimate reason to query the metadata endpoint, egress filtering on 169.254.169.254 raises the bar further.
+
+- April 21-23, 2026 saw npm, PyPI, and Docker Hub hit within 48 hours: the trojaned [@]bitwarden/cli package and compromised Checkmarx KICS images shared C2 infrastructure and propagated via stolen publishing tokens. On May 28, 14 typosquatting npm packages impersonating OpenSearch and ElasticSearch libraries used stolen publish tokens to infect additional maintainer-owned packages, confirming that stolen ecosystem credentials extend the blast radius beyond the initial victim.
+
+Practitioner takeaway: Package removal is not containment. When a CI/CD runner executes an unvetted package, treat every credential and token that runner could access as potentially exposed. Pull CloudTrail, GCP Cloud Audit Logs, or Azure Monitor for the full exposure window and look for API calls matching T1526 and T1530 patterns: IAM enumeration, new role creation, S3 ListBuckets, GetObject, and Lambda or Secrets Manager access using the affected credential. Rotate or revoke before investigating, not after. For prevention, enforce ignore-scripts=true in CI .npmrc, pin dependencies with lockfile integrity checks, and replace long-lived stored keys with short-lived OIDC-based credentials. The full MITRE ATT&amp;CK mapping is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105115946360697026</description>
+      <content:encoded><![CDATA[<p>Supply chain attacks from Sep 2025 through May 2026 show a repeating kill chain: malicious packages steal cloud credentials at install time, before any application code runs, turning developer machines and CI/CD pipelines into cloud breach entry points.</p><p>Key findings:</p><p>- Three named campaigns define the pattern. Shai-Hulud (emerging September 2025) injected worm code into popular npm packages including [@]ctrl/tinycolor, exfiltrating credentials to attacker-controlled GitHub repos. Its May 2026 Mini variant hit 639 package versions across 323 [@]antv packages, including echarts-for-react at 1.1 million weekly downloads, targeting GITHUB_TOKEN, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, KUBECONFIG, and VAULT_TOKEN via the preinstall lifecycle hook. Credentials were stolen even when the install was cancelled after the hook fired.</p><p>- BufferZoneCorp (Ruby gems and Go modules) went further than credential theft: it redirected GOPROXY, disabled checksum verification, dropped fake go binary wrappers into the CI runner PATH (T1574.007), and appended attacker SSH public keys to ~/.ssh/authorized_keys (T1098.004), meaning the build host itself was modified for persistent access. TeamPCP compromised Trivy, Checkmarx KICS, LiteLLM, and a Telnyx library, then bypassed GitHub secret masking by reading runner process memory directly and used stolen PATs to force-push malicious commits across version tags.</p><p>- The credential harvest targets are predictable and plaintext: ~/.aws/credentials, ~/.kube/config, .npmrc, .netrc, and SSH key files (T1552.001, T1552.004). Once credentials reach the attacker, the documented post-compromise cloud activity includes IAM reconnaissance, EC2/Lambda/S3 enumeration (T1526), S3 data exfiltration (T1530), and IMDS probing for temporary instance credentials (T1552.005). UNC6426 escalated from a compromised nx npm package to AWS admin access in 72 hours.</p><p>- The IMDS attack surface is underappreciated here. Most of these payloads probe 169.254.169.254 with simple GET requests, which IMDSv2 blocks by requiring a session-token PUT first. AWS Config rule ec2-imdsv2-check and an SCP preventing IMDSv1 instance launches directly cuts off this vector. Where CI/CD runners have no legitimate reason to query the metadata endpoint, egress filtering on 169.254.169.254 raises the bar further.</p><p>- April 21-23, 2026 saw npm, PyPI, and Docker Hub hit within 48 hours: the trojaned [@]bitwarden/cli package and compromised Checkmarx KICS images shared C2 infrastructure and propagated via stolen publishing tokens. On May 28, 14 typosquatting npm packages impersonating OpenSearch and ElasticSearch libraries used stolen publish tokens to infect additional maintainer-owned packages, confirming that stolen ecosystem credentials extend the blast radius beyond the initial victim.</p><p>Practitioner takeaway: Package removal is not containment. When a CI/CD runner executes an unvetted package, treat every credential and token that runner could access as potentially exposed. Pull CloudTrail, GCP Cloud Audit Logs, or Azure Monitor for the full exposure window and look for API calls matching T1526 and T1530 patterns: IAM enumeration, new role creation, S3 ListBuckets, GetObject, and Lambda or Secrets Manager access using the affected credential. Rotate or revoke before investigating, not after. For prevention, enforce ignore-scripts=true in CI .npmrc, pin dependencies with lockfile integrity checks, and replace long-lived stored keys with short-lived OIDC-based credentials. The full MITRE ATT&amp;CK mapping is in the report.</p><p>#DFIR_Radar</p><p><a href="https://blog.qualys.com/?p=42475">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105115946360697026">View on X</a></p>]]></content:encoded>
+      <dc:creator>Qualys Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105115946360697026</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105115946360697026">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 02:02:08 +0000</pubDate>
+      <guid isPermaLink="false">2105115946360697026</guid>
+    </item>
     <item>
       <title>The PaperPhone Cluster: One Operator, 80K IPs, 43 countries</title>
       <link>https://crowdsec.net/blog/the-paperphone-cluster-one-operator-80k-ips-43-countries</link>
@@ -2124,26 +2152,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2102730572858642622">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 12:03:30 +0000</pubDate>
       <guid isPermaLink="false">2102730572858642622</guid>
-    </item>
-    <item>
-      <title>Operation Conflict Compass: Konni Targets Ukraine via Malicious LNK Lures</title>
-      <link>https://socradar.io/blog/operation-conflict-compass-konni-ukraine-lnk-lure/</link>
-      <description>DPRK Konni group targets Ukraine-focused diplomats and think tanks in Operation Conflict Compass, deploying a new modular downloader called VelvetCake via LNK lures and trojanized Zoom installers.
-
-- Initial access arrives as ZIP archives containing LNK files masquerading as PDFs (T1566.001, T1036.007). Lure themes include Russia-Ukraine 🇺🇦 peace frameworks, Strait of Hormuz food security impacts, and a Ukrainian 🇺🇦 social researcher CV, pointing squarely at diplomatic entities, NGOs, and defense think tanks. A trojanized Zoom installer (SHA256: 0db1e8a3075ffc2f5caa91abaeabb6ba4365ae0eda64d179374614a79e317733) delivers the same payload chain (T1566.002).
-
-- The LNK drops two payloads from a GitHub staging repo: update1.vbs creates a scheduled task named OneDriveUpdateScheduler that runs update2.ps1 every minute via explorer.exe (T1053.005). An alternate variant skips disk writes entirely, using Net.WebClient.DownloadString and iex to execute VelvetCake in memory directly from C2.
-
-- VelvetCake (T1095) opens a raw TCP socket to 111.92.246[.]145:12345, authenticates with hardcoded PASSWORD MySecurePass123, pulls queued PowerShell scripts, executes them, exfiltrates output files from C:UsersPublic via UPLOAD with a 0x12345678 header flag, then deletes artifacts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102715523330871741</description>
-      <content:encoded><![CDATA[<p>DPRK Konni group targets Ukraine-focused diplomats and think tanks in Operation Conflict Compass, deploying a new modular downloader called VelvetCake via LNK lures and trojanized Zoom installers.</p><p>- Initial access arrives as ZIP archives containing LNK files masquerading as PDFs (T1566.001, T1036.007). Lure themes include Russia-Ukraine 🇺🇦 peace frameworks, Strait of Hormuz food security impacts, and a Ukrainian 🇺🇦 social researcher CV, pointing squarely at diplomatic entities, NGOs, and defense think tanks. A trojanized Zoom installer (SHA256: 0db1e8a3075ffc2f5caa91abaeabb6ba4365ae0eda64d179374614a79e317733) delivers the same payload chain (T1566.002).</p><p>- The LNK drops two payloads from a GitHub staging repo: update1.vbs creates a scheduled task named OneDriveUpdateScheduler that runs update2.ps1 every minute via explorer.exe (T1053.005). An alternate variant skips disk writes entirely, using Net.WebClient.DownloadString and iex to execute VelvetCake in memory directly from C2.</p><p>- VelvetCake (T1095) opens a raw TCP socket to 111.92.246[.]145:12345, authenticates with hardcoded PASSWORD MySecurePass123, pulls queued PowerShell scripts, executes them, exfiltrates output files from C:UsersPublic via UPLOAD with a 0x12345678 header flag, then deletes artifacts.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/operation-conflict-compass-konni-ukraine-lnk-lure/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102715523330871741">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102715523330871741</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102715523330871741">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 11:03:42 +0000</pubDate>
-      <guid isPermaLink="false">2102715523330871741</guid>
     </item>
   </channel>
 </rss>
