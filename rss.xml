@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 21:03:15 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 22:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cisco Catalyst SD-WAN Manager flaw exploited</title>
+      <link>https://fieldeffect.com/blog/exploitation-cisco-catalyst-sd-wan-manager</link>
+      <description>CVE-2026-76504 in Cisco Catalyst SD-WAN Manager carries a CVSS v3.1 score of 9.8, is actively exploited in the wild, and gives unauthenticated remote attackers administrator-level API access to the central management plane of SD-WAN environments.
+
+- CVE-2026-76504 stems from improper handling of URL-encoded characters during request processing against a specific API endpoint. An attacker sends a crafted HTTP request containing URL-encoded variants of the j_security_check authentication path, bypassing the authentication check entirely. No credentials, no user interaction, no foothold elsewhere in the network required. Internet-exposed instances are the primary attack surface, and Cisco confirmed exploitation was occurring before the patch shipped on September 30, 2026.
+
+- The management plane is the target because it is worth more than any single device it manages. Cisco Catalyst SD-WAN Manager (formerly Viptela vManage) controls routing policies, network segmentation rules, device configurations, administrative accounts, and site connectivity across every location the SD-WAN environment serves. Unauthorized administrative access here means an adversary can reshape network operations from a single chokepoint rather than pivoting device by device.
+
+- Cisco published two concrete log sources for IR teams. Check /var/log/nms/containers/service-proxy/serviceproxy-access.log for HTTP requests containing encoded variants of the j_security_check path. Check /var/log/nms/vmanage-server.log for authentication events involving usernames that begin with viptela-reserved-. That internal account naming convention is a Viptela legacy carried forward into the Cisco rebrand, and activity against those reserved accounts is a signal the authentication bypass was successfully triggered, not just attempted.
+
+- On-premises deployments require a manual software update. Cisco SD-WAN Cloud (Cisco Managed) customers have already received the fix and need no further action. Remediation version details are accessible through the Help menu in the management interface. While patching is evaluated or deployed, restrict access to the SD-WAN Manager administrative interface to trusted management networks and approved administrative hosts only. Internet exposure with no network-layer control is the condition that makes this trivially exploitable.
+
+Takeaway: Start with exposure. Identify every internet-reachable SD-WAN Manager instance in your environment today. Pull serviceproxy-access.log and search for encoded j_security_check variants. Pull vmanage-server.log and hunt for viptela-reserved- account activity. Any hit on the account pattern should be treated as confirmed compromise and escalated immediately. Correlate suspicious administrative sessions against firewall, proxy, and authentication telemetry because successful exploitation may look like a legitimate admin session once the bypass has fired. The IOCs Cisco published are noted in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105418072983044405</description>
+      <content:encoded><![CDATA[<p>CVE-2026-76504 in Cisco Catalyst SD-WAN Manager carries a CVSS v3.1 score of 9.8, is actively exploited in the wild, and gives unauthenticated remote attackers administrator-level API access to the central management plane of SD-WAN environments.</p><p>- CVE-2026-76504 stems from improper handling of URL-encoded characters during request processing against a specific API endpoint. An attacker sends a crafted HTTP request containing URL-encoded variants of the j_security_check authentication path, bypassing the authentication check entirely. No credentials, no user interaction, no foothold elsewhere in the network required. Internet-exposed instances are the primary attack surface, and Cisco confirmed exploitation was occurring before the patch shipped on September 30, 2026.</p><p>- The management plane is the target because it is worth more than any single device it manages. Cisco Catalyst SD-WAN Manager (formerly Viptela vManage) controls routing policies, network segmentation rules, device configurations, administrative accounts, and site connectivity across every location the SD-WAN environment serves. Unauthorized administrative access here means an adversary can reshape network operations from a single chokepoint rather than pivoting device by device.</p><p>- Cisco published two concrete log sources for IR teams. Check /var/log/nms/containers/service-proxy/serviceproxy-access.log for HTTP requests containing encoded variants of the j_security_check path. Check /var/log/nms/vmanage-server.log for authentication events involving usernames that begin with viptela-reserved-. That internal account naming convention is a Viptela legacy carried forward into the Cisco rebrand, and activity against those reserved accounts is a signal the authentication bypass was successfully triggered, not just attempted.</p><p>- On-premises deployments require a manual software update. Cisco SD-WAN Cloud (Cisco Managed) customers have already received the fix and need no further action. Remediation version details are accessible through the Help menu in the management interface. While patching is evaluated or deployed, restrict access to the SD-WAN Manager administrative interface to trusted management networks and approved administrative hosts only. Internet exposure with no network-layer control is the condition that makes this trivially exploitable.</p><p>Takeaway: Start with exposure. Identify every internet-reachable SD-WAN Manager instance in your environment today. Pull serviceproxy-access.log and search for encoded j_security_check variants. Pull vmanage-server.log and hunt for viptela-reserved- account activity. Any hit on the account pattern should be treated as confirmed compromise and escalated immediately. Correlate suspicious administrative sessions against firewall, proxy, and authentication telemetry because successful exploitation may look like a legitimate admin session once the bypass has fired. The IOCs Cisco published are noted in the report.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/exploitation-cisco-catalyst-sd-wan-manager">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105418072983044405">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105418072983044405</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105418072983044405">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 22:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2105418072983044405</guid>
+    </item>
     <item>
       <title>Attackers Exploit Zimbra Flaw to Deploy Web Shells and Harvest Authentication Secrets</title>
       <link>https://thehackernews.com/2026/09/attackers-exploit-zimbra-flaw-to-deploy.html</link>
@@ -2220,20 +2244,6 @@ Hunt for Windows executables making outbound HTTPS to AI provider endpoints and 
       <source url="https://x.com/DFIR_Radar/status/2103017541148750294">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 07:03:49 +0000</pubDate>
       <guid isPermaLink="false">2103017541148750294</guid>
-    </item>
-    <item>
-      <title>Meta’s Muse AI Assistant Rolled Out With a Serious Security Flaw</title>
-      <link>https://www.wired.com/story/metas-muse-ai-agent-zero-day/</link>
-      <description>A zero-day in Meta's Muse macOS AI assistant let any locally run app or terminal command hijack the auth token by redirecting the transcription endpoint to an attacker-controlled server. A ClickFix lure is enough to trigger it.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103002307210232024</description>
-      <content:encoded><![CDATA[<p>A zero-day in Meta&#x27;s Muse macOS AI assistant let any locally run app or terminal command hijack the auth token by redirecting the transcription endpoint to an attacker-controlled server. A ClickFix lure is enough to trigger it.</p><p>#DFIR_Radar</p><p><a href="https://www.wired.com/story/metas-muse-ai-agent-zero-day/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103002307210232024">View on X</a></p>]]></content:encoded>
-      <dc:creator>Wired Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103002307210232024</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2103002307210232024">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 06:03:17 +0000</pubDate>
-      <guid isPermaLink="false">2103002307210232024</guid>
     </item>
   </channel>
 </rss>
