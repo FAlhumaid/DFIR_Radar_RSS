@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 18:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 19:02:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Stolen GitHub Token (PAT): Incident Response Guide | Invictus Incident Response</title>
+      <link>https://www.invictus-ir.com/news/a-github-token-was-stolen-now-what</link>
+      <description>Compromised GitHub PATs are fueling a wave of source-code exfiltration incidents in 2026, with one stolen token routinely snowballing into 1,100+ exposed secrets across AWS, Azure, GCP, and CI/CD pipelines.
+
+Key findings:
+
+- The attack chain is consistent across cases Invictus IR has worked this year: token stolen from a developer endpoint via infostealer or malicious browser extension, automated API reconnaissance against /repositories/{id}/readme endpoints generating thousands of api.request events in minutes, bulk repository cloning, then secret harvesting that pivots into cloud platforms, SaaS, and internal systems. Developer workstations are the primary target because one compromised machine can yield source code, stored credentials, and development tooling simultaneously.
+
+- Classic PATs (prefix ghp_) dominate these cases and carry the worst blast radius: they inherit the compromised identity's full repository access and may never expire. Fine-grained PATs (github_pat_) limit exposure to named repositories and permissions. A stolen GitHub App private key is the worst case of all because it mints fresh installation tokens on demand across every App installation until the key itself is rotated. Revoking a token against an App key compromise does nothing.
+
+- GitHub telemetry gaps are the investigation's biggest enemy. git.clone and git.fetch events are retained for only 7 days and are accessible via REST API only, never in the web UI. api.request events (the ones that reveal the enumeration sweep) are available exclusively through audit log streaming, which must be explicitly enabled before the incident. Organizations on Free or Team plans get neither. If streaming was not configured in advance, the clone record is almost certainly gone by the time responders arrive.
+
+- Scoping rule from the report: where telemetry exists, scope to what it proves. Where it does not, the blast radius is the ceiling, not zero. A missing git.clone is evidence of absent logging, not an untouched repository. In one documented case, a single compromised token led to 300+ repositories cloned and more than 1,100 potential secrets identified across AWS, Azure, GCP, GitHub, Slack, and Snowflake. Validating and rotating those secrets required 30+ people across security, IT, and engineering for over a week.
+
+- Initial access investigation must move off GitHub entirely. GitHub shows post-use activity only. Hunt the affected endpoint in EDR telemetry for infostealer execution, suspicious credential store or browser access, unusual archive creation, and processes touching Git config files or CLI authentication state. Also check whether the token was exposed in public repositories or Git history using secret scanning or tools like TruffleHog, and review GitHub secret scanning alerts to see if the token was flagged before the compromise.
+
+Practitioner takeaway: Before anything else, identify the token prefix to set your blast radius ceiling, then pull Git events via the Audit Log REST API immediately because the 7-day window is already counting down. Check whether audit log streaming was enabled and whether api.request events were captured: thousands of readme endpoint hits in a short window is your enumeration signal. For every repository in scope, treat the full contents and full Git history as exfiltrated and start the secret validity triage from there. For hardening, the report recommends migrating broadly scoped classic PATs to fine-grained tokens or GitHub Apps, and replacing stored cloud credentials in workflows with OIDC entirely. Full guidance including token type reference tables and blast radius scoping methodology is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105372651577643121</description>
+      <content:encoded><![CDATA[<p>Compromised GitHub PATs are fueling a wave of source-code exfiltration incidents in 2026, with one stolen token routinely snowballing into 1,100+ exposed secrets across AWS, Azure, GCP, and CI/CD pipelines.</p><p>Key findings:</p><p>- The attack chain is consistent across cases Invictus IR has worked this year: token stolen from a developer endpoint via infostealer or malicious browser extension, automated API reconnaissance against /repositories/{id}/readme endpoints generating thousands of api.request events in minutes, bulk repository cloning, then secret harvesting that pivots into cloud platforms, SaaS, and internal systems. Developer workstations are the primary target because one compromised machine can yield source code, stored credentials, and development tooling simultaneously.</p><p>- Classic PATs (prefix ghp_) dominate these cases and carry the worst blast radius: they inherit the compromised identity&#x27;s full repository access and may never expire. Fine-grained PATs (github_pat_) limit exposure to named repositories and permissions. A stolen GitHub App private key is the worst case of all because it mints fresh installation tokens on demand across every App installation until the key itself is rotated. Revoking a token against an App key compromise does nothing.</p><p>- GitHub telemetry gaps are the investigation&#x27;s biggest enemy. git.clone and git.fetch events are retained for only 7 days and are accessible via REST API only, never in the web UI. api.request events (the ones that reveal the enumeration sweep) are available exclusively through audit log streaming, which must be explicitly enabled before the incident. Organizations on Free or Team plans get neither. If streaming was not configured in advance, the clone record is almost certainly gone by the time responders arrive.</p><p>- Scoping rule from the report: where telemetry exists, scope to what it proves. Where it does not, the blast radius is the ceiling, not zero. A missing git.clone is evidence of absent logging, not an untouched repository. In one documented case, a single compromised token led to 300+ repositories cloned and more than 1,100 potential secrets identified across AWS, Azure, GCP, GitHub, Slack, and Snowflake. Validating and rotating those secrets required 30+ people across security, IT, and engineering for over a week.</p><p>- Initial access investigation must move off GitHub entirely. GitHub shows post-use activity only. Hunt the affected endpoint in EDR telemetry for infostealer execution, suspicious credential store or browser access, unusual archive creation, and processes touching Git config files or CLI authentication state. Also check whether the token was exposed in public repositories or Git history using secret scanning or tools like TruffleHog, and review GitHub secret scanning alerts to see if the token was flagged before the compromise.</p><p>Practitioner takeaway: Before anything else, identify the token prefix to set your blast radius ceiling, then pull Git events via the Audit Log REST API immediately because the 7-day window is already counting down. Check whether audit log streaming was enabled and whether api.request events were captured: thousands of readme endpoint hits in a short window is your enumeration signal. For every repository in scope, treat the full contents and full Git history as exfiltrated and start the secret validity triage from there. For hardening, the report recommends migrating broadly scoped classic PATs to fine-grained tokens or GitHub Apps, and replacing stored cloud credentials in workflows with OIDC entirely. Full guidance including token type reference tables and blast radius scoping methodology is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.invictus-ir.com/news/a-github-token-was-stolen-now-what">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105372651577643121">View on X</a></p>]]></content:encoded>
+      <dc:creator>Invictus IR</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105372651577643121</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105372651577643121">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 19:02:11 +0000</pubDate>
+      <guid isPermaLink="false">2105372651577643121</guid>
+    </item>
     <item>
       <title>ShinyHunters Claims FBIJobs.gov Breach: New Zero-Day, CVE-2026-35273 Bypass, or Third-Party Failure?</title>
       <link>https://threatmon.io/shinyhunters-claims-fbijobs-gov-breach-new-zero-day-cve-2026-35273-bypass-or-third-party-failure/</link>
@@ -2180,30 +2208,6 @@ Hunt for Windows executables making outbound HTTPS to AI provider endpoints and 
       <source url="https://x.com/DFIR_Radar/status/2102972103733510213">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 04:03:16 +0000</pubDate>
       <guid isPermaLink="false">2102972103733510213</guid>
-    </item>
-    <item>
-      <title>Is This A Joke? In The Auth Header? (F5 BIG-IP UnAuth Heap-Overflow to RCE CVE-2026-94127)</title>
-      <link>https://labs.watchtowr.com/is-this-a-joke-in-the-auth-header-f5-big-ip-unauth-heap-overflow-to-rce-cve-2026-94127/</link>
-      <description>F5 BIG-IP APM heap overflow CVE-2026-94127 allows unauthenticated RCE via an oversized Authorization header. Actively exploited in the wild before patch release on Sept 22, 2026.
-
-Key findings:
-
-- The root cause is a missing bounds check in tmm64 (the F5 traffic management microkernel). A 0x4100-byte heap buffer is allocated for the OAuth userinfo flow, but the unpatched code copies the Authorization header value directly into that buffer without validating length first. A GET to /f5-oauth2/v1/userinfo with a Bearer token exceeding 0x4100 bytes triggers heap corruption, overwriting a function pointer at buffer+0x4ff8 and redirecting execution. No authentication required.
-
-- Exploitation works despite ASLR and NX because tmm64 has no PIE (base 0x400000), giving stable gadget addresses. A stack pivot chains into a ret2plt execvp call. SELinux blocks exec syscalls, so the bypass appends commands to /etc/bigstart/scripts/tmm.finish, a hook Bash script that runs automatically when tmm crashes, turning the crash itself into the execution trigger.
-
-- Affected: BIG-IP APM 21.x (21.1.0) and 17.x (17.1.0-17.5.1). Fixes are in Hotfix-BIGIP-21.1.0.2.0.30.22 and Hotfix-BIGIP-17.1.3.5.0.41.14. Other BIG-IP modules and BIG-IQ have no fix listed.
-
-- Detection artifacts: look for tmm process crashes in /var/log/tmm, unexpected writes to /etc/bigstart/scripts/tmm.finish, and oversized Authorization headers in access logs on the /f5-oauth2/ path.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102957093300944900</description>
-      <content:encoded><![CDATA[<p>F5 BIG-IP APM heap overflow CVE-2026-94127 allows unauthenticated RCE via an oversized Authorization header. Actively exploited in the wild before patch release on Sept 22, 2026.</p><p>Key findings:</p><p>- The root cause is a missing bounds check in tmm64 (the F5 traffic management microkernel). A 0x4100-byte heap buffer is allocated for the OAuth userinfo flow, but the unpatched code copies the Authorization header value directly into that buffer without validating length first. A GET to /f5-oauth2/v1/userinfo with a Bearer token exceeding 0x4100 bytes triggers heap corruption, overwriting a function pointer at buffer+0x4ff8 and redirecting execution. No authentication required.</p><p>- Exploitation works despite ASLR and NX because tmm64 has no PIE (base 0x400000), giving stable gadget addresses. A stack pivot chains into a ret2plt execvp call. SELinux blocks exec syscalls, so the bypass appends commands to /etc/bigstart/scripts/tmm.finish, a hook Bash script that runs automatically when tmm crashes, turning the crash itself into the execution trigger.</p><p>- Affected: BIG-IP APM 21.x (21.1.0) and 17.x (17.1.0-17.5.1). Fixes are in Hotfix-BIGIP-21.1.0.2.0.30.22 and Hotfix-BIGIP-17.1.3.5.0.41.14. Other BIG-IP modules and BIG-IQ have no fix listed.</p><p>- Detection artifacts: look for tmm process crashes in /var/log/tmm, unexpected writes to /etc/bigstart/scripts/tmm.finish, and oversized Authorization headers in access logs on the /f5-oauth2/ path.</p><p>#DFIR_Radar</p><p><a href="https://labs.watchtowr.com/is-this-a-joke-in-the-auth-header-f5-big-ip-unauth-heap-overflow-to-rce-cve-2026-94127/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102957093300944900">View on X</a></p>]]></content:encoded>
-      <dc:creator>Watchtowr Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102957093300944900</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2102957093300944900">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 03:03:37 +0000</pubDate>
-      <guid isPermaLink="false">2102957093300944900</guid>
     </item>
   </channel>
 </rss>
