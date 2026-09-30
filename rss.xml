@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 13:02:01 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 14:02:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Beware of Malware infection in Facebook Ads Offering Cryptocurrency Rewards</title>
+      <link>https://asec.ahnlab.com/en/95645/</link>
+      <description>JSCEAL, a Node.js-based infostealer, is spreading through Facebook-targeted ads impersonating cryptocurrency exchanges, with roughly 1,500 confirmed infections across Windows and macOS systems in Korea over August-September 2026.
+
+- The attack chain opens on Facebook with ads promising cryptocurrency rewards for installing an "official" exchange app. Clicking redirects to a convincing fake exchange site that mirrors the real brand's logo, color scheme, and live price feeds. Behind that facade, embedded malicious JavaScript fingerprints the visitor's OS, pulls configuration from an attacker-controlled server, and dynamically generates a platform-specific installer: a BAT file for Windows, a PKG file for macOS. The user never sees the generation happen.
+
+- On Windows, the BAT file is the first stage loader. It invokes PowerShell to pull additional code from an external server, tampers with Microsoft Defender by adding scan exclusions to suppress detection, registers a scheduled task for persistence, and drops a desktop shortcut at Users\Public\Desktop\Binance.LNK to sell the illusion of a legitimate install. The scheduled task is the persistence anchor and the mechanism that communicates with the C2 for follow-on commands. A compressed archive is then downloaded, decompressed, and the embedded Node.js runtime executes the JSCEAL payload as JavaScript or compiled V8 bytecode.
+
+- On macOS, the PKG postinstall script downloads and runs a secondary shell script, deletes temporary files to reduce traces, then presents a language-matched dialog box prompting the user for their account password. The script actively verifies the entered password against actual account credentials and writes it to a separate file. It also exfiltrates the Machine ID, computer name, clipboard contents, and PKG filename to an external server before registering a LaunchAgent for persistence and staging the Node.js environment for JSCEAL payload execution.
+
+- DFIR artifact focus for Windows: PowerShell execution history, Microsoft Defender exclusion registry modifications, scheduled task XML definitions (Task Scheduler operational log at Microsoft-Windows-TaskScheduler%4Operational.evtx), and the Binance.LNK shortcut under Users\Public\Desktop. For macOS: LaunchAgent plist files in /Library/LaunchAgents or ~/Library/LaunchAgents, shell script execution traces, any file created by the postinstall script holding a captured password, and outbound connections made during the PKG installation window. Clipboard data exfiltration means memory forensics or clipboard history artifacts may also hold investigative value.
+
+Practitioners responding to a suspected JSCEAL infection should prioritize pulling scheduled task definitions and Defender exclusion logs on Windows, and LaunchAgent entries alongside any password-capture files on macOS. Hunt for Node.js processes spawning JavaScript or V8 bytecode that arrived as a downloaded archive, and look for PowerShell reaching out to external hosts shortly after a BAT execution. The AhnLab ASEC report contains the full IOC list; pull it before scoping.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105297206781894770</description>
+      <content:encoded><![CDATA[<p>JSCEAL, a Node.js-based infostealer, is spreading through Facebook-targeted ads impersonating cryptocurrency exchanges, with roughly 1,500 confirmed infections across Windows and macOS systems in Korea over August-September 2026.</p><p>- The attack chain opens on Facebook with ads promising cryptocurrency rewards for installing an &quot;official&quot; exchange app. Clicking redirects to a convincing fake exchange site that mirrors the real brand&#x27;s logo, color scheme, and live price feeds. Behind that facade, embedded malicious JavaScript fingerprints the visitor&#x27;s OS, pulls configuration from an attacker-controlled server, and dynamically generates a platform-specific installer: a BAT file for Windows, a PKG file for macOS. The user never sees the generation happen.</p><p>- On Windows, the BAT file is the first stage loader. It invokes PowerShell to pull additional code from an external server, tampers with Microsoft Defender by adding scan exclusions to suppress detection, registers a scheduled task for persistence, and drops a desktop shortcut at Users\Public\Desktop\Binance.LNK to sell the illusion of a legitimate install. The scheduled task is the persistence anchor and the mechanism that communicates with the C2 for follow-on commands. A compressed archive is then downloaded, decompressed, and the embedded Node.js runtime executes the JSCEAL payload as JavaScript or compiled V8 bytecode.</p><p>- On macOS, the PKG postinstall script downloads and runs a secondary shell script, deletes temporary files to reduce traces, then presents a language-matched dialog box prompting the user for their account password. The script actively verifies the entered password against actual account credentials and writes it to a separate file. It also exfiltrates the Machine ID, computer name, clipboard contents, and PKG filename to an external server before registering a LaunchAgent for persistence and staging the Node.js environment for JSCEAL payload execution.</p><p>- DFIR artifact focus for Windows: PowerShell execution history, Microsoft Defender exclusion registry modifications, scheduled task XML definitions (Task Scheduler operational log at Microsoft-Windows-TaskScheduler%4Operational.evtx), and the Binance.LNK shortcut under Users\Public\Desktop. For macOS: LaunchAgent plist files in /Library/LaunchAgents or ~/Library/LaunchAgents, shell script execution traces, any file created by the postinstall script holding a captured password, and outbound connections made during the PKG installation window. Clipboard data exfiltration means memory forensics or clipboard history artifacts may also hold investigative value.</p><p>Practitioners responding to a suspected JSCEAL infection should prioritize pulling scheduled task definitions and Defender exclusion logs on Windows, and LaunchAgent entries alongside any password-capture files on macOS. Hunt for Node.js processes spawning JavaScript or V8 bytecode that arrived as a downloaded archive, and look for PowerShell reaching out to external hosts shortly after a BAT execution. The AhnLab ASEC report contains the full IOC list; pull it before scoping.</p><p>#DFIR_Radar</p><p><a href="https://asec.ahnlab.com/en/95645/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105297206781894770">View on X</a></p>]]></content:encoded>
+      <dc:creator>AhnLab ASEC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105297206781894770</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2105297206781894770">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 14:02:23 +0000</pubDate>
+      <guid isPermaLink="false">2105297206781894770</guid>
+    </item>
     <item>
       <title>MALFEX - A malicious npm postinstall no advisory has caught for fourteen months</title>
       <link>https://www.cloudsek.com/blog/malfex-malicious-npm-postinstall-supply-chain-campaign</link>
@@ -2136,28 +2160,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2102896740391100860">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 23:03:48 +0000</pubDate>
       <guid isPermaLink="false">2102896740391100860</guid>
-    </item>
-    <item>
-      <title>Hunting Invisible Unicode in Emails (+ KQL Queries)</title>
-      <link>https://detect.fyi/hunting-invisible-unicode-in-emails-kql-queries-71722628161c?source=rss----d5fd8f494f6a---4</link>
-      <description>Invisible Unicode characters in email subjects and sender display names can silently bypass string-matching detections while leaving the rendered message visually unchanged to the human reader.
-
-- Attackers insert zero-width and directional Unicode characters (U+200B-U+200F, U+202A-U+202E, U+2060-U+206F, U+FEFF) inside words like "Microsoft" to break exact-match filters. The user sees nothing different; a parser or security product may see a completely different string, undermining keyword-based detections and potentially manipulating AI email agents that process extracted text rather than rendered HTML.
-
-- The hunting approach targets EmailEvents in Microsoft Defender XDR via KQL, extracting suspicious characters from Subject and SenderDisplayName using extract_all with the Unicode ranges above, then building a composite risk score: +40 for Unicode symbols/icons in subject (U+2600-U+27BF), +20 for hidden Unicode in subject, +20 for hidden Unicode in SenderDisplayName, +20 for multi-country sender infrastructure.
-
-- The query retains NetworkMessageId and RecipientEmailAddress, making it suitable as a Defender XDR Custom Detection rule, not just a one-time hunt. Output is sorted by RiskScore descending so the highest-signal emails surface first.
-
-Takeaway: Run the full KQL from the report against your EmailEvents table. A non-zero RiskScore is a hunting lead, not a verdict.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102881672127496426</description>
-      <content:encoded><![CDATA[<p>Invisible Unicode characters in email subjects and sender display names can silently bypass string-matching detections while leaving the rendered message visually unchanged to the human reader.</p><p>- Attackers insert zero-width and directional Unicode characters (U+200B-U+200F, U+202A-U+202E, U+2060-U+206F, U+FEFF) inside words like &quot;Microsoft&quot; to break exact-match filters. The user sees nothing different; a parser or security product may see a completely different string, undermining keyword-based detections and potentially manipulating AI email agents that process extracted text rather than rendered HTML.</p><p>- The hunting approach targets EmailEvents in Microsoft Defender XDR via KQL, extracting suspicious characters from Subject and SenderDisplayName using extract_all with the Unicode ranges above, then building a composite risk score: +40 for Unicode symbols/icons in subject (U+2600-U+27BF), +20 for hidden Unicode in subject, +20 for hidden Unicode in SenderDisplayName, +20 for multi-country sender infrastructure.</p><p>- The query retains NetworkMessageId and RecipientEmailAddress, making it suitable as a Defender XDR Custom Detection rule, not just a one-time hunt. Output is sorted by RiskScore descending so the highest-signal emails surface first.</p><p>Takeaway: Run the full KQL from the report against your EmailEvents table. A non-zero RiskScore is a hunting lead, not a verdict.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/hunting-invisible-unicode-in-emails-kql-queries-71722628161c?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102881672127496426">View on X</a></p>]]></content:encoded>
-      <dc:creator>Detect FYI</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102881672127496426</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2102881672127496426">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 22:03:56 +0000</pubDate>
-      <guid isPermaLink="false">2102881672127496426</guid>
     </item>
   </channel>
 </rss>
