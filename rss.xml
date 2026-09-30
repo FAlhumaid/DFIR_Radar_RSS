@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 00:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 01:02:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The PaperPhone Cluster: One Operator, 80K IPs, 43 countries</title>
+      <link>https://crowdsec.net/blog/the-paperphone-cluster-one-operator-80k-ips-43-countries</link>
+      <description>A single scraping operator running 80K IPs across 43 countries is exposed as a coordinated bot cluster hiding behind fabricated geolocation, spoofed mobile identities, and a deliberately fragmented IP portfolio designed to defeat traditional blocklisting.
+
+Key findings:
+
+- CrowdSec's alpha bot detection feature, shipped in v1.8.0, surfaced the cluster dubbed "PaperPhone" within two weeks of community deployment. 75,000 IPs spread across 230 IP blocks and 80 networks are involved. The infrastructure predates discovery, with IPs progressively joining as more sensors came online and IP rotation accelerating as banned addresses cycled out. The full breadth only became visible because the detection layer shifted from "what is this IP doing" to "what is the client behind this IP actually running", a meaningful investigative pivot.
+
+- Geographic diversity is manufactured, not real. Traffic claims to originate from 43 countries, but request timing betrays a single operator timezone. Japan 🇯🇵 peaks at 05:00 local with 18.7% night-share, India 🇮🇳 peaks at 01:00 with 18.5%. Synchronization across regions 13 to 14 hours apart (Japan 🇯🇵/US, Australia 🇦🇺/Canada) collapses when viewed in UTC, exposing a single coordinated pulse. IP blocks reinforce this: adjacent /23s in the same /22 are artificially geolocated to Brussels, Bangkok, Tokyo, and Paris, a deliberate fragmentation pattern repeated across all 230 blocks. WHOIS inconsistencies compound it, with ranges showing mismatched RIRs, registrant countries, and claimed geolocations simultaneously.
+
+- Bot fingerprinting uncovered consistent lies at the browser layer. The cluster cycles through exactly 13 device identities: 5 Android variants (Pixel 9, Samsung Galaxy S25 Ultra, others) and 7 iOS variants. Every single bot, regardless of claimed device, reported a 375x812 viewport matching iPhone 10/11 only, and every browser returned Google SwiftShader as the WebGL renderer via UNMASKED_RENDERER_WEBGL. SwiftShader is a CPU-based software renderer used when no GPU is available. Modern flagship Android hardware essentially never triggers it, and iOS devices run WebKit, making a SwiftShader signal on claimed iOS 14/15 technically impossible.
+
+- M247 does not own the IP blocks but routes more than 20% of PaperPhone's traffic as transit provider. A small number of controlling entities own the majority of the 230 blocks, with ranges showing inter-regional transfers as recently as 2025 to obscure lineage. Block utilization density shows most ranges were used at or near full capacity during scraping operations, ruling out coincidental residential overlap and confirming this is purpose-built datacenter infrastructure dressed up as organic global traffic.
+
+Practitioner takeaway: geoblocking fails against operators who manufacture geographic identity at the IP registration layer. The detection surface that actually works here is client-side behavioral fingerprinting: viewport dimensions, WebGL renderer strings, and timezone-to-request-time correlation. For threat hunters, UNMASKED_RENDERER_WEBGL returning SwiftShader on claimed mobile user agents is a high-confidence bot signal worth building into WAF and SIEM detection logic. When investigating scraping clusters, cross-reference AS ownership graphs against transit providers, not just WHOIS registrant country, because M247 routing 20% of traffic without owning a single block shows how transit-layer attribution matters. Full cluster data and IOC context are in the CrowdSec report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105100847134785827</description>
+      <content:encoded><![CDATA[<p>A single scraping operator running 80K IPs across 43 countries is exposed as a coordinated bot cluster hiding behind fabricated geolocation, spoofed mobile identities, and a deliberately fragmented IP portfolio designed to defeat traditional blocklisting.</p><p>Key findings:</p><p>- CrowdSec&#x27;s alpha bot detection feature, shipped in v1.8.0, surfaced the cluster dubbed &quot;PaperPhone&quot; within two weeks of community deployment. 75,000 IPs spread across 230 IP blocks and 80 networks are involved. The infrastructure predates discovery, with IPs progressively joining as more sensors came online and IP rotation accelerating as banned addresses cycled out. The full breadth only became visible because the detection layer shifted from &quot;what is this IP doing&quot; to &quot;what is the client behind this IP actually running&quot;, a meaningful investigative pivot.</p><p>- Geographic diversity is manufactured, not real. Traffic claims to originate from 43 countries, but request timing betrays a single operator timezone. Japan 🇯🇵 peaks at 05:00 local with 18.7% night-share, India 🇮🇳 peaks at 01:00 with 18.5%. Synchronization across regions 13 to 14 hours apart (Japan 🇯🇵/US, Australia 🇦🇺/Canada) collapses when viewed in UTC, exposing a single coordinated pulse. IP blocks reinforce this: adjacent /23s in the same /22 are artificially geolocated to Brussels, Bangkok, Tokyo, and Paris, a deliberate fragmentation pattern repeated across all 230 blocks. WHOIS inconsistencies compound it, with ranges showing mismatched RIRs, registrant countries, and claimed geolocations simultaneously.</p><p>- Bot fingerprinting uncovered consistent lies at the browser layer. The cluster cycles through exactly 13 device identities: 5 Android variants (Pixel 9, Samsung Galaxy S25 Ultra, others) and 7 iOS variants. Every single bot, regardless of claimed device, reported a 375x812 viewport matching iPhone 10/11 only, and every browser returned Google SwiftShader as the WebGL renderer via UNMASKED_RENDERER_WEBGL. SwiftShader is a CPU-based software renderer used when no GPU is available. Modern flagship Android hardware essentially never triggers it, and iOS devices run WebKit, making a SwiftShader signal on claimed iOS 14/15 technically impossible.</p><p>- M247 does not own the IP blocks but routes more than 20% of PaperPhone&#x27;s traffic as transit provider. A small number of controlling entities own the majority of the 230 blocks, with ranges showing inter-regional transfers as recently as 2025 to obscure lineage. Block utilization density shows most ranges were used at or near full capacity during scraping operations, ruling out coincidental residential overlap and confirming this is purpose-built datacenter infrastructure dressed up as organic global traffic.</p><p>Practitioner takeaway: geoblocking fails against operators who manufacture geographic identity at the IP registration layer. The detection surface that actually works here is client-side behavioral fingerprinting: viewport dimensions, WebGL renderer strings, and timezone-to-request-time correlation. For threat hunters, UNMASKED_RENDERER_WEBGL returning SwiftShader on claimed mobile user agents is a high-confidence bot signal worth building into WAF and SIEM detection logic. When investigating scraping clusters, cross-reference AS ownership graphs against transit providers, not just WHOIS registrant country, because M247 routing 20% of traffic without owning a single block shows how transit-layer attribution matters. Full cluster data and IOC context are in the CrowdSec report.</p><p>#DFIR_Radar</p><p><a href="https://crowdsec.net/blog/the-paperphone-cluster-one-operator-80k-ips-43-countries">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105100847134785827">View on X</a></p>]]></content:encoded>
+      <dc:creator>CrowdSec</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105100847134785827</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105100847134785827">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 01:02:08 +0000</pubDate>
+      <guid isPermaLink="false">2105100847134785827</guid>
+    </item>
     <item>
       <title>No MDM for Linux? A 68-line Elastic workflow keeps every endpoint's config current</title>
       <link>https://www.elastic.co/security-labs/blog/linux-endpoint-management-elastic-workflows</link>
@@ -118,7 +144,7 @@ For incident responders: if you are investigating a potentially compromised EKS 
       <guid isPermaLink="false">2105041235941708275</guid>
     </item>
     <item>
-      <title>Digital Forensics: iOS Forensics – Basics</title>
+      <title>Digital Forensics: iOS Forensics: Basics</title>
       <link>https://hackers-arise.com/digital-forensics-ios-forensics-basics/</link>
       <description>iOS forensics fundamentals explained through the lens of encryption classes, BFU/AFU state, and the 72-hour reboot window introduced in iOS 18.1, with practical guidance on extraction methods and key artifacts.
 
@@ -174,7 +200,7 @@ Takeaway: In any identity-driven cloud intrusion, pull Azure DevOps audit logs a
       <guid isPermaLink="false">2105025951117828417</guid>
     </item>
     <item>
-      <title>Ransomware Response Playbook for MSPs | Todyl</title>
+      <title>Ransomware Response Playbook for MSPs</title>
       <link>https://www.todyl.com/blog/ransomware-response-playbook-for-msps</link>
       <description>Ransomware hit 48% of all breaches in Verizon's 2026 DBIR, and MSPs are both first responders and targets. The first 90 minutes, the evidence you preserve, and the calls you make in sequence decide the outcome.
 
@@ -828,7 +854,7 @@ Practitioner takeaway: Do not treat this as patch-and-close. Inventory every cus
       <guid isPermaLink="false">2104376005712314569</guid>
     </item>
     <item>
-      <title>Introducing ADE-Skills — Adversarial Detection Engineering Knowledge Base</title>
+      <title>Introducing ADE-Skills: Adversarial Detection Engineering Knowledge Base</title>
       <link>https://detect.fyi/introducing-ade-skills-adversarial-detection-engineering-knowledge-base-397a8910c982?source=rss----d5fd8f494f6a---4</link>
       <description>ADE-Skills launches as a public knowledge base for adversarial detection engineering, cataloging 37 technique files and nearly 600 candidate bypass findings across Elastic, Microsoft Sentinel, and Sigma rulesets.
 
@@ -1408,7 +1434,7 @@ For response and hunting: query EDR and process logs for pip.exe spawned by non-
       <guid isPermaLink="false">2103304490803995090</guid>
     </item>
     <item>
-      <title>Corrobora – Cross-Artifact Consistency Analysis For Windows Digital Forensics</title>
+      <title>Corrobora: Cross-Artifact Consistency Analysis For Windows Digital Forensics</title>
       <link>https://www.forensicfocus.com/articles/corrobora-cross-artifact-consistency-analysis-for-windows-digital-forensics/</link>
       <description>Dielle De Noon's open-source Corrobora framework applies cross-artifact consistency analysis to Windows forensics, correlating evidence across multiple artifact types to surface inconsistencies a single-source review would miss.
 
@@ -2030,7 +2056,7 @@ Hunt for SHA-256 35dd164a[...]dd13c2cc (78324.exe), f0a6870c[...]07ff3975 (auto.
       <guid isPermaLink="false">2102775831068049516</guid>
     </item>
     <item>
-      <title>OAuth Token Theft Through Microsoft's Front Door | Huntress</title>
+      <title>OAuth Token Theft Through Microsoft's Front Door</title>
       <link>https://www.huntress.com/blog/stealing-oauth-tokens-through-microsofts-front-door</link>
       <description>A Microsoft-signed binary, WWAHost.exe, can be weaponized via a sideloaded AppX package to present a real Microsoft login dialog and steal OAuth tokens including refresh tokens, bypassing MFA entirely because the user authenticates legitimately.
 
@@ -2118,34 +2144,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2102715523330871741">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 11:03:42 +0000</pubDate>
       <guid isPermaLink="false">2102715523330871741</guid>
-    </item>
-    <item>
-      <title>Inside a multi stage toll fraud operation targeting Poland</title>
-      <link>https://cert.pl/en/posts/2026/09/tollfraud-analysis/</link>
-      <description>Polish 🇵🇱 users hit by a sophisticated toll fraud ring using Meta ads and Google Play apps to silently charge premium SMS and carrier billing without victim awareness.
-
-Key details:
-
-- CERT Polska preserved 1,235 fraudulent Meta ads, linking 852 of them to 17 malicious Android applications distributed through Google Play, connected via shared code and overlapping infrastructure
-
-- The full execution chain was reconstructed end-to-end: deceptive ads lure victims to install apps, which then receive silent tasking to trigger premium SMS subscriptions or carrier billing charges without user interaction
-
-- Attribution confidence is high because investigators observed live tasking in action, meaning the C2 infrastructure was caught actively instructing devices to commit fraud in real time
-
-- Linkage across 17 apps was established through code similarity and shared infrastructure, a classic cluster pivot that suggests a single threat actor or affiliate operating at scale
-
-- The fraud mechanism abuses legitimate carrier billing and premium SMS systems, meaning charges appear on phone bills rather than payment cards, making victim detection and chargeback significantly harder
-
-Hunt for Android apps with SEND_SMS, READ_PHONE_STATE, and RECEIVE_WAP_PUSH permissions installed from Play around the campaign window. Cross-reference billing anomalies with app install timestamps. Full IOC list, ad samples, and infrastructure details are in the CERT Polska report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102700177740169566</description>
-      <content:encoded><![CDATA[<p>Polish 🇵🇱 users hit by a sophisticated toll fraud ring using Meta ads and Google Play apps to silently charge premium SMS and carrier billing without victim awareness.</p><p>Key details:</p><p>- CERT Polska preserved 1,235 fraudulent Meta ads, linking 852 of them to 17 malicious Android applications distributed through Google Play, connected via shared code and overlapping infrastructure</p><p>- The full execution chain was reconstructed end-to-end: deceptive ads lure victims to install apps, which then receive silent tasking to trigger premium SMS subscriptions or carrier billing charges without user interaction</p><p>- Attribution confidence is high because investigators observed live tasking in action, meaning the C2 infrastructure was caught actively instructing devices to commit fraud in real time</p><p>- Linkage across 17 apps was established through code similarity and shared infrastructure, a classic cluster pivot that suggests a single threat actor or affiliate operating at scale</p><p>- The fraud mechanism abuses legitimate carrier billing and premium SMS systems, meaning charges appear on phone bills rather than payment cards, making victim detection and chargeback significantly harder</p><p>Hunt for Android apps with SEND_SMS, READ_PHONE_STATE, and RECEIVE_WAP_PUSH permissions installed from Play around the campaign window. Cross-reference billing anomalies with app install timestamps. Full IOC list, ad samples, and infrastructure details are in the CERT Polska report.</p><p>#DFIR_Radar</p><p><a href="https://cert.pl/en/posts/2026/09/tollfraud-analysis/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102700177740169566">View on X</a></p>]]></content:encoded>
-      <dc:creator>CERT Poland</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102700177740169566</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102700177740169566">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 10:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2102700177740169566</guid>
     </item>
   </channel>
 </rss>
