@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 20:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 21:03:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Exploit Zimbra Flaw to Deploy Web Shells and Harvest Authentication Secrets</title>
+      <link>https://thehackernews.com/2026/09/attackers-exploit-zimbra-flaw-to-deploy.html</link>
+      <description>CVE-2026-73570 in Zimbra Collaboration Suite is actively exploited, CISA KEV-listed, and carries a CVSS score of 8.9. Attackers moved from unauthenticated SMTP to full credential harvest and mailbox exfiltration before the flaw was even publicly disclosed.
+
+Key findings:
+
+- CVE-2026-73570 is an unauthenticated OS command injection flaw triggered by a specially crafted SMTP request when the zimbra-snmp package is installed and SNMP notifications are enabled. No authentication, no user interaction required. Zimbra patched it in version 10.1.20 (July 2026), but Microsoft's telemetry shows active exploitation began July 28, a full two weeks before public disclosure on August 13. CISA added it to KEV with a federal remediation deadline of August 24, 2026.
+
+- The post-exploitation chain is methodical and layered. Attackers ran commands as the "zimbra" service account, dropped JSP web shells into Jetty and mailboxd application paths for redundancy, and used wget or curl to pull additional payloads. Persistence was established through cron, systemd (a service named "zimlog.service"), memfd_create for memory-backed execution, SSH authorized_keys additions, and local account creation. Privilege escalation came via modification of /etc/pam.d/sudo to grant the zimbra account unrestricted passwordless sudo.
+
+- Rather than targeting individual mailbox passwords, attackers used "zmlocalconfig -s" to extract Zimbra's centralized authentication secrets directly, recovering zimbraPreAuthKey, zimbraAuthTokenKey, and zimbraTwoFactorAuthSecret. A Go-based implant then parsed /opt/zimbra/conf/localconfig.xml to build MySQL and LDAP connection strings and export the mailbox, mailbox_metadata, and mobile_devices tables, plus the full zimbra.* namespace. Harvested data was compressed into a ZIP and staged for exfiltration.
+
+- In at least one campaign, a lightweight shell downloader retrieved a "Zimdown2" Go binary that installed the "Zimclient2" remote-access agent, supporting interactive shell, bidirectional file transfer, and SOCKS5 proxying over WebSocket, TLS, or raw TCP. Lateral movement across cluster nodes used Zimbra's own SSH identity at /opt/zimbra/.ssh/zimbra_identity with rsync to distribute web shells.
+
+- In one confirmed case, the attacker staged mailbox backup content as /opt/zimbra/final.tar.gz and attempted exfiltration via AzCopy (downloaded from hxxps://aka[.]ms/downloadazcopy-v10-linux) to wsweb03.blob.core[.]windows[.]net/log/windows.log using an operator-supplied Azure Blob SAS URL. Whether the transfer completed is unconfirmed.
+
+Practitioner takeaway: If you run Zimbra, patch to 10.1.20 immediately or uninstall zimbra-snmp and restrict SNMP/SMTP to trusted hosts as interim mitigation. For response and hunting, CERT Polska flagged /var/log/zimbra.log for suspicious service restarts as the first triage step. Then sweep Jetty and mailboxd webapps directories and /tmp for JSP web shells created after July 20. Check /etc/pam.d/sudo for unauthorized modifications, review /etc/systemd/system/ for zimlog.service or any unfamiliar unit files, and audit /opt/zimbra/.ssh/authorized_keys and local account additions. Run "zmlocalconfig -s" output against your expected secrets baseline and rotate zimbraPreAuthKey, zimbraAuthTokenKey, and zimbraTwoFactorAuthSecret if compromise is suspected. Hunt process trees for zmprov, zmlocalconfig, rsync, AzCopy, and memfd_create-backed processes spawned from the zimbra account. The full IOC list and attack-chain detail are in Microsoft's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105403119030898963</description>
+      <content:encoded><![CDATA[<p>CVE-2026-73570 in Zimbra Collaboration Suite is actively exploited, CISA KEV-listed, and carries a CVSS score of 8.9. Attackers moved from unauthenticated SMTP to full credential harvest and mailbox exfiltration before the flaw was even publicly disclosed.</p><p>Key findings:</p><p>- CVE-2026-73570 is an unauthenticated OS command injection flaw triggered by a specially crafted SMTP request when the zimbra-snmp package is installed and SNMP notifications are enabled. No authentication, no user interaction required. Zimbra patched it in version 10.1.20 (July 2026), but Microsoft&#x27;s telemetry shows active exploitation began July 28, a full two weeks before public disclosure on August 13. CISA added it to KEV with a federal remediation deadline of August 24, 2026.</p><p>- The post-exploitation chain is methodical and layered. Attackers ran commands as the &quot;zimbra&quot; service account, dropped JSP web shells into Jetty and mailboxd application paths for redundancy, and used wget or curl to pull additional payloads. Persistence was established through cron, systemd (a service named &quot;zimlog.service&quot;), memfd_create for memory-backed execution, SSH authorized_keys additions, and local account creation. Privilege escalation came via modification of /etc/pam.d/sudo to grant the zimbra account unrestricted passwordless sudo.</p><p>- Rather than targeting individual mailbox passwords, attackers used &quot;zmlocalconfig -s&quot; to extract Zimbra&#x27;s centralized authentication secrets directly, recovering zimbraPreAuthKey, zimbraAuthTokenKey, and zimbraTwoFactorAuthSecret. A Go-based implant then parsed /opt/zimbra/conf/localconfig.xml to build MySQL and LDAP connection strings and export the mailbox, mailbox_metadata, and mobile_devices tables, plus the full zimbra.* namespace. Harvested data was compressed into a ZIP and staged for exfiltration.</p><p>- In at least one campaign, a lightweight shell downloader retrieved a &quot;Zimdown2&quot; Go binary that installed the &quot;Zimclient2&quot; remote-access agent, supporting interactive shell, bidirectional file transfer, and SOCKS5 proxying over WebSocket, TLS, or raw TCP. Lateral movement across cluster nodes used Zimbra&#x27;s own SSH identity at /opt/zimbra/.ssh/zimbra_identity with rsync to distribute web shells.</p><p>- In one confirmed case, the attacker staged mailbox backup content as /opt/zimbra/final.tar.gz and attempted exfiltration via AzCopy (downloaded from hxxps://aka[.]ms/downloadazcopy-v10-linux) to wsweb03.blob.core[.]windows[.]net/log/windows.log using an operator-supplied Azure Blob SAS URL. Whether the transfer completed is unconfirmed.</p><p>Practitioner takeaway: If you run Zimbra, patch to 10.1.20 immediately or uninstall zimbra-snmp and restrict SNMP/SMTP to trusted hosts as interim mitigation. For response and hunting, CERT Polska flagged /var/log/zimbra.log for suspicious service restarts as the first triage step. Then sweep Jetty and mailboxd webapps directories and /tmp for JSP web shells created after July 20. Check /etc/pam.d/sudo for unauthorized modifications, review /etc/systemd/system/ for zimlog.service or any unfamiliar unit files, and audit /opt/zimbra/.ssh/authorized_keys and local account additions. Run &quot;zmlocalconfig -s&quot; output against your expected secrets baseline and rotate zimbraPreAuthKey, zimbraAuthTokenKey, and zimbraTwoFactorAuthSecret if compromise is suspected. Hunt process trees for zmprov, zmlocalconfig, rsync, AzCopy, and memfd_create-backed processes spawned from the zimbra account. The full IOC list and attack-chain detail are in Microsoft&#x27;s report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/09/attackers-exploit-zimbra-flaw-to-deploy.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105403119030898963">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105403119030898963</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105403119030898963">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 21:03:15 +0000</pubDate>
+      <guid isPermaLink="false">2105403119030898963</guid>
+    </item>
     <item>
       <title>TerminalFix and Lorem Ipsum Loader enable covert tunneling</title>
       <link>https://www.sophos.com/en-us/blog/terminalfix-and-lorem-ipsum-loader-enable-covert-tunneling</link>
@@ -2206,20 +2234,6 @@ Hunt for Windows executables making outbound HTTPS to AI provider endpoints and 
       <source url="https://x.com/DFIR_Radar/status/2103002307210232024">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 06:03:17 +0000</pubDate>
       <guid isPermaLink="false">2103002307210232024</guid>
-    </item>
-    <item>
-      <title>Arista patches actively exploited VeloCloud Orchestrator zero-day</title>
-      <link>https://www.bleepingcomputer.com/news/security/arista-patches-actively-exploited-velocloud-orchestrator-zero-day/</link>
-      <description>CVE-2026-93952, a max-severity zero-day in Arista VeloCloud Orchestrator, is actively exploited and now in CISA KEV. Review nginx logs for the x-vc-opt header and block 142[.]93.149[.]77 and 104[.]248.126[.]159.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102987337810723255</description>
-      <content:encoded><![CDATA[<p>CVE-2026-93952, a max-severity zero-day in Arista VeloCloud Orchestrator, is actively exploited and now in CISA KEV. Review nginx logs for the x-vc-opt header and block 142[.]93.149[.]77 and 104[.]248.126[.]159.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/arista-patches-actively-exploited-velocloud-orchestrator-zero-day/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102987337810723255">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102987337810723255</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2102987337810723255">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 05:03:48 +0000</pubDate>
-      <guid isPermaLink="false">2102987337810723255</guid>
     </item>
   </channel>
 </rss>
