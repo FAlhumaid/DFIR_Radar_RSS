@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 16:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 17:02:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Abuse ChatGPT Custom GPTs to Deliver RAT via ClickFix Lures</title>
+      <link>https://thehackernews.com/2026/09/attackers-abuse-chatgpt-custom-gpts-to.html</link>
+      <description>ChatGPT Custom GPTs weaponized as ClickFix lure delivery points, dropping a fully featured RAT via DLL sideloading and WAV-embedded payloads. At least 40 confirmed infections observed by Huntress in late September 2026.
+
+Key findings:
+
+- Attackers created two Custom GPTs named "Plus 5.6" and promoted them via Google sponsored search results. The malicious GPT links are chatgpt[.]com/g/g-6ab595ad6554819181b686d4876efb80-plus-5-6 and chatgpt[.]com/g/g-6ab6ba039440819185ed491740b11cf8-plus-5-6. When a user interacts with either, the GPT responds with a Google Sites link presenting a fake "Service Availability Notice," directing victims to a backup domain for immediate access. That domain presents a fake Cloudflare CAPTCHA that triggers a ClickFix PowerShell execution lure.
+
+- The PowerShell command deploys an MSI installer named ISOSimple.msi, which abuses a legitimate Canon-signed binary, COTFileReadApp.exe, to sideload a rogue DLL named ceiinfolog.dll. That DLL is an altered Canon binary that loads a second unsigned DLL, rdCore.dll, which extracts an encrypted loader from a WAV audio file named Common.Integrator.Preview.wav. The final loader unpacks the trojan and a persistence script from an encrypted file named monitor.raw, placing this technique in the same family as Octowave Loader campaigns previously known to hide payloads in audio formats.
+
+- Before executing, the loader bypasses AMSI, unhooks ntdll.dll to sidestep user-mode monitoring, and runs anti-VM checks against CPU vendor strings for VMware, VirtualBox, Hyper-V, QEMU, Xen, and Parallels drivers and services. The RAT then resolves its C2, referred to internally as the "Gate," using DNS-over-HTTPS through Cloudflare, Google, and Quad9 resolvers, meaning C2 lookups travel inside ordinary HTTPS traffic and never appear in local DNS logs.
+
+- The RAT is fully featured: it profiles installed antivirus and Microsoft Defender status, runs remote desktop and screen broadcast sessions, captures camera, microphone, and system audio, recognizes 17 web browsers, includes a file manager, and drops secondary payloads including EXE, DLL, MSI, PowerShell, batch, VBScript, and JavaScript. It consistently drops a legitimately signed binary named GOMCam2024.exe, which launches Google Chrome with a throwaway browser profile under the %TEMP% directory.
+
+- This campaign is part of a broader ClickFix surge covered in the Huntress report: separate campaigns are abusing Google Sites impersonating OpenAI Codex and Anthropic Claude to deliver in-memory stealers, EtherHiding via compromised sites to drop Amatera Stealer (linked to Russian-aligned cluster UAT-10820 targeting Ukrainian 🇺🇦 government systems), and a campaign active since at least November 2025 using 31 compromised business websites and Polygon blockchain-based C2 resolution.
+
+Practitioner takeaway: Hunt for COTFileReadApp.exe and GOMCam2024.exe appearing outside their expected Canon or GOM software install paths, and look for child processes spawned from msiexec.exe loading unsigned DLLs alongside legitimate signed ones. Check for Chrome launched by GOMCam2024.exe with a profile path resolving into %TEMP%. Because the RAT uses DNS-over-HTTPS, standard DNS telemetry will be blind to C2 resolution; look for high-frequency HTTPS connections to known DoH resolver IPs (Cloudflare 1.1.1[.]1, Google 8.8.8[.]8, Quad9 9.9.9[.]9) from unexpected processes. WAV and RAW files in software installation directories warrant examination for embedded encrypted content. The full IOC list is in the Huntress report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105342527117152651</description>
+      <content:encoded><![CDATA[<p>ChatGPT Custom GPTs weaponized as ClickFix lure delivery points, dropping a fully featured RAT via DLL sideloading and WAV-embedded payloads. At least 40 confirmed infections observed by Huntress in late September 2026.</p><p>Key findings:</p><p>- Attackers created two Custom GPTs named &quot;Plus 5.6&quot; and promoted them via Google sponsored search results. The malicious GPT links are chatgpt[.]com/g/g-6ab595ad6554819181b686d4876efb80-plus-5-6 and chatgpt[.]com/g/g-6ab6ba039440819185ed491740b11cf8-plus-5-6. When a user interacts with either, the GPT responds with a Google Sites link presenting a fake &quot;Service Availability Notice,&quot; directing victims to a backup domain for immediate access. That domain presents a fake Cloudflare CAPTCHA that triggers a ClickFix PowerShell execution lure.</p><p>- The PowerShell command deploys an MSI installer named ISOSimple.msi, which abuses a legitimate Canon-signed binary, COTFileReadApp.exe, to sideload a rogue DLL named ceiinfolog.dll. That DLL is an altered Canon binary that loads a second unsigned DLL, rdCore.dll, which extracts an encrypted loader from a WAV audio file named Common.Integrator.Preview.wav. The final loader unpacks the trojan and a persistence script from an encrypted file named monitor.raw, placing this technique in the same family as Octowave Loader campaigns previously known to hide payloads in audio formats.</p><p>- Before executing, the loader bypasses AMSI, unhooks ntdll.dll to sidestep user-mode monitoring, and runs anti-VM checks against CPU vendor strings for VMware, VirtualBox, Hyper-V, QEMU, Xen, and Parallels drivers and services. The RAT then resolves its C2, referred to internally as the &quot;Gate,&quot; using DNS-over-HTTPS through Cloudflare, Google, and Quad9 resolvers, meaning C2 lookups travel inside ordinary HTTPS traffic and never appear in local DNS logs.</p><p>- The RAT is fully featured: it profiles installed antivirus and Microsoft Defender status, runs remote desktop and screen broadcast sessions, captures camera, microphone, and system audio, recognizes 17 web browsers, includes a file manager, and drops secondary payloads including EXE, DLL, MSI, PowerShell, batch, VBScript, and JavaScript. It consistently drops a legitimately signed binary named GOMCam2024.exe, which launches Google Chrome with a throwaway browser profile under the %TEMP% directory.</p><p>- This campaign is part of a broader ClickFix surge covered in the Huntress report: separate campaigns are abusing Google Sites impersonating OpenAI Codex and Anthropic Claude to deliver in-memory stealers, EtherHiding via compromised sites to drop Amatera Stealer (linked to Russian-aligned cluster UAT-10820 targeting Ukrainian 🇺🇦 government systems), and a campaign active since at least November 2025 using 31 compromised business websites and Polygon blockchain-based C2 resolution.</p><p>Practitioner takeaway: Hunt for COTFileReadApp.exe and GOMCam2024.exe appearing outside their expected Canon or GOM software install paths, and look for child processes spawned from msiexec.exe loading unsigned DLLs alongside legitimate signed ones. Check for Chrome launched by GOMCam2024.exe with a profile path resolving into %TEMP%. Because the RAT uses DNS-over-HTTPS, standard DNS telemetry will be blind to C2 resolution; look for high-frequency HTTPS connections to known DoH resolver IPs (Cloudflare 1.1.1[.]1, Google 8.8.8[.]8, Quad9 9.9.9[.]9) from unexpected processes. WAV and RAW files in software installation directories warrant examination for embedded encrypted content. The full IOC list is in the Huntress report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/09/attackers-abuse-chatgpt-custom-gpts-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105342527117152651">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105342527117152651</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105342527117152651">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 17:02:29 +0000</pubDate>
+      <guid isPermaLink="false">2105342527117152651</guid>
+    </item>
     <item>
       <title>2CLoader: A New Malware Loader Delivering Vidar and Remus</title>
       <link>https://www.zscaler.com/blogs/security-research/2cloader-new-malware-loader-delivering-vidar-and-remus</link>
@@ -2162,20 +2190,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2102942001607983577">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 02:03:39 +0000</pubDate>
       <guid isPermaLink="false">2102942001607983577</guid>
-    </item>
-    <item>
-      <title>Lessons from the @mastra Supply Chain Attack | Sweet blog</title>
-      <link>https://www.sweet.security/blog/lessons-from-the-mastra-supply-chain-attack</link>
-      <description>Thirteen @mastra npm packages were backdoored on June 17, 2026 via a typosquatted dayjs clone (easy-day-js@1.11.22) whose postinstall hook fetched a second-stage payload then self-deleted.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102926882618364079</description>
-      <content:encoded><![CDATA[<p>Thirteen @mastra npm packages were backdoored on June 17, 2026 via a typosquatted dayjs clone (easy-day-js@1.11.22) whose postinstall hook fetched a second-stage payload then self-deleted.</p><p>#DFIR_Radar</p><p><a href="https://www.sweet.security/blog/lessons-from-the-mastra-supply-chain-attack">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102926882618364079">View on X</a></p>]]></content:encoded>
-      <dc:creator>Sweet Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102926882618364079</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102926882618364079">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 01:03:34 +0000</pubDate>
-      <guid isPermaLink="false">2102926882618364079</guid>
     </item>
   </channel>
 </rss>
