@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 02:02:08 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 03:02:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Custom ChatGPTs push ClickFix attacks to deploy RAT malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/custom-chatgpts-push-clickfix-attacks-to-deploy-rat-malware/</link>
+      <description>A novel ClickFix campaign abuses OpenAI's custom GPT feature and Google-sponsored ads to deliver a full-featured RAT, with persistence surviving deletion via a homemade encrypted file system.
+
+Key findings:
+
+- The threat actor created a malicious custom GPT named "Plus 5.6" on the legitimate ChatGPT[.]com domain and promoted it through sponsored Google search results. The GPT directed victims to a Google Sites page displaying a fake Cloudflare verification, instructing them to run a PowerShell command. Using both ChatGPT[.]com and Google Sites as delivery infrastructure lends the attack significant legitimacy, raising the likelihood victims comply. At least 40 incidents connecting to the Google Sites page were investigated, with two confirmed involving the custom GPT variant directly.
+
+- The PowerShell command silently launches an MSI from the temp folder via msiexec.exe, which drops a legitimate signed application alongside a modified DLL that side-loads the RAT. The campaign initially used a Canon-signed host application, later pivoting to a Stardock-signed one while retaining the same payload. This signed-binary abuse is the core evasion mechanism: the malicious DLL rides behind a trusted executable identity.
+
+- The RAT supports remote desktop access, audio and camera capture, file search, host reconnaissance, and execution of additional payloads. For persistence, it writes a Registry Run key and a scheduled task, both named "Canon Configuration Reader." If either artifact is deleted, they reappear, a sign of active watchdog logic in the infection chain.
+
+- Phase 6 of the chain is the most forensically notable: the attackers built a custom encrypted archive with its own folder tree, a 1,128-entry index recording parent paths, file sizes, and per-file encryption keys, followed by packed file contents. This is not a standard encrypted blob; it is a purpose-built obfuscated file system designed to conceal the persistence script and RAT from file-based detection. Most of the infection chain runs in memory or behind files that appear benign on disk.
+
+Detection and response: Hunt for PowerShell spawning msiexec.exe with silent install flags pointing to %Temp%. Inspect %LOCALAPPDATA%\Programs\ for signed executables running from non-standard subdirectories. Check both the Run key and scheduled tasks for the name "Canon Configuration Reader" and treat their reappearance after deletion as confirmation of active persistence. The Huntress report includes a set of detection opportunities grounded in process activity monitoring; full details are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105131048787210651</description>
+      <content:encoded><![CDATA[<p>A novel ClickFix campaign abuses OpenAI&#x27;s custom GPT feature and Google-sponsored ads to deliver a full-featured RAT, with persistence surviving deletion via a homemade encrypted file system.</p><p>Key findings:</p><p>- The threat actor created a malicious custom GPT named &quot;Plus 5.6&quot; on the legitimate ChatGPT[.]com domain and promoted it through sponsored Google search results. The GPT directed victims to a Google Sites page displaying a fake Cloudflare verification, instructing them to run a PowerShell command. Using both ChatGPT[.]com and Google Sites as delivery infrastructure lends the attack significant legitimacy, raising the likelihood victims comply. At least 40 incidents connecting to the Google Sites page were investigated, with two confirmed involving the custom GPT variant directly.</p><p>- The PowerShell command silently launches an MSI from the temp folder via msiexec.exe, which drops a legitimate signed application alongside a modified DLL that side-loads the RAT. The campaign initially used a Canon-signed host application, later pivoting to a Stardock-signed one while retaining the same payload. This signed-binary abuse is the core evasion mechanism: the malicious DLL rides behind a trusted executable identity.</p><p>- The RAT supports remote desktop access, audio and camera capture, file search, host reconnaissance, and execution of additional payloads. For persistence, it writes a Registry Run key and a scheduled task, both named &quot;Canon Configuration Reader.&quot; If either artifact is deleted, they reappear, a sign of active watchdog logic in the infection chain.</p><p>- Phase 6 of the chain is the most forensically notable: the attackers built a custom encrypted archive with its own folder tree, a 1,128-entry index recording parent paths, file sizes, and per-file encryption keys, followed by packed file contents. This is not a standard encrypted blob; it is a purpose-built obfuscated file system designed to conceal the persistence script and RAT from file-based detection. Most of the infection chain runs in memory or behind files that appear benign on disk.</p><p>Detection and response: Hunt for PowerShell spawning msiexec.exe with silent install flags pointing to %Temp%. Inspect %LOCALAPPDATA%\Programs\ for signed executables running from non-standard subdirectories. Check both the Run key and scheduled tasks for the name &quot;Canon Configuration Reader&quot; and treat their reappearance after deletion as confirmation of active persistence. The Huntress report includes a set of detection opportunities grounded in process activity monitoring; full details are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/custom-chatgpts-push-clickfix-attacks-to-deploy-rat-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105131048787210651">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105131048787210651</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105131048787210651">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 03:02:08 +0000</pubDate>
+      <guid isPermaLink="false">2105131048787210651</guid>
+    </item>
     <item>
       <title>The Developer is the New Perimeter: How Supply Chain Attacks Are Becoming Cloud Breaches</title>
       <link>https://blog.qualys.com/?p=42475</link>
@@ -2130,28 +2156,6 @@ If you have Apple Watch Series 4 or 5 in evidence, this gives you full filesyste
       <source url="https://x.com/DFIR_Radar/status/2102745724756856840">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 13:03:43 +0000</pubDate>
       <guid isPermaLink="false">2102745724756856840</guid>
-    </item>
-    <item>
-      <title>Berlin Data Leak: What Rhysida Published, and What Is Still Unresolved</title>
-      <link>https://socradar.io/blog/berlin-data-leak-rhysida-unresolved/</link>
-      <description>Rhysida publishes 1.44M files from Berlin state network after 30 BTC ransom refused. The long-tail credential and certificate exposure is still live weeks after systems were restored.
-
-Key findings:
-
-- Two Senate administrations breached (urban development and transport/environment). Data outflow ran August 7-12, 2026, confirmed by filename activity dropping to near zero after August 11, consistent with the August 14 disconnection. Systems stayed severed until August 23, stalling housing and family support payments. Initial access vector unconfirmed, but German 🇩🇪 reporting points to a phishing email in the transport administration; Rhysida's documented TTPs per CISA advisory AA23-319A also include credential-stuffing against VPN endpoints lacking MFA and CVE-2020-1472 (Zerologon).
-
-- The secrets footprint is what makes this severe. SOCRadar's path-listing analysis found approximately 3,900 certificate and private-key containers, two dozen password-manager databases, and hundreds of files whose names explicitly describe plaintext credentials or admin account lists. Server inventories, directory-service documentation, firewall configs, and network diagrams were also present. A second tranche surfaced September 6-7 with claimed working plaintext credentials for building-management and e-payment systems.
-
-- Refusing to pay converted an extortion problem into a permanent exposure problem. The archive is publicly accessible.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102730572858642622</description>
-      <content:encoded><![CDATA[<p>Rhysida publishes 1.44M files from Berlin state network after 30 BTC ransom refused. The long-tail credential and certificate exposure is still live weeks after systems were restored.</p><p>Key findings:</p><p>- Two Senate administrations breached (urban development and transport/environment). Data outflow ran August 7-12, 2026, confirmed by filename activity dropping to near zero after August 11, consistent with the August 14 disconnection. Systems stayed severed until August 23, stalling housing and family support payments. Initial access vector unconfirmed, but German 🇩🇪 reporting points to a phishing email in the transport administration; Rhysida&#x27;s documented TTPs per CISA advisory AA23-319A also include credential-stuffing against VPN endpoints lacking MFA and CVE-2020-1472 (Zerologon).</p><p>- The secrets footprint is what makes this severe. SOCRadar&#x27;s path-listing analysis found approximately 3,900 certificate and private-key containers, two dozen password-manager databases, and hundreds of files whose names explicitly describe plaintext credentials or admin account lists. Server inventories, directory-service documentation, firewall configs, and network diagrams were also present. A second tranche surfaced September 6-7 with claimed working plaintext credentials for building-management and e-payment systems.</p><p>- Refusing to pay converted an extortion problem into a permanent exposure problem. The archive is publicly accessible.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/berlin-data-leak-rhysida-unresolved/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102730572858642622">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102730572858642622</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2102730572858642622">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 12:03:30 +0000</pubDate>
-      <guid isPermaLink="false">2102730572858642622</guid>
     </item>
   </channel>
 </rss>
