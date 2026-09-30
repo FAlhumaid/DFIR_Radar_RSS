@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 11:01:58 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 12:02:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Exploit NetScaler Flaw for Root Access, Deploy WHIPSHOT and SLAPSHOT</title>
+      <link>https://thehackernews.com/2026/09/attackers-exploit-netscaler-flaw-for.html</link>
+      <description>CVE-2026-88772 (CVSS 9.5) pre-auth root exploit in Citrix NetScaler ADC and Gateway is under active mass exploitation, with dozens of organizations hit across government, finance, tech, education, and legal sectors in North America and Europe.
+
+Key findings:
+
+- CVE-2026-88772 is a heap memory overflow in the DTLS protocol handling within the NetScaler Packet Processing Engine (NSPPE), running on the underlying FreeBSD platform. Sending malformed or fragmented DTLS record headers during the pre-auth handshake corrupts heap boundaries and diverts control flow to execute arbitrary shellcode as root. No authentication required. CVE-2026-88771 is a companion flaw being exploited in parallel, with CERT-EU observing attackers filling HTTP logs with Base64-encoded payloads in the User-Agent string and hammering authentication logs in timing-sensitive trigger sequences.
+
+- The post-exploitation chain begins by modifying httpd.conf to treat .deb files as PHP scripts, enabling web shell staging. A covert second-stage config maps incoming requests to .ico files under /vpn/media/ to corresponding .sig files in /var/netscaler/gui/vpn/scripts/linux/, effectively disguising PHP web shell execution as image requests. Permissions on /bin/sh are then modified before a full appliance reboot to entrench persistence through the reboot cycle.
+
+- WHIPSHOT is the primary PHP web shell, extracting Base64-encoded commands and payloads from native HTTP headers, executing them, and returning results, making it blend with normal traffic at the header level. SLAPSHOT is a Python TCP tunneler that bridges WHIPSHOT to internal network hosts for reconnaissance, lateral movement, and credential harvesting. If no command or session is received within 10 minutes, SLAPSHOT removes its port and lock files and terminates itself to reduce forensic footprint.
+
+- Detection is non-trivial but the artifacts are specific. Look for unauthorized modifications to httpd.conf and httperror-vpn logs showing missing .sig file errors, indicating attackers probing for shells across multiple environments. Web server access logs may show GET requests returning HTTP 404 with elevated processing durations and multi-kilobyte response sizes, a key anomaly given the 404 status. Examine /var/netscaler/gui/vpn/scripts/linux/ for unexpected .sig and .deb files, and check /vpn/media/ request paths mapping to non-image file execution.
+
+- Scope is significant. Censys counted 42,735 NetScaler hosts as of September 28, 2026, with the United States 🇺🇸 accounting for 32% of exposed hosts. GreyNoise observed mass reconnaissance beginning September 28 that escalated into full mass exploitation the same evening, now spanning multiple independent threat actors pursuing botnet recruitment and access brokering, well beyond the initial targeted intrusions Mandiant documented.
+
+Hunt priority: query web server access logs for .ico requests under /vpn/media/ returning 404 with response sizes above a few kilobytes, and pull httperror-vpn logs for .sig missing-file errors. Audit httpd.conf for mod_php enablement and .deb or .sig handler entries you did not configure. Because these appliances sit outside EDR visibility, log review and file integrity checks on the paths above are your primary forensic surface. Patch immediately and treat any unpatched NetScaler exposed to the internet as potentially implanted.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105266983763923219</description>
+      <content:encoded><![CDATA[<p>CVE-2026-88772 (CVSS 9.5) pre-auth root exploit in Citrix NetScaler ADC and Gateway is under active mass exploitation, with dozens of organizations hit across government, finance, tech, education, and legal sectors in North America and Europe.</p><p>Key findings:</p><p>- CVE-2026-88772 is a heap memory overflow in the DTLS protocol handling within the NetScaler Packet Processing Engine (NSPPE), running on the underlying FreeBSD platform. Sending malformed or fragmented DTLS record headers during the pre-auth handshake corrupts heap boundaries and diverts control flow to execute arbitrary shellcode as root. No authentication required. CVE-2026-88771 is a companion flaw being exploited in parallel, with CERT-EU observing attackers filling HTTP logs with Base64-encoded payloads in the User-Agent string and hammering authentication logs in timing-sensitive trigger sequences.</p><p>- The post-exploitation chain begins by modifying httpd.conf to treat .deb files as PHP scripts, enabling web shell staging. A covert second-stage config maps incoming requests to .ico files under /vpn/media/ to corresponding .sig files in /var/netscaler/gui/vpn/scripts/linux/, effectively disguising PHP web shell execution as image requests. Permissions on /bin/sh are then modified before a full appliance reboot to entrench persistence through the reboot cycle.</p><p>- WHIPSHOT is the primary PHP web shell, extracting Base64-encoded commands and payloads from native HTTP headers, executing them, and returning results, making it blend with normal traffic at the header level. SLAPSHOT is a Python TCP tunneler that bridges WHIPSHOT to internal network hosts for reconnaissance, lateral movement, and credential harvesting. If no command or session is received within 10 minutes, SLAPSHOT removes its port and lock files and terminates itself to reduce forensic footprint.</p><p>- Detection is non-trivial but the artifacts are specific. Look for unauthorized modifications to httpd.conf and httperror-vpn logs showing missing .sig file errors, indicating attackers probing for shells across multiple environments. Web server access logs may show GET requests returning HTTP 404 with elevated processing durations and multi-kilobyte response sizes, a key anomaly given the 404 status. Examine /var/netscaler/gui/vpn/scripts/linux/ for unexpected .sig and .deb files, and check /vpn/media/ request paths mapping to non-image file execution.</p><p>- Scope is significant. Censys counted 42,735 NetScaler hosts as of September 28, 2026, with the United States 🇺🇸 accounting for 32% of exposed hosts. GreyNoise observed mass reconnaissance beginning September 28 that escalated into full mass exploitation the same evening, now spanning multiple independent threat actors pursuing botnet recruitment and access brokering, well beyond the initial targeted intrusions Mandiant documented.</p><p>Hunt priority: query web server access logs for .ico requests under /vpn/media/ returning 404 with response sizes above a few kilobytes, and pull httperror-vpn logs for .sig missing-file errors. Audit httpd.conf for mod_php enablement and .deb or .sig handler entries you did not configure. Because these appliances sit outside EDR visibility, log review and file integrity checks on the paths above are your primary forensic surface. Patch immediately and treat any unpatched NetScaler exposed to the internet as potentially implanted.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/09/attackers-exploit-netscaler-flaw-for.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105266983763923219">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105266983763923219</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105266983763923219">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 12:02:18 +0000</pubDate>
+      <guid isPermaLink="false">2105266983763923219</guid>
+    </item>
     <item>
       <title>Attackers Abuse ChatGPT Custom GPTs to Deploy a Full-Featured RAT</title>
       <link>https://securityaffairs.com/200079/ai/attackers-abuse-chatgpt-custom-gpts-to-deploy-a-full-featured-rat.html</link>
@@ -2130,20 +2158,6 @@ Takeaway: Run the full KQL from the report against your EmailEvents table. A non
       <source url="https://x.com/DFIR_Radar/status/2102866199549767830">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 21:02:26 +0000</pubDate>
       <guid isPermaLink="false">2102866199549767830</guid>
-    </item>
-    <item>
-      <title>Hackers start exploiting critical WordPress flaw for code execution</title>
-      <link>https://www.bleepingcomputer.com/news/security/hackers-start-exploiting-critical-wordpress-flaw-for-code-execution/</link>
-      <description>CVE-2026-87902, a 9.2 CVSS unauthenticated path traversal in WordPress, is now being actively exploited for RCE within hours of the 7.1.2 patch.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102851488003547308</description>
-      <content:encoded><![CDATA[<p>CVE-2026-87902, a 9.2 CVSS unauthenticated path traversal in WordPress, is now being actively exploited for RCE within hours of the 7.1.2 patch.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-start-exploiting-critical-wordpress-flaw-for-code-execution/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102851488003547308">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102851488003547308</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2102851488003547308">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 20:03:59 +0000</pubDate>
-      <guid isPermaLink="false">2102851488003547308</guid>
     </item>
   </channel>
 </rss>
