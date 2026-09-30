@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 07:02:07 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 08:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>WHIPSHOT and SLAPSHOT: the tools behind an active Citrix NetScaler campaign</title>
+      <link>https://securityaffairs.com/200046/security/whipshot-and-slapshot-the-tools-behind-an-active-citrix-netscaler-campaign.html</link>
+      <description>CVE-2026-88772 (CVSS 9.5) in Citrix NetScaler ADC and Gateway is being actively exploited as a zero-day, deploying novel web shells WHIPSHOT and SLAPSHOT across government, finance, education, and legal orgs.
+
+Key findings:
+
+- CVE-2026-88772 is a pre-authentication heap memory overflow triggered during the DTLS handshake, before any login is required. DTLS is enabled by default on NetScaler Gateway VPN virtual servers, making a large portion of exposed appliances vulnerable. A second zero-day, CVE-2026-88771, is being exploited alongside it. Exploitation has been observed in the wild since at least early September 2026 across North America and Europe.
+
+- The exploit fingerprint lives in the logs. Look for SSL_HANDSHAKE_FAILURE events tagged DTLSv1.0 with "Handshake failure-Internal Error" combined with a packet engine process crash and a failed watchdog restart occurring close together in time. That pairing is the strongest on-appliance indicator that exploitation was attempted or successful.
+
+- Post-exploitation tradecraft is deliberate and evasion-focused. The attacker modifies httpd.conf to treat .deb or .sig files as executable PHP, then drops WHIPSHOT disguised as a Debian package. A redirect maps an innocent-looking .ico request (e.g. /vpn/media/e6ee7c85.ico) to the hidden .sig shell. WHIPSHOT reads commands from sequential HTTP headers, decodes Base64, routes over loopback, suppresses error output, and always returns HTTP 404, leaving web server logs clean on the surface. Requests that return 404 but take unusually long to complete are a hunting signal.
+
+- SLAPSHOT is a Python TCP proxy that opens a local port and tunnels traffic into the internal network, effectively turning the perimeter appliance into a pivot point. It is self-cleaning: idle sessions close after 15 minutes and the tool deletes its own port and lock files after 10 minutes of inactivity, a deliberate anti-forensic design. In at least one confirmed intrusion it was used for internal network reconnaissance and credential harvesting.
+
+- Persistence is maintained by setting /bin/sh setuid root so that subsequent web shell commands continue to run with root privileges, followed by a forced appliance reboot to lock in the change. Assume that every credential the appliance ever handled (admin accounts, SSH keys, TLS certificates, LDAP and RADIUS credentials) is compromised. Rotate after patching, not before.
+
+Practitioner takeaway: if you are investigating a potentially compromised NetScaler, start with the ns.log and /var/nslog/ for the SSL_HANDSHAKE_FAILURE and packet engine crash pairing, then audit httpd.conf for unexpected MIME-type mappings. Hunt /netscaler/ns_gui/ and /var/vpn/ for .deb, .sig, and .ico files with recent modification times. Check /bin/sh permissions for the setuid bit. If DTLS cannot be patched out immediately, disable it and block inbound UDP/443 as a partial mitigant, but patch CVE-2026-88771 separately. The full IOC list and technical indicators are in the Mandiant and GTIG report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105206685887320442</description>
+      <content:encoded><![CDATA[<p>CVE-2026-88772 (CVSS 9.5) in Citrix NetScaler ADC and Gateway is being actively exploited as a zero-day, deploying novel web shells WHIPSHOT and SLAPSHOT across government, finance, education, and legal orgs.</p><p>Key findings:</p><p>- CVE-2026-88772 is a pre-authentication heap memory overflow triggered during the DTLS handshake, before any login is required. DTLS is enabled by default on NetScaler Gateway VPN virtual servers, making a large portion of exposed appliances vulnerable. A second zero-day, CVE-2026-88771, is being exploited alongside it. Exploitation has been observed in the wild since at least early September 2026 across North America and Europe.</p><p>- The exploit fingerprint lives in the logs. Look for SSL_HANDSHAKE_FAILURE events tagged DTLSv1.0 with &quot;Handshake failure-Internal Error&quot; combined with a packet engine process crash and a failed watchdog restart occurring close together in time. That pairing is the strongest on-appliance indicator that exploitation was attempted or successful.</p><p>- Post-exploitation tradecraft is deliberate and evasion-focused. The attacker modifies httpd.conf to treat .deb or .sig files as executable PHP, then drops WHIPSHOT disguised as a Debian package. A redirect maps an innocent-looking .ico request (e.g. /vpn/media/e6ee7c85.ico) to the hidden .sig shell. WHIPSHOT reads commands from sequential HTTP headers, decodes Base64, routes over loopback, suppresses error output, and always returns HTTP 404, leaving web server logs clean on the surface. Requests that return 404 but take unusually long to complete are a hunting signal.</p><p>- SLAPSHOT is a Python TCP proxy that opens a local port and tunnels traffic into the internal network, effectively turning the perimeter appliance into a pivot point. It is self-cleaning: idle sessions close after 15 minutes and the tool deletes its own port and lock files after 10 minutes of inactivity, a deliberate anti-forensic design. In at least one confirmed intrusion it was used for internal network reconnaissance and credential harvesting.</p><p>- Persistence is maintained by setting /bin/sh setuid root so that subsequent web shell commands continue to run with root privileges, followed by a forced appliance reboot to lock in the change. Assume that every credential the appliance ever handled (admin accounts, SSH keys, TLS certificates, LDAP and RADIUS credentials) is compromised. Rotate after patching, not before.</p><p>Practitioner takeaway: if you are investigating a potentially compromised NetScaler, start with the ns.log and /var/nslog/ for the SSL_HANDSHAKE_FAILURE and packet engine crash pairing, then audit httpd.conf for unexpected MIME-type mappings. Hunt /netscaler/ns_gui/ and /var/vpn/ for .deb, .sig, and .ico files with recent modification times. Check /bin/sh permissions for the setuid bit. If DTLS cannot be patched out immediately, disable it and block inbound UDP/443 as a partial mitigant, but patch CVE-2026-88771 separately. The full IOC list and technical indicators are in the Mandiant and GTIG report.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200046/security/whipshot-and-slapshot-the-tools-behind-an-active-citrix-netscaler-campaign.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105206685887320442">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105206685887320442</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105206685887320442">DFIR Radar</source>
+      <pubDate>Wed, 30 Sep 2026 08:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2105206685887320442</guid>
+    </item>
     <item>
       <title>Shieldworkz finds Adif web infrastructure served as entry point for Renfe compromise in AI-assisted cyber breach</title>
       <link>https://industrialcyber.co/transport/shieldworkz-finds-adif-web-infrastructure-served-as-entry-point-for-renfe-compromise-in-ai-assisted-cyber-breach/</link>
@@ -2102,28 +2130,6 @@ Hunt for SHA-256 35dd164a[...]dd13c2cc (78324.exe), f0a6870c[...]07ff3975 (auto.
       <source url="https://x.com/DFIR_Radar/status/2102806159233327579">DFIR Radar</source>
       <pubDate>Wed, 23 Sep 2026 17:03:52 +0000</pubDate>
       <guid isPermaLink="false">2102806159233327579</guid>
-    </item>
-    <item>
-      <title>CVE-2026-93616: Check Point Management Server Zero-Day Exploited in Targeted Attacks</title>
-      <link>https://socprime.com/blog/cve-2026-93616-check-point-management-server-zero-day-exploited-in-targeted-attacks/</link>
-      <description>CVE-2026-93616 (CVSS 9.8): Check Point Management Server zero-day exploited in targeted attacks nearly two months before patches shipped, enabling unauthenticated RCE on the infrastructure that controls your firewall estate.
-
-- Actively exploited in the wild. Check Point confirmed a handful of targeted intrusions on July 23, 2026, while patches arrived September 22. Any management server exposed to untrusted networks during that window must be treated as potentially compromised, not just patched and closed.
-
-- The exploit chain requires no credentials, no existing account, no user interaction. An attacker with network access to the Check Point Management web service sends a crafted request, escapes filesystem boundaries via path traversal, writes attacker-controlled files, then executes arbitrary scripts or loads arbitrary Java classes, full RCE from the outside.
-
-- Affected: Security Management Server, Multi-Domain Management, Log Server, Multi-Domain Log Server, and SmartEvent across R80 through R82.20. R80/R81 branches are end-of-support. Fixes: R82.20 Hot Fix Take 1, R82 Jumbo Take 127, R81.20 Jumbo Take 170, R81.10 Jumbo Take 192. LivePatch Take 28/29 does NOT fix this.
-
-- Post-exploitation risk is severe: policy tampering, log manipulation, credential and certificate theft, pivot to all managed gateways. Preserve logs externally now, as a successful attacker may have altered local evidence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2102791411775217962</description>
-      <content:encoded><![CDATA[<p>CVE-2026-93616 (CVSS 9.8): Check Point Management Server zero-day exploited in targeted attacks nearly two months before patches shipped, enabling unauthenticated RCE on the infrastructure that controls your firewall estate.</p><p>- Actively exploited in the wild. Check Point confirmed a handful of targeted intrusions on July 23, 2026, while patches arrived September 22. Any management server exposed to untrusted networks during that window must be treated as potentially compromised, not just patched and closed.</p><p>- The exploit chain requires no credentials, no existing account, no user interaction. An attacker with network access to the Check Point Management web service sends a crafted request, escapes filesystem boundaries via path traversal, writes attacker-controlled files, then executes arbitrary scripts or loads arbitrary Java classes, full RCE from the outside.</p><p>- Affected: Security Management Server, Multi-Domain Management, Log Server, Multi-Domain Log Server, and SmartEvent across R80 through R82.20. R80/R81 branches are end-of-support. Fixes: R82.20 Hot Fix Take 1, R82 Jumbo Take 127, R81.20 Jumbo Take 170, R81.10 Jumbo Take 192. LivePatch Take 28/29 does NOT fix this.</p><p>- Post-exploitation risk is severe: policy tampering, log manipulation, credential and certificate theft, pivot to all managed gateways. Preserve logs externally now, as a successful attacker may have altered local evidence.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/cve-2026-93616-check-point-management-server-zero-day-exploited-in-targeted-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2102791411775217962">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2102791411775217962</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2102791411775217962">DFIR Radar</source>
-      <pubDate>Wed, 23 Sep 2026 16:05:15 +0000</pubDate>
-      <guid isPermaLink="false">2102791411775217962</guid>
     </item>
   </channel>
 </rss>
