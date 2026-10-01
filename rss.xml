@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 16:02:15 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 17:03:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Tags in Safari History db</title>
+      <link>http://www.swiftforensics.com/2026/10/tags-in-safari-history-db.html</link>
+      <description>Safari's History.db quietly builds a thematic profile of every browsing session using Wikidata-linked tags, and those tags can survive history deletion, revealing browsing themes even when the URLs are gone.
+
+Key findings:
+
+- The artifact lives at ~/Library/Safari/History.db and spans two joined tables: history_tags, which stores the tag name (title column) and a Wikidata entity identifier always beginning with "Q", and history_items_to_tags, which links tags back to history_items. The modification_timestamp in history_tags is a Cocoa/NSDate value (epoch 2001-01-01), converted to Unix time by adding 978307200. Safari has been generating these entries since at least 2021.
+
+- Not all pages receive tags, and the tagging mechanism is opaque, but Yogesh's own database showed roughly 98% relevance: Safari is interpreting page content and mapping it to a structured Wikidata concept, not just copying the page title. That means the tag column can describe subject matter even when a URL or page title is ambiguous or deliberately generic.
+
+- The forensic residue angle is the most important part: clearing Safari history does remove tag entries in normal use, but test systems in the report show history_tags rows with item_count of 0, meaning the tag record persisted after the associated history_items rows were deleted. Those orphaned rows still carry the tag name, the Wikidata identifier, and a modification_timestamp, giving a theme-level window into what was browsed and roughly when, without the URL.
+
+- The real-world case detail is worth absorbing: a tag value of "APT" (Q230724) appeared in an investigation. The Wikidata entity resolves to Advanced Package Tool, not a threat actor, but the tagged page was a phishing site impersonating the legitimate Homebrew site. The authentic Homebrew page received no tag. The tag was accurate to the impersonation theme and distinguished the two sites behaviorally.
+
+- mac_apt has been updated to parse this artifact. Orphaned tag rows with no associated history items are surfaced with a type label of "TAGGED", making them easy to filter separately from active history entries.
+
+Practitioner takeaway: when reviewing a Mac browser history examination, run the four-table JOIN query from the report against History.db to pull visit titles, URLs, visit times, tag names, Wikidata identifiers, and tag modification timestamps in one pass. Then query history_tags directly for rows where item_count = 0: those are your deletion survivors. Cross-reference the Wikidata Q-identifier against wikidata[.]org to resolve the concept, since the tag title alone (like "APT") can mislead. mac_apt will surface these automatically, with orphaned entries flagged as TAGGED. This artifact adds a semantic layer to browser forensics that timeline tools built purely on URL and visit-time data will miss entirely.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105705264481517944</description>
+      <content:encoded><![CDATA[<p>Safari&#x27;s History.db quietly builds a thematic profile of every browsing session using Wikidata-linked tags, and those tags can survive history deletion, revealing browsing themes even when the URLs are gone.</p><p>Key findings:</p><p>- The artifact lives at ~/Library/Safari/History.db and spans two joined tables: history_tags, which stores the tag name (title column) and a Wikidata entity identifier always beginning with &quot;Q&quot;, and history_items_to_tags, which links tags back to history_items. The modification_timestamp in history_tags is a Cocoa/NSDate value (epoch 2001-01-01), converted to Unix time by adding 978307200. Safari has been generating these entries since at least 2021.</p><p>- Not all pages receive tags, and the tagging mechanism is opaque, but Yogesh&#x27;s own database showed roughly 98% relevance: Safari is interpreting page content and mapping it to a structured Wikidata concept, not just copying the page title. That means the tag column can describe subject matter even when a URL or page title is ambiguous or deliberately generic.</p><p>- The forensic residue angle is the most important part: clearing Safari history does remove tag entries in normal use, but test systems in the report show history_tags rows with item_count of 0, meaning the tag record persisted after the associated history_items rows were deleted. Those orphaned rows still carry the tag name, the Wikidata identifier, and a modification_timestamp, giving a theme-level window into what was browsed and roughly when, without the URL.</p><p>- The real-world case detail is worth absorbing: a tag value of &quot;APT&quot; (Q230724) appeared in an investigation. The Wikidata entity resolves to Advanced Package Tool, not a threat actor, but the tagged page was a phishing site impersonating the legitimate Homebrew site. The authentic Homebrew page received no tag. The tag was accurate to the impersonation theme and distinguished the two sites behaviorally.</p><p>- mac_apt has been updated to parse this artifact. Orphaned tag rows with no associated history items are surfaced with a type label of &quot;TAGGED&quot;, making them easy to filter separately from active history entries.</p><p>Practitioner takeaway: when reviewing a Mac browser history examination, run the four-table JOIN query from the report against History.db to pull visit titles, URLs, visit times, tag names, Wikidata identifiers, and tag modification timestamps in one pass. Then query history_tags directly for rows where item_count = 0: those are your deletion survivors. Cross-reference the Wikidata Q-identifier against wikidata[.]org to resolve the concept, since the tag title alone (like &quot;APT&quot;) can mislead. mac_apt will surface these automatically, with orphaned entries flagged as TAGGED. This artifact adds a semantic layer to browser forensics that timeline tools built purely on URL and visit-time data will miss entirely.</p><p>#DFIR_Radar</p><p><a href="http://www.swiftforensics.com/2026/10/tags-in-safari-history-db.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105705264481517944">View on X</a></p>]]></content:encoded>
+      <dc:creator>Swift Forensics (Yogesh Khatri)</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105705264481517944</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2105705264481517944">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 17:03:52 +0000</pubDate>
+      <guid isPermaLink="false">2105705264481517944</guid>
+    </item>
     <item>
       <title>Cato VPN Client: Split-Tunnel and Privilege Escalation (CVE-2026-10739)</title>
       <link>http://blog.quarkslab.com/cato-vpn-client-split-tunnel-and-privilege-escalation-cve-2026-10739.html</link>
@@ -2266,20 +2294,6 @@ For response and hunting: query EDR and process logs for pip.exe spawned by non-
       <source url="https://x.com/DFIR_Radar/status/2103334559165083798">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 04:03:32 +0000</pubDate>
       <guid isPermaLink="false">2103334559165083798</guid>
-    </item>
-    <item>
-      <title>Placeholder third-party[.]com Referenced Across 1,700+ Repositories Now Serves Malicious Content</title>
-      <link>https://thehackernews.com/2026/09/placeholder-third-partycom-referenced.html</link>
-      <description>The placeholder domain third-party[.]com, referenced in 1,700+ repositories, now serves ClickFix lures to Windows browsers while showing a decoy to others. Audit your docs and code for live links to this domain.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103319204288164247</description>
-      <content:encoded><![CDATA[<p>The placeholder domain third-party[.]com, referenced in 1,700+ repositories, now serves ClickFix lures to Windows browsers while showing a decoy to others. Audit your docs and code for live links to this domain.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/09/placeholder-third-partycom-referenced.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103319204288164247">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103319204288164247</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2103319204288164247">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 03:02:31 +0000</pubDate>
-      <guid isPermaLink="false">2103319204288164247</guid>
     </item>
   </channel>
 </rss>
