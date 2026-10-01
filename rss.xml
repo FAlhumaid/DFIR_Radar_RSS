@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 08:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 09:03:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Horizon3’s Tales from the Trenches: Anthropic’s Mythos and Rejetto HFS</title>
+      <link>https://horizon3.ai/attack-research/disclosures/anthropic-mythos-rejetto-hfs-rce/</link>
+      <description>CVE-2026-61500 in Rejetto HFS lets attackers forge admin cookies by recovering xorshift128+ state from leaked Math.random() outputs, achieving RCE.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105584379863203970</description>
+      <content:encoded><![CDATA[<p>CVE-2026-61500 in Rejetto HFS lets attackers forge admin cookies by recovering xorshift128+ state from leaked Math.random() outputs, achieving RCE.</p><p>#DFIR_Radar</p><p><a href="https://horizon3.ai/attack-research/disclosures/anthropic-mythos-rejetto-hfs-rce/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105584379863203970">View on X</a></p>]]></content:encoded>
+      <dc:creator>Horizon3.ai</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105584379863203970</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105584379863203970">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 09:03:31 +0000</pubDate>
+      <guid isPermaLink="false">2105584379863203970</guid>
+    </item>
     <item>
       <title>MSP360 RMM Abused in Phishing Campaigns to Deploy ScreenConnect</title>
       <link>https://thecyberexpress.com/msp360-rmm-phishing-screenconnect/</link>
@@ -2226,32 +2240,6 @@ Responder action: pull SSH auth logs on every RouterOS device in your environmen
       <source url="https://x.com/DFIR_Radar/status/2103213553654145295">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 20:02:42 +0000</pubDate>
       <guid isPermaLink="false">2103213553654145295</guid>
-    </item>
-    <item>
-      <title>Beyond the ransomware: Tracking Storm-2570’s consistent tradecraft across deployments</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/09/24/beyond-ransomware-tracking-storm-2570-consistent-tradecraft-across-deployments/</link>
-      <description>Storm-2570 is a cross-ecosystem ransomware affiliate deploying Qilin, DragonForce, Anubis, and BERT across critical sectors in the US 🇺🇸, UK 🇬🇧, Canada 🇨🇦, Spain 🇪🇸, and Netherlands 🇳🇱. Microsoft Threat Intelligence has tracked this actor since April 2025, and the key insight is this: the payload changes, but the tradecraft does not.
-
-- Storm-2570 operates as a RaaS affiliate across multiple ecosystems simultaneously, giving it flexibility to shift between operators while maintaining identical post-compromise behavior. Victims span healthcare, education, government, financial services, energy, critical manufacturing, and more. The actor renames MeshAgent binaries with victim organization names (e.g., meshagent64-[orgname].exe) and uses Base64-encoded commands through MeshCentral to evade cursory process review. NinjaRMM, Atera, ScreenConnect, Splashtop, and Remotely_Agent round out a deep bench of RMM tools deployed in the same intrusion, not as alternatives but as layers.
-
-- Persistence and covert access are maintained through Cloudflare Tunnel (Cloudflared.exe) configured as a LocalSystem service, providing an encrypted outbound channel that bypasses inbound firewall restrictions. ngrok exposes TCP 3389 for RDP, and rdp.bat modifies Terminal Server registry settings and adds a firewall rule allowing port 3389, often pushed via PsExec with host lists (@ip.txt) to reach newly scanned targets. This combination of tunneling plus RDP enablement scripts plus PsExec with host lists is one of the most consistent fingerprints in the actor's chain.
-
-- Credential access follows a predictable pattern: Mimikatz, LaZagne, and pypykatz for in-memory harvesting, plus ntdsutil to create an IFM backup of the Active Directory database, staging NTDS.dit and supporting registry hives under C:\Windows\Temp\[random] for offline hash extraction. This confirms domain controller access before ransomware deployment. Defense evasion precedes encryption: Storm-2570 disables real-time monitoring, adds Microsoft Defender exclusions for C:\PerfLogs, and modifies registry values under Defender service keys including DisableAntiSpyware, DisableRealtimeMonitoring, and WinDefend service entries.
-
-- Exfiltration uses s5cmd.exe (Amazon S3 compatible CLI) staged alongside a credentials file containing AWS access keys, executing run cp operations with file-extension filters to push documents, spreadsheets, databases, mail files, and archives to attacker-controlled S3 buckets. Rclone handles real-time sync throughout the intrusion. This double-extortion workflow means data is already leaving before encryption begins. Lateral movement ties it together with Impacket and NetExec over SMB, PsExec across ip.txt host lists, and MeshAgent pushed to newly compromised hosts.
-
-- Microsoft Defender for Endpoint detections to know: "Ransomware-linked threat actor detected", "Suspicious Atera activity", "Renaming of legitimate tools for possible data exfiltration", "Defender detection bypass", and "Process memory dump". Antivirus signatures cover HackTool:Win32/Mimikatz, HackTool:Win32/LaZagne, Ransom:Win32/Qilin, Ransom:Win32/DragonForce, and Ransom:Win64/Anubis among others.
-
-Hunt now in Microsoft Sentinel using the two KQL queries in the report: one targeting PsExec command lines containing @ip.txt, and one hunting renamed MeshAgent binaries across DeviceProcessEvents, DeviceFileEvents, and DeviceRegistryEvents. Prioritize any environment where Cloudflared.exe runs as a LocalSystem service alongside MeshAgent variants with org-themed names. Enable tamper protection and DisableLocalAdminMerge immediately to block the Defender exclusion abuse. Full detection list and hunting queries are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103198648964198886</description>
-      <content:encoded><![CDATA[<p>Storm-2570 is a cross-ecosystem ransomware affiliate deploying Qilin, DragonForce, Anubis, and BERT across critical sectors in the US 🇺🇸, UK 🇬🇧, Canada 🇨🇦, Spain 🇪🇸, and Netherlands 🇳🇱. Microsoft Threat Intelligence has tracked this actor since April 2025, and the key insight is this: the payload changes, but the tradecraft does not.</p><p>- Storm-2570 operates as a RaaS affiliate across multiple ecosystems simultaneously, giving it flexibility to shift between operators while maintaining identical post-compromise behavior. Victims span healthcare, education, government, financial services, energy, critical manufacturing, and more. The actor renames MeshAgent binaries with victim organization names (e.g., meshagent64-[orgname].exe) and uses Base64-encoded commands through MeshCentral to evade cursory process review. NinjaRMM, Atera, ScreenConnect, Splashtop, and Remotely_Agent round out a deep bench of RMM tools deployed in the same intrusion, not as alternatives but as layers.</p><p>- Persistence and covert access are maintained through Cloudflare Tunnel (Cloudflared.exe) configured as a LocalSystem service, providing an encrypted outbound channel that bypasses inbound firewall restrictions. ngrok exposes TCP 3389 for RDP, and rdp.bat modifies Terminal Server registry settings and adds a firewall rule allowing port 3389, often pushed via PsExec with host lists (@ip.txt) to reach newly scanned targets. This combination of tunneling plus RDP enablement scripts plus PsExec with host lists is one of the most consistent fingerprints in the actor&#x27;s chain.</p><p>- Credential access follows a predictable pattern: Mimikatz, LaZagne, and pypykatz for in-memory harvesting, plus ntdsutil to create an IFM backup of the Active Directory database, staging NTDS.dit and supporting registry hives under C:\Windows\Temp\[random] for offline hash extraction. This confirms domain controller access before ransomware deployment. Defense evasion precedes encryption: Storm-2570 disables real-time monitoring, adds Microsoft Defender exclusions for C:\PerfLogs, and modifies registry values under Defender service keys including DisableAntiSpyware, DisableRealtimeMonitoring, and WinDefend service entries.</p><p>- Exfiltration uses s5cmd.exe (Amazon S3 compatible CLI) staged alongside a credentials file containing AWS access keys, executing run cp operations with file-extension filters to push documents, spreadsheets, databases, mail files, and archives to attacker-controlled S3 buckets. Rclone handles real-time sync throughout the intrusion. This double-extortion workflow means data is already leaving before encryption begins. Lateral movement ties it together with Impacket and NetExec over SMB, PsExec across ip.txt host lists, and MeshAgent pushed to newly compromised hosts.</p><p>- Microsoft Defender for Endpoint detections to know: &quot;Ransomware-linked threat actor detected&quot;, &quot;Suspicious Atera activity&quot;, &quot;Renaming of legitimate tools for possible data exfiltration&quot;, &quot;Defender detection bypass&quot;, and &quot;Process memory dump&quot;. Antivirus signatures cover HackTool:Win32/Mimikatz, HackTool:Win32/LaZagne, Ransom:Win32/Qilin, Ransom:Win32/DragonForce, and Ransom:Win64/Anubis among others.</p><p>Hunt now in Microsoft Sentinel using the two KQL queries in the report: one targeting PsExec command lines containing @ip.txt, and one hunting renamed MeshAgent binaries across DeviceProcessEvents, DeviceFileEvents, and DeviceRegistryEvents. Prioritize any environment where Cloudflared.exe runs as a LocalSystem service alongside MeshAgent variants with org-themed names. Enable tamper protection and DisableLocalAdminMerge immediately to block the Defender exclusion abuse. Full detection list and hunting queries are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.microsoft.com/en-us/security/blog/2026/09/24/beyond-ransomware-tracking-storm-2570-consistent-tradecraft-across-deployments/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103198648964198886">View on X</a></p>]]></content:encoded>
-      <dc:creator>Microsoft Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103198648964198886</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2103198648964198886">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 19:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2103198648964198886</guid>
     </item>
   </channel>
 </rss>
