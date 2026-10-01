@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 03:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 04:03:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Defender Exclusion Abuse: How Attackers Hide Malware from MDAV</title>
+      <link>https://www.huntress.com/blog/you-can-run-but-you-cant-hide-defender-exclusions</link>
+      <description>Attackers are abusing Microsoft Defender Antivirus exclusions to blind AV scans, with a hidden registry key that can conceal those exclusions even from local admins and SYSTEM.
+
+Key findings:
+
+- MDAV exclusions can be set four ways: PowerShell (Set-MpPreference or Add-MpPreference), WMI via the MSFT_MpPreference class, Group Policy, or direct registry writes. No matter the method, the result lands in one of two registry locations. PowerShell and WMI-driven exclusions write to HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions (written by MsMpEng.exe itself). GPO-driven or direct registry exclusions land at HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions, a separate key that MDAV also honors when evaluating what to skip. Path and Extension exclusion types are the most attacker-relevant: they remove a target from real-time protection, scheduled scans, and on-demand scans simultaneously.
+
+- Multiple confirmed campaigns have weaponized this technique. GootKit (2019) set path exclusions via the MSFT_MpPreference WMI class. WhisperGate (2022) excluded the entire C:\ drive using Set-MpPreference. Muddled Libra (2024) also appears in the report as a user of this technique. The tradecraft is not new, but it is persistent and still effective.
+
+- The most forensically significant finding in the Huntress report is the HideExclusionsFromLocalAdmins setting: writing a value to HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\HideExclusionsFromLocalAdmins causes Get-MpPreference and similar queries to return no exclusion data, even for local administrators and SYSTEM accounts. The exclusions are still active and still in the registry. They are simply not surfaced through the normal query path. An attacker who sets this after dropping malware into an excluded directory has effectively hidden both the exclusion and the blind spot from standard triage.
+
+- The detection gap matters because many EDR and AV management workflows query exclusions through PowerShell or WMI. If HideExclusionsFromLocalAdmins is set, those queries silently return nothing. The exclusions remain readable by querying the registry directly, specifically the two keys above, but tooling that relies on Get-MpPreference will miss them entirely.
+
+Practitioner takeaway: Do not rely on Get-MpPreference or WMI queries alone to audit Defender exclusions during triage. Read the registry directly. Check both HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions and HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions for unexpected paths, and check for the presence of HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\HideExclusionsFromLocalAdmins as a high-confidence indicator of defense evasion in progress. Hunt for reg add or PowerShell Set-MpPreference and Add-MpPreference commands in process creation logs, and correlate the timing of any exclusion write with subsequent file drops into the newly excluded path.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105508952523907154</description>
+      <content:encoded><![CDATA[<p>Attackers are abusing Microsoft Defender Antivirus exclusions to blind AV scans, with a hidden registry key that can conceal those exclusions even from local admins and SYSTEM.</p><p>Key findings:</p><p>- MDAV exclusions can be set four ways: PowerShell (Set-MpPreference or Add-MpPreference), WMI via the MSFT_MpPreference class, Group Policy, or direct registry writes. No matter the method, the result lands in one of two registry locations. PowerShell and WMI-driven exclusions write to HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions (written by MsMpEng.exe itself). GPO-driven or direct registry exclusions land at HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions, a separate key that MDAV also honors when evaluating what to skip. Path and Extension exclusion types are the most attacker-relevant: they remove a target from real-time protection, scheduled scans, and on-demand scans simultaneously.</p><p>- Multiple confirmed campaigns have weaponized this technique. GootKit (2019) set path exclusions via the MSFT_MpPreference WMI class. WhisperGate (2022) excluded the entire C:\ drive using Set-MpPreference. Muddled Libra (2024) also appears in the report as a user of this technique. The tradecraft is not new, but it is persistent and still effective.</p><p>- The most forensically significant finding in the Huntress report is the HideExclusionsFromLocalAdmins setting: writing a value to HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\HideExclusionsFromLocalAdmins causes Get-MpPreference and similar queries to return no exclusion data, even for local administrators and SYSTEM accounts. The exclusions are still active and still in the registry. They are simply not surfaced through the normal query path. An attacker who sets this after dropping malware into an excluded directory has effectively hidden both the exclusion and the blind spot from standard triage.</p><p>- The detection gap matters because many EDR and AV management workflows query exclusions through PowerShell or WMI. If HideExclusionsFromLocalAdmins is set, those queries silently return nothing. The exclusions remain readable by querying the registry directly, specifically the two keys above, but tooling that relies on Get-MpPreference will miss them entirely.</p><p>Practitioner takeaway: Do not rely on Get-MpPreference or WMI queries alone to audit Defender exclusions during triage. Read the registry directly. Check both HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions and HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions for unexpected paths, and check for the presence of HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\HideExclusionsFromLocalAdmins as a high-confidence indicator of defense evasion in progress. Hunt for reg add or PowerShell Set-MpPreference and Add-MpPreference commands in process creation logs, and correlate the timing of any exclusion write with subsequent file drops into the newly excluded path.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/you-can-run-but-you-cant-hide-defender-exclusions">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105508952523907154">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105508952523907154</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2105508952523907154">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 04:03:48 +0000</pubDate>
+      <guid isPermaLink="false">2105508952523907154</guid>
+    </item>
     <item>
       <title>SC WordPress Malware: A Self-Healing Mesh of Loaders, Drop-Ins, and a Blockchain-Controlled Backdoor</title>
       <link>https://blog.sucuri.net/2026/09/sc-wordpress-malware-a-self-healing-mesh-of-loaders-drop-ins-and-a-blockchain-controlled-backdoor.html</link>
@@ -2234,28 +2260,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2103138294301135006">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 15:03:39 +0000</pubDate>
       <guid isPermaLink="false">2103138294301135006</guid>
-    </item>
-    <item>
-      <title>Uncovering a SectopRAT Variant Embedded in Legitimate Software</title>
-      <link>https://feeds.fortinet.com/~/969841961/0/fortinet/blog/threat-research~Uncovering-a-SectopRAT-Variant-Embedded-in-Legitimate-Software</link>
-      <description>SectopRAT (ArechClient2) hidden inside a tampered legitimate DAW installer, using DLL IAT hijacking, API hashing, and in-memory .NET loading to deploy a full-featured RAT with 29 C2 commands.
-
-Key findings:
-
-- The attack chain starts with legitimate software (a long-standing Italian 🇮🇹 DAW) placed under C:\ProgramData rather than its normal install path, a red flag on its own. FrameworkBase.dll was tampered to import the malicious sdkcra.dll (SHA-256: 37FCBCB21D16866784050682C58424C91D3A736F6FD599271FA6E53CF5CA8A92) via IAT modification. ReportDump.exe, the app's crash reporter, was configured as a scheduled task to silently trigger the chain on boot (T1053.005, T1027).
-
-- sdkcra.dll decrypts shellcode that abuses EnumSystemCodePagesW() as a callback to execute 187 dynamically resolved, hash-obfuscated APIs, then reads pool.db (SHA-256: 95F6ABD3C43EF4B33CD61D054527233DD2CE705804D44A04BE96CFB73BB52E3A) at offset 0x1DC18, decrypts 0xE5A00 bytes with key 0xBC, and reflectively loads a 64-bit .NET SectopRAT payload entirely in memory (T1140).
-
-- C2 is 98.142.252[.]140:15847 over AES-encrypted TCP with JSON commands. If unreachable, the malware queries 12 backup domains (bsc-dataseed1.binance[.]org through bsc-dataseed4.ninicoin[.]io) for a hex-encoded, Base64-wrapped, AES-encrypted fallback IP (T1008). A secondary channel at 98.142.252[.]140:9000/wmglb delivers WbElevation.dll for browser credential harvesting.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103123481588343176</description>
-      <content:encoded><![CDATA[<p>SectopRAT (ArechClient2) hidden inside a tampered legitimate DAW installer, using DLL IAT hijacking, API hashing, and in-memory .NET loading to deploy a full-featured RAT with 29 C2 commands.</p><p>Key findings:</p><p>- The attack chain starts with legitimate software (a long-standing Italian 🇮🇹 DAW) placed under C:\ProgramData rather than its normal install path, a red flag on its own. FrameworkBase.dll was tampered to import the malicious sdkcra.dll (SHA-256: 37FCBCB21D16866784050682C58424C91D3A736F6FD599271FA6E53CF5CA8A92) via IAT modification. ReportDump.exe, the app&#x27;s crash reporter, was configured as a scheduled task to silently trigger the chain on boot (T1053.005, T1027).</p><p>- sdkcra.dll decrypts shellcode that abuses EnumSystemCodePagesW() as a callback to execute 187 dynamically resolved, hash-obfuscated APIs, then reads pool.db (SHA-256: 95F6ABD3C43EF4B33CD61D054527233DD2CE705804D44A04BE96CFB73BB52E3A) at offset 0x1DC18, decrypts 0xE5A00 bytes with key 0xBC, and reflectively loads a 64-bit .NET SectopRAT payload entirely in memory (T1140).</p><p>- C2 is 98.142.252[.]140:15847 over AES-encrypted TCP with JSON commands. If unreachable, the malware queries 12 backup domains (bsc-dataseed1.binance[.]org through bsc-dataseed4.ninicoin[.]io) for a hex-encoded, Base64-wrapped, AES-encrypted fallback IP (T1008). A secondary channel at 98.142.252[.]140:9000/wmglb delivers WbElevation.dll for browser credential harvesting.</p><p>#DFIR_Radar</p><p><a href="https://feeds.fortinet.com/~/969841961/0/fortinet/blog/threat-research~Uncovering-a-SectopRAT-Variant-Embedded-in-Legitimate-Software">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103123481588343176">View on X</a></p>]]></content:encoded>
-      <dc:creator>Fortinet Threat Research</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103123481588343176</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2103123481588343176">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 14:04:47 +0000</pubDate>
-      <guid isPermaLink="false">2103123481588343176</guid>
     </item>
   </channel>
 </rss>
