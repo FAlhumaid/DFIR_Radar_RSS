@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Sep 2026 23:03:28 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 00:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Abuse MSP360 to Deploy ScreenConnect in Dual-RMM Phishing Attacks</title>
+      <link>https://thehackernews.com/2026/09/attackers-abuse-msp360-to-deploy.html</link>
+      <description>Unattributed phishing campaign abuses MSP360 RMM as a beachhead to silently deploy ScreenConnect, creating dual remote-access channels that blend into normal IT operations. Microsoft detected the activity in July 2026.
+
+Key details:
+
+- Phishing emails deliver a digitally signed MSP360 RMM v2.5.0.67 installer disguised as meeting invites, Zoom setups, Adobe PDF tools, SSA[.]GOV statements, and e-card RSVPs. File names follow a pattern like ZoomSetup_Installation_v2.5.0.67_oid[redacted].exe. Installers are staged on attacker-controlled infrastructure and legitimate services including Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase, making network-based blocking harder.
+
+- Once executed, the installer invokes UAC elevation, drops multiple DLLs, and registers two Windows services: RMM.Agent.exe and RMM.Agent.Launcher.exe. It also creates Registry autorun entries to survive reboots and modifies Windows Firewall to permit inbound UDP on port 48678 for RMM.Agent.exe. These are concrete, huntable artifacts.
+
+- MSP360 is then used to run PowerShell that silently installs a ConnectWise ScreenConnect client, giving the attacker a redundant remote-access channel. Post-compromise payloads are executed through ScreenConnect's native RunFile functionality, keeping malicious execution inside a trusted administration workflow and reducing EDR visibility.
+
+- Microsoft also observed a parallel cluster in the same July 2026 timeframe substituting Faronics Deploy Agent for MSP360 before pivoting to ScreenConnect. The common thread is ScreenConnect as the persistent secondary channel, suggesting the actors are rotating initial-access RMM tools to evade detections tied to any single product.
+
+- Scope and attribution: the campaign is unattributed to any known group. The lure variety (government, corporate, software) and use of multiple cloud staging platforms suggest deliberate operational breadth rather than a narrow targeted intrusion.
+
+Hunt for RMM.Agent.exe and RMM.Agent.Launcher.exe as newly registered services, Registry Run keys pointing to MSP360 paths, and Windows Firewall rule changes opening UDP 48678. Cross-reference PowerShell execution under MSP360 parent processes with ScreenConnect installation events. Flag ScreenConnect processes spawning child processes or making outbound connections shortly after MSP360 first-run. Installers arriving from S3, R2, Dropbox, GitLab, or Supabase with RMM version strings in the filename are a strong pre-execution signal worth catching at the email gateway or proxy layer.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105448383359975918</description>
+      <content:encoded><![CDATA[<p>Unattributed phishing campaign abuses MSP360 RMM as a beachhead to silently deploy ScreenConnect, creating dual remote-access channels that blend into normal IT operations. Microsoft detected the activity in July 2026.</p><p>Key details:</p><p>- Phishing emails deliver a digitally signed MSP360 RMM v2.5.0.67 installer disguised as meeting invites, Zoom setups, Adobe PDF tools, SSA[.]GOV statements, and e-card RSVPs. File names follow a pattern like ZoomSetup_Installation_v2.5.0.67_oid[redacted].exe. Installers are staged on attacker-controlled infrastructure and legitimate services including Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase, making network-based blocking harder.</p><p>- Once executed, the installer invokes UAC elevation, drops multiple DLLs, and registers two Windows services: RMM.Agent.exe and RMM.Agent.Launcher.exe. It also creates Registry autorun entries to survive reboots and modifies Windows Firewall to permit inbound UDP on port 48678 for RMM.Agent.exe. These are concrete, huntable artifacts.</p><p>- MSP360 is then used to run PowerShell that silently installs a ConnectWise ScreenConnect client, giving the attacker a redundant remote-access channel. Post-compromise payloads are executed through ScreenConnect&#x27;s native RunFile functionality, keeping malicious execution inside a trusted administration workflow and reducing EDR visibility.</p><p>- Microsoft also observed a parallel cluster in the same July 2026 timeframe substituting Faronics Deploy Agent for MSP360 before pivoting to ScreenConnect. The common thread is ScreenConnect as the persistent secondary channel, suggesting the actors are rotating initial-access RMM tools to evade detections tied to any single product.</p><p>- Scope and attribution: the campaign is unattributed to any known group. The lure variety (government, corporate, software) and use of multiple cloud staging platforms suggest deliberate operational breadth rather than a narrow targeted intrusion.</p><p>Hunt for RMM.Agent.exe and RMM.Agent.Launcher.exe as newly registered services, Registry Run keys pointing to MSP360 paths, and Windows Firewall rule changes opening UDP 48678. Cross-reference PowerShell execution under MSP360 parent processes with ScreenConnect installation events. Flag ScreenConnect processes spawning child processes or making outbound connections shortly after MSP360 first-run. Installers arriving from S3, R2, Dropbox, GitLab, or Supabase with RMM version strings in the filename are a strong pre-execution signal worth catching at the email gateway or proxy layer.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/09/attackers-abuse-msp360-to-deploy.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105448383359975918">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105448383359975918</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105448383359975918">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 00:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2105448383359975918</guid>
+    </item>
     <item>
       <title>Threat Brief: NetScaler Zero Days CVE-2026-88771 and CVE-2026-88772 Exploited in the Wild (Updated September 30)</title>
       <link>https://unit42.paloaltonetworks.com/netscaler-zero-days-exploited/</link>
@@ -2216,32 +2244,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2103047686203097522">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 09:03:36 +0000</pubDate>
       <guid isPermaLink="false">2103047686203097522</guid>
-    </item>
-    <item>
-      <title>Low-Level Extraction the Apple TV 4K 2nd Generation</title>
-      <link>https://blog.elcomsoft.com/2026/09/low-level-extraction-the-apple-tv-4k-2nd-generation/</link>
-      <description>ElcomSoft adds bootloader-level extraction for Apple TV 4K 2nd Gen via the usbliter8 exploit, bypassing the SoC change that made checkm8 incompatible with this device.
-
-Key findings:
-
-- The 2nd Gen Apple TV 4K uses a newer SoC incompatible with checkm8, so ElcomSoft developed usbliter8, delivered via a Waveshare RP2350 microcontroller board flashed with custom firmware from github[.]com/Elcomsoft/usbliter8. The board is a one-time flash and reusable across sessions.
-
-- Physical access to the device's hidden Lightning port requires a Foxlink X892 GoldenEye adapter under the RJ-45 connector, plus either a DCSD adapter or a Colobus cable to force DFU mode. No external USB port exists on this device, making hardware prep the hardest step.
-
-- Once usbliter8 applies (board LED goes solid green), extraction commands mirror the checkm8 workflow: boot ramdisk, unlock data partition read-only without passcode, extract keychain with full decryption, and image the file system with checksum verification.
-
-- The toolkit unlocks the data partition without requiring a passcode, and extracts a decrypted keychain dump, giving investigators credential material and full file system access on tvOS devices that otherwise offer no logical acquisition path.
-
-Practitioner takeaway: if an Apple TV 4K 2nd Gen appears in scope, document its serial to confirm generation, acquire the Foxlink adapter and RP2350 board before the exam, and treat keychain output as priority evidence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103032667428340063</description>
-      <content:encoded><![CDATA[<p>ElcomSoft adds bootloader-level extraction for Apple TV 4K 2nd Gen via the usbliter8 exploit, bypassing the SoC change that made checkm8 incompatible with this device.</p><p>Key findings:</p><p>- The 2nd Gen Apple TV 4K uses a newer SoC incompatible with checkm8, so ElcomSoft developed usbliter8, delivered via a Waveshare RP2350 microcontroller board flashed with custom firmware from github[.]com/Elcomsoft/usbliter8. The board is a one-time flash and reusable across sessions.</p><p>- Physical access to the device&#x27;s hidden Lightning port requires a Foxlink X892 GoldenEye adapter under the RJ-45 connector, plus either a DCSD adapter or a Colobus cable to force DFU mode. No external USB port exists on this device, making hardware prep the hardest step.</p><p>- Once usbliter8 applies (board LED goes solid green), extraction commands mirror the checkm8 workflow: boot ramdisk, unlock data partition read-only without passcode, extract keychain with full decryption, and image the file system with checksum verification.</p><p>- The toolkit unlocks the data partition without requiring a passcode, and extracts a decrypted keychain dump, giving investigators credential material and full file system access on tvOS devices that otherwise offer no logical acquisition path.</p><p>Practitioner takeaway: if an Apple TV 4K 2nd Gen appears in scope, document its serial to confirm generation, acquire the Foxlink adapter and RP2350 board before the exam, and treat keychain output as priority evidence.</p><p>#DFIR_Radar</p><p><a href="https://blog.elcomsoft.com/2026/09/low-level-extraction-the-apple-tv-4k-2nd-generation/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103032667428340063">View on X</a></p>]]></content:encoded>
-      <dc:creator>ElcomSoft Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103032667428340063</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2103032667428340063">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 08:03:55 +0000</pubDate>
-      <guid isPermaLink="false">2103032667428340063</guid>
     </item>
   </channel>
 </rss>
