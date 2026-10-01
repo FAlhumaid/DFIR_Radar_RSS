@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 15:04:05 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 16:02:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cato VPN Client: Split-Tunnel and Privilege Escalation (CVE-2026-10739)</title>
+      <link>http://blog.quarkslab.com/cato-vpn-client-split-tunnel-and-privilege-escalation-cve-2026-10739.html</link>
+      <description>CVE-2026-10739: Local privilege escalation in Cato Networks SDP Client for Windows chains a protobuf SID path traversal, a privileged SYSTEM delete, and a symlink redirect into a full SYSTEM shell. Patch threshold is any version below 6.12.6.
+
+Key findings:
+
+- The attack surface is the split-tunnel file upload feature. The low-privileged GUI sends a SplitTunnelUpload command over the named pipe \\.\pipe\cato-VPN to winvpnclient.cli.exe running as NT AUTHORITY\SYSTEM. The UserSidString field in the UiRegister protobuf message is attacker-controlled and is used verbatim to build the output path ccst_&amp;lt;SID&amp;gt;.stp under ProgramData\CatoNetworks\SDPClient\ST. Because ..\ sequences are not stripped, a crafted SID like \\..\\..\\..\\tmp\\foobar redirects the write or delete outside the split-tunnel directory entirely.
+
+- The named pipe enforces a certificate check: the service calls GetNamedPipeClientProcessId, resolves the client image with QueryFullProcessImageNameW, and verifies the Cato signing certificate via memcmp against expected certificate material. A random process is rejected. The bypass is manual DLL mapping into a legitimately signed CatoClient.exe process, so the IPC gate sees a valid Cato-signed origin and passes the check without any file modification.
+
+- The weaponized primitive is the cleanup delete path, not the write. When a readable but invalid .ccst file is uploaded, winvpnclient.cli.exe deletes the generated .stp artifact as SYSTEM. Combined with the path traversal, the attacker controls exactly what SYSTEM deletes. A junction and an RPC Control object directory symlink redirect that delete to C:\Config.Msi, invoking the well-documented Windows Installer MSI rollback escalation chain and landing a SYSTEM shell. Procmon confirms the delete hitting Config.Msi before the MSI stage executes.
+
+- Affected versions are confirmed on 6.2.0 and 6.4.6; the vendor states all versions before 6.12.6 are vulnerable. CVE-2026-10739 was assigned 2026-09-30. The vendor published a security announcement to customers the same day. Quarkslab's coordinated disclosure ran from 2026-06-02 to today's publication.
+
+Responder takeaway: On any Windows endpoint running Cato Client, look for winvpnclient.cli.exe performing file deletes outside ProgramData\CatoNetworks\SDPClient\ST, especially touching C:\Config.Msi or junction points under C:\poc or similar attacker-created directories. Hunt for CatoClient.exe spawning unexpected child processes or hosting injected threads, particularly ones opening \\.\pipe\cato-VPN from an unusual call stack. The path traversal payload would appear in pipe traffic as a UiRegister message (command ID 34, body field 25) with a UserSidString containing backslash sequences rather than a valid SID format. Prioritize upgrading to 6.12.6 across your endpoint inventory, but first check whether any endpoint has already seen a Config.Msi deletion event paired with Cato process activity. The PoC payload source CatoPipePayload.c is referenced in the Quarkslab report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105689759167238359</description>
+      <content:encoded><![CDATA[<p>CVE-2026-10739: Local privilege escalation in Cato Networks SDP Client for Windows chains a protobuf SID path traversal, a privileged SYSTEM delete, and a symlink redirect into a full SYSTEM shell. Patch threshold is any version below 6.12.6.</p><p>Key findings:</p><p>- The attack surface is the split-tunnel file upload feature. The low-privileged GUI sends a SplitTunnelUpload command over the named pipe \\.\pipe\cato-VPN to winvpnclient.cli.exe running as NT AUTHORITY\SYSTEM. The UserSidString field in the UiRegister protobuf message is attacker-controlled and is used verbatim to build the output path ccst_&amp;lt;SID&amp;gt;.stp under ProgramData\CatoNetworks\SDPClient\ST. Because ..\ sequences are not stripped, a crafted SID like \\..\\..\\..\\tmp\\foobar redirects the write or delete outside the split-tunnel directory entirely.</p><p>- The named pipe enforces a certificate check: the service calls GetNamedPipeClientProcessId, resolves the client image with QueryFullProcessImageNameW, and verifies the Cato signing certificate via memcmp against expected certificate material. A random process is rejected. The bypass is manual DLL mapping into a legitimately signed CatoClient.exe process, so the IPC gate sees a valid Cato-signed origin and passes the check without any file modification.</p><p>- The weaponized primitive is the cleanup delete path, not the write. When a readable but invalid .ccst file is uploaded, winvpnclient.cli.exe deletes the generated .stp artifact as SYSTEM. Combined with the path traversal, the attacker controls exactly what SYSTEM deletes. A junction and an RPC Control object directory symlink redirect that delete to C:\Config.Msi, invoking the well-documented Windows Installer MSI rollback escalation chain and landing a SYSTEM shell. Procmon confirms the delete hitting Config.Msi before the MSI stage executes.</p><p>- Affected versions are confirmed on 6.2.0 and 6.4.6; the vendor states all versions before 6.12.6 are vulnerable. CVE-2026-10739 was assigned 2026-09-30. The vendor published a security announcement to customers the same day. Quarkslab&#x27;s coordinated disclosure ran from 2026-06-02 to today&#x27;s publication.</p><p>Responder takeaway: On any Windows endpoint running Cato Client, look for winvpnclient.cli.exe performing file deletes outside ProgramData\CatoNetworks\SDPClient\ST, especially touching C:\Config.Msi or junction points under C:\poc or similar attacker-created directories. Hunt for CatoClient.exe spawning unexpected child processes or hosting injected threads, particularly ones opening \\.\pipe\cato-VPN from an unusual call stack. The path traversal payload would appear in pipe traffic as a UiRegister message (command ID 34, body field 25) with a UserSidString containing backslash sequences rather than a valid SID format. Prioritize upgrading to 6.12.6 across your endpoint inventory, but first check whether any endpoint has already seen a Config.Msi deletion event paired with Cato process activity. The PoC payload source CatoPipePayload.c is referenced in the Quarkslab report.</p><p>#DFIR_Radar</p><p><a href="http://blog.quarkslab.com/cato-vpn-client-split-tunnel-and-privilege-escalation-cve-2026-10739.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105689759167238359">View on X</a></p>]]></content:encoded>
+      <dc:creator>Quarkslab</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105689759167238359</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105689759167238359">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 16:02:15 +0000</pubDate>
+      <guid isPermaLink="false">2105689759167238359</guid>
+    </item>
     <item>
       <title>[webapps] WordPress 7.0.2 - Path Travesal</title>
       <link>https://www.exploit-db.com/exploits/52690</link>
@@ -2254,20 +2280,6 @@ For response and hunting: query EDR and process logs for pip.exe spawned by non-
       <source url="https://x.com/DFIR_Radar/status/2103319204288164247">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 03:02:31 +0000</pubDate>
       <guid isPermaLink="false">2103319204288164247</guid>
-    </item>
-    <item>
-      <title>Multi-Tenant Detection Operations for MSSP and MDR Providers</title>
-      <link>https://socprime.com/blog/multi-tenant-detection-operations-for-mssp-and-mdr-providers/</link>
-      <description>MSSPs running multi-tenant SOC operations should govern one Sigma base rule per detection, translate it per tenant SIEM, and tune only at the overlay.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103304490803995090</description>
-      <content:encoded><![CDATA[<p>MSSPs running multi-tenant SOC operations should govern one Sigma base rule per detection, translate it per tenant SIEM, and tune only at the overlay.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/multi-tenant-detection-operations-for-mssp-and-mdr-providers/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103304490803995090">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103304490803995090</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2103304490803995090">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 02:04:03 +0000</pubDate>
-      <guid isPermaLink="false">2103304490803995090</guid>
     </item>
   </channel>
 </rss>
