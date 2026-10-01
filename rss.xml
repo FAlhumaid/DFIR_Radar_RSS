@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 04:03:48 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 05:04:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Citrix NetScaler Post-Exploitation Payload Creates Superuser, Maps Web Shell to CSS-Like URLs</title>
+      <link>https://thehackernews.com/2026/10/citrix-netscaler-post-exploitation.html</link>
+      <description>CVE-2026-88771 (CVSS 9.5) actively exploited in the wild against Citrix NetScaler ADC and Gateway, with post-exploitation chains creating superuser accounts, deploying disguised web shells, and exfiltrating full appliance configs.
+
+Key findings:
+
+- CVE-2026-88771 is a pre-authentication command injection flaw requiring no credentials. LevelBlue's THOR team identified exploitation activity across multiple customer environments, with attacker-controlled authentication strings containing "pitboss" and "NSPPE" as consistent markers in NetScaler auth logs. Separately, CVE-2026-88772 has been used to deliver PHP web shells (WHIPSHOT) and a Python tunneler named SLAPSHOT, per Mandiant and Google GTIG, with dozens of organizations already impacted.
+
+- The Perl post-exploitation payload "update_c08937.pl" (retrieved from 64.94.85[.]67:443/update_c08937_08937.pl) is particularly aggressive: it modifies /flash/nsconfig/ns.conf to create a local account named "sec_monitor" with superuser role, archives the entire /flash/nsconfig directory to /tmp/update_result_3567cs.tgz, exfiltrates it to the same C2, then deletes the archive and wipes itself to reduce forensic footprint on disk.
+
+- The web shell is written to /var/netscaler/logon/LogonPoint/.local_journal, with /etc/httpd.conf modified to enable PHP execution and map the shell to URLs styled as legitimate NetScaler CSS resources. The permissions on /bin/sh are set to 6555 (SUID). This camouflage makes passive URL-based detection unreliable; defenders should be hashing and comparing /etc/httpd.conf against a known-good baseline and auditing unexpected SUID binaries.
+
+- A Python reverse shell ("main[.]py", pulled from 23.27.143[.]20:9000/main.py) beacons outbound over TCP 443 to 45.141.21[.]130 and kills processes associated with /var/python/bin/customsnmpd. The "lula" payload was fetched from 31.56.197[.]72:9090/lula. Curl and wget activity retrieving these payloads from external IPs are your earliest post-exploitation signals in NetScaler logs.
+
+- The Dutch 🇳🇱 NCSC pre-notified organizations and urged appliance shutdown, indicating active in-the-wild exploitation with confirmed impact before public disclosure. Attribution remains unknown at this time.
+
+Responder action: Check /flash/nsconfig/ns.conf for the "sec_monitor" account and any unfamiliar local accounts with superuser role. Audit /var/netscaler/logon/LogonPoint/ for unexpected files, especially hidden-name PHP files. Review /etc/httpd.conf for unauthorized rewrites pointing to CSS-like URL paths. Pull NetScaler auth logs and grep for "pitboss" and "NSPPE" strings as exploitation indicators. Verify /bin/sh permissions and check for outbound connections to the listed C2 IPs. IOCs are in the LevelBlue report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105524134365024703</description>
+      <content:encoded><![CDATA[<p>CVE-2026-88771 (CVSS 9.5) actively exploited in the wild against Citrix NetScaler ADC and Gateway, with post-exploitation chains creating superuser accounts, deploying disguised web shells, and exfiltrating full appliance configs.</p><p>Key findings:</p><p>- CVE-2026-88771 is a pre-authentication command injection flaw requiring no credentials. LevelBlue&#x27;s THOR team identified exploitation activity across multiple customer environments, with attacker-controlled authentication strings containing &quot;pitboss&quot; and &quot;NSPPE&quot; as consistent markers in NetScaler auth logs. Separately, CVE-2026-88772 has been used to deliver PHP web shells (WHIPSHOT) and a Python tunneler named SLAPSHOT, per Mandiant and Google GTIG, with dozens of organizations already impacted.</p><p>- The Perl post-exploitation payload &quot;update_c08937.pl&quot; (retrieved from 64.94.85[.]67:443/update_c08937_08937.pl) is particularly aggressive: it modifies /flash/nsconfig/ns.conf to create a local account named &quot;sec_monitor&quot; with superuser role, archives the entire /flash/nsconfig directory to /tmp/update_result_3567cs.tgz, exfiltrates it to the same C2, then deletes the archive and wipes itself to reduce forensic footprint on disk.</p><p>- The web shell is written to /var/netscaler/logon/LogonPoint/.local_journal, with /etc/httpd.conf modified to enable PHP execution and map the shell to URLs styled as legitimate NetScaler CSS resources. The permissions on /bin/sh are set to 6555 (SUID). This camouflage makes passive URL-based detection unreliable; defenders should be hashing and comparing /etc/httpd.conf against a known-good baseline and auditing unexpected SUID binaries.</p><p>- A Python reverse shell (&quot;main[.]py&quot;, pulled from 23.27.143[.]20:9000/main.py) beacons outbound over TCP 443 to 45.141.21[.]130 and kills processes associated with /var/python/bin/customsnmpd. The &quot;lula&quot; payload was fetched from 31.56.197[.]72:9090/lula. Curl and wget activity retrieving these payloads from external IPs are your earliest post-exploitation signals in NetScaler logs.</p><p>- The Dutch 🇳🇱 NCSC pre-notified organizations and urged appliance shutdown, indicating active in-the-wild exploitation with confirmed impact before public disclosure. Attribution remains unknown at this time.</p><p>Responder action: Check /flash/nsconfig/ns.conf for the &quot;sec_monitor&quot; account and any unfamiliar local accounts with superuser role. Audit /var/netscaler/logon/LogonPoint/ for unexpected files, especially hidden-name PHP files. Review /etc/httpd.conf for unauthorized rewrites pointing to CSS-like URL paths. Pull NetScaler auth logs and grep for &quot;pitboss&quot; and &quot;NSPPE&quot; strings as exploitation indicators. Verify /bin/sh permissions and check for outbound connections to the listed C2 IPs. IOCs are in the LevelBlue report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/citrix-netscaler-post-exploitation.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105524134365024703">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105524134365024703</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105524134365024703">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 05:04:07 +0000</pubDate>
+      <guid isPermaLink="false">2105524134365024703</guid>
+    </item>
     <item>
       <title>Defender Exclusion Abuse: How Attackers Hide Malware from MDAV</title>
       <link>https://www.huntress.com/blog/you-can-run-but-you-cant-hide-defender-exclusions</link>
@@ -2240,26 +2268,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2103153456953364859">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 16:03:54 +0000</pubDate>
       <guid isPermaLink="false">2103153456953364859</guid>
-    </item>
-    <item>
-      <title>Detection Validation and Decay</title>
-      <link>https://socprime.com/blog/detection-validation-and-decay/</link>
-      <description>Detection rules marked "enabled" are not detection rules that work. Silent rule decay kills coverage without touching your dashboard, and most teams have no systematic way to find it.
-
-- The core problem: a rule that parses cleanly, executes against an empty result set, and returns zero matches looks identical to a quiet-but-healthy rule from the SIEM's perspective. The dashboard stays green. No error fires. Five mechanisms cause this: log source version changes, field deprecation, field rename or retype, parser breakage dropping events to dead-letter queues, and source decommission. The textbook case is Windows Event 4688 where command-line content is only populated when a separate GPO setting is enabled. Disable or lose that policy on a gold image rebuild and every command-line detection silently stops matching.
-
-- Four signals catch broken rules: fire-rate baselining against each rule's own recent baseline (Splunk index=_internal / index=_audit, Sentinel SentinelHealth table, Elastic Security Monitoring tab 8.x+), canary event injection end-to-end through the pipeline, periodic replay of stored positive samples, and schema-drift monitoring on required fields via null-rate trends. No single signal is sufficient.
-
-- Retirement requires four inputs before removing a rule: fire history over the review window, ATT&amp;CK technique mapping, coverage overlap assessed as technique-plus-data-source (not technique alone), and data source status.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103138294301135006</description>
-      <content:encoded><![CDATA[<p>Detection rules marked &quot;enabled&quot; are not detection rules that work. Silent rule decay kills coverage without touching your dashboard, and most teams have no systematic way to find it.</p><p>- The core problem: a rule that parses cleanly, executes against an empty result set, and returns zero matches looks identical to a quiet-but-healthy rule from the SIEM&#x27;s perspective. The dashboard stays green. No error fires. Five mechanisms cause this: log source version changes, field deprecation, field rename or retype, parser breakage dropping events to dead-letter queues, and source decommission. The textbook case is Windows Event 4688 where command-line content is only populated when a separate GPO setting is enabled. Disable or lose that policy on a gold image rebuild and every command-line detection silently stops matching.</p><p>- Four signals catch broken rules: fire-rate baselining against each rule&#x27;s own recent baseline (Splunk index=_internal / index=_audit, Sentinel SentinelHealth table, Elastic Security Monitoring tab 8.x+), canary event injection end-to-end through the pipeline, periodic replay of stored positive samples, and schema-drift monitoring on required fields via null-rate trends. No single signal is sufficient.</p><p>- Retirement requires four inputs before removing a rule: fire history over the review window, ATT&amp;CK technique mapping, coverage overlap assessed as technique-plus-data-source (not technique alone), and data source status.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/detection-validation-and-decay/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103138294301135006">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103138294301135006</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2103138294301135006">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 15:03:39 +0000</pubDate>
-      <guid isPermaLink="false">2103138294301135006</guid>
     </item>
   </channel>
 </rss>
