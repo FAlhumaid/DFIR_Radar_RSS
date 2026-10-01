@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 20:03:35 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 21:03:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>WordPress Backdoor Rebuilds Itself After Cleanup Using Files, Database, and Shared Memory</title>
+      <link>https://thehackernews.com/2026/10/wordpress-backdoor-rebuilds-itself.html</link>
+      <description>The "SC" WordPress backdoor plants itself in 8 simultaneous locations across files, the database, and RAM, creating a self-healing loop where any single surviving copy rebuilds the entire infection on the next page load.
+
+Key findings:
+
+- The SC backdoor earns its name from "SC_" markers in injected content. Its eight components span .user.ini (sets auto_prepend_file to run a loader before every PHP request), two loader files at wp-content/c1b12371.php and wp-content/.c1b12371.php, drop-ins at wp-content/db.php and wp-content/advanced-cache.php, a theme functions.php resident copy, and the actual payload deployed as both a must-use plugin and a normal plugin at wp-content/mu-plugins/hyper-engine-kit.php and wp-content/plugins/hyper-engine-kit/hyper-engine-kit.php. Every component can rebuild all the others, so the circular dependency means there is no single removal point.
+
+- The most forensically tricky component is the System V shared-memory segment. The payload is written to a fixed numeric key in RAM, where it survives both file deletion and database cleanup. On shared hosting, that segment can be owned by a different account, meaning a compromised neighbor on the same server could reinfect a cleaned site without touching its files at all.
+
+- C2 communication runs over the Ethereum blockchain rather than a traditional command-and-control server, hiding operator instructions inside legitimate blockchain infrastructure and making domain or IP-based blocking ineffective. The backdoor also hides itself from the WordPress admin plugins screen and update checks, creates a hidden administrator account, fetches arbitrary JavaScript for visitor-targeting skimmers, and runs arbitrary PHP. Scheduled reinfection is enforced via WordPress cron hooks with randomized names plus a known fetch hook, triggered by system cron rather than visitor traffic.
+
+- Code is obfuscated with a substitution cipher decoded at runtime rather than exposing readable function names, which complicates static analysis. Initial access vector for this campaign is currently unknown. Separately, CVE-2026-1581 (CVSS 7.5), an unauthenticated SQL injection in the wpForo Forum plugin affecting all versions through 2.4.14, has been actively exploited since at least July 3, 2026, with exploitation attempts sourced from five attacker IPs across Bulgaria 🇧🇬, Switzerland 🇨🇭, France 🇫🇷, the US 🇺🇸, and Yemen.
+
+Cleanup on SC-infected WordPress sites requires more than file scanning. Check RAM: enumerate active System V shared-memory segments with ipcs -m and remove any segment tied to the web server user or an unexpected UID. Audit every WordPress drop-in location (db.php, advanced-cache.php, object-cache.php), mu-plugins, and .user.ini files in every directory under the webroot. Grep for "SC_" markers and Base64-encoded compressed blobs. Inspect wp_users and wp_usermeta for hidden administrator accounts. For CVE-2026-1581, check database query logs for anomalous unauthenticated requests to wpForo endpoints and update to a patched version of the plugin. Full technical breakdown and IOC details are in the Sucuri report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105765618838392885</description>
+      <content:encoded><![CDATA[<p>The &quot;SC&quot; WordPress backdoor plants itself in 8 simultaneous locations across files, the database, and RAM, creating a self-healing loop where any single surviving copy rebuilds the entire infection on the next page load.</p><p>Key findings:</p><p>- The SC backdoor earns its name from &quot;SC_&quot; markers in injected content. Its eight components span .user.ini (sets auto_prepend_file to run a loader before every PHP request), two loader files at wp-content/c1b12371.php and wp-content/.c1b12371.php, drop-ins at wp-content/db.php and wp-content/advanced-cache.php, a theme functions.php resident copy, and the actual payload deployed as both a must-use plugin and a normal plugin at wp-content/mu-plugins/hyper-engine-kit.php and wp-content/plugins/hyper-engine-kit/hyper-engine-kit.php. Every component can rebuild all the others, so the circular dependency means there is no single removal point.</p><p>- The most forensically tricky component is the System V shared-memory segment. The payload is written to a fixed numeric key in RAM, where it survives both file deletion and database cleanup. On shared hosting, that segment can be owned by a different account, meaning a compromised neighbor on the same server could reinfect a cleaned site without touching its files at all.</p><p>- C2 communication runs over the Ethereum blockchain rather than a traditional command-and-control server, hiding operator instructions inside legitimate blockchain infrastructure and making domain or IP-based blocking ineffective. The backdoor also hides itself from the WordPress admin plugins screen and update checks, creates a hidden administrator account, fetches arbitrary JavaScript for visitor-targeting skimmers, and runs arbitrary PHP. Scheduled reinfection is enforced via WordPress cron hooks with randomized names plus a known fetch hook, triggered by system cron rather than visitor traffic.</p><p>- Code is obfuscated with a substitution cipher decoded at runtime rather than exposing readable function names, which complicates static analysis. Initial access vector for this campaign is currently unknown. Separately, CVE-2026-1581 (CVSS 7.5), an unauthenticated SQL injection in the wpForo Forum plugin affecting all versions through 2.4.14, has been actively exploited since at least July 3, 2026, with exploitation attempts sourced from five attacker IPs across Bulgaria 🇧🇬, Switzerland 🇨🇭, France 🇫🇷, the US 🇺🇸, and Yemen.</p><p>Cleanup on SC-infected WordPress sites requires more than file scanning. Check RAM: enumerate active System V shared-memory segments with ipcs -m and remove any segment tied to the web server user or an unexpected UID. Audit every WordPress drop-in location (db.php, advanced-cache.php, object-cache.php), mu-plugins, and .user.ini files in every directory under the webroot. Grep for &quot;SC_&quot; markers and Base64-encoded compressed blobs. Inspect wp_users and wp_usermeta for hidden administrator accounts. For CVE-2026-1581, check database query logs for anomalous unauthenticated requests to wpForo endpoints and update to a patched version of the plugin. Full technical breakdown and IOC details are in the Sucuri report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/wordpress-backdoor-rebuilds-itself.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105765618838392885">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105765618838392885</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2105765618838392885">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 21:03:42 +0000</pubDate>
+      <guid isPermaLink="false">2105765618838392885</guid>
+    </item>
     <item>
       <title>[remote] Ecava_ntegraXor IGX_16.0.701.10 - RCE</title>
       <link>https://www.exploit-db.com/exploits/52688</link>
@@ -2294,20 +2320,6 @@ Hunt priority: check LaunchAgents for com.apple.softwareupdated.plist and the tw
       <source url="https://x.com/DFIR_Radar/status/2103379851822706982">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 07:03:30 +0000</pubDate>
       <guid isPermaLink="false">2103379851822706982</guid>
-    </item>
-    <item>
-      <title>How Cloudflare addressed a cross-tenant data exposure vulnerability in Containers</title>
-      <link>https://blog.cloudflare.com/containers-cross-tenant-vulnerability/</link>
-      <description>Cloudflare Containers had skip_block_zeroing enabled on dm-thin storage pools, letting a Workers Paid tenant recover up to 60 KiB of residual data per block from prior customers, including SQLite databases and directory structures.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103364774218362900</description>
-      <content:encoded><![CDATA[<p>Cloudflare Containers had skip_block_zeroing enabled on dm-thin storage pools, letting a Workers Paid tenant recover up to 60 KiB of residual data per block from prior customers, including SQLite databases and directory structures.</p><p>#DFIR_Radar</p><p><a href="https://blog.cloudflare.com/containers-cross-tenant-vulnerability/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103364774218362900">View on X</a></p>]]></content:encoded>
-      <dc:creator>Cloudflare Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103364774218362900</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2103364774218362900">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 06:03:36 +0000</pubDate>
-      <guid isPermaLink="false">2103364774218362900</guid>
     </item>
   </channel>
 </rss>
