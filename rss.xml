@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 12:03:27 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 13:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>TIKTOUK: Tracing a WordPress Credential Collection Toolkit</title>
+      <link>https://www.levelblue.com/blogs/spiderlabs-blog/tiktouk-tracing-a-wordpress-credential-collection-toolkit</link>
+      <description>TIKTOUK is a three-component WordPress credential harvesting toolkit combining REST API probing, encrypted plugin decryption, and JavaScript secret scanning, with incident data showing ~50k real credentials across ~37k domains already collected at scale.
+
+Key findings:
+
+- The toolkit's two Python scripts and one Go binary each pull tasks from a central HTTP hub, then submit results to /v1/ingest or /api/crack/report. wp2s_poll.py probes WordPress REST batch routes using a malformed path (hxxp://:) paired with DELETE /wp/v2/categories/0 and POST /wp/v2/block-renderer/core/paragraph, retrying with multipart encoding after JSON returns HTTP 403, a two-stage request pattern that is a concrete detection signal. wp2s_crack.py fetches wp-config.php.bak, .env, .git/config, backup.sql, and wp-content/debug.log, then fires nested REST batch requests carrying author_exclude and UNION ALL SELECT expressions to pull database option values. jscrawl-amd64, a stripped Go binary, crawls referenced JavaScript files and submits SendGrid, Anthropic, Bedrock, and AWS-shaped token matches back to the hub.
+
+- The credential decryption capability is what elevates this beyond a simple scanner. wp2s_crack.py contains separate routines for WP Mail SMTP (XSalsa20-Poly1305 secretbox), Easy WP SMTP (AES-256-CTR with SHA-256 key derivation), and FluentSMTP (AES-256-CTR keyed by LOGGED_IN_KEY with LOGGED_IN_SALT suffix removal). These are not cryptographic breaks; the component uses the WordPress key material it already collected to decrypt plugin-stored credentials and recover SMTP plaintext, which then ships to the hub.
+
+- Two WordPress CVEs provide context for the observed request structures: CVE-2026-60137 describes SQL injection via insufficient sanitization of author__not_in in WP_Query, and CVE-2026-63030 describes REST batch-route confusion that can be chained with that injection for RCE. Affected versions are WordPress 6.9.x before 6.9.5 and 7.0.x before 7.0.2. The LevelBlue report notes that successful exploitation of either CVE was not demonstrated in controlled execution; the target simulator returned prepared responses without executing SQL.
+
+- Incident telemetry from a real-world attack shows the victim host pulled payloads from 31.56.58[.]59, which also served as the controller. LevelBlue researchers identified active TIKTOUK panels at 193.32.162[.]134 and 195.178.110[.]209, and found a related Golang-compiled botnet binary with remote command execution capability. The leaked panel data showing hundreds of actor-validated live AWS keys with SES, EC2, and Bedrock abuse potential confirms the operation was running at meaningful scale before discovery.
+
+Detection and hunt: correlate REST batch requests containing hxxp://: with nested author_exclude or UNION expressions, especially when a JSON attempt is immediately followed by a multipart retry from the same source. Then check that same source or process for file requests targeting wp-config.php.bak, .env, backup.sql, and debug.log. On the host side, look for executions matching the four sample hashes provided in the report (SHA-256 for the three Python and Go components, SHA-1 for the botnet binary) alongside outbound HTTP to the three IPs above. If WordPress SMTP plugins are in scope, treat any unexpected read of LOGGED_IN_KEY or wp_options table entries as a signal worth investigating. Full IOC list is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105644818429092103</description>
+      <content:encoded><![CDATA[<p>TIKTOUK is a three-component WordPress credential harvesting toolkit combining REST API probing, encrypted plugin decryption, and JavaScript secret scanning, with incident data showing ~50k real credentials across ~37k domains already collected at scale.</p><p>Key findings:</p><p>- The toolkit&#x27;s two Python scripts and one Go binary each pull tasks from a central HTTP hub, then submit results to /v1/ingest or /api/crack/report. wp2s_poll.py probes WordPress REST batch routes using a malformed path (hxxp://:) paired with DELETE /wp/v2/categories/0 and POST /wp/v2/block-renderer/core/paragraph, retrying with multipart encoding after JSON returns HTTP 403, a two-stage request pattern that is a concrete detection signal. wp2s_crack.py fetches wp-config.php.bak, .env, .git/config, backup.sql, and wp-content/debug.log, then fires nested REST batch requests carrying author_exclude and UNION ALL SELECT expressions to pull database option values. jscrawl-amd64, a stripped Go binary, crawls referenced JavaScript files and submits SendGrid, Anthropic, Bedrock, and AWS-shaped token matches back to the hub.</p><p>- The credential decryption capability is what elevates this beyond a simple scanner. wp2s_crack.py contains separate routines for WP Mail SMTP (XSalsa20-Poly1305 secretbox), Easy WP SMTP (AES-256-CTR with SHA-256 key derivation), and FluentSMTP (AES-256-CTR keyed by LOGGED_IN_KEY with LOGGED_IN_SALT suffix removal). These are not cryptographic breaks; the component uses the WordPress key material it already collected to decrypt plugin-stored credentials and recover SMTP plaintext, which then ships to the hub.</p><p>- Two WordPress CVEs provide context for the observed request structures: CVE-2026-60137 describes SQL injection via insufficient sanitization of author__not_in in WP_Query, and CVE-2026-63030 describes REST batch-route confusion that can be chained with that injection for RCE. Affected versions are WordPress 6.9.x before 6.9.5 and 7.0.x before 7.0.2. The LevelBlue report notes that successful exploitation of either CVE was not demonstrated in controlled execution; the target simulator returned prepared responses without executing SQL.</p><p>- Incident telemetry from a real-world attack shows the victim host pulled payloads from 31.56.58[.]59, which also served as the controller. LevelBlue researchers identified active TIKTOUK panels at 193.32.162[.]134 and 195.178.110[.]209, and found a related Golang-compiled botnet binary with remote command execution capability. The leaked panel data showing hundreds of actor-validated live AWS keys with SES, EC2, and Bedrock abuse potential confirms the operation was running at meaningful scale before discovery.</p><p>Detection and hunt: correlate REST batch requests containing hxxp://: with nested author_exclude or UNION expressions, especially when a JSON attempt is immediately followed by a multipart retry from the same source. Then check that same source or process for file requests targeting wp-config.php.bak, .env, backup.sql, and debug.log. On the host side, look for executions matching the four sample hashes provided in the report (SHA-256 for the three Python and Go components, SHA-1 for the botnet binary) alongside outbound HTTP to the three IPs above. If WordPress SMTP plugins are in scope, treat any unexpected read of LOGGED_IN_KEY or wp_options table entries as a signal worth investigating. Full IOC list is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.levelblue.com/blogs/spiderlabs-blog/tiktouk-tracing-a-wordpress-credential-collection-toolkit">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105644818429092103">View on X</a></p>]]></content:encoded>
+      <dc:creator>LevelBlue SpiderLabs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105644818429092103</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2105644818429092103">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 13:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2105644818429092103</guid>
+    </item>
     <item>
       <title>Restrospective: How Malicious Updates Poison Your Environment</title>
       <link>https://www.reversinglabs.com/blog/a-software-supply-chain-attack-retrospective</link>
@@ -2214,20 +2240,6 @@ For response and hunting: query EDR and process logs for pip.exe spawned by non-
       <source url="https://x.com/DFIR_Radar/status/2103274040970338667">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 00:03:03 +0000</pubDate>
       <guid isPermaLink="false">2103274040970338667</guid>
-    </item>
-    <item>
-      <title>New Carbonato malware uses AI agents to hijack exposed Docker hosts</title>
-      <link>https://www.bleepingcomputer.com/news/security/new-carbonato-malware-uses-ai-agents-to-hijack-exposed-docker-hosts/</link>
-      <description>Carbonato botnet hijacks Docker hosts with exposed APIs on port 2375, deploys the Hermes Agent AI framework under a "GH0ST" persona, and uses Telegram as its C2.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103259036993065231</description>
-      <content:encoded><![CDATA[<p>Carbonato botnet hijacks Docker hosts with exposed APIs on port 2375, deploys the Hermes Agent AI framework under a &quot;GH0ST&quot; persona, and uses Telegram as its C2.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/new-carbonato-malware-uses-ai-agents-to-hijack-exposed-docker-hosts/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103259036993065231">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103259036993065231</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2103259036993065231">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 23:03:26 +0000</pubDate>
-      <guid isPermaLink="false">2103259036993065231</guid>
     </item>
   </channel>
 </rss>
