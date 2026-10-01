@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 13:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 14:03:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Warlock Ransomware Attackers Hit Water and Telecom Operators</title>
+      <link>https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure</link>
+      <description>Chinese 🇨🇳 Longlegs group (Storm-2603) hits water utility and telecom provider with Warlock ransomware, deploying across 33 hosts via SYSVOL replication after disabling AV/EDR on 40 machines in under two hours.
+
+Key findings:
+
+- Initial access runs through on-premises Microsoft SharePoint Server. Longlegs exploits the ToolShell chain (CVE-2025-49704, CVE-2025-49706, CVE-2025-53770, CVE-2025-53771) and related SharePoint flaws flagged by CISA in July 2026. The webshell lands in the LAYOUTS directory at CSIDL_PROGRAM_FILES_COMMON\microsoft shared\web server extensions\14\template\layouts\layout2sp.aspx, harvests the farm's ASP.NET machine keys, then forges a signed __VIEWSTATE payload to achieve RCE inside the SharePoint application pool. A Burp Collaborator canary to a subdomain of oastify[.]com confirmed code execution per-target before the main payload chain fired.
+
+- Follow-on payloads are fetched via msiexec from legitimate cloud storage, specifically litter.catbox[.]moe and xn8xyt-drop.s3.wasabisys[.]com, to blend into normal outbound traffic. DLL sideloading pairs (doexe.exe with doexeloc.dll, ssvagent.exe with gsdll64.dll.tmp) stage in CSIDL_SYSTEM\0409\ and ProgramData. Lateral movement uses NetExec (nxc.exe) for AD enumeration and credential spraying, and a domain account named SPSEPRDSetup is added to local Administrators groups on multiple hosts, masquerading as a SharePoint service account.
+
+- Defense evasion before ransomware deployment uses BYOVD. A vulnerable signed driver, K7RKScan (CVE-2025-1055), is abused via a.exe to terminate protected security processes at kernel level. The tool was pushed to at least 40 hosts via a net use command mapping an internal share and copying the toolkit to C:\users\public\. Separately, Visual Studio Code Insiders is installed as a service (CSIDL_WINDOWS\debug\code-insiders.exe tunnel service install) to establish a covert reverse tunnel through Microsoft infrastructure, a technique that blends with developer workstation traffic.
+
+- Warlock ransomware (run.exe and rune.exe) is staged inside the domain SYSVOL share at CSIDL_WINDOWS\SYSVOL\domain\scripts\run\, then pulled domain-wide via ordinary SYSVOL replication. The parent process on receiving hosts is dfsrs.exe, the Distributed File System Replication service, confirming the delivery mechanism is native domain replication rather than a separate push. At least 33 hosts received the ransomware alongside the ransom note "how to restore your files.txt". The entire AV kill and ransomware deployment window was roughly two hours.
+
+- Recent victims span Portuguese- and Spanish-speaking countries across Europe, Africa, and Latin America, with two critical infrastructure operators (water utility and telecom provider) among the four confirmed intrusions in the past two months. Earlier Warlock activity hit the United States 🇺🇸, Brazil 🇧🇷, India 🇮🇳, Russia 🇷🇺, Taiwan 🇹🇼, and Japan 🇯🇵.
+
+Practitioners should hunt SharePoint servers for unexpected ASPX files in the LAYOUTS directory, monitor for msiexec spawning with remote MSI URLs pointing to cloud storage, and watch for dfsrs.exe delivering executables outside expected GPO or script paths. SYSVOL write access from non-DC hosts is a high-confidence signal. The full IOC list including 19 file hashes (Warlock binaries, malicious DLLs, the vulnerable K7RKScan driver, and the AV/EDR killer) plus network indicators is in the Symantec report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105659922629247239</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Longlegs group (Storm-2603) hits water utility and telecom provider with Warlock ransomware, deploying across 33 hosts via SYSVOL replication after disabling AV/EDR on 40 machines in under two hours.</p><p>Key findings:</p><p>- Initial access runs through on-premises Microsoft SharePoint Server. Longlegs exploits the ToolShell chain (CVE-2025-49704, CVE-2025-49706, CVE-2025-53770, CVE-2025-53771) and related SharePoint flaws flagged by CISA in July 2026. The webshell lands in the LAYOUTS directory at CSIDL_PROGRAM_FILES_COMMON\microsoft shared\web server extensions\14\template\layouts\layout2sp.aspx, harvests the farm&#x27;s ASP.NET machine keys, then forges a signed __VIEWSTATE payload to achieve RCE inside the SharePoint application pool. A Burp Collaborator canary to a subdomain of oastify[.]com confirmed code execution per-target before the main payload chain fired.</p><p>- Follow-on payloads are fetched via msiexec from legitimate cloud storage, specifically litter.catbox[.]moe and xn8xyt-drop.s3.wasabisys[.]com, to blend into normal outbound traffic. DLL sideloading pairs (doexe.exe with doexeloc.dll, ssvagent.exe with gsdll64.dll.tmp) stage in CSIDL_SYSTEM\0409\ and ProgramData. Lateral movement uses NetExec (nxc.exe) for AD enumeration and credential spraying, and a domain account named SPSEPRDSetup is added to local Administrators groups on multiple hosts, masquerading as a SharePoint service account.</p><p>- Defense evasion before ransomware deployment uses BYOVD. A vulnerable signed driver, K7RKScan (CVE-2025-1055), is abused via a.exe to terminate protected security processes at kernel level. The tool was pushed to at least 40 hosts via a net use command mapping an internal share and copying the toolkit to C:\users\public\. Separately, Visual Studio Code Insiders is installed as a service (CSIDL_WINDOWS\debug\code-insiders.exe tunnel service install) to establish a covert reverse tunnel through Microsoft infrastructure, a technique that blends with developer workstation traffic.</p><p>- Warlock ransomware (run.exe and rune.exe) is staged inside the domain SYSVOL share at CSIDL_WINDOWS\SYSVOL\domain\scripts\run\, then pulled domain-wide via ordinary SYSVOL replication. The parent process on receiving hosts is dfsrs.exe, the Distributed File System Replication service, confirming the delivery mechanism is native domain replication rather than a separate push. At least 33 hosts received the ransomware alongside the ransom note &quot;how to restore your files.txt&quot;. The entire AV kill and ransomware deployment window was roughly two hours.</p><p>- Recent victims span Portuguese- and Spanish-speaking countries across Europe, Africa, and Latin America, with two critical infrastructure operators (water utility and telecom provider) among the four confirmed intrusions in the past two months. Earlier Warlock activity hit the United States 🇺🇸, Brazil 🇧🇷, India 🇮🇳, Russia 🇷🇺, Taiwan 🇹🇼, and Japan 🇯🇵.</p><p>Practitioners should hunt SharePoint servers for unexpected ASPX files in the LAYOUTS directory, monitor for msiexec spawning with remote MSI URLs pointing to cloud storage, and watch for dfsrs.exe delivering executables outside expected GPO or script paths. SYSVOL write access from non-DC hosts is a high-confidence signal. The full IOC list including 19 file hashes (Warlock binaries, malicious DLLs, the vulnerable K7RKScan driver, and the AV/EDR killer) plus network indicators is in the Symantec report.</p><p>#DFIR_Radar</p><p><a href="https://www.security.com/threat-intelligence/warlock-ransomware-critical-infrastructure">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105659922629247239">View on X</a></p>]]></content:encoded>
+      <dc:creator>Symantec Threat Intelligence</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105659922629247239</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105659922629247239">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 14:03:42 +0000</pubDate>
+      <guid isPermaLink="false">2105659922629247239</guid>
+    </item>
     <item>
       <title>TIKTOUK: Tracing a WordPress Credential Collection Toolkit</title>
       <link>https://www.levelblue.com/blogs/spiderlabs-blog/tiktouk-tracing-a-wordpress-credential-collection-toolkit</link>
@@ -2226,20 +2254,6 @@ For response and hunting: query EDR and process logs for pip.exe spawned by non-
       <source url="https://x.com/DFIR_Radar/status/2103289267955110034">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 01:03:34 +0000</pubDate>
       <guid isPermaLink="false">2103289267955110034</guid>
-    </item>
-    <item>
-      <title>When Business Email Compromise Starts Rewriting Reality</title>
-      <link>https://www.rapid7.com/blog/post/ve-business-email-compromise-rewriting-reality-zimbra-cve</link>
-      <description>Rapid7 disclosed 50+ vulnerabilities in Zimbra Collaboration Suite enabling attackers to send email as any user without credentials, plant documents, and alter calendars, turning BEC into manufactured enterprise reality.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103274040970338667</description>
-      <content:encoded><![CDATA[<p>Rapid7 disclosed 50+ vulnerabilities in Zimbra Collaboration Suite enabling attackers to send email as any user without credentials, plant documents, and alter calendars, turning BEC into manufactured enterprise reality.</p><p>#DFIR_Radar</p><p><a href="https://www.rapid7.com/blog/post/ve-business-email-compromise-rewriting-reality-zimbra-cve">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103274040970338667">View on X</a></p>]]></content:encoded>
-      <dc:creator>Rapid7 Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103274040970338667</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2103274040970338667">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 00:03:03 +0000</pubDate>
-      <guid isPermaLink="false">2103274040970338667</guid>
     </item>
   </channel>
 </rss>
