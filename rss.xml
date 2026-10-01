@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 07:03:22 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 08:03:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>MSP360 RMM Abused in Phishing Campaigns to Deploy ScreenConnect</title>
+      <link>https://thecyberexpress.com/msp360-rmm-phishing-screenconnect/</link>
+      <description>Unattributed phishing campaigns abused legitimate MSP360 RMM software across multiple industries in July 2026 to deploy ScreenConnect as a redundant backdoor, enabling credential theft while blending into normal IT activity.
+
+Key findings:
+
+- The lure infrastructure was broad and rotated quickly. Phishing emails drove victims to attacker-controlled pages mimicking document portals, Adobe Reader, Zoom, Google Meet, DHL notices, SSA[.]GOV statements, and e-card RSVPs. Malicious installers were hosted across Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase, making domain-based blocking unreliable. The core payload was the same signed MSP360 RMM v2.5.0.67 binary regardless of lure theme: SHA256 108ef7e628d7a20bd6241a5b57149e27a6061f467123eb64061975559f8f73dc, SHA1 f34330d4c6e0aa978dc3af40360c14b31ad51127.
+
+- The installer required UAC elevation to succeed: without it, no services or persistence were created. When approved, it logged two events through eventcreate.exe under the source "MSP360 RMM Agent installer" ("Begin installation" and "End installation. MSP360 de Success."), dropped components to C:\Program Files\RMM Agent, registered RMM.Agent.exe and RMM.Agent.Launcher.exe as services, wrote Registry autorun entries for tray apps, and opened a firewall rule allowing inbound UDP to RMM.Agent.exe on port 48678. The UAC prompt is the clearest early chokepoint to monitor or block.
+
+- RMM.Agent.exe then spawned PowerShell, changed the execution policy, and used Invoke-WebRequest to pull ClientSetup.msi from actor infrastructure. Msiexec.exe ran it silently (/qn), registering ScreenConnect.ClientService.exe and ScreenConnect.WindowsClient.exe as a second independent remote access channel. The parent-child chain of RMM.Agent.exe &gt; PowerShell &gt; msiexec.exe is a high-fidelity process tree to hunt.
+
+- ScreenConnect's RunFile feature staged and executed at least 25 named tools in C:\Users\%user%\OneDrive\Documents\ScreenConnect\Temp\ and C:\Users\%user%\Documents\ScreenConnect\Temp. Tools included WebBrowserPassView.exe, WebBrowserBookmarksView.exe, WindowsSecurity_Password.exe, WindowsPassKey.exe, Passwords.EXE, DefenderControl.exe, DefenderDT.exe, SCHider.exe, HideMouseApp.dll, HideFromControlPanel.exe, and PhoneLinkPrompt.exe. Names deliberately mimicked Windows, Defender, and Phone Link components to suppress analyst attention. A separate July cluster used FaronicsDeployAgent.exe in the same role as MSP360. Microsoft has not attributed either campaign.
+
+Hunt for RMM.Agent.exe or RMM.Agent.Launcher.exe service registrations outside your approved toolset, the eventcreate.exe source "MSP360 RMM Agent installer" in the Application event log, and any process spawned from ScreenConnect writing executables to the ScreenConnect\Temp paths listed above. For credential exposure, check those Temp directories and browser credential store access by non-browser processes. Full IOC list and detection guidance are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105569239541420041</description>
+      <content:encoded><![CDATA[<p>Unattributed phishing campaigns abused legitimate MSP360 RMM software across multiple industries in July 2026 to deploy ScreenConnect as a redundant backdoor, enabling credential theft while blending into normal IT activity.</p><p>Key findings:</p><p>- The lure infrastructure was broad and rotated quickly. Phishing emails drove victims to attacker-controlled pages mimicking document portals, Adobe Reader, Zoom, Google Meet, DHL notices, SSA[.]GOV statements, and e-card RSVPs. Malicious installers were hosted across Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase, making domain-based blocking unreliable. The core payload was the same signed MSP360 RMM v2.5.0.67 binary regardless of lure theme: SHA256 108ef7e628d7a20bd6241a5b57149e27a6061f467123eb64061975559f8f73dc, SHA1 f34330d4c6e0aa978dc3af40360c14b31ad51127.</p><p>- The installer required UAC elevation to succeed: without it, no services or persistence were created. When approved, it logged two events through eventcreate.exe under the source &quot;MSP360 RMM Agent installer&quot; (&quot;Begin installation&quot; and &quot;End installation. MSP360 de Success.&quot;), dropped components to C:\Program Files\RMM Agent, registered RMM.Agent.exe and RMM.Agent.Launcher.exe as services, wrote Registry autorun entries for tray apps, and opened a firewall rule allowing inbound UDP to RMM.Agent.exe on port 48678. The UAC prompt is the clearest early chokepoint to monitor or block.</p><p>- RMM.Agent.exe then spawned PowerShell, changed the execution policy, and used Invoke-WebRequest to pull ClientSetup.msi from actor infrastructure. Msiexec.exe ran it silently (/qn), registering ScreenConnect.ClientService.exe and ScreenConnect.WindowsClient.exe as a second independent remote access channel. The parent-child chain of RMM.Agent.exe &gt; PowerShell &gt; msiexec.exe is a high-fidelity process tree to hunt.</p><p>- ScreenConnect&#x27;s RunFile feature staged and executed at least 25 named tools in C:\Users\%user%\OneDrive\Documents\ScreenConnect\Temp\ and C:\Users\%user%\Documents\ScreenConnect\Temp. Tools included WebBrowserPassView.exe, WebBrowserBookmarksView.exe, WindowsSecurity_Password.exe, WindowsPassKey.exe, Passwords.EXE, DefenderControl.exe, DefenderDT.exe, SCHider.exe, HideMouseApp.dll, HideFromControlPanel.exe, and PhoneLinkPrompt.exe. Names deliberately mimicked Windows, Defender, and Phone Link components to suppress analyst attention. A separate July cluster used FaronicsDeployAgent.exe in the same role as MSP360. Microsoft has not attributed either campaign.</p><p>Hunt for RMM.Agent.exe or RMM.Agent.Launcher.exe service registrations outside your approved toolset, the eventcreate.exe source &quot;MSP360 RMM Agent installer&quot; in the Application event log, and any process spawned from ScreenConnect writing executables to the ScreenConnect\Temp paths listed above. For credential exposure, check those Temp directories and browser credential store access by non-browser processes. Full IOC list and detection guidance are in the report.</p><p>#DFIR_Radar</p><p><a href="https://thecyberexpress.com/msp360-rmm-phishing-screenconnect/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105569239541420041">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Cyber Express</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105569239541420041</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105569239541420041">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 08:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2105569239541420041</guid>
+    </item>
     <item>
       <title>1 little known secret of aidd.dll</title>
       <link>https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-aidd-dll/</link>
@@ -2226,30 +2252,6 @@ Hunt now in Microsoft Sentinel using the two KQL queries in the report: one targ
       <source url="https://x.com/DFIR_Radar/status/2103198648964198886">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 19:03:28 +0000</pubDate>
       <guid isPermaLink="false">2103198648964198886</guid>
-    </item>
-    <item>
-      <title>One Tap Too Far: Using Shortcuts to Bypass Chrome for iOS Call Prompts</title>
-      <link>https://blog.doyensec.com/2026/09/24/chrome-ios-policy-bypass.html</link>
-      <description>CVE-2026-13795: A single tap on a malicious webpage bypassed Chrome for iOS call-initiation protections by routing tel: through Apple Shortcuts as a callback, triggering phone calls without user confirmation.
-
-- Chrome for iOS explicitly guards tel: and facetime: URLs via a user-gesture check in app_launcher_tab_helper.mm, but it granted shortcuts:// and its legacy alias workflow:// unconditional trust as Apple-native apps, skipping the confirmation prompt entirely.
-
-- The attack chain: malicious anchor tag pointing to shortcuts://run-shortcut?name=nonexistent&amp;x-error=tel%3A%2F%2FNUMBER, one tap sends Chrome to Shortcuts, the nonexistent shortcut errors, Shortcuts fires the x-error callback directly to iOS, and Chrome never sees the tel: URL. facetime: works the same way.
-
-- The bypass is clean because Shortcuts calls UIApplication openURL for the callback itself. Chrome approved step one and was never consulted for step two, the step that caused the sensitive action.
-
-- The Chromium fix (issue 476591032, change 7838361) moves the prompt to the first handoff: Chrome now alerts before opening any shortcuts:// or workflow:// URL, covering x-success, x-cancel, and x-error in one stroke.
-
-Hunt for this in mobile threat triage: look for single-tap navigations to shortcuts:// or workflow:// containing URL-encoded tel: or facetime: parameters in query strings. Patch Chrome for iOS to the version including change 7838361.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103183570877427854</description>
-      <content:encoded><![CDATA[<p>CVE-2026-13795: A single tap on a malicious webpage bypassed Chrome for iOS call-initiation protections by routing tel: through Apple Shortcuts as a callback, triggering phone calls without user confirmation.</p><p>- Chrome for iOS explicitly guards tel: and facetime: URLs via a user-gesture check in app_launcher_tab_helper.mm, but it granted shortcuts:// and its legacy alias workflow:// unconditional trust as Apple-native apps, skipping the confirmation prompt entirely.</p><p>- The attack chain: malicious anchor tag pointing to shortcuts://run-shortcut?name=nonexistent&amp;x-error=tel%3A%2F%2FNUMBER, one tap sends Chrome to Shortcuts, the nonexistent shortcut errors, Shortcuts fires the x-error callback directly to iOS, and Chrome never sees the tel: URL. facetime: works the same way.</p><p>- The bypass is clean because Shortcuts calls UIApplication openURL for the callback itself. Chrome approved step one and was never consulted for step two, the step that caused the sensitive action.</p><p>- The Chromium fix (issue 476591032, change 7838361) moves the prompt to the first handoff: Chrome now alerts before opening any shortcuts:// or workflow:// URL, covering x-success, x-cancel, and x-error in one stroke.</p><p>Hunt for this in mobile threat triage: look for single-tap navigations to shortcuts:// or workflow:// containing URL-encoded tel: or facetime: parameters in query strings. Patch Chrome for iOS to the version including change 7838361.</p><p>#DFIR_Radar</p><p><a href="https://blog.doyensec.com/2026/09/24/chrome-ios-policy-bypass.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103183570877427854">View on X</a></p>]]></content:encoded>
-      <dc:creator>Doyensec</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103183570877427854</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2103183570877427854">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 18:03:34 +0000</pubDate>
-      <guid isPermaLink="false">2103183570877427854</guid>
     </item>
   </channel>
 </rss>
