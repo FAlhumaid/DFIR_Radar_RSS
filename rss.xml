@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Oct 2026 00:03:08 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 01:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Russian state hackers use new RedFlick technique to push malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/russian-state-hackers-use-new-redflick-technique-to-push-malware/</link>
+      <description>Russian 🇷🇺 Star Blizzard deploys CosmicPulse backdoor via "RedFlick," a new automated infection chain needing only a single click from the victim, hitting 100+ orgs across the US 🇺🇸, UK 🇬🇧, and Ukraine 🇺🇦 in 2026.
+
+Key details:
+
+- The RedFlick chain starts with a phishing email, then a follow-up containing a password-protected ZIP or RAR. Inside sits a VHDX virtual disk holding an LNK disguised as a PDF. Opening it silently launches a command, shows a decoy PDF, and pulls down an MSI installer, requiring only that one click from the victim rather than the multiple manual steps ClickFix demanded.
+
+- The MSI drops three scheduled tasks with names designed to blend into a legitimate Windows environment: "Internet Quality Test Connection" (beacons hostname and username, can execute a remote DLL), "Network Configuration Manager" (configures WebDAV so remote paths resolve like local ones), and "System Health Monitor" (uses the built-in control.exe to load the next-stage payload). Splitting roles across three tasks is a deliberate evasion move: no single task carries the full chain.
+
+- The next-stage payload is the downloader tracked as NOROBOT and BAITSWITCH, delivered as a Control Panel applet (.cpl). BAITSWITCH fetches two ZIP archives: one holds the Python 3.8 64-bit runtime, the other a bootstrapper script. The bootstrapper reads an encrypted key from the registry, recovers it using an embedded key in AES-ECB mode, then decodes and loads the CosmicPulse backdoor, giving the attacker execution of arbitrary Python code, file download and run, and document exfiltration.
+
+- Targeting since the start of 2026 spans at least 13 distinct large-scale phishing campaigns across 100+ organizations, focused on Ukrainian 🇺🇦 individuals and institutions and international NGOs, think tanks, governments, and financial institutions that have supported Ukraine 🇺🇦 politically or financially. Star Blizzard continues to impersonate trusted contacts using free email providers.
+
+Practitioner takeaway: Three artifacts stand out for hunting. First, look for LNK files inside mounted VHDX images in user download or temp paths: that combination is unusual and worth flagging at the endpoint. Second, audit scheduled tasks created by MSI processes, especially ones invoking control.exe or referencing WebDAV paths in their action fields. Third, hunt registry reads of encrypted blobs followed by Python interpreter execution in the same process tree: that sequence matches the CosmicPulse bootstrapper decryption step. The Microsoft report contains the full technical analysis of the infection chain components.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105463387580764598</description>
+      <content:encoded><![CDATA[<p>Russian 🇷🇺 Star Blizzard deploys CosmicPulse backdoor via &quot;RedFlick,&quot; a new automated infection chain needing only a single click from the victim, hitting 100+ orgs across the US 🇺🇸, UK 🇬🇧, and Ukraine 🇺🇦 in 2026.</p><p>Key details:</p><p>- The RedFlick chain starts with a phishing email, then a follow-up containing a password-protected ZIP or RAR. Inside sits a VHDX virtual disk holding an LNK disguised as a PDF. Opening it silently launches a command, shows a decoy PDF, and pulls down an MSI installer, requiring only that one click from the victim rather than the multiple manual steps ClickFix demanded.</p><p>- The MSI drops three scheduled tasks with names designed to blend into a legitimate Windows environment: &quot;Internet Quality Test Connection&quot; (beacons hostname and username, can execute a remote DLL), &quot;Network Configuration Manager&quot; (configures WebDAV so remote paths resolve like local ones), and &quot;System Health Monitor&quot; (uses the built-in control.exe to load the next-stage payload). Splitting roles across three tasks is a deliberate evasion move: no single task carries the full chain.</p><p>- The next-stage payload is the downloader tracked as NOROBOT and BAITSWITCH, delivered as a Control Panel applet (.cpl). BAITSWITCH fetches two ZIP archives: one holds the Python 3.8 64-bit runtime, the other a bootstrapper script. The bootstrapper reads an encrypted key from the registry, recovers it using an embedded key in AES-ECB mode, then decodes and loads the CosmicPulse backdoor, giving the attacker execution of arbitrary Python code, file download and run, and document exfiltration.</p><p>- Targeting since the start of 2026 spans at least 13 distinct large-scale phishing campaigns across 100+ organizations, focused on Ukrainian 🇺🇦 individuals and institutions and international NGOs, think tanks, governments, and financial institutions that have supported Ukraine 🇺🇦 politically or financially. Star Blizzard continues to impersonate trusted contacts using free email providers.</p><p>Practitioner takeaway: Three artifacts stand out for hunting. First, look for LNK files inside mounted VHDX images in user download or temp paths: that combination is unusual and worth flagging at the endpoint. Second, audit scheduled tasks created by MSI processes, especially ones invoking control.exe or referencing WebDAV paths in their action fields. Third, hunt registry reads of encrypted blobs followed by Python interpreter execution in the same process tree: that sequence matches the CosmicPulse bootstrapper decryption step. The Microsoft report contains the full technical analysis of the infection chain components.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/russian-state-hackers-use-new-redflick-technique-to-push-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105463387580764598">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105463387580764598</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2105463387580764598">DFIR Radar</source>
+      <pubDate>Thu, 01 Oct 2026 01:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2105463387580764598</guid>
+    </item>
     <item>
       <title>Attackers Abuse MSP360 to Deploy ScreenConnect in Dual-RMM Phishing Attacks</title>
       <link>https://thehackernews.com/2026/09/attackers-abuse-msp360-to-deploy.html</link>
@@ -2230,20 +2256,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2103062921450242112">DFIR Radar</source>
       <pubDate>Thu, 24 Sep 2026 10:04:08 +0000</pubDate>
       <guid isPermaLink="false">2103062921450242112</guid>
-    </item>
-    <item>
-      <title>Rogue RMM Abuse: How Attackers Exploit Remote Access Tools</title>
-      <link>https://www.huntress.com/blog/rogue-rmm-abuse-phishing-persistent-access</link>
-      <description>Huntress SOC tracked a 277% spike in rogue RMM abuse in 2025, now appearing in ~40% of incidents. Phishing lures deploy stacked ITarian and ScreenConnect clients with SYSTEM-level persistence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103047686203097522</description>
-      <content:encoded><![CDATA[<p>Huntress SOC tracked a 277% spike in rogue RMM abuse in 2025, now appearing in ~40% of incidents. Phishing lures deploy stacked ITarian and ScreenConnect clients with SYSTEM-level persistence.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/rogue-rmm-abuse-phishing-persistent-access">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103047686203097522">View on X</a></p>]]></content:encoded>
-      <dc:creator>Huntress</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103047686203097522</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2103047686203097522">DFIR Radar</source>
-      <pubDate>Thu, 24 Sep 2026 09:03:36 +0000</pubDate>
-      <guid isPermaLink="false">2103047686203097522</guid>
     </item>
   </channel>
 </rss>
