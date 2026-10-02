@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 02 Oct 2026 21:03:14 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 22:03:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Warlock ransomware breach SharePoint in water, telecom operator attacks</title>
+      <link>https://www.bleepingcomputer.com/news/security/warlock-ransomware-breach-sharepoint-in-water-telecom-operator-attacks/</link>
+      <description>Chinese 🇨🇳 Warlock (Storm-2603/Longlegs) hit water, telecom, and government targets via ToolShell SharePoint exploits, staging ransomware in SYSVOL. Hunt K7RKScan BYOVD activity; IOCs are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106142937155620952</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Warlock (Storm-2603/Longlegs) hit water, telecom, and government targets via ToolShell SharePoint exploits, staging ransomware in SYSVOL. Hunt K7RKScan BYOVD activity; IOCs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/warlock-ransomware-breach-sharepoint-in-water-telecom-operator-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106142937155620952">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106142937155620952</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2106142937155620952">DFIR Radar</source>
+      <pubDate>Fri, 02 Oct 2026 22:03:01 +0000</pubDate>
+      <guid isPermaLink="false">2106142937155620952</guid>
+    </item>
     <item>
       <title>Antino Backdoor Uses Outlook and OneDrive for C2 in China-Nexus Espionage Campaign</title>
       <link>https://thehackernews.com/2026/10/antino-backdoor-uses-outlook-and.html</link>
@@ -2256,32 +2270,6 @@ Practitioner takeaway: If you run Oracle PeopleSoft, the only confirmed protecti
       <source url="https://x.com/DFIR_Radar/status/2104542203984904656">DFIR Radar</source>
       <pubDate>Mon, 28 Sep 2026 12:02:17 +0000</pubDate>
       <guid isPermaLink="false">2104542203984904656</guid>
-    </item>
-    <item>
-      <title>Oh Look, The Foot Gun Went Off Again (Citrix NetScaler PreAuth Command Injection CVE-2026-88771)</title>
-      <link>https://labs.watchtowr.com/oh-look-the-foot-gun-went-off-again-citrix-netscaler-preauth-command-injection-cve-2026-88771/</link>
-      <description>CVE-2026-88771: Pre-auth command injection in Citrix NetScaler Gateway gives unauthenticated attackers root on the appliance, exploited as a zero-day before any patch existed. Part of an eight-CVE bulletin including a second zero-day (CVE-2026-88772).
-
-Key findings:
-
-- CVE-2026-88771 carries a CVSS 4.0 score of 9.5 Critical and was actively exploited in the wild before Citrix issued a fix. The root cause is in ns_monuploadd_err.pl, a Perl script that historically parsed Pitboss crash logs using a backtick shell pipeline (grep | sed | awk). Attacker-controlled text passed via the login field of POST /nf/auth/doAuthentication.do gets written to NetScaler logs verbatim, then later consumed by that script. Because the old code interpolated the unsanitized log value directly into a second backtick command executing find, semicolons in the attacker's input were treated as shell command separators, executing arbitrary code as root. The second zero-day, CVE-2026-88772 (CVSS 9.5), is a DTLS memory overflow affecting VPN virtual servers enabled by default.
-
-- The injection path is broad. Watchtowr's report confirms the vulnerable log sink is not limited to the authentication endpoint: failed logins, rate-limited requests, User-Agent headers, and other HTTP fields that land in logs can all carry the payload. The Citrix management interface is also in scope. A single unauthenticated POST with a crafted login parameter like "pitboss PPE unexpectedly died NSPPE;:id&gt;/var/tmp/watchTowr;# X" is sufficient to plant the payload in the log. Execution happens when ns_monuploadd_err.pl runs, which can take up to 24 hours under normal scheduling, though Watchtowr notes a technique to force immediate execution exists and is being withheld.
-
-- For forensic examination, look for suspicious entries in NetScaler's SSLVPN and AAATM log streams referencing "AAAD API: sending login req" or "process_kernel_socket: call to authenticate user" where the username field contains shell metacharacters (semicolons, backticks, pipes, redirection operators). The log format timestamps these with GMT and PPE identifier (e.g. 0-PPE-0). Any unexpected files in /var/tmp or /tmp, especially those owned by root and created in that timeframe, should be treated as command execution artifacts. Check /var/log and syslog-forwarded equivalents for the log entries shown in the report.
-
-- The fixed versions are NetScaler ADC and Gateway 14.1-73.37, 13.1-64.23, 14.1-FIPS 14.1-73.37, and 13.1-FIPS/NDcPP 13.1-37.279. The fix replaces the shell pipeline with safe Perl file I/O and a strict regex that captures only (NSPPE-\d{2}) and (\d+) from log lines, then passes find arguments as a list rather than a shell string, eliminating interpolation entirely. CVE-2026-88778 (CVSS 8.8) requires an additional step beyond patching: Enhanced ISN Generation must be explicitly enabled.
-
-Hunt priority: search NetScaler logs for login-field values containing semicolons, backticks, or redirection characters in SSLVPN Message and AAATM Message entries. Correlate creation timestamps of unexpected files under /var/tmp and /tmp against those log events. Given that exploitation predates the patch and Watchtowr describes APT-level interest, treat any unpatched appliance exposed to the internet as potentially already compromised and consider forensic imaging before upgrading.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104527372196466921</description>
-      <content:encoded><![CDATA[<p>CVE-2026-88771: Pre-auth command injection in Citrix NetScaler Gateway gives unauthenticated attackers root on the appliance, exploited as a zero-day before any patch existed. Part of an eight-CVE bulletin including a second zero-day (CVE-2026-88772).</p><p>Key findings:</p><p>- CVE-2026-88771 carries a CVSS 4.0 score of 9.5 Critical and was actively exploited in the wild before Citrix issued a fix. The root cause is in ns_monuploadd_err.pl, a Perl script that historically parsed Pitboss crash logs using a backtick shell pipeline (grep | sed | awk). Attacker-controlled text passed via the login field of POST /nf/auth/doAuthentication.do gets written to NetScaler logs verbatim, then later consumed by that script. Because the old code interpolated the unsanitized log value directly into a second backtick command executing find, semicolons in the attacker&#x27;s input were treated as shell command separators, executing arbitrary code as root. The second zero-day, CVE-2026-88772 (CVSS 9.5), is a DTLS memory overflow affecting VPN virtual servers enabled by default.</p><p>- The injection path is broad. Watchtowr&#x27;s report confirms the vulnerable log sink is not limited to the authentication endpoint: failed logins, rate-limited requests, User-Agent headers, and other HTTP fields that land in logs can all carry the payload. The Citrix management interface is also in scope. A single unauthenticated POST with a crafted login parameter like &quot;pitboss PPE unexpectedly died NSPPE;:id&gt;/var/tmp/watchTowr;# X&quot; is sufficient to plant the payload in the log. Execution happens when ns_monuploadd_err.pl runs, which can take up to 24 hours under normal scheduling, though Watchtowr notes a technique to force immediate execution exists and is being withheld.</p><p>- For forensic examination, look for suspicious entries in NetScaler&#x27;s SSLVPN and AAATM log streams referencing &quot;AAAD API: sending login req&quot; or &quot;process_kernel_socket: call to authenticate user&quot; where the username field contains shell metacharacters (semicolons, backticks, pipes, redirection operators). The log format timestamps these with GMT and PPE identifier (e.g. 0-PPE-0). Any unexpected files in /var/tmp or /tmp, especially those owned by root and created in that timeframe, should be treated as command execution artifacts. Check /var/log and syslog-forwarded equivalents for the log entries shown in the report.</p><p>- The fixed versions are NetScaler ADC and Gateway 14.1-73.37, 13.1-64.23, 14.1-FIPS 14.1-73.37, and 13.1-FIPS/NDcPP 13.1-37.279. The fix replaces the shell pipeline with safe Perl file I/O and a strict regex that captures only (NSPPE-\d{2}) and (\d+) from log lines, then passes find arguments as a list rather than a shell string, eliminating interpolation entirely. CVE-2026-88778 (CVSS 8.8) requires an additional step beyond patching: Enhanced ISN Generation must be explicitly enabled.</p><p>Hunt priority: search NetScaler logs for login-field values containing semicolons, backticks, or redirection characters in SSLVPN Message and AAATM Message entries. Correlate creation timestamps of unexpected files under /var/tmp and /tmp against those log events. Given that exploitation predates the patch and Watchtowr describes APT-level interest, treat any unpatched appliance exposed to the internet as potentially already compromised and consider forensic imaging before upgrading.</p><p>#DFIR_Radar</p><p><a href="https://labs.watchtowr.com/oh-look-the-foot-gun-went-off-again-citrix-netscaler-preauth-command-injection-cve-2026-88771/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104527372196466921">View on X</a></p>]]></content:encoded>
-      <dc:creator>Watchtowr Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104527372196466921</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2104527372196466921">DFIR Radar</source>
-      <pubDate>Mon, 28 Sep 2026 11:03:21 +0000</pubDate>
-      <guid isPermaLink="false">2104527372196466921</guid>
     </item>
   </channel>
 </rss>
