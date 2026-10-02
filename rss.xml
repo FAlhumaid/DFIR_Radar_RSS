@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 02 Oct 2026 06:02:56 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 07:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SharePoint vulnerability actively exploited</title>
+      <link>https://fieldeffect.com/blog/sharepoint-vulnerability-exploited</link>
+      <description>CVE-2026-65660 (CVSS 8.8), a SharePoint SafeControls bypass, is actively exploited and CISA KEV-listed; PoC-enabled in-memory shells leave no disk artifacts. Hunt w3wp.exe child processes and IIS logs for low-privileged account anomalies.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105916475332804631</description>
+      <content:encoded><![CDATA[<p>CVE-2026-65660 (CVSS 8.8), a SharePoint SafeControls bypass, is actively exploited and CISA KEV-listed; PoC-enabled in-memory shells leave no disk artifacts. Hunt w3wp.exe child processes and IIS logs for low-privileged account anomalies.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/sharepoint-vulnerability-exploited">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105916475332804631">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105916475332804631</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105916475332804631">DFIR Radar</source>
+      <pubDate>Fri, 02 Oct 2026 07:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2105916475332804631</guid>
+    </item>
     <item>
       <title>[webapps] TigerGraph_Community_Edition 4.2.4 - arbitrary file write</title>
       <link>https://www.exploit-db.com/exploits/52691</link>
@@ -2230,32 +2244,6 @@ Hunt for msiexec.exe launched interactively by a user process rather than by an 
       <source url="https://x.com/DFIR_Radar/status/2103530752923123867">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 17:03:08 +0000</pubDate>
       <guid isPermaLink="false">2103530752923123867</guid>
-    </item>
-    <item>
-      <title>Dark Web Profile: Blue Locker Ransomware</title>
-      <link>https://socradar.io/blog/dark-web-profile-blue-locker-ransomware/</link>
-      <description>Blue Locker ransomware hit Pakistan 🇵🇰's second-largest oil and gas producer in August 2025, wiping backups and halting financial operations for two days. Attribution pulls toward Iranian-linked Proton family code, but the picture is deliberately murky.
-
-- The August 6, 2025 attack on Pakistan 🇵🇰 Petroleum Limited encrypted servers and VMs, deleted shadow copies via wmic SHADOWCOPY DELETE (T1490), and stopped critical services (T1489) before triggering encryption. Operators claimed 1 TB exfiltrated. Pakistan 🇵🇰's NCERT issued an emergency advisory to 39 government ministries, including the Cabinet Division, FIA, FBR, and PEMRA. PPL denied sensitive data loss, but financial systems were down for two days at a company supplying roughly one-fifth of Pakistan 🇵🇰's natural gas.
-
-- Attribution is genuinely unresolved. Resecurity links Blue Locker to the Proton ransomware family, sharing code with Shinra, Zola, Limba, and Cipher, all assessed with probable Iranian 🇮🇷 origins by Israel 🇮🇱's INCD and Fortinet's FortiGuard Labs. Separately, researcher rivitna classifies the same .blue / restore_file.txt artifacts as MemeCryptor, an open-source GitHub project by "DarkFunct" inspired by Conti, using ChaCha20+RSA with BMP steganography for key hiding. These threads are not mutually exclusive: Proton source has been sold on dark web forums and MemeCryptor is publicly available. The binary also contains Chinese-language strings including a reference to Qihoo 360's "ZhuDongFangYu" component, assessed as deliberate false flags, not evidence of Chinese 🇨🇳 origin.
-
-- Name collision is a real contamination risk. Three distinct malware families share the .blue space: Blue Locker / MemeCryptor drops restore_file.txt and appends .blue. Proton / Shinra V2 also appends .blue but renames files to random 10-character strings and uses-files.txt or.txt. Phobos "Blue" is an entirely separate codebase. Validate against specific IOC sets before merging into a timeline or threat cluster.
-
-- The attack chain uses a PowerShell loader for initial staging (NCERT mapped T1059.003), UAC bypass via registry manipulation (T1548.002), and persistence via registry Run keys under HKLMSOFTWAREMicrosoftWindowsNTCurrentVersionRun (T1547.001). The mutex string wbizecif48njqgpprzkm6769 prevents duplicate execution. Chrome.exe is forcibly terminated to unlock its credential database before encryption. Timestamps are manipulated (T1070.006) and sandbox checks (T1497) run before payload execution. Negotiation runs over ProtonMail hyebwma@protonmail[.]com, Jabber hsbwabwy@xmpp[.]jp, and a Tox ID, with no dedicated Tor leak site.
-
-- Defanged IOCs from the NCERT advisory include domains shinra-encrypt-support[.]xyz, blue-decryptor[.]site, backup-leaks[.]fun, and locker-c2[.]onion, plus IPs including 185.225.69[.]140, 195.3.145[.]99, 91.243.113[.]21, and 103.150.199[.]23. SHA-256 hashes include d3cc6cc4538d57f2d1f8a9d46a3e8be73ed849f7fe37d1d969c0377cf1d0fadc and e6bd4ed287d1336206f5b4b65011e570267418799eb60c2d0d7496d5d9e95a33. Full IOC list including MD5 and SHA-1 from NCA-38 is in the report.
-
-Hunt for the mutex wbizecif48njqgpprzkm6769, registry Run key writes under CurrentVersionRun paired with a randomly named binary in %Temp%, and chrome.exe termination followed immediately by file rename activity. The restore_file.txt ransom note and .blue extension are your on-disk confirmation, but timestomping means do not rely on file modification times for sequencing. Correlate against the NCERT NCA-38 IOC set before attributing to Proton or any other cluster.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103515904621322673</description>
-      <content:encoded><![CDATA[<p>Blue Locker ransomware hit Pakistan 🇵🇰&#x27;s second-largest oil and gas producer in August 2025, wiping backups and halting financial operations for two days. Attribution pulls toward Iranian-linked Proton family code, but the picture is deliberately murky.</p><p>- The August 6, 2025 attack on Pakistan 🇵🇰 Petroleum Limited encrypted servers and VMs, deleted shadow copies via wmic SHADOWCOPY DELETE (T1490), and stopped critical services (T1489) before triggering encryption. Operators claimed 1 TB exfiltrated. Pakistan 🇵🇰&#x27;s NCERT issued an emergency advisory to 39 government ministries, including the Cabinet Division, FIA, FBR, and PEMRA. PPL denied sensitive data loss, but financial systems were down for two days at a company supplying roughly one-fifth of Pakistan 🇵🇰&#x27;s natural gas.</p><p>- Attribution is genuinely unresolved. Resecurity links Blue Locker to the Proton ransomware family, sharing code with Shinra, Zola, Limba, and Cipher, all assessed with probable Iranian 🇮🇷 origins by Israel 🇮🇱&#x27;s INCD and Fortinet&#x27;s FortiGuard Labs. Separately, researcher rivitna classifies the same .blue / restore_file.txt artifacts as MemeCryptor, an open-source GitHub project by &quot;DarkFunct&quot; inspired by Conti, using ChaCha20+RSA with BMP steganography for key hiding. These threads are not mutually exclusive: Proton source has been sold on dark web forums and MemeCryptor is publicly available. The binary also contains Chinese-language strings including a reference to Qihoo 360&#x27;s &quot;ZhuDongFangYu&quot; component, assessed as deliberate false flags, not evidence of Chinese 🇨🇳 origin.</p><p>- Name collision is a real contamination risk. Three distinct malware families share the .blue space: Blue Locker / MemeCryptor drops restore_file.txt and appends .blue. Proton / Shinra V2 also appends .blue but renames files to random 10-character strings and uses-files.txt or.txt. Phobos &quot;Blue&quot; is an entirely separate codebase. Validate against specific IOC sets before merging into a timeline or threat cluster.</p><p>- The attack chain uses a PowerShell loader for initial staging (NCERT mapped T1059.003), UAC bypass via registry manipulation (T1548.002), and persistence via registry Run keys under HKLMSOFTWAREMicrosoftWindowsNTCurrentVersionRun (T1547.001). The mutex string wbizecif48njqgpprzkm6769 prevents duplicate execution. Chrome.exe is forcibly terminated to unlock its credential database before encryption. Timestamps are manipulated (T1070.006) and sandbox checks (T1497) run before payload execution. Negotiation runs over ProtonMail hyebwma@protonmail[.]com, Jabber hsbwabwy@xmpp[.]jp, and a Tox ID, with no dedicated Tor leak site.</p><p>- Defanged IOCs from the NCERT advisory include domains shinra-encrypt-support[.]xyz, blue-decryptor[.]site, backup-leaks[.]fun, and locker-c2[.]onion, plus IPs including 185.225.69[.]140, 195.3.145[.]99, 91.243.113[.]21, and 103.150.199[.]23. SHA-256 hashes include d3cc6cc4538d57f2d1f8a9d46a3e8be73ed849f7fe37d1d969c0377cf1d0fadc and e6bd4ed287d1336206f5b4b65011e570267418799eb60c2d0d7496d5d9e95a33. Full IOC list including MD5 and SHA-1 from NCA-38 is in the report.</p><p>Hunt for the mutex wbizecif48njqgpprzkm6769, registry Run key writes under CurrentVersionRun paired with a randomly named binary in %Temp%, and chrome.exe termination followed immediately by file rename activity. The restore_file.txt ransom note and .blue extension are your on-disk confirmation, but timestomping means do not rely on file modification times for sequencing. Correlate against the NCERT NCA-38 IOC set before attributing to Proton or any other cluster.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/dark-web-profile-blue-locker-ransomware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103515904621322673">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103515904621322673</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2103515904621322673">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 16:04:08 +0000</pubDate>
-      <guid isPermaLink="false">2103515904621322673</guid>
     </item>
   </channel>
 </rss>
