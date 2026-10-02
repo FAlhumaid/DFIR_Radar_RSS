@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 02 Oct 2026 18:03:23 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 19:03:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Analyzing Windows BAM and DAM with Belkasoft X</title>
+      <link>https://belkasoft.com/bam-dam-analysis</link>
+      <description>Windows BAM and DAM registry artifacts record executable paths, user SIDs, and execution timestamps, giving responders a direct answer to "what ran and who ran it" even after the binary is gone.
+
+Key findings:
+
+- BAM lives at HKLM\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings\{SID} on Windows 10 1809 and later. Pre-1809 systems used \UserSettings without the \State\ prefix. Check both paths before concluding a user has no BAM data. Each value name is the executable path in NT device notation (e.g. \Device\HarddiskVolume3\Users\rsmith\Downloads\tool.exe) and the REG_BINARY data opens with an 8-byte little-endian Windows FILETIME. Do not assume the HarddiskVolume number maps to a specific drive letter without resolving the system's volume mappings. Packaged apps appear by Package Family Name, not a file path.
+
+- Retention is short, roughly seven days by default, controlled by the UserSettingsLifetimeMs value under the BAM control key. If the SYSTEM hive lands on your bench two weeks after an alert, the record is likely already gone. Collect the hive early during triage, not as an afterthought.
+
+- DAM follows the same registry structure and FILETIME format but is populated primarily on devices that support Modern Standby (tablets, lightweight laptops). An empty dam key on a desktop workstation is not evidence of deletion. Run powercfg /a on a live system to confirm whether Modern Standby is supported before commenting on an absent DAM.
+
+- BAM does not capture everything. Console tools launched from an existing shell (cmd.exe, powershell.exe) do not get their own BAM entry, only the shell does. Applications run from network shares or removable media are generally not recorded. The artifact links execution to a SID, not to a person at the keyboard, and it records no command-line arguments, parent process, or exit code.
+
+- These artifacts gain investigative weight through correlation. A BAM entry showing a suspicious executable path can be paired with a Prefetch file (C:\Windows\Prefetch) confirming execution count and load-time file references, UserAssist for GUI execution statistics, LNK files for file and folder access context, and Shellbags (USRCLASS.DAT, NTUSER.DAT) for folder browsing history. The combined timeline reconstructs behavior that no single artifact captures alone.
+
+Practitioner takeaway: During triage, pull the SYSTEM hive immediately. To decode a BAM timestamp manually, take the first 8 bytes of the REG_BINARY value, reverse byte order to most-significant-byte-first, interpret as a 64-bit unsigned integer, and convert from Windows FILETIME (100-nanosecond intervals since 1601-01-01 UTC). For the example in the report, EB E6 4C 41 F0 86 DA 01 resolves to April 5, 2024, 00:29:00 UTC. When hunting for lateral tool transfer or malware staging, query BAM for executable paths under user Download or temp directories and cross-reference against Prefetch run counts. If a BAM entry exists but Prefetch has no corresponding file, treat that discrepancy as a lead worth pursuing.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106097724387168344</description>
+      <content:encoded><![CDATA[<p>Windows BAM and DAM registry artifacts record executable paths, user SIDs, and execution timestamps, giving responders a direct answer to &quot;what ran and who ran it&quot; even after the binary is gone.</p><p>Key findings:</p><p>- BAM lives at HKLM\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings\{SID} on Windows 10 1809 and later. Pre-1809 systems used \UserSettings without the \State\ prefix. Check both paths before concluding a user has no BAM data. Each value name is the executable path in NT device notation (e.g. \Device\HarddiskVolume3\Users\rsmith\Downloads\tool.exe) and the REG_BINARY data opens with an 8-byte little-endian Windows FILETIME. Do not assume the HarddiskVolume number maps to a specific drive letter without resolving the system&#x27;s volume mappings. Packaged apps appear by Package Family Name, not a file path.</p><p>- Retention is short, roughly seven days by default, controlled by the UserSettingsLifetimeMs value under the BAM control key. If the SYSTEM hive lands on your bench two weeks after an alert, the record is likely already gone. Collect the hive early during triage, not as an afterthought.</p><p>- DAM follows the same registry structure and FILETIME format but is populated primarily on devices that support Modern Standby (tablets, lightweight laptops). An empty dam key on a desktop workstation is not evidence of deletion. Run powercfg /a on a live system to confirm whether Modern Standby is supported before commenting on an absent DAM.</p><p>- BAM does not capture everything. Console tools launched from an existing shell (cmd.exe, powershell.exe) do not get their own BAM entry, only the shell does. Applications run from network shares or removable media are generally not recorded. The artifact links execution to a SID, not to a person at the keyboard, and it records no command-line arguments, parent process, or exit code.</p><p>- These artifacts gain investigative weight through correlation. A BAM entry showing a suspicious executable path can be paired with a Prefetch file (C:\Windows\Prefetch) confirming execution count and load-time file references, UserAssist for GUI execution statistics, LNK files for file and folder access context, and Shellbags (USRCLASS.DAT, NTUSER.DAT) for folder browsing history. The combined timeline reconstructs behavior that no single artifact captures alone.</p><p>Practitioner takeaway: During triage, pull the SYSTEM hive immediately. To decode a BAM timestamp manually, take the first 8 bytes of the REG_BINARY value, reverse byte order to most-significant-byte-first, interpret as a 64-bit unsigned integer, and convert from Windows FILETIME (100-nanosecond intervals since 1601-01-01 UTC). For the example in the report, EB E6 4C 41 F0 86 DA 01 resolves to April 5, 2024, 00:29:00 UTC. When hunting for lateral tool transfer or malware staging, query BAM for executable paths under user Download or temp directories and cross-reference against Prefetch run counts. If a BAM entry exists but Prefetch has no corresponding file, treat that discrepancy as a lead worth pursuing.</p><p>#DFIR_Radar</p><p><a href="https://belkasoft.com/bam-dam-analysis">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106097724387168344">View on X</a></p>]]></content:encoded>
+      <dc:creator>Belkasoft</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106097724387168344</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2106097724387168344">DFIR Radar</source>
+      <pubDate>Fri, 02 Oct 2026 19:03:22 +0000</pubDate>
+      <guid isPermaLink="false">2106097724387168344</guid>
+    </item>
     <item>
       <title>Anatomy of an Attack - TerminalFix: When a Workstation Becomes a Network Pivot</title>
       <link>https://www.extrahop.com/blog/aoa-terminalfix-when-a-workstation-becomes-a-network-pivot</link>
@@ -2252,20 +2280,6 @@ Practitioner takeaway: Do not treat this as patch-and-close. Inventory every cus
       <source url="https://x.com/DFIR_Radar/status/2104481993064861939">DFIR Radar</source>
       <pubDate>Mon, 28 Sep 2026 08:03:01 +0000</pubDate>
       <guid isPermaLink="false">2104481993064861939</guid>
-    </item>
-    <item>
-      <title>Active Exploitation of Check Point Security Gateway and Security Management Vulnerabilities</title>
-      <link>https://www.truesec.com/hub/blog/check-point-security-gateway-security-management-cve-2026-85102-cve-2026-93616</link>
-      <description>CVE-2026-85102 (pre-auth RCE in Check Point Security Gateway) and CVE-2026-93616 (pre-auth path traversal in Security Management) are actively exploited. Hunt Mobile Access logs for CN=vpn certificate subjects and internal scans.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104376005712314569</description>
-      <content:encoded><![CDATA[<p>CVE-2026-85102 (pre-auth RCE in Check Point Security Gateway) and CVE-2026-93616 (pre-auth path traversal in Security Management) are actively exploited. Hunt Mobile Access logs for CN=vpn certificate subjects and internal scans.</p><p>#DFIR_Radar</p><p><a href="https://www.truesec.com/hub/blog/check-point-security-gateway-security-management-cve-2026-85102-cve-2026-93616">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104376005712314569">View on X</a></p>]]></content:encoded>
-      <dc:creator>Truesec</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104376005712314569</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2104376005712314569">DFIR Radar</source>
-      <pubDate>Mon, 28 Sep 2026 01:01:52 +0000</pubDate>
-      <guid isPermaLink="false">2104376005712314569</guid>
     </item>
   </channel>
 </rss>
