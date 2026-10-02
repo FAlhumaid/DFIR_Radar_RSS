@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 02 Oct 2026 05:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 06:02:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[webapps] TigerGraph_Community_Edition 4.2.4 - arbitrary file write</title>
+      <link>https://www.exploit-db.com/exploits/52691</link>
+      <description>TigerGraph Community Edition 4.2.4 chains hardcoded tigergraph:tigergraph credentials with unauthenticated REST++ file-write to plant SSH keys for RCE. Audit /home/tigergraph/.ssh/authorized_keys and check port 9000 for unauthenticated queries.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105901324764323854</description>
+      <content:encoded><![CDATA[<p>TigerGraph Community Edition 4.2.4 chains hardcoded tigergraph:tigergraph credentials with unauthenticated REST++ file-write to plant SSH keys for RCE. Audit /home/tigergraph/.ssh/authorized_keys and check port 9000 for unauthenticated queries.</p><p>#DFIR_Radar</p><p><a href="https://www.exploit-db.com/exploits/52691">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105901324764323854">View on X</a></p>]]></content:encoded>
+      <dc:creator>Exploit-DB</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105901324764323854</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105901324764323854">DFIR Radar</source>
+      <pubDate>Fri, 02 Oct 2026 06:02:56 +0000</pubDate>
+      <guid isPermaLink="false">2105901324764323854</guid>
+    </item>
     <item>
       <title>Improper limitation of a pathname to a restricted directory</title>
       <link>https://fortiguard.fortinet.com/psirt/FG-IR-26-175</link>
@@ -2242,32 +2256,6 @@ Hunt for the mutex wbizecif48njqgpprzkm6769, registry Run key writes under Curre
       <source url="https://x.com/DFIR_Radar/status/2103515904621322673">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 16:04:08 +0000</pubDate>
       <guid isPermaLink="false">2103515904621322673</guid>
-    </item>
-    <item>
-      <title>Kothamine malware uses Tailscale’s tailcat to evade network detection</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/09/kothamine-malware-uses-tailscales-tailcat-to-evade-network-detection</link>
-      <description>Kothamine, a newly documented C/C++ RAT with 30+ commands, abuses Tailscale's tailcat tool to tunnel C2 traffic over WireGuard, stripping defenders of any conventional domain to block.
-
-Key findings:
-
-- Kothamine Injector drops itself to %ROAMING%\MicrosoftEdgeUpdateCore.exe and the agent DLL to %ROAMING%\MicrosoftEdgeUpdateCore.dll, then injects the DLL into explorer.exe via the classic OpenProcess/VirtualAllocEx/WriteProcessMemory/CreateRemoteThread/LoadLibraryA chain. Persistence lands via up.ps1 in %TEMP%, which registers a scheduled task named MicrosoftEdgeUpdateTask set to trigger at logon. The agent creates the mutex Local\KothamineAgentInstance on startup and immediately runs hidden PowerShell to add its own paths and processes to Windows Defender exclusions using Add-MpPreference.
-
-- C2 runs entirely through tailcat.exe, extracted from the agent's resources and saved to %ROAMING%\TailscalePortable\tailcat.exe. The agent launches it with a forward flag and a tc-address, making operator infrastructure available on localhost:18080, then connects to 127.0.0.1:18080 and forwards to port 4444 on the operator's node. All traffic is encrypted with AES-GCM using a hardcoded base64 key. Because tailcat uses WireGuard's data plane with no accounts, no registered devices, and no control plane, there is no C2 domain or IP to pivot on from network logs alone.
-
-- The plugin system is the capability multiplier. The load_feature command receives a base64-encoded DLL over C2, writes it to a temp path, loads it with LoadLibraryA, and calls a GetFeatureApi export that returns function pointers (init, exec, cleanup) stored in a global g_features map. Operators can hot-load arbitrary capabilities without touching disk beyond the temp DLL write. Separate builds already ship getdiscord, getsessions, screenshot, screenshare, and camera commands covering browser cookie theft, Steam and Minecraft session files, clipboard, screenshots, and live camera/microphone recording.
-
-- The supply chain vector is malicious npm packages, including one named dotnet-runtime-base, which downloaded npm-sc-legit.exe (a compiled Kothamine build with stealer commands) from a GitHub repository at github[.]com/cphc811-ui/. The developer published compilation instructions for kothamine-stub-cpp inside one of the packages, an operational mistake that exposed the build pipeline. Two other packages by the same developer were removed. SHA-256 hashes for the injector (ec4219a7ecf132c29080fbb20e4ab410c57faa85aeed7acade1eb15d905a6ee0) and agent DLL (74eca3973ad72a6ddc9397aff8250d9ee287211fc9a055d5ee290d01cf76a70c) are in the report.
-
-Hunt for the scheduled task MicrosoftEdgeUpdateTask and the mutex Local\KothamineAgentInstance first. Then look for explorer.exe loading an AppData\Roaming DLL and for tailcat.exe running as a child of any process with a forward argument containing a tc-address. On disk, check %ROAMING%\TailscalePortable\ and %ROAMING%\MicrosoftEdgeUpdateCore.*. Network-side, watch for WireGuard traffic (UDP) initiated by non-system processes and loopback connections to port 18080. Full IOC list is in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103500687971922244</description>
-      <content:encoded><![CDATA[<p>Kothamine, a newly documented C/C++ RAT with 30+ commands, abuses Tailscale&#x27;s tailcat tool to tunnel C2 traffic over WireGuard, stripping defenders of any conventional domain to block.</p><p>Key findings:</p><p>- Kothamine Injector drops itself to %ROAMING%\MicrosoftEdgeUpdateCore.exe and the agent DLL to %ROAMING%\MicrosoftEdgeUpdateCore.dll, then injects the DLL into explorer.exe via the classic OpenProcess/VirtualAllocEx/WriteProcessMemory/CreateRemoteThread/LoadLibraryA chain. Persistence lands via up.ps1 in %TEMP%, which registers a scheduled task named MicrosoftEdgeUpdateTask set to trigger at logon. The agent creates the mutex Local\KothamineAgentInstance on startup and immediately runs hidden PowerShell to add its own paths and processes to Windows Defender exclusions using Add-MpPreference.</p><p>- C2 runs entirely through tailcat.exe, extracted from the agent&#x27;s resources and saved to %ROAMING%\TailscalePortable\tailcat.exe. The agent launches it with a forward flag and a tc-address, making operator infrastructure available on localhost:18080, then connects to 127.0.0.1:18080 and forwards to port 4444 on the operator&#x27;s node. All traffic is encrypted with AES-GCM using a hardcoded base64 key. Because tailcat uses WireGuard&#x27;s data plane with no accounts, no registered devices, and no control plane, there is no C2 domain or IP to pivot on from network logs alone.</p><p>- The plugin system is the capability multiplier. The load_feature command receives a base64-encoded DLL over C2, writes it to a temp path, loads it with LoadLibraryA, and calls a GetFeatureApi export that returns function pointers (init, exec, cleanup) stored in a global g_features map. Operators can hot-load arbitrary capabilities without touching disk beyond the temp DLL write. Separate builds already ship getdiscord, getsessions, screenshot, screenshare, and camera commands covering browser cookie theft, Steam and Minecraft session files, clipboard, screenshots, and live camera/microphone recording.</p><p>- The supply chain vector is malicious npm packages, including one named dotnet-runtime-base, which downloaded npm-sc-legit.exe (a compiled Kothamine build with stealer commands) from a GitHub repository at github[.]com/cphc811-ui/. The developer published compilation instructions for kothamine-stub-cpp inside one of the packages, an operational mistake that exposed the build pipeline. Two other packages by the same developer were removed. SHA-256 hashes for the injector (ec4219a7ecf132c29080fbb20e4ab410c57faa85aeed7acade1eb15d905a6ee0) and agent DLL (74eca3973ad72a6ddc9397aff8250d9ee287211fc9a055d5ee290d01cf76a70c) are in the report.</p><p>Hunt for the scheduled task MicrosoftEdgeUpdateTask and the mutex Local\KothamineAgentInstance first. Then look for explorer.exe loading an AppData\Roaming DLL and for tailcat.exe running as a child of any process with a forward argument containing a tc-address. On disk, check %ROAMING%\TailscalePortable\ and %ROAMING%\MicrosoftEdgeUpdateCore.*. Network-side, watch for WireGuard traffic (UDP) initiated by non-system processes and loopback connections to port 18080. Full IOC list is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.malwarebytes.com/blog/threat-intel/2026/09/kothamine-malware-uses-tailscales-tailcat-to-evade-network-detection">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103500687971922244">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malwarebytes Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103500687971922244</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2103500687971922244">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 15:03:40 +0000</pubDate>
-      <guid isPermaLink="false">2103500687971922244</guid>
     </item>
   </channel>
 </rss>
