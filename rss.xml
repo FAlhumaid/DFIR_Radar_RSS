@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 02 Oct 2026 01:03:07 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 02:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Public PoC Released for Apple CoreGraphics Zero-Day CVE-2026-86950</title>
+      <link>https://securityaffairs.com/200175/hacking/public-poc-released-for-apple-coregraphics-zero-day-cve-2026-86950.html</link>
+      <description>CVE-2026-86950, an Apple CoreGraphics zero-day with public PoC, triggers via a malformed PDF with a crafted embedded font. Examine thumbnail-render processes for crashes; patch to iOS/iPadOS 26.7.1 and macOS 26.7.1.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105841058349273258</description>
+      <content:encoded><![CDATA[<p>CVE-2026-86950, an Apple CoreGraphics zero-day with public PoC, triggers via a malformed PDF with a crafted embedded font. Examine thumbnail-render processes for crashes; patch to iOS/iPadOS 26.7.1 and macOS 26.7.1.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200175/hacking/public-poc-released-for-apple-coregraphics-zero-day-cve-2026-86950.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105841058349273258">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2105841058349273258</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2105841058349273258">DFIR Radar</source>
+      <pubDate>Fri, 02 Oct 2026 02:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2105841058349273258</guid>
+    </item>
     <item>
       <title>Milk Dragon: Huge Discounts on Social Media? Think Twice Before You Buy</title>
       <link>https://www.group-ib.com/blog/milk-dragon-nailong-phishing-kit/</link>
@@ -2256,34 +2270,6 @@ Takeaway: Hunt for /root/.hermes/SOUL.md containing the string "GH0ST" and .env 
       <source url="https://x.com/DFIR_Radar/status/2103455291241013525">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 12:03:17 +0000</pubDate>
       <guid isPermaLink="false">2103455291241013525</guid>
-    </item>
-    <item>
-      <title>Apple Biome Forensics: Artifacts, Locations, and SEGB format</title>
-      <link>https://belkasoft.com/biome-forensics-artifacts</link>
-      <description>Apple Biome is now the primary pattern-of-life source on modern iPhones and iPads, replacing knowledgeC.db from iOS 14 onward. Understanding the SEGB binary format and where these files live is essential before any iOS investigation.
-
-Key findings:
-
-- Biome requires a full file system extraction, not an iTunes-style backup. Files live in two directories: /private/var/mobile/Library/Biome/ and /private/var/db/biome/. Inside each, a streams folder splits data into public and restricted subfolders. Notable streams include AppLaunch at /private/var/mobile/Library/Biome/streams/public/AppLaunch/, Safari history at /private/var/db/biome/streams/restricted/_DKEvent.Safari.History/, and app-in-focus at /private/var/db/biome/streams/restricted/_DKEvent.App.InFocus/. Each stream subdirectory typically holds a local folder for on-device records and a remote folder for data synced from other devices on the same Apple ID. Remote subfolders are named with the source device GUID, resolvable via sync.db at /private/var/mobile/Library/Biome/sync.db.
-
-- Retention is approximately 28 days, controlled by a maxAge value of 2,419,200 seconds in a metadata plist inside each stream directory. Expired records may persist in a tombstone subfolder, potentially extending your timeline further back. Check the tombstone folder before concluding a stream has no older activity.
-
-- Two SEGB versions exist and must be parsed differently. SEGB v1 covers iOS 15 and 16: the "SEGB" signature sits at offsets 52-55 of a 56-byte file header, and each record carries a 32-byte header containing payload length, a state flag (1 = written, 3 = deleted), two Mac Absolute Time timestamps, and a CRC32 checksum, with records aligned to 8-byte boundaries. SEGB v2 covers iOS 17 and later: the signature moves to offsets 0-3 of a 32-byte file header, the file is a fixed 1 MiB, and record metadata (state, end offset, creation timestamp) moves out of the record header and into 16-byte trailer entries indexed from the end of the file. Payload structure (Protobuf) is typically unchanged between versions for the same stream.
-
-- Deleted records lose their payload. When a record is marked deleted (state = 3), the payload is overwritten with zeroed bytes. On iOS 18 SEGB v2 files, the entire record including the record header is zeroed. The trailer entry in v2 and the record header in v1 may still show that an event occurred at a given timestamp, even without recoverable content. Clearing all Safari browsing history caused SEGB payloads to be zeroed in testing, while deleting a single history item did not always immediately remove its record.
-
-- The SEGB timestamps in v1 mark when the record was written, not necessarily when the event occurred. Build timelines carefully and corroborate Biome timestamps against other sources. For cross-device recovery, check the remote subfolder of any synced Apple device: a record deleted on one device may still be intact in the remote folder on another device sharing the same Apple ID.
-
-Practitioner takeaway: On any iOS investigation from iOS 14 onward, pull both /private/var/mobile/Library/Biome/ and /private/var/db/biome/ as part of your full file system extraction workflow. Determine your iOS version first to know whether you are dealing with SEGB v1 (signature at offset 52) or v2 (signature at offset 0, fixed 1 MiB file). Check the tombstone folder for data beyond the 28-day active window, examine the remote folders for cross-device activity, and do not discard deleted records even when the payload is zeroed since the trailer or record header metadata can still anchor an event to a timestamp. knowledgeC.db remains present on iOS 18, so treat both sources as complementary, not redundant.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103440178194874422</description>
-      <content:encoded><![CDATA[<p>Apple Biome is now the primary pattern-of-life source on modern iPhones and iPads, replacing knowledgeC.db from iOS 14 onward. Understanding the SEGB binary format and where these files live is essential before any iOS investigation.</p><p>Key findings:</p><p>- Biome requires a full file system extraction, not an iTunes-style backup. Files live in two directories: /private/var/mobile/Library/Biome/ and /private/var/db/biome/. Inside each, a streams folder splits data into public and restricted subfolders. Notable streams include AppLaunch at /private/var/mobile/Library/Biome/streams/public/AppLaunch/, Safari history at /private/var/db/biome/streams/restricted/_DKEvent.Safari.History/, and app-in-focus at /private/var/db/biome/streams/restricted/_DKEvent.App.InFocus/. Each stream subdirectory typically holds a local folder for on-device records and a remote folder for data synced from other devices on the same Apple ID. Remote subfolders are named with the source device GUID, resolvable via sync.db at /private/var/mobile/Library/Biome/sync.db.</p><p>- Retention is approximately 28 days, controlled by a maxAge value of 2,419,200 seconds in a metadata plist inside each stream directory. Expired records may persist in a tombstone subfolder, potentially extending your timeline further back. Check the tombstone folder before concluding a stream has no older activity.</p><p>- Two SEGB versions exist and must be parsed differently. SEGB v1 covers iOS 15 and 16: the &quot;SEGB&quot; signature sits at offsets 52-55 of a 56-byte file header, and each record carries a 32-byte header containing payload length, a state flag (1 = written, 3 = deleted), two Mac Absolute Time timestamps, and a CRC32 checksum, with records aligned to 8-byte boundaries. SEGB v2 covers iOS 17 and later: the signature moves to offsets 0-3 of a 32-byte file header, the file is a fixed 1 MiB, and record metadata (state, end offset, creation timestamp) moves out of the record header and into 16-byte trailer entries indexed from the end of the file. Payload structure (Protobuf) is typically unchanged between versions for the same stream.</p><p>- Deleted records lose their payload. When a record is marked deleted (state = 3), the payload is overwritten with zeroed bytes. On iOS 18 SEGB v2 files, the entire record including the record header is zeroed. The trailer entry in v2 and the record header in v1 may still show that an event occurred at a given timestamp, even without recoverable content. Clearing all Safari browsing history caused SEGB payloads to be zeroed in testing, while deleting a single history item did not always immediately remove its record.</p><p>- The SEGB timestamps in v1 mark when the record was written, not necessarily when the event occurred. Build timelines carefully and corroborate Biome timestamps against other sources. For cross-device recovery, check the remote subfolder of any synced Apple device: a record deleted on one device may still be intact in the remote folder on another device sharing the same Apple ID.</p><p>Practitioner takeaway: On any iOS investigation from iOS 14 onward, pull both /private/var/mobile/Library/Biome/ and /private/var/db/biome/ as part of your full file system extraction workflow. Determine your iOS version first to know whether you are dealing with SEGB v1 (signature at offset 52) or v2 (signature at offset 0, fixed 1 MiB file). Check the tombstone folder for data beyond the 28-day active window, examine the remote folders for cross-device activity, and do not discard deleted records even when the payload is zeroed since the trailer or record header metadata can still anchor an event to a timestamp. knowledgeC.db remains present on iOS 18, so treat both sources as complementary, not redundant.</p><p>#DFIR_Radar</p><p><a href="https://belkasoft.com/biome-forensics-artifacts">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103440178194874422">View on X</a></p>]]></content:encoded>
-      <dc:creator>Belkasoft</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103440178194874422</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2103440178194874422">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 11:03:13 +0000</pubDate>
-      <guid isPermaLink="false">2103440178194874422</guid>
     </item>
   </channel>
 </rss>
