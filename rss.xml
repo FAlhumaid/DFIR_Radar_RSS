@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 02 Oct 2026 12:03:26 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 13:03:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The NetScaler Zero-Day Siege and Pre-Auth RCE Chains : Technical Analysis and Exposure Assessment</title>
+      <link>https://threatmon.io/the-netscaler-zero-day-siege-and-pre-auth-rce-chains-technical-analysis-and-exposure-assessment/</link>
+      <description>ShinyHunters claims FBIJobs[.]gov breach via Oracle PeopleSoft RCE. CVE-2026-35273 (CVSS 9.8) WAF bypass is the leading initial access hypothesis, with web shells and SIDEEYE backdoor confirmed in the wider campaign.
+
+Key details:
+
+- CVE-2026-35273 is a critical unauthenticated RCE in Oracle PeopleSoft's Environment Management Hub (PSEMHUB), triggered via Java deserialization. ShinyHunters exploited it as a zero-day May 27 to June 9, 2026 against 100+ organizations before Oracle's June 10 out-of-band patch. The renewed September 2026 wave uses /%50SEMHUB/ as the request path: %50 is URL-encoded "P", which WebLogic decodes and routes normally while WAF rules matching the literal string /PSEMHUB/ pass it clean. Organizations that blocked the path but never patched are re-exposed. Hunt PIA WebLogic access logs for that encoded path and for bursts of 5 to 15 POST requests to /hub from external IPs, a pattern researchers observed used to confirm exploitability.
+
+- Post-exploitation toolset documented in the September 25 Mandiant report: x.jsp (command execution web shell), u.jsp (chunked file upload stager, SHA-256 2bee941fb40519d0d1ec52bd79a8f63fc65aac6455c8f2d6b668e3360dfdb5d7), Ple64.exe SIDEEYE loader (SHA-256 3ba215692665513abfffd4e815c5c45f2d41e5dcc4283a2a3b740930c5c417c3), Neo-reGeorg tunnel.jsp and tunnel.jspx for SOCKS proxying, and MeshAgent for persistent remote access via winmanage-me[.]network and azurenetfiles[.]net. A fileless execution variant leaves no JSP on disk, so JSP-based detections alone are not sufficient.
+
+- The confirmed infrastructure includes attack controller 5.199.162[.]157, exfiltration staging host 104.219.234[.]138, SIDEEYE C2 at 162.219.30[.]165 over TCP 3333/3334, staging range 142.11.200[.]186 to 142.11.200[.]190 (May to June 2026), and MeshAgent enrollment domain enroll.azuredevice[.]cloud. X.jsp and the Neo-reGeorg tunnel hashes vary per victim: hunt by file name and path in PSEMHUB.war and PORTAL.war, not by hash alone.
+
+- The FBIJobs[.]gov intrusion claimed by ShinyHunters involves an alleged 2 to 3 TB exfiltration including names, home addresses, spouse details, Social Security numbers, unit assignments, and psychiatric and medical files. A 5,000-record sample was judged authentic by 404 Media and Reuters. An internal FBI memo reported by The New York Times states the Bureau is operating under the assumption that personal data of all FBI employees was exfiltrated. The FBI has not confirmed the entry point, scope, or which systems were accessed. If the MedLink, Criminal Justice, BEAST, and AWS GovCloud claims hold, this is a segmentation failure: a public recruitment portal reaching medical and investigative systems.
+
+- Attribution is complicated. ShinyHunters is a brand with competing internal factions. The Umbreon defacement art may have been a deliberate attempt by current leadership to implicate arrested Dutch 🇳🇱 suspect Pepijn van der Stap, who was detained September 16 and ordered held 90 days on September 29. No authority has publicly linked him to FBIJobs[.]gov. CTI teams should weigh defacement art and handles against technical indicators, not treat them as attribution.
+
+Practitioner action: Patch CVE-2026-35273 immediately. WAF path blocks are not a control. Disable or remove the PSEMHUB application if unused, and enforce normalization on perimeter rules so encoded variants are caught. On hosts, alert on cmd.exe or bash spawned by the WebLogic Java process, hunt for MeshCentral agents and unexpected archives or zstd/rsync/curl processes under PeopleSoft service accounts, and monitor outbound SMB and large transfers from the PeopleSoft tier. If you use a managed PeopleSoft host, get written patch confirmation from the provider now. Full IOC list is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106007220555018431</description>
+      <content:encoded><![CDATA[<p>ShinyHunters claims FBIJobs[.]gov breach via Oracle PeopleSoft RCE. CVE-2026-35273 (CVSS 9.8) WAF bypass is the leading initial access hypothesis, with web shells and SIDEEYE backdoor confirmed in the wider campaign.</p><p>Key details:</p><p>- CVE-2026-35273 is a critical unauthenticated RCE in Oracle PeopleSoft&#x27;s Environment Management Hub (PSEMHUB), triggered via Java deserialization. ShinyHunters exploited it as a zero-day May 27 to June 9, 2026 against 100+ organizations before Oracle&#x27;s June 10 out-of-band patch. The renewed September 2026 wave uses /%50SEMHUB/ as the request path: %50 is URL-encoded &quot;P&quot;, which WebLogic decodes and routes normally while WAF rules matching the literal string /PSEMHUB/ pass it clean. Organizations that blocked the path but never patched are re-exposed. Hunt PIA WebLogic access logs for that encoded path and for bursts of 5 to 15 POST requests to /hub from external IPs, a pattern researchers observed used to confirm exploitability.</p><p>- Post-exploitation toolset documented in the September 25 Mandiant report: x.jsp (command execution web shell), u.jsp (chunked file upload stager, SHA-256 2bee941fb40519d0d1ec52bd79a8f63fc65aac6455c8f2d6b668e3360dfdb5d7), Ple64.exe SIDEEYE loader (SHA-256 3ba215692665513abfffd4e815c5c45f2d41e5dcc4283a2a3b740930c5c417c3), Neo-reGeorg tunnel.jsp and tunnel.jspx for SOCKS proxying, and MeshAgent for persistent remote access via winmanage-me[.]network and azurenetfiles[.]net. A fileless execution variant leaves no JSP on disk, so JSP-based detections alone are not sufficient.</p><p>- The confirmed infrastructure includes attack controller 5.199.162[.]157, exfiltration staging host 104.219.234[.]138, SIDEEYE C2 at 162.219.30[.]165 over TCP 3333/3334, staging range 142.11.200[.]186 to 142.11.200[.]190 (May to June 2026), and MeshAgent enrollment domain enroll.azuredevice[.]cloud. X.jsp and the Neo-reGeorg tunnel hashes vary per victim: hunt by file name and path in PSEMHUB.war and PORTAL.war, not by hash alone.</p><p>- The FBIJobs[.]gov intrusion claimed by ShinyHunters involves an alleged 2 to 3 TB exfiltration including names, home addresses, spouse details, Social Security numbers, unit assignments, and psychiatric and medical files. A 5,000-record sample was judged authentic by 404 Media and Reuters. An internal FBI memo reported by The New York Times states the Bureau is operating under the assumption that personal data of all FBI employees was exfiltrated. The FBI has not confirmed the entry point, scope, or which systems were accessed. If the MedLink, Criminal Justice, BEAST, and AWS GovCloud claims hold, this is a segmentation failure: a public recruitment portal reaching medical and investigative systems.</p><p>- Attribution is complicated. ShinyHunters is a brand with competing internal factions. The Umbreon defacement art may have been a deliberate attempt by current leadership to implicate arrested Dutch 🇳🇱 suspect Pepijn van der Stap, who was detained September 16 and ordered held 90 days on September 29. No authority has publicly linked him to FBIJobs[.]gov. CTI teams should weigh defacement art and handles against technical indicators, not treat them as attribution.</p><p>Practitioner action: Patch CVE-2026-35273 immediately. WAF path blocks are not a control. Disable or remove the PSEMHUB application if unused, and enforce normalization on perimeter rules so encoded variants are caught. On hosts, alert on cmd.exe or bash spawned by the WebLogic Java process, hunt for MeshCentral agents and unexpected archives or zstd/rsync/curl processes under PeopleSoft service accounts, and monitor outbound SMB and large transfers from the PeopleSoft tier. If you use a managed PeopleSoft host, get written patch confirmation from the provider now. Full IOC list is in the report.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/the-netscaler-zero-day-siege-and-pre-auth-rce-chains-technical-analysis-and-exposure-assessment/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106007220555018431">View on X</a></p>]]></content:encoded>
+      <dc:creator>ThreatMon</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106007220555018431</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2106007220555018431">DFIR Radar</source>
+      <pubDate>Fri, 02 Oct 2026 13:03:44 +0000</pubDate>
+      <guid isPermaLink="false">2106007220555018431</guid>
+    </item>
     <item>
       <title>CVE-2026-104286: FortiMail Path Traversal Vulnerability Actively Exploited</title>
       <link>https://www.truesec.com/hub/blog/cve-2026-104286-fortimail-path-traversal-vulnerability-actively-exploited</link>
@@ -2232,20 +2260,6 @@ Practitioner takeaway: If you blocked /PSEMHUB/ at the WAF and considered it mit
       <source url="https://x.com/DFIR_Radar/status/2103621276166406369">DFIR Radar</source>
       <pubDate>Fri, 25 Sep 2026 23:02:50 +0000</pubDate>
       <guid isPermaLink="false">2103621276166406369</guid>
-    </item>
-    <item>
-      <title>CVE-2026-94127: F5 BIG-IP APM RCE Under Active Exploitation</title>
-      <link>https://socradar.io/blog/cve-2026-94127-f5-big-ip-apm-rce/</link>
-      <description>CVE-2026-94127, a CVSS 9.8 heap overflow in F5 BIG-IP APM, enables unauthenticated RCE and is actively exploited in the wild. Review /var/log/apm for OAuth failures, /var/log/audit for anomalous commands, and /var/core for TMM crash files.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2103606809231818902</description>
-      <content:encoded><![CDATA[<p>CVE-2026-94127, a CVSS 9.8 heap overflow in F5 BIG-IP APM, enables unauthenticated RCE and is actively exploited in the wild. Review /var/log/apm for OAuth failures, /var/log/audit for anomalous commands, and /var/core for TMM crash files.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/cve-2026-94127-f5-big-ip-apm-rce/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2103606809231818902">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2103606809231818902</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2103606809231818902">DFIR Radar</source>
-      <pubDate>Fri, 25 Sep 2026 22:05:21 +0000</pubDate>
-      <guid isPermaLink="false">2103606809231818902</guid>
     </item>
   </channel>
 </rss>
