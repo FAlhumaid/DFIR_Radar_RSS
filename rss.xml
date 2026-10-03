@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 03 Oct 2026 00:02:59 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2026 01:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-76504: Cisco SD-WAN Flaw Exploited</title>
+      <link>https://socradar.io/blog/cve-2026-76504-cisco-sd-wan-flaw/</link>
+      <description>CVE-2026-76504 (CVSS 9.8), a Cisco Catalyst SD-WAN Manager auth bypass, is actively exploited and CISA KEV-listed. Hunt serviceproxy-access.log for /%6a_security_check and vmanage-server.log for viptela-reserved- accounts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106188263308353951</description>
+      <content:encoded><![CDATA[<p>CVE-2026-76504 (CVSS 9.8), a Cisco Catalyst SD-WAN Manager auth bypass, is actively exploited and CISA KEV-listed. Hunt serviceproxy-access.log for /%6a_security_check and vmanage-server.log for viptela-reserved- accounts.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/cve-2026-76504-cisco-sd-wan-flaw/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106188263308353951">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106188263308353951</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2106188263308353951">DFIR Radar</source>
+      <pubDate>Sat, 03 Oct 2026 01:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2106188263308353951</guid>
+    </item>
     <item>
       <title>U.S. CISA adds Cisco Catalyst SD-WAN Manager flaw to its Known Exploited Vulnerabilities catalog</title>
       <link>https://securityaffairs.com/200152/security/u-s-cisa-adds-cisco-catalyst-sd-wan-manager-flaw-to-its-known-exploited-vulnerabilities-catalog.html</link>
@@ -2228,34 +2242,6 @@ Practitioner takeaway: The rollout path matters. Stage one is getting Sublime te
       <source url="https://x.com/DFIR_Radar/status/2104602864530186381">DFIR Radar</source>
       <pubDate>Mon, 28 Sep 2026 16:03:20 +0000</pubDate>
       <guid isPermaLink="false">2104602864530186381</guid>
-    </item>
-    <item>
-      <title>Storm-3168, Linked to JADEPUFFER, Abused Stolen Azure Identities</title>
-      <link>https://securityaffairs.com/199905/cyber-crime/storm-3168-linked-to-jadepuffer-abused-stolen-azure-identities.html</link>
-      <description>Storm-3168, tracked by Sysdig as JADEPUFFER, used two stolen Azure service principals to destroy over 100 storage accounts in seven minutes and harvest keys, in what Sysdig called the first documented agentic ransomware operation.
-
-Key findings:
-
-- The initial access vector is the headline forensic lesson. Credentials (client ID, client secret, and tenant ID) for one of the compromised service principals were posted in plaintext in a public GitHub issue by an employee of the victim organization. The issue was later edited to remove the secret, but GitHub preserves the full edit history, leaving the credentials accessible. Microsoft explicitly could not confirm this was the route used, but the warning is unambiguous: removing a post does not invalidate the credential. Defenders should treat any secret visible in public edit history as fully compromised and requiring immediate revocation, not just redaction.
-
-- The attack split work across two service principals from the same tenant to separate reconnaissance from destruction. The first identity spent 15 hours 30 minutes completing more than 300 read operations. Ninety minutes later, the second enumerated the same environment across two subscriptions in five seconds. Both used the same Storm-3168 infrastructure, the same network fingerprint, and the user agent python-requests/2.34.2, a consistent behavioral signature across the operation. Overlapping token streams and precise inter-operation timing point to fully scripted or automated execution.
-
-- The destructive phase lasted approximately seven minutes inside a 35-minute window of more than 150 destructive and credential-related operations. The second identity attempted deletion of over 100 storage accounts, a Key Vault, a Function App, and an App Service plan. It also targeted Azure Site Recovery and Azure Backup protection locks, and prioritized storage accounts with names referencing Terraform and backups, signaling deliberate recovery interference. Azure resource locks and deletion protection stopped several deletions, demonstrating that independent controls survive even broad Contributor-level compromise.
-
-- Thirty minutes after the last deletion, the identity returned for keys. More than 30 successful ListKeys requests followed, including against Azure Site Recovery-linked accounts. One storage account in the same resource group as the deleted Key Vault was deliberately spared during destruction, then hit with a successful key request afterward, suggesting staged data theft preparation rather than pure destruction.
-
-- The three IP addresses linked to Storm-3168 probing and malicious requests are 45.131.66[.]106, 34.153.223[.]102, and 64.20.53[.]230. Separate scanning from the same infrastructure targeted Azure App Services across different customers, hitting WordPress admin paths, PHP-CGI, and the LangFlow code validation endpoint at /api/v1/validate/code. None of those probes reached the affected subscriptions.
-
-Hunt your Azure Activity Logs for ListKeys operations on storage accounts following resource deletion events, especially within the same resource group and within 30 minutes of destructive activity. Flag any service principal using python-requests/2.34.2 making bulk read operations. Audit service principal permissions for overly broad Storage Account Contributor or Contributor roles and cross-reference against GitHub, public issue trackers, and repository histories for exposed client secrets. Full IOC details and Microsoft's defensive guidance are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104572540534260063</description>
-      <content:encoded><![CDATA[<p>Storm-3168, tracked by Sysdig as JADEPUFFER, used two stolen Azure service principals to destroy over 100 storage accounts in seven minutes and harvest keys, in what Sysdig called the first documented agentic ransomware operation.</p><p>Key findings:</p><p>- The initial access vector is the headline forensic lesson. Credentials (client ID, client secret, and tenant ID) for one of the compromised service principals were posted in plaintext in a public GitHub issue by an employee of the victim organization. The issue was later edited to remove the secret, but GitHub preserves the full edit history, leaving the credentials accessible. Microsoft explicitly could not confirm this was the route used, but the warning is unambiguous: removing a post does not invalidate the credential. Defenders should treat any secret visible in public edit history as fully compromised and requiring immediate revocation, not just redaction.</p><p>- The attack split work across two service principals from the same tenant to separate reconnaissance from destruction. The first identity spent 15 hours 30 minutes completing more than 300 read operations. Ninety minutes later, the second enumerated the same environment across two subscriptions in five seconds. Both used the same Storm-3168 infrastructure, the same network fingerprint, and the user agent python-requests/2.34.2, a consistent behavioral signature across the operation. Overlapping token streams and precise inter-operation timing point to fully scripted or automated execution.</p><p>- The destructive phase lasted approximately seven minutes inside a 35-minute window of more than 150 destructive and credential-related operations. The second identity attempted deletion of over 100 storage accounts, a Key Vault, a Function App, and an App Service plan. It also targeted Azure Site Recovery and Azure Backup protection locks, and prioritized storage accounts with names referencing Terraform and backups, signaling deliberate recovery interference. Azure resource locks and deletion protection stopped several deletions, demonstrating that independent controls survive even broad Contributor-level compromise.</p><p>- Thirty minutes after the last deletion, the identity returned for keys. More than 30 successful ListKeys requests followed, including against Azure Site Recovery-linked accounts. One storage account in the same resource group as the deleted Key Vault was deliberately spared during destruction, then hit with a successful key request afterward, suggesting staged data theft preparation rather than pure destruction.</p><p>- The three IP addresses linked to Storm-3168 probing and malicious requests are 45.131.66[.]106, 34.153.223[.]102, and 64.20.53[.]230. Separate scanning from the same infrastructure targeted Azure App Services across different customers, hitting WordPress admin paths, PHP-CGI, and the LangFlow code validation endpoint at /api/v1/validate/code. None of those probes reached the affected subscriptions.</p><p>Hunt your Azure Activity Logs for ListKeys operations on storage accounts following resource deletion events, especially within the same resource group and within 30 minutes of destructive activity. Flag any service principal using python-requests/2.34.2 making bulk read operations. Audit service principal permissions for overly broad Storage Account Contributor or Contributor roles and cross-reference against GitHub, public issue trackers, and repository histories for exposed client secrets. Full IOC details and Microsoft&#x27;s defensive guidance are in the report.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/199905/cyber-crime/storm-3168-linked-to-jadepuffer-abused-stolen-azure-identities.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104572540534260063">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104572540534260063</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2104572540534260063">DFIR Radar</source>
-      <pubDate>Mon, 28 Sep 2026 14:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2104572540534260063</guid>
     </item>
   </channel>
 </rss>
