@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 03 Oct 2026 08:03:06 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2026 10:03:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Antino Backdoor Lets China-Linked UAT-11587 Turn Microsoft 365 Into a C2 Channel</title>
+      <link>https://securityaffairs.com/200264/apt/antino-backdoor-uses-your-inbox-as-its-control-panel.html</link>
+      <description>China-linked UAT-11587 backdoors Asian government networks via Antino, a Rust-compiled implant that turns Microsoft 365 into its C2 channel, hitting at least 16 organizations across eight countries since September 2025.
+
+Key details:
+
+- Antino is a previously undocumented Rust backdoor supporting host recon, shell and PowerShell execution, file transfer, in-memory shellcode loading, and persistence. Its entire C2 channel runs through Microsoft Graph: it polls an attacker-controlled Outlook mailbox every 10 seconds for commands formatted as JSON in email subjects prefixed command_req_[session_id], and returns results via command_res_[session_id] response emails. Stolen files go to a OneDrive folder; attacker tools come down from a separate one. There is no traditional C2 server to block or sink.
+
+- The delivery chain is five stages deep and leans on trusted infrastructure the entire way. Phishing emails used SPF-passing spoofed senders against targets whose impersonated domains had DMARC set to monitoring rather than rejection, so failures still reached inboxes. One lure exactly reproduced a real Taiwan 🇹🇼 Ministry of Finance ruling; another reused a real Associated Press story, with matching malware samples appearing on VirusTotal two days after the report published. The Gmail attachment preview card was recreated pixel-by-pixel in HTML to trick recipients into clicking an attacker-controlled link. From there: HTA files, Windows Script Host, a .NET deserialization gadget chain to load malicious code inside a trusted process, and final sideloading of Antino through a signed Microsoft diagnostic binary. Cloudflare Pages, R2, and Amazon CloudFront carried nearly every staging payload, keeping traffic indistinguishable from ordinary HTTPS.
+
+- Attribution rests on accumulated technical detail rather than a single indicator. Decoy document metadata contains Simplified Chinese 🇨🇳 language tags and UTC+8 timestamps, inconsistent with Traditional Chinese-dominant Taiwan 🇹🇼 or Hong Kong. Ten separate Antino builds reference a Rust package mirror specific to mainland China 🇨🇳, a developer convenience choice, not an operational one. Talos assesses with high confidence that UAT-11587 is China-nexus.
+
+- Scope and targeting are deliberate. Roughly 350 compromised endpoints identified across eight Asian countries, hitting defense ministries, legislatures, foreign affairs offices, border and interior security agencies, and policy think tanks. The largest single wave hit approximately 57 new endpoints in India 🇮🇳 over two days in June 2026. The victim profile maps precisely to what a national intelligence service would prioritize for collection.
+
+Practitioner takeaway: the C2 mechanism here is the investigation's hardest problem. Antino's traffic is legitimate Microsoft 365 API calls to tenants the attacker controls, so perimeter blocks and traditional C2 detection will not catch it. Hunt for Graph API calls authenticating to external or unexpected tenant IDs, especially from processes that are not Office applications. Look for signed Microsoft diagnostic binaries spawning child processes or loading unexpected DLLs, and for mshta.exe or wscript.exe executing as part of an email-triggered chain. On the email side, audit DMARC enforcement posture across your domain portfolio: a monitoring-only policy is an open door. The Cisco Talos report contains the full IOC list and additional technical depth on the delivery chain.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106324183525490975</description>
+      <content:encoded><![CDATA[<p>China-linked UAT-11587 backdoors Asian government networks via Antino, a Rust-compiled implant that turns Microsoft 365 into its C2 channel, hitting at least 16 organizations across eight countries since September 2025.</p><p>Key details:</p><p>- Antino is a previously undocumented Rust backdoor supporting host recon, shell and PowerShell execution, file transfer, in-memory shellcode loading, and persistence. Its entire C2 channel runs through Microsoft Graph: it polls an attacker-controlled Outlook mailbox every 10 seconds for commands formatted as JSON in email subjects prefixed command_req_[session_id], and returns results via command_res_[session_id] response emails. Stolen files go to a OneDrive folder; attacker tools come down from a separate one. There is no traditional C2 server to block or sink.</p><p>- The delivery chain is five stages deep and leans on trusted infrastructure the entire way. Phishing emails used SPF-passing spoofed senders against targets whose impersonated domains had DMARC set to monitoring rather than rejection, so failures still reached inboxes. One lure exactly reproduced a real Taiwan 🇹🇼 Ministry of Finance ruling; another reused a real Associated Press story, with matching malware samples appearing on VirusTotal two days after the report published. The Gmail attachment preview card was recreated pixel-by-pixel in HTML to trick recipients into clicking an attacker-controlled link. From there: HTA files, Windows Script Host, a .NET deserialization gadget chain to load malicious code inside a trusted process, and final sideloading of Antino through a signed Microsoft diagnostic binary. Cloudflare Pages, R2, and Amazon CloudFront carried nearly every staging payload, keeping traffic indistinguishable from ordinary HTTPS.</p><p>- Attribution rests on accumulated technical detail rather than a single indicator. Decoy document metadata contains Simplified Chinese 🇨🇳 language tags and UTC+8 timestamps, inconsistent with Traditional Chinese-dominant Taiwan 🇹🇼 or Hong Kong. Ten separate Antino builds reference a Rust package mirror specific to mainland China 🇨🇳, a developer convenience choice, not an operational one. Talos assesses with high confidence that UAT-11587 is China-nexus.</p><p>- Scope and targeting are deliberate. Roughly 350 compromised endpoints identified across eight Asian countries, hitting defense ministries, legislatures, foreign affairs offices, border and interior security agencies, and policy think tanks. The largest single wave hit approximately 57 new endpoints in India 🇮🇳 over two days in June 2026. The victim profile maps precisely to what a national intelligence service would prioritize for collection.</p><p>Practitioner takeaway: the C2 mechanism here is the investigation&#x27;s hardest problem. Antino&#x27;s traffic is legitimate Microsoft 365 API calls to tenants the attacker controls, so perimeter blocks and traditional C2 detection will not catch it. Hunt for Graph API calls authenticating to external or unexpected tenant IDs, especially from processes that are not Office applications. Look for signed Microsoft diagnostic binaries spawning child processes or loading unexpected DLLs, and for mshta.exe or wscript.exe executing as part of an email-triggered chain. On the email side, audit DMARC enforcement posture across your domain portfolio: a monitoring-only policy is an open door. The Cisco Talos report contains the full IOC list and additional technical depth on the delivery chain.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200264/apt/antino-backdoor-uses-your-inbox-as-its-control-panel.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106324183525490975">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106324183525490975</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2106324183525490975">DFIR Radar</source>
+      <pubDate>Sat, 03 Oct 2026 10:03:14 +0000</pubDate>
+      <guid isPermaLink="false">2106324183525490975</guid>
+    </item>
     <item>
       <title>The First 24 Hours: What Happens When Ransomware Lands</title>
       <link>https://www.huntress.com/blog/what-happens-during-a-ransomware-attack</link>
@@ -2192,20 +2218,6 @@ Hunt for the staging pattern: KMSAuto execution outside system directories, foll
       <source url="https://x.com/DFIR_Radar/status/2104723300744413420">DFIR Radar</source>
       <pubDate>Tue, 29 Sep 2026 00:01:54 +0000</pubDate>
       <guid isPermaLink="false">2104723300744413420</guid>
-    </item>
-    <item>
-      <title>Swarming Against Citrix 0-Day Exploitation</title>
-      <link>https://www.greynoise.io/blog/swarming-against-citrix-0-day-exploitation</link>
-      <description>A zero-day hit Citrix NetScaler Gateway on Sep 24 from 149.104.78[.]141 before any CVE existed. Check NetScaler access logs for requests from that IP and review GreyNoise behavioral detections for pre-disclosure activity.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104708267884876239</description>
-      <content:encoded><![CDATA[<p>A zero-day hit Citrix NetScaler Gateway on Sep 24 from 149.104.78[.]141 before any CVE existed. Check NetScaler access logs for requests from that IP and review GreyNoise behavioral detections for pre-disclosure activity.</p><p>#DFIR_Radar</p><p><a href="https://www.greynoise.io/blog/swarming-against-citrix-0-day-exploitation">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104708267884876239">View on X</a></p>]]></content:encoded>
-      <dc:creator>GreyNoise</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104708267884876239</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2104708267884876239">DFIR Radar</source>
-      <pubDate>Mon, 28 Sep 2026 23:02:09 +0000</pubDate>
-      <guid isPermaLink="false">2104708267884876239</guid>
     </item>
   </channel>
 </rss>
