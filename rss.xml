@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 03 Oct 2026 06:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2026 07:03:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[tl;dr sec] #348 - Google's PageBreak Scanner, Perplexity's Agent Security Tool, Defending Agentically</title>
+      <link>https://tldrsec.com/p/tldr-sec-348</link>
+      <description>Google's PageBreak agent found 500+ XSS bugs in first-party apps using deterministic payload validation; Perplexity open-sourced Numbat, an agent security tool with 52 built-in rules including sequence detections. IOCs and rules are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106278934329647397</description>
+      <content:encoded><![CDATA[<p>Google&#x27;s PageBreak agent found 500+ XSS bugs in first-party apps using deterministic payload validation; Perplexity open-sourced Numbat, an agent security tool with 52 built-in rules including sequence detections. IOCs and rules are in the report.</p><p>#DFIR_Radar</p><p><a href="https://tldrsec.com/p/tldr-sec-348">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106278934329647397">View on X</a></p>]]></content:encoded>
+      <dc:creator>tl;dr sec</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106278934329647397</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2106278934329647397">DFIR Radar</source>
+      <pubDate>Sat, 03 Oct 2026 07:03:25 +0000</pubDate>
+      <guid isPermaLink="false">2106278934329647397</guid>
+    </item>
     <item>
       <title>Critical FortiMail Zero-Day Flaw Exploited in Attacks Allows Unauthenticated Arbitrary File Writes</title>
       <link>https://thehackernews.com/2026/10/critical-fortimail-zero-day-flaw.html</link>
@@ -2178,34 +2192,6 @@ Hunt for the staging pattern: KMSAuto execution outside system directories, foll
       <source url="https://x.com/DFIR_Radar/status/2104693134173016523">DFIR Radar</source>
       <pubDate>Mon, 28 Sep 2026 22:02:01 +0000</pubDate>
       <guid isPermaLink="false">2104693134173016523</guid>
-    </item>
-    <item>
-      <title>CLOSEDQUORUM: Malware Puts AI in the C2 Loop</title>
-      <link>https://blog.polyswarm.io/closedquorum-malware-puts-ai-in-the-c2-loop</link>
-      <description>CLOSEDQUORUM is the first publicly documented Windows implant to replace human C2 tasking with a commercial LLM voting panel, delegating tactical attack decisions to DeepSeek, Qwen, Mistral, and Google Gemini in sequence.
-
-Key findings:
-
-- The implant is a 16.4 MB, 64-bit Go executable discovered by Cisco Talos through its CAIRN project. At initialization it collects hostname, OS architecture, CPU count, Windows version, privilege status, and current target process, then sends that host context to up to four LLM providers. Each model returns a structured JSON response selecting the next action. Plurality vote wins. Ties resolve deterministically by provider order: DeepSeek, then Qwen, then Mistral, then Gemini. If all providers fail, the implant sleeps and retries rather than defaulting to a capability.
-
-- The LLM decision layer selects from a constrained action set. "steal" triggers simultaneous LSASS credential dumping, saved credential theft from Chrome, Edge, and Firefox, and cryptocurrency wallet theft from MetaMask, Exodus, and Ethereum stores. Stolen data is encrypted with AES-256-GCM and exfiltrated via Discord webhook. "inject" invokes shellcode and routes to either process hollowing or Early Bird APC injection. "persist" invokes persistence routines, and Talos identifies WMI persistence creation as a correlatable behavior. A "move" decision exists in the schema but has no implemented handler in the analyzed build.
-
-- The publicly distributed binary is an inert template with placeholder LLM API keys and a dummy Discord webhook. Talos assesses the operating model as a configurable service: operators compile a custom build with their own credentials before deployment, and stolen credentials flow back through their Discord channel, effectively a credentials-as-a-service offering with autonomous LLM orchestration as the differentiator. Developer artifacts link to criminal-forum carding activity dating to 2025. No confirmed in-the-wild deployment has been observed.
-
-- The architectural significance is the effort displacement model. The LLMs are not writing exploits or inventing attack paths. They are choosing among predefined capabilities the developer already coded, using host context as input. This removes the human operator from a bounded decision loop and allows the implant to continue executing while the attacker is offline. The same pattern is extensible to other intrusion phases, and it routes all C2 traffic through legitimate commercial AI infrastructure rather than attacker-controlled domains or IPs, putting pressure on detections that depend on known-bad destinations.
-
-Six SHA-256 hashes are listed in the report: 250d4fa37488af9b025333fa17705573d721467b203765bc360890b4f5a90cd7, c4dc171f2513fcaf9d5ecc815a94aee4063b213ab380f80bd3ac422dee5205a7, c13cea04f598e2b0c248d603a6e31bd13aabb64d8149c1b6a77b64e0b983a86f, f5f1f8c3e7b883793800ab6ccf21b3e60bd0730f300b4595fe74a33adc17a63c, 5191cf625dfc209a347f137b50aea199e82040fd5ee9086fb3e2de73c133f3cb, and eddbd0ecf7195d38fefae5b9d393abfa79e6f3f94bde19308ecef130a05a42e5.
-
-Hunt for Go-compiled 64-bit executables making outbound HTTPS to LLM provider API endpoints alongside concurrent Discord webhook POST traffic. Correlate with LSASS access events, WMI subscription creation, and process hollowing indicators such as a spawned suspended process followed by WriteProcessMemory and ResumeThread calls. Wallet and browser credential paths in AppData are the on-disk artifacts to triage. The implant's LLM dependency also means API key strings embedded in a binary are a detection surface worth adding to your triage playbook.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104678264866218083</description>
-      <content:encoded><![CDATA[<p>CLOSEDQUORUM is the first publicly documented Windows implant to replace human C2 tasking with a commercial LLM voting panel, delegating tactical attack decisions to DeepSeek, Qwen, Mistral, and Google Gemini in sequence.</p><p>Key findings:</p><p>- The implant is a 16.4 MB, 64-bit Go executable discovered by Cisco Talos through its CAIRN project. At initialization it collects hostname, OS architecture, CPU count, Windows version, privilege status, and current target process, then sends that host context to up to four LLM providers. Each model returns a structured JSON response selecting the next action. Plurality vote wins. Ties resolve deterministically by provider order: DeepSeek, then Qwen, then Mistral, then Gemini. If all providers fail, the implant sleeps and retries rather than defaulting to a capability.</p><p>- The LLM decision layer selects from a constrained action set. &quot;steal&quot; triggers simultaneous LSASS credential dumping, saved credential theft from Chrome, Edge, and Firefox, and cryptocurrency wallet theft from MetaMask, Exodus, and Ethereum stores. Stolen data is encrypted with AES-256-GCM and exfiltrated via Discord webhook. &quot;inject&quot; invokes shellcode and routes to either process hollowing or Early Bird APC injection. &quot;persist&quot; invokes persistence routines, and Talos identifies WMI persistence creation as a correlatable behavior. A &quot;move&quot; decision exists in the schema but has no implemented handler in the analyzed build.</p><p>- The publicly distributed binary is an inert template with placeholder LLM API keys and a dummy Discord webhook. Talos assesses the operating model as a configurable service: operators compile a custom build with their own credentials before deployment, and stolen credentials flow back through their Discord channel, effectively a credentials-as-a-service offering with autonomous LLM orchestration as the differentiator. Developer artifacts link to criminal-forum carding activity dating to 2025. No confirmed in-the-wild deployment has been observed.</p><p>- The architectural significance is the effort displacement model. The LLMs are not writing exploits or inventing attack paths. They are choosing among predefined capabilities the developer already coded, using host context as input. This removes the human operator from a bounded decision loop and allows the implant to continue executing while the attacker is offline. The same pattern is extensible to other intrusion phases, and it routes all C2 traffic through legitimate commercial AI infrastructure rather than attacker-controlled domains or IPs, putting pressure on detections that depend on known-bad destinations.</p><p>Six SHA-256 hashes are listed in the report: 250d4fa37488af9b025333fa17705573d721467b203765bc360890b4f5a90cd7, c4dc171f2513fcaf9d5ecc815a94aee4063b213ab380f80bd3ac422dee5205a7, c13cea04f598e2b0c248d603a6e31bd13aabb64d8149c1b6a77b64e0b983a86f, f5f1f8c3e7b883793800ab6ccf21b3e60bd0730f300b4595fe74a33adc17a63c, 5191cf625dfc209a347f137b50aea199e82040fd5ee9086fb3e2de73c133f3cb, and eddbd0ecf7195d38fefae5b9d393abfa79e6f3f94bde19308ecef130a05a42e5.</p><p>Hunt for Go-compiled 64-bit executables making outbound HTTPS to LLM provider API endpoints alongside concurrent Discord webhook POST traffic. Correlate with LSASS access events, WMI subscription creation, and process hollowing indicators such as a spawned suspended process followed by WriteProcessMemory and ResumeThread calls. Wallet and browser credential paths in AppData are the on-disk artifacts to triage. The implant&#x27;s LLM dependency also means API key strings embedded in a binary are a detection surface worth adding to your triage playbook.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/closedquorum-malware-puts-ai-in-the-c2-loop">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104678264866218083">View on X</a></p>]]></content:encoded>
-      <dc:creator>PolySwarm</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104678264866218083</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2104678264866218083">DFIR Radar</source>
-      <pubDate>Mon, 28 Sep 2026 21:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2104678264866218083</guid>
     </item>
   </channel>
 </rss>
