@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 04 Oct 2026 08:02:38 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Oct 2026 09:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Warlock Ransomware Still Exploits Year-Old SharePoint Flaws to Hit Critical Infrastructure</title>
+      <link>https://securityaffairs.com/200304/malware/warlock-ransomware-still-exploits-year-old-sharepoint-flaws-to-hit-critical-infrastructure.html</link>
+      <description>Chinese-nexus ransomware group Longlegs is still walking through the same ToolShell SharePoint door it kicked open in mid-2025, hitting critical infrastructure including a water utility and telecom provider as recently as July 2026.
+
+Key findings:
+
+- Symantec tracks the actor as Longlegs (also Storm-2603), linked to Chinese-nexus clusters CL-CRI-1040, CamoFei, and ChamelGang. In the past two months alone the group hit four organizations across Portuguese- and Spanish-speaking countries in Europe, Africa, and Latin America. Prior targeting spans the US 🇺🇸, Brazil 🇧🇷, India 🇮🇳, Russia 🇷🇺, Taiwan 🇹🇼, and Japan 🇯🇵, pointing to opportunistic scanning for exposed on-premises SharePoint rather than geography-driven targeting.
+
+- Initial access is the same ToolShell chain from 2025: a webshell planted in the SharePoint LAYOUTS directory, followed by theft of the server's ASP.NET machine keys to forge a signed, trusted payload. Deserialization gadgets then turn that forged payload into code execution inside SharePoint. Evidence in one intrusion shows the webshell arriving July 22, 2026, basic recon on July 24, and active exploitation via deserialization beginning July 28. Three installer packages were pulled from catbox[.]moe and wasabisys[.]com within ninety minutes, suggesting pre-staged fallback delivery paths.
+
+- Lateral movement used a domain account named SPSEPRDSetup, added to the local Administrators group on at least three additional hosts on July 28 and 29. The name mimics legitimate SharePoint service account naming conventions. The attackers also installed Visual Studio Code's tunneling feature as a persistent service for covert remote access that blends with developer activity. DLL sideloading carried additional payloads once inside.
+
+- Before deploying ransomware, Longlegs pushed K7RKScan, a signed but vulnerable driver, across at least 40 hosts within roughly two hours to disable AV and EDR. This is a bring-your-own-vulnerable-driver technique. Warlock ransomware followed almost immediately after security tooling was silenced, staged in the domain's SYSVOL share and delivered to at least 33 hosts through normal DFS replication. Three systems captured dfsrs.exe, the Windows DFS Replication service, as the delivery mechanism.
+
+- The CISA July 2026 advisory on ToolShell-related SharePoint flaws is the reference point for patch and mitigation status. If your on-premises SharePoint Server has not been checked against it, that is your first action.
+
+Hunt starting points: look for webshells under the SharePoint LAYOUTS directory, unexpected ASP.NET machine key usage, new accounts with SPSEPRDSetup-style naming added to local Administrator groups, K7RKScan driver load events, VS Code tunnel services registered outside developer workstations, and dfsrs.exe delivering files outside normal replication schedules. The full IOC list is in Symantec's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106671481484980627</description>
+      <content:encoded><![CDATA[<p>Chinese-nexus ransomware group Longlegs is still walking through the same ToolShell SharePoint door it kicked open in mid-2025, hitting critical infrastructure including a water utility and telecom provider as recently as July 2026.</p><p>Key findings:</p><p>- Symantec tracks the actor as Longlegs (also Storm-2603), linked to Chinese-nexus clusters CL-CRI-1040, CamoFei, and ChamelGang. In the past two months alone the group hit four organizations across Portuguese- and Spanish-speaking countries in Europe, Africa, and Latin America. Prior targeting spans the US 🇺🇸, Brazil 🇧🇷, India 🇮🇳, Russia 🇷🇺, Taiwan 🇹🇼, and Japan 🇯🇵, pointing to opportunistic scanning for exposed on-premises SharePoint rather than geography-driven targeting.</p><p>- Initial access is the same ToolShell chain from 2025: a webshell planted in the SharePoint LAYOUTS directory, followed by theft of the server&#x27;s ASP.NET machine keys to forge a signed, trusted payload. Deserialization gadgets then turn that forged payload into code execution inside SharePoint. Evidence in one intrusion shows the webshell arriving July 22, 2026, basic recon on July 24, and active exploitation via deserialization beginning July 28. Three installer packages were pulled from catbox[.]moe and wasabisys[.]com within ninety minutes, suggesting pre-staged fallback delivery paths.</p><p>- Lateral movement used a domain account named SPSEPRDSetup, added to the local Administrators group on at least three additional hosts on July 28 and 29. The name mimics legitimate SharePoint service account naming conventions. The attackers also installed Visual Studio Code&#x27;s tunneling feature as a persistent service for covert remote access that blends with developer activity. DLL sideloading carried additional payloads once inside.</p><p>- Before deploying ransomware, Longlegs pushed K7RKScan, a signed but vulnerable driver, across at least 40 hosts within roughly two hours to disable AV and EDR. This is a bring-your-own-vulnerable-driver technique. Warlock ransomware followed almost immediately after security tooling was silenced, staged in the domain&#x27;s SYSVOL share and delivered to at least 33 hosts through normal DFS replication. Three systems captured dfsrs.exe, the Windows DFS Replication service, as the delivery mechanism.</p><p>- The CISA July 2026 advisory on ToolShell-related SharePoint flaws is the reference point for patch and mitigation status. If your on-premises SharePoint Server has not been checked against it, that is your first action.</p><p>Hunt starting points: look for webshells under the SharePoint LAYOUTS directory, unexpected ASP.NET machine key usage, new accounts with SPSEPRDSetup-style naming added to local Administrator groups, K7RKScan driver load events, VS Code tunnel services registered outside developer workstations, and dfsrs.exe delivering files outside normal replication schedules. The full IOC list is in Symantec&#x27;s report.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200304/malware/warlock-ransomware-still-exploits-year-old-sharepoint-flaws-to-hit-critical-infrastructure.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106671481484980627">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106671481484980627</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2106671481484980627">DFIR Radar</source>
+      <pubDate>Sun, 04 Oct 2026 09:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2106671481484980627</guid>
+    </item>
     <item>
       <title>China-Aligned TA419 Targets U.S. AI Policy Experts With Microsoft AitM Phishing</title>
       <link>https://thehackernews.com/2026/10/china-aligned-ta419-targets-us-ai.html</link>
@@ -2188,20 +2216,6 @@ Responder action: hunt your perimeter logs for large volumes of DTLS traffic to 
       <source url="https://x.com/DFIR_Radar/status/2104904767697027315">DFIR Radar</source>
       <pubDate>Tue, 29 Sep 2026 12:02:59 +0000</pubDate>
       <guid isPermaLink="false">2104904767697027315</guid>
-    </item>
-    <item>
-      <title>Nozomi identifies 19 vulnerabilities in Pepperl+Fuchs IO-Link Master enabling root access and OT attacks</title>
-      <link>https://industrialcyber.co/threats-attacks/nozomi-identifies-19-vulnerabilities-in-pepperlfuchs-io-link-master-enabling-root-access-and-ot-attacks/</link>
-      <description>Nozomi found 19 flaws in Pepperl+Fuchs IO-Link Master firmware 1.7.3, including CVE-2026-27546 auth bypass yielding root in two HTTPS requests. Monitor WebUI logs for non-standard usernames and path traversal patterns in /api/ requests.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104889560454852986</description>
-      <content:encoded><![CDATA[<p>Nozomi found 19 flaws in Pepperl+Fuchs IO-Link Master firmware 1.7.3, including CVE-2026-27546 auth bypass yielding root in two HTTPS requests. Monitor WebUI logs for non-standard usernames and path traversal patterns in /api/ requests.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/threats-attacks/nozomi-identifies-19-vulnerabilities-in-pepperlfuchs-io-link-master-enabling-root-access-and-ot-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104889560454852986">View on X</a></p>]]></content:encoded>
-      <dc:creator>Industrial Cyber</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104889560454852986</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2104889560454852986">DFIR Radar</source>
-      <pubDate>Tue, 29 Sep 2026 11:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2104889560454852986</guid>
     </item>
   </channel>
 </rss>
