@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 04 Oct 2026 02:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Oct 2026 07:04:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FortiMail Zero-Day Under Active Exploitation</title>
+      <link>https://socradar.io/blog/fortimail-zero-day-under-active-exploitation/</link>
+      <description>FortiMail CVE-2026-104286: unauthenticated path traversal with a 9.8 CVSS score confirmed exploited in the wild, CISA KEV-listed on disclosure day, and no fixed builds yet available for any affected branch.
+
+Key findings:
+
+- CVE-2026-104286 (CVSS 9.8, AV:N/AC:L/PR:N/UI:N) is a path traversal plus improper NULL byte neutralization flaw (CWE-22, CWE-158) in the FortiMail GUI. An unauthenticated attacker can send crafted HTTP/HTTPS requests to write arbitrary files to the OS and chain that into code execution and persistence. All 7.2, 7.4, 7.6, and 8.0 branches are affected. Fixed builds 7.4.9, 7.6.7, and 8.0.2 are listed as upcoming; 7.2 users must migrate to a fixed 7.4 build once available.
+
+- Fortinet published concrete host-based IOCs in advisory FG-IR-26-175. Files added or modified on compromised appliances include /data/lib/liblog.so (SHA-256: 8015f34dc84922b03688399d7f9fe7a00361789f7e420c7e2a2cdb23e75cef84), /bin/smit (77324ac428bde86d351fc5fc06f6d64a6bfe737dfb2743df1d4c5ac2418a5b6a), /data/bin/webconsole (7a6cea9f5c9e2e9994d4e3c4da73f86cf5acd05ea5d312c066c9d1dafd69ee38), /data/bin/mailservice (4000276a150a165d3c2537d1e19fb393c4de8333076a16655e28059cae82157b), /data/etc/httpd.conf (703e97c64e61e41dc3aaba580d82bb2aa7b6a11b54ee6fb467ed5d5a3bffdef5), /data/etc/ld.so.preload (8953ec7960b09f544a880b072ad4e6cfda7a8303f486251d3478dcfdfbac23b6), and /data/migadmin.tar.gz (d6fe51c22b91776f4c961ea58bcac5917f15d560a619d7ce726d3d51795609d3). MD5 hashes are also available in the advisory.
+
+- The attacker-controlled infrastructure includes two IPs: 79.141.169[.]187 and 45.129.0[.]192. The former was configured as the remote exfiltration destination for an archive account named archive234 pointed at a /uploads directory. Log evidence in the advisory covers a cron job running a /migadmin command, administrator logout events, IBE decryption errors from invalid Base64 input, and failed logins. Hunt for all four patterns. The ld[.]so.preload entry is particularly significant: it is a classic persistence mechanism that loads attacker code into every process at startup and survives reboots.
+
+- CISA added the CVE to KEV on October 1, 2026 under Binding Operational Directive 26-04 with a federal remediation deadline of October 4, 2026. That directive explicitly requires covered agencies to perform forensic triage to determine whether a system was compromised before the fix was applied, not just patch and move on. No public attribution to a named actor has been confirmed. No fully weaponized public PoC is verified as of October 2, 2026, but Fortinet confirmed real-world exploitation, so the absence of public exploit code does not reduce urgency.
+
+Practitioner takeaway: Because exploitation preceded disclosure, any FortiMail appliance that was internet-reachable on an affected build should be treated as a compromise candidate, not just a patching task. Preserve logs and a forensic image before applying workarounds or upgrades. Check for the seven file-path and hash indicators above, outbound connections to 79.141.169[.]187 and 45.129.0[.]192, unexpected cron entries invoking /migadmin, and any archive account not provisioned by your team. If compromise is confirmed, rotate credentials, API tokens, certificates, and DKIM key material, then rebuild from a trusted baseline. The two interim workarounds are CLI-disabling IBE (config system encryption ibe / set status disable / end) and restricting the management interface to trusted networks verified from outside the perimeter. Full IOC list including MD5 hashes and log event examples is in Fortinet advisory FG-IR-26-175.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106641610259718514</description>
+      <content:encoded><![CDATA[<p>FortiMail CVE-2026-104286: unauthenticated path traversal with a 9.8 CVSS score confirmed exploited in the wild, CISA KEV-listed on disclosure day, and no fixed builds yet available for any affected branch.</p><p>Key findings:</p><p>- CVE-2026-104286 (CVSS 9.8, AV:N/AC:L/PR:N/UI:N) is a path traversal plus improper NULL byte neutralization flaw (CWE-22, CWE-158) in the FortiMail GUI. An unauthenticated attacker can send crafted HTTP/HTTPS requests to write arbitrary files to the OS and chain that into code execution and persistence. All 7.2, 7.4, 7.6, and 8.0 branches are affected. Fixed builds 7.4.9, 7.6.7, and 8.0.2 are listed as upcoming; 7.2 users must migrate to a fixed 7.4 build once available.</p><p>- Fortinet published concrete host-based IOCs in advisory FG-IR-26-175. Files added or modified on compromised appliances include /data/lib/liblog.so (SHA-256: 8015f34dc84922b03688399d7f9fe7a00361789f7e420c7e2a2cdb23e75cef84), /bin/smit (77324ac428bde86d351fc5fc06f6d64a6bfe737dfb2743df1d4c5ac2418a5b6a), /data/bin/webconsole (7a6cea9f5c9e2e9994d4e3c4da73f86cf5acd05ea5d312c066c9d1dafd69ee38), /data/bin/mailservice (4000276a150a165d3c2537d1e19fb393c4de8333076a16655e28059cae82157b), /data/etc/httpd.conf (703e97c64e61e41dc3aaba580d82bb2aa7b6a11b54ee6fb467ed5d5a3bffdef5), /data/etc/ld.so.preload (8953ec7960b09f544a880b072ad4e6cfda7a8303f486251d3478dcfdfbac23b6), and /data/migadmin.tar.gz (d6fe51c22b91776f4c961ea58bcac5917f15d560a619d7ce726d3d51795609d3). MD5 hashes are also available in the advisory.</p><p>- The attacker-controlled infrastructure includes two IPs: 79.141.169[.]187 and 45.129.0[.]192. The former was configured as the remote exfiltration destination for an archive account named archive234 pointed at a /uploads directory. Log evidence in the advisory covers a cron job running a /migadmin command, administrator logout events, IBE decryption errors from invalid Base64 input, and failed logins. Hunt for all four patterns. The ld[.]so.preload entry is particularly significant: it is a classic persistence mechanism that loads attacker code into every process at startup and survives reboots.</p><p>- CISA added the CVE to KEV on October 1, 2026 under Binding Operational Directive 26-04 with a federal remediation deadline of October 4, 2026. That directive explicitly requires covered agencies to perform forensic triage to determine whether a system was compromised before the fix was applied, not just patch and move on. No public attribution to a named actor has been confirmed. No fully weaponized public PoC is verified as of October 2, 2026, but Fortinet confirmed real-world exploitation, so the absence of public exploit code does not reduce urgency.</p><p>Practitioner takeaway: Because exploitation preceded disclosure, any FortiMail appliance that was internet-reachable on an affected build should be treated as a compromise candidate, not just a patching task. Preserve logs and a forensic image before applying workarounds or upgrades. Check for the seven file-path and hash indicators above, outbound connections to 79.141.169[.]187 and 45.129.0[.]192, unexpected cron entries invoking /migadmin, and any archive account not provisioned by your team. If compromise is confirmed, rotate credentials, API tokens, certificates, and DKIM key material, then rebuild from a trusted baseline. The two interim workarounds are CLI-disabling IBE (config system encryption ibe / set status disable / end) and restricting the management interface to trusted networks verified from outside the perimeter. Full IOC list including MD5 hashes and log event examples is in Fortinet advisory FG-IR-26-175.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/fortimail-zero-day-under-active-exploitation/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106641610259718514">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106641610259718514</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2106641610259718514">DFIR Radar</source>
+      <pubDate>Sun, 04 Oct 2026 07:04:34 +0000</pubDate>
+      <guid isPermaLink="false">2106641610259718514</guid>
+    </item>
     <item>
       <title>2026-09-30: SmartApeSG ClickFix pushes CNCmachineRMS RAT</title>
       <link>https://www.malware-traffic-analysis.net/2026/09/30/index.html</link>
@@ -2188,20 +2214,6 @@ Practitioner takeaway: preserve NetScaler logs and a full filesystem snapshot be
       <source url="https://x.com/DFIR_Radar/status/2104874391423090822">DFIR Radar</source>
       <pubDate>Tue, 29 Sep 2026 10:02:16 +0000</pubDate>
       <guid isPermaLink="false">2104874391423090822</guid>
-    </item>
-    <item>
-      <title>Why AI Coding Agents Don't Trigger Your Existing Detection Stack by Lucie Cardiet</title>
-      <link>https://www.vectra.ai/blog/why-ai-coding-agents-dont-trigger-your-existing-detection-stack</link>
-      <description>AI coding agents authenticate with valid credentials and traverse repo, CI/CD, and cloud boundaries, fragmenting evidence across separate logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104859313860677728</description>
-      <content:encoded><![CDATA[<p>AI coding agents authenticate with valid credentials and traverse repo, CI/CD, and cloud boundaries, fragmenting evidence across separate logs.</p><p>#DFIR_Radar</p><p><a href="https://www.vectra.ai/blog/why-ai-coding-agents-dont-trigger-your-existing-detection-stack">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104859313860677728">View on X</a></p>]]></content:encoded>
-      <dc:creator>Vectra AI</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104859313860677728</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2104859313860677728">DFIR Radar</source>
-      <pubDate>Tue, 29 Sep 2026 09:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2104859313860677728</guid>
     </item>
   </channel>
 </rss>
