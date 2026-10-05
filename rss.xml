@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 05 Oct 2026 18:03:22 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Oct 2026 19:04:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Targeting the Systems Behind the Mission: OT Threats to US Critical Infrastructure and Military Operations</title>
+      <link>https://blog.polyswarm.io/targeting-the-systems-behind-the-mission-ot-threats-to-us-critical-infrastructure-and-military-operations</link>
+      <description>Multiple actors including Volt Typhoon, CyberAv3ngers, and Z-Pentest target US 🇺🇸 OT via exposed PLCs and IT-to-OT pathways. IOCs and malware hashes for all named actors are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107185121996529979</description>
+      <content:encoded><![CDATA[<p>Multiple actors including Volt Typhoon, CyberAv3ngers, and Z-Pentest target US 🇺🇸 OT via exposed PLCs and IT-to-OT pathways. IOCs and malware hashes for all named actors are in the report.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/targeting-the-systems-behind-the-mission-ot-threats-to-us-critical-infrastructure-and-military-operations">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107185121996529979">View on X</a></p>]]></content:encoded>
+      <dc:creator>PolySwarm</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107185121996529979</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2107185121996529979">DFIR Radar</source>
+      <pubDate>Mon, 05 Oct 2026 19:04:18 +0000</pubDate>
+      <guid isPermaLink="false">2107185121996529979</guid>
+    </item>
     <item>
       <title>Caught in 4K: The Gentlemen Files</title>
       <link>https://www.cloudsek.com/blog/caught-in-4k-the-gentlemen-files</link>
@@ -2162,32 +2176,6 @@ DFIR takeaway: if you are investigating an endpoint that runs Elastic Defend and
       <source url="https://x.com/DFIR_Radar/status/2105085825247854774">DFIR Radar</source>
       <pubDate>Wed, 30 Sep 2026 00:02:26 +0000</pubDate>
       <guid isPermaLink="false">2105085825247854774</guid>
-    </item>
-    <item>
-      <title>Phishing Abuses RMM Tools for Persistent Access</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/09/29/phishing-abuses-rmm-tools-persistent-access/</link>
-      <description>Phishing campaigns observed in July 2026 abused legitimate MSP360 RMM and ConnectWise ScreenConnect to build redundant remote access channels, then dropped credential-harvesting and visibility-reduction tooling across multiple industries.
-
-Key findings:
-
-- Initial access came via phishing links directing victims to actor-controlled pages impersonating Zoom, Google Meet, Adobe Reader, DHL, and document-signing portals (T1566.002, T1204). The payload, a legitimate digitally signed MSP360 RMM v2.5.0.67 installer (SHA256: 108ef7e628d7a20bd6241a5b57149e27a6061f467123eb64061975559f8f73dc), was hosted across attacker infrastructure and legitimate cloud services including Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase. Filenames were crafted to mimic business content, examples include VIP_ECARD_INVITATION_rmm_v2.5.0.67.exe and ZoomSetup_Installation_v2.5.0.67.exe.
-
-- After UAC elevation succeeded, the installer dropped components to C:\Program Files\RMM Agent\, registered two persistent services (RMM.Agent.exe and RMM.Agent.Launcher.exe, T1543.003), wrote Registry Run keys for tray components (T1547.001), and opened an inbound Windows Firewall allow rule for UDP port 48678 on RMM.Agent.exe. The installer logged its own progress via eventcreate.exe under the source "MSP360 RMM Agent installer," producing "Begin installation" and "End installation. MSP360 de Success." events, a direct artifact for timeline reconstruction.
-
-- RMM.Agent.exe then launched PowerShell, modified execution policy, used Invoke-WebRequest to pull ClientSetup.msi from actor-controlled infrastructure, and installed ConnectWise ScreenConnect silently via msiexec.exe /qn (T1218.007, T1059.001). ScreenConnect.ClientService.exe and ScreenConnect.WindowsClient.exe were registered as services, establishing a second independent remote access channel. The threat actor is unattributed. Microsoft also observed FaronicsDeployAgent.exe used identically as an alternative first-stage RMM to install ScreenConnect, confirming the technique is not MSP360-specific.
-
-- Post-compromise tooling was staged to C:\Users\%user%\OneDrive\Documents\ScreenConnect\Temp\ and C:\Users\%user%\Documents\ScreenConnect\Temp\ via ScreenConnect's RunFile functionality. Delivered utilities included WebBrowserPassView.exe, WebBrowserBookmarksView.exe, DefenderControl.exe, SCHider.exe, HideMouse.exe, and variants named to mimic Windows Defender and Phone Link components (T1036.005). The full list of 25 post-compromise tool hashes and 7 ScreenConnect C2 domains, including adswre[.]cfd, trews[.]cfd, and sdfghj.rd-team[.]ru, is in the report.
-
-Practitioner takeaway: three KQL hunting queries are in the report covering MSP360 SHA256 presence in DeviceFileEvents, RMM.Agent.exe spawning PowerShell in DeviceProcessEvents, and ScreenConnect network connections correlating back to actor infrastructure. Start there, then pivot to the eventcreate.exe log entries (source: MSP360 RMM Agent installer) in the System event log and check for new inbound firewall rules on UDP 48678. Verify any ScreenConnect Temp staging directories for the named utilities. If MSP360 or an unrecognized RMM is present, treat any account used during installation as compromised and rotate credentials immediately. Full IOC list is in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105070597982347772</description>
-      <content:encoded><![CDATA[<p>Phishing campaigns observed in July 2026 abused legitimate MSP360 RMM and ConnectWise ScreenConnect to build redundant remote access channels, then dropped credential-harvesting and visibility-reduction tooling across multiple industries.</p><p>Key findings:</p><p>- Initial access came via phishing links directing victims to actor-controlled pages impersonating Zoom, Google Meet, Adobe Reader, DHL, and document-signing portals (T1566.002, T1204). The payload, a legitimate digitally signed MSP360 RMM v2.5.0.67 installer (SHA256: 108ef7e628d7a20bd6241a5b57149e27a6061f467123eb64061975559f8f73dc), was hosted across attacker infrastructure and legitimate cloud services including Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase. Filenames were crafted to mimic business content, examples include VIP_ECARD_INVITATION_rmm_v2.5.0.67.exe and ZoomSetup_Installation_v2.5.0.67.exe.</p><p>- After UAC elevation succeeded, the installer dropped components to C:\Program Files\RMM Agent\, registered two persistent services (RMM.Agent.exe and RMM.Agent.Launcher.exe, T1543.003), wrote Registry Run keys for tray components (T1547.001), and opened an inbound Windows Firewall allow rule for UDP port 48678 on RMM.Agent.exe. The installer logged its own progress via eventcreate.exe under the source &quot;MSP360 RMM Agent installer,&quot; producing &quot;Begin installation&quot; and &quot;End installation. MSP360 de Success.&quot; events, a direct artifact for timeline reconstruction.</p><p>- RMM.Agent.exe then launched PowerShell, modified execution policy, used Invoke-WebRequest to pull ClientSetup.msi from actor-controlled infrastructure, and installed ConnectWise ScreenConnect silently via msiexec.exe /qn (T1218.007, T1059.001). ScreenConnect.ClientService.exe and ScreenConnect.WindowsClient.exe were registered as services, establishing a second independent remote access channel. The threat actor is unattributed. Microsoft also observed FaronicsDeployAgent.exe used identically as an alternative first-stage RMM to install ScreenConnect, confirming the technique is not MSP360-specific.</p><p>- Post-compromise tooling was staged to C:\Users\%user%\OneDrive\Documents\ScreenConnect\Temp\ and C:\Users\%user%\Documents\ScreenConnect\Temp\ via ScreenConnect&#x27;s RunFile functionality. Delivered utilities included WebBrowserPassView.exe, WebBrowserBookmarksView.exe, DefenderControl.exe, SCHider.exe, HideMouse.exe, and variants named to mimic Windows Defender and Phone Link components (T1036.005). The full list of 25 post-compromise tool hashes and 7 ScreenConnect C2 domains, including adswre[.]cfd, trews[.]cfd, and sdfghj.rd-team[.]ru, is in the report.</p><p>Practitioner takeaway: three KQL hunting queries are in the report covering MSP360 SHA256 presence in DeviceFileEvents, RMM.Agent.exe spawning PowerShell in DeviceProcessEvents, and ScreenConnect network connections correlating back to actor infrastructure. Start there, then pivot to the eventcreate.exe log entries (source: MSP360 RMM Agent installer) in the System event log and check for new inbound firewall rules on UDP 48678. Verify any ScreenConnect Temp staging directories for the named utilities. If MSP360 or an unrecognized RMM is present, treat any account used during installation as compromised and rotate credentials immediately. Full IOC list is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.microsoft.com/en-us/security/blog/2026/09/29/phishing-abuses-rmm-tools-persistent-access/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105070597982347772">View on X</a></p>]]></content:encoded>
-      <dc:creator>Microsoft Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105070597982347772</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2105070597982347772">DFIR Radar</source>
-      <pubDate>Tue, 29 Sep 2026 23:01:56 +0000</pubDate>
-      <guid isPermaLink="false">2105070597982347772</guid>
     </item>
   </channel>
 </rss>
