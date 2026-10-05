@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 05 Oct 2026 19:04:18 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Oct 2026 21:13:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Anthropic Mythos Found A Bug in Rejetto HFS. Attackers Are Now Exploiting It.</title>
+      <link>https://securityaffairs.com/200444/ai/anthropic-mythos-found-a-bug-in-rejetto-hfs-attackers-are-now-exploiting-it.html</link>
+      <description>CVE-2026-61500 (CVSS 9.3) in Rejetto HFS 3.x allows session-cookie forgery via xorshift128+ PRNG state recovery, now actively probed. Patch to HFS 3.2.1 and hunt server logs for repeated unauthenticated endpoint hits leaking Math.random() values.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107217737189662915</description>
+      <content:encoded><![CDATA[<p>CVE-2026-61500 (CVSS 9.3) in Rejetto HFS 3.x allows session-cookie forgery via xorshift128+ PRNG state recovery, now actively probed. Patch to HFS 3.2.1 and hunt server logs for repeated unauthenticated endpoint hits leaking Math.random() values.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200444/ai/anthropic-mythos-found-a-bug-in-rejetto-hfs-attackers-are-now-exploiting-it.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107217737189662915">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107217737189662915</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2107217737189662915">DFIR Radar</source>
+      <pubDate>Mon, 05 Oct 2026 21:13:54 +0000</pubDate>
+      <guid isPermaLink="false">2107217737189662915</guid>
+    </item>
     <item>
       <title>Targeting the Systems Behind the Mission: OT Threats to US Critical Infrastructure and Military Operations</title>
       <link>https://blog.polyswarm.io/targeting-the-systems-behind-the-mission-ot-threats-to-us-critical-infrastructure-and-military-operations</link>
@@ -2148,34 +2162,6 @@ Practitioner takeaway: geoblocking fails against operators who manufacture geogr
       <source url="https://x.com/DFIR_Radar/status/2105100847134785827">DFIR Radar</source>
       <pubDate>Wed, 30 Sep 2026 01:02:08 +0000</pubDate>
       <guid isPermaLink="false">2105100847134785827</guid>
-    </item>
-    <item>
-      <title>No MDM for Linux? A 68-line Elastic workflow keeps every endpoint's config current</title>
-      <link>https://www.elastic.co/security-labs/blog/linux-endpoint-management-elastic-workflows</link>
-      <description>Elastic Security Labs built a 68-line YAML workflow that turns a one-shot Elastic Defend response action into a full reconciliation loop for Linux endpoints with no MDM coverage, checking state before acting and skipping duplicates automatically.
-
-Key findings:
-
-- The workflow solves a real MDM gap: most enterprise MDM platforms cover macOS and Windows but leave Linux workstations unmanaged. Rather than a cron job that blindly queues repeat actions against offline hosts, the workflow asks two questions per endpoint before touching anything: does this host need the deployment, and is an identical action already queued? The pending-action query filters on the exact script ID stored in consts, so two independent deployments with different script IDs deduplicate independently and never suppress each other.
-
-- The full loop is five YAML capabilities chained together: a scheduled trigger fires every six hours, a kibana.request step lists Linux endpoints via KQL against the united.agent.local_metadata namespace (not host.os.type, which returns nothing there), a foreach iterates each endpoint, a data.filter matches pending runscript actions by script ID, and an if/else either logs a skip or fires the run_script POST to /api/endpoint/action/run_script. A newly enrolled laptop is caught on the next pass. A host offline for a week accumulates one queued action, not one per cycle. Actions expire after two weeks, so a persistently dark host gets a fresh action when it returns.
-
-- The distro filter in the kuery is a silent exclusion risk that responders and deployment engineers need to internalize. The workflow queries for debian, redhat, arch, suse, and fedora families only. Gentoo, Alpine, and Amazon Linux hosts produce no error and receive no deployment. If your fleet includes those distros, the workflow will never tell you they were skipped. Audit your fleet composition against the kuery before treating coverage as complete.
-
-- Permissions and secret handling carry real operational risk. Scheduled workflows run with the privileges of the user who last saved them, and saving the workflow mints a stored API key for that principal. Deactivating or re-roling the account does not invalidate the key: the schedule continues running with the previously captured access. Refreshing or revoking that access requires an authorized user to resave the workflow or toggle it off and on. The execution principal holds Execute Operations over every Elastic Defend-covered host, so scope it narrowly. Secrets embedded in script library entries (the report notes an OTel ingest credential lives there) are visible to anyone with Elastic Defend Scripts Management access, which is a separate privilege from the scheduled execution principal.
-
-- The pattern generalizes beyond AI coding agent config. The YAML owns when and where a deployment runs; the script library entry owns what it changes. Any idempotently written, non-zero-on-failure script drops into this loop without touching the workflow. The report calls out certificate renewal, EDR config drift remediation, and credential rotation nudges as immediate reuse candidates across any OS Elastic Defend covers.
-
-DFIR takeaway: if you are investigating an endpoint that runs Elastic Defend and you see unexpected runscript actions in Response Actions History, check the associated script ID against the script library and review which workflow principal triggered it and when. The execution history in Kibana shows why one host received an action and an adjacent host did not, which is exactly the audit trail a responder needs to distinguish legitimate reconciliation from an adversary abusing a high-privilege workflow execution account. Verify the stored API key's originating principal has not been tampered with by checking who last saved the workflow.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105085825247854774</description>
-      <content:encoded><![CDATA[<p>Elastic Security Labs built a 68-line YAML workflow that turns a one-shot Elastic Defend response action into a full reconciliation loop for Linux endpoints with no MDM coverage, checking state before acting and skipping duplicates automatically.</p><p>Key findings:</p><p>- The workflow solves a real MDM gap: most enterprise MDM platforms cover macOS and Windows but leave Linux workstations unmanaged. Rather than a cron job that blindly queues repeat actions against offline hosts, the workflow asks two questions per endpoint before touching anything: does this host need the deployment, and is an identical action already queued? The pending-action query filters on the exact script ID stored in consts, so two independent deployments with different script IDs deduplicate independently and never suppress each other.</p><p>- The full loop is five YAML capabilities chained together: a scheduled trigger fires every six hours, a kibana.request step lists Linux endpoints via KQL against the united.agent.local_metadata namespace (not host.os.type, which returns nothing there), a foreach iterates each endpoint, a data.filter matches pending runscript actions by script ID, and an if/else either logs a skip or fires the run_script POST to /api/endpoint/action/run_script. A newly enrolled laptop is caught on the next pass. A host offline for a week accumulates one queued action, not one per cycle. Actions expire after two weeks, so a persistently dark host gets a fresh action when it returns.</p><p>- The distro filter in the kuery is a silent exclusion risk that responders and deployment engineers need to internalize. The workflow queries for debian, redhat, arch, suse, and fedora families only. Gentoo, Alpine, and Amazon Linux hosts produce no error and receive no deployment. If your fleet includes those distros, the workflow will never tell you they were skipped. Audit your fleet composition against the kuery before treating coverage as complete.</p><p>- Permissions and secret handling carry real operational risk. Scheduled workflows run with the privileges of the user who last saved them, and saving the workflow mints a stored API key for that principal. Deactivating or re-roling the account does not invalidate the key: the schedule continues running with the previously captured access. Refreshing or revoking that access requires an authorized user to resave the workflow or toggle it off and on. The execution principal holds Execute Operations over every Elastic Defend-covered host, so scope it narrowly. Secrets embedded in script library entries (the report notes an OTel ingest credential lives there) are visible to anyone with Elastic Defend Scripts Management access, which is a separate privilege from the scheduled execution principal.</p><p>- The pattern generalizes beyond AI coding agent config. The YAML owns when and where a deployment runs; the script library entry owns what it changes. Any idempotently written, non-zero-on-failure script drops into this loop without touching the workflow. The report calls out certificate renewal, EDR config drift remediation, and credential rotation nudges as immediate reuse candidates across any OS Elastic Defend covers.</p><p>DFIR takeaway: if you are investigating an endpoint that runs Elastic Defend and you see unexpected runscript actions in Response Actions History, check the associated script ID against the script library and review which workflow principal triggered it and when. The execution history in Kibana shows why one host received an action and an adjacent host did not, which is exactly the audit trail a responder needs to distinguish legitimate reconciliation from an adversary abusing a high-privilege workflow execution account. Verify the stored API key&#x27;s originating principal has not been tampered with by checking who last saved the workflow.</p><p>#DFIR_Radar</p><p><a href="https://www.elastic.co/security-labs/blog/linux-endpoint-management-elastic-workflows">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105085825247854774">View on X</a></p>]]></content:encoded>
-      <dc:creator>Elastic Security Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105085825247854774</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2105085825247854774">DFIR Radar</source>
-      <pubDate>Wed, 30 Sep 2026 00:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2105085825247854774</guid>
     </item>
   </channel>
 </rss>
