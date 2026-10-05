@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 05 Oct 2026 01:02:55 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Oct 2026 03:03:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026-10-02: Atomic macOS (AMOS) Stealer infection from malicious ad impersonating Claude Code</title>
+      <link>https://www.malware-traffic-analysis.net/2026/10/02/index.html</link>
+      <description>Atomic macOS Stealer (AMOS) delivered via malicious Google ad impersonating Claude Code, using ClickFix-style social engineering to trick victims into pasting a stealer script directly into their own Terminal.
+
+Key findings:
+
+- The attack chain opens with a malicious ad mimicking Anthropic's Claude Code developer tool, landing victims on a spoofed site that replicates the legitimate Claude Code branding. This is a supply-chain-adjacent lure targeting developers and security-adjacent users who would recognise and trust the Claude Code name, making it a high-credibility pretext.
+
+- Rather than dropping a payload silently, the campaign uses a ClickFix technique: the fake site presents copy-paste instructions, telling the victim to open a macOS Terminal and run a script manually. The victim becomes the delivery mechanism. This bypasses Gatekeeper and most browser-based defences entirely because the binary or script is never "downloaded" through a conventional browser flow.
+
+- AMOS Stealer then triggers popup dialogs requesting the user's system password and elevated permissions. These prompts are a known AMOS fingerprint and the primary forensic signal on the host. On a compromised Mac, look for unexpected osascript processes spawning Terminal children, and check the user's shell history files (bash_history, zsh_history) in the home directory for the pasted command.
+
+- Malware Traffic Analysis has released the full IOC list, a 22.8 MB packet capture of AMOS C2 traffic, and the associated malware files. The pcap is the most valuable artifact here: AMOS exfiltrates credentials, browser cookies, crypto wallets, and keychain data over the wire, and the capture will show the exfil destination, timing, and data structure for detection engineering.
+
+- For responders on a macOS host: check LaunchAgents and LaunchDaemons in ~/Library/LaunchAgents and /Library/LaunchAgents for persistence entries written after the infection time. Review Unified Log (log show) for osascript and Terminal activity. Browser credential stores and the macOS Keychain are primary exfil targets, so assess what secrets were accessible at the time of execution.
+
+Takeaway: Hunt for osascript spawning curl or sh with encoded arguments, and Terminal sessions with no associated user-visible window. The full IOC list, C2 pcap, and sample files are in the report, and the pcap is ready for Suricata or Zeek rule development against AMOS exfil patterns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106943445600465096</description>
+      <content:encoded><![CDATA[<p>Atomic macOS Stealer (AMOS) delivered via malicious Google ad impersonating Claude Code, using ClickFix-style social engineering to trick victims into pasting a stealer script directly into their own Terminal.</p><p>Key findings:</p><p>- The attack chain opens with a malicious ad mimicking Anthropic&#x27;s Claude Code developer tool, landing victims on a spoofed site that replicates the legitimate Claude Code branding. This is a supply-chain-adjacent lure targeting developers and security-adjacent users who would recognise and trust the Claude Code name, making it a high-credibility pretext.</p><p>- Rather than dropping a payload silently, the campaign uses a ClickFix technique: the fake site presents copy-paste instructions, telling the victim to open a macOS Terminal and run a script manually. The victim becomes the delivery mechanism. This bypasses Gatekeeper and most browser-based defences entirely because the binary or script is never &quot;downloaded&quot; through a conventional browser flow.</p><p>- AMOS Stealer then triggers popup dialogs requesting the user&#x27;s system password and elevated permissions. These prompts are a known AMOS fingerprint and the primary forensic signal on the host. On a compromised Mac, look for unexpected osascript processes spawning Terminal children, and check the user&#x27;s shell history files (bash_history, zsh_history) in the home directory for the pasted command.</p><p>- Malware Traffic Analysis has released the full IOC list, a 22.8 MB packet capture of AMOS C2 traffic, and the associated malware files. The pcap is the most valuable artifact here: AMOS exfiltrates credentials, browser cookies, crypto wallets, and keychain data over the wire, and the capture will show the exfil destination, timing, and data structure for detection engineering.</p><p>- For responders on a macOS host: check LaunchAgents and LaunchDaemons in ~/Library/LaunchAgents and /Library/LaunchAgents for persistence entries written after the infection time. Review Unified Log (log show) for osascript and Terminal activity. Browser credential stores and the macOS Keychain are primary exfil targets, so assess what secrets were accessible at the time of execution.</p><p>Takeaway: Hunt for osascript spawning curl or sh with encoded arguments, and Terminal sessions with no associated user-visible window. The full IOC list, C2 pcap, and sample files are in the report, and the pcap is ready for Suricata or Zeek rule development against AMOS exfil patterns.</p><p>#DFIR_Radar</p><p><a href="https://www.malware-traffic-analysis.net/2026/10/02/index.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106943445600465096">View on X</a></p>]]></content:encoded>
+      <dc:creator>Malware Traffic Analysis</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2106943445600465096</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2106943445600465096">DFIR Radar</source>
+      <pubDate>Mon, 05 Oct 2026 03:03:57 +0000</pubDate>
+      <guid isPermaLink="false">2106943445600465096</guid>
+    </item>
     <item>
       <title>TTY Logs and the Data it Captures, (Sun, Oct 4th)</title>
       <link>https://isc.sans.edu/diary/rss/33396</link>
@@ -2202,20 +2230,6 @@ Responder action: hunt your perimeter logs for large volumes of DTLS traffic to 
       <source url="https://x.com/DFIR_Radar/status/2104935242150936728">DFIR Radar</source>
       <pubDate>Tue, 29 Sep 2026 14:04:04 +0000</pubDate>
       <guid isPermaLink="false">2104935242150936728</guid>
-    </item>
-    <item>
-      <title>Fake iPhone Duo preorder scam triggers DarkSword attack</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/09/fake-iphone-duo-preorder-scam-triggers-darksword-attack</link>
-      <description>A fake iPhone Duo preorder page silently triggers the DarkSword exploit chain in Safari, stealing keychain data and crypto wallet files. Restart and update iOS; the payload is non-persistent.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2104919856307200279</description>
-      <content:encoded><![CDATA[<p>A fake iPhone Duo preorder page silently triggers the DarkSword exploit chain in Safari, stealing keychain data and crypto wallet files. Restart and update iOS; the payload is non-persistent.</p><p>#DFIR_Radar</p><p><a href="https://www.malwarebytes.com/blog/threat-intel/2026/09/fake-iphone-duo-preorder-scam-triggers-darksword-attack">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2104919856307200279">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malwarebytes Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2104919856307200279</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2104919856307200279">DFIR Radar</source>
-      <pubDate>Tue, 29 Sep 2026 13:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2104919856307200279</guid>
     </item>
   </channel>
 </rss>
