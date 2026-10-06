@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Oct 2026 13:04:08 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 Oct 2026 14:03:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Beyond valid credentials: How exposed AWS keys are tested for Amazon Bedrock access</title>
+      <link>https://securitylabs.datadoghq.com/articles/beyond-valid-credentials-how-exposed-aws-keys-are-tested-for-amazon-bedrock-access/</link>
+      <description>Credential harvesting platform KMON_NOC has been actively probing AWS environments for Bedrock-capable keys since August 31, 2026, while two Python scripts on VirusTotal reveal the exact API call chain attackers use to validate and monetize stolen LLM access.
+
+Key findings:
+
+- KMON_NOC is a credential harvesting platform observed scanning over 80 Cloud SIEM customers. Its frontend JavaScript bundle exposes a dedicated validation pipeline: STS GetCallerIdentity first confirms a key is live, then a separate Bedrock check populates a keysWithBedrock counter displayed on the operator dashboard. The platform also extracts the AWS_BEARER_TOKEN_BEDROCK environment variable directly, targeting Bedrock-native credentials in addition to general-purpose IAM keys. The platform routes validation through proxies using Signature Version 4 signing, complicating source attribution.
+
+- Two Python scripts on VirusTotal (SHA-256: c9335bb8a21bd2c568d03b040fb86a0e72145691e54a33495ee0cfaac55835dc and 923641364ef0ce3a6f1d944890244082b8c7f29c9600c0433b2a0ca9822c0608) automate the full validation chain: GetCallerIdentity to confirm key validity, ListFoundationModels across multiple regions to map available models and providers, ListInferenceProfiles, and then a Bedrock runtime Converse call with the prompt "ping" capped at four tokens to minimize inference cost during bulk testing. Successful credentials are written to disk in plaintext.
+
+- The second script adds billing:GetCredits enumeration, calling the Billing API to extract remaining credit balances, currency, expiration dates, and whether credits apply to Bedrock specifically. This lets the attacker assess not just whether a key works but how much free runway exists before the victim's account incurs charges, directly informing resale value. Comments in the code suggest it may have been written or assisted by an LLM.
+
+- In the last 30 days, Datadog observed 12 organizations showing this behavior in telemetry. The most common pattern is failed ListFoundationModels calls across multiple regions, consistent with credential testing against locked-down accounts. One confirmed case showed successful multi-region ListFoundationModels and ListInferenceProfiles calls followed by Converse attempts against anthropic.claude-opus-5, anthropic.claude-fable-5, and anthropic.claude-fable-5-1, all returning AccessDenied. This mirrors the script's logic exactly.
+
+Hunt tip: In CloudTrail, alert on any identity calling ListFoundationModels or ListInferenceProfiles with no prior history of Bedrock usage, especially across multiple regions in a short window. A "ping" Converse call with maxTokens set to 4 is a near-certain indicator of credential validation, not legitimate use. Pair GetCallerIdentity events from unfamiliar source IPs with subsequent Bedrock control-plane calls to build a high-confidence detection. The full IOC list including both script hashes and over 60 IP addresses associated with this campaign (residential proxies, VPNs, and hosting providers) is in the Datadog Security Labs report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107471840117485942</description>
+      <content:encoded><![CDATA[<p>Credential harvesting platform KMON_NOC has been actively probing AWS environments for Bedrock-capable keys since August 31, 2026, while two Python scripts on VirusTotal reveal the exact API call chain attackers use to validate and monetize stolen LLM access.</p><p>Key findings:</p><p>- KMON_NOC is a credential harvesting platform observed scanning over 80 Cloud SIEM customers. Its frontend JavaScript bundle exposes a dedicated validation pipeline: STS GetCallerIdentity first confirms a key is live, then a separate Bedrock check populates a keysWithBedrock counter displayed on the operator dashboard. The platform also extracts the AWS_BEARER_TOKEN_BEDROCK environment variable directly, targeting Bedrock-native credentials in addition to general-purpose IAM keys. The platform routes validation through proxies using Signature Version 4 signing, complicating source attribution.</p><p>- Two Python scripts on VirusTotal (SHA-256: c9335bb8a21bd2c568d03b040fb86a0e72145691e54a33495ee0cfaac55835dc and 923641364ef0ce3a6f1d944890244082b8c7f29c9600c0433b2a0ca9822c0608) automate the full validation chain: GetCallerIdentity to confirm key validity, ListFoundationModels across multiple regions to map available models and providers, ListInferenceProfiles, and then a Bedrock runtime Converse call with the prompt &quot;ping&quot; capped at four tokens to minimize inference cost during bulk testing. Successful credentials are written to disk in plaintext.</p><p>- The second script adds billing:GetCredits enumeration, calling the Billing API to extract remaining credit balances, currency, expiration dates, and whether credits apply to Bedrock specifically. This lets the attacker assess not just whether a key works but how much free runway exists before the victim&#x27;s account incurs charges, directly informing resale value. Comments in the code suggest it may have been written or assisted by an LLM.</p><p>- In the last 30 days, Datadog observed 12 organizations showing this behavior in telemetry. The most common pattern is failed ListFoundationModels calls across multiple regions, consistent with credential testing against locked-down accounts. One confirmed case showed successful multi-region ListFoundationModels and ListInferenceProfiles calls followed by Converse attempts against anthropic.claude-opus-5, anthropic.claude-fable-5, and anthropic.claude-fable-5-1, all returning AccessDenied. This mirrors the script&#x27;s logic exactly.</p><p>Hunt tip: In CloudTrail, alert on any identity calling ListFoundationModels or ListInferenceProfiles with no prior history of Bedrock usage, especially across multiple regions in a short window. A &quot;ping&quot; Converse call with maxTokens set to 4 is a near-certain indicator of credential validation, not legitimate use. Pair GetCallerIdentity events from unfamiliar source IPs with subsequent Bedrock control-plane calls to build a high-confidence detection. The full IOC list including both script hashes and over 60 IP addresses associated with this campaign (residential proxies, VPNs, and hosting providers) is in the Datadog Security Labs report.</p><p>#DFIR_Radar</p><p><a href="https://securitylabs.datadoghq.com/articles/beyond-valid-credentials-how-exposed-aws-keys-are-tested-for-amazon-bedrock-access/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107471840117485942">View on X</a></p>]]></content:encoded>
+      <dc:creator>Datadog Security Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107471840117485942</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2107471840117485942">DFIR Radar</source>
+      <pubDate>Tue, 06 Oct 2026 14:03:37 +0000</pubDate>
+      <guid isPermaLink="false">2107471840117485942</guid>
+    </item>
     <item>
       <title>More RMM Tools In the Wild, (Tue, Oct 6th)</title>
       <link>https://isc.sans.edu/diary/rss/33400</link>
@@ -2172,20 +2198,6 @@ Hunt priority: look for GatherOsState.exe executing from user-writable directori
       <source url="https://x.com/DFIR_Radar/status/2105236777191493882">DFIR Radar</source>
       <pubDate>Wed, 30 Sep 2026 10:02:16 +0000</pubDate>
       <guid isPermaLink="false">2105236777191493882</guid>
-    </item>
-    <item>
-      <title>Inside the IT-OT Dependency Problem: Boston Scientific’s Production Halt, Berlin’s Rhysida Leak, and the Developer Workstation as an Entry Point</title>
-      <link>https://industrialcyber.co/expert/inside-the-it-ot-dependency-problem-boston-scientifics-production-halt-berlins-rhysida-leak-and-the-developer-workstation-as-an-entry-point/</link>
-      <description>Rhysida hit Berlin via phishing, exfiltrating 5.7TB; Iranian 🇮🇷 Nimbus Manticore trojanized colorized_terminal in fake coding challenges. Hunt node_modules for colorized_terminal; flag CVE-2020-1472 if unpatched.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105221565361041832</description>
-      <content:encoded><![CDATA[<p>Rhysida hit Berlin via phishing, exfiltrating 5.7TB; Iranian 🇮🇷 Nimbus Manticore trojanized colorized_terminal in fake coding challenges. Hunt node_modules for colorized_terminal; flag CVE-2020-1472 if unpatched.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/expert/inside-the-it-ot-dependency-problem-boston-scientifics-production-halt-berlins-rhysida-leak-and-the-developer-workstation-as-an-entry-point/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105221565361041832">View on X</a></p>]]></content:encoded>
-      <dc:creator>Industrial Cyber</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105221565361041832</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2105221565361041832">DFIR Radar</source>
-      <pubDate>Wed, 30 Sep 2026 09:01:49 +0000</pubDate>
-      <guid isPermaLink="false">2105221565361041832</guid>
     </item>
   </channel>
 </rss>
