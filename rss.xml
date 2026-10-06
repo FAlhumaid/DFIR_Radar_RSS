@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Oct 2026 22:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 Oct 2026 23:02:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[0day-rubbish] Circutor LineEds 24.11.14-r0 unauthenticated pwrstudio events.xml shellExecute command injection (9.8)</title>
+      <link>https://seclists.org/fulldisclosure/2026/Oct/4</link>
+      <description>CVSS 9.8 unauthenticated command injection in Circutor LineEds pwrstudio writes shellExecute actions to events.xml for RCE. Audit events.xml for shellExecute entries; watch for writes followed by restart requests on port 1500.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107607484839919868</description>
+      <content:encoded><![CDATA[<p>CVSS 9.8 unauthenticated command injection in Circutor LineEds pwrstudio writes shellExecute actions to events.xml for RCE. Audit events.xml for shellExecute entries; watch for writes followed by restart requests on port 1500.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/fulldisclosure/2026/Oct/4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107607484839919868">View on X</a></p>]]></content:encoded>
+      <dc:creator>Full Disclosure</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107607484839919868</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2107607484839919868">DFIR Radar</source>
+      <pubDate>Tue, 06 Oct 2026 23:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2107607484839919868</guid>
+    </item>
     <item>
       <title>The Hidden DoS Vector in SQL Parsers</title>
       <link>https://www.imperva.com/blog/the-hidden-dos-vector-in-sql-parsers/</link>
@@ -2172,34 +2186,6 @@ Practitioner takeaway: Before anything else, identify the token prefix to set yo
       <source url="https://x.com/DFIR_Radar/status/2105372651577643121">DFIR Radar</source>
       <pubDate>Wed, 30 Sep 2026 19:02:11 +0000</pubDate>
       <guid isPermaLink="false">2105372651577643121</guid>
-    </item>
-    <item>
-      <title>ShinyHunters Claims FBIJobs.gov Breach: New Zero-Day, CVE-2026-35273 Bypass, or Third-Party Failure?</title>
-      <link>https://threatmon.io/shinyhunters-claims-fbijobs-gov-breach-new-zero-day-cve-2026-35273-bypass-or-third-party-failure/</link>
-      <description>ShinyHunters claims breach of FBIJobs[.]gov, exfiltrating up to 3 TB of FBI employee PII. CVE-2026-35273 WAF bypass is the leading initial access hypothesis, with both portals still offline a week later.
-
-Key details:
-
-- CVE-2026-35273 is a critical (CVSS 9.8) unauthenticated RCE in Oracle PeopleSoft's Environment Management Hub (PSEMHUB), triggered via Java deserialization. ShinyHunters exploited it as a zero-day May 27 to June 9, 2026, before Oracle's June 10 out-of-band patch. The new wrinkle documented September 25: the group modified its exploit to hit /%50SEMHUB/ instead of /PSEMHUB/. %50 is URL-encoded "P". WAF rules matching the literal string before normalization miss it entirely; WebLogic decodes and routes it to the vulnerable servlet. Organizations that blocked the path but never patched were re-exposed.
-
-- Post-exploitation tooling documented in the September 25 Mandiant report includes two JSP web shells (x.jsp for command execution, u.jsp for chunked uploads), a trojanized installer Ple64.exe loading a backdoor tracked as SIDEEYE (SHA-256: 3ba215692665513abfffd4e815c5c45f2d41e5dcc4283a2a3b740930c5c417c3), Neo-reGeorg tunnels (tunnel.jsp, tunnel.jspx) for SOCKS proxying, and MeshAgent for persistent remote access via winmanage-me[.]network and azurenetfiles[.]net. The report also notes fileless command execution leaving no JSP on disk, meaning file-based detections alone are insufficient.
-
-- What is confirmed vs. claimed: the FBI confirmed unauthorized activity and an active investigation. A 5,000-record sample shared with journalists was judged authentic by 404 Media and Reuters, containing names, home addresses, spouse details, Social Security numbers, unit assignments, and psychiatric and medical files. The 2 to 3 TB total, access to MedLink, Criminal Justice, BEAST, BICS, and FBI-managed AWS GovCloud are actor claims only. An internal FBI memo reported by The New York Times says the Bureau is operating under the assumption that personal data of all employees was exfiltrated, framed as a protective planning posture, not confirmation of system-level claims.
-
-- The data combination is the real threat: identity plus home address plus spouse details plus unit assignment plus medical records creates a physical targeting and foreign intelligence mapping risk. If the MedLink and Criminal Justice access claims hold, it points to a catastrophic segmentation failure: a public-facing recruitment portal with a path to medical and investigative systems, whether through the FBI's own environment or a third-party host the FBI has not yet ruled out.
-
-- Attribution carries noise: the defacement used ASCII Umbreon art tied to Dutch 🇳🇱 suspect Pepijn van der Stap, arrested September 16, but the imagery predates his use of the alias and may be deliberate misdirection by ShinyHunters' current leadership. A Rotterdam court ordered him held 90 days on September 29. No authority has publicly linked him to FBIJobs[.]gov. ShinyHunters is a brand with competing factions, not a fixed crew. Handle, artwork, and leak-site branding are weak attribution signals on their own.
-
-Hunt now in WebLogic access logs for POST bursts of 5 to 15 requests to /hub from external IPs, and grep for /%50SEMHUB/ and any percent-encoded variants alongside the literal path. Check every WebLogic node for x.jsp, u.jsp, tunnel.jsp, tunnel.jspx, and Ple64.exe in PSEMHUB.war and PORTAL.war. Alert on cmd.exe or bash spawned by the WebLogic Java process. Hunt for MeshCentral agents and for zstd, rsync, sshpass, or curl running under PeopleSoft service accounts. Key IOCs: SIDEEYE C2 at 162.219.30[.]165 (TCP 3333/3334), exfil staging at 104.219.234[.]138, scanner at 5.199.162[.]157. If you find a shell, rotate all credentials readable by the PeopleSoft service account immediately: psappsrv.cfg connection strings, Integration Broker credentials, and any cloud keys reachable from the web tier. Full IOC list and hashes are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105357646437998727</description>
-      <content:encoded><![CDATA[<p>ShinyHunters claims breach of FBIJobs[.]gov, exfiltrating up to 3 TB of FBI employee PII. CVE-2026-35273 WAF bypass is the leading initial access hypothesis, with both portals still offline a week later.</p><p>Key details:</p><p>- CVE-2026-35273 is a critical (CVSS 9.8) unauthenticated RCE in Oracle PeopleSoft&#x27;s Environment Management Hub (PSEMHUB), triggered via Java deserialization. ShinyHunters exploited it as a zero-day May 27 to June 9, 2026, before Oracle&#x27;s June 10 out-of-band patch. The new wrinkle documented September 25: the group modified its exploit to hit /%50SEMHUB/ instead of /PSEMHUB/. %50 is URL-encoded &quot;P&quot;. WAF rules matching the literal string before normalization miss it entirely; WebLogic decodes and routes it to the vulnerable servlet. Organizations that blocked the path but never patched were re-exposed.</p><p>- Post-exploitation tooling documented in the September 25 Mandiant report includes two JSP web shells (x.jsp for command execution, u.jsp for chunked uploads), a trojanized installer Ple64.exe loading a backdoor tracked as SIDEEYE (SHA-256: 3ba215692665513abfffd4e815c5c45f2d41e5dcc4283a2a3b740930c5c417c3), Neo-reGeorg tunnels (tunnel.jsp, tunnel.jspx) for SOCKS proxying, and MeshAgent for persistent remote access via winmanage-me[.]network and azurenetfiles[.]net. The report also notes fileless command execution leaving no JSP on disk, meaning file-based detections alone are insufficient.</p><p>- What is confirmed vs. claimed: the FBI confirmed unauthorized activity and an active investigation. A 5,000-record sample shared with journalists was judged authentic by 404 Media and Reuters, containing names, home addresses, spouse details, Social Security numbers, unit assignments, and psychiatric and medical files. The 2 to 3 TB total, access to MedLink, Criminal Justice, BEAST, BICS, and FBI-managed AWS GovCloud are actor claims only. An internal FBI memo reported by The New York Times says the Bureau is operating under the assumption that personal data of all employees was exfiltrated, framed as a protective planning posture, not confirmation of system-level claims.</p><p>- The data combination is the real threat: identity plus home address plus spouse details plus unit assignment plus medical records creates a physical targeting and foreign intelligence mapping risk. If the MedLink and Criminal Justice access claims hold, it points to a catastrophic segmentation failure: a public-facing recruitment portal with a path to medical and investigative systems, whether through the FBI&#x27;s own environment or a third-party host the FBI has not yet ruled out.</p><p>- Attribution carries noise: the defacement used ASCII Umbreon art tied to Dutch 🇳🇱 suspect Pepijn van der Stap, arrested September 16, but the imagery predates his use of the alias and may be deliberate misdirection by ShinyHunters&#x27; current leadership. A Rotterdam court ordered him held 90 days on September 29. No authority has publicly linked him to FBIJobs[.]gov. ShinyHunters is a brand with competing factions, not a fixed crew. Handle, artwork, and leak-site branding are weak attribution signals on their own.</p><p>Hunt now in WebLogic access logs for POST bursts of 5 to 15 requests to /hub from external IPs, and grep for /%50SEMHUB/ and any percent-encoded variants alongside the literal path. Check every WebLogic node for x.jsp, u.jsp, tunnel.jsp, tunnel.jspx, and Ple64.exe in PSEMHUB.war and PORTAL.war. Alert on cmd.exe or bash spawned by the WebLogic Java process. Hunt for MeshCentral agents and for zstd, rsync, sshpass, or curl running under PeopleSoft service accounts. Key IOCs: SIDEEYE C2 at 162.219.30[.]165 (TCP 3333/3334), exfil staging at 104.219.234[.]138, scanner at 5.199.162[.]157. If you find a shell, rotate all credentials readable by the PeopleSoft service account immediately: psappsrv.cfg connection strings, Integration Broker credentials, and any cloud keys reachable from the web tier. Full IOC list and hashes are in the report.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/shinyhunters-claims-fbijobs-gov-breach-new-zero-day-cve-2026-35273-bypass-or-third-party-failure/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105357646437998727">View on X</a></p>]]></content:encoded>
-      <dc:creator>ThreatMon</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105357646437998727</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2105357646437998727">DFIR Radar</source>
-      <pubDate>Wed, 30 Sep 2026 18:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2105357646437998727</guid>
     </item>
   </channel>
 </rss>
