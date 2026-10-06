@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 06 Oct 2026 07:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 Oct 2026 08:04:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cling botnet uses STUN traffic to conceal command-and-control activity and attacks against vulnerable IoT devices</title>
+      <link>https://industrialcyber.co/ransomware/cling-botnet-uses-stun-traffic-to-conceal-command-and-control-activity-and-attacks-against-vulnerable-iot-devices/</link>
+      <description>Cling botnet disguises C2 inside STUN protocol traffic and spoofs Google's STUN service to hide commands, exploiting CVE-2021-35394 and six other IoT flaws to spread and launch DDoS attacks.
+
+Key findings:
+
+- Cling exploits CVE-2021-35394, an RCE in the Realtek Jungle SDK diagnostic component (compiled as UDPServer) found in routers, access points, repeaters, and embedded appliances that rarely receive firmware updates. The malware also carries exploit code for six additional CVEs: CVE-2014-8361 (Realtek SDK), CVE-2023-26801 (LB-LINK routers), CVE-2024-3721 (TBK DVR), CVE-2025-34037 (Linksys), CVE-2016-10372 (Eir D1000), CVE-2023-41011 (FiberHome/China Mobile), and CVE-2016-20016 (MVPower CCTV DVR), giving it a wide propagation surface across commodity networking and surveillance hardware.
+
+- The C2 design encodes operator commands inside STUN transaction IDs, sending traffic that resembles routine NAT-traversal exchanges from tools like Microsoft Teams, Zoom, and WebRTC browsers. Infected devices contact a hardcoded list of 13 STUN servers; one of them, confirmed operator-controlled at 145.249.115[.]184, receives bot registrations containing infection metadata and reachability info.
+
+- Commands appear to originate from an IP belonging to Google's stun.l[.]google[.]com service. Nozomi's analysis points to source-address spoofing through a network provider that does not validate source addresses. TTL differences between genuine STUN replies and command-bearing packets are one of the few network-level tells that something is wrong.
+
+- Observed commands included internet-wide scanning for additional vulnerable targets, TCP tunneling, proxying, and UDP/TCP flood attacks. Confirmed DDoS targets included a South Korean 🇰🇷 ISP, a University of Chicago cluster, and two Minecraft servers.
+
+- Host artifacts are concrete and huntable: malware copies named .cling, persistence entries written to init scripts, and a replaced wget binary with companion files named wget.r and wget.p. Because most compromised devices offer no EDR telemetry, these filesystem indicators and network-layer patterns are often the only evidence available.
+
+Detection priority: at the network layer, hunt for STUN Binding Requests sent at short, regular intervals with transaction IDs set to all zeros, and for non-STUN UDP datagrams directed at known STUN endpoints. At the host layer, scan internet-facing embedded devices for files named .cling, modified init scripts, and replaced wget binaries. Reputation alone cannot be trusted here as packets sourced from high-reputation infrastructure are exactly what the operator is manufacturing. The full IOC list and ATT&amp;CK mapping are in the Nozomi Networks Labs report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107381354799182154</description>
+      <content:encoded><![CDATA[<p>Cling botnet disguises C2 inside STUN protocol traffic and spoofs Google&#x27;s STUN service to hide commands, exploiting CVE-2021-35394 and six other IoT flaws to spread and launch DDoS attacks.</p><p>Key findings:</p><p>- Cling exploits CVE-2021-35394, an RCE in the Realtek Jungle SDK diagnostic component (compiled as UDPServer) found in routers, access points, repeaters, and embedded appliances that rarely receive firmware updates. The malware also carries exploit code for six additional CVEs: CVE-2014-8361 (Realtek SDK), CVE-2023-26801 (LB-LINK routers), CVE-2024-3721 (TBK DVR), CVE-2025-34037 (Linksys), CVE-2016-10372 (Eir D1000), CVE-2023-41011 (FiberHome/China Mobile), and CVE-2016-20016 (MVPower CCTV DVR), giving it a wide propagation surface across commodity networking and surveillance hardware.</p><p>- The C2 design encodes operator commands inside STUN transaction IDs, sending traffic that resembles routine NAT-traversal exchanges from tools like Microsoft Teams, Zoom, and WebRTC browsers. Infected devices contact a hardcoded list of 13 STUN servers; one of them, confirmed operator-controlled at 145.249.115[.]184, receives bot registrations containing infection metadata and reachability info.</p><p>- Commands appear to originate from an IP belonging to Google&#x27;s stun.l[.]google[.]com service. Nozomi&#x27;s analysis points to source-address spoofing through a network provider that does not validate source addresses. TTL differences between genuine STUN replies and command-bearing packets are one of the few network-level tells that something is wrong.</p><p>- Observed commands included internet-wide scanning for additional vulnerable targets, TCP tunneling, proxying, and UDP/TCP flood attacks. Confirmed DDoS targets included a South Korean 🇰🇷 ISP, a University of Chicago cluster, and two Minecraft servers.</p><p>- Host artifacts are concrete and huntable: malware copies named .cling, persistence entries written to init scripts, and a replaced wget binary with companion files named wget.r and wget.p. Because most compromised devices offer no EDR telemetry, these filesystem indicators and network-layer patterns are often the only evidence available.</p><p>Detection priority: at the network layer, hunt for STUN Binding Requests sent at short, regular intervals with transaction IDs set to all zeros, and for non-STUN UDP datagrams directed at known STUN endpoints. At the host layer, scan internet-facing embedded devices for files named .cling, modified init scripts, and replaced wget binaries. Reputation alone cannot be trusted here as packets sourced from high-reputation infrastructure are exactly what the operator is manufacturing. The full IOC list and ATT&amp;CK mapping are in the Nozomi Networks Labs report.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/ransomware/cling-botnet-uses-stun-traffic-to-conceal-command-and-control-activity-and-attacks-against-vulnerable-iot-devices/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107381354799182154">View on X</a></p>]]></content:encoded>
+      <dc:creator>Industrial Cyber</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107381354799182154</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2107381354799182154">DFIR Radar</source>
+      <pubDate>Tue, 06 Oct 2026 08:04:03 +0000</pubDate>
+      <guid isPermaLink="false">2107381354799182154</guid>
+    </item>
     <item>
       <title>ClickFix Smuggles Payloads Through Browser Cache to Bypass Windows Run Limits</title>
       <link>https://thehackernews.com/2026/10/clickfix-smuggles-payloads-through.html</link>
@@ -2124,32 +2152,6 @@ Practitioner takeaway: if you are investigating a potentially compromised NetSca
       <source url="https://x.com/DFIR_Radar/status/2105146315122606353">DFIR Radar</source>
       <pubDate>Wed, 30 Sep 2026 04:02:48 +0000</pubDate>
       <guid isPermaLink="false">2105146315122606353</guid>
-    </item>
-    <item>
-      <title>Custom ChatGPTs push ClickFix attacks to deploy RAT malware</title>
-      <link>https://www.bleepingcomputer.com/news/security/custom-chatgpts-push-clickfix-attacks-to-deploy-rat-malware/</link>
-      <description>A novel ClickFix campaign abuses OpenAI's custom GPT feature and Google-sponsored ads to deliver a full-featured RAT, with persistence surviving deletion via a homemade encrypted file system.
-
-Key findings:
-
-- The threat actor created a malicious custom GPT named "Plus 5.6" on the legitimate ChatGPT[.]com domain and promoted it through sponsored Google search results. The GPT directed victims to a Google Sites page displaying a fake Cloudflare verification, instructing them to run a PowerShell command. Using both ChatGPT[.]com and Google Sites as delivery infrastructure lends the attack significant legitimacy, raising the likelihood victims comply. At least 40 incidents connecting to the Google Sites page were investigated, with two confirmed involving the custom GPT variant directly.
-
-- The PowerShell command silently launches an MSI from the temp folder via msiexec.exe, which drops a legitimate signed application alongside a modified DLL that side-loads the RAT. The campaign initially used a Canon-signed host application, later pivoting to a Stardock-signed one while retaining the same payload. This signed-binary abuse is the core evasion mechanism: the malicious DLL rides behind a trusted executable identity.
-
-- The RAT supports remote desktop access, audio and camera capture, file search, host reconnaissance, and execution of additional payloads. For persistence, it writes a Registry Run key and a scheduled task, both named "Canon Configuration Reader." If either artifact is deleted, they reappear, a sign of active watchdog logic in the infection chain.
-
-- Phase 6 of the chain is the most forensically notable: the attackers built a custom encrypted archive with its own folder tree, a 1,128-entry index recording parent paths, file sizes, and per-file encryption keys, followed by packed file contents. This is not a standard encrypted blob; it is a purpose-built obfuscated file system designed to conceal the persistence script and RAT from file-based detection. Most of the infection chain runs in memory or behind files that appear benign on disk.
-
-Detection and response: Hunt for PowerShell spawning msiexec.exe with silent install flags pointing to %Temp%. Inspect %LOCALAPPDATA%\Programs\ for signed executables running from non-standard subdirectories. Check both the Run key and scheduled tasks for the name "Canon Configuration Reader" and treat their reappearance after deletion as confirmation of active persistence. The Huntress report includes a set of detection opportunities grounded in process activity monitoring; full details are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105131048787210651</description>
-      <content:encoded><![CDATA[<p>A novel ClickFix campaign abuses OpenAI&#x27;s custom GPT feature and Google-sponsored ads to deliver a full-featured RAT, with persistence surviving deletion via a homemade encrypted file system.</p><p>Key findings:</p><p>- The threat actor created a malicious custom GPT named &quot;Plus 5.6&quot; on the legitimate ChatGPT[.]com domain and promoted it through sponsored Google search results. The GPT directed victims to a Google Sites page displaying a fake Cloudflare verification, instructing them to run a PowerShell command. Using both ChatGPT[.]com and Google Sites as delivery infrastructure lends the attack significant legitimacy, raising the likelihood victims comply. At least 40 incidents connecting to the Google Sites page were investigated, with two confirmed involving the custom GPT variant directly.</p><p>- The PowerShell command silently launches an MSI from the temp folder via msiexec.exe, which drops a legitimate signed application alongside a modified DLL that side-loads the RAT. The campaign initially used a Canon-signed host application, later pivoting to a Stardock-signed one while retaining the same payload. This signed-binary abuse is the core evasion mechanism: the malicious DLL rides behind a trusted executable identity.</p><p>- The RAT supports remote desktop access, audio and camera capture, file search, host reconnaissance, and execution of additional payloads. For persistence, it writes a Registry Run key and a scheduled task, both named &quot;Canon Configuration Reader.&quot; If either artifact is deleted, they reappear, a sign of active watchdog logic in the infection chain.</p><p>- Phase 6 of the chain is the most forensically notable: the attackers built a custom encrypted archive with its own folder tree, a 1,128-entry index recording parent paths, file sizes, and per-file encryption keys, followed by packed file contents. This is not a standard encrypted blob; it is a purpose-built obfuscated file system designed to conceal the persistence script and RAT from file-based detection. Most of the infection chain runs in memory or behind files that appear benign on disk.</p><p>Detection and response: Hunt for PowerShell spawning msiexec.exe with silent install flags pointing to %Temp%. Inspect %LOCALAPPDATA%\Programs\ for signed executables running from non-standard subdirectories. Check both the Run key and scheduled tasks for the name &quot;Canon Configuration Reader&quot; and treat their reappearance after deletion as confirmation of active persistence. The Huntress report includes a set of detection opportunities grounded in process activity monitoring; full details are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/custom-chatgpts-push-clickfix-attacks-to-deploy-rat-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105131048787210651">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105131048787210651</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2105131048787210651">DFIR Radar</source>
-      <pubDate>Wed, 30 Sep 2026 03:02:08 +0000</pubDate>
-      <guid isPermaLink="false">2105131048787210651</guid>
     </item>
   </channel>
 </rss>
