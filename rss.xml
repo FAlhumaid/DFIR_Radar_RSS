@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 07 Oct 2026 17:19:24 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2026 18:03:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>86,644 Firewalls in 194 Countries Breached With Stolen Passwords</title>
+      <link>https://thecyberexpress.com/fortibleed-campaign-hits-fortinet-devices/</link>
+      <description>FBI and USSS warn of FortiBleed, an active initial access broker campaign that has compromised 86,644 Fortinet FortiGate firewalls across 194 countries using stolen credentials, with confirmed links to INC/Lynx and Payload ransomware affiliates.
+
+Key details:
+
+- The attack chain is an industrialized IAB operation. Actors scan internet-facing FortiGate SSL VPN portals, stuff credentials from prior Fortinet leak dumps and infostealer logs, exfiltrate password hashes, then crack them offline using Hashcat and Hashtopolis on rented GPU infrastructure. Scripts filter honeypots, score targets by revenue and network structure, and create new admin accounts for persistence before selling working VPN configs and target lists to ransomware affiliates, currently INC/Lynx and Payload ransomware. The actors' own backend server was left exposed, revealing the full operational pipeline.
+
+- Persistence and lockout are deliberate. Threat actors create rogue administrative accounts (look for adminin, fortiAdmin, forticloud-sync, fgtsecure, adminsslvpn, itadmin, roadmin) and in some cases delete or change legitimate admin credentials to lock out the owning organization. Recovery goes beyond a password reset; victims may need out-of-band access to reclaim their own devices.
+
+- The advisory releases specific IOCs. C2 server: 45.154.12[.]132. Proxy nodes: 154.202.59[.]169 and 103.27.186[.]156. Beacon relay: 45.155.250[.]158. Hashtopolis cracking infrastructure: 85.11.187[.]8. Thirteen additional IPs observed conducting brute-force or compromised-account authentication between June 18 and July 23, 2026 are listed in the advisory. FBI and USSS note that IPs may be reassigned, so vet before acting.
+
+- Legacy SHA-256 password storage is the cracking enabler. FortiOS prior to v7.2.11 uses SHA-256 to store admin credentials, which GPU clusters crack efficiently at scale. The advisory directs organizations to migrate to PBKDF2 following Fortinet guidance for FortiOS v7.2.11 and later, and to audit and rotate all REST API keys, removing any unrecognized ones.
+
+- Detection surface spans multiple log sources. Hunt FortiGate and VPN authentication logs for the rogue account names above, admin account creation events, session authentications from the listed IPs, and any changes to local-in policies or trusted-host configurations. Pivot to domain controller logs for post-access Active Directory enumeration. If ransomware affiliates received access, lateral movement artifacts will precede any encryption event.
+
+Practitioner takeaway: terminate all active admin and VPN sessions now, audit local accounts against the known rogue usernames, and review REST API keys before rotating passwords, because an actor who already has a valid key survives a credential reset. Full IOC list including the 13 brute-force source IPs is in the FBI/USSS advisory. Report confirmed compromises to IC3 or a local FBI or USSS field office.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107894721112670394</description>
+      <content:encoded><![CDATA[<p>FBI and USSS warn of FortiBleed, an active initial access broker campaign that has compromised 86,644 Fortinet FortiGate firewalls across 194 countries using stolen credentials, with confirmed links to INC/Lynx and Payload ransomware affiliates.</p><p>Key details:</p><p>- The attack chain is an industrialized IAB operation. Actors scan internet-facing FortiGate SSL VPN portals, stuff credentials from prior Fortinet leak dumps and infostealer logs, exfiltrate password hashes, then crack them offline using Hashcat and Hashtopolis on rented GPU infrastructure. Scripts filter honeypots, score targets by revenue and network structure, and create new admin accounts for persistence before selling working VPN configs and target lists to ransomware affiliates, currently INC/Lynx and Payload ransomware. The actors&#x27; own backend server was left exposed, revealing the full operational pipeline.</p><p>- Persistence and lockout are deliberate. Threat actors create rogue administrative accounts (look for adminin, fortiAdmin, forticloud-sync, fgtsecure, adminsslvpn, itadmin, roadmin) and in some cases delete or change legitimate admin credentials to lock out the owning organization. Recovery goes beyond a password reset; victims may need out-of-band access to reclaim their own devices.</p><p>- The advisory releases specific IOCs. C2 server: 45.154.12[.]132. Proxy nodes: 154.202.59[.]169 and 103.27.186[.]156. Beacon relay: 45.155.250[.]158. Hashtopolis cracking infrastructure: 85.11.187[.]8. Thirteen additional IPs observed conducting brute-force or compromised-account authentication between June 18 and July 23, 2026 are listed in the advisory. FBI and USSS note that IPs may be reassigned, so vet before acting.</p><p>- Legacy SHA-256 password storage is the cracking enabler. FortiOS prior to v7.2.11 uses SHA-256 to store admin credentials, which GPU clusters crack efficiently at scale. The advisory directs organizations to migrate to PBKDF2 following Fortinet guidance for FortiOS v7.2.11 and later, and to audit and rotate all REST API keys, removing any unrecognized ones.</p><p>- Detection surface spans multiple log sources. Hunt FortiGate and VPN authentication logs for the rogue account names above, admin account creation events, session authentications from the listed IPs, and any changes to local-in policies or trusted-host configurations. Pivot to domain controller logs for post-access Active Directory enumeration. If ransomware affiliates received access, lateral movement artifacts will precede any encryption event.</p><p>Practitioner takeaway: terminate all active admin and VPN sessions now, audit local accounts against the known rogue usernames, and review REST API keys before rotating passwords, because an actor who already has a valid key survives a credential reset. Full IOC list including the 13 brute-force source IPs is in the FBI/USSS advisory. Report confirmed compromises to IC3 or a local FBI or USSS field office.</p><p>#DFIR_Radar</p><p><a href="https://thecyberexpress.com/fortibleed-campaign-hits-fortinet-devices/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107894721112670394">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Cyber Express</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107894721112670394</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2107894721112670394">DFIR Radar</source>
+      <pubDate>Wed, 07 Oct 2026 18:03:59 +0000</pubDate>
+      <guid isPermaLink="false">2107894721112670394</guid>
+    </item>
     <item>
       <title>DarkSword/Coruna Open Directory Finding Report</title>
       <link>https://censys.com/blog/darksword-coruna-open-directory-finding-report/</link>
@@ -2126,20 +2154,6 @@ Detection and hunt: correlate REST batch requests containing hxxp://: with neste
       <source url="https://x.com/DFIR_Radar/status/2105629661929812135">DFIR Radar</source>
       <pubDate>Thu, 01 Oct 2026 12:03:27 +0000</pubDate>
       <guid isPermaLink="false">2105629661929812135</guid>
-    </item>
-    <item>
-      <title>The Fine Art of Frustrating the Adversary</title>
-      <link>https://blog.talosintelligence.com/the-fine-art-of-frustrating-the-adversary/</link>
-      <description>Cisco Talos outlines adversary-frustration techniques: honeypot accounts, behavioral detections, RMM allowlisting, and breaking C2 dead-drop dependencies. Hunt for unapproved RMM tools and blockchain RPC calls masking C2.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105614445628301471</description>
-      <content:encoded><![CDATA[<p>Cisco Talos outlines adversary-frustration techniques: honeypot accounts, behavioral detections, RMM allowlisting, and breaking C2 dead-drop dependencies. Hunt for unapproved RMM tools and blockchain RPC calls masking C2.</p><p>#DFIR_Radar</p><p><a href="https://blog.talosintelligence.com/the-fine-art-of-frustrating-the-adversary/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105614445628301471">View on X</a></p>]]></content:encoded>
-      <dc:creator>Cisco Talos</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105614445628301471</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2105614445628301471">DFIR Radar</source>
-      <pubDate>Thu, 01 Oct 2026 11:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2105614445628301471</guid>
     </item>
   </channel>
 </rss>
