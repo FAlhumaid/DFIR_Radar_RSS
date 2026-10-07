@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 07 Oct 2026 04:02:45 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2026 05:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>LibreOffice and OpenOffice Flaws Let Malicious Spreadsheets Run Code Without Macro Warnings</title>
+      <link>https://thehackernews.com/2026/10/libreoffice-and-openoffice-flaws-let.html</link>
+      <description>CVE-2026-59265 leaves Apache OpenOffice 4.1.16 unpatched: a malicious Calc spreadsheet chains a database refresh to remote JAR execution via JDBC silently. Disable Java in OpenOffice settings now; LibreOffice users update to 26.2.5 or 26.8.0.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107698125917851993</description>
+      <content:encoded><![CDATA[<p>CVE-2026-59265 leaves Apache OpenOffice 4.1.16 unpatched: a malicious Calc spreadsheet chains a database refresh to remote JAR execution via JDBC silently. Disable Java in OpenOffice settings now; LibreOffice users update to 26.2.5 or 26.8.0.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/libreoffice-and-openoffice-flaws-let.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107698125917851993">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107698125917851993</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2107698125917851993">DFIR Radar</source>
+      <pubDate>Wed, 07 Oct 2026 05:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2107698125917851993</guid>
+    </item>
     <item>
       <title>[0day-rubbish] StreamSets Transformer 3.17.0 auth-mode none fallback and un-sandboxed ScalaDTransform execution to container root (8.1 primary)</title>
       <link>https://seclists.org/fulldisclosure/2026/Oct/8</link>
@@ -2110,34 +2124,6 @@ Practitioner takeaway: Three artifacts stand out for hunting. First, look for LN
       <source url="https://x.com/DFIR_Radar/status/2105463387580764598">DFIR Radar</source>
       <pubDate>Thu, 01 Oct 2026 01:02:44 +0000</pubDate>
       <guid isPermaLink="false">2105463387580764598</guid>
-    </item>
-    <item>
-      <title>Attackers Abuse MSP360 to Deploy ScreenConnect in Dual-RMM Phishing Attacks</title>
-      <link>https://thehackernews.com/2026/09/attackers-abuse-msp360-to-deploy.html</link>
-      <description>Unattributed phishing campaign abuses MSP360 RMM as a beachhead to silently deploy ScreenConnect, creating dual remote-access channels that blend into normal IT operations. Microsoft detected the activity in July 2026.
-
-Key details:
-
-- Phishing emails deliver a digitally signed MSP360 RMM v2.5.0.67 installer disguised as meeting invites, Zoom setups, Adobe PDF tools, SSA[.]GOV statements, and e-card RSVPs. File names follow a pattern like ZoomSetup_Installation_v2.5.0.67_oid[redacted].exe. Installers are staged on attacker-controlled infrastructure and legitimate services including Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase, making network-based blocking harder.
-
-- Once executed, the installer invokes UAC elevation, drops multiple DLLs, and registers two Windows services: RMM.Agent.exe and RMM.Agent.Launcher.exe. It also creates Registry autorun entries to survive reboots and modifies Windows Firewall to permit inbound UDP on port 48678 for RMM.Agent.exe. These are concrete, huntable artifacts.
-
-- MSP360 is then used to run PowerShell that silently installs a ConnectWise ScreenConnect client, giving the attacker a redundant remote-access channel. Post-compromise payloads are executed through ScreenConnect's native RunFile functionality, keeping malicious execution inside a trusted administration workflow and reducing EDR visibility.
-
-- Microsoft also observed a parallel cluster in the same July 2026 timeframe substituting Faronics Deploy Agent for MSP360 before pivoting to ScreenConnect. The common thread is ScreenConnect as the persistent secondary channel, suggesting the actors are rotating initial-access RMM tools to evade detections tied to any single product.
-
-- Scope and attribution: the campaign is unattributed to any known group. The lure variety (government, corporate, software) and use of multiple cloud staging platforms suggest deliberate operational breadth rather than a narrow targeted intrusion.
-
-Hunt for RMM.Agent.exe and RMM.Agent.Launcher.exe as newly registered services, Registry Run keys pointing to MSP360 paths, and Windows Firewall rule changes opening UDP 48678. Cross-reference PowerShell execution under MSP360 parent processes with ScreenConnect installation events. Flag ScreenConnect processes spawning child processes or making outbound connections shortly after MSP360 first-run. Installers arriving from S3, R2, Dropbox, GitLab, or Supabase with RMM version strings in the filename are a strong pre-execution signal worth catching at the email gateway or proxy layer.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105448383359975918</description>
-      <content:encoded><![CDATA[<p>Unattributed phishing campaign abuses MSP360 RMM as a beachhead to silently deploy ScreenConnect, creating dual remote-access channels that blend into normal IT operations. Microsoft detected the activity in July 2026.</p><p>Key details:</p><p>- Phishing emails deliver a digitally signed MSP360 RMM v2.5.0.67 installer disguised as meeting invites, Zoom setups, Adobe PDF tools, SSA[.]GOV statements, and e-card RSVPs. File names follow a pattern like ZoomSetup_Installation_v2.5.0.67_oid[redacted].exe. Installers are staged on attacker-controlled infrastructure and legitimate services including Amazon S3, Cloudflare R2, Dropbox, GitLab, and Supabase, making network-based blocking harder.</p><p>- Once executed, the installer invokes UAC elevation, drops multiple DLLs, and registers two Windows services: RMM.Agent.exe and RMM.Agent.Launcher.exe. It also creates Registry autorun entries to survive reboots and modifies Windows Firewall to permit inbound UDP on port 48678 for RMM.Agent.exe. These are concrete, huntable artifacts.</p><p>- MSP360 is then used to run PowerShell that silently installs a ConnectWise ScreenConnect client, giving the attacker a redundant remote-access channel. Post-compromise payloads are executed through ScreenConnect&#x27;s native RunFile functionality, keeping malicious execution inside a trusted administration workflow and reducing EDR visibility.</p><p>- Microsoft also observed a parallel cluster in the same July 2026 timeframe substituting Faronics Deploy Agent for MSP360 before pivoting to ScreenConnect. The common thread is ScreenConnect as the persistent secondary channel, suggesting the actors are rotating initial-access RMM tools to evade detections tied to any single product.</p><p>- Scope and attribution: the campaign is unattributed to any known group. The lure variety (government, corporate, software) and use of multiple cloud staging platforms suggest deliberate operational breadth rather than a narrow targeted intrusion.</p><p>Hunt for RMM.Agent.exe and RMM.Agent.Launcher.exe as newly registered services, Registry Run keys pointing to MSP360 paths, and Windows Firewall rule changes opening UDP 48678. Cross-reference PowerShell execution under MSP360 parent processes with ScreenConnect installation events. Flag ScreenConnect processes spawning child processes or making outbound connections shortly after MSP360 first-run. Installers arriving from S3, R2, Dropbox, GitLab, or Supabase with RMM version strings in the filename are a strong pre-execution signal worth catching at the email gateway or proxy layer.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/09/attackers-abuse-msp360-to-deploy.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105448383359975918">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105448383359975918</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2105448383359975918">DFIR Radar</source>
-      <pubDate>Thu, 01 Oct 2026 00:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2105448383359975918</guid>
     </item>
   </channel>
 </rss>
