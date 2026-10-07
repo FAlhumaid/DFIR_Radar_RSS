@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 07 Oct 2026 12:03:15 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2026 14:04:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Phishing Campaign Abuses Microsoft Power BI to Deploy Rogue RMMs</title>
+      <link>https://www.huntress.com/blog/screenconnect-power-bi</link>
+      <description>A phishing campaign abuses legitimate Microsoft Power BI dashboards to bypass email filters, fingerprint victims, and silently install rogue ScreenConnect RMM clients for persistent remote access across dozens of endpoints.
+
+Key findings:
+
+- The lure lives on app.powerbi[.]com itself. Attackers created real Power BI dashboards under compromised or throwaway accounts, set them public, and embedded a "Download Reference" button that redirects to attacker-controlled staging pages. Because the link resolves to a Microsoft domain, Microsoft 365 mail filters and security gateways pass it through. The specific lure URL observed is hxxps[://]app.powerbi[.]com/view?r=eyJrIjoiNTk0NmViNDktYzM1Yy00MjEwLTkyZTctNGU5ZTJmYzMzYjEwIiwidCI6IjU1YTI4YmU2LTFiYzQtNDIzMS05MTA0LTdkMmFlYTVmMGZhNiJ9.
+
+- Before delivering the payload, staging pages at dailylifeproject[.]site, burnsworth[.]site, essaywritingservice[.]site, and openpediatrics[.]site perform aggressive fingerprinting: OS, browser, screen size, automation indicators, iframe context, cloud-provider cookies, and ISP filtering (Microsoft and unknown ISPs are blocked). Victim telemetry including public IP, geolocation, device type, and download activity is exfiltrated to a hardcoded Telegram Bot API credential and chat ID reused across campaign variants. Victims who fail the checks are bounced to check.vykyn[.]click/E/. Survivors get a delayed, scripted auto-click of a hidden download link while the page displays "Reference Verification Form downloaded successfully."
+
+- Two rogue ScreenConnect clients are chained for layered persistence. The installer pulls from hamham27.screenconnect[.]com using campaign-specific guest tokens (ILEAYEASAN, PERFECTO, PAPASUPE). The first client (SHA256: 5956f9afb3ba610c38b2cfda88dd15be98783963769a12020c93ce05e749b3c3) connects to instance-g01s1n-relay.screenconnect[.]com and then executes LyN03DvVjUKPrun.cmd, which drops SCAutoFix.ps1 from the temp directory. That script downloads a second ScreenConnect installer from onthegotree[.]site, installs the second client (SHA256: f048400c23add8c75abe189393d33c873c02c74eeaf43d47b950c8d643763b35), and uninstalls the first to reduce visibility. The second client connects back to onthegotree[.]site. If one RMM is found and removed, the other survives.
+
+- Defense evasion is built in from the start. HideUL_x64.exe executes on affected endpoints, assessed as a tool to conceal attacker activity from the user and security software. A scheduled task named SCAutoRepairEvery2Min is created to re-execute SCAutoFix.ps1 on a two-minute loop, ensuring the RMM reinstalls itself even if killed. Huntress observed this campaign hitting a handful of endpoints from September 10 onward, with retroactive threat hunting revealing the unique ScreenConnect configuration from one incident had also touched 22 other endpoints across separate incidents.
+
+DFIR takeaway: Hunt for ScreenConnect.ClientSetup.exe downloads originating from browser processes, unexpected ScreenConnect relay connections outside your approved instance list, CMD or PowerShell children of ScreenConnect.ClientService.exe, the scheduled task SCAutoRepairEvery2Min, and HideUL_x64.exe on disk. In email gateway logs, flag Power BI sharing URLs (app.powerbi[.]com/view) that route outbound to non-Microsoft domains. The full IOC list including both SHA256 hashes, all staging domains, and ScreenConnect infrastructure is in the Huntress report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107834357989679117</description>
+      <content:encoded><![CDATA[<p>A phishing campaign abuses legitimate Microsoft Power BI dashboards to bypass email filters, fingerprint victims, and silently install rogue ScreenConnect RMM clients for persistent remote access across dozens of endpoints.</p><p>Key findings:</p><p>- The lure lives on app.powerbi[.]com itself. Attackers created real Power BI dashboards under compromised or throwaway accounts, set them public, and embedded a &quot;Download Reference&quot; button that redirects to attacker-controlled staging pages. Because the link resolves to a Microsoft domain, Microsoft 365 mail filters and security gateways pass it through. The specific lure URL observed is hxxps[://]app.powerbi[.]com/view?r=eyJrIjoiNTk0NmViNDktYzM1Yy00MjEwLTkyZTctNGU5ZTJmYzMzYjEwIiwidCI6IjU1YTI4YmU2LTFiYzQtNDIzMS05MTA0LTdkMmFlYTVmMGZhNiJ9.</p><p>- Before delivering the payload, staging pages at dailylifeproject[.]site, burnsworth[.]site, essaywritingservice[.]site, and openpediatrics[.]site perform aggressive fingerprinting: OS, browser, screen size, automation indicators, iframe context, cloud-provider cookies, and ISP filtering (Microsoft and unknown ISPs are blocked). Victim telemetry including public IP, geolocation, device type, and download activity is exfiltrated to a hardcoded Telegram Bot API credential and chat ID reused across campaign variants. Victims who fail the checks are bounced to check.vykyn[.]click/E/. Survivors get a delayed, scripted auto-click of a hidden download link while the page displays &quot;Reference Verification Form downloaded successfully.&quot;</p><p>- Two rogue ScreenConnect clients are chained for layered persistence. The installer pulls from hamham27.screenconnect[.]com using campaign-specific guest tokens (ILEAYEASAN, PERFECTO, PAPASUPE). The first client (SHA256: 5956f9afb3ba610c38b2cfda88dd15be98783963769a12020c93ce05e749b3c3) connects to instance-g01s1n-relay.screenconnect[.]com and then executes LyN03DvVjUKPrun.cmd, which drops SCAutoFix.ps1 from the temp directory. That script downloads a second ScreenConnect installer from onthegotree[.]site, installs the second client (SHA256: f048400c23add8c75abe189393d33c873c02c74eeaf43d47b950c8d643763b35), and uninstalls the first to reduce visibility. The second client connects back to onthegotree[.]site. If one RMM is found and removed, the other survives.</p><p>- Defense evasion is built in from the start. HideUL_x64.exe executes on affected endpoints, assessed as a tool to conceal attacker activity from the user and security software. A scheduled task named SCAutoRepairEvery2Min is created to re-execute SCAutoFix.ps1 on a two-minute loop, ensuring the RMM reinstalls itself even if killed. Huntress observed this campaign hitting a handful of endpoints from September 10 onward, with retroactive threat hunting revealing the unique ScreenConnect configuration from one incident had also touched 22 other endpoints across separate incidents.</p><p>DFIR takeaway: Hunt for ScreenConnect.ClientSetup.exe downloads originating from browser processes, unexpected ScreenConnect relay connections outside your approved instance list, CMD or PowerShell children of ScreenConnect.ClientService.exe, the scheduled task SCAutoRepairEvery2Min, and HideUL_x64.exe on disk. In email gateway logs, flag Power BI sharing URLs (app.powerbi[.]com/view) that route outbound to non-Microsoft domains. The full IOC list including both SHA256 hashes, all staging domains, and ScreenConnect infrastructure is in the Huntress report.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/screenconnect-power-bi">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107834357989679117">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107834357989679117</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2107834357989679117">DFIR Radar</source>
+      <pubDate>Wed, 07 Oct 2026 14:04:08 +0000</pubDate>
+      <guid isPermaLink="false">2107834357989679117</guid>
+    </item>
     <item>
       <title>AI-powered phishkit arms criminals with account-hijacking tools in 10 minutes</title>
       <link>https://www.malwarebytes.com/blog/threat-intel/2026/10/ai-powered-phishkit-arms-criminals-with-account-hijacking-tools-in-10-minutes</link>
@@ -2098,20 +2124,6 @@ Hunt for RMM.Agent.exe or RMM.Agent.Launcher.exe service registrations outside y
       <source url="https://x.com/DFIR_Radar/status/2105569239541420041">DFIR Radar</source>
       <pubDate>Thu, 01 Oct 2026 08:03:21 +0000</pubDate>
       <guid isPermaLink="false">2105569239541420041</guid>
-    </item>
-    <item>
-      <title>1 little known secret of aidd.dll</title>
-      <link>https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-aidd-dll/</link>
-      <description>Windows 11 26H2's aidd.dll, invoked via rundll32, writes ProcessLoadedDllList.db to C:\Windows\appcompat\AIDD, logging every running executable and loaded DLL. Query that SQLite DB to map DLL-load history during investigations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105554145155404172</description>
-      <content:encoded><![CDATA[<p>Windows 11 26H2&#x27;s aidd.dll, invoked via rundll32, writes ProcessLoadedDllList.db to C:\Windows\appcompat\AIDD, logging every running executable and loaded DLL. Query that SQLite DB to map DLL-load history during investigations.</p><p>#DFIR_Radar</p><p><a href="https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-aidd-dll/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105554145155404172">View on X</a></p>]]></content:encoded>
-      <dc:creator>Hexacorn</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105554145155404172</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2105554145155404172">DFIR Radar</source>
-      <pubDate>Thu, 01 Oct 2026 07:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2105554145155404172</guid>
     </item>
   </channel>
 </rss>
