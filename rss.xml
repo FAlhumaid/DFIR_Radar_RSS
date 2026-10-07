@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 07 Oct 2026 10:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2026 11:03:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ASOS customers heard about the attack from the attacker by Lucie Cardiet</title>
+      <link>https://www.vectra.ai/blog/asos-customers-heard-about-the-attack-from-the-attacker</link>
+      <description>Attackers hijacked ASOS's push-notification platform to publicly extort the company through its own app. Audit third-party messaging integrations for unauthorized API keys and unrotated tokens.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107788917290291512</description>
+      <content:encoded><![CDATA[<p>Attackers hijacked ASOS&#x27;s push-notification platform to publicly extort the company through its own app. Audit third-party messaging integrations for unauthorized API keys and unrotated tokens.</p><p>#DFIR_Radar</p><p><a href="https://www.vectra.ai/blog/asos-customers-heard-about-the-attack-from-the-attacker">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107788917290291512">View on X</a></p>]]></content:encoded>
+      <dc:creator>Vectra AI</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107788917290291512</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2107788917290291512">DFIR Radar</source>
+      <pubDate>Wed, 07 Oct 2026 11:03:34 +0000</pubDate>
+      <guid isPermaLink="false">2107788917290291512</guid>
+    </item>
     <item>
       <title>Zammad CVE-2026-102489: Session Leak to RCE</title>
       <link>https://horizon3.ai/attack-research/disclosures/cve-2026-102489-zammad-session-leak-rce/</link>
@@ -2098,34 +2112,6 @@ Hunt for RMM.Agent.exe or RMM.Agent.Launcher.exe service registrations outside y
       <source url="https://x.com/DFIR_Radar/status/2105539066821595385">DFIR Radar</source>
       <pubDate>Thu, 01 Oct 2026 06:03:27 +0000</pubDate>
       <guid isPermaLink="false">2105539066821595385</guid>
-    </item>
-    <item>
-      <title>Citrix NetScaler Post-Exploitation Payload Creates Superuser, Maps Web Shell to CSS-Like URLs</title>
-      <link>https://thehackernews.com/2026/10/citrix-netscaler-post-exploitation.html</link>
-      <description>CVE-2026-88771 (CVSS 9.5) actively exploited in the wild against Citrix NetScaler ADC and Gateway, with post-exploitation chains creating superuser accounts, deploying disguised web shells, and exfiltrating full appliance configs.
-
-Key findings:
-
-- CVE-2026-88771 is a pre-authentication command injection flaw requiring no credentials. LevelBlue's THOR team identified exploitation activity across multiple customer environments, with attacker-controlled authentication strings containing "pitboss" and "NSPPE" as consistent markers in NetScaler auth logs. Separately, CVE-2026-88772 has been used to deliver PHP web shells (WHIPSHOT) and a Python tunneler named SLAPSHOT, per Mandiant and Google GTIG, with dozens of organizations already impacted.
-
-- The Perl post-exploitation payload "update_c08937.pl" (retrieved from 64.94.85[.]67:443/update_c08937_08937.pl) is particularly aggressive: it modifies /flash/nsconfig/ns.conf to create a local account named "sec_monitor" with superuser role, archives the entire /flash/nsconfig directory to /tmp/update_result_3567cs.tgz, exfiltrates it to the same C2, then deletes the archive and wipes itself to reduce forensic footprint on disk.
-
-- The web shell is written to /var/netscaler/logon/LogonPoint/.local_journal, with /etc/httpd.conf modified to enable PHP execution and map the shell to URLs styled as legitimate NetScaler CSS resources. The permissions on /bin/sh are set to 6555 (SUID). This camouflage makes passive URL-based detection unreliable; defenders should be hashing and comparing /etc/httpd.conf against a known-good baseline and auditing unexpected SUID binaries.
-
-- A Python reverse shell ("main[.]py", pulled from 23.27.143[.]20:9000/main.py) beacons outbound over TCP 443 to 45.141.21[.]130 and kills processes associated with /var/python/bin/customsnmpd. The "lula" payload was fetched from 31.56.197[.]72:9090/lula. Curl and wget activity retrieving these payloads from external IPs are your earliest post-exploitation signals in NetScaler logs.
-
-- The Dutch 🇳🇱 NCSC pre-notified organizations and urged appliance shutdown, indicating active in-the-wild exploitation with confirmed impact before public disclosure. Attribution remains unknown at this time.
-
-Responder action: Check /flash/nsconfig/ns.conf for the "sec_monitor" account and any unfamiliar local accounts with superuser role. Audit /var/netscaler/logon/LogonPoint/ for unexpected files, especially hidden-name PHP files. Review /etc/httpd.conf for unauthorized rewrites pointing to CSS-like URL paths. Pull NetScaler auth logs and grep for "pitboss" and "NSPPE" strings as exploitation indicators. Verify /bin/sh permissions and check for outbound connections to the listed C2 IPs. IOCs are in the LevelBlue report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105524134365024703</description>
-      <content:encoded><![CDATA[<p>CVE-2026-88771 (CVSS 9.5) actively exploited in the wild against Citrix NetScaler ADC and Gateway, with post-exploitation chains creating superuser accounts, deploying disguised web shells, and exfiltrating full appliance configs.</p><p>Key findings:</p><p>- CVE-2026-88771 is a pre-authentication command injection flaw requiring no credentials. LevelBlue&#x27;s THOR team identified exploitation activity across multiple customer environments, with attacker-controlled authentication strings containing &quot;pitboss&quot; and &quot;NSPPE&quot; as consistent markers in NetScaler auth logs. Separately, CVE-2026-88772 has been used to deliver PHP web shells (WHIPSHOT) and a Python tunneler named SLAPSHOT, per Mandiant and Google GTIG, with dozens of organizations already impacted.</p><p>- The Perl post-exploitation payload &quot;update_c08937.pl&quot; (retrieved from 64.94.85[.]67:443/update_c08937_08937.pl) is particularly aggressive: it modifies /flash/nsconfig/ns.conf to create a local account named &quot;sec_monitor&quot; with superuser role, archives the entire /flash/nsconfig directory to /tmp/update_result_3567cs.tgz, exfiltrates it to the same C2, then deletes the archive and wipes itself to reduce forensic footprint on disk.</p><p>- The web shell is written to /var/netscaler/logon/LogonPoint/.local_journal, with /etc/httpd.conf modified to enable PHP execution and map the shell to URLs styled as legitimate NetScaler CSS resources. The permissions on /bin/sh are set to 6555 (SUID). This camouflage makes passive URL-based detection unreliable; defenders should be hashing and comparing /etc/httpd.conf against a known-good baseline and auditing unexpected SUID binaries.</p><p>- A Python reverse shell (&quot;main[.]py&quot;, pulled from 23.27.143[.]20:9000/main.py) beacons outbound over TCP 443 to 45.141.21[.]130 and kills processes associated with /var/python/bin/customsnmpd. The &quot;lula&quot; payload was fetched from 31.56.197[.]72:9090/lula. Curl and wget activity retrieving these payloads from external IPs are your earliest post-exploitation signals in NetScaler logs.</p><p>- The Dutch 🇳🇱 NCSC pre-notified organizations and urged appliance shutdown, indicating active in-the-wild exploitation with confirmed impact before public disclosure. Attribution remains unknown at this time.</p><p>Responder action: Check /flash/nsconfig/ns.conf for the &quot;sec_monitor&quot; account and any unfamiliar local accounts with superuser role. Audit /var/netscaler/logon/LogonPoint/ for unexpected files, especially hidden-name PHP files. Review /etc/httpd.conf for unauthorized rewrites pointing to CSS-like URL paths. Pull NetScaler auth logs and grep for &quot;pitboss&quot; and &quot;NSPPE&quot; strings as exploitation indicators. Verify /bin/sh permissions and check for outbound connections to the listed C2 IPs. IOCs are in the LevelBlue report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/citrix-netscaler-post-exploitation.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105524134365024703">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105524134365024703</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2105524134365024703">DFIR Radar</source>
-      <pubDate>Thu, 01 Oct 2026 05:04:07 +0000</pubDate>
-      <guid isPermaLink="false">2105524134365024703</guid>
     </item>
   </channel>
 </rss>
