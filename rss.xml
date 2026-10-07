@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 07 Oct 2026 03:04:07 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2026 04:02:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[0day-rubbish] StreamSets Transformer 3.17.0 auth-mode none fallback and un-sandboxed ScalaDTransform execution to container root (8.1 primary)</title>
+      <link>https://seclists.org/fulldisclosure/2026/Oct/8</link>
+      <description>StreamSets Transformer 3.17.0 falls open to anonymous Scala code execution as container uid 0 when http.authentication resolves to none. Audit deployed containers for unexpected pipeline definitions and verify effective auth properties.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107683016156107129</description>
+      <content:encoded><![CDATA[<p>StreamSets Transformer 3.17.0 falls open to anonymous Scala code execution as container uid 0 when http.authentication resolves to none. Audit deployed containers for unexpected pipeline definitions and verify effective auth properties.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/fulldisclosure/2026/Oct/8">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107683016156107129">View on X</a></p>]]></content:encoded>
+      <dc:creator>Full Disclosure</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2107683016156107129</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2107683016156107129">DFIR Radar</source>
+      <pubDate>Wed, 07 Oct 2026 04:02:45 +0000</pubDate>
+      <guid isPermaLink="false">2107683016156107129</guid>
+    </item>
     <item>
       <title>Q3 2026 Attack Techniques Trend Report</title>
       <link>https://asec.ahnlab.com/en/95733/</link>
@@ -2124,30 +2138,6 @@ Hunt for RMM.Agent.exe and RMM.Agent.Launcher.exe as newly registered services, 
       <source url="https://x.com/DFIR_Radar/status/2105448383359975918">DFIR Radar</source>
       <pubDate>Thu, 01 Oct 2026 00:03:08 +0000</pubDate>
       <guid isPermaLink="false">2105448383359975918</guid>
-    </item>
-    <item>
-      <title>Threat Brief: NetScaler Zero Days CVE-2026-88771 and CVE-2026-88772 Exploited in the Wild (Updated September 30)</title>
-      <link>https://unit42.paloaltonetworks.com/netscaler-zero-days-exploited/</link>
-      <description>Two actively exploited NetScaler zero-days, CVE-2026-88771 and CVE-2026-88772 (both CVSS v4.0: 9.5), are delivering web shells across 50,000+ exposed instances as of Sept. 27, 2026.
-
-- CVE-2026-88771 is an unauthenticated RCE via improper input validation on NetScaler ADC and Gateway. CVE-2026-88772 is a memory overflow in the DTLS configuration that enables RCE or DoS. Both were exploited before Citrix's Sept. 27 disclosure. Earliest observed activity dates to Aug. 21, 2026, with version-fingerprinting requests to /admin_ui/common/css/ns/ui.css and /vpn/js/rdx/core/lang/rdx_en.json.gz hitting more than 100 systems from 104.248.244[.]66 and 77.83.199[.]39.
-
-- Two distinct exploitation chains were observed pre-disclosure. The first uses crafted DTLS traffic to trigger CVE-2026-88772, then drops .deb web shells (e.g., nsgclient18.deb, nsg64.deb) into /vpn/scripts/linux/, a folder normally holding Citrix client packages. The dropped shell nsg64.deb (SHA-256: ae22ef2517b5c0fb47f78745b9cb5260acee0e751b89bcd354640ff8bc8d29ec) is a PHP web shell with RC4-encrypted C2 using key 7489a0f93c67fa5cdaeb4b921d90594d (MD5 of passphrase Rhfajaf1H992), supporting arbitrary command execution, file upload, and chunked file exfiltration. Commands are passed via custom HTTP headers. The shell escalates privileges via the SUID binary at /var/netscaler/.ns_suidcmd.
-
-- The second chain is a three-stage log-poisoning exploit targeting CVE-2026-88771. Stage 1: attacker sends an HTTP request with a Base64-encoded dropper in the User-Agent, which lands in /var/log/httpaccess-vpn.log. Stage 2: a crafted login request injects a shell command after "pitboss PPE missed too many heartbeats NSPPE;" into /var/log/ns.log. Stage 3: the vulnerable Perl script /netscaler/ns_monuploadd_err.pl -WR processes ns.log, extracts the injected text, and pipes it to sh or php. The decoded payload drops .ctxs.receiver into /var/netscaler/logon/LogonPoint/custom/, sets SUID on /bin/sh (chmod 6555), edits /etc/httpd.conf to enable PHP engine and alias the web shell under receiver.min.css, then reloads Apache with kill -HUP. The shell authenticates via a hard-coded CsrfToken cookie value (e826d7ddf3c85920) and executes commands from the NSC_TASS cookie, mimicking legitimate NetScaler session cookie naming.
-
-- Infrastructure used in the pre-disclosure campaign includes 77.83.199[.]39, 78.47.24[.]217, 104.248.244[.]66, 66.135.19[.]18, 167.99.111[.]203, 142.93.85[.]227, 104.248.74[.]206, 137.184.91[.]207, 104.28.247[.]136, 104.28.215[.]136, 104.28.215[.]137, 162.33.178[.]9, 193.149.176[.]207, and 139.180.152[.]138. Actors rotated through Cloudflare WARP VPN addresses and VPS infrastructure, making IP-based blocking insufficient alone. Continuous requests to /logon/LogonPoint/Authentication/GetUserName persisted around the clock through Sept. 27, treat any activity to that path as anomalous.
-
-Patch immediately, but patching does not evict actors already present. For compromise assessment: hunt /vpn/scripts/linux/ for unexpected .deb files, check /var/netscaler/logon/LogonPoint/custom/ for .ctxs.receiver or hidden PHP files, inspect /etc/httpd.conf for injected Alias directives and php_flag engine on modifications, and review /var/log/ns.log for lines containing "pitboss PPE" with text after "NSPPE;". The Unit 42 report includes a detection query for log-poisoning activity targeting ns.log (filter on "pitboss" in citrix_adc_raw), Threat Prevention signature 97562 for CVE-2026-88771, and a full IOC list with hashes and infrastructure. Preserve a VPX snapshot, remote syslog copies, support bundle, and packet engine core dump before patching.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105433371405099330</description>
-      <content:encoded><![CDATA[<p>Two actively exploited NetScaler zero-days, CVE-2026-88771 and CVE-2026-88772 (both CVSS v4.0: 9.5), are delivering web shells across 50,000+ exposed instances as of Sept. 27, 2026.</p><p>- CVE-2026-88771 is an unauthenticated RCE via improper input validation on NetScaler ADC and Gateway. CVE-2026-88772 is a memory overflow in the DTLS configuration that enables RCE or DoS. Both were exploited before Citrix&#x27;s Sept. 27 disclosure. Earliest observed activity dates to Aug. 21, 2026, with version-fingerprinting requests to /admin_ui/common/css/ns/ui.css and /vpn/js/rdx/core/lang/rdx_en.json.gz hitting more than 100 systems from 104.248.244[.]66 and 77.83.199[.]39.</p><p>- Two distinct exploitation chains were observed pre-disclosure. The first uses crafted DTLS traffic to trigger CVE-2026-88772, then drops .deb web shells (e.g., nsgclient18.deb, nsg64.deb) into /vpn/scripts/linux/, a folder normally holding Citrix client packages. The dropped shell nsg64.deb (SHA-256: ae22ef2517b5c0fb47f78745b9cb5260acee0e751b89bcd354640ff8bc8d29ec) is a PHP web shell with RC4-encrypted C2 using key 7489a0f93c67fa5cdaeb4b921d90594d (MD5 of passphrase Rhfajaf1H992), supporting arbitrary command execution, file upload, and chunked file exfiltration. Commands are passed via custom HTTP headers. The shell escalates privileges via the SUID binary at /var/netscaler/.ns_suidcmd.</p><p>- The second chain is a three-stage log-poisoning exploit targeting CVE-2026-88771. Stage 1: attacker sends an HTTP request with a Base64-encoded dropper in the User-Agent, which lands in /var/log/httpaccess-vpn.log. Stage 2: a crafted login request injects a shell command after &quot;pitboss PPE missed too many heartbeats NSPPE;&quot; into /var/log/ns.log. Stage 3: the vulnerable Perl script /netscaler/ns_monuploadd_err.pl -WR processes ns.log, extracts the injected text, and pipes it to sh or php. The decoded payload drops .ctxs.receiver into /var/netscaler/logon/LogonPoint/custom/, sets SUID on /bin/sh (chmod 6555), edits /etc/httpd.conf to enable PHP engine and alias the web shell under receiver.min.css, then reloads Apache with kill -HUP. The shell authenticates via a hard-coded CsrfToken cookie value (e826d7ddf3c85920) and executes commands from the NSC_TASS cookie, mimicking legitimate NetScaler session cookie naming.</p><p>- Infrastructure used in the pre-disclosure campaign includes 77.83.199[.]39, 78.47.24[.]217, 104.248.244[.]66, 66.135.19[.]18, 167.99.111[.]203, 142.93.85[.]227, 104.248.74[.]206, 137.184.91[.]207, 104.28.247[.]136, 104.28.215[.]136, 104.28.215[.]137, 162.33.178[.]9, 193.149.176[.]207, and 139.180.152[.]138. Actors rotated through Cloudflare WARP VPN addresses and VPS infrastructure, making IP-based blocking insufficient alone. Continuous requests to /logon/LogonPoint/Authentication/GetUserName persisted around the clock through Sept. 27, treat any activity to that path as anomalous.</p><p>Patch immediately, but patching does not evict actors already present. For compromise assessment: hunt /vpn/scripts/linux/ for unexpected .deb files, check /var/netscaler/logon/LogonPoint/custom/ for .ctxs.receiver or hidden PHP files, inspect /etc/httpd.conf for injected Alias directives and php_flag engine on modifications, and review /var/log/ns.log for lines containing &quot;pitboss PPE&quot; with text after &quot;NSPPE;&quot;. The Unit 42 report includes a detection query for log-poisoning activity targeting ns.log (filter on &quot;pitboss&quot; in citrix_adc_raw), Threat Prevention signature 97562 for CVE-2026-88771, and a full IOC list with hashes and infrastructure. Preserve a VPX snapshot, remote syslog copies, support bundle, and packet engine core dump before patching.</p><p>#DFIR_Radar</p><p><a href="https://unit42.paloaltonetworks.com/netscaler-zero-days-exploited/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105433371405099330">View on X</a></p>]]></content:encoded>
-      <dc:creator>Unit 42</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105433371405099330</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2105433371405099330">DFIR Radar</source>
-      <pubDate>Wed, 30 Sep 2026 23:03:28 +0000</pubDate>
-      <guid isPermaLink="false">2105433371405099330</guid>
     </item>
   </channel>
 </rss>
