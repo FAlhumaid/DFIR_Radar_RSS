@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 02:01:46 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 03:03:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malware Analysis: Analyzing AI-Backed Malware with CAIRN</title>
+      <link>https://hackers-arise.com/malware-analysis-analyzing-ai-backed-malware-with-cairn/</link>
+      <description>Cisco Talos' CLOSEDQUORUM implant delegates C2 decisions to commercial LLMs, leaving no blockable server. Hunt cognitive artifacts: prompt templates, API key prefixes, jailbreak strings via CAIRN against VirusTotal metadata.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108030531216576796</description>
+      <content:encoded><![CDATA[<p>Cisco Talos&#x27; CLOSEDQUORUM implant delegates C2 decisions to commercial LLMs, leaving no blockable server. Hunt cognitive artifacts: prompt templates, API key prefixes, jailbreak strings via CAIRN against VirusTotal metadata.</p><p>#DFIR_Radar</p><p><a href="https://hackers-arise.com/malware-analysis-analyzing-ai-backed-malware-with-cairn/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108030531216576796">View on X</a></p>]]></content:encoded>
+      <dc:creator>Hackers Arise</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108030531216576796</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108030531216576796">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 03:03:39 +0000</pubDate>
+      <guid isPermaLink="false">2108030531216576796</guid>
+    </item>
     <item>
       <title>Citrix NetScaler CVE-2026-88771: Observed Exploitation Artifacts and Hunt Indicators</title>
       <link>https://www.levelblue.com/blogs/spiderlabs-blog/citrix-netscaler-cve-2026-88771-observed-exploitation-artifacts-and-hunt-indicators</link>
@@ -2126,32 +2140,6 @@ Practitioner takeaway: patch first, then confirm patch state. Bishop Fox's detec
       <source url="https://x.com/DFIR_Radar/status/2105780408696848730">DFIR Radar</source>
       <pubDate>Thu, 01 Oct 2026 22:02:28 +0000</pubDate>
       <guid isPermaLink="false">2105780408696848730</guid>
-    </item>
-    <item>
-      <title>WordPress Backdoor Rebuilds Itself After Cleanup Using Files, Database, and Shared Memory</title>
-      <link>https://thehackernews.com/2026/10/wordpress-backdoor-rebuilds-itself.html</link>
-      <description>The "SC" WordPress backdoor plants itself in 8 simultaneous locations across files, the database, and RAM, creating a self-healing loop where any single surviving copy rebuilds the entire infection on the next page load.
-
-Key findings:
-
-- The SC backdoor earns its name from "SC_" markers in injected content. Its eight components span .user.ini (sets auto_prepend_file to run a loader before every PHP request), two loader files at wp-content/c1b12371.php and wp-content/.c1b12371.php, drop-ins at wp-content/db.php and wp-content/advanced-cache.php, a theme functions.php resident copy, and the actual payload deployed as both a must-use plugin and a normal plugin at wp-content/mu-plugins/hyper-engine-kit.php and wp-content/plugins/hyper-engine-kit/hyper-engine-kit.php. Every component can rebuild all the others, so the circular dependency means there is no single removal point.
-
-- The most forensically tricky component is the System V shared-memory segment. The payload is written to a fixed numeric key in RAM, where it survives both file deletion and database cleanup. On shared hosting, that segment can be owned by a different account, meaning a compromised neighbor on the same server could reinfect a cleaned site without touching its files at all.
-
-- C2 communication runs over the Ethereum blockchain rather than a traditional command-and-control server, hiding operator instructions inside legitimate blockchain infrastructure and making domain or IP-based blocking ineffective. The backdoor also hides itself from the WordPress admin plugins screen and update checks, creates a hidden administrator account, fetches arbitrary JavaScript for visitor-targeting skimmers, and runs arbitrary PHP. Scheduled reinfection is enforced via WordPress cron hooks with randomized names plus a known fetch hook, triggered by system cron rather than visitor traffic.
-
-- Code is obfuscated with a substitution cipher decoded at runtime rather than exposing readable function names, which complicates static analysis. Initial access vector for this campaign is currently unknown. Separately, CVE-2026-1581 (CVSS 7.5), an unauthenticated SQL injection in the wpForo Forum plugin affecting all versions through 2.4.14, has been actively exploited since at least July 3, 2026, with exploitation attempts sourced from five attacker IPs across Bulgaria 🇧🇬, Switzerland 🇨🇭, France 🇫🇷, the US 🇺🇸, and Yemen.
-
-Cleanup on SC-infected WordPress sites requires more than file scanning. Check RAM: enumerate active System V shared-memory segments with ipcs -m and remove any segment tied to the web server user or an unexpected UID. Audit every WordPress drop-in location (db.php, advanced-cache.php, object-cache.php), mu-plugins, and .user.ini files in every directory under the webroot. Grep for "SC_" markers and Base64-encoded compressed blobs. Inspect wp_users and wp_usermeta for hidden administrator accounts. For CVE-2026-1581, check database query logs for anomalous unauthenticated requests to wpForo endpoints and update to a patched version of the plugin. Full technical breakdown and IOC details are in the Sucuri report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105765618838392885</description>
-      <content:encoded><![CDATA[<p>The &quot;SC&quot; WordPress backdoor plants itself in 8 simultaneous locations across files, the database, and RAM, creating a self-healing loop where any single surviving copy rebuilds the entire infection on the next page load.</p><p>Key findings:</p><p>- The SC backdoor earns its name from &quot;SC_&quot; markers in injected content. Its eight components span .user.ini (sets auto_prepend_file to run a loader before every PHP request), two loader files at wp-content/c1b12371.php and wp-content/.c1b12371.php, drop-ins at wp-content/db.php and wp-content/advanced-cache.php, a theme functions.php resident copy, and the actual payload deployed as both a must-use plugin and a normal plugin at wp-content/mu-plugins/hyper-engine-kit.php and wp-content/plugins/hyper-engine-kit/hyper-engine-kit.php. Every component can rebuild all the others, so the circular dependency means there is no single removal point.</p><p>- The most forensically tricky component is the System V shared-memory segment. The payload is written to a fixed numeric key in RAM, where it survives both file deletion and database cleanup. On shared hosting, that segment can be owned by a different account, meaning a compromised neighbor on the same server could reinfect a cleaned site without touching its files at all.</p><p>- C2 communication runs over the Ethereum blockchain rather than a traditional command-and-control server, hiding operator instructions inside legitimate blockchain infrastructure and making domain or IP-based blocking ineffective. The backdoor also hides itself from the WordPress admin plugins screen and update checks, creates a hidden administrator account, fetches arbitrary JavaScript for visitor-targeting skimmers, and runs arbitrary PHP. Scheduled reinfection is enforced via WordPress cron hooks with randomized names plus a known fetch hook, triggered by system cron rather than visitor traffic.</p><p>- Code is obfuscated with a substitution cipher decoded at runtime rather than exposing readable function names, which complicates static analysis. Initial access vector for this campaign is currently unknown. Separately, CVE-2026-1581 (CVSS 7.5), an unauthenticated SQL injection in the wpForo Forum plugin affecting all versions through 2.4.14, has been actively exploited since at least July 3, 2026, with exploitation attempts sourced from five attacker IPs across Bulgaria 🇧🇬, Switzerland 🇨🇭, France 🇫🇷, the US 🇺🇸, and Yemen.</p><p>Cleanup on SC-infected WordPress sites requires more than file scanning. Check RAM: enumerate active System V shared-memory segments with ipcs -m and remove any segment tied to the web server user or an unexpected UID. Audit every WordPress drop-in location (db.php, advanced-cache.php, object-cache.php), mu-plugins, and .user.ini files in every directory under the webroot. Grep for &quot;SC_&quot; markers and Base64-encoded compressed blobs. Inspect wp_users and wp_usermeta for hidden administrator accounts. For CVE-2026-1581, check database query logs for anomalous unauthenticated requests to wpForo endpoints and update to a patched version of the plugin. Full technical breakdown and IOC details are in the Sucuri report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/wordpress-backdoor-rebuilds-itself.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105765618838392885">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105765618838392885</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2105765618838392885">DFIR Radar</source>
-      <pubDate>Thu, 01 Oct 2026 21:03:42 +0000</pubDate>
-      <guid isPermaLink="false">2105765618838392885</guid>
     </item>
   </channel>
 </rss>
