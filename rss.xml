@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 06:03:28 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 07:03:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Tensorlake npm Package Compromised to Deliver Shai-Hulud Credential-Stealing Worm</title>
+      <link>https://thehackernews.com/2026/10/tensorlake-npm-package-compromised-to.html</link>
+      <description>The tensorlake npm SDK (v0.5.144) was backdoored with the Shai-Hulud self-propagating credential-stealing worm, targeting AI developer infrastructure by harvesting secrets across npm, AWS, Kubernetes, GitHub, and AI coding tools like Claude Code and VS Code.
+
+Key findings:
+
+- The compromise arrived via a rogue commit pushed to tensorlake's main branch on October 7, 2026 at 01:20 UTC under a maintainer's identity, with the malicious npm release following a day later. The attack chain begins at preinstall via a hook in package.json that executes package/lib/setup.mjs, an obfuscated loader that spawns the main worm, package/lib/Math_Symbol.js, using the Bun runtime. Defenders reviewing compromised CI logs should look for Bun process spawning during npm install steps.
+
+- Shai-Hulud's payload is a broad-spectrum credential harvester: npm tokens, GitHub tokens, AWS credentials and secrets, HashiCorp Vault tokens, Kubernetes credentials, SSH keys, .env files, cryptocurrency wallets, messaging app data, and config files tied to Anthropic Claude, Cursor, Kiro, Windsurf, and Zed. It also drops the HackBrowserData binary for browser credential extraction. Any secrets accessible to the process at install time should be considered compromised.
+
+- The worm is self-propagating: it enumerates packages tied to the victim's npm publishing identity, builds Sigstore provenance, and republishes compromised versions to spread downstream. It also plants GitHub Actions workflows disguised as Copilot/Dependabot activity. Responders should audit the victim's entire npm publishing history and all associated GitHub Actions workflow files for unexpected additions.
+
+- C2 resolution is blockchain-assisted: the worm queries an Ethereum smart contract to resolve its C2 endpoint at iseekaigogo[.]com, with GitHub used as a fallback staging location for encrypted exfiltrated data (look for public repos bearing the description "Shai-Hulud: Here We Go Again"). The "hostage token" mechanism is particularly aggressive: a PowerShell monitor polls api.github[.]com/user on a loop using the stolen GitHub token, and if revocation is detected, it executes attacker-supplied code via Invoke-Expression, likely triggering a destructive routine. Do not revoke the GitHub token in isolation without a coordinated response.
+
+- Persistence is embedded directly into developer tooling: the malware writes .claude/settings.json and .vscode/tasks.json into any reachable repository, ensuring re-execution when a developer next opens the project in Claude Code or VS Code. This means removing the malicious package version alone is insufficient if these files remain in affected repos. The ChainDrop campaign was first documented in August 2026 with the compromise of Keyv and Cacheable; this incident extends it explicitly into AI agent infrastructure.
+
+Takeaway: If tensorlake v0.5.144 was installed in any environment, treat it as a full credential compromise, not just a package rollback. Rotate all secrets accessible to that process: npm tokens, GitHub tokens, AWS keys, Vault tokens, and Kubernetes credentials. Audit every repo the affected publishing identity can reach for injected GitHub Actions workflows and malicious .claude/settings.json or .vscode/tasks.json files. Hunt for Bun process execution spawned from npm install hooks in your CI logs, and check for outbound connections to iseekaigogo[.]com. Full IOC list and technical details are in the Socket and StepSecurity reports.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108090967807168728</description>
+      <content:encoded><![CDATA[<p>The tensorlake npm SDK (v0.5.144) was backdoored with the Shai-Hulud self-propagating credential-stealing worm, targeting AI developer infrastructure by harvesting secrets across npm, AWS, Kubernetes, GitHub, and AI coding tools like Claude Code and VS Code.</p><p>Key findings:</p><p>- The compromise arrived via a rogue commit pushed to tensorlake&#x27;s main branch on October 7, 2026 at 01:20 UTC under a maintainer&#x27;s identity, with the malicious npm release following a day later. The attack chain begins at preinstall via a hook in package.json that executes package/lib/setup.mjs, an obfuscated loader that spawns the main worm, package/lib/Math_Symbol.js, using the Bun runtime. Defenders reviewing compromised CI logs should look for Bun process spawning during npm install steps.</p><p>- Shai-Hulud&#x27;s payload is a broad-spectrum credential harvester: npm tokens, GitHub tokens, AWS credentials and secrets, HashiCorp Vault tokens, Kubernetes credentials, SSH keys, .env files, cryptocurrency wallets, messaging app data, and config files tied to Anthropic Claude, Cursor, Kiro, Windsurf, and Zed. It also drops the HackBrowserData binary for browser credential extraction. Any secrets accessible to the process at install time should be considered compromised.</p><p>- The worm is self-propagating: it enumerates packages tied to the victim&#x27;s npm publishing identity, builds Sigstore provenance, and republishes compromised versions to spread downstream. It also plants GitHub Actions workflows disguised as Copilot/Dependabot activity. Responders should audit the victim&#x27;s entire npm publishing history and all associated GitHub Actions workflow files for unexpected additions.</p><p>- C2 resolution is blockchain-assisted: the worm queries an Ethereum smart contract to resolve its C2 endpoint at iseekaigogo[.]com, with GitHub used as a fallback staging location for encrypted exfiltrated data (look for public repos bearing the description &quot;Shai-Hulud: Here We Go Again&quot;). The &quot;hostage token&quot; mechanism is particularly aggressive: a PowerShell monitor polls api.github[.]com/user on a loop using the stolen GitHub token, and if revocation is detected, it executes attacker-supplied code via Invoke-Expression, likely triggering a destructive routine. Do not revoke the GitHub token in isolation without a coordinated response.</p><p>- Persistence is embedded directly into developer tooling: the malware writes .claude/settings.json and .vscode/tasks.json into any reachable repository, ensuring re-execution when a developer next opens the project in Claude Code or VS Code. This means removing the malicious package version alone is insufficient if these files remain in affected repos. The ChainDrop campaign was first documented in August 2026 with the compromise of Keyv and Cacheable; this incident extends it explicitly into AI agent infrastructure.</p><p>Takeaway: If tensorlake v0.5.144 was installed in any environment, treat it as a full credential compromise, not just a package rollback. Rotate all secrets accessible to that process: npm tokens, GitHub tokens, AWS keys, Vault tokens, and Kubernetes credentials. Audit every repo the affected publishing identity can reach for injected GitHub Actions workflows and malicious .claude/settings.json or .vscode/tasks.json files. Hunt for Bun process execution spawned from npm install hooks in your CI logs, and check for outbound connections to iseekaigogo[.]com. Full IOC list and technical details are in the Socket and StepSecurity reports.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/tensorlake-npm-package-compromised-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108090967807168728">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108090967807168728</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108090967807168728">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 07:03:48 +0000</pubDate>
+      <guid isPermaLink="false">2108090967807168728</guid>
+    </item>
     <item>
       <title>Credential Dumping using Windows Network Providers: How to Respond</title>
       <link>https://www.socinvestigation.com/credential-dumping-using-windows-network-providers-how-to-respond/</link>
@@ -2124,20 +2152,6 @@ Practitioner takeaway: Hunt your macOS developer endpoints for LaunchAgent entri
       <source url="https://x.com/DFIR_Radar/status/2105841058349273258">DFIR Radar</source>
       <pubDate>Fri, 02 Oct 2026 02:03:28 +0000</pubDate>
       <guid isPermaLink="false">2105841058349273258</guid>
-    </item>
-    <item>
-      <title>Milk Dragon: Huge Discounts on Social Media? Think Twice Before You Buy</title>
-      <link>https://www.group-ib.com/blog/milk-dragon-nailong-phishing-kit/</link>
-      <description>Milk Dragon PhaaS uses Facebook/TikTok fake-discount ads for AiTM card theft across 66 countries via WordPress with a custom BytePress plugin. Audit WordPress installs for BytePress and its "API Base URL" field pointing to an external C2.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105825869692321829</description>
-      <content:encoded><![CDATA[<p>Milk Dragon PhaaS uses Facebook/TikTok fake-discount ads for AiTM card theft across 66 countries via WordPress with a custom BytePress plugin. Audit WordPress installs for BytePress and its &quot;API Base URL&quot; field pointing to an external C2.</p><p>#DFIR_Radar</p><p><a href="https://www.group-ib.com/blog/milk-dragon-nailong-phishing-kit/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105825869692321829">View on X</a></p>]]></content:encoded>
-      <dc:creator>Group-IB</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105825869692321829</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2105825869692321829">DFIR Radar</source>
-      <pubDate>Fri, 02 Oct 2026 01:03:07 +0000</pubDate>
-      <guid isPermaLink="false">2105825869692321829</guid>
     </item>
   </channel>
 </rss>
