@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 00:03:39 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 01:03:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FortiBleed hit 86,000 firewalls by exploiting something nobody can patch away</title>
+      <link>https://securityaffairs.com/200558/cyber-crime/fortibleed-hit-86000-firewalls-by-exploiting-something-nobody-can-patch-away.html</link>
+      <description>FBI and Secret Service warn FortiBleed credential-stuffing hit 86,644 FortiGate devices; attackers create rogue admins and lock out defenders. Audit FortiOS admin accounts and check password hashing method; IOCs in the advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108000210999804101</description>
+      <content:encoded><![CDATA[<p>FBI and Secret Service warn FortiBleed credential-stuffing hit 86,644 FortiGate devices; attackers create rogue admins and lock out defenders. Audit FortiOS admin accounts and check password hashing method; IOCs in the advisory.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200558/cyber-crime/fortibleed-hit-86000-firewalls-by-exploiting-something-nobody-can-patch-away.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108000210999804101">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108000210999804101</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108000210999804101">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 01:03:10 +0000</pubDate>
+      <guid isPermaLink="false">2108000210999804101</guid>
+    </item>
     <item>
       <title>Evolution of Web3 in Cloud Supply Chain Attacks</title>
       <link>https://unit42.paloaltonetworks.com/web3-cloud-supply-chain-attacks/</link>
@@ -2140,34 +2154,6 @@ Responder action: if IntegraXor IGX is in your environment, immediately verify w
       <source url="https://x.com/DFIR_Radar/status/2105750492882362859">DFIR Radar</source>
       <pubDate>Thu, 01 Oct 2026 20:03:35 +0000</pubDate>
       <guid isPermaLink="false">2105750492882362859</guid>
-    </item>
-    <item>
-      <title>Session Cookie Authentication Bypass: Predictable Signing Secret Enableds Account Impersonations</title>
-      <link>https://www.resecurity.com/blog/article/session-cookie-authentication-bypass-predictable-signing-secret-enableds-account-impersonations</link>
-      <description>A hard-coded HMAC secret identical to the cookie name and a public user ID as the signed payload let an unauthenticated attacker forge valid sessions for any of 95 employees, including admins, bypassing Entra ID SSO, MFA, and RBAC entirely.
-
-Key findings:
-
-- The vulnerable Node.js/Express app used express-session with secret set to the literal string "session_secret_example", the same value as the cookie's name. The signed payload was the user's public CUID, not a random session identifier. With both values recoverable, forging a valid session cookie required only: HMAC-SHA256("session_secret_example", userId), base64-encode, strip padding, prepend "s:", URL-encode. No password, no MFA challenge, no Entra ID token involved at any point.
-
-- The signing secret was recovered entirely offline. A captured legitimate cookie provided a known payload and its corresponding signature. Iterating approximately 110 candidate values, including common dev defaults and strings derived from the cookie name itself, produced an exact match on the first obvious guess. This is the failure mode that results when a developer leaves a framework's example secret in production.
-
-- User IDs (CUIDs) needed to forge sessions for other accounts were freely available from multiple unauthenticated or low-privilege API responses: GET /api/v1/auth/me, user list and detail endpoints, createdBy and updatedBy fields in object responses, and admin lookup endpoints at /admin/lookups/app-users and /admin/lookups/employee-users. The Swagger UI at /api-docs/ was also exposed without authentication, mapping all 251 routes.
-
-- Impact during authorized testing: 95 of 241 user IDs yielded accepted forged sessions, including a SUPER_USER administrator account. Forged admin sessions performed state-changing API requests that were persisted by the application. The /api/v1/auth/me response also leaked Entra ID refresh tokens for impersonated users. Actions performed through forged sessions would appear in audit logs as the victim, not the attacker, creating attribution and audit trail integrity problems.
-
-- The root cause is a stateless trust model with no server-side session binding. The application's auth middleware called unsign() on the client-supplied cookie and set req.user directly to the result, with no independent server-side session record containing an unpredictable nonce to validate against. Azure Entra ID SSO with RS256 tokens and express-openapi-validator schema enforcement held up, but a hand-rolled session layer sitting beneath them nullified all of it.
-
-Takeaway for responders reviewing Node.js apps with SSO: check whether the application introduces its own session layer alongside the IdP flow, and whether that layer uses a stateless signed cookie. If it does, pull the session middleware config and confirm the secret is environment-sourced (process.env.SESSION_SECRET), not a hard-coded string, then confirm the signed payload is a random session ID mapped server-side, not a database primary key. In logs, hunt for /api/v1/auth/me returning HTTP 200 at unusual hours or from unexpected source IPs, especially where no corresponding Entra ID sign-in event exists. Rotate the signing secret immediately to invalidate all outstanding cookies, clear the server-side session store, and review administrative action logs for activity that cannot be correlated to a legitimate Entra authentication event.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105735297669513451</description>
-      <content:encoded><![CDATA[<p>A hard-coded HMAC secret identical to the cookie name and a public user ID as the signed payload let an unauthenticated attacker forge valid sessions for any of 95 employees, including admins, bypassing Entra ID SSO, MFA, and RBAC entirely.</p><p>Key findings:</p><p>- The vulnerable Node.js/Express app used express-session with secret set to the literal string &quot;session_secret_example&quot;, the same value as the cookie&#x27;s name. The signed payload was the user&#x27;s public CUID, not a random session identifier. With both values recoverable, forging a valid session cookie required only: HMAC-SHA256(&quot;session_secret_example&quot;, userId), base64-encode, strip padding, prepend &quot;s:&quot;, URL-encode. No password, no MFA challenge, no Entra ID token involved at any point.</p><p>- The signing secret was recovered entirely offline. A captured legitimate cookie provided a known payload and its corresponding signature. Iterating approximately 110 candidate values, including common dev defaults and strings derived from the cookie name itself, produced an exact match on the first obvious guess. This is the failure mode that results when a developer leaves a framework&#x27;s example secret in production.</p><p>- User IDs (CUIDs) needed to forge sessions for other accounts were freely available from multiple unauthenticated or low-privilege API responses: GET /api/v1/auth/me, user list and detail endpoints, createdBy and updatedBy fields in object responses, and admin lookup endpoints at /admin/lookups/app-users and /admin/lookups/employee-users. The Swagger UI at /api-docs/ was also exposed without authentication, mapping all 251 routes.</p><p>- Impact during authorized testing: 95 of 241 user IDs yielded accepted forged sessions, including a SUPER_USER administrator account. Forged admin sessions performed state-changing API requests that were persisted by the application. The /api/v1/auth/me response also leaked Entra ID refresh tokens for impersonated users. Actions performed through forged sessions would appear in audit logs as the victim, not the attacker, creating attribution and audit trail integrity problems.</p><p>- The root cause is a stateless trust model with no server-side session binding. The application&#x27;s auth middleware called unsign() on the client-supplied cookie and set req.user directly to the result, with no independent server-side session record containing an unpredictable nonce to validate against. Azure Entra ID SSO with RS256 tokens and express-openapi-validator schema enforcement held up, but a hand-rolled session layer sitting beneath them nullified all of it.</p><p>Takeaway for responders reviewing Node.js apps with SSO: check whether the application introduces its own session layer alongside the IdP flow, and whether that layer uses a stateless signed cookie. If it does, pull the session middleware config and confirm the secret is environment-sourced (process.env.SESSION_SECRET), not a hard-coded string, then confirm the signed payload is a random session ID mapped server-side, not a database primary key. In logs, hunt for /api/v1/auth/me returning HTTP 200 at unusual hours or from unexpected source IPs, especially where no corresponding Entra ID sign-in event exists. Rotate the signing secret immediately to invalidate all outstanding cookies, clear the server-side session store, and review administrative action logs for activity that cannot be correlated to a legitimate Entra authentication event.</p><p>#DFIR_Radar</p><p><a href="https://www.resecurity.com/blog/article/session-cookie-authentication-bypass-predictable-signing-secret-enableds-account-impersonations">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105735297669513451">View on X</a></p>]]></content:encoded>
-      <dc:creator>Resecurity</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105735297669513451</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2105735297669513451">DFIR Radar</source>
-      <pubDate>Thu, 01 Oct 2026 19:03:13 +0000</pubDate>
-      <guid isPermaLink="false">2105735297669513451</guid>
     </item>
   </channel>
 </rss>
