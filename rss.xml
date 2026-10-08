@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 21:04:28 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 22:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malicious npm Campaign “MALFEX” Delivers RAT and Stealer via Eight Packages with 40,000+ Downloads</title>
+      <link>https://orca.security/resources/research/malicious-npm-campaign-malfex-delivers-rat-and-stealer-via-eight-packages-with-40000-downloads/</link>
+      <description>A 3-year-old npm supply-chain campaign dubbed MALFEX delivered a Go-based RAT, a credential stealer, and rotating downloader payloads across eight malicious packages with over 40,000 downloads. Three packages remain live and installable today.
+
+Key findings:
+
+- Eight confirmed malicious packages span five npm accounts, attributed to a suspected lone Brazilian 🇧🇷 threat actor. The package function-flag alone accounts for 37,419 downloads and has been continuously malicious since July 2025, over 14 months without an npm advisory. The full list: tlxbnhd, tldriver, mxdriver, img-to-native, native-runner, function-flag, function-color, and cdn-img-fetch. Payloads only execute on Windows; macOS and Linux silently fail.
+
+- The attack chain abuses npm postinstall lifecycle hooks to trigger payload delivery at install time, no user interaction required beyond npm install. Three distinct malware families are distributed by different package subsets. The Overlord RAT (Go-based, delivered via tlxbnhd, tldriver, mxdriver) provides screen capture, keylogging, clipboard monitoring, remote shell, and a hidden virtual desktop. Its C2 is resolved dynamically via the Solana blockchain, making infrastructure takedown significantly harder than targeting a conventional domain or IP.
+
+- The movinlike stealer (delivered via img-to-native and cdn-img-fetch) is a 64 MB Node.js executable that injects into eight Discord client variants, harvests credentials from Chrome, Edge, Brave, Opera, Vivaldi, and Yandex browsers, steals Telegram session data, and targets cryptocurrency wallets. Exfiltration routes through a Discord webhook. The function-flag and function-color packages deliver rotating downloader payloads that fetch and execute Windows executables from remote hosts, complicating static detection.
+
+- Host artifacts left behind on Windows machines include: %LOCALAPPDATA%\ScopeSmart Technologies Inc\AutoIt3.exe, %APPDATA%\node.exe, %APPDATA%\Microsoft\Windows\node_runtime_helper.exe, and a scheduled task named Maiden that executes every five minutes. That scheduled task is the persistence anchor: it survives reboots and reinstalls and should be the first thing responders check on any machine that installed these packages. The Overlord RAT has also appeared in separate campaigns exploiting WordPress vulnerabilities and fake Zoom installers.
+
+- Scope is contained to direct installers: none of the eight packages are dependencies of major npm modules. However, any developer workstation or CI/CD pipeline running Windows that executed npm install against any of these packages should be treated as compromised. Six of eight packages now have OSV advisories issued between September 22-28, 2026.
+
+Takeaway: Audit package.json and lockfiles across all repos and pipelines for all eight package names. On Windows machines that installed any of them, check for the Maiden scheduled task, the three file paths above, and unsigned node.exe instances under %APPDATA%. Rotate all credentials accessible from those machines: Discord tokens, browser-saved passwords, Telegram sessions, and cryptocurrency wallet keys. The full IOC list and host artifact details are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108317186548760977</description>
+      <content:encoded><![CDATA[<p>A 3-year-old npm supply-chain campaign dubbed MALFEX delivered a Go-based RAT, a credential stealer, and rotating downloader payloads across eight malicious packages with over 40,000 downloads. Three packages remain live and installable today.</p><p>Key findings:</p><p>- Eight confirmed malicious packages span five npm accounts, attributed to a suspected lone Brazilian 🇧🇷 threat actor. The package function-flag alone accounts for 37,419 downloads and has been continuously malicious since July 2025, over 14 months without an npm advisory. The full list: tlxbnhd, tldriver, mxdriver, img-to-native, native-runner, function-flag, function-color, and cdn-img-fetch. Payloads only execute on Windows; macOS and Linux silently fail.</p><p>- The attack chain abuses npm postinstall lifecycle hooks to trigger payload delivery at install time, no user interaction required beyond npm install. Three distinct malware families are distributed by different package subsets. The Overlord RAT (Go-based, delivered via tlxbnhd, tldriver, mxdriver) provides screen capture, keylogging, clipboard monitoring, remote shell, and a hidden virtual desktop. Its C2 is resolved dynamically via the Solana blockchain, making infrastructure takedown significantly harder than targeting a conventional domain or IP.</p><p>- The movinlike stealer (delivered via img-to-native and cdn-img-fetch) is a 64 MB Node.js executable that injects into eight Discord client variants, harvests credentials from Chrome, Edge, Brave, Opera, Vivaldi, and Yandex browsers, steals Telegram session data, and targets cryptocurrency wallets. Exfiltration routes through a Discord webhook. The function-flag and function-color packages deliver rotating downloader payloads that fetch and execute Windows executables from remote hosts, complicating static detection.</p><p>- Host artifacts left behind on Windows machines include: %LOCALAPPDATA%\ScopeSmart Technologies Inc\AutoIt3.exe, %APPDATA%\node.exe, %APPDATA%\Microsoft\Windows\node_runtime_helper.exe, and a scheduled task named Maiden that executes every five minutes. That scheduled task is the persistence anchor: it survives reboots and reinstalls and should be the first thing responders check on any machine that installed these packages. The Overlord RAT has also appeared in separate campaigns exploiting WordPress vulnerabilities and fake Zoom installers.</p><p>- Scope is contained to direct installers: none of the eight packages are dependencies of major npm modules. However, any developer workstation or CI/CD pipeline running Windows that executed npm install against any of these packages should be treated as compromised. Six of eight packages now have OSV advisories issued between September 22-28, 2026.</p><p>Takeaway: Audit package.json and lockfiles across all repos and pipelines for all eight package names. On Windows machines that installed any of them, check for the Maiden scheduled task, the three file paths above, and unsigned node.exe instances under %APPDATA%. Rotate all credentials accessible from those machines: Discord tokens, browser-saved passwords, Telegram sessions, and cryptocurrency wallet keys. The full IOC list and host artifact details are in the report.</p><p>#DFIR_Radar</p><p><a href="https://orca.security/resources/research/malicious-npm-campaign-malfex-delivers-rat-and-stealer-via-eight-packages-with-40000-downloads/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108317186548760977">View on X</a></p>]]></content:encoded>
+      <dc:creator>Orca Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108317186548760977</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108317186548760977">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 22:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2108317186548760977</guid>
+    </item>
     <item>
       <title>FBI Says China-Linked Hackers Ran Portal Giving Third Parties Access to Stolen Emails</title>
       <link>https://thehackernews.com/2026/10/fbi-says-china-linked-hackers-ran.html</link>
@@ -2184,20 +2212,6 @@ Practitioner takeaway: If you run Zammad, upgrade to 7.0.0 or later immediately 
       <source url="https://x.com/DFIR_Radar/status/2106067488047767691">DFIR Radar</source>
       <pubDate>Fri, 02 Oct 2026 17:03:13 +0000</pubDate>
       <guid isPermaLink="false">2106067488047767691</guid>
-    </item>
-    <item>
-      <title>Fake xStocks, Pendle, and other sites bait crypto users with rewards votes</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/10/fake-xstocks-pendle-and-other-sites-bait-crypto-users-with-rewards-votes</link>
-      <description>A phishing kit impersonating xStocks, Pendle, Zama, and seven other crypto projects across 70 sitemu\*[.]xyz domains harvests wallet approvals via fake rewards votes. IOCs are in the report; revoke token approvals immediately if you connected.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106052426587385888</description>
-      <content:encoded><![CDATA[<p>A phishing kit impersonating xStocks, Pendle, Zama, and seven other crypto projects across 70 sitemu\*[.]xyz domains harvests wallet approvals via fake rewards votes. IOCs are in the report; revoke token approvals immediately if you connected.</p><p>#DFIR_Radar</p><p><a href="https://www.malwarebytes.com/blog/threat-intel/2026/10/fake-xstocks-pendle-and-other-sites-bait-crypto-users-with-rewards-votes">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106052426587385888">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malwarebytes Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106052426587385888</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2106052426587385888">DFIR Radar</source>
-      <pubDate>Fri, 02 Oct 2026 16:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2106052426587385888</guid>
     </item>
   </channel>
 </rss>
