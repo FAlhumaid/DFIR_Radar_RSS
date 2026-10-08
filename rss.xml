@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 05:03:07 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 06:03:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Credential Dumping using Windows Network Providers: How to Respond</title>
+      <link>https://www.socinvestigation.com/credential-dumping-using-windows-network-providers-how-to-respond/</link>
+      <description>Credential dumping via rogue Windows Network Providers is a stealthy, LSASS-free technique that captures cleartext passwords at login, with almost no native hardening and limited AV/EDR coverage compared to Mimikatz or LSASS memory dumping.
+
+Key findings:
+
+- NPPSpy is the proof-of-concept tool at the center of this technique. A malicious DLL is dropped into %WINDIR%\System32 with admin rights, then registered as a Network Provider under HKLM\SYSTEM\CurrentControlSet\Services\NPPSpy\NetworkProvider, and appended to the ProviderOrder value at HKLM\SYSTEM\CurrentControlSet\Control\NetworkProvider\Order. Once registered, every interactive logon causes Winlogon.exe to pass credentials through mpnotify.exe, which forwards cleartext credentials to every registered provider including the rogue DLL. Captured passwords land in C:\NPPSpy.txt in plaintext after each logon.
+
+- The attack chain differs fundamentally from LSASS-based dumping. No LSASS handle is opened, no MiniDump is triggered, and none of the well-known comsvcs.dll, rdrleakdiag.exe, adplus.exe, dump64.exe, or sqldumper.exe abuse patterns apply. Because the credential capture happens inside a legitimate Windows authentication callback, many endpoint controls that watch for LSASS access simply have no visibility here.
+
+- The registry is the primary forensic surface. The three legitimate ProviderOrder values are RDPNP, LanmanWorkstation, and WebClient. Any additional entry is anomalous. The corresponding DLL path is stored at HKLM\SYSTEM\CurrentControlSet\Services\[ProviderName]\NetworkProvider\ProviderPath. Skilled operators will rename the DLL to mimic a system file, so registry changes matter as much as the filename. The script Get-NetworkProviders.ps1 can enumerate all DLLs mpnotify is currently loading.
+
+- Detection centers on registry write monitoring. The Elasticsearch query highlighted in the report watches registry.path matching HKLM\SYSTEM\ControlSet\Services\*\NetworkProvider\ProviderPath and flags any ProviderPath value that is not ntlanman.dll, drprov.dll, or davclnt.dll written by S-1-5-18. Any other entry warrants immediate investigation. Complementary hunts should look for unsigned or recently dropped DLLs in System32 alongside new service keys created in the same timeframe.
+
+Takeaway: Baseline the ProviderOrder registry value now and alert on any modification. Hunt for non-default entries using Get-NetworkProviders.ps1, then correlate new System32 DLL drops with service key creation timestamps. If you find a rogue provider, preserve C:\NPPSpy.txt or whatever output file the DLL writes before remediation, that file is direct evidence of credential capture. Full detection query for Elasticsearch is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108075782668959835</description>
+      <content:encoded><![CDATA[<p>Credential dumping via rogue Windows Network Providers is a stealthy, LSASS-free technique that captures cleartext passwords at login, with almost no native hardening and limited AV/EDR coverage compared to Mimikatz or LSASS memory dumping.</p><p>Key findings:</p><p>- NPPSpy is the proof-of-concept tool at the center of this technique. A malicious DLL is dropped into %WINDIR%\System32 with admin rights, then registered as a Network Provider under HKLM\SYSTEM\CurrentControlSet\Services\NPPSpy\NetworkProvider, and appended to the ProviderOrder value at HKLM\SYSTEM\CurrentControlSet\Control\NetworkProvider\Order. Once registered, every interactive logon causes Winlogon.exe to pass credentials through mpnotify.exe, which forwards cleartext credentials to every registered provider including the rogue DLL. Captured passwords land in C:\NPPSpy.txt in plaintext after each logon.</p><p>- The attack chain differs fundamentally from LSASS-based dumping. No LSASS handle is opened, no MiniDump is triggered, and none of the well-known comsvcs.dll, rdrleakdiag.exe, adplus.exe, dump64.exe, or sqldumper.exe abuse patterns apply. Because the credential capture happens inside a legitimate Windows authentication callback, many endpoint controls that watch for LSASS access simply have no visibility here.</p><p>- The registry is the primary forensic surface. The three legitimate ProviderOrder values are RDPNP, LanmanWorkstation, and WebClient. Any additional entry is anomalous. The corresponding DLL path is stored at HKLM\SYSTEM\CurrentControlSet\Services\[ProviderName]\NetworkProvider\ProviderPath. Skilled operators will rename the DLL to mimic a system file, so registry changes matter as much as the filename. The script Get-NetworkProviders.ps1 can enumerate all DLLs mpnotify is currently loading.</p><p>- Detection centers on registry write monitoring. The Elasticsearch query highlighted in the report watches registry.path matching HKLM\SYSTEM\ControlSet\Services\*\NetworkProvider\ProviderPath and flags any ProviderPath value that is not ntlanman.dll, drprov.dll, or davclnt.dll written by S-1-5-18. Any other entry warrants immediate investigation. Complementary hunts should look for unsigned or recently dropped DLLs in System32 alongside new service keys created in the same timeframe.</p><p>Takeaway: Baseline the ProviderOrder registry value now and alert on any modification. Hunt for non-default entries using Get-NetworkProviders.ps1, then correlate new System32 DLL drops with service key creation timestamps. If you find a rogue provider, preserve C:\NPPSpy.txt or whatever output file the DLL writes before remediation, that file is direct evidence of credential capture. Full detection query for Elasticsearch is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.socinvestigation.com/credential-dumping-using-windows-network-providers-how-to-respond/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108075782668959835">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOC Investigation</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108075782668959835</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108075782668959835">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 06:03:28 +0000</pubDate>
+      <guid isPermaLink="false">2108075782668959835</guid>
+    </item>
     <item>
       <title>FBI warns that FortiBleed credential-harvesting attacks are locking out firewall users</title>
       <link>https://www.cybersecuritydive.com/news/fbi-fortibleed-credential-harvesting-attacks/832366/</link>
@@ -2112,20 +2138,6 @@ Practitioner takeaway: Hunt your macOS developer endpoints for LaunchAgent entri
       <source url="https://x.com/DFIR_Radar/status/2105825869692321829">DFIR Radar</source>
       <pubDate>Fri, 02 Oct 2026 01:03:07 +0000</pubDate>
       <guid isPermaLink="false">2105825869692321829</guid>
-    </item>
-    <item>
-      <title>Fortinet warns of critical FortiMail flaw exploited in zero-day attacks</title>
-      <link>https://www.bleepingcomputer.com/news/security/fortinet-warns-of-critical-fortimail-flaw-exploited-in-zero-day-attacks/</link>
-      <description>CVE-2026-104286 (CVSS 9.8), a CISA KEV-listed zero-day path traversal in FortiMail, is actively exploited. Hunt for /data/etc/ld.so.preload, /data/lib/liblog.so, and archive account archive234; IOCs and log signatures in the advisory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105810703076499965</description>
-      <content:encoded><![CDATA[<p>CVE-2026-104286 (CVSS 9.8), a CISA KEV-listed zero-day path traversal in FortiMail, is actively exploited. Hunt for /data/etc/ld.so.preload, /data/lib/liblog.so, and archive account archive234; IOCs and log signatures in the advisory.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/fortinet-warns-of-critical-fortimail-flaw-exploited-in-zero-day-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105810703076499965">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105810703076499965</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2105810703076499965">DFIR Radar</source>
-      <pubDate>Fri, 02 Oct 2026 00:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2105810703076499965</guid>
     </item>
   </channel>
 </rss>
