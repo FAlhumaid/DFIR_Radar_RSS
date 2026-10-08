@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 20:02:49 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 21:04:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FBI Says China-Linked Hackers Ran Portal Giving Third Parties Access to Stolen Emails</title>
+      <link>https://thehackernews.com/2026/10/fbi-says-china-linked-hackers-ran.html</link>
+      <description>Chinese 🇨🇳 state-linked Integrity Technology Group ran a multi-year email theft operation across gov, healthcare, and law enforcement, including a portal letting third parties browse stolen mailboxes.
+
+Key findings:
+
+- Integrity Technology Group (sanctioned by the US 🇺🇸 in January 2025 and the UK 🇬🇧 in December 2025, and linked to the Flax Typhoon/Ethereal Panda/RedJuliett cluster) operated since at least January 2021. Initial access relied on MicroScan, a Python web app with over 1,300 penetration testing scripts targeting ports 21, 22, 53, 80, 443, and 1080, plus open-source scanners Nmap, masscan, and WPScan. Eight CVEs were successfully exploited, including CVE-2019-11510 (Pulse Connect Secure), CVE-2021-22205 (GitLab), and CVE-2023-22894 (Strapi through 4.5.5). Five of the eight are flagged as newly added to the CISA KEV catalog. Password spraying via EBurst, an open-source Python tool, hit Microsoft 365 and Exchange across ECP, EWS, OAB, OWA, RPC, MAPI, Autodiscover, and ActiveSync interfaces.
+
+- A credential-harvesting XSS payload rewrites vulnerable web pages to show fake login fields, then serves a password-protected ZIP containing live700_v1.exe. That binary spawns DiagTrack.exe (masquerading as a legitimate Windows process) and sends encrypted traffic to dns.studiocloud[.]xyz, a domain the FBI attributes to Integrity Technology Group and assesses as likely targeting email.
+
+- Persistence came from SoftEther VPN, renamed conhost.exe or dllhost.exe and configured to reconnect at startup. Credential theft used DC.exe running DCSync to replicate account credentials, group memberships, and trust relationships from domain controllers. Mail collection ran through two tools: a PHP bot named Curlc4.txt that harvested Exchange Web Services data, compressed and sometimes encrypted it, then uploaded to natcloudservice[.]com; and office-cli, which repeatedly returned to Microsoft 365 using stored client ID, tenant ID, and secret values to pull mail across time windows.
+
+- The most operationally significant finding is a threat-actor-run web portal giving unnamed third parties direct query access to stolen mailboxes, browseable by account using URL arguments. In some cases, the stolen data was restricted to IP addresses geolocating to Xiamen, China 🇨🇳. Targets spanned Southeast Asian and African government, law enforcement, healthcare, education, and religious institutions, plus US 🇺🇸 critical manufacturing, IT, and government services.
+
+- The joint advisory ships 39 pages of IOCs, domains, IPs, and file hashes, with some dating back to 2016. Review IOCs against logs before bulk-blocking: 10 IPs overlap with the September 2024 Raptor Train botnet advisory, and "last seen" dates in the new list are not always the most recent on record, so treat timestamps with caution.
+
+Hunt for unexpected Active Directory replication events (DCSync indicator), SoftEther binaries masquerading as conhost.exe or dllhost.exe in startup locations, EWS access by non-standard clients, and outbound traffic to natcloudservice[.]com and dns.studiocloud[.]xyz. Check Microsoft 365 connected app permissions for anything reading mail or files. Full 39-page IOC list is in the advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108302530572677203</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 state-linked Integrity Technology Group ran a multi-year email theft operation across gov, healthcare, and law enforcement, including a portal letting third parties browse stolen mailboxes.</p><p>Key findings:</p><p>- Integrity Technology Group (sanctioned by the US 🇺🇸 in January 2025 and the UK 🇬🇧 in December 2025, and linked to the Flax Typhoon/Ethereal Panda/RedJuliett cluster) operated since at least January 2021. Initial access relied on MicroScan, a Python web app with over 1,300 penetration testing scripts targeting ports 21, 22, 53, 80, 443, and 1080, plus open-source scanners Nmap, masscan, and WPScan. Eight CVEs were successfully exploited, including CVE-2019-11510 (Pulse Connect Secure), CVE-2021-22205 (GitLab), and CVE-2023-22894 (Strapi through 4.5.5). Five of the eight are flagged as newly added to the CISA KEV catalog. Password spraying via EBurst, an open-source Python tool, hit Microsoft 365 and Exchange across ECP, EWS, OAB, OWA, RPC, MAPI, Autodiscover, and ActiveSync interfaces.</p><p>- A credential-harvesting XSS payload rewrites vulnerable web pages to show fake login fields, then serves a password-protected ZIP containing live700_v1.exe. That binary spawns DiagTrack.exe (masquerading as a legitimate Windows process) and sends encrypted traffic to dns.studiocloud[.]xyz, a domain the FBI attributes to Integrity Technology Group and assesses as likely targeting email.</p><p>- Persistence came from SoftEther VPN, renamed conhost.exe or dllhost.exe and configured to reconnect at startup. Credential theft used DC.exe running DCSync to replicate account credentials, group memberships, and trust relationships from domain controllers. Mail collection ran through two tools: a PHP bot named Curlc4.txt that harvested Exchange Web Services data, compressed and sometimes encrypted it, then uploaded to natcloudservice[.]com; and office-cli, which repeatedly returned to Microsoft 365 using stored client ID, tenant ID, and secret values to pull mail across time windows.</p><p>- The most operationally significant finding is a threat-actor-run web portal giving unnamed third parties direct query access to stolen mailboxes, browseable by account using URL arguments. In some cases, the stolen data was restricted to IP addresses geolocating to Xiamen, China 🇨🇳. Targets spanned Southeast Asian and African government, law enforcement, healthcare, education, and religious institutions, plus US 🇺🇸 critical manufacturing, IT, and government services.</p><p>- The joint advisory ships 39 pages of IOCs, domains, IPs, and file hashes, with some dating back to 2016. Review IOCs against logs before bulk-blocking: 10 IPs overlap with the September 2024 Raptor Train botnet advisory, and &quot;last seen&quot; dates in the new list are not always the most recent on record, so treat timestamps with caution.</p><p>Hunt for unexpected Active Directory replication events (DCSync indicator), SoftEther binaries masquerading as conhost.exe or dllhost.exe in startup locations, EWS access by non-standard clients, and outbound traffic to natcloudservice[.]com and dns.studiocloud[.]xyz. Check Microsoft 365 connected app permissions for anything reading mail or files. Full 39-page IOC list is in the advisory.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/fbi-says-china-linked-hackers-ran.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108302530572677203">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108302530572677203</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108302530572677203">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 21:04:28 +0000</pubDate>
+      <guid isPermaLink="false">2108302530572677203</guid>
+    </item>
     <item>
       <title>Suspected TraderTraitor Group Uses Trojanized Terraform Provider to Deliver Cross-Platform Malware</title>
       <link>https://www.zscaler.com/blogs/security-research/suspected-tradertraitor-group-uses-trojanized-terraform-provider-deliver</link>
@@ -2170,20 +2198,6 @@ Practitioner takeaway: If you run Zammad, upgrade to 7.0.0 or later immediately 
       <source url="https://x.com/DFIR_Radar/status/2106052426587385888">DFIR Radar</source>
       <pubDate>Fri, 02 Oct 2026 16:03:22 +0000</pubDate>
       <guid isPermaLink="false">2106052426587385888</guid>
-    </item>
-    <item>
-      <title>Chinese spies impersonate White House, Anthropic figures to phish AI policy experts</title>
-      <link>https://www.helpnetsecurity.com/2026/10/02/china-aligned-ta419-phishing-ai-policy-experts/</link>
-      <description>Chinese 🇨🇳 TA419 phished US 🇺🇸 AI policy experts via AiTM BitB pages stealing session cookies. Audit cloud session tokens for unexpected sign-ins and check IOCs in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106037274463089090</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 TA419 phished US 🇺🇸 AI policy experts via AiTM BitB pages stealing session cookies. Audit cloud session tokens for unexpected sign-ins and check IOCs in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/02/china-aligned-ta419-phishing-ai-policy-experts/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106037274463089090">View on X</a></p>]]></content:encoded>
-      <dc:creator>Help Net Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106037274463089090</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2106037274463089090">DFIR Radar</source>
-      <pubDate>Fri, 02 Oct 2026 15:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2106037274463089090</guid>
     </item>
   </channel>
 </rss>
