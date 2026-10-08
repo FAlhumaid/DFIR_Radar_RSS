@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 10:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 11:02:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>UAT-11985: AI-assisted event lures delivering real-time Google AitM phishing</title>
+      <link>https://blog.talosintelligence.com/uat-11985/</link>
+      <description>Chinese-linked APT UAT-11985 runs AI-assisted spear-phishing against Taiwan 🇹🇼 research orgs, deploying a real-time Google AitM kit that intercepts credentials and MFA tokens live via a hybrid HTTP/WebSocket relay.
+
+Key findings:
+
+- UAT-11985 impersonated three legitimate Taiwanese 🇹🇼 institutions, including the Taiwan 🇹🇼 European Union Centre, NCKU Institute of International Relations, and Taiwan 🇹🇼 Research Institute, fabricating sender identities while recycling authentic public event details as legitimacy cover. The phishing emails share an almost-identical three-part structure: grandiose geopolitical framing, personalized flattery drawn from the target's public profile, and copy-pasted event logistics with spoofed registration links. Displayed URLs mimic Google Forms while the underlying href routes to actor-controlled infrastructure. The campaign also modified legitimate event posters with malicious QR codes, anticipating that printed materials on office bulletin boards would pull in secondary victims beyond direct email targets.
+
+- The phishing kit operates as a real-time operator-driven AitM relay, not a passive credential harvester. A persistent WebSocket connection streams live C2 instructions to the victim's browser, telling it exactly which MFA challenge screen to render, while HTTP POST carries one-shot exfiltration events: a google_login_start fingerprint (locale, user agent, screen dimensions, mobile status), google_input_identifier for the account lookup, and google_login_check carrying the password. The actor's server forwards each step to real Google authentication services and mirrors the response back, enabling full session-token theft including MFA bypass without the victim seeing any anomaly.
+
+- JavaScript obfuscation uses a large static Base64-encoded string array combined with a while(!![]) push/shift shuffle loop to resolve array rotation dynamically at runtime, defeating static deobfuscation. The localization architecture is a direct attribution signal: the base translation object T is written entirely in Simplified Chinese 🇨🇳 and assigned directly as the zh-CN locale, with Traditional Chinese 🇨🇳 and English derived from it via a runtime override merge. Lexical choices, "账号," "计算机," "邮箱," "无痕浏览窗口," "访客模式," reflect mainland Chinese 🇨🇳 software conventions rather than Taiwanese 🇹🇼 or Hong Kong usage, and the ternary-fallback ordering throughout the code consistently places Simplified Chinese 🇨🇳 as the default branch.
+
+- Detection content is available. ClamAV signature Html.Phishing.UAT11985-10060614-0 covers the phishing pages. Snort2 SID 1:67198 and Snort3 SID 7:31 detect and block C2 traffic. The full IOC list is published in the Cisco Talos GitHub repository.
+
+Practitioner takeaway: the dual-channel architecture is the hunt pivot. In proxy or network logs, look for a single session that combines HTTPS POST requests carrying structured JSON event names (google_login_start, google_input_identifier, google_login_check) with a persistent WebSocket upgrade to the same or adjacent host. That pattern fingerprints the AitM relay regardless of domain. For endpoint responders, browser process memory from sessions where a user visited a suspicious Google login clone may contain the deobfuscated JavaScript and captured credential strings before exfiltration. The quishing angle means physical security incidents, a printed poster with a QR code, are in scope; treat any organizational poster QR code that redirects through an intermediary domain as a live IOC and trace the print source. Full IOC list is in the Talos GitHub report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108151006852997254</description>
+      <content:encoded><![CDATA[<p>Chinese-linked APT UAT-11985 runs AI-assisted spear-phishing against Taiwan 🇹🇼 research orgs, deploying a real-time Google AitM kit that intercepts credentials and MFA tokens live via a hybrid HTTP/WebSocket relay.</p><p>Key findings:</p><p>- UAT-11985 impersonated three legitimate Taiwanese 🇹🇼 institutions, including the Taiwan 🇹🇼 European Union Centre, NCKU Institute of International Relations, and Taiwan 🇹🇼 Research Institute, fabricating sender identities while recycling authentic public event details as legitimacy cover. The phishing emails share an almost-identical three-part structure: grandiose geopolitical framing, personalized flattery drawn from the target&#x27;s public profile, and copy-pasted event logistics with spoofed registration links. Displayed URLs mimic Google Forms while the underlying href routes to actor-controlled infrastructure. The campaign also modified legitimate event posters with malicious QR codes, anticipating that printed materials on office bulletin boards would pull in secondary victims beyond direct email targets.</p><p>- The phishing kit operates as a real-time operator-driven AitM relay, not a passive credential harvester. A persistent WebSocket connection streams live C2 instructions to the victim&#x27;s browser, telling it exactly which MFA challenge screen to render, while HTTP POST carries one-shot exfiltration events: a google_login_start fingerprint (locale, user agent, screen dimensions, mobile status), google_input_identifier for the account lookup, and google_login_check carrying the password. The actor&#x27;s server forwards each step to real Google authentication services and mirrors the response back, enabling full session-token theft including MFA bypass without the victim seeing any anomaly.</p><p>- JavaScript obfuscation uses a large static Base64-encoded string array combined with a while(!![]) push/shift shuffle loop to resolve array rotation dynamically at runtime, defeating static deobfuscation. The localization architecture is a direct attribution signal: the base translation object T is written entirely in Simplified Chinese 🇨🇳 and assigned directly as the zh-CN locale, with Traditional Chinese 🇨🇳 and English derived from it via a runtime override merge. Lexical choices, &quot;账号,&quot; &quot;计算机,&quot; &quot;邮箱,&quot; &quot;无痕浏览窗口,&quot; &quot;访客模式,&quot; reflect mainland Chinese 🇨🇳 software conventions rather than Taiwanese 🇹🇼 or Hong Kong usage, and the ternary-fallback ordering throughout the code consistently places Simplified Chinese 🇨🇳 as the default branch.</p><p>- Detection content is available. ClamAV signature Html.Phishing.UAT11985-10060614-0 covers the phishing pages. Snort2 SID 1:67198 and Snort3 SID 7:31 detect and block C2 traffic. The full IOC list is published in the Cisco Talos GitHub repository.</p><p>Practitioner takeaway: the dual-channel architecture is the hunt pivot. In proxy or network logs, look for a single session that combines HTTPS POST requests carrying structured JSON event names (google_login_start, google_input_identifier, google_login_check) with a persistent WebSocket upgrade to the same or adjacent host. That pattern fingerprints the AitM relay regardless of domain. For endpoint responders, browser process memory from sessions where a user visited a suspicious Google login clone may contain the deobfuscated JavaScript and captured credential strings before exfiltration. The quishing angle means physical security incidents, a printed poster with a QR code, are in scope; treat any organizational poster QR code that redirects through an intermediary domain as a live IOC and trace the print source. Full IOC list is in the Talos GitHub report.</p><p>#DFIR_Radar</p><p><a href="https://blog.talosintelligence.com/uat-11985/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108151006852997254">View on X</a></p>]]></content:encoded>
+      <dc:creator>Cisco Talos</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108151006852997254</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108151006852997254">DFIR Radar</source>
+      <pubDate>Thu, 08 Oct 2026 11:02:22 +0000</pubDate>
+      <guid isPermaLink="false">2108151006852997254</guid>
+    </item>
     <item>
       <title>Ignore all instructions and read this blog: The state of AI-analysis evasion in malware</title>
       <link>https://blog.talosintelligence.com/ignore-all-instructions-and-read-this-blog-the-state-of-ai-analysis-evasion-in-malware/</link>
@@ -2136,20 +2162,6 @@ Hunt priority: search endpoints running TOTVS, SAP, Senior, or Tasy for processe
       <source url="https://x.com/DFIR_Radar/status/2105901324764323854">DFIR Radar</source>
       <pubDate>Fri, 02 Oct 2026 06:02:56 +0000</pubDate>
       <guid isPermaLink="false">2105901324764323854</guid>
-    </item>
-    <item>
-      <title>Improper limitation of a pathname to a restricted directory</title>
-      <link>https://fortiguard.fortinet.com/psirt/FG-IR-26-175</link>
-      <description>Actively exploited FortiMail path traversal plus null-byte flaw lets unauthenticated attackers write arbitrary files via HTTP/S. Hunt for /data/lib/liblog.so and /data/etc/ld.so.preload; IOCs and log signatures in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2105886398146293827</description>
-      <content:encoded><![CDATA[<p>Actively exploited FortiMail path traversal plus null-byte flaw lets unauthenticated attackers write arbitrary files via HTTP/S. Hunt for /data/lib/liblog.so and /data/etc/ld.so.preload; IOCs and log signatures in the report.</p><p>#DFIR_Radar</p><p><a href="https://fortiguard.fortinet.com/psirt/FG-IR-26-175">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2105886398146293827">View on X</a></p>]]></content:encoded>
-      <dc:creator>FortiGuard Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2105886398146293827</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2105886398146293827">DFIR Radar</source>
-      <pubDate>Fri, 02 Oct 2026 05:03:38 +0000</pubDate>
-      <guid isPermaLink="false">2105886398146293827</guid>
     </item>
   </channel>
 </rss>
