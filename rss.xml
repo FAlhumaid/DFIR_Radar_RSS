@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 09 Oct 2026 16:03:32 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 17:04:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When a Wallet Drainer Asks DNS Where to Go</title>
+      <link>https://www.infoblox.com/blog/threat-intelligence/when-a-wallet-drainer-asks-dns-where-to-go/</link>
+      <description>The Noir crypto wallet-drainer kit uses DNS TXT records queried over DoH as a live C2 control plane, letting operators repoint all deployed lures by changing a single DNS answer without touching the phishing pages themselves.
+
+Key findings:
+
+- The attack chain starts with a JavaScript loader embedded in a lure page (fake token votes, airdrops, DEX clones, eligibility checks spoofing CoinMarketCap, Uniswap, Lido, Hyperliquid, and others). That loader decodes a character-code array and then races three parallel DoH queries to Google Public DNS and two Cloudflare endpoints, including direct queries to 1.1.1.1, for the TXT record at _r.noir[.]black. The first valid answer returns the active drainer pool domain, for example render-984.pages[.]dev on Cloudflare Pages. A concurrent API call to noir[.]black fetches a "road" config with a fallback pool for networks where direct DoH is blocked. The pool hostname is cached in browser local storage for 60 seconds, matching the TXT TTL; if a readiness check fails, the cache is cleared and the loader retries using the fallback.
+
+- Noir does not steal seed phrases. After the victim connects a wallet, the kit reads the public address, the blockchain network, and an estimated portfolio value, then requests a per-victim "plan" from its backend. The backend tailors the approval sequence to that specific wallet. The victim may see a gasless signature request or a bundled multi-approval that looks less alarming than an explicit transfer. Each captured signature is submitted to the backend immediately ("draining at capture" in the kit's own log language) and the attacker-side relayer executes the transfer from its own infrastructure. Once complete, the kit disconnects the WalletConnect session so the malicious app disappears from the wallet's connected-applications list.
+
+- The lure observed during initial discovery was hosted at listchoiseopenleaderboardseptember.netlify[.]app, loading a script named k1xfns97l5w.5cgsbfh2.js. The drainer engine itself lives at render-984.pages[.]dev, served as index.js. This separation of long-lived lure pages from short-lived pool infrastructure is the core resilience design: blocking or taking down a pool domain does not kill the campaign, because one TXT record update repoints every already-deployed lure instantly.
+
+- The source code is extensively self-documented in plain English, including dated bug reports, support-ticket language, and design rationale that reads like AI-assisted development. Comments describe past failures: dead pool hosts after TXT rotation, framing errors that turned pages white, a wallet prompt that leaked the canonical origin. The kit includes a debug mode with an on-screen console and a mechanism for operators to copy a victim's trace for support. Multiple lure themes sharing a common wallet-connection project ID and backend infrastructure are a useful clustering signal across campaigns.
+
+Takeaway: On the network side, monitor or block direct DoH access to external resolvers (1.1.1.1, 8.8.8.8, 1.0.0.1) so TXT-record C2 queries travel through your visibility layer rather than around it. On the host side, hunt browser local storage writes from pages with no legitimate business purpose that cache short-TTL hostnames, and watch for JavaScript initiating concurrent fetch calls to multiple DoH endpoints. The IOCs from Infoblox's report are listed above; check the full report for additional clustering indicators tied to the shared WalletConnect project ID.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108604502886567992</description>
+      <content:encoded><![CDATA[<p>The Noir crypto wallet-drainer kit uses DNS TXT records queried over DoH as a live C2 control plane, letting operators repoint all deployed lures by changing a single DNS answer without touching the phishing pages themselves.</p><p>Key findings:</p><p>- The attack chain starts with a JavaScript loader embedded in a lure page (fake token votes, airdrops, DEX clones, eligibility checks spoofing CoinMarketCap, Uniswap, Lido, Hyperliquid, and others). That loader decodes a character-code array and then races three parallel DoH queries to Google Public DNS and two Cloudflare endpoints, including direct queries to 1.1.1.1, for the TXT record at _r.noir[.]black. The first valid answer returns the active drainer pool domain, for example render-984.pages[.]dev on Cloudflare Pages. A concurrent API call to noir[.]black fetches a &quot;road&quot; config with a fallback pool for networks where direct DoH is blocked. The pool hostname is cached in browser local storage for 60 seconds, matching the TXT TTL; if a readiness check fails, the cache is cleared and the loader retries using the fallback.</p><p>- Noir does not steal seed phrases. After the victim connects a wallet, the kit reads the public address, the blockchain network, and an estimated portfolio value, then requests a per-victim &quot;plan&quot; from its backend. The backend tailors the approval sequence to that specific wallet. The victim may see a gasless signature request or a bundled multi-approval that looks less alarming than an explicit transfer. Each captured signature is submitted to the backend immediately (&quot;draining at capture&quot; in the kit&#x27;s own log language) and the attacker-side relayer executes the transfer from its own infrastructure. Once complete, the kit disconnects the WalletConnect session so the malicious app disappears from the wallet&#x27;s connected-applications list.</p><p>- The lure observed during initial discovery was hosted at listchoiseopenleaderboardseptember.netlify[.]app, loading a script named k1xfns97l5w.5cgsbfh2.js. The drainer engine itself lives at render-984.pages[.]dev, served as index.js. This separation of long-lived lure pages from short-lived pool infrastructure is the core resilience design: blocking or taking down a pool domain does not kill the campaign, because one TXT record update repoints every already-deployed lure instantly.</p><p>- The source code is extensively self-documented in plain English, including dated bug reports, support-ticket language, and design rationale that reads like AI-assisted development. Comments describe past failures: dead pool hosts after TXT rotation, framing errors that turned pages white, a wallet prompt that leaked the canonical origin. The kit includes a debug mode with an on-screen console and a mechanism for operators to copy a victim&#x27;s trace for support. Multiple lure themes sharing a common wallet-connection project ID and backend infrastructure are a useful clustering signal across campaigns.</p><p>Takeaway: On the network side, monitor or block direct DoH access to external resolvers (1.1.1.1, 8.8.8.8, 1.0.0.1) so TXT-record C2 queries travel through your visibility layer rather than around it. On the host side, hunt browser local storage writes from pages with no legitimate business purpose that cache short-TTL hostnames, and watch for JavaScript initiating concurrent fetch calls to multiple DoH endpoints. The IOCs from Infoblox&#x27;s report are listed above; check the full report for additional clustering indicators tied to the shared WalletConnect project ID.</p><p>#DFIR_Radar</p><p><a href="https://www.infoblox.com/blog/threat-intelligence/when-a-wallet-drainer-asks-dns-where-to-go/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108604502886567992">View on X</a></p>]]></content:encoded>
+      <dc:creator>Infoblox Threat Intel</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108604502886567992</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108604502886567992">DFIR Radar</source>
+      <pubDate>Fri, 09 Oct 2026 17:04:25 +0000</pubDate>
+      <guid isPermaLink="false">2108604502886567992</guid>
+    </item>
     <item>
       <title>China Linked Warlock Ransomware Campaign Targets Critical Infrastructure</title>
       <link>https://blog.polyswarm.io/china-linked-warlock-ransomware-campaign-targets-critical-infrastructure</link>
@@ -2234,20 +2260,6 @@ Practitioner takeaway: Because exploitation preceded disclosure, any FortiMail a
       <source url="https://x.com/DFIR_Radar/status/2106444937680064945">DFIR Radar</source>
       <pubDate>Sat, 03 Oct 2026 18:03:04 +0000</pubDate>
       <guid isPermaLink="false">2106444937680064945</guid>
-    </item>
-    <item>
-      <title>Warlock Exploits SharePoint Flaws to Disable Security Tools and Deploy Ransomware</title>
-      <link>https://thehackernews.com/2026/10/warlock-exploits-sharepoint-flaws-to.html</link>
-      <description>Chinese 🇨🇳 Warlock (Storm-2603) hit four orgs via SharePoint web shells, harvesting ASP.NET machine keys, then staged ransomware through SYSVOL. Hunt SYSVOL for binaries and audit SharePoint app pool child processes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106429699668734105</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Warlock (Storm-2603) hit four orgs via SharePoint web shells, harvesting ASP.NET machine keys, then staged ransomware through SYSVOL. Hunt SYSVOL for binaries and audit SharePoint app pool child processes.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/warlock-exploits-sharepoint-flaws-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106429699668734105">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106429699668734105</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2106429699668734105">DFIR Radar</source>
-      <pubDate>Sat, 03 Oct 2026 17:02:31 +0000</pubDate>
-      <guid isPermaLink="false">2106429699668734105</guid>
     </item>
   </channel>
 </rss>
