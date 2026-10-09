@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 09 Oct 2026 06:03:23 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 07:03:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>September 2026 Detection Highlights: 11 New VTIs, Including Five for FlowerStorm Phishing Kit, and 70+ YARA Rules</title>
+      <link>https://www.vmray.com/september-2026-detection-highlights-11-new-vtis-including-five-for-flowerstorm-phishing-kit-and-70-yara-rules/</link>
+      <description>VMRay's September 2026 detection update ships 11 new behavioral identifiers and 70+ YARA rules, with five VTIs dedicated to staging FlowerStorm phishing kit activity and new Linux linker hijacking coverage added to the roster.
+
+Key findings:
+
+- Five new VTIs map the full FlowerStorm phishing kit chain in sequence: CAPTCHA verification data submitted to a FlowerStorm server, script links retrieved to build the phishing page, obfuscated JavaScript downloaded containing the page, visitor validation by the FlowerStorm server, and a fifth correlating VTI that fires when enough stages appear together to confirm the kit. That staged detection model means partial kit deployments still surface, not just complete runs.
+
+- A new Defense Evasion VTI (MITRE ATT&amp;CK T1562.006) flags any process attempting to disable Event Tracing for Windows providers, covering the PowerShell, WMI, and registry modification paths attackers use to blind sandboxes and monitoring tools. ETW tampering is a reliable pre-exploitation signal: if you see it fire early in a session, the process that triggered it is worth examining for what came next.
+
+- Linux Dynamic Linker Hijacking (T1574.006) is now covered: the VTI watches for process-level modifications to LD_PRELOAD, /etc/ld.so.preload, and LD_LIBRARY_PATH. These paths are your artifact targets on Linux hosts. Changes to /etc/ld.so.preload are system-wide and persist across reboots, making them high-priority items in any Linux incident triage.
+
+- A Chrome extension VTI (T1176) fires when a process launches Chrome with a command-line flag loading an extension directly from disk rather than the Web Store, the same technique used by ChromeLoader. The VTI surfaces the launching process, the extension path and filename, the extension file itself as an artifact, and the associated Chrome process, giving responders a ready-made evidence package without having to rebuild the chain manually.
+
+- The 70+ new YARA rules span a wide threat surface: 35+ stealer families including AokigaharaStealer, BlackStealer, DraculaStealer, and OxideHarvest; RATs including XenRAT, BoratRAT, and JumpscareRAT; the SLEEPWALKER backdoor; ransomware families SuperboyKing, Deadlock, and RansomScare; the PrefireWiper; AckiMiner; and detection for sandbox checker scripts, Themida-packed samples, and a pastejacking campaign. The breadth here matters: stealer volume has been climbing steadily and many of these family names will not yet appear in retrospective hunt sets.
+
+Takeaway: the full YARA rule set and all new VTI definitions are in the VMRay report. Pull the YARA rules into your retrospective hunting across email, endpoint, and sandbox telemetry now, prioritizing the stealer and wiper families. For active triage, treat ETW provider disablement and LD_PRELOAD modification as early-warning signals that warrant immediate process tree review. On any phishing investigation, check network logs for the FlowerStorm CAPTCHA callback pattern before the obfuscated JavaScript stage: catching it there is cheaper than after credentials are submitted.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108453233362346474</description>
+      <content:encoded><![CDATA[<p>VMRay&#x27;s September 2026 detection update ships 11 new behavioral identifiers and 70+ YARA rules, with five VTIs dedicated to staging FlowerStorm phishing kit activity and new Linux linker hijacking coverage added to the roster.</p><p>Key findings:</p><p>- Five new VTIs map the full FlowerStorm phishing kit chain in sequence: CAPTCHA verification data submitted to a FlowerStorm server, script links retrieved to build the phishing page, obfuscated JavaScript downloaded containing the page, visitor validation by the FlowerStorm server, and a fifth correlating VTI that fires when enough stages appear together to confirm the kit. That staged detection model means partial kit deployments still surface, not just complete runs.</p><p>- A new Defense Evasion VTI (MITRE ATT&amp;CK T1562.006) flags any process attempting to disable Event Tracing for Windows providers, covering the PowerShell, WMI, and registry modification paths attackers use to blind sandboxes and monitoring tools. ETW tampering is a reliable pre-exploitation signal: if you see it fire early in a session, the process that triggered it is worth examining for what came next.</p><p>- Linux Dynamic Linker Hijacking (T1574.006) is now covered: the VTI watches for process-level modifications to LD_PRELOAD, /etc/ld.so.preload, and LD_LIBRARY_PATH. These paths are your artifact targets on Linux hosts. Changes to /etc/ld.so.preload are system-wide and persist across reboots, making them high-priority items in any Linux incident triage.</p><p>- A Chrome extension VTI (T1176) fires when a process launches Chrome with a command-line flag loading an extension directly from disk rather than the Web Store, the same technique used by ChromeLoader. The VTI surfaces the launching process, the extension path and filename, the extension file itself as an artifact, and the associated Chrome process, giving responders a ready-made evidence package without having to rebuild the chain manually.</p><p>- The 70+ new YARA rules span a wide threat surface: 35+ stealer families including AokigaharaStealer, BlackStealer, DraculaStealer, and OxideHarvest; RATs including XenRAT, BoratRAT, and JumpscareRAT; the SLEEPWALKER backdoor; ransomware families SuperboyKing, Deadlock, and RansomScare; the PrefireWiper; AckiMiner; and detection for sandbox checker scripts, Themida-packed samples, and a pastejacking campaign. The breadth here matters: stealer volume has been climbing steadily and many of these family names will not yet appear in retrospective hunt sets.</p><p>Takeaway: the full YARA rule set and all new VTI definitions are in the VMRay report. Pull the YARA rules into your retrospective hunting across email, endpoint, and sandbox telemetry now, prioritizing the stealer and wiper families. For active triage, treat ETW provider disablement and LD_PRELOAD modification as early-warning signals that warrant immediate process tree review. On any phishing investigation, check network logs for the FlowerStorm CAPTCHA callback pattern before the obfuscated JavaScript stage: catching it there is cheaper than after credentials are submitted.</p><p>#DFIR_Radar</p><p><a href="https://www.vmray.com/september-2026-detection-highlights-11-new-vtis-including-five-for-flowerstorm-phishing-kit-and-70-yara-rules/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108453233362346474">View on X</a></p>]]></content:encoded>
+      <dc:creator>VMRay</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108453233362346474</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2108453233362346474">DFIR Radar</source>
+      <pubDate>Fri, 09 Oct 2026 07:03:19 +0000</pubDate>
+      <guid isPermaLink="false">2108453233362346474</guid>
+    </item>
     <item>
       <title>CastleStealer: An Emerging Infostealer Growing More Sophisticated</title>
       <link>https://flashpoint.io/blog/castlestealer-an-emerging-infostealer-growing-more-sophisticated/</link>
@@ -2184,20 +2212,6 @@ Practitioner takeaway: This week, do one of three things. Restore a file from yo
       <source url="https://x.com/DFIR_Radar/status/2106203256762355940">DFIR Radar</source>
       <pubDate>Sat, 03 Oct 2026 02:02:43 +0000</pubDate>
       <guid isPermaLink="false">2106203256762355940</guid>
-    </item>
-    <item>
-      <title>CVE-2026-76504: Cisco SD-WAN Flaw Exploited</title>
-      <link>https://socradar.io/blog/cve-2026-76504-cisco-sd-wan-flaw/</link>
-      <description>CVE-2026-76504 (CVSS 9.8), a Cisco Catalyst SD-WAN Manager auth bypass, is actively exploited and CISA KEV-listed. Hunt serviceproxy-access.log for /%6a_security_check and vmanage-server.log for viptela-reserved- accounts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106188263308353951</description>
-      <content:encoded><![CDATA[<p>CVE-2026-76504 (CVSS 9.8), a Cisco Catalyst SD-WAN Manager auth bypass, is actively exploited and CISA KEV-listed. Hunt serviceproxy-access.log for /%6a_security_check and vmanage-server.log for viptela-reserved- accounts.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/cve-2026-76504-cisco-sd-wan-flaw/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106188263308353951">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106188263308353951</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2106188263308353951">DFIR Radar</source>
-      <pubDate>Sat, 03 Oct 2026 01:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2106188263308353951</guid>
     </item>
   </channel>
 </rss>
