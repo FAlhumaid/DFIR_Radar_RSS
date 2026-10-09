@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 09 Oct 2026 18:04:06 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 19:03:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>P7 DarkSword iOS Exploit Kit Adds Crypto Wallet Data Theft and Remote Commands</title>
+      <link>https://thehackernews.com/2026/10/p7-darksword-ios-exploit-kit-adds.html</link>
+      <description>P7 DarkSword, an evolved iOS exploit kit variant, adds two-way C2, keychain exfiltration, and crypto wallet theft targeting iPhones, with infrastructure exposing 179 device loot directories and 11 recovered seed phrases.
+
+Key findings:
+
+- P7 DarkSword chains CVE-2025-24201 (WebKit out-of-bounds write, sandbox escape, fixed in iOS 18.3.2) and CVE-2025-31200 (Core Audio memory corruption enabling code execution, fixed in iOS 18.4.1) to break out of the browser sandbox, escalate to kernel privileges, and inject into SpringBoard, the iOS process managing the home screen and app launches. The implant lives inside SpringBoard and handles all C2 communication from there, polling for commands every 15 seconds. Forensically, SpringBoard process anomalies and unexpected network beaconing from that process are your first signal.
+
+- The command set is extensive. Operators can execute OS commands (ls, cat, ps, memdump, netstat, whoami), recursively scan the full filesystem from "/", upload files from /var/mobile/Media/DCIM, extract Apple Notes databases, pull iCloud Keychain as JSON pre-exfil, scan and extract crypto wallet data including imToken and BitKeep recovery phrases and keystore data, and enumerate all installed app sandbox containers. Previous variants exfiltrated the raw keychain database; P7 processes it on-device into JSON first, reducing the network footprint and making passive interception harder.
+
+- Censys identified five open-directory hosts exposing kit components: 43.134.165[.]205 (DS-Fusion v1.0, a DarkSword plus Coruna combined bundle), 166.88.95[.]90 (active C2 with two Chinese 🇨🇳 iOS devices beaconing every 3 seconds on September 6, 2026), 23.148.212[.]237 (operator workspace developing iOS 26 exploit chains including CVE-2026-31001), 47.102.192[.]23 (Coruna staging), and 156.239.230[.]120 (full C2 platform, active September 15, 2026). Coruna is the companion payload kit delivering in-browser wallet harvesting after DarkSword's exploit stages land. A separate operator is running the kit against 66ds[.]lol, on Tencent and Shenyang hosting, tied through a unique self-signed certificate authority, and adding BitKeep as a new wallet target.
+
+- The platform exposes an agent/reseller exploitation-as-a-service model. The recovered production server held 11 victim crypto recovery phrases, 179 device loot directories, and a 75-account control-plane roster. Known campaigns have targeted Saudi Arabia 🇸🇦, Turkey, Malaysia 🇲🇾, and Ukraine 🇺🇦, with attributed actors including Turkish 🇹🇷 commercial surveillance vendor PARS Defense (via a fake Snapchat-themed site), Russian-aligned Star Blizzard using fake invitation lures, and a Chinese-speaking threat actor serving fake Apple ID sign-in pages. The kit itself is assessed as a commercial product that reached a secondary market and has been acquired by multiple financially motivated operators since late 2025.
+
+- Stealth improvements in P7 include eliminating debug logging over HTTP and syslog, and using browser localStorage to suppress re-exploitation of the same device. These changes directly reduce the on-device artifact trail. On managed or jailbreak-detected devices, look for SpringBoard making outbound connections, unexpected JSON blobs staging in accessible locations, and localStorage entries tied to exploit delivery pages.
+
+Practitioner takeaway: any iPhone not yet on iOS 18.4.1 is exposed to both CVEs in this chain. For incident response on a potentially compromised device, iVerify's report contains IOC details including the defanged infrastructure IPs above. Hunt for SpringBoard network activity, review mobile threat defense telemetry for keychain access anomalies from non-standard processes, and treat any device with wallet apps that accessed a suspicious web page in the relevant window as a potential seed phrase compromise requiring immediate wallet rotation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108634561802321920</description>
+      <content:encoded><![CDATA[<p>P7 DarkSword, an evolved iOS exploit kit variant, adds two-way C2, keychain exfiltration, and crypto wallet theft targeting iPhones, with infrastructure exposing 179 device loot directories and 11 recovered seed phrases.</p><p>Key findings:</p><p>- P7 DarkSword chains CVE-2025-24201 (WebKit out-of-bounds write, sandbox escape, fixed in iOS 18.3.2) and CVE-2025-31200 (Core Audio memory corruption enabling code execution, fixed in iOS 18.4.1) to break out of the browser sandbox, escalate to kernel privileges, and inject into SpringBoard, the iOS process managing the home screen and app launches. The implant lives inside SpringBoard and handles all C2 communication from there, polling for commands every 15 seconds. Forensically, SpringBoard process anomalies and unexpected network beaconing from that process are your first signal.</p><p>- The command set is extensive. Operators can execute OS commands (ls, cat, ps, memdump, netstat, whoami), recursively scan the full filesystem from &quot;/&quot;, upload files from /var/mobile/Media/DCIM, extract Apple Notes databases, pull iCloud Keychain as JSON pre-exfil, scan and extract crypto wallet data including imToken and BitKeep recovery phrases and keystore data, and enumerate all installed app sandbox containers. Previous variants exfiltrated the raw keychain database; P7 processes it on-device into JSON first, reducing the network footprint and making passive interception harder.</p><p>- Censys identified five open-directory hosts exposing kit components: 43.134.165[.]205 (DS-Fusion v1.0, a DarkSword plus Coruna combined bundle), 166.88.95[.]90 (active C2 with two Chinese 🇨🇳 iOS devices beaconing every 3 seconds on September 6, 2026), 23.148.212[.]237 (operator workspace developing iOS 26 exploit chains including CVE-2026-31001), 47.102.192[.]23 (Coruna staging), and 156.239.230[.]120 (full C2 platform, active September 15, 2026). Coruna is the companion payload kit delivering in-browser wallet harvesting after DarkSword&#x27;s exploit stages land. A separate operator is running the kit against 66ds[.]lol, on Tencent and Shenyang hosting, tied through a unique self-signed certificate authority, and adding BitKeep as a new wallet target.</p><p>- The platform exposes an agent/reseller exploitation-as-a-service model. The recovered production server held 11 victim crypto recovery phrases, 179 device loot directories, and a 75-account control-plane roster. Known campaigns have targeted Saudi Arabia 🇸🇦, Turkey, Malaysia 🇲🇾, and Ukraine 🇺🇦, with attributed actors including Turkish 🇹🇷 commercial surveillance vendor PARS Defense (via a fake Snapchat-themed site), Russian-aligned Star Blizzard using fake invitation lures, and a Chinese-speaking threat actor serving fake Apple ID sign-in pages. The kit itself is assessed as a commercial product that reached a secondary market and has been acquired by multiple financially motivated operators since late 2025.</p><p>- Stealth improvements in P7 include eliminating debug logging over HTTP and syslog, and using browser localStorage to suppress re-exploitation of the same device. These changes directly reduce the on-device artifact trail. On managed or jailbreak-detected devices, look for SpringBoard making outbound connections, unexpected JSON blobs staging in accessible locations, and localStorage entries tied to exploit delivery pages.</p><p>Practitioner takeaway: any iPhone not yet on iOS 18.4.1 is exposed to both CVEs in this chain. For incident response on a potentially compromised device, iVerify&#x27;s report contains IOC details including the defanged infrastructure IPs above. Hunt for SpringBoard network activity, review mobile threat defense telemetry for keychain access anomalies from non-standard processes, and treat any device with wallet apps that accessed a suspicious web page in the relevant window as a potential seed phrase compromise requiring immediate wallet rotation.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/p7-darksword-ios-exploit-kit-adds.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108634561802321920">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108634561802321920</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108634561802321920">DFIR Radar</source>
+      <pubDate>Fri, 09 Oct 2026 19:03:51 +0000</pubDate>
+      <guid isPermaLink="false">2108634561802321920</guid>
+    </item>
     <item>
       <title>Death By A Thousand PaperCuts (PaperCut Pre-Auth RCE Chain and Patch Bypasses WT-2026-0141-0144/CVE-2026-82077/CVE-2026-82078/CVE-2026-81578)</title>
       <link>https://labs.watchtowr.com/death-by-a-thousand-papercuts-papercut-pre-auth-rce-chain-and-patch-bypasses-wt-2026-0141-0144-cve-2026-82077-cve-2026-82078-cve-2026-81578/</link>
@@ -2260,20 +2288,6 @@ Practitioner takeaway: Because exploitation preceded disclosure, any FortiMail a
       <source url="https://x.com/DFIR_Radar/status/2106641610259718514">DFIR Radar</source>
       <pubDate>Sun, 04 Oct 2026 07:04:34 +0000</pubDate>
       <guid isPermaLink="false">2106641610259718514</guid>
-    </item>
-    <item>
-      <title>2026-09-30: SmartApeSG ClickFix pushes CNCmachineRMS RAT</title>
-      <link>https://www.malware-traffic-analysis.net/2026/09/30/index.html</link>
-      <description>SmartApeSG's ClickFix lure delivered CNCmachineRMS RAT, with C2 at 195.63.128[.]106. Review pcap and process artifacts from the report for ClickFix execution chain indicators.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106565578630853056</description>
-      <content:encoded><![CDATA[<p>SmartApeSG&#x27;s ClickFix lure delivered CNCmachineRMS RAT, with C2 at 195.63.128[.]106. Review pcap and process artifacts from the report for ClickFix execution chain indicators.</p><p>#DFIR_Radar</p><p><a href="https://www.malware-traffic-analysis.net/2026/09/30/index.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106565578630853056">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malware Traffic Analysis</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106565578630853056</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2106565578630853056">DFIR Radar</source>
-      <pubDate>Sun, 04 Oct 2026 02:02:27 +0000</pubDate>
-      <guid isPermaLink="false">2106565578630853056</guid>
     </item>
   </channel>
 </rss>
