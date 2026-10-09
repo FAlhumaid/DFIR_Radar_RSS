@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 09 Oct 2026 17:04:25 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 18:04:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Death By A Thousand PaperCuts (PaperCut Pre-Auth RCE Chain and Patch Bypasses WT-2026-0141-0144/CVE-2026-82077/CVE-2026-82078/CVE-2026-81578)</title>
+      <link>https://labs.watchtowr.com/death-by-a-thousand-papercuts-papercut-pre-auth-rce-chain-and-patch-bypasses-wt-2026-0141-0144-cve-2026-82077-cve-2026-82078-cve-2026-81578/</link>
+      <description>PaperCut pre-auth RCE confirmed exploited in the wild, with four successive patch bypasses chained across a three-week saga. Two new vulnerabilities (WT-2026-0143 + CVE-2026-82077) remain undocumented until now.
+
+Key findings:
+
+- The original in-the-wild chain against PaperCut NG 26.0.3 combined CVE-2026-81578 (Authentication Bypass) and CVE-2026-82078 (Post-Auth RCE), giving unauthenticated attackers full code execution. PaperCut published an advisory on 27 August 2026 with IOCs but no patch, leaving customers exposed. PaperCut has prior CISA KEV entries and ransomware gang attention, making this a high-priority target set.
+
+- The auth bypass class stems from Apache Tapestry 3, a framework obsolete for roughly 20 years. PaperCut's authorization logic in BasePaperCutPage.pageValidate only checks the root page in the service parameter chain, not subsequent pages. An attacker sends a single crafted request like /app?service=direct/1/Home/SetupAdmin/$Form to reach Setup Wizard forms post-deployment, reset the admin password via four sequential POST requests, and bypass system.setup-completed entirely. This is WT-2026-0143, a bypass of the bypass of CVE-2026-81578, and it was not assigned a CVE.
+
+- The new RCE (WT-2026-0144 / CVE-2026-82077, patched in 26.0.5) lives in the Scan to Fax feature. FaxProviderManagerImpl.sendFaxJob passes the attacker-controlled providerConnector field through getAbsoluteBinaryPath with no validation, appending it directly to the fax connector directory path. This is a relative path traversal: setting providerConnector to ..\..\..\..\Windows\System32\cmd and controlling system.scan.fax.send.command-args via the Config Editor (reached post-auth-bypass) achieves OS command execution through ProcessUtils.execAndGetOutput.
+
+- The full unauthenticated RCE chain against 26.0.4-PO build 76508 combines WT-2026-0143 (auth bypass via Home page and Setup Wizard) then CVE-2026-82077 (path traversal into cmd.exe via Scan to Fax). The Config Editor page was also exploited in the wild in the original chain, meaning POST requests to /app with a manipulated service parameter and scanActionType=FAX are your hunting ground in proxy and web server logs.
+
+- Watchtowr's Detection Artifact Generator (DAG) is available on their GitHub and tests exposure to the authentication bypass chain without executing the full RCE. The definitive patched version is 26.0.5. If you are on any 26.0.4 build or earlier, treat the system as compromised until confirmed otherwise.
+
+Hunt your PaperCut web logs for POST requests to /app containing service=direct/1/Home/Setup in the request body or URL, and for scanActionType=FAX alongside faxProviderModel values containing encoded backslashes or dot-dot sequences. Check Config Editor access events for changes to system.scan.fax.send.command-args. The DAG and full vulnerability details are in the Watchtowr Labs report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108619526317527122</description>
+      <content:encoded><![CDATA[<p>PaperCut pre-auth RCE confirmed exploited in the wild, with four successive patch bypasses chained across a three-week saga. Two new vulnerabilities (WT-2026-0143 + CVE-2026-82077) remain undocumented until now.</p><p>Key findings:</p><p>- The original in-the-wild chain against PaperCut NG 26.0.3 combined CVE-2026-81578 (Authentication Bypass) and CVE-2026-82078 (Post-Auth RCE), giving unauthenticated attackers full code execution. PaperCut published an advisory on 27 August 2026 with IOCs but no patch, leaving customers exposed. PaperCut has prior CISA KEV entries and ransomware gang attention, making this a high-priority target set.</p><p>- The auth bypass class stems from Apache Tapestry 3, a framework obsolete for roughly 20 years. PaperCut&#x27;s authorization logic in BasePaperCutPage.pageValidate only checks the root page in the service parameter chain, not subsequent pages. An attacker sends a single crafted request like /app?service=direct/1/Home/SetupAdmin/$Form to reach Setup Wizard forms post-deployment, reset the admin password via four sequential POST requests, and bypass system.setup-completed entirely. This is WT-2026-0143, a bypass of the bypass of CVE-2026-81578, and it was not assigned a CVE.</p><p>- The new RCE (WT-2026-0144 / CVE-2026-82077, patched in 26.0.5) lives in the Scan to Fax feature. FaxProviderManagerImpl.sendFaxJob passes the attacker-controlled providerConnector field through getAbsoluteBinaryPath with no validation, appending it directly to the fax connector directory path. This is a relative path traversal: setting providerConnector to ..\..\..\..\Windows\System32\cmd and controlling system.scan.fax.send.command-args via the Config Editor (reached post-auth-bypass) achieves OS command execution through ProcessUtils.execAndGetOutput.</p><p>- The full unauthenticated RCE chain against 26.0.4-PO build 76508 combines WT-2026-0143 (auth bypass via Home page and Setup Wizard) then CVE-2026-82077 (path traversal into cmd.exe via Scan to Fax). The Config Editor page was also exploited in the wild in the original chain, meaning POST requests to /app with a manipulated service parameter and scanActionType=FAX are your hunting ground in proxy and web server logs.</p><p>- Watchtowr&#x27;s Detection Artifact Generator (DAG) is available on their GitHub and tests exposure to the authentication bypass chain without executing the full RCE. The definitive patched version is 26.0.5. If you are on any 26.0.4 build or earlier, treat the system as compromised until confirmed otherwise.</p><p>Hunt your PaperCut web logs for POST requests to /app containing service=direct/1/Home/Setup in the request body or URL, and for scanActionType=FAX alongside faxProviderModel values containing encoded backslashes or dot-dot sequences. Check Config Editor access events for changes to system.scan.fax.send.command-args. The DAG and full vulnerability details are in the Watchtowr Labs report.</p><p>#DFIR_Radar</p><p><a href="https://labs.watchtowr.com/death-by-a-thousand-papercuts-papercut-pre-auth-rce-chain-and-patch-bypasses-wt-2026-0141-0144-cve-2026-82077-cve-2026-82078-cve-2026-81578/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108619526317527122">View on X</a></p>]]></content:encoded>
+      <dc:creator>Watchtowr Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108619526317527122</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2108619526317527122">DFIR Radar</source>
+      <pubDate>Fri, 09 Oct 2026 18:04:06 +0000</pubDate>
+      <guid isPermaLink="false">2108619526317527122</guid>
+    </item>
     <item>
       <title>When a Wallet Drainer Asks DNS Where to Go</title>
       <link>https://www.infoblox.com/blog/threat-intelligence/when-a-wallet-drainer-asks-dns-where-to-go/</link>
@@ -2246,20 +2274,6 @@ Practitioner takeaway: Because exploitation preceded disclosure, any FortiMail a
       <source url="https://x.com/DFIR_Radar/status/2106565578630853056">DFIR Radar</source>
       <pubDate>Sun, 04 Oct 2026 02:02:27 +0000</pubDate>
       <guid isPermaLink="false">2106565578630853056</guid>
-    </item>
-    <item>
-      <title>2026-09-29: Macfinger ClickFix activity</title>
-      <link>https://www.malware-traffic-analysis.net/2026/09/29/index.html</link>
-      <description>Macfinger ClickFix activity targeting macOS delivered an unidentified payload, confirmed not AMOS Stealer or known macOS malware families. IOCs and pcap are in the report for traffic and payload analysis.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106444937680064945</description>
-      <content:encoded><![CDATA[<p>Macfinger ClickFix activity targeting macOS delivered an unidentified payload, confirmed not AMOS Stealer or known macOS malware families. IOCs and pcap are in the report for traffic and payload analysis.</p><p>#DFIR_Radar</p><p><a href="https://www.malware-traffic-analysis.net/2026/09/29/index.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106444937680064945">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malware Traffic Analysis</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106444937680064945</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2106444937680064945">DFIR Radar</source>
-      <pubDate>Sat, 03 Oct 2026 18:03:04 +0000</pubDate>
-      <guid isPermaLink="false">2106444937680064945</guid>
     </item>
   </channel>
 </rss>
