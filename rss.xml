@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 09 Oct 2026 07:03:19 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 08:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat Actors Exploit Critical AhsayCBS Flaws to Drop Webshells and XMRig Cryptominer</title>
+      <link>https://www.huntress.com/blog/ahsaycbs-flaws-exploit</link>
+      <description>Two chained CVEs in AhsayCBS, a backup management platform used by MSPs, are being actively exploited in the wild, delivering JSP webshells and an XMRig cryptominer with SYSTEM privileges. All versions through 10.3.4 are affected and no patch is currently available.
+
+Key findings:
+
+- CVE-2026-105133 (medium, authentication bypass in checkSysPwd of filecom/ahsay/obs/api/ApiStructsAction.java) is chained with CVE-2026-105134 (critical, unauthenticated RCE via /rps/api/json/UpdateReceivers.do, exploitable with a random token in place of valid credentials) to land a JSP webshell in the AhsayCBS application directory and execute as NT AUTHORITY/SYSTEM. Exploitation was first observed at 2026-10-07 23:20:15 UTC. The tell on disk: unexpected child processes spawning from cbssvcX64.exe, including curl and certutil pulling payloads from hxxp://imagefiles-backup.oss-ap-southeast-7.aliyuncs[.]com (T1190, T1505.003).
+
+- Post-exploitation drops Taskgmr.ps1 (SHA256: 481728a7c9c4c02be07051d9c1958d902ea6397ebb8952ab83944818e3d25d21), edge.exe (XMRig miner, SHA256: 4dcb0202fe8b2d4d7b183764e38184cd6ed50132786cc7e7d1f7f4bce1dd6f3d), and msedge.exe (modified NSSM, SHA256: 05f69ae6b2b89c1c4dcf836bff032232f11bf0109f2b498e2345045d06139034) into %TEMP% or AppData/Local/Temp. The miner connects to 51.195.127[.]124:8029 and xmr.kryptex[.]network on the non-standard port 8029 (T1571). Both binaries are renamed to masquerade as Microsoft Edge processes (T1036.005).
+
+- Persistence is established via a Windows service named MicrosoftEdgeUpdateSvc, configured to run msedge.exe (NSSM) as SYSTEM, which in turn keeps edge.exe alive through crashes and reboots (T1543.003, T1569.002). Taskgmr.ps1 adds a layer of active defense evasion: it polls continuously for Task Manager, stops MicrosoftEdgeUpdateSvc when Task Manager is open and restarts it when closed, and kills Task Manager outright at 18:00 local time or if left open more than an hour overnight (T1564, T1057, T1124).
+
+- In at least one incident, certutil.exe was used to fetch WinRing0x64.sys from the same Alibaba Cloud OSS staging server into TEMP. Rather than being used to kill security tooling, the vulnerable kernel driver was loaded to give the miner kernel-level hardware access, maximizing CPU mining performance (T1496.001). The report notes that if any of these IOCs are found, a full host re-image from a trusted backup is warranted because attackers have planted secondary backdoors for extended persistence.
+
+DFIR takeaway: Start by hunting for child processes of cbssvcX64.exe that are not part of normal AhsayCBS startup. Check %TEMP% and AppData/Local/Temp for edge.exe, msedge.exe, Taskgmr.ps1, config.json, and WinRing0x64.sys, and query the service control manager for MicrosoftEdgeUpdateSvc. Review network logs for outbound connections to 51.195.127[.]124:8029 or xmr.kryptex[.]network. Until Ahsay ships a patch, restrict the management interface to trusted IPs or put it behind VPN. Four Sigma rules covering each stage of this chain, plus the full IOC list, are in the Huntress report at the Huntress threat-intel repository under 2026/2026-10/AhsayCBS_XMRig_Miner.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108468167907405868</description>
+      <content:encoded><![CDATA[<p>Two chained CVEs in AhsayCBS, a backup management platform used by MSPs, are being actively exploited in the wild, delivering JSP webshells and an XMRig cryptominer with SYSTEM privileges. All versions through 10.3.4 are affected and no patch is currently available.</p><p>Key findings:</p><p>- CVE-2026-105133 (medium, authentication bypass in checkSysPwd of filecom/ahsay/obs/api/ApiStructsAction.java) is chained with CVE-2026-105134 (critical, unauthenticated RCE via /rps/api/json/UpdateReceivers.do, exploitable with a random token in place of valid credentials) to land a JSP webshell in the AhsayCBS application directory and execute as NT AUTHORITY/SYSTEM. Exploitation was first observed at 2026-10-07 23:20:15 UTC. The tell on disk: unexpected child processes spawning from cbssvcX64.exe, including curl and certutil pulling payloads from hxxp://imagefiles-backup.oss-ap-southeast-7.aliyuncs[.]com (T1190, T1505.003).</p><p>- Post-exploitation drops Taskgmr.ps1 (SHA256: 481728a7c9c4c02be07051d9c1958d902ea6397ebb8952ab83944818e3d25d21), edge.exe (XMRig miner, SHA256: 4dcb0202fe8b2d4d7b183764e38184cd6ed50132786cc7e7d1f7f4bce1dd6f3d), and msedge.exe (modified NSSM, SHA256: 05f69ae6b2b89c1c4dcf836bff032232f11bf0109f2b498e2345045d06139034) into %TEMP% or AppData/Local/Temp. The miner connects to 51.195.127[.]124:8029 and xmr.kryptex[.]network on the non-standard port 8029 (T1571). Both binaries are renamed to masquerade as Microsoft Edge processes (T1036.005).</p><p>- Persistence is established via a Windows service named MicrosoftEdgeUpdateSvc, configured to run msedge.exe (NSSM) as SYSTEM, which in turn keeps edge.exe alive through crashes and reboots (T1543.003, T1569.002). Taskgmr.ps1 adds a layer of active defense evasion: it polls continuously for Task Manager, stops MicrosoftEdgeUpdateSvc when Task Manager is open and restarts it when closed, and kills Task Manager outright at 18:00 local time or if left open more than an hour overnight (T1564, T1057, T1124).</p><p>- In at least one incident, certutil.exe was used to fetch WinRing0x64.sys from the same Alibaba Cloud OSS staging server into TEMP. Rather than being used to kill security tooling, the vulnerable kernel driver was loaded to give the miner kernel-level hardware access, maximizing CPU mining performance (T1496.001). The report notes that if any of these IOCs are found, a full host re-image from a trusted backup is warranted because attackers have planted secondary backdoors for extended persistence.</p><p>DFIR takeaway: Start by hunting for child processes of cbssvcX64.exe that are not part of normal AhsayCBS startup. Check %TEMP% and AppData/Local/Temp for edge.exe, msedge.exe, Taskgmr.ps1, config.json, and WinRing0x64.sys, and query the service control manager for MicrosoftEdgeUpdateSvc. Review network logs for outbound connections to 51.195.127[.]124:8029 or xmr.kryptex[.]network. Until Ahsay ships a patch, restrict the management interface to trusted IPs or put it behind VPN. Four Sigma rules covering each stage of this chain, plus the full IOC list, are in the Huntress report at the Huntress threat-intel repository under 2026/2026-10/AhsayCBS_XMRig_Miner.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/ahsaycbs-flaws-exploit">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108468167907405868">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108468167907405868</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2108468167907405868">DFIR Radar</source>
+      <pubDate>Fri, 09 Oct 2026 08:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2108468167907405868</guid>
+    </item>
     <item>
       <title>September 2026 Detection Highlights: 11 New VTIs, Including Five for FlowerStorm Phishing Kit, and 70+ YARA Rules</title>
       <link>https://www.vmray.com/september-2026-detection-highlights-11-new-vtis-including-five-for-flowerstorm-phishing-kit-and-70-yara-rules/</link>
@@ -2198,20 +2224,6 @@ Practitioner takeaway: This week, do one of three things. Restore a file from yo
       <source url="https://x.com/DFIR_Radar/status/2106218510783324213">DFIR Radar</source>
       <pubDate>Sat, 03 Oct 2026 03:03:19 +0000</pubDate>
       <guid isPermaLink="false">2106218510783324213</guid>
-    </item>
-    <item>
-      <title>AI Agent Chains Zammad Zero-Days To Take Over DIVD Systems in Seconds</title>
-      <link>https://securityaffairs.com/200126/hacking/ai-agent-chains-zammad-zero-days-to-take-over-divd-systems-in-seconds.html</link>
-      <description>CVE-2026-102489 and CVE-2026-102490, two chained Zammad zero-days, let an AI agent escalate from user to root in seconds and exfiltrate data from DIVD. Update Zammad to version 7 now, and run DIVD's log-abuse script to check for prior compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106203256762355940</description>
-      <content:encoded><![CDATA[<p>CVE-2026-102489 and CVE-2026-102490, two chained Zammad zero-days, let an AI agent escalate from user to root in seconds and exfiltrate data from DIVD. Update Zammad to version 7 now, and run DIVD&#x27;s log-abuse script to check for prior compromise.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200126/hacking/ai-agent-chains-zammad-zero-days-to-take-over-divd-systems-in-seconds.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106203256762355940">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106203256762355940</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2106203256762355940">DFIR Radar</source>
-      <pubDate>Sat, 03 Oct 2026 02:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2106203256762355940</guid>
     </item>
   </channel>
 </rss>
