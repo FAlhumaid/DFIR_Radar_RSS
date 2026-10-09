@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 09 Oct 2026 08:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 09:03:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Low-Level Extraction of the HomePod mini</title>
+      <link>https://blog.elcomsoft.com/2026/10/low-level-extraction-of-the-homepod-mini/</link>
+      <description>HomePod mini yields full file system and decrypted keychain via usbliter8 bootloader exploit, a forensic first for the S5-chip device. Wi-Fi passwords, Bluetooth device history, Apple IDs, and Siri activity are all recoverable with a $30 DIY adapter.
+
+Key findings:
+
+- The extraction targets the HomePod mini's S5 chip (equivalent to Apple Watch Series 5, roughly A12-class). The usbliter8 bootloader exploit, already established for the A12 generation, was adapted specifically for this chip and device. The HomePod mini has no button sequence for DFU entry, so a hardware adapter, the open-source Colobus with tcmini add-in, handles both DFU triggering and exploit delivery. The adapter flashes once from GitHub firmware releases and costs around $30 to build or order. macOS or Linux is required; Windows is not yet supported.
+
+- The extraction chain runs four commands after the ramdisk is up: EIFT_cmd ramdisk unlockdata (no passcode on the device, so the APFS data volume unlocks without one), EIFT_cmd ramdisk keychain -o homepod.xml, EIFT_cmd ramdisk tar -o homepod.tar, then EIFT_cmd ssh halt to power down cleanly. A checksum is generated automatically at the end of imaging. The product type reported in ramdisk mode is AudioAccessory5,1.
+
+- The keychain output is the most immediately actionable artifact. Because the HomePod mini has no passcode it is excluded from end-to-end encrypted iCloud data, but Wi-Fi passwords sync to it regardless of whether the speaker ever connected to those networks. The decrypted XML keychain contains SSIDs and passwords in clear text, Apple IDs, and service tokens. Those Wi-Fi credentials can map a subject's network environment and pivot an investigation to locations and infrastructure.
+
+- The file system image surfaces two high-value artifact classes beyond the keychain: first, a Bluetooth device roster showing every device the speaker has seen, each with a Bluetooth address and UUID, covering iPhones, Apple Watches, MacBook Pros, Apple TVs, and third-party accessories. Second, an activity timeline including Siri invocation events (without the spoken command), music playback start and stop, application usage, and network traffic. These place the speaker in a room, tie it to surrounding hardware, and can corroborate or contradict a timeline.
+
+- For analysis, the keychain XML requires dedicated parsing; loading homepod.tar into a general-purpose forensic tool surfaces the Bluetooth and activity artifacts but does not attach keychain contents to the case. Note the HomePod (2nd generation) uses an S7 chip and is not yet supported by this method. The 1st-generation HomePod (A8) has a separate checkm8-based extraction path.
+
+Practitioner takeaway: if a HomePod mini appears in a scene, treat it as a network and proximity witness, not just a speaker. The Bluetooth UUID and address list can link the device to phones and laptops even when those devices are absent or wiped. Hunt the extracted APFS volume for the Bluetooth pairing database and the KnowledgeC equivalent activity store to reconstruct co-location. The full IOC-equivalent artifact list and step-by-step command sequence are in the ElcomSoft report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108483537326284823</description>
+      <content:encoded><![CDATA[<p>HomePod mini yields full file system and decrypted keychain via usbliter8 bootloader exploit, a forensic first for the S5-chip device. Wi-Fi passwords, Bluetooth device history, Apple IDs, and Siri activity are all recoverable with a $30 DIY adapter.</p><p>Key findings:</p><p>- The extraction targets the HomePod mini&#x27;s S5 chip (equivalent to Apple Watch Series 5, roughly A12-class). The usbliter8 bootloader exploit, already established for the A12 generation, was adapted specifically for this chip and device. The HomePod mini has no button sequence for DFU entry, so a hardware adapter, the open-source Colobus with tcmini add-in, handles both DFU triggering and exploit delivery. The adapter flashes once from GitHub firmware releases and costs around $30 to build or order. macOS or Linux is required; Windows is not yet supported.</p><p>- The extraction chain runs four commands after the ramdisk is up: EIFT_cmd ramdisk unlockdata (no passcode on the device, so the APFS data volume unlocks without one), EIFT_cmd ramdisk keychain -o homepod.xml, EIFT_cmd ramdisk tar -o homepod.tar, then EIFT_cmd ssh halt to power down cleanly. A checksum is generated automatically at the end of imaging. The product type reported in ramdisk mode is AudioAccessory5,1.</p><p>- The keychain output is the most immediately actionable artifact. Because the HomePod mini has no passcode it is excluded from end-to-end encrypted iCloud data, but Wi-Fi passwords sync to it regardless of whether the speaker ever connected to those networks. The decrypted XML keychain contains SSIDs and passwords in clear text, Apple IDs, and service tokens. Those Wi-Fi credentials can map a subject&#x27;s network environment and pivot an investigation to locations and infrastructure.</p><p>- The file system image surfaces two high-value artifact classes beyond the keychain: first, a Bluetooth device roster showing every device the speaker has seen, each with a Bluetooth address and UUID, covering iPhones, Apple Watches, MacBook Pros, Apple TVs, and third-party accessories. Second, an activity timeline including Siri invocation events (without the spoken command), music playback start and stop, application usage, and network traffic. These place the speaker in a room, tie it to surrounding hardware, and can corroborate or contradict a timeline.</p><p>- For analysis, the keychain XML requires dedicated parsing; loading homepod.tar into a general-purpose forensic tool surfaces the Bluetooth and activity artifacts but does not attach keychain contents to the case. Note the HomePod (2nd generation) uses an S7 chip and is not yet supported by this method. The 1st-generation HomePod (A8) has a separate checkm8-based extraction path.</p><p>Practitioner takeaway: if a HomePod mini appears in a scene, treat it as a network and proximity witness, not just a speaker. The Bluetooth UUID and address list can link the device to phones and laptops even when those devices are absent or wiped. Hunt the extracted APFS volume for the Bluetooth pairing database and the KnowledgeC equivalent activity store to reconstruct co-location. The full IOC-equivalent artifact list and step-by-step command sequence are in the ElcomSoft report.</p><p>#DFIR_Radar</p><p><a href="https://blog.elcomsoft.com/2026/10/low-level-extraction-of-the-homepod-mini/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108483537326284823">View on X</a></p>]]></content:encoded>
+      <dc:creator>ElcomSoft Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108483537326284823</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108483537326284823">DFIR Radar</source>
+      <pubDate>Fri, 09 Oct 2026 09:03:44 +0000</pubDate>
+      <guid isPermaLink="false">2108483537326284823</guid>
+    </item>
     <item>
       <title>Threat Actors Exploit Critical AhsayCBS Flaws to Drop Webshells and XMRig Cryptominer</title>
       <link>https://www.huntress.com/blog/ahsaycbs-flaws-exploit</link>
@@ -2210,20 +2238,6 @@ Practitioner takeaway: This week, do one of three things. Restore a file from yo
       <source url="https://x.com/DFIR_Radar/status/2106233603751370883">DFIR Radar</source>
       <pubDate>Sat, 03 Oct 2026 04:03:18 +0000</pubDate>
       <guid isPermaLink="false">2106233603751370883</guid>
-    </item>
-    <item>
-      <title>ScreenConnect Client (Ab)used by Attackers, (Thu, Oct 1st)</title>
-      <link>https://isc.sans.edu/diary/rss/33388</link>
-      <description>A phishing lure mimicking mejuri[.]com dropped a legit ConnectWise-signed ScreenConnect client calling back instance-v2e3e2-relay.screenconnect[.]com. Hunt for RMM installer executions spawned from browsers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106218510783324213</description>
-      <content:encoded><![CDATA[<p>A phishing lure mimicking mejuri[.]com dropped a legit ConnectWise-signed ScreenConnect client calling back instance-v2e3e2-relay.screenconnect[.]com. Hunt for RMM installer executions spawned from browsers.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33388">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106218510783324213">View on X</a></p>]]></content:encoded>
-      <dc:creator>SANS ISC</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106218510783324213</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2106218510783324213">DFIR Radar</source>
-      <pubDate>Sat, 03 Oct 2026 03:03:19 +0000</pubDate>
-      <guid isPermaLink="false">2106218510783324213</guid>
     </item>
   </channel>
 </rss>
