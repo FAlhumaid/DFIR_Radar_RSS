@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 15:02:26 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 21:02:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Before It Reaches Sentinel: How Your Own Pipeline Can Silently Drop Security Evidence</title>
+      <link>https://detect.fyi/before-it-reaches-sentinel-how-your-own-pipeline-can-silently-drop-security-evidence-e4ab2640249d?source=rss----d5fd8f494f6a---4</link>
+      <description>Azure Monitor Data Collection Rules can be silently modified to drop security events before they ever reach Microsoft Sentinel, creating blind spots no detection rule can see because the evidence never existed in the workspace.
+
+Key findings:
+
+- The transformKql field inside a Data Collection Rule (DCR) runs a KQL filter on every incoming record before it is written to any table. A single added condition, such as "where SourceIP != '10.20.20.20'", makes every event from that source permanently invisible. There is no deletion to detect because nothing was ever stored. This places whoever controls the DCR above the SOC: the SOC queries what the pipeline permits it to see. Column stripping is even quieter, row counts look normal, volume alerts stay silent, but the field your detection depends on is blank in every record.
+
+- DCR pipeline metrics (RowsReceived_Count, RowsDropped_Count, ColumnsDropped_Count) and the DCRLogErrors table are not collected by default. Diagnostic settings must be manually enabled on each DCR and pointed at the workspace. Until that step is done, the data needed to catch a silent drop is itself not collected.
+
+- The report provides three KQL detections you can deploy. Signal 1 compares each DCR's current drop rate against its 14-day baseline and fires when the current rate exceeds 10 percent and the jump is more than 15 percentage points above normal, tunable thresholds once you know your own baseline. Signal 2 catches column or row drops that have no prior history, a DCR that never stripped columns before suddenly doing so is a sharp indicator. The DCRLogErrors query alerts on any transformation failure, the report recommends a threshold of one so any single error fires.
+
+- AzureActivity with ResourceProviderValue == "MICROSOFT.INSIGHTS" and OperationNameValue containing "dataCollectionRules" and "write" or "delete" surfaces who changed a DCR and when. In a healthy environment DCRs change rarely, so an unexpected write from an unfamiliar caller occurring at the same time as a spike in RowsDropped_Count tells the full story in one view. The activity log shows the actor and the action but may not capture the exact query text that was added, treat that as a prompt to diff the current transformKql against its previous version.
+
+- Misconfiguration is the more likely cause than malice. A transformation supports only a subset of KQL, common functions like coalesce() are unsupported, so a query that tests cleanly in the Logs blade can fail or behave unexpectedly inside the pipeline. A careless filter written on a Friday to trim storage costs can silently drop an entire event category for months before anyone notices during an investigation.
+
+Practitioner takeaway: Enable diagnostic settings (Metrics and Log Errors) on every security-critical DCR today, nothing else in this detection chain works without that step. Then run the baseline drop-rate query to establish what normal looks like per rule before turning Signal 1 into a scheduled alert. Audit write access to your DCRs: the roles Monitoring Contributor and Contributor on the resource group are enough to edit a transformation, and in many tenants that list is broader than intended. Export and read every transformKql line you own, most teams never have. The KQL for all three detections is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109026787413958953</description>
+      <content:encoded><![CDATA[<p>Azure Monitor Data Collection Rules can be silently modified to drop security events before they ever reach Microsoft Sentinel, creating blind spots no detection rule can see because the evidence never existed in the workspace.</p><p>Key findings:</p><p>- The transformKql field inside a Data Collection Rule (DCR) runs a KQL filter on every incoming record before it is written to any table. A single added condition, such as &quot;where SourceIP != &#x27;10.20.20.20&#x27;&quot;, makes every event from that source permanently invisible. There is no deletion to detect because nothing was ever stored. This places whoever controls the DCR above the SOC: the SOC queries what the pipeline permits it to see. Column stripping is even quieter, row counts look normal, volume alerts stay silent, but the field your detection depends on is blank in every record.</p><p>- DCR pipeline metrics (RowsReceived_Count, RowsDropped_Count, ColumnsDropped_Count) and the DCRLogErrors table are not collected by default. Diagnostic settings must be manually enabled on each DCR and pointed at the workspace. Until that step is done, the data needed to catch a silent drop is itself not collected.</p><p>- The report provides three KQL detections you can deploy. Signal 1 compares each DCR&#x27;s current drop rate against its 14-day baseline and fires when the current rate exceeds 10 percent and the jump is more than 15 percentage points above normal, tunable thresholds once you know your own baseline. Signal 2 catches column or row drops that have no prior history, a DCR that never stripped columns before suddenly doing so is a sharp indicator. The DCRLogErrors query alerts on any transformation failure, the report recommends a threshold of one so any single error fires.</p><p>- AzureActivity with ResourceProviderValue == &quot;MICROSOFT.INSIGHTS&quot; and OperationNameValue containing &quot;dataCollectionRules&quot; and &quot;write&quot; or &quot;delete&quot; surfaces who changed a DCR and when. In a healthy environment DCRs change rarely, so an unexpected write from an unfamiliar caller occurring at the same time as a spike in RowsDropped_Count tells the full story in one view. The activity log shows the actor and the action but may not capture the exact query text that was added, treat that as a prompt to diff the current transformKql against its previous version.</p><p>- Misconfiguration is the more likely cause than malice. A transformation supports only a subset of KQL, common functions like coalesce() are unsupported, so a query that tests cleanly in the Logs blade can fail or behave unexpectedly inside the pipeline. A careless filter written on a Friday to trim storage costs can silently drop an entire event category for months before anyone notices during an investigation.</p><p>Practitioner takeaway: Enable diagnostic settings (Metrics and Log Errors) on every security-critical DCR today, nothing else in this detection chain works without that step. Then run the baseline drop-rate query to establish what normal looks like per rule before turning Signal 1 into a scheduled alert. Audit write access to your DCRs: the roles Monitoring Contributor and Contributor on the resource group are enough to edit a transformation, and in many tenants that list is broader than intended. Export and read every transformKql line you own, most teams never have. The KQL for all three detections is in the report.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/before-it-reaches-sentinel-how-your-own-pipeline-can-silently-drop-security-evidence-e4ab2640249d?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109026787413958953">View on X</a></p>]]></content:encoded>
+      <dc:creator>Detect FYI</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2109026787413958953</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2109026787413958953">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 21:02:25 +0000</pubDate>
+      <guid isPermaLink="false">2109026787413958953</guid>
+    </item>
     <item>
       <title>Dire Wolf Ransomware Attacks: How to Test and Strengthen Your Defenses</title>
       <link>https://www.picussecurity.com/resource/blog/dire-wolf-ransomware-attacks-how-to-test-and-strengthen-your-defenses</link>
@@ -2260,20 +2288,6 @@ Hunt priority: enable PowerShell script-block logging if not already active, it 
       <source url="https://x.com/DFIR_Radar/status/2107230071010349305">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 22:02:54 +0000</pubDate>
       <guid isPermaLink="false">2107230071010349305</guid>
-    </item>
-    <item>
-      <title>Anthropic Mythos Found A Bug in Rejetto HFS. Attackers Are Now Exploiting It.</title>
-      <link>https://securityaffairs.com/200444/ai/anthropic-mythos-found-a-bug-in-rejetto-hfs-attackers-are-now-exploiting-it.html</link>
-      <description>CVE-2026-61500 (CVSS 9.3) in Rejetto HFS 3.x allows session-cookie forgery via xorshift128+ PRNG state recovery, now actively probed. Patch to HFS 3.2.1 and hunt server logs for repeated unauthenticated endpoint hits leaking Math.random() values.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107217737189662915</description>
-      <content:encoded><![CDATA[<p>CVE-2026-61500 (CVSS 9.3) in Rejetto HFS 3.x allows session-cookie forgery via xorshift128+ PRNG state recovery, now actively probed. Patch to HFS 3.2.1 and hunt server logs for repeated unauthenticated endpoint hits leaking Math.random() values.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200444/ai/anthropic-mythos-found-a-bug-in-rejetto-hfs-attackers-are-now-exploiting-it.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107217737189662915">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107217737189662915</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2107217737189662915">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 21:13:54 +0000</pubDate>
-      <guid isPermaLink="false">2107217737189662915</guid>
     </item>
   </channel>
 </rss>
