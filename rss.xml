@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 00:03:36 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 01:04:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Forensic Acquisition of MediaTek-Based Android Devices</title>
+      <link>https://belkasoft.com/mediatek-device-acquisition</link>
+      <description>MediaTek BootROM vulnerabilities enable physical extraction and offline passcode recovery from FBE-protected Android devices, opening acquisition paths unavailable through standard logical methods.
+
+Key findings:
+
+- The MTK dump method exploits BootROM (BROM) vulnerabilities present in a specific list of MediaTek chipsets, from MT6731 through MT8785, to gain low-level device access before Android initializes. At that stage the tool can pull a physical image of all partitions, including userdata, and extract the cryptographic material needed to decrypt file-based encryption (FBE). Legacy full-disk encryption (FDE) support is not yet available.
+
+- Entering BootROM mode is the most device-specific step and the most common failure point. Some models accept a volume-button-plus-USB combination while powered off; others require shorting hardware test points on the motherboard after disassembly. Even devices sharing the same chipset may need different procedures, so the correct method must be confirmed before acquisition begins. Failure to connect does not require restarting the acquisition process unless the tool explicitly reports failure.
+
+- The workflow separates acquisition from decryption deliberately, which matters for evidence handling. The physical image is preserved first, and passcode recovery or decryption happens afterward as a separate case operation. This means an examiner can hand off the raw dump and work the decryption independently, preserving the original acquisition for chain-of-custody purposes.
+
+- Passcode recovery runs offline against the extracted cryptographic material rather than against the live device, so Android lockout timers and attempt limits do not apply. The tool tests approximately 60 candidates per second on most supported chipsets, or about 30 per minute on certain models. Options include a built-in dictionary that prioritizes common 4- and 6-digit numeric codes, sequential numeric brute-force starting from 0000, and a custom .txt dictionary that also supports alphanumeric passcodes. The recovered passcode appears in the MTK brute-forcing task log.
+
+- Chipset support does not guarantee acquisition success. Manufacturers can layer additional protections that block BootROM connection or deny access to the cryptographic keys even on a nominally supported chipset. When an image was acquired separately using MTKClient, the extracted keys must be converted before decryption is possible.
+
+Practitioner takeaway: on a seized MTK-based Android device, identify the chipset before you begin, MediaTek identifiers start with MT, and confirm whether it appears on the supported list. If the model requires test-point access, document the disassembly and photograph the board before touching anything. Acquire the physical image first and store it before any decryption attempt, so your case has an untouched baseline. When passcode is unknown, check the lock screen for an indicated length to constrain the brute-force and start with the dictionary attack before sequential numeric. The recovered passcode and task log are your documentary evidence of how decryption was achieved, preserve both.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108725230546117053</description>
+      <content:encoded><![CDATA[<p>MediaTek BootROM vulnerabilities enable physical extraction and offline passcode recovery from FBE-protected Android devices, opening acquisition paths unavailable through standard logical methods.</p><p>Key findings:</p><p>- The MTK dump method exploits BootROM (BROM) vulnerabilities present in a specific list of MediaTek chipsets, from MT6731 through MT8785, to gain low-level device access before Android initializes. At that stage the tool can pull a physical image of all partitions, including userdata, and extract the cryptographic material needed to decrypt file-based encryption (FBE). Legacy full-disk encryption (FDE) support is not yet available.</p><p>- Entering BootROM mode is the most device-specific step and the most common failure point. Some models accept a volume-button-plus-USB combination while powered off; others require shorting hardware test points on the motherboard after disassembly. Even devices sharing the same chipset may need different procedures, so the correct method must be confirmed before acquisition begins. Failure to connect does not require restarting the acquisition process unless the tool explicitly reports failure.</p><p>- The workflow separates acquisition from decryption deliberately, which matters for evidence handling. The physical image is preserved first, and passcode recovery or decryption happens afterward as a separate case operation. This means an examiner can hand off the raw dump and work the decryption independently, preserving the original acquisition for chain-of-custody purposes.</p><p>- Passcode recovery runs offline against the extracted cryptographic material rather than against the live device, so Android lockout timers and attempt limits do not apply. The tool tests approximately 60 candidates per second on most supported chipsets, or about 30 per minute on certain models. Options include a built-in dictionary that prioritizes common 4- and 6-digit numeric codes, sequential numeric brute-force starting from 0000, and a custom .txt dictionary that also supports alphanumeric passcodes. The recovered passcode appears in the MTK brute-forcing task log.</p><p>- Chipset support does not guarantee acquisition success. Manufacturers can layer additional protections that block BootROM connection or deny access to the cryptographic keys even on a nominally supported chipset. When an image was acquired separately using MTKClient, the extracted keys must be converted before decryption is possible.</p><p>Practitioner takeaway: on a seized MTK-based Android device, identify the chipset before you begin, MediaTek identifiers start with MT, and confirm whether it appears on the supported list. If the model requires test-point access, document the disassembly and photograph the board before touching anything. Acquire the physical image first and store it before any decryption attempt, so your case has an untouched baseline. When passcode is unknown, check the lock screen for an indicated length to constrain the brute-force and start with the dictionary attack before sequential numeric. The recovered passcode and task log are your documentary evidence of how decryption was achieved, preserve both.</p><p>#DFIR_Radar</p><p><a href="https://belkasoft.com/mediatek-device-acquisition">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108725230546117053">View on X</a></p>]]></content:encoded>
+      <dc:creator>Belkasoft</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108725230546117053</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2108725230546117053">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 01:04:08 +0000</pubDate>
+      <guid isPermaLink="false">2108725230546117053</guid>
+    </item>
     <item>
       <title>Warden Stealer: The Rapid Rise of an Infostealer with an Appetite for AI Agent Data</title>
       <link>https://www.gendigital.com/blog/insights/research/warden-stealer-rust-infostealer-analysis</link>
@@ -2274,20 +2302,6 @@ Practitioner takeaway: Because exploitation preceded disclosure, any FortiMail a
       <source url="https://x.com/DFIR_Radar/status/2106641610259718514">DFIR Radar</source>
       <pubDate>Sun, 04 Oct 2026 07:04:34 +0000</pubDate>
       <guid isPermaLink="false">2106641610259718514</guid>
-    </item>
-    <item>
-      <title>2026-09-30: SmartApeSG ClickFix pushes CNCmachineRMS RAT</title>
-      <link>https://www.malware-traffic-analysis.net/2026/09/30/index.html</link>
-      <description>SmartApeSG's ClickFix lure delivered CNCmachineRMS RAT, with C2 at 195.63.128[.]106. Review pcap and process artifacts from the report for ClickFix execution chain indicators.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106565578630853056</description>
-      <content:encoded><![CDATA[<p>SmartApeSG&#x27;s ClickFix lure delivered CNCmachineRMS RAT, with C2 at 195.63.128[.]106. Review pcap and process artifacts from the report for ClickFix execution chain indicators.</p><p>#DFIR_Radar</p><p><a href="https://www.malware-traffic-analysis.net/2026/09/30/index.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106565578630853056">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malware Traffic Analysis</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106565578630853056</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2106565578630853056">DFIR Radar</source>
-      <pubDate>Sun, 04 Oct 2026 02:02:27 +0000</pubDate>
-      <guid isPermaLink="false">2106565578630853056</guid>
     </item>
   </channel>
 </rss>
