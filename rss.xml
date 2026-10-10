@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 10:02:14 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 11:02:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Hijack Three ccTLDs to Obtain Google Certificates</title>
+      <link>https://www.infosecurity-magazine.com/news/attackers-hijack-cctlds-obtain/</link>
+      <description>Attackers hijacked .gh, .sl, and .as ccTLD registries, manipulating DNS to obtain unauthorized HTTPS certificates for Google and other major domains. Monitor CT logs for unexpected certificate issuance across your ccTLD properties.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108875767094419836</description>
+      <content:encoded><![CDATA[<p>Attackers hijacked .gh, .sl, and .as ccTLD registries, manipulating DNS to obtain unauthorized HTTPS certificates for Google and other major domains. Monitor CT logs for unexpected certificate issuance across your ccTLD properties.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/attackers-hijack-cctlds-obtain/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108875767094419836">View on X</a></p>]]></content:encoded>
+      <dc:creator>InfoSecurity Magazine</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108875767094419836</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108875767094419836">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 11:02:19 +0000</pubDate>
+      <guid isPermaLink="false">2108875767094419836</guid>
+    </item>
     <item>
       <title>Black Hat USA 2026 NOC: Cleartext, Leaky Apps, AI Mistakes</title>
       <link>https://corelight.com/blog/black-hat-usa-2026-noc-cleartext-apps-ai-mistakes</link>
@@ -2272,34 +2286,6 @@ Network defenders: hunt outbound UDP to port 3478 with zero-byte transaction IDs
       <source url="https://x.com/DFIR_Radar/status/2107139635671621919">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 16:03:33 +0000</pubDate>
       <guid isPermaLink="false">2107139635671621919</guid>
-    </item>
-    <item>
-      <title>How Huntress Detects and Responds to a ClickFix Attack</title>
-      <link>https://www.huntress.com/blog/fix-for-clickfix</link>
-      <description>ClickFix beats most endpoint tools by design, not sophistication. The delivery mechanism is a user, a Run dialog, and a paste, and that leaves nothing for artifact-based controls to catch.
-
-Key findings:
-
-- The structural gap is architectural, not a tuning problem. Signature AV, NGAV, and most EDR are built around an artifact arriving: a file to hash, scan, or quarantine. ClickFix skips that entirely. The user is the dropper. From the endpoint's perspective, a person launching a program is the most ordinary event of their day. Backend telemetry detections do fire, but ClickFix chains complete in seconds, so by the time an alert surfaces and an analyst picks it up, the infostealer has already run and credentials are already gone. Detection and stopping are two different outcomes.
-
-- A real incident shows exactly how layered the evasion is. The attacker's verbatim command pasted into the Run dialog stacked three bypass techniques in one line: caret escaping (s^t^a^r^t, f^^i^^n^^g^^e^^r) to defeat string matching, padding that scrolled the real command out of the dialog's visible field leaving only "P_u_s_h t_h_e En_t_e_r k_e_y" visible to the victim, and finger.exe as the download cradle. finger.exe is a signed Windows binary shipping since 1991. It fetched the payload as a plain text string over the finger protocol. No curl, no PowerShell, no file on disk, no unsigned binary. The C2 domain in the defanged command was finger.linkeders[.]net. The user pasted the same command six times between 18:07 and 18:53, each attempt killed on arrival.
-
-- The detection chokepoint is the parent-child relationship, not the payload. When a user runs something via the Run dialog, the parent is always explorer.exe. Always. An obfuscated download cradle on its own is debatable signal. An obfuscated download cradle spawned directly by explorer.exe in an interactive session has no innocent explanation. That parent gate is what makes aggressive automated termination safe enough to leave on. The four-process chain in the incident was spawned and fully terminated in 1.25 seconds: cmd.exe lived 620ms, a detached shell lived 625ms, a subshell lived 465ms, finger.exe lived 397ms. The loop body that would have executed the returned payload never ran because the shell it needed was dead 11ms before finger.exe exited.
-
-- A critical gap was found and closed during development. Some ClickFix variants use start to detach the follow-on process, orphaning it from the parent before termination. The fix was a second rule matching on the parent's command line and killing both parent and child simultaneously, which also neutralizes randomly renamed launchers. Coverage has since expanded to homoglyph and Unicode abuse, scheme-less URIs, comment-block command construction, and a broader LOLBIN surface. The ruleset moved from a handful of broad rules to a larger set of narrowly scoped sub-detections.
-
-- Enforce mode is the only mode that matters here. A control that warns is one the socially engineered user clicks past. The sixth paste attempt must be as dead as the first. The report is explicit that this is disruption, not prevention, Windows-specific in this implementation, and not total coverage: attackers rotate LOLBINs and obfuscation, and new variants (FileFix, TerminalFix, DownloadFix) require new pattern work. When the agent-side kill loses the race, backend detections still produce an investigation, just not a termination.
-
-Hunt focus: query process creation logs for cmd.exe or PowerShell spawned directly by explorer.exe in interactive sessions (logon type 2) containing IEX, IRM, finger, or heavy caret usage in the command line. That parent-child pair with an obfuscated command line is the structural tell that holds across variants. The report includes a full technical breakdown of ClickFix, FileFix, TerminalFix, and DownloadFix with host artifacts and detection chokepoints for each variant.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107124643979010364</description>
-      <content:encoded><![CDATA[<p>ClickFix beats most endpoint tools by design, not sophistication. The delivery mechanism is a user, a Run dialog, and a paste, and that leaves nothing for artifact-based controls to catch.</p><p>Key findings:</p><p>- The structural gap is architectural, not a tuning problem. Signature AV, NGAV, and most EDR are built around an artifact arriving: a file to hash, scan, or quarantine. ClickFix skips that entirely. The user is the dropper. From the endpoint&#x27;s perspective, a person launching a program is the most ordinary event of their day. Backend telemetry detections do fire, but ClickFix chains complete in seconds, so by the time an alert surfaces and an analyst picks it up, the infostealer has already run and credentials are already gone. Detection and stopping are two different outcomes.</p><p>- A real incident shows exactly how layered the evasion is. The attacker&#x27;s verbatim command pasted into the Run dialog stacked three bypass techniques in one line: caret escaping (s^t^a^r^t, f^^i^^n^^g^^e^^r) to defeat string matching, padding that scrolled the real command out of the dialog&#x27;s visible field leaving only &quot;P_u_s_h t_h_e En_t_e_r k_e_y&quot; visible to the victim, and finger.exe as the download cradle. finger.exe is a signed Windows binary shipping since 1991. It fetched the payload as a plain text string over the finger protocol. No curl, no PowerShell, no file on disk, no unsigned binary. The C2 domain in the defanged command was finger.linkeders[.]net. The user pasted the same command six times between 18:07 and 18:53, each attempt killed on arrival.</p><p>- The detection chokepoint is the parent-child relationship, not the payload. When a user runs something via the Run dialog, the parent is always explorer.exe. Always. An obfuscated download cradle on its own is debatable signal. An obfuscated download cradle spawned directly by explorer.exe in an interactive session has no innocent explanation. That parent gate is what makes aggressive automated termination safe enough to leave on. The four-process chain in the incident was spawned and fully terminated in 1.25 seconds: cmd.exe lived 620ms, a detached shell lived 625ms, a subshell lived 465ms, finger.exe lived 397ms. The loop body that would have executed the returned payload never ran because the shell it needed was dead 11ms before finger.exe exited.</p><p>- A critical gap was found and closed during development. Some ClickFix variants use start to detach the follow-on process, orphaning it from the parent before termination. The fix was a second rule matching on the parent&#x27;s command line and killing both parent and child simultaneously, which also neutralizes randomly renamed launchers. Coverage has since expanded to homoglyph and Unicode abuse, scheme-less URIs, comment-block command construction, and a broader LOLBIN surface. The ruleset moved from a handful of broad rules to a larger set of narrowly scoped sub-detections.</p><p>- Enforce mode is the only mode that matters here. A control that warns is one the socially engineered user clicks past. The sixth paste attempt must be as dead as the first. The report is explicit that this is disruption, not prevention, Windows-specific in this implementation, and not total coverage: attackers rotate LOLBINs and obfuscation, and new variants (FileFix, TerminalFix, DownloadFix) require new pattern work. When the agent-side kill loses the race, backend detections still produce an investigation, just not a termination.</p><p>Hunt focus: query process creation logs for cmd.exe or PowerShell spawned directly by explorer.exe in interactive sessions (logon type 2) containing IEX, IRM, finger, or heavy caret usage in the command line. That parent-child pair with an obfuscated command line is the structural tell that holds across variants. The report includes a full technical breakdown of ClickFix, FileFix, TerminalFix, and DownloadFix with host artifacts and detection chokepoints for each variant.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/fix-for-clickfix">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107124643979010364">View on X</a></p>]]></content:encoded>
-      <dc:creator>Huntress</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107124643979010364</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2107124643979010364">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 15:03:59 +0000</pubDate>
-      <guid isPermaLink="false">2107124643979010364</guid>
     </item>
   </channel>
 </rss>
