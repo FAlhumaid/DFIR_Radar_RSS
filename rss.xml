@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 11:02:19 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 12:02:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FBI disrupts Flax Typhoon hacking tools used in global cyberattacks</title>
+      <link>https://www.helpnetsecurity.com/2026/10/09/fbi-flax-typhoon-microscan-fishhub-domains/</link>
+      <description>FBI seized seven domains tied to Chinese 🇨🇳 Flax Typhoon's Microscan and FishHub tools, used for botnet-enabled recon and spear-phishing against critical infrastructure. IOCs for Integrity Tech intrusions are in the joint advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108890888524927299</description>
+      <content:encoded><![CDATA[<p>FBI seized seven domains tied to Chinese 🇨🇳 Flax Typhoon&#x27;s Microscan and FishHub tools, used for botnet-enabled recon and spear-phishing against critical infrastructure. IOCs for Integrity Tech intrusions are in the joint advisory.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/09/fbi-flax-typhoon-microscan-fishhub-domains/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108890888524927299">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108890888524927299</comments>
+      <category>LAW ENFORCEMENT</category>
+      <source url="https://x.com/DFIR_Radar/status/2108890888524927299">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 12:02:24 +0000</pubDate>
+      <guid isPermaLink="false">2108890888524927299</guid>
+    </item>
     <item>
       <title>Attackers Hijack Three ccTLDs to Obtain Google Certificates</title>
       <link>https://www.infosecurity-magazine.com/news/attackers-hijack-cctlds-obtain/</link>
@@ -2260,32 +2274,6 @@ Hunt priority: enable PowerShell script-block logging if not already active, it 
       <source url="https://x.com/DFIR_Radar/status/2107169789403677091">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 18:03:22 +0000</pubDate>
       <guid isPermaLink="false">2107169789403677091</guid>
-    </item>
-    <item>
-      <title>Realtek Jungle SDK Exploit Attempts Deliver Cling Botnet With STUN-Based C2</title>
-      <link>https://thehackernews.com/2026/10/realtek-jungle-sdk-exploit-attempts.html</link>
-      <description>Cling botnet exploits CVE-2021-35394 (CVSS 9.8) in Realtek Jungle SDK, abusing public STUN infrastructure to disguise C2 traffic as legitimate NAT-traversal activity across routers, DVRs, and embedded Linux devices.
-
-Key details:
-
-- Exploitation of CVE-2021-35394 spiked around September 5, 2026, delivering Cling (also tracked as ClingSTUN by Fortinet). The botnet embeds hard-coded exploits for seven CVEs used in self-propagation: CVE-2014-8361 (Realtek), CVE-2016-20016 (MVPower), CVE-2023-26801 (LB-LINK), CVE-2023-41011 (China 🇨🇳 Mobile/FiberHome), CVE-2024-3721 (TBK DVR), CVE-2025-34037 (Linksys), and CVE-2026-87827 (KGUARD DVR). Initial access spans a much wider set including D-Link, Tenda, Ivanti Connect Secure (CVE-2023-46805, CVE-2024-21887), TP-Link CVE-2023-1389, AVTECH CVE-2024-7029, and others.
-
-- The C2 mechanism is the standout: Cling sends STUN Binding Requests to 13 hard-coded servers every five seconds, using an all-zero transaction ID (a deliberate protocol deviation). It then sends custom UDP registration datagrams containing mapped ports and infection-source tags like realtek.selfrep or selfrep.router. Operator commands arrive embedded in the STUN transaction ID field. The controlled server 145.249.115[.]184 returns all-zero transaction IDs rather than echoing the request, the tell that it is operator-controlled. More striking: observed command packets originate from 74.125.250[.]129, an IP resolving to stun.l[.]google[.]com, making malicious replies visually indistinguishable from Google STUN responses.
-
-- Persistence is layered: the binary copies itself to /root/.cling and /usr/local/bin/.cling, then appends both paths to /etc/inittab, /etc/init.d/rcS, and /etc/rc.d/rc.boot for SysV and BusyBox init survival. A secondary persistence method replaces the legitimate wget binary with the malware, relocating the original, so any legitimate process invoking wget executes the bot instead. Single-instance enforcement uses SO_REUSEADDR on port 33957.
-
-- Once established, Cling supports recursive scanning and worm-like spread, TCP tunnel spawn/stop, proxy launch/stop, and timed DoS floods. Observed flood targets include 112.151.157[.]222:8080, 192.170.240[.]137:53, and Minecraft servers at 23.81.40[.]193:25565 and 147.185.221[.]129:25565. Payloads are fetched via shell script downloaders for ARM, MIPS R3000, PowerPC, Intel 80386, and AMD X86-64, maximizing the range of vulnerable embedded hardware.
-
-Network defenders: hunt outbound UDP to port 3478 with zero-byte transaction IDs and flag UDP datagrams to public STUN servers that do not conform to RFC 5389 (non-random transaction IDs, oversized or non-standard payloads). On the host side, check for /root/.cling, /usr/local/bin/.cling, and modifications to /etc/inittab or rcS. Validate the wget binary hash against a known-good baseline: a replaced wget is a clean persistence indicator with no legitimate use case. Port 33957 bound with SO_REUSEADDR on a router or DVR is a direct Cling presence signal. Full IOC list is in the Nozomi Networks report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107139635671621919</description>
-      <content:encoded><![CDATA[<p>Cling botnet exploits CVE-2021-35394 (CVSS 9.8) in Realtek Jungle SDK, abusing public STUN infrastructure to disguise C2 traffic as legitimate NAT-traversal activity across routers, DVRs, and embedded Linux devices.</p><p>Key details:</p><p>- Exploitation of CVE-2021-35394 spiked around September 5, 2026, delivering Cling (also tracked as ClingSTUN by Fortinet). The botnet embeds hard-coded exploits for seven CVEs used in self-propagation: CVE-2014-8361 (Realtek), CVE-2016-20016 (MVPower), CVE-2023-26801 (LB-LINK), CVE-2023-41011 (China 🇨🇳 Mobile/FiberHome), CVE-2024-3721 (TBK DVR), CVE-2025-34037 (Linksys), and CVE-2026-87827 (KGUARD DVR). Initial access spans a much wider set including D-Link, Tenda, Ivanti Connect Secure (CVE-2023-46805, CVE-2024-21887), TP-Link CVE-2023-1389, AVTECH CVE-2024-7029, and others.</p><p>- The C2 mechanism is the standout: Cling sends STUN Binding Requests to 13 hard-coded servers every five seconds, using an all-zero transaction ID (a deliberate protocol deviation). It then sends custom UDP registration datagrams containing mapped ports and infection-source tags like realtek.selfrep or selfrep.router. Operator commands arrive embedded in the STUN transaction ID field. The controlled server 145.249.115[.]184 returns all-zero transaction IDs rather than echoing the request, the tell that it is operator-controlled. More striking: observed command packets originate from 74.125.250[.]129, an IP resolving to stun.l[.]google[.]com, making malicious replies visually indistinguishable from Google STUN responses.</p><p>- Persistence is layered: the binary copies itself to /root/.cling and /usr/local/bin/.cling, then appends both paths to /etc/inittab, /etc/init.d/rcS, and /etc/rc.d/rc.boot for SysV and BusyBox init survival. A secondary persistence method replaces the legitimate wget binary with the malware, relocating the original, so any legitimate process invoking wget executes the bot instead. Single-instance enforcement uses SO_REUSEADDR on port 33957.</p><p>- Once established, Cling supports recursive scanning and worm-like spread, TCP tunnel spawn/stop, proxy launch/stop, and timed DoS floods. Observed flood targets include 112.151.157[.]222:8080, 192.170.240[.]137:53, and Minecraft servers at 23.81.40[.]193:25565 and 147.185.221[.]129:25565. Payloads are fetched via shell script downloaders for ARM, MIPS R3000, PowerPC, Intel 80386, and AMD X86-64, maximizing the range of vulnerable embedded hardware.</p><p>Network defenders: hunt outbound UDP to port 3478 with zero-byte transaction IDs and flag UDP datagrams to public STUN servers that do not conform to RFC 5389 (non-random transaction IDs, oversized or non-standard payloads). On the host side, check for /root/.cling, /usr/local/bin/.cling, and modifications to /etc/inittab or rcS. Validate the wget binary hash against a known-good baseline: a replaced wget is a clean persistence indicator with no legitimate use case. Port 33957 bound with SO_REUSEADDR on a router or DVR is a direct Cling presence signal. Full IOC list is in the Nozomi Networks report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/realtek-jungle-sdk-exploit-attempts.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107139635671621919">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107139635671621919</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107139635671621919">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 16:03:33 +0000</pubDate>
-      <guid isPermaLink="false">2107139635671621919</guid>
     </item>
   </channel>
 </rss>
