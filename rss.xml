@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 05:03:02 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 06:02:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FBI, Secret Service urge critical infrastructure operators to secure Fortinet gateways against FortiBleed attacks</title>
+      <link>https://industrialcyber.co/critical-infrastructure/fbi-secret-service-urge-critical-infrastructure-operators-to-secure-fortinet-gateways-against-fortibleed-attacks/</link>
+      <description>FortiBleed is an active, large-scale access-broker operation targeting Fortinet FortiGate SSL VPN gateways across all 16 critical infrastructure sectors, with over 86,644 confirmed compromised devices verified across 194 countries.
+
+Key details:
+
+- The attack chain is methodical and automated: scanning exposed FortiGate portals, credential stuffing and password spraying using prior Fortinet leak dumps and infostealer logs, exfiltrating password hashes, then cracking them offline using Hashcat and Hashtopolis orchestrating a distributed GPU cluster. Cracked credentials are enriched, filtered for honeypots, and prioritized by target revenue and network structure before validated access is packaged and sold. Legacy SHA-256 password storage is a core enabler here; hashes crack faster and at scale, making upgrade to PBKDF2 (available in FortiOS v7.2.11 and later) operationally significant, not just hygiene.
+
+- Post-access behavior includes Active Directory enumeration, further password spraying to identify privileged accounts, and creation of new administrative accounts for persistence. In confirmed cases, threat actors have deleted existing accounts or changed passwords to lock out defenders while pursuing lateral movement. SSH access has also been used where the port was open on the firewall. The FBI and USSS advisory links this chain directly to ransomware affiliate handoffs, naming INC/Lynx and Payload ransomware as downstream recipients of brokered access.
+
+- The operation's internal workflow only became visible after threat actors accidentally exposed their backend server. The open directory revealed the full multi-stage pipeline: target identification scripts, credential validation tooling, GPU cracking infrastructure, and packaged VPN configurations with target lists. This is rare end-to-end visibility into an access-broker operation, and the advisory includes IP addresses tied to C2 servers, proxy nodes, and beacon relays, though the authoring agencies flag that cloud infrastructure reuse means these should be treated as historical and corroborated against current network telemetry before blocking.
+
+- Response sequencing from the advisory: isolate affected hosts first, then conduct threat hunting to scope the intrusion before applying eviction measures. The advisory explicitly warns against acting on IOCs (such as blocking IPs) before vetting them. CISA's Eviction Strategies Tool, combining Playbook-NG and the COUN7ER database, is referenced for building a systematic eviction playbook mapped to confirmed TTPs.
+
+Hunt your Fortinet firewall, VPN, authentication, and domain controller logs for unrecognized administrative accounts, password or account changes on internet-facing devices, and AD enumeration activity following VPN authentication. The advisory provides a list of compromised account names and historical IP indicators to use as reference during that review. Compare current firewall and VPN configurations against a known-good baseline to surface unauthorized changes. Terminate all active admin and VPN sessions, rotate all credentials on internet-facing systems, enforce phishing-resistant MFA on every external gateway, and migrate password storage to PBKDF2. IOCs and the full account name list are in the advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108800423444484096</description>
+      <content:encoded><![CDATA[<p>FortiBleed is an active, large-scale access-broker operation targeting Fortinet FortiGate SSL VPN gateways across all 16 critical infrastructure sectors, with over 86,644 confirmed compromised devices verified across 194 countries.</p><p>Key details:</p><p>- The attack chain is methodical and automated: scanning exposed FortiGate portals, credential stuffing and password spraying using prior Fortinet leak dumps and infostealer logs, exfiltrating password hashes, then cracking them offline using Hashcat and Hashtopolis orchestrating a distributed GPU cluster. Cracked credentials are enriched, filtered for honeypots, and prioritized by target revenue and network structure before validated access is packaged and sold. Legacy SHA-256 password storage is a core enabler here; hashes crack faster and at scale, making upgrade to PBKDF2 (available in FortiOS v7.2.11 and later) operationally significant, not just hygiene.</p><p>- Post-access behavior includes Active Directory enumeration, further password spraying to identify privileged accounts, and creation of new administrative accounts for persistence. In confirmed cases, threat actors have deleted existing accounts or changed passwords to lock out defenders while pursuing lateral movement. SSH access has also been used where the port was open on the firewall. The FBI and USSS advisory links this chain directly to ransomware affiliate handoffs, naming INC/Lynx and Payload ransomware as downstream recipients of brokered access.</p><p>- The operation&#x27;s internal workflow only became visible after threat actors accidentally exposed their backend server. The open directory revealed the full multi-stage pipeline: target identification scripts, credential validation tooling, GPU cracking infrastructure, and packaged VPN configurations with target lists. This is rare end-to-end visibility into an access-broker operation, and the advisory includes IP addresses tied to C2 servers, proxy nodes, and beacon relays, though the authoring agencies flag that cloud infrastructure reuse means these should be treated as historical and corroborated against current network telemetry before blocking.</p><p>- Response sequencing from the advisory: isolate affected hosts first, then conduct threat hunting to scope the intrusion before applying eviction measures. The advisory explicitly warns against acting on IOCs (such as blocking IPs) before vetting them. CISA&#x27;s Eviction Strategies Tool, combining Playbook-NG and the COUN7ER database, is referenced for building a systematic eviction playbook mapped to confirmed TTPs.</p><p>Hunt your Fortinet firewall, VPN, authentication, and domain controller logs for unrecognized administrative accounts, password or account changes on internet-facing devices, and AD enumeration activity following VPN authentication. The advisory provides a list of compromised account names and historical IP indicators to use as reference during that review. Compare current firewall and VPN configurations against a known-good baseline to surface unauthorized changes. Terminate all active admin and VPN sessions, rotate all credentials on internet-facing systems, enforce phishing-resistant MFA on every external gateway, and migrate password storage to PBKDF2. IOCs and the full account name list are in the advisory.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/critical-infrastructure/fbi-secret-service-urge-critical-infrastructure-operators-to-secure-fortinet-gateways-against-fortibleed-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108800423444484096">View on X</a></p>]]></content:encoded>
+      <dc:creator>Industrial Cyber</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108800423444484096</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108800423444484096">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 06:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2108800423444484096</guid>
+    </item>
     <item>
       <title>Unit 42 links Blinder Tunnel campaign to Iranian state-aligned threat actor targeting aviation, telecommunications</title>
       <link>https://industrialcyber.co/ransomware/unit-42-links-blinder-tunnel-campaign-to-iranian-state-aligned-threat-actor-targeting-aviation-telecommunications/</link>
@@ -2314,20 +2340,6 @@ Practitioner takeaway: Pull the updated Sigma WSL rules and the ShieldCrash Sysm
       <source url="https://x.com/DFIR_Radar/status/2107018761643462745">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 08:03:14 +0000</pubDate>
       <guid isPermaLink="false">2107018761643462745</guid>
-    </item>
-    <item>
-      <title>1 little known secret of UIEOrchestratorStub.exe</title>
-      <link>https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-uieorchestratorstub-exe/</link>
-      <description>UIEOrchestratorStub.exe resolves UIEOrchestrator.exe via %SystemRoot%, enabling proxy execution by redirecting that variable. Hunt launches where SystemRoot deviates from the default Windows path.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107003597758345377</description>
-      <content:encoded><![CDATA[<p>UIEOrchestratorStub.exe resolves UIEOrchestrator.exe via %SystemRoot%, enabling proxy execution by redirecting that variable. Hunt launches where SystemRoot deviates from the default Windows path.</p><p>#DFIR_Radar</p><p><a href="https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-uieorchestratorstub-exe/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107003597758345377">View on X</a></p>]]></content:encoded>
-      <dc:creator>Hexacorn</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107003597758345377</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2107003597758345377">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 07:02:59 +0000</pubDate>
-      <guid isPermaLink="false">2107003597758345377</guid>
     </item>
   </channel>
 </rss>
