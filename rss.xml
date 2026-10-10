@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 02:03:21 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 03:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hunting Citrix NetScaler Zero-Days with Corelight: Part 2</title>
+      <link>https://corelight.com/blog/hunting-citrix-netscaler-zero-days-corelight-part2</link>
+      <description>CVE-2026-88772 in Citrix NetScaler is a DTLS memory overflow zero-day. Existing Zeek analyzer logs already record a diagnostic that can surface exploitation attempts, including in traffic captured before the vulnerability was publicly disclosed.
+
+Key findings:
+
+- CVE-2026-88772 is a memory overflow in NetScaler's DTLS processing. Crafted handshake records declare small fragment lengths while carrying substantially more data, overflowing a fixed-size buffer. The malformed bytes are visible before encryption, so Zeek's DTLS analyzer can inspect them without decryption.
+
+- The Zeek analyzer.log captures the mismatch as a concrete, searchable failure reason: "DTLS handshake record length does not match packet length" with analyzer_name=DTLS and proto=udp. The linked ssl.log record, joined by the same connection UID, showed ssl_history=CvCl, last_alert=protocol_version, and established=F in the tested PoC replay. Neither field alone confirms exploitation, but together they narrow scope.
+
+- The hunt query for LogScale is: path=analyzer | analyzer_name="DTLS" | proto="udp" | failure_reason="DTLS handshake record length does not match packet length". Deployments retaining events under dpd can use path=/^(analyzer|dpd)$/ with the same analyzer_name and failure_reason filters, plus cause="violation" OR proto="udp". Note that older native dpd.log records use the field name analyzer, not analyzer_name, so field mapping needs adjustment before running operationally.
+
+- Once a matching diagnostic is found, use the connection UID to pull the corresponding conn.log and ssl.log records from the same sensor and time window. Confirm whether the destination is a NetScaler listener using the asset discovery steps from Part 1 (TLS names, certificates, observed DTLS sessions, HTTP fingerprints). Then check the appliance's software version against the vendor advisory and correlate the diagnostic timing with appliance errors, process restarts, and unexpected outbound connections to assess impact.
+
+- A normal DTLS cookie exchange produces CvC in ssl_history. The PoC replay produced CvCl with a server-side protocol_version alert and no established session. That divergence is worth investigating but does not by itself prove the overflow succeeded. Appliance-side evidence is required to assess outcome.
+
+Practitioner takeaway: if your deployment retains analyzer.log or dpd.log, you can hunt this now, including against historical traffic predating the disclosure. Run the LogScale query above, pivot on connection UIDs to ssl.log and conn.log, and reconcile destinations against your NetScaler inventory and virtual IP mappings. Correlate hits with appliance errors and unexpected subsequent connections to assess whether the overflow was triggered. Patching remains required per the NetScaler security bulletin.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108755293462986986</description>
+      <content:encoded><![CDATA[<p>CVE-2026-88772 in Citrix NetScaler is a DTLS memory overflow zero-day. Existing Zeek analyzer logs already record a diagnostic that can surface exploitation attempts, including in traffic captured before the vulnerability was publicly disclosed.</p><p>Key findings:</p><p>- CVE-2026-88772 is a memory overflow in NetScaler&#x27;s DTLS processing. Crafted handshake records declare small fragment lengths while carrying substantially more data, overflowing a fixed-size buffer. The malformed bytes are visible before encryption, so Zeek&#x27;s DTLS analyzer can inspect them without decryption.</p><p>- The Zeek analyzer.log captures the mismatch as a concrete, searchable failure reason: &quot;DTLS handshake record length does not match packet length&quot; with analyzer_name=DTLS and proto=udp. The linked ssl.log record, joined by the same connection UID, showed ssl_history=CvCl, last_alert=protocol_version, and established=F in the tested PoC replay. Neither field alone confirms exploitation, but together they narrow scope.</p><p>- The hunt query for LogScale is: path=analyzer | analyzer_name=&quot;DTLS&quot; | proto=&quot;udp&quot; | failure_reason=&quot;DTLS handshake record length does not match packet length&quot;. Deployments retaining events under dpd can use path=/^(analyzer|dpd)$/ with the same analyzer_name and failure_reason filters, plus cause=&quot;violation&quot; OR proto=&quot;udp&quot;. Note that older native dpd.log records use the field name analyzer, not analyzer_name, so field mapping needs adjustment before running operationally.</p><p>- Once a matching diagnostic is found, use the connection UID to pull the corresponding conn.log and ssl.log records from the same sensor and time window. Confirm whether the destination is a NetScaler listener using the asset discovery steps from Part 1 (TLS names, certificates, observed DTLS sessions, HTTP fingerprints). Then check the appliance&#x27;s software version against the vendor advisory and correlate the diagnostic timing with appliance errors, process restarts, and unexpected outbound connections to assess impact.</p><p>- A normal DTLS cookie exchange produces CvC in ssl_history. The PoC replay produced CvCl with a server-side protocol_version alert and no established session. That divergence is worth investigating but does not by itself prove the overflow succeeded. Appliance-side evidence is required to assess outcome.</p><p>Practitioner takeaway: if your deployment retains analyzer.log or dpd.log, you can hunt this now, including against historical traffic predating the disclosure. Run the LogScale query above, pivot on connection UIDs to ssl.log and conn.log, and reconcile destinations against your NetScaler inventory and virtual IP mappings. Correlate hits with appliance errors and unexpected subsequent connections to assess whether the overflow was triggered. Patching remains required per the NetScaler security bulletin.</p><p>#DFIR_Radar</p><p><a href="https://corelight.com/blog/hunting-citrix-netscaler-zero-days-corelight-part2">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108755293462986986">View on X</a></p>]]></content:encoded>
+      <dc:creator>Corelight</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108755293462986986</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2108755293462986986">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 03:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2108755293462986986</guid>
+    </item>
     <item>
       <title>Leaking the Keys to the Kingdom: How a Single Slip Handed Over a Darknet Empire</title>
       <link>https://www.slcyber.io/research/leaking-the-keys-to-the-kingdom-how-a-single-slip-handed-over-a-darknet-empire</link>
@@ -2288,20 +2316,6 @@ Hunt starting points: look for webshells under the SharePoint LAYOUTS directory,
       <source url="https://x.com/DFIR_Radar/status/2106671481484980627">DFIR Radar</source>
       <pubDate>Sun, 04 Oct 2026 09:03:16 +0000</pubDate>
       <guid isPermaLink="false">2106671481484980627</guid>
-    </item>
-    <item>
-      <title>China-Aligned TA419 Targets U.S. AI Policy Experts With Microsoft AitM Phishing</title>
-      <link>https://thehackernews.com/2026/10/china-aligned-ta419-targets-us-ai.html</link>
-      <description>Chinese 🇨🇳 TA419 targets US 🇺🇸 AI policy experts using Frameless BitB AitM phishing to silently steal Microsoft session cookies. Hunt shortened-URL redirect chains ending at spoofed OneDrive login pages.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106656222422393325</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 TA419 targets US 🇺🇸 AI policy experts using Frameless BitB AitM phishing to silently steal Microsoft session cookies. Hunt shortened-URL redirect chains ending at spoofed OneDrive login pages.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/china-aligned-ta419-targets-us-ai.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106656222422393325">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106656222422393325</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2106656222422393325">DFIR Radar</source>
-      <pubDate>Sun, 04 Oct 2026 08:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2106656222422393325</guid>
     </item>
   </channel>
 </rss>
