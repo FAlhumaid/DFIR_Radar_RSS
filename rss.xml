@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 09:02:50 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 10:02:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Black Hat USA 2026 NOC: Cleartext, Leaky Apps, AI Mistakes</title>
+      <link>https://corelight.com/blog/black-hat-usa-2026-noc-cleartext-apps-ai-mistakes</link>
+      <description>Black Hat USA 🇺🇸 2026 NOC found Splunk Forwarder, BigFix, AI OTel, and a live MCP Bearer token all transmitting cleartext HTTP. Hunt HTTP logs for auth tokens, email addresses, and prompts in headers and POST bodies.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108860647538819476</description>
+      <content:encoded><![CDATA[<p>Black Hat USA 🇺🇸 2026 NOC found Splunk Forwarder, BigFix, AI OTel, and a live MCP Bearer token all transmitting cleartext HTTP. Hunt HTTP logs for auth tokens, email addresses, and prompts in headers and POST bodies.</p><p>#DFIR_Radar</p><p><a href="https://corelight.com/blog/black-hat-usa-2026-noc-cleartext-apps-ai-mistakes">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108860647538819476">View on X</a></p>]]></content:encoded>
+      <dc:creator>Corelight</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108860647538819476</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108860647538819476">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 10:02:14 +0000</pubDate>
+      <guid isPermaLink="false">2108860647538819476</guid>
+    </item>
     <item>
       <title>Hackers abuse Google Ads, Bing redirects to push Claude ClickFix attacks</title>
       <link>https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-bing-redirects-to-push-claude-clickfix-attacks/</link>
@@ -2286,32 +2300,6 @@ Hunt focus: query process creation logs for cmd.exe or PowerShell spawned direct
       <source url="https://x.com/DFIR_Radar/status/2107124643979010364">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 15:03:59 +0000</pubDate>
       <guid isPermaLink="false">2107124643979010364</guid>
-    </item>
-    <item>
-      <title>ClingSTUN Linux Backdoor Abuses Public STUN Infrastructure</title>
-      <link>https://feeds.fortinet.com/~/971007764/0/fortinet/blog/threat-research~ClingSTUN-Linux-Backdoor-Abuses-Public-STUN-Infrastructure</link>
-      <description>ClingSTUN: a Linux back-connect proxy backdoor exploiting 20+ IoT CVEs across three campaign phases, abusing legitimate public STUN servers to traverse NAT and blend C2 traffic with normal VoIP and WebRTC communications.
-
-Key findings:
-
-- ClingSTUN was first delivered from 124.163.212[.]119 by exploiting CVE-2022-36553, a command injection flaw in Hytec Inter HWL-2511-SS routers. The campaign then pivoted to 222.223.152[.]97, adding CVE-2025-34035 (EnGenius IoT cloud command injection) and CVE-2024-23625 (D-Link UPnP code injection), before shifting again to 118.145.196[.]225. Across three phases the attacker expanded the exploit arsenal to include CVE-2021-35394 (Realtek SDK), CVE-2023-1389 (TP-Link Archer AX21), CVE-2024-7029 (AVTECH AVM1203), CVE-2024-10915 (D-Link account_mgr.cgi), CVE-2024-21887 and CVE-2023-46805 (Ivanti Connect Secure), and a long tail of Tenda, Sunhillo, Linear, and MeiG flaws. All are known, patched vulnerabilities being weaponized against unpatched, Internet-facing devices.
-
-- Persistence is written to /root/.cling and /usr/local/bin/.cling with executable permissions, then appended to boot-time init files so the implant survives reboots. The malware clears its own argv so it shows an empty command line under ps, then bind-mounts a directory of PID 1 metadata over its own /proc/&lt;pid&gt; entry to hide its process information from standard inspection. It also opens /dev/watchdog and /dev/misc/watchdog with ioctl calls to kill the hardware watchdog, preventing the device from rebooting out from under it, and terminates competing malware by enumerating /proc.
-
-- The STUN abuse is the operational core. ClingSTUN opens a UDP socket on a random local port and sends 20-byte standard STUN binding requests to a list of 24 legitimate public STUN servers (including 77.72.169[.]210, 77.72.169[.]211, 77.72.169[.]212, 77.72.169[.]213, 5.39.72[.]109, 74.125.250[.]129, 85.17.88[.]164, and others listed in the report) to discover its external NAT-mapped IP and port. It then periodically beacons its group identifier and mapped-port list back to those same endpoints. Because these are legitimate STUN servers shared with VoIP and WebRTC services, the traffic blends naturally into baseline UDP noise. Command delivery arrives as a 20-byte datagram on the retained UDP socket; command 1 triggers an outbound TCP connection to an operator-specified endpoint, pulls a command, and executes it.
-
-- The third-phase downloader adds an aggressive cleanup routine: it reads /proc/mounts, unmounts any mount point that has a PID and is not of type proc, and kills any process whose executable path resolves into /tmp. ClingSTUN also carries hard-coded self-propagation exploits for seven additional CVEs targeting Realtek SDK miniigd (CVE-2014-8361), MVPower CCTV DVR (CVE-2016-20016), TBK DVR (CVE-2024-3721), Linksys (CVE-2025-34037), LB-LINK (CVE-2023-26801), China 🇨🇳 Mobile HG6543C4 (CVE-2023-41011), and KGUARD DVR (CVE-2026-87827), enabling it to spread from a compromised node without returning to the operator's download infrastructure.
-
-Hunt: On Linux IoT and edge devices, check for files named .cling in /root/ and /usr/local/bin/, review boot init files for unauthorized appended entries, and look for processes with empty command lines (argv[0] cleared). In network telemetry, flag unexpected outbound UDP traffic on ephemeral ports destined for the STUN server IPs listed above, particularly recurring keepalive patterns. Correlate with any recent exploitation attempts against the CVE list in the Fortinet report. The full IOC list including 22 sample hashes and the three download server IPs, plus IPS signatures for all listed CVEs, are in the Fortinet report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107109611513741778</description>
-      <content:encoded><![CDATA[<p>ClingSTUN: a Linux back-connect proxy backdoor exploiting 20+ IoT CVEs across three campaign phases, abusing legitimate public STUN servers to traverse NAT and blend C2 traffic with normal VoIP and WebRTC communications.</p><p>Key findings:</p><p>- ClingSTUN was first delivered from 124.163.212[.]119 by exploiting CVE-2022-36553, a command injection flaw in Hytec Inter HWL-2511-SS routers. The campaign then pivoted to 222.223.152[.]97, adding CVE-2025-34035 (EnGenius IoT cloud command injection) and CVE-2024-23625 (D-Link UPnP code injection), before shifting again to 118.145.196[.]225. Across three phases the attacker expanded the exploit arsenal to include CVE-2021-35394 (Realtek SDK), CVE-2023-1389 (TP-Link Archer AX21), CVE-2024-7029 (AVTECH AVM1203), CVE-2024-10915 (D-Link account_mgr.cgi), CVE-2024-21887 and CVE-2023-46805 (Ivanti Connect Secure), and a long tail of Tenda, Sunhillo, Linear, and MeiG flaws. All are known, patched vulnerabilities being weaponized against unpatched, Internet-facing devices.</p><p>- Persistence is written to /root/.cling and /usr/local/bin/.cling with executable permissions, then appended to boot-time init files so the implant survives reboots. The malware clears its own argv so it shows an empty command line under ps, then bind-mounts a directory of PID 1 metadata over its own /proc/&lt;pid&gt; entry to hide its process information from standard inspection. It also opens /dev/watchdog and /dev/misc/watchdog with ioctl calls to kill the hardware watchdog, preventing the device from rebooting out from under it, and terminates competing malware by enumerating /proc.</p><p>- The STUN abuse is the operational core. ClingSTUN opens a UDP socket on a random local port and sends 20-byte standard STUN binding requests to a list of 24 legitimate public STUN servers (including 77.72.169[.]210, 77.72.169[.]211, 77.72.169[.]212, 77.72.169[.]213, 5.39.72[.]109, 74.125.250[.]129, 85.17.88[.]164, and others listed in the report) to discover its external NAT-mapped IP and port. It then periodically beacons its group identifier and mapped-port list back to those same endpoints. Because these are legitimate STUN servers shared with VoIP and WebRTC services, the traffic blends naturally into baseline UDP noise. Command delivery arrives as a 20-byte datagram on the retained UDP socket; command 1 triggers an outbound TCP connection to an operator-specified endpoint, pulls a command, and executes it.</p><p>- The third-phase downloader adds an aggressive cleanup routine: it reads /proc/mounts, unmounts any mount point that has a PID and is not of type proc, and kills any process whose executable path resolves into /tmp. ClingSTUN also carries hard-coded self-propagation exploits for seven additional CVEs targeting Realtek SDK miniigd (CVE-2014-8361), MVPower CCTV DVR (CVE-2016-20016), TBK DVR (CVE-2024-3721), Linksys (CVE-2025-34037), LB-LINK (CVE-2023-26801), China 🇨🇳 Mobile HG6543C4 (CVE-2023-41011), and KGUARD DVR (CVE-2026-87827), enabling it to spread from a compromised node without returning to the operator&#x27;s download infrastructure.</p><p>Hunt: On Linux IoT and edge devices, check for files named .cling in /root/ and /usr/local/bin/, review boot init files for unauthorized appended entries, and look for processes with empty command lines (argv[0] cleared). In network telemetry, flag unexpected outbound UDP traffic on ephemeral ports destined for the STUN server IPs listed above, particularly recurring keepalive patterns. Correlate with any recent exploitation attempts against the CVE list in the Fortinet report. The full IOC list including 22 sample hashes and the three download server IPs, plus IPS signatures for all listed CVEs, are in the Fortinet report.</p><p>#DFIR_Radar</p><p><a href="https://feeds.fortinet.com/~/971007764/0/fortinet/blog/threat-research~ClingSTUN-Linux-Backdoor-Abuses-Public-STUN-Infrastructure">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107109611513741778">View on X</a></p>]]></content:encoded>
-      <dc:creator>Fortinet Threat Research</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107109611513741778</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2107109611513741778">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 14:04:15 +0000</pubDate>
-      <guid isPermaLink="false">2107109611513741778</guid>
     </item>
   </channel>
 </rss>
