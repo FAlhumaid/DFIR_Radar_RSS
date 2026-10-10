@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 08:01:57 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 09:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers abuse Google Ads, Bing redirects to push Claude ClickFix attacks</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-bing-redirects-to-push-claude-clickfix-attacks/</link>
+      <description>"Adception" by Push Security abuses Bing's bing[.]com/ck/a redirects inside Google Ads to deliver ClickFix macOS payloads via claude-desk-code[.]com. Hunt Terminal commands curling from lake-90[.]com piped into zsh.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108845701476286641</description>
+      <content:encoded><![CDATA[<p>&quot;Adception&quot; by Push Security abuses Bing&#x27;s bing[.]com/ck/a redirects inside Google Ads to deliver ClickFix macOS payloads via claude-desk-code[.]com. Hunt Terminal commands curling from lake-90[.]com piped into zsh.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-bing-redirects-to-push-claude-clickfix-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108845701476286641">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108845701476286641</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108845701476286641">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 09:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2108845701476286641</guid>
+    </item>
     <item>
       <title>Attackers Exploit AhsayCBS Flaws to Deploy XMRig Miners Disguised as Microsoft Edge</title>
       <link>https://thehackernews.com/2026/10/attackers-exploit-ahsaycbs-flaws-to.html</link>
@@ -2298,34 +2312,6 @@ Hunt: On Linux IoT and edge devices, check for files named .cling in /root/ and 
       <source url="https://x.com/DFIR_Radar/status/2107109611513741778">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 14:04:15 +0000</pubDate>
       <guid isPermaLink="false">2107109611513741778</guid>
-    </item>
-    <item>
-      <title>Filling the Well: Nightmare-Eclipse's BigDiskBuster and the Defender Update That Never Lands</title>
-      <link>https://www.levelblue.com/blogs/spiderlabs-blog/filling-the-well-nightmare-eclipses-bigdiskbuster-and-the-defender-update-that-never-lands</link>
-      <description>BigDiskBuster PoC silently starves Windows Defender of disk space during update cycles, leaving real-time protection running while security intelligence goes stale with no alert generated.
-
-Key findings:
-
-- BigDiskBuster, published to GitHub on September 19, 2026 by the actor MSNightmare, requires no vulnerability, no privilege escalation, and no kernel-mode component. The roughly 300-line C++ tool opens two persistent handles via NtCreateFile at the NT syscall layer: one to the C:\ volume device directly, and one to MRT.exe opened relative to that volume handle using a relative-path-through-device pattern. This bypasses the Win32 CreateFile wrapper that most defensive tooling monitors by default, meaning standard handle telemetry may miss it.
-
-- When a Defender update begins, the tool's recursive ReadDirectoryChangesW watch (bWatchSubtree = TRUE against the volume root) fires on the staging directory creation. It immediately queries available free space via NtQueryVolumeInformationFile with FileFsFullSizeInformation and claims every byte in a single allocation call, creating a GUID-named hidden file in AppData\Local\Temp with FILE_DELETE_ON_CLOSE. The file leaves no post-execution artifact. A re-arm loop spawns fresh allocation threads on every FILE_ACTION_MODIFIED event, racing to refill any space freed during the update attempt.
-
-- The only visible indicator on the endpoint is error code 0x80070643 in the Windows Security Protection Updates pane, a generic fatal installer error indistinguishable from routine transient failures. Defender's service stays running, real-time protection reports healthy, and no alert fires. The update process chain (svchost, wuauclcore, UpdatePlatform.amd64fre, MpSigStub, MpRecovery) initiates and fails silently.
-
-- At the I/O layer, Process Monitor captures a sustained burst of IRP_MJ_CREATE, IRP_MJ_QUERY_EA, and IRP_MJ_QUERY_INFORMATION operations from BigDiskBuster's PID against multiple GUID-named files under AppData\Local\Temp. The re-arm loop makes these repeated. In the process list, the executable presents no distinguishing name or parent chain, appearing alongside standard user-space processes.
-
-- No CVE, patch, or Microsoft advisory exists for this technique as of the report date. The LevelBlue SpiderLabs report confirms reproduction against a live Defender platform update, with matching behavior.
-
-Practitioner takeaway: Stop asking only "Is Defender running?" and start monitoring whether security intelligence is actually current. Three hunt anchors from this report. First, any non-OS process holding both a volume device handle and an MRT.exe handle simultaneously is a critical signal: correlate handle telemetry by PID and allowlist known holders (Defender service processes, TrustedInstaller). Second, recurring 0x80070643 Defender update failures with no concurrent installer activity should trigger handle telemetry pulls even after the file is gone; the handles may persist. Third, a SentinelOne query is provided in the report correlating GUID-braced hidden file creation events under AppData\Local\Temp with MpRecovery.exe spawning within a 30-second window to surface the creating process. Defenders without that platform can approximate this by correlating filesystem event logs with Defender update failure events and near-total free-space drops on C:\ during the same window using built-in ETW telemetry.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107094402959024396</description>
-      <content:encoded><![CDATA[<p>BigDiskBuster PoC silently starves Windows Defender of disk space during update cycles, leaving real-time protection running while security intelligence goes stale with no alert generated.</p><p>Key findings:</p><p>- BigDiskBuster, published to GitHub on September 19, 2026 by the actor MSNightmare, requires no vulnerability, no privilege escalation, and no kernel-mode component. The roughly 300-line C++ tool opens two persistent handles via NtCreateFile at the NT syscall layer: one to the C:\ volume device directly, and one to MRT.exe opened relative to that volume handle using a relative-path-through-device pattern. This bypasses the Win32 CreateFile wrapper that most defensive tooling monitors by default, meaning standard handle telemetry may miss it.</p><p>- When a Defender update begins, the tool&#x27;s recursive ReadDirectoryChangesW watch (bWatchSubtree = TRUE against the volume root) fires on the staging directory creation. It immediately queries available free space via NtQueryVolumeInformationFile with FileFsFullSizeInformation and claims every byte in a single allocation call, creating a GUID-named hidden file in AppData\Local\Temp with FILE_DELETE_ON_CLOSE. The file leaves no post-execution artifact. A re-arm loop spawns fresh allocation threads on every FILE_ACTION_MODIFIED event, racing to refill any space freed during the update attempt.</p><p>- The only visible indicator on the endpoint is error code 0x80070643 in the Windows Security Protection Updates pane, a generic fatal installer error indistinguishable from routine transient failures. Defender&#x27;s service stays running, real-time protection reports healthy, and no alert fires. The update process chain (svchost, wuauclcore, UpdatePlatform.amd64fre, MpSigStub, MpRecovery) initiates and fails silently.</p><p>- At the I/O layer, Process Monitor captures a sustained burst of IRP_MJ_CREATE, IRP_MJ_QUERY_EA, and IRP_MJ_QUERY_INFORMATION operations from BigDiskBuster&#x27;s PID against multiple GUID-named files under AppData\Local\Temp. The re-arm loop makes these repeated. In the process list, the executable presents no distinguishing name or parent chain, appearing alongside standard user-space processes.</p><p>- No CVE, patch, or Microsoft advisory exists for this technique as of the report date. The LevelBlue SpiderLabs report confirms reproduction against a live Defender platform update, with matching behavior.</p><p>Practitioner takeaway: Stop asking only &quot;Is Defender running?&quot; and start monitoring whether security intelligence is actually current. Three hunt anchors from this report. First, any non-OS process holding both a volume device handle and an MRT.exe handle simultaneously is a critical signal: correlate handle telemetry by PID and allowlist known holders (Defender service processes, TrustedInstaller). Second, recurring 0x80070643 Defender update failures with no concurrent installer activity should trigger handle telemetry pulls even after the file is gone; the handles may persist. Third, a SentinelOne query is provided in the report correlating GUID-braced hidden file creation events under AppData\Local\Temp with MpRecovery.exe spawning within a 30-second window to surface the creating process. Defenders without that platform can approximate this by correlating filesystem event logs with Defender update failure events and near-total free-space drops on C:\ during the same window using built-in ETW telemetry.</p><p>#DFIR_Radar</p><p><a href="https://www.levelblue.com/blogs/spiderlabs-blog/filling-the-well-nightmare-eclipses-bigdiskbuster-and-the-defender-update-that-never-lands">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107094402959024396">View on X</a></p>]]></content:encoded>
-      <dc:creator>LevelBlue SpiderLabs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107094402959024396</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2107094402959024396">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 13:03:49 +0000</pubDate>
-      <guid isPermaLink="false">2107094402959024396</guid>
     </item>
   </channel>
 </rss>
