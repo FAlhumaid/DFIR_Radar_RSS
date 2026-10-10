@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 04:02:17 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 05:03:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unit 42 links Blinder Tunnel campaign to Iranian state-aligned threat actor targeting aviation, telecommunications</title>
+      <link>https://industrialcyber.co/ransomware/unit-42-links-blinder-tunnel-campaign-to-iranian-state-aligned-threat-actor-targeting-aviation-telecommunications/</link>
+      <description>Iranian 🇮🇷 state-aligned actors ran a trojanized Visual Studio coding challenge against Iraqi critical infrastructure, deploying custom malware through a fake Dubai Airports recruitment portal and abusing GitHub APIs for C2.
+
+Key details:
+
+- The Blinder Tunnel campaign (CL-STA-1178) was staged and tested from November 2025 before activating in March 2026, targeting a software engineer in Iraq's critical infrastructure sector. The actor impersonated the Dubai Airports IT department, stood up a convincing offline careers portal requiring attacker-supplied credentials to log in, then delivered a weaponized Microsoft Visual Studio project archive as a supposed coding assessment. Infection began the moment the victim opened the project, before any compilation, because the dev environment's background project-loading routine was abused to copy and launch hidden malware into a folder disguised as a legitimate Microsoft component.
+
+- The three-stage chain uses AppDomainManager hijacking to run malware inside a trusted Microsoft process and simultaneously disable ETW (Windows event tracing), then exploits a weakness in that renamed Microsoft binary to sideload the final payload into memory. The deployed toolset is ShelbyLoader V2 (loader), ShelbyC2 V2 (RAT), a PowerShell execution component, and the Blackwood tunneling tool built on the open-source Chisel utility. All .NET binaries are obfuscated with an open-source tool to harden them against automated analysis and reverse engineering.
+
+- C2 traffic is disguised as legitimate cloud activity by misusing GitHub APIs. The actor read encrypted comments within GitHub issues to rotate C2 servers, and GitHub issues also served as a fallback channel if primary infrastructure went down. Operational testing confirmed dead-drop C2 resolution via GitHub comments in November 2025 and simulated Iraqi connections on a mock GitHub issue dashboard in April 2026. GitHub has since taken down the identified malicious infrastructure.
+
+- Attribution rests on several overlapping signals: the initial Blackwood C2 IP belongs to Iranian 🇮🇷 ISP TOSE'EH ERTEBATAT NOVIN ARIA; a secondary tunneling server resolves to Persian-language domains acquired through an Iranian 🇮🇷 reseller; an .mp3 file in the attacker's public GitHub repository retained metadata pointing to MusicDel[.]ir; and the "Peaky Blinders" theming across malware names and infrastructure ties this cluster to activity previously documented by Elastic Security Labs as The Shelby Strategy. Technique overlaps show low-confidence links to Screening Serpens (aviation lures, AppDomainManager hijacking to kill ETW) and Agent Serpens (GitHub dead-drop resolvers, in-memory .NET PowerShell wrappers). A parallel May-June 2026 credential-harvesting operation using conflict-themed lures targeted an Israeli 🇮🇱 entity on infrastructure reused from Blinder Tunnel.
+
+- The campaign's targeting spans telecommunications, aviation and other critical entities across Iraq, Israel 🇮🇱 and the UAE 🇦🇪, and was surfaced through VirusTotal submissions from an Iraqi submitter, underlining the forensic value of VT submission metadata for geo-attribution and victim identification.
+
+DFIR takeaway: hunt for processes loading DLLs from non-standard paths outside system directories, and for renamed Microsoft binaries spawning unexpected child processes or making outbound connections. Outbound HTTPS to github[.]com from developer tooling with no corresponding user activity, particularly reading issue comment threads in automated loops, is a high-fidelity behavioral indicator for this C2 pattern. In developer environments, audit AppDomain configuration files (.config) for entries that redirect assembly loading to attacker-controlled paths, which is the AppDomainManager hijacking mechanism used here.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108785347542831403</description>
+      <content:encoded><![CDATA[<p>Iranian 🇮🇷 state-aligned actors ran a trojanized Visual Studio coding challenge against Iraqi critical infrastructure, deploying custom malware through a fake Dubai Airports recruitment portal and abusing GitHub APIs for C2.</p><p>Key details:</p><p>- The Blinder Tunnel campaign (CL-STA-1178) was staged and tested from November 2025 before activating in March 2026, targeting a software engineer in Iraq&#x27;s critical infrastructure sector. The actor impersonated the Dubai Airports IT department, stood up a convincing offline careers portal requiring attacker-supplied credentials to log in, then delivered a weaponized Microsoft Visual Studio project archive as a supposed coding assessment. Infection began the moment the victim opened the project, before any compilation, because the dev environment&#x27;s background project-loading routine was abused to copy and launch hidden malware into a folder disguised as a legitimate Microsoft component.</p><p>- The three-stage chain uses AppDomainManager hijacking to run malware inside a trusted Microsoft process and simultaneously disable ETW (Windows event tracing), then exploits a weakness in that renamed Microsoft binary to sideload the final payload into memory. The deployed toolset is ShelbyLoader V2 (loader), ShelbyC2 V2 (RAT), a PowerShell execution component, and the Blackwood tunneling tool built on the open-source Chisel utility. All .NET binaries are obfuscated with an open-source tool to harden them against automated analysis and reverse engineering.</p><p>- C2 traffic is disguised as legitimate cloud activity by misusing GitHub APIs. The actor read encrypted comments within GitHub issues to rotate C2 servers, and GitHub issues also served as a fallback channel if primary infrastructure went down. Operational testing confirmed dead-drop C2 resolution via GitHub comments in November 2025 and simulated Iraqi connections on a mock GitHub issue dashboard in April 2026. GitHub has since taken down the identified malicious infrastructure.</p><p>- Attribution rests on several overlapping signals: the initial Blackwood C2 IP belongs to Iranian 🇮🇷 ISP TOSE&#x27;EH ERTEBATAT NOVIN ARIA; a secondary tunneling server resolves to Persian-language domains acquired through an Iranian 🇮🇷 reseller; an .mp3 file in the attacker&#x27;s public GitHub repository retained metadata pointing to MusicDel[.]ir; and the &quot;Peaky Blinders&quot; theming across malware names and infrastructure ties this cluster to activity previously documented by Elastic Security Labs as The Shelby Strategy. Technique overlaps show low-confidence links to Screening Serpens (aviation lures, AppDomainManager hijacking to kill ETW) and Agent Serpens (GitHub dead-drop resolvers, in-memory .NET PowerShell wrappers). A parallel May-June 2026 credential-harvesting operation using conflict-themed lures targeted an Israeli 🇮🇱 entity on infrastructure reused from Blinder Tunnel.</p><p>- The campaign&#x27;s targeting spans telecommunications, aviation and other critical entities across Iraq, Israel 🇮🇱 and the UAE 🇦🇪, and was surfaced through VirusTotal submissions from an Iraqi submitter, underlining the forensic value of VT submission metadata for geo-attribution and victim identification.</p><p>DFIR takeaway: hunt for processes loading DLLs from non-standard paths outside system directories, and for renamed Microsoft binaries spawning unexpected child processes or making outbound connections. Outbound HTTPS to github[.]com from developer tooling with no corresponding user activity, particularly reading issue comment threads in automated loops, is a high-fidelity behavioral indicator for this C2 pattern. In developer environments, audit AppDomain configuration files (.config) for entries that redirect assembly loading to attacker-controlled paths, which is the AppDomainManager hijacking mechanism used here.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/ransomware/unit-42-links-blinder-tunnel-campaign-to-iranian-state-aligned-threat-actor-targeting-aviation-telecommunications/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108785347542831403">View on X</a></p>]]></content:encoded>
+      <dc:creator>Industrial Cyber</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108785347542831403</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2108785347542831403">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 05:03:02 +0000</pubDate>
+      <guid isPermaLink="false">2108785347542831403</guid>
+    </item>
     <item>
       <title>NetScaler C2: A Massive CVE-2026-88771 Exploitation Operation</title>
       <link>https://socradar.io/blog/netscaler-c2-cve-2026-88771-exploitation/</link>
@@ -2300,20 +2328,6 @@ Practitioner takeaway: Pull the updated Sigma WSL rules and the ShieldCrash Sysm
       <source url="https://x.com/DFIR_Radar/status/2107003597758345377">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 07:02:59 +0000</pubDate>
       <guid isPermaLink="false">2107003597758345377</guid>
-    </item>
-    <item>
-      <title>TTY Logs and the Data it Captures, (Sun, Oct 4th)</title>
-      <link>https://isc.sans.edu/diary/rss/33396</link>
-      <description>SANS ISC DShield honeypot TTY logs tied one crontab session hash to 3,130 unique IPs over 90 days, showing attacker automation at scale. ES|QL queries and IOCs are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2106912985188901091</description>
-      <content:encoded><![CDATA[<p>SANS ISC DShield honeypot TTY logs tied one crontab session hash to 3,130 unique IPs over 90 days, showing attacker automation at scale. ES|QL queries and IOCs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33396">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2106912985188901091">View on X</a></p>]]></content:encoded>
-      <dc:creator>SANS ISC</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2106912985188901091</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2106912985188901091">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 01:02:55 +0000</pubDate>
-      <guid isPermaLink="false">2106912985188901091</guid>
     </item>
   </channel>
 </rss>
