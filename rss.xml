@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2026 07:02:04 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 08:01:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Exploit AhsayCBS Flaws to Deploy XMRig Miners Disguised as Microsoft Edge</title>
+      <link>https://thehackernews.com/2026/10/attackers-exploit-ahsaycbs-flaws-to.html</link>
+      <description>CVE-2026-105134 (CVSS 9.3) chained with CVE-2026-105133 in AhsayCBS is actively exploited as a zero-day, dropping webshells and XMRig as edge.exe. Hunt TEMP for WinRing0x64.sys and Taskgmr.ps1.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108830377682854349</description>
+      <content:encoded><![CDATA[<p>CVE-2026-105134 (CVSS 9.3) chained with CVE-2026-105133 in AhsayCBS is actively exploited as a zero-day, dropping webshells and XMRig as edge.exe. Hunt TEMP for WinRing0x64.sys and Taskgmr.ps1.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/attackers-exploit-ahsaycbs-flaws-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108830377682854349">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2108830377682854349</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2108830377682854349">DFIR Radar</source>
+      <pubDate>Sat, 10 Oct 2026 08:01:57 +0000</pubDate>
+      <guid isPermaLink="false">2108830377682854349</guid>
+    </item>
     <item>
       <title>Unpatched AhsayCBS flaws exploited to deploy webshells, mine crypto</title>
       <link>https://www.bleepingcomputer.com/news/security/unpatched-ahsaycbs-flaws-exploited-to-deploy-webshells-mine-crypto/</link>
@@ -2312,34 +2326,6 @@ Practitioner takeaway: Stop asking only "Is Defender running?" and start monitor
       <source url="https://x.com/DFIR_Radar/status/2107094402959024396">DFIR Radar</source>
       <pubDate>Mon, 05 Oct 2026 13:03:49 +0000</pubDate>
       <guid isPermaLink="false">2107094402959024396</guid>
-    </item>
-    <item>
-      <title>Detections Digest #20261005</title>
-      <link>https://detections-digest.rulecheck.io/p/detections-digest-20261005</link>
-      <description>Weekly detection rule roundup (Sep 28 - Oct 5, 2026): 33 new rules and 24 updates across 9 repositories, covering WSL abuse, ShieldCrash exploitation, Kubernetes threats, and hybrid identity gaps.
-
-Key updates this week:
-
-- WSL and execution hijacking got serious coverage in SigmaHQ/sigma. Six new rules target Windows Subsystem for Linux InstallLocation registry key tampering (via PowerShell or reg.exe), binary proxy execution through the WSL stub, and wsl.exe masquerading where the executing file name does not match OriginalFileName metadata. A seventh rule catches XBootMgrSleep.exe spawning unexpected child processes as a living-off-the-land execution delay technique. Hunt for registry write events to the WSL InstallLocation key and process creation where wsl.exe OriginalFileName metadata mismatches.
-
-- Splunk's new ShieldCrash analytic (Windows Defender Intermediary Artifact Was Observed) monitors Sysmon Event IDs 11, 15, and 23 under System or msmpeng.exe running as SYSTEM, flagging artifact creation and removal events that lack standard file extensions. Concurrently, LOLDrivers refreshed malicious and vulnerable driver hash catalogs (MD5, SHA1, SHA256, IMPHASH) for BYOVD detection, with coverage regardless of HVCI state, and added a Sigma rule matching vulnerable driver filenames from the same catalog.
-
-- Identity detection coverage expanded on two fronts. SigmaHQ widened Kerberoasting rules by removing the specific .GetRequest() method requirement from the KerberosRequestorSecurityToken class checks, meaning any PowerShell script block or command line referencing that class now triggers. New KQL rules from jkerai1/KQL-Queries cross-correlate on-premises AD and Entra ID to surface dormant accounts active in only one domain over 90 days. The Azure subscription elevation Sigma rule was also updated to match current Entra ID audit log schema fields (AzureRBACRoleManagementElevateAccess category and current ActivityDisplayName attributes).
-
-- Linux runtime threats were addressed in rabbitstack/fibratus with four new rules: ptrace-based process injection (PTRACE_ATTACH and PTRACE_SEIZE against external PIDs), SIGKILL termination of external processes for defense evasion, execution of binaries from world-writable temp directories, and reverse shells identified by correlating interpreter execution with outbound connections within 30 seconds. LOLRMM expanded its Generic RMM Tool Detection Sigma rule to cover eight additional utilities including Borealis, OpenUEM, NetMaster, and ProxiPort.
-
-- Kubernetes received 13 new KQL rules in benscha/KQLAdvancedHunting targeting CloudAuditEvents. Coverage spans rapid service account creation linked to high-privilege roles and token minting, Kubelet API abuse, procfs credential enumeration (/proc/[pid]/environ and /proc/[pid]/mem), suspicious DaemonSet and CronJob definitions with hostPath mounts, Mutating and Validating Webhook creation for secret interception, and pod IMDS token requests correlated with Azure activity from outside cluster egress IP ranges. Sublime Security added 7 new email rules covering illicit M365 OAuth consent links in Office documents, PDFs, and ICS attachments targeting offline_access and read/write scopes, plus W9 signature reuse and personalized fake invoice naming patterns.
-
-Practitioner takeaway: Pull the updated Sigma WSL rules and the ShieldCrash Sysmon analytic into your rule pipeline first, as both address active evasion and exploitation techniques with specific artifact trails. For identity coverage, deploy the hybrid identity KQL queries against 90-day windows and review your Kerberoasting detections to ensure they are not gated on the now-dropped .GetRequest() string. Full rule content and IOC updates (including 12 new BEC sender SHA-256 hashes in Sublime's rule refresh) are in the repositories linked in the digest.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107079041387737489</description>
-      <content:encoded><![CDATA[<p>Weekly detection rule roundup (Sep 28 - Oct 5, 2026): 33 new rules and 24 updates across 9 repositories, covering WSL abuse, ShieldCrash exploitation, Kubernetes threats, and hybrid identity gaps.</p><p>Key updates this week:</p><p>- WSL and execution hijacking got serious coverage in SigmaHQ/sigma. Six new rules target Windows Subsystem for Linux InstallLocation registry key tampering (via PowerShell or reg.exe), binary proxy execution through the WSL stub, and wsl.exe masquerading where the executing file name does not match OriginalFileName metadata. A seventh rule catches XBootMgrSleep.exe spawning unexpected child processes as a living-off-the-land execution delay technique. Hunt for registry write events to the WSL InstallLocation key and process creation where wsl.exe OriginalFileName metadata mismatches.</p><p>- Splunk&#x27;s new ShieldCrash analytic (Windows Defender Intermediary Artifact Was Observed) monitors Sysmon Event IDs 11, 15, and 23 under System or msmpeng.exe running as SYSTEM, flagging artifact creation and removal events that lack standard file extensions. Concurrently, LOLDrivers refreshed malicious and vulnerable driver hash catalogs (MD5, SHA1, SHA256, IMPHASH) for BYOVD detection, with coverage regardless of HVCI state, and added a Sigma rule matching vulnerable driver filenames from the same catalog.</p><p>- Identity detection coverage expanded on two fronts. SigmaHQ widened Kerberoasting rules by removing the specific .GetRequest() method requirement from the KerberosRequestorSecurityToken class checks, meaning any PowerShell script block or command line referencing that class now triggers. New KQL rules from jkerai1/KQL-Queries cross-correlate on-premises AD and Entra ID to surface dormant accounts active in only one domain over 90 days. The Azure subscription elevation Sigma rule was also updated to match current Entra ID audit log schema fields (AzureRBACRoleManagementElevateAccess category and current ActivityDisplayName attributes).</p><p>- Linux runtime threats were addressed in rabbitstack/fibratus with four new rules: ptrace-based process injection (PTRACE_ATTACH and PTRACE_SEIZE against external PIDs), SIGKILL termination of external processes for defense evasion, execution of binaries from world-writable temp directories, and reverse shells identified by correlating interpreter execution with outbound connections within 30 seconds. LOLRMM expanded its Generic RMM Tool Detection Sigma rule to cover eight additional utilities including Borealis, OpenUEM, NetMaster, and ProxiPort.</p><p>- Kubernetes received 13 new KQL rules in benscha/KQLAdvancedHunting targeting CloudAuditEvents. Coverage spans rapid service account creation linked to high-privilege roles and token minting, Kubelet API abuse, procfs credential enumeration (/proc/[pid]/environ and /proc/[pid]/mem), suspicious DaemonSet and CronJob definitions with hostPath mounts, Mutating and Validating Webhook creation for secret interception, and pod IMDS token requests correlated with Azure activity from outside cluster egress IP ranges. Sublime Security added 7 new email rules covering illicit M365 OAuth consent links in Office documents, PDFs, and ICS attachments targeting offline_access and read/write scopes, plus W9 signature reuse and personalized fake invoice naming patterns.</p><p>Practitioner takeaway: Pull the updated Sigma WSL rules and the ShieldCrash Sysmon analytic into your rule pipeline first, as both address active evasion and exploitation techniques with specific artifact trails. For identity coverage, deploy the hybrid identity KQL queries against 90-day windows and review your Kerberoasting detections to ensure they are not gated on the now-dropped .GetRequest() string. Full rule content and IOC updates (including 12 new BEC sender SHA-256 hashes in Sublime&#x27;s rule refresh) are in the repositories linked in the digest.</p><p>#DFIR_Radar</p><p><a href="https://detections-digest.rulecheck.io/p/detections-digest-20261005">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107079041387737489">View on X</a></p>]]></content:encoded>
-      <dc:creator>Detections Digest</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107079041387737489</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2107079041387737489">DFIR Radar</source>
-      <pubDate>Mon, 05 Oct 2026 12:02:46 +0000</pubDate>
-      <guid isPermaLink="false">2107079041387737489</guid>
     </item>
   </channel>
 </rss>
