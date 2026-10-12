@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 12 Oct 2026 14:03:05 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2026 15:02:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting AtlasRAT C2</title>
+      <link>https://www.netresec.com/?page=Blog&amp;month=2026-10&amp;post=Detecting-AtlasRAT-C2</link>
+      <description>AtlasRAT C2 protocol has evolved three times since March 2026, moving from cleartext magic bytes to XOR obfuscation and finally TLS, with Silver Fox likely operating it alongside ValleyRAT on shared infrastructure.
+
+Key findings:
+
+- AtlasRAT's loader check-in has used two plaintext magic byte sequences: the original "SFuck" (53 46 75 63 6b 00 00 00) on TCP ports 886 and 9899, and the May 2026 "BFuck" variant (42 46 75 63 6b 00 00 00) shifting to TCP 443. The loader pulls 300-500 kB of shellcode containing the full backdoor DLL, which then opens a second connection to the same C2 server using a separate protocol.
+
+- The legacy C2 channel used ChaCha20 encryption with a distinctive 56-byte cleartext header per packet: 4 bytes sequence number, 4 bytes compressed size, 4 bytes original size, 4 bytes padding/flags, a 32-byte ChaCha20 key, and an 8-byte nonce. Days after public analysis by HexaStrike in late March 2026, the operators pivoted to XOR encryption with a fixed key starting a7 3b f1 8c, then abandoned that approach entirely by June 2026.
+
+- In July 2026 the actors moved to TLS C2. After the BFuck check-in, the backdoor establishes a TLS session fingerprinted as JA3 e26606c572e55d499b0676e9095e3df8 and JA3S f98a4985f829b6513fbeccf5b751b458. The C2 server presents a self-signed certificate impersonating update[.]microsoft[.]com with thumbprint a66308a1fb09c8345228ca00335e633b2dabde53.
+
+- AtlasRAT is linked circumstantially to Silver Fox (also tracked as Void Arachne, TA4922, SwimSnake, UTG-Q-1000). The operational tie is concrete: ValleyRAT (Winos4.0) and AtlasRAT have been observed sharing C2 servers on different ports, suggesting a common operator. Eight C2 IPs are listed in the report, including 23.226.57[.]50:443, 38.76.177[.]46:443, and 43.99.101[.]175:443, alongside domains laicaishuli[.]com, yilufafafa[.]club, and zixungongsi[.]top.
+
+Practitioner takeaway: The Netresec report ships four Suricata rules (SIDs 1471105-1471108) covering the SFuck and BFuck byte-sequence check-ins, the distinctive TLS client hello cipher list at offset 43, and the raw certificate bytes impersonating update[.]microsoft[.]com at offset 12. All four rules plus the full IOC list are available from Netresec's Suricata GitHub repo. If you are hunting in existing PCAP or NDR logs, pivot on the JA3/JA3S pair and the certificate thumbprint before touching the IP list, since infrastructure rotates faster than TLS fingerprints. Cross-reference any AtlasRAT C2 server hits against ValleyRAT indicators on adjacent ports: shared infrastructure is your best lateral link to operator-level attribution.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109661011485839678</description>
+      <content:encoded><![CDATA[<p>AtlasRAT C2 protocol has evolved three times since March 2026, moving from cleartext magic bytes to XOR obfuscation and finally TLS, with Silver Fox likely operating it alongside ValleyRAT on shared infrastructure.</p><p>Key findings:</p><p>- AtlasRAT&#x27;s loader check-in has used two plaintext magic byte sequences: the original &quot;SFuck&quot; (53 46 75 63 6b 00 00 00) on TCP ports 886 and 9899, and the May 2026 &quot;BFuck&quot; variant (42 46 75 63 6b 00 00 00) shifting to TCP 443. The loader pulls 300-500 kB of shellcode containing the full backdoor DLL, which then opens a second connection to the same C2 server using a separate protocol.</p><p>- The legacy C2 channel used ChaCha20 encryption with a distinctive 56-byte cleartext header per packet: 4 bytes sequence number, 4 bytes compressed size, 4 bytes original size, 4 bytes padding/flags, a 32-byte ChaCha20 key, and an 8-byte nonce. Days after public analysis by HexaStrike in late March 2026, the operators pivoted to XOR encryption with a fixed key starting a7 3b f1 8c, then abandoned that approach entirely by June 2026.</p><p>- In July 2026 the actors moved to TLS C2. After the BFuck check-in, the backdoor establishes a TLS session fingerprinted as JA3 e26606c572e55d499b0676e9095e3df8 and JA3S f98a4985f829b6513fbeccf5b751b458. The C2 server presents a self-signed certificate impersonating update[.]microsoft[.]com with thumbprint a66308a1fb09c8345228ca00335e633b2dabde53.</p><p>- AtlasRAT is linked circumstantially to Silver Fox (also tracked as Void Arachne, TA4922, SwimSnake, UTG-Q-1000). The operational tie is concrete: ValleyRAT (Winos4.0) and AtlasRAT have been observed sharing C2 servers on different ports, suggesting a common operator. Eight C2 IPs are listed in the report, including 23.226.57[.]50:443, 38.76.177[.]46:443, and 43.99.101[.]175:443, alongside domains laicaishuli[.]com, yilufafafa[.]club, and zixungongsi[.]top.</p><p>Practitioner takeaway: The Netresec report ships four Suricata rules (SIDs 1471105-1471108) covering the SFuck and BFuck byte-sequence check-ins, the distinctive TLS client hello cipher list at offset 43, and the raw certificate bytes impersonating update[.]microsoft[.]com at offset 12. All four rules plus the full IOC list are available from Netresec&#x27;s Suricata GitHub repo. If you are hunting in existing PCAP or NDR logs, pivot on the JA3/JA3S pair and the certificate thumbprint before touching the IP list, since infrastructure rotates faster than TLS fingerprints. Cross-reference any AtlasRAT C2 server hits against ValleyRAT indicators on adjacent ports: shared infrastructure is your best lateral link to operator-level attribution.</p><p>#DFIR_Radar</p><p><a href="https://www.netresec.com/?page=Blog&amp;month=2026-10&amp;post=Detecting-AtlasRAT-C2">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109661011485839678">View on X</a></p>]]></content:encoded>
+      <dc:creator>Netresec</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2109661011485839678</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2109661011485839678">DFIR Radar</source>
+      <pubDate>Mon, 12 Oct 2026 15:02:36 +0000</pubDate>
+      <guid isPermaLink="false">2109661011485839678</guid>
+    </item>
     <item>
       <title>Unpatched cross-namespace secret exfiltration in GoogleCloudPlatform/k8s-config-connector - CVE requested (CAN-2026-2039460)</title>
       <link>https://seclists.org/oss-sec/2026/q4/134</link>
@@ -2222,32 +2248,6 @@ Takeaway: On any NetScaler system that was internet-exposed during this campaign
       <source url="https://x.com/DFIR_Radar/status/2107502068147626223">DFIR Radar</source>
       <pubDate>Tue, 06 Oct 2026 16:03:43 +0000</pubDate>
       <guid isPermaLink="false">2107502068147626223</guid>
-    </item>
-    <item>
-      <title>Up a Creek Without a Command Line: Mapping an Akira Ransomware Attack</title>
-      <link>https://www.huntress.com/blog/mapping-akira-ransomware-attack</link>
-      <description>Akira ransomware dissected without EDR: Huntress reconstructs a full attack chain using Shellbags, PowerShell event logs, and Akira's own log files after a post-compromise agent install left the early stages dark.
-
-Key findings:
-
-- Initial access came via RDP from a workstation named C1IFRYXI, not owned by the victim org. The threat actor immediately hit the BitDefender console and stopped four endpoint security services (Endpoint Update, Integration, Protected, and Security) before dropping procdump.exe into C:\PerfLogs to dump lsass credentials. The attack staging folder throughout was C:\PerfLogs, worth flagging as a hunt target on its own.
-
-- With no process telemetry for the ransomware execution itself, analysts correlated three artifact classes as a composite signal: Shellbags confirmed the threat actor browsed target Share subfolders via Windows Explorer immediately before and after each encryption run; PowerShell event logs showed "Get-WmiObject Win32_Shadowcopy | Remove-WmiObject" firing at the same moment; and Akira's own log file was created at that timestamp pointing at the same folder. The same sequence repeated four times across four Share subfolders, the threat actor manually verifying encryption success each time.
-
-- GOST tunnel (Go Simple Tunnel) was deployed roughly four hours into the encryption phase, running as svchost.exe from C:\PerfLogs\temp\ under SYSTEM, loading config.dll, and beaconing to 64.227.4[.]134. GOST svchost.exe SHA256: d00833318a04caa019c6f95dcb3598ad947d405010bfb2f3cbd04530a00bc3a4. RClone followed from the same staging folder for data exfiltration to cloud storage.
-
-- Ransomware binary at C:\storage\win.exe SHA256: 1f1bb322591b6d27fd2946e373d7d2efc2f4e1e66818846060d391600b600fba. The Akira log files the ransomware itself generated became forensic evidence against it, correlating execution time, target paths, and the VSS deletion command to reconstruct a timeline the EDR never captured.
-
-Takeaway: When EDR telemetry starts mid-attack, treat Shellbags (NTUSER.DAT), PowerShell operational logs (Event ID 4104), and application-generated logs as a triad. Shellbags show where the actor navigated and when; PowerShell logs capture the VSS wipe command that confirms ransomware launch even without a recorded ransomware command line; and the malware's own log file timestamps the target. Hunt C:\PerfLogs for unsigned executables, new DLLs, and child processes under svchost. Full IOC list is in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107486784582210037</description>
-      <content:encoded><![CDATA[<p>Akira ransomware dissected without EDR: Huntress reconstructs a full attack chain using Shellbags, PowerShell event logs, and Akira&#x27;s own log files after a post-compromise agent install left the early stages dark.</p><p>Key findings:</p><p>- Initial access came via RDP from a workstation named C1IFRYXI, not owned by the victim org. The threat actor immediately hit the BitDefender console and stopped four endpoint security services (Endpoint Update, Integration, Protected, and Security) before dropping procdump.exe into C:\PerfLogs to dump lsass credentials. The attack staging folder throughout was C:\PerfLogs, worth flagging as a hunt target on its own.</p><p>- With no process telemetry for the ransomware execution itself, analysts correlated three artifact classes as a composite signal: Shellbags confirmed the threat actor browsed target Share subfolders via Windows Explorer immediately before and after each encryption run; PowerShell event logs showed &quot;Get-WmiObject Win32_Shadowcopy | Remove-WmiObject&quot; firing at the same moment; and Akira&#x27;s own log file was created at that timestamp pointing at the same folder. The same sequence repeated four times across four Share subfolders, the threat actor manually verifying encryption success each time.</p><p>- GOST tunnel (Go Simple Tunnel) was deployed roughly four hours into the encryption phase, running as svchost.exe from C:\PerfLogs\temp\ under SYSTEM, loading config.dll, and beaconing to 64.227.4[.]134. GOST svchost.exe SHA256: d00833318a04caa019c6f95dcb3598ad947d405010bfb2f3cbd04530a00bc3a4. RClone followed from the same staging folder for data exfiltration to cloud storage.</p><p>- Ransomware binary at C:\storage\win.exe SHA256: 1f1bb322591b6d27fd2946e373d7d2efc2f4e1e66818846060d391600b600fba. The Akira log files the ransomware itself generated became forensic evidence against it, correlating execution time, target paths, and the VSS deletion command to reconstruct a timeline the EDR never captured.</p><p>Takeaway: When EDR telemetry starts mid-attack, treat Shellbags (NTUSER.DAT), PowerShell operational logs (Event ID 4104), and application-generated logs as a triad. Shellbags show where the actor navigated and when; PowerShell logs capture the VSS wipe command that confirms ransomware launch even without a recorded ransomware command line; and the malware&#x27;s own log file timestamps the target. Hunt C:\PerfLogs for unsigned executables, new DLLs, and child processes under svchost. Full IOC list is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/mapping-akira-ransomware-attack">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107486784582210037">View on X</a></p>]]></content:encoded>
-      <dc:creator>Huntress</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107486784582210037</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107486784582210037">DFIR Radar</source>
-      <pubDate>Tue, 06 Oct 2026 15:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2107486784582210037</guid>
     </item>
   </channel>
 </rss>
