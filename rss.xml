@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 12 Oct 2026 12:03:31 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2026 13:01:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unpatched credential leak in kubernetes/cloud-provider-gcp (auth-provider-gcp) - CVE requested (CAN-2026-2039459)</title>
+      <link>https://seclists.org/oss-sec/2026/q4/133</link>
+      <description>CAN-2026-2039459, unpatched in kubernetes/cloud-provider-gcp, leaks GCP OAuth2 tokens into kubelet ERROR-level logs via a klog.Errorf call when metadata JSON parsing fails. Hunt kubelet logs for raw token responses from metadata[.]google.internal.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109630634456940601</description>
+      <content:encoded><![CDATA[<p>CAN-2026-2039459, unpatched in kubernetes/cloud-provider-gcp, leaks GCP OAuth2 tokens into kubelet ERROR-level logs via a klog.Errorf call when metadata JSON parsing fails. Hunt kubelet logs for raw token responses from metadata[.]google.internal.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/133">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109630634456940601">View on X</a></p>]]></content:encoded>
+      <dc:creator>OSS-Security Mailing List</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2109630634456940601</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2109630634456940601">DFIR Radar</source>
+      <pubDate>Mon, 12 Oct 2026 13:01:53 +0000</pubDate>
+      <guid isPermaLink="false">2109630634456940601</guid>
+    </item>
     <item>
       <title>numbat: Endpoint Visibility and Forensics for AI Coding Agents</title>
       <link>https://www.darknet.org.uk/2026/10/numbat-endpoint-visibility-and-forensics-for-ai-coding-agents/</link>
@@ -2246,32 +2260,6 @@ Hunt tip: In CloudTrail, alert on any identity calling ListFoundationModels or L
       <source url="https://x.com/DFIR_Radar/status/2107471840117485942">DFIR Radar</source>
       <pubDate>Tue, 06 Oct 2026 14:03:37 +0000</pubDate>
       <guid isPermaLink="false">2107471840117485942</guid>
-    </item>
-    <item>
-      <title>More RMM Tools In the Wild, (Tue, Oct 6th)</title>
-      <link>https://isc.sans.edu/diary/rss/33400</link>
-      <description>Phishing campaign abuses Action1 RMM agent for persistent remote access, dropping a signed MSI via PDF redirect and VBS. No EDR detections on VirusTotal at time of discovery.
-
-Key findings:
-
-- The attack chain starts with a phishing email carrying a fake PDF invoice. The PDF uses an OpenAction and URI object to silently redirect the victim's browser to hxxps://up-theta-rose.vercel[.]app/adobe_new_update.vbs when opened, keeping the malicious URL out of the email body entirely and bypassing link-scanning controls. The VBS itself is unobfuscated and displays a clean decoy PDF as a distraction while the real payload downloads.
-
-- The VBS fetches hxxps://up-theta-rose.vercel[.]app/action1.msi, a packaged installer for the legitimate Action1 RMM agent. The four files inside carry these SHA-256 hashes: a1_7z_dll_file (eaff35d250c9b04f51c971e70082740dbfeee5dd846829d541f588ad43378727), a1_sas_dll_file (996b01e15f85e165899630721a141b178a9c372b6e878012180ec9e9d4e7bd06), action1_remote_exe (1b19115d5ebdc216e0ab3adf2c643648cfc70a385f4caf0217c679f9f3b20342), and main_service_exe (941695d20d82dd5d62f74b0111feb23720637202f6c797df2a02e2cb6cb6e8e3). All four were clean on VirusTotal at discovery, meaning file-reputation defenses offer no protection here.
-
-- Persistence is established as a Windows service named A1Agent ("Action1 Agent"), executing C:\Windows\Action1\action1_agent.exe. The registry key HKLM\Software\Action1\Agent holds the values CustomerId, Certificate, PrivateKey, MSI, and INSTALLDIR. The CustomerID observed is 49b18106-681d-456a-b098-092e2818c09a, and the agent beacons out to server[.]na-2.action1[.]com, the legitimate Action1 cloud infrastructure. The MSI is signed with a valid "Action1 Corporation" certificate, though the signing cert expired in May 2026.
-
-- This is the same playbook seen days earlier with ScreenConnect: a threat actor registers a free or trial account with a legitimate RMM vendor, then uses that vendor's own cloud infrastructure as the C2 relay. Because the traffic goes to a known, signed, whitelisted service endpoint, network-layer detections rarely fire. The attacker gets persistent, interactive remote access with no custom implant to detect.
-
-Hunt for the A1Agent service name and the action1_agent.exe process in your environment. Check HKLM\Software\Action1\Agent for unexpected CustomerID values and correlate any outbound connections to action1[.]com against your known asset inventory. PDF files triggering browser navigation on open, followed by a VBS fetch from a Vercel-hosted URL, are a strong pre-infection signal worth building a detection around. The SANS ISC diary carries the full file hashes listed above.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107456874249330859</description>
-      <content:encoded><![CDATA[<p>Phishing campaign abuses Action1 RMM agent for persistent remote access, dropping a signed MSI via PDF redirect and VBS. No EDR detections on VirusTotal at time of discovery.</p><p>Key findings:</p><p>- The attack chain starts with a phishing email carrying a fake PDF invoice. The PDF uses an OpenAction and URI object to silently redirect the victim&#x27;s browser to hxxps://up-theta-rose.vercel[.]app/adobe_new_update.vbs when opened, keeping the malicious URL out of the email body entirely and bypassing link-scanning controls. The VBS itself is unobfuscated and displays a clean decoy PDF as a distraction while the real payload downloads.</p><p>- The VBS fetches hxxps://up-theta-rose.vercel[.]app/action1.msi, a packaged installer for the legitimate Action1 RMM agent. The four files inside carry these SHA-256 hashes: a1_7z_dll_file (eaff35d250c9b04f51c971e70082740dbfeee5dd846829d541f588ad43378727), a1_sas_dll_file (996b01e15f85e165899630721a141b178a9c372b6e878012180ec9e9d4e7bd06), action1_remote_exe (1b19115d5ebdc216e0ab3adf2c643648cfc70a385f4caf0217c679f9f3b20342), and main_service_exe (941695d20d82dd5d62f74b0111feb23720637202f6c797df2a02e2cb6cb6e8e3). All four were clean on VirusTotal at discovery, meaning file-reputation defenses offer no protection here.</p><p>- Persistence is established as a Windows service named A1Agent (&quot;Action1 Agent&quot;), executing C:\Windows\Action1\action1_agent.exe. The registry key HKLM\Software\Action1\Agent holds the values CustomerId, Certificate, PrivateKey, MSI, and INSTALLDIR. The CustomerID observed is 49b18106-681d-456a-b098-092e2818c09a, and the agent beacons out to server[.]na-2.action1[.]com, the legitimate Action1 cloud infrastructure. The MSI is signed with a valid &quot;Action1 Corporation&quot; certificate, though the signing cert expired in May 2026.</p><p>- This is the same playbook seen days earlier with ScreenConnect: a threat actor registers a free or trial account with a legitimate RMM vendor, then uses that vendor&#x27;s own cloud infrastructure as the C2 relay. Because the traffic goes to a known, signed, whitelisted service endpoint, network-layer detections rarely fire. The attacker gets persistent, interactive remote access with no custom implant to detect.</p><p>Hunt for the A1Agent service name and the action1_agent.exe process in your environment. Check HKLM\Software\Action1\Agent for unexpected CustomerID values and correlate any outbound connections to action1[.]com against your known asset inventory. PDF files triggering browser navigation on open, followed by a VBS fetch from a Vercel-hosted URL, are a strong pre-infection signal worth building a detection around. The SANS ISC diary carries the full file hashes listed above.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33400">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107456874249330859">View on X</a></p>]]></content:encoded>
-      <dc:creator>SANS ISC</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107456874249330859</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107456874249330859">DFIR Radar</source>
-      <pubDate>Tue, 06 Oct 2026 13:04:08 +0000</pubDate>
-      <guid isPermaLink="false">2107456874249330859</guid>
     </item>
   </channel>
 </rss>
