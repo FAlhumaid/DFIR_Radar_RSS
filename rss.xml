@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 12 Oct 2026 20:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2026 21:02:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Quantum-resistant signing on AWS, Part 1: Build a software supply chain with ML-DSA</title>
+      <link>https://aws.amazon.com/blogs/security/quantum-resistant-signing-on-aws-part-1-build-a-software-supply-chain-with-ml-dsa/</link>
+      <description>AWS published a guide for building ML-DSA (FIPS 204) quantum-resistant software supply chain signing using KMS, Private CA, and IAM Roles Anywhere. Audit KMS SIGN_VERIFY keys for RSA or ECDSA specs before CNSA 2.0's 2030 exclusive-use deadline.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109751596095529198</description>
+      <content:encoded><![CDATA[<p>AWS published a guide for building ML-DSA (FIPS 204) quantum-resistant software supply chain signing using KMS, Private CA, and IAM Roles Anywhere. Audit KMS SIGN_VERIFY keys for RSA or ECDSA specs before CNSA 2.0&#x27;s 2030 exclusive-use deadline.</p><p>#DFIR_Radar</p><p><a href="https://aws.amazon.com/blogs/security/quantum-resistant-signing-on-aws-part-1-build-a-software-supply-chain-with-ml-dsa/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109751596095529198">View on X</a></p>]]></content:encoded>
+      <dc:creator>AWS Security Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2109751596095529198</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2109751596095529198">DFIR Radar</source>
+      <pubDate>Mon, 12 Oct 2026 21:02:33 +0000</pubDate>
+      <guid isPermaLink="false">2109751596095529198</guid>
+    </item>
     <item>
       <title>Wordfence Argus Discovers Critical Vulnerability in Ghostscript, the Program That Turns Uploaded PDFs into Thumbnails on Your Server</title>
       <link>https://www.wordfence.com/blog/2026/10/wordfence-argus-discovers-critical-vulnerability-in-ghostscript-the-program-that-turns-uploaded-pdfs-into-thumbnails-on-your-server/</link>
@@ -2206,32 +2220,6 @@ DFIR takeaway: This quarter's pattern is trusted-path abuse across every layer. 
       <source url="https://x.com/DFIR_Radar/status/2107592412440998364">DFIR Radar</source>
       <pubDate>Tue, 06 Oct 2026 22:02:43 +0000</pubDate>
       <guid isPermaLink="false">2107592412440998364</guid>
-    </item>
-    <item>
-      <title>Linux Backdoors Impersonate Email Security Tools to Evade Detection in Korea and Taiwan</title>
-      <link>https://thehackernews.com/2026/10/linux-backdoors-impersonate-email.html</link>
-      <description>Linux backdoors disguised as Korean and Taiwanese 🇹🇼 email security tools hit telecom and network appliances, blending malicious traffic into expected enterprise noise to frustrate detection.
-
-Key details:
-
-- Red Menshen (aka Earth Bluecrow, DecisiveArchitect, Red Dev 18) is behind a new BPFDoor variant and a BPF Rekoobe build targeting South Korean 🇰🇷 systems, while a previously unreported implant called AVERAT hits Taiwanese 🇹🇼 appliances. The distinguishing tradecraft here is regionalized process spoofing: BPFDoor samples impersonate the PID file of SpamSniper, rotate through ten Linux daemon names, or set their process name to "ora_ppmond" to blend into Oracle telecom environments. Rekoobe names its processes after SpamSniper components and listens on source and destination port 25 across TCP, UDP, SCTP IPv4, and UDP IPv6.
-
-- The new BPFDoor variant adapts specifically to evade the Suricata and Snort signatures written after earlier public disclosures. Operators now wrap the magic packet in standard HTTPS POST requests and rely on SSL offloading common in telecom environments, allowing the trigger to reach the BPFDoor-infected node without tripping conventional deep packet inspection. Once triggered, BPFDoor launches a TinyShell session supporting interactive shell, upload, and download. TinyShell use overlaps with China-nexus clusters Liminal Panda, UNC3886 (Fire Ant), and Velvet Ant, all prior telecom and edge-device operators.
-
-- AVERAT is an ELF dropper found inside ShareTech appliances at /addpkg/sbin/, the add-on package directory. The dropper derives its AES key from the string "ShareTech", decrypts a shell script that stages two binaries named "ntpdate" (the dropper) and "udevds" (the AVERAT payload), then deletes both 10 seconds after execution. AVERAT uses SMTP over TCP port 25 as its C2 channel, beaconing to mx.zxopfds[.]com every 600 to 699 seconds with the server address and interval stored in encrypted config. Its command set is extensive: directory enumeration, chunked file upload and download with resume, recursive deletion, process listing with full command lines, interactive shell with up to 10 concurrent sessions, port forwarding, runtime C2 table overwrite, and dynamic .so module loading to extend implant functionality.
-
-- AVERAT's C2 infrastructure matches the device-class profile of an Operational Relay Box network, though Rapid7 found no evidence tying it to known ORBs such as LapDogs, SPACEHOP, or FLORAHOX. The pattern mirrors the 2023 UNC4841 campaign that exploited CVE-2023-2868 and CVE-2023-7102 in Barracuda Email Security Gateway appliances to plant persistent backdoors, reinforcing a pattern of China-nexus actors treating secure email gateways as privileged collection points.
-
-Practitioner takeaway: On Linux appliances, audit for unexpected raw packet sockets and BPF filters using "ss -0p" and "bpftool prog list". Hunt outbound TCP port 25 connections from processes that are not mail services, starting with anything named "udevds" or "ntpdate" in non-standard paths. Check /proc/[pid]/exe and /proc/[pid]/cmdline for process name mismatches that impersonate legitimate daemons. For BPFDoor specifically, look for processes without open file descriptors on any listening port, as BPF passive listeners leave no socket in "netstat" output. The full IOC list is in the Rapid7 report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107577370919973264</description>
-      <content:encoded><![CDATA[<p>Linux backdoors disguised as Korean and Taiwanese 🇹🇼 email security tools hit telecom and network appliances, blending malicious traffic into expected enterprise noise to frustrate detection.</p><p>Key details:</p><p>- Red Menshen (aka Earth Bluecrow, DecisiveArchitect, Red Dev 18) is behind a new BPFDoor variant and a BPF Rekoobe build targeting South Korean 🇰🇷 systems, while a previously unreported implant called AVERAT hits Taiwanese 🇹🇼 appliances. The distinguishing tradecraft here is regionalized process spoofing: BPFDoor samples impersonate the PID file of SpamSniper, rotate through ten Linux daemon names, or set their process name to &quot;ora_ppmond&quot; to blend into Oracle telecom environments. Rekoobe names its processes after SpamSniper components and listens on source and destination port 25 across TCP, UDP, SCTP IPv4, and UDP IPv6.</p><p>- The new BPFDoor variant adapts specifically to evade the Suricata and Snort signatures written after earlier public disclosures. Operators now wrap the magic packet in standard HTTPS POST requests and rely on SSL offloading common in telecom environments, allowing the trigger to reach the BPFDoor-infected node without tripping conventional deep packet inspection. Once triggered, BPFDoor launches a TinyShell session supporting interactive shell, upload, and download. TinyShell use overlaps with China-nexus clusters Liminal Panda, UNC3886 (Fire Ant), and Velvet Ant, all prior telecom and edge-device operators.</p><p>- AVERAT is an ELF dropper found inside ShareTech appliances at /addpkg/sbin/, the add-on package directory. The dropper derives its AES key from the string &quot;ShareTech&quot;, decrypts a shell script that stages two binaries named &quot;ntpdate&quot; (the dropper) and &quot;udevds&quot; (the AVERAT payload), then deletes both 10 seconds after execution. AVERAT uses SMTP over TCP port 25 as its C2 channel, beaconing to mx.zxopfds[.]com every 600 to 699 seconds with the server address and interval stored in encrypted config. Its command set is extensive: directory enumeration, chunked file upload and download with resume, recursive deletion, process listing with full command lines, interactive shell with up to 10 concurrent sessions, port forwarding, runtime C2 table overwrite, and dynamic .so module loading to extend implant functionality.</p><p>- AVERAT&#x27;s C2 infrastructure matches the device-class profile of an Operational Relay Box network, though Rapid7 found no evidence tying it to known ORBs such as LapDogs, SPACEHOP, or FLORAHOX. The pattern mirrors the 2023 UNC4841 campaign that exploited CVE-2023-2868 and CVE-2023-7102 in Barracuda Email Security Gateway appliances to plant persistent backdoors, reinforcing a pattern of China-nexus actors treating secure email gateways as privileged collection points.</p><p>Practitioner takeaway: On Linux appliances, audit for unexpected raw packet sockets and BPF filters using &quot;ss -0p&quot; and &quot;bpftool prog list&quot;. Hunt outbound TCP port 25 connections from processes that are not mail services, starting with anything named &quot;udevds&quot; or &quot;ntpdate&quot; in non-standard paths. Check /proc/[pid]/exe and /proc/[pid]/cmdline for process name mismatches that impersonate legitimate daemons. For BPFDoor specifically, look for processes without open file descriptors on any listening port, as BPF passive listeners leave no socket in &quot;netstat&quot; output. The full IOC list is in the Rapid7 report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/linux-backdoors-impersonate-email.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107577370919973264">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107577370919973264</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107577370919973264">DFIR Radar</source>
-      <pubDate>Tue, 06 Oct 2026 21:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2107577370919973264</guid>
     </item>
   </channel>
 </rss>
