@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 13 Oct 2026 16:10:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Oct 2026 17:08:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>RSVP to Disaster: How One Click Installs a RAT</title>
+      <link>https://cofense.com/blog/rsvp-to-disaster-how-one-click-installs-a-rat</link>
+      <description>A holiday-themed phishing campaign abuses ConnectWise ScreenConnect as a RAT, walking victims through a fake CAPTCHA and eInvite page before silently handing full remote access to attackers.
+
+Key findings:
+
+- The lure is a vague "You are cordially invited" email with no named host, venue, date, or time. That deliberate vagueness is the design, not an oversight. A generic message scales to thousands of inboxes while still feeling personal, and the absence of specifics manufactures curiosity that overrides caution. The single call to action, "Click Here to Download the Invite," uses a forced download to obscure where the file actually comes from.
+
+- After clicking, victims hit a CAPTCHA page hosted on a generic, unbranded domain less than a month old, then a second fake invitation page with an "eInvite" button. Both pages carry no real event detail. The two-step flow exists to build false legitimacy and reduce hesitation before the payload drops.
+
+- The downloaded archive is named ViewDePartyyinvites and contains ScreenConnect.ClientSetup.exe, a legitimate ConnectWise ScreenConnect installer repurposed as a RAT. MD5: 739a54032b89432bb4c9c33969f6b383. SHA256: f3aab811ae8163e09db40db201facc7e189d1a1b161be265202ca54b39b5e6cc. File size: 12,809,272 bytes. Because it is signed, trusted remote-support software, it blends past antivirus and SEG inspection.
+
+- Once executed, the only visible trace on the victim machine is a small taskbar icon. Clicking it reveals a chat box and active connection status, confirming the attacker already has a live remote channel into the host. The compromise is fully operational before most users notice anything.
+
+- Infrastructure: infection and payload URLs both resolve to theinvitationestateco[.]vu/EdesktopInvite/ and theinvitationestateco[.]vu/EdesktopInvite/RsvpNow/invitedetails[.]php, with IPs 104.21.73[.]121 and 172.67.162[.]73.
+
+DFIR takeaway: Hunt for ScreenConnect running from user-writable paths like Downloads or Temp, especially where the parent process is a browser or archive handler rather than a managed software deployment. Check for the ScreenConnect taskbar icon process and any outbound connections it establishes. The domain theinvitationestateco[.]vu is a hard IOC. The report notes this campaign bypassed SEG-protected environments, so mail gateway logs alone are not sufficient for scoping; endpoint telemetry showing the zip extraction and ScreenConnect.ClientSetup.exe execution is your confirmation of compromise.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110055081831764285</description>
+      <content:encoded><![CDATA[<p>A holiday-themed phishing campaign abuses ConnectWise ScreenConnect as a RAT, walking victims through a fake CAPTCHA and eInvite page before silently handing full remote access to attackers.</p><p>Key findings:</p><p>- The lure is a vague &quot;You are cordially invited&quot; email with no named host, venue, date, or time. That deliberate vagueness is the design, not an oversight. A generic message scales to thousands of inboxes while still feeling personal, and the absence of specifics manufactures curiosity that overrides caution. The single call to action, &quot;Click Here to Download the Invite,&quot; uses a forced download to obscure where the file actually comes from.</p><p>- After clicking, victims hit a CAPTCHA page hosted on a generic, unbranded domain less than a month old, then a second fake invitation page with an &quot;eInvite&quot; button. Both pages carry no real event detail. The two-step flow exists to build false legitimacy and reduce hesitation before the payload drops.</p><p>- The downloaded archive is named ViewDePartyyinvites and contains ScreenConnect.ClientSetup.exe, a legitimate ConnectWise ScreenConnect installer repurposed as a RAT. MD5: 739a54032b89432bb4c9c33969f6b383. SHA256: f3aab811ae8163e09db40db201facc7e189d1a1b161be265202ca54b39b5e6cc. File size: 12,809,272 bytes. Because it is signed, trusted remote-support software, it blends past antivirus and SEG inspection.</p><p>- Once executed, the only visible trace on the victim machine is a small taskbar icon. Clicking it reveals a chat box and active connection status, confirming the attacker already has a live remote channel into the host. The compromise is fully operational before most users notice anything.</p><p>- Infrastructure: infection and payload URLs both resolve to theinvitationestateco[.]vu/EdesktopInvite/ and theinvitationestateco[.]vu/EdesktopInvite/RsvpNow/invitedetails[.]php, with IPs 104.21.73[.]121 and 172.67.162[.]73.</p><p>DFIR takeaway: Hunt for ScreenConnect running from user-writable paths like Downloads or Temp, especially where the parent process is a browser or archive handler rather than a managed software deployment. Check for the ScreenConnect taskbar icon process and any outbound connections it establishes. The domain theinvitationestateco[.]vu is a hard IOC. The report notes this campaign bypassed SEG-protected environments, so mail gateway logs alone are not sufficient for scoping; endpoint telemetry showing the zip extraction and ScreenConnect.ClientSetup.exe execution is your confirmation of compromise.</p><p>#DFIR_Radar</p><p><a href="https://cofense.com/blog/rsvp-to-disaster-how-one-click-installs-a-rat">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110055081831764285">View on X</a></p>]]></content:encoded>
+      <dc:creator>Cofense</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2110055081831764285</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2110055081831764285">DFIR Radar</source>
+      <pubDate>Tue, 13 Oct 2026 17:08:29 +0000</pubDate>
+      <guid isPermaLink="false">2110055081831764285</guid>
+    </item>
     <item>
       <title>A Series of Unauthenticated Events: Chained Exploitation of Ivanti Connect Secure Zero-Days</title>
       <link>https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/</link>
@@ -2254,20 +2282,6 @@ DFIR takeaway: Hunt for ScreenConnect.ClientSetup.exe downloads originating from
       <source url="https://x.com/DFIR_Radar/status/2107834357989679117">DFIR Radar</source>
       <pubDate>Wed, 07 Oct 2026 14:04:08 +0000</pubDate>
       <guid isPermaLink="false">2107834357989679117</guid>
-    </item>
-    <item>
-      <title>AI-powered phishkit arms criminals with account-hijacking tools in 10 minutes</title>
-      <link>https://www.malwarebytes.com/blog/threat-intel/2026/10/ai-powered-phishkit-arms-criminals-with-account-hijacking-tools-in-10-minutes</link>
-      <description>BlueKit, a PhaaS kit operated by "petrushka," lets criminals deploy session-hijacking phishing campaigns in 10 minutes across 97 brands. Investigate stolen session cookies and device fingerprints, not just credentials, after any phishing incident.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107803939768860791</description>
-      <content:encoded><![CDATA[<p>BlueKit, a PhaaS kit operated by &quot;petrushka,&quot; lets criminals deploy session-hijacking phishing campaigns in 10 minutes across 97 brands. Investigate stolen session cookies and device fingerprints, not just credentials, after any phishing incident.</p><p>#DFIR_Radar</p><p><a href="https://www.malwarebytes.com/blog/threat-intel/2026/10/ai-powered-phishkit-arms-criminals-with-account-hijacking-tools-in-10-minutes">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107803939768860791">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malwarebytes Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107803939768860791</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107803939768860791">DFIR Radar</source>
-      <pubDate>Wed, 07 Oct 2026 12:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2107803939768860791</guid>
     </item>
   </channel>
 </rss>
