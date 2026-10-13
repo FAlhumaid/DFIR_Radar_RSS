@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 13 Oct 2026 03:02:32 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Oct 2026 06:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CloudKeyVaultEvents: Azure Key Vault Logs, Schema and KQL Hunting</title>
+      <link>https://kqlquery.com/posts/cloudkeyvaultevents/</link>
+      <description>Undocumented Azure Key Vault hunting table found in Microsoft Defender Advanced Hunting: CloudKeyVaultEvents exposes vault, key, secret, and certificate operations with identity and network context, enabled through Microsoft Defender for Key Vault at $0.25/vault/month.
+
+Key findings:
+
+- CloudKeyVaultEvents is a largely undocumented table in Microsoft Defender Advanced Hunting, ingested automatically when the Microsoft Defender for Key Vault plan is enabled. No Azure Monitor diagnostic settings are required. The table surfaces 70+ distinct operation types across vaults, keys, secrets, and certificates, including SecretGet, KeyDecrypt, KeyUnwrap, SecretList, AccessPolicyMerge, and SecretPurge. Disabling the Defender for Key Vault plan stops ingestion entirely, so coverage gaps are a real risk in environments with inconsistent plan deployment. Run CloudKeyVaultEvents | distinct AzureResourceId | count against an Azure Resource Graph query for microsoft.keyvault/vaults to identify vaults not sending logs.
+
+- For hunting credential access and enumeration, the report provides two KQL queries worth operationalizing. The first joins EntraIdSignInEvents on RiskLevelDuringSignIn (10, 50, or 100) to CloudKeyVaultEvents using UniqueTokenIdentifier from AdditionalFields, connecting a risky authentication event directly to the vault operation it produced. The second summarizes enumeration operations (SecretList, KeyList, CertificateList and their variants) and read operations (SecretGet, KeyGet, CertificateGet) per AccountObjectId to surface bulk access patterns. Both queries are in the report alongside a more detailed enumeration variant on the author's GitHub.
+
+- Forensic enrichment during an incident pivots on the UniqueTokenIdentifier field inside AdditionalFields. Joining CloudKeyVaultEvents to EntraIdSignInEvents (for users) or EntraIdSpnSignInEvents (for service principals) on this token identifier links the vault operation back to the authentication event, giving you sign-in risk, source IP, user agent, and location in a single record. This is the key forensic thread: Key Vault access without a corresponding sign-in, or access following a sign-in from an anomalous location or with a risky token, is a meaningful escalation signal.
+
+- The schema includes IPAddress, UserAgentHeader, HttpStatusCode, AccountType, AccountObjectId, AccountUpn, AccountApplicationId, AzureResourceId, and VaultName. HttpStatusCode is particularly useful for distinguishing denied attempts from successful access. A pattern of 401 or 403 responses followed by a 200 on SecretGet or KeyDecrypt is an investigative flag. AdditionalFields carries extended context including the token identifier, and the report notes that some field names such as CountryCode, ISP, and IsAnonymousProxy may appear depending on the schema exposed in your environment.
+
+Validate ingestion coverage first: confirm your Defender for Key Vault plan is enabled across all subscriptions and cross-check vault counts with Azure Resource Graph before deploying detections. The KQL hunting queries, simulation scripts, and Azure Resource Graph examples are published on the author's GitHub.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109887570582638922</description>
+      <content:encoded><![CDATA[<p>Undocumented Azure Key Vault hunting table found in Microsoft Defender Advanced Hunting: CloudKeyVaultEvents exposes vault, key, secret, and certificate operations with identity and network context, enabled through Microsoft Defender for Key Vault at $0.25/vault/month.</p><p>Key findings:</p><p>- CloudKeyVaultEvents is a largely undocumented table in Microsoft Defender Advanced Hunting, ingested automatically when the Microsoft Defender for Key Vault plan is enabled. No Azure Monitor diagnostic settings are required. The table surfaces 70+ distinct operation types across vaults, keys, secrets, and certificates, including SecretGet, KeyDecrypt, KeyUnwrap, SecretList, AccessPolicyMerge, and SecretPurge. Disabling the Defender for Key Vault plan stops ingestion entirely, so coverage gaps are a real risk in environments with inconsistent plan deployment. Run CloudKeyVaultEvents | distinct AzureResourceId | count against an Azure Resource Graph query for microsoft.keyvault/vaults to identify vaults not sending logs.</p><p>- For hunting credential access and enumeration, the report provides two KQL queries worth operationalizing. The first joins EntraIdSignInEvents on RiskLevelDuringSignIn (10, 50, or 100) to CloudKeyVaultEvents using UniqueTokenIdentifier from AdditionalFields, connecting a risky authentication event directly to the vault operation it produced. The second summarizes enumeration operations (SecretList, KeyList, CertificateList and their variants) and read operations (SecretGet, KeyGet, CertificateGet) per AccountObjectId to surface bulk access patterns. Both queries are in the report alongside a more detailed enumeration variant on the author&#x27;s GitHub.</p><p>- Forensic enrichment during an incident pivots on the UniqueTokenIdentifier field inside AdditionalFields. Joining CloudKeyVaultEvents to EntraIdSignInEvents (for users) or EntraIdSpnSignInEvents (for service principals) on this token identifier links the vault operation back to the authentication event, giving you sign-in risk, source IP, user agent, and location in a single record. This is the key forensic thread: Key Vault access without a corresponding sign-in, or access following a sign-in from an anomalous location or with a risky token, is a meaningful escalation signal.</p><p>- The schema includes IPAddress, UserAgentHeader, HttpStatusCode, AccountType, AccountObjectId, AccountUpn, AccountApplicationId, AzureResourceId, and VaultName. HttpStatusCode is particularly useful for distinguishing denied attempts from successful access. A pattern of 401 or 403 responses followed by a 200 on SecretGet or KeyDecrypt is an investigative flag. AdditionalFields carries extended context including the token identifier, and the report notes that some field names such as CountryCode, ISP, and IsAnonymousProxy may appear depending on the schema exposed in your environment.</p><p>Validate ingestion coverage first: confirm your Defender for Key Vault plan is enabled across all subscriptions and cross-check vault counts with Azure Resource Graph before deploying detections. The KQL hunting queries, simulation scripts, and Azure Resource Graph examples are published on the author&#x27;s GitHub.</p><p>#DFIR_Radar</p><p><a href="https://kqlquery.com/posts/cloudkeyvaultevents/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109887570582638922">View on X</a></p>]]></content:encoded>
+      <dc:creator>KQL Query</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2109887570582638922</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2109887570582638922">DFIR Radar</source>
+      <pubDate>Tue, 13 Oct 2026 06:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2109887570582638922</guid>
+    </item>
     <item>
       <title>Open Sesame: How a Fail-Open Bug in Open VSX's New Scanner Let Malware Walk Right In</title>
       <link>https://www.paloaltonetworks.com/blog/security-operations/open-sesame-fail-open-bug-open-vsx-scanner/</link>
@@ -2218,20 +2244,6 @@ DFIR takeaway: This quarter's pattern is trusted-path abuse across every layer. 
       <source url="https://x.com/DFIR_Radar/status/2107652918346121694">DFIR Radar</source>
       <pubDate>Wed, 07 Oct 2026 02:03:09 +0000</pubDate>
       <guid isPermaLink="false">2107652918346121694</guid>
-    </item>
-    <item>
-      <title>Fake ChatGPT, Gemini Sites steal advertising accounts, MFA codes</title>
-      <link>https://www.bleepingcomputer.com/news/security/fake-chatgpt-gemini-sites-steal-advertising-accounts-mfa-codes/</link>
-      <description>A browser-in-the-browser phishing kit impersonates ChatGPT, Gemini, Claude, and Perplexity to steal ad account credentials and MFA codes via fake OAuth popups. IOCs and full URL list are in the Island report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107637810908029046</description>
-      <content:encoded><![CDATA[<p>A browser-in-the-browser phishing kit impersonates ChatGPT, Gemini, Claude, and Perplexity to steal ad account credentials and MFA codes via fake OAuth popups. IOCs and full URL list are in the Island report.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/fake-chatgpt-gemini-sites-steal-advertising-accounts-mfa-codes/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107637810908029046">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107637810908029046</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107637810908029046">DFIR Radar</source>
-      <pubDate>Wed, 07 Oct 2026 01:03:07 +0000</pubDate>
-      <guid isPermaLink="false">2107637810908029046</guid>
     </item>
   </channel>
 </rss>
