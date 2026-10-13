@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 13 Oct 2026 11:02:19 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Oct 2026 12:04:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Introducing macOS Mirage: Next-Generation Apple Silicon Dynamic Analysis and Sigma Detections</title>
+      <link>https://blog.virustotal.com/2026/10/introducing-macos-mirage.html.html</link>
+      <description>VirusTotal's macOS Mirage sandbox brings native Apple Silicon ARM64 detonation, kernel-backed telemetry, and mapped Sigma rules to macOS malware analysis, replacing the decade-old Box of Apples Intel sandbox.
+
+Key findings:
+
+- The sandbox runs on bare-metal Apple Silicon with macOS 26, supporting ARM64 and Universal Mach-O binaries, .dmg, .pkg, .app, .sh, .py, and PDFs. Behavioral telemetry is captured via modern kernel-supported macOS security instrumentation rather than the legacy dtrace hooks that SIP restrictions and high syscall volumes made unreliable. Monitored locations include LaunchAgents, LaunchDaemons, Login Items, cron jobs, .zshrc/.bashrc/.zshenv, login.keychain-db, browser credential stores, SSH keys, TCC.db, the hosts file, /etc/resolv.conf, and /private/etc/sudoers.
+
+- The report walks through a real macOS infostealer detonation (SHA-256: be77bca22f078d57058535ddcf26a39a752a8df030392cb45ba6a60e06651878, 6/76 static AV detections) that executes a full credential theft and persistence chain: osascript phishing dialog ("set passwen to display dialog"), dscl authonly password validation, LaunchDaemon persistence to /Library/LaunchDaemons/com.somedaemon.plist, Keychain and Safari cookie harvesting, Apple Notes and SSH key staging under /tmp/lksopo, clipboard polling via pbpaste, ditto compression to /tmp/lksopo.zip, HTTP POST exfiltration to 109.238.87[.]111, secondary bot download from 193.178.159[.]129/web/bot (f7dcdc4167ec267aef007f9d5f98e9e0314185e5355effd3e304b6fa686ea84c), and rm -rf cleanup of the staging directory.
+
+- That single detonation triggered 7 Sigma rules spanning the full attack lifecycle: macos_osascript_credential_phishing (High, T1059.002/T1056.002), macos_sensitive_credential_store_access (High, T1555.001/T1555.003/T1005), macos_esf_sensitive_file_access (High, T1555.001/T1555.003/T1005), macos_esf_suspicious_curl_download (Medium, T1105/T1071.001), macos_network_upload_activity (Medium, T1041/T1567), macos_data_destruction_tools (Medium, T1485/T1070.004), and macos_http_tools_with_protocol_indicators (Low, T1071.001/T1105). The dropped LaunchDaemon plist (d7dd630f67e03d2945185838dca887211ea3693c91fc0bd0d2e257948bb3b678) had 0/75 AV detections, and the second-stage bot exits immediately in isolation because it depends on hidden state files (.bhost, .phost, .username, .pwd) written by the first stage.
+
+- The report provides VirusTotal Intelligence hunt queries across four pivot categories: behaviour_processes for command-line patterns like "curl -X POST -H buildid:", "set passwen to display dialog", and "ditto -c -k --sequesterRsrc /tmp/"; behaviour_files for hidden state files (.bhost, .phost, .binaryexe) and the LaunchDaemon plist path; behaviour_network for C2 IPs 109.238.87[.]111 and 193.178.159[.]129 and the /api/v1/bot/joinsystem endpoint; and sandbox/Sigma/ATT&amp;CK pivots including sandbox_name:"VirusTotal MacOS Mirage" attack_technique:T1555.001 type:macho and sigma_rule:b8017658b8eef8b1293176d76212e600b660d0a36a4f5dc80141324fae360bbf.
+
+Practitioner takeaway: if you are triaging macOS samples, the multi-stage dependency problem is real: the second-stage bot in this cluster exits clean in isolation because it needs first-stage state files on disk. let you pivot on runtime command lines, dropped artifacts, C2 URIs, and Sigma verdict names across the full campaign cluster without needing static signatures. The IOCs and VTI query strings are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109978698036240851</description>
+      <content:encoded><![CDATA[<p>VirusTotal&#x27;s macOS Mirage sandbox brings native Apple Silicon ARM64 detonation, kernel-backed telemetry, and mapped Sigma rules to macOS malware analysis, replacing the decade-old Box of Apples Intel sandbox.</p><p>Key findings:</p><p>- The sandbox runs on bare-metal Apple Silicon with macOS 26, supporting ARM64 and Universal Mach-O binaries, .dmg, .pkg, .app, .sh, .py, and PDFs. Behavioral telemetry is captured via modern kernel-supported macOS security instrumentation rather than the legacy dtrace hooks that SIP restrictions and high syscall volumes made unreliable. Monitored locations include LaunchAgents, LaunchDaemons, Login Items, cron jobs, .zshrc/.bashrc/.zshenv, login.keychain-db, browser credential stores, SSH keys, TCC.db, the hosts file, /etc/resolv.conf, and /private/etc/sudoers.</p><p>- The report walks through a real macOS infostealer detonation (SHA-256: be77bca22f078d57058535ddcf26a39a752a8df030392cb45ba6a60e06651878, 6/76 static AV detections) that executes a full credential theft and persistence chain: osascript phishing dialog (&quot;set passwen to display dialog&quot;), dscl authonly password validation, LaunchDaemon persistence to /Library/LaunchDaemons/com.somedaemon.plist, Keychain and Safari cookie harvesting, Apple Notes and SSH key staging under /tmp/lksopo, clipboard polling via pbpaste, ditto compression to /tmp/lksopo.zip, HTTP POST exfiltration to 109.238.87[.]111, secondary bot download from 193.178.159[.]129/web/bot (f7dcdc4167ec267aef007f9d5f98e9e0314185e5355effd3e304b6fa686ea84c), and rm -rf cleanup of the staging directory.</p><p>- That single detonation triggered 7 Sigma rules spanning the full attack lifecycle: macos_osascript_credential_phishing (High, T1059.002/T1056.002), macos_sensitive_credential_store_access (High, T1555.001/T1555.003/T1005), macos_esf_sensitive_file_access (High, T1555.001/T1555.003/T1005), macos_esf_suspicious_curl_download (Medium, T1105/T1071.001), macos_network_upload_activity (Medium, T1041/T1567), macos_data_destruction_tools (Medium, T1485/T1070.004), and macos_http_tools_with_protocol_indicators (Low, T1071.001/T1105). The dropped LaunchDaemon plist (d7dd630f67e03d2945185838dca887211ea3693c91fc0bd0d2e257948bb3b678) had 0/75 AV detections, and the second-stage bot exits immediately in isolation because it depends on hidden state files (.bhost, .phost, .username, .pwd) written by the first stage.</p><p>- The report provides VirusTotal Intelligence hunt queries across four pivot categories: behaviour_processes for command-line patterns like &quot;curl -X POST -H buildid:&quot;, &quot;set passwen to display dialog&quot;, and &quot;ditto -c -k --sequesterRsrc /tmp/&quot;; behaviour_files for hidden state files (.bhost, .phost, .binaryexe) and the LaunchDaemon plist path; behaviour_network for C2 IPs 109.238.87[.]111 and 193.178.159[.]129 and the /api/v1/bot/joinsystem endpoint; and sandbox/Sigma/ATT&amp;CK pivots including sandbox_name:&quot;VirusTotal MacOS Mirage&quot; attack_technique:T1555.001 type:macho and sigma_rule:b8017658b8eef8b1293176d76212e600b660d0a36a4f5dc80141324fae360bbf.</p><p>Practitioner takeaway: if you are triaging macOS samples, the multi-stage dependency problem is real: the second-stage bot in this cluster exits clean in isolation because it needs first-stage state files on disk. let you pivot on runtime command lines, dropped artifacts, C2 URIs, and Sigma verdict names across the full campaign cluster without needing static signatures. The IOCs and VTI query strings are in the report.</p><p>#DFIR_Radar</p><p><a href="https://blog.virustotal.com/2026/10/introducing-macos-mirage.html.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109978698036240851">View on X</a></p>]]></content:encoded>
+      <dc:creator>VirusTotal Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2109978698036240851</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2109978698036240851">DFIR Radar</source>
+      <pubDate>Tue, 13 Oct 2026 12:04:58 +0000</pubDate>
+      <guid isPermaLink="false">2109978698036240851</guid>
+    </item>
     <item>
       <title>The Digital Forensics Devil You Know</title>
       <link>https://www.dfir.training/blog/the-digital-forensics-devil-you-know</link>
@@ -2244,20 +2270,6 @@ Hunt WordPress admin tables for accounts matching wp2_[0-9a-f]{8} and audit plug
       <source url="https://x.com/DFIR_Radar/status/2107743524485505067">DFIR Radar</source>
       <pubDate>Wed, 07 Oct 2026 08:03:11 +0000</pubDate>
       <guid isPermaLink="false">2107743524485505067</guid>
-    </item>
-    <item>
-      <title>Dependency installation security measure already defeated on npm</title>
-      <link>https://www.reversinglabs.com/blog/npm-dependency-installation-security-measure-defeated</link>
-      <description>The indexed-btree npm package bypasses npm v12's lifecycle script block by hiding malware inside btree.prototype.set, firing at import time. Audit node_modules for prototype-level loaders and hunt Slack, Telegram, and Ethereum C2 traffic.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107713231611736539</description>
-      <content:encoded><![CDATA[<p>The indexed-btree npm package bypasses npm v12&#x27;s lifecycle script block by hiding malware inside btree.prototype.set, firing at import time. Audit node_modules for prototype-level loaders and hunt Slack, Telegram, and Ethereum C2 traffic.</p><p>#DFIR_Radar</p><p><a href="https://www.reversinglabs.com/blog/npm-dependency-installation-security-measure-defeated">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107713231611736539">View on X</a></p>]]></content:encoded>
-      <dc:creator>ReversingLabs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107713231611736539</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107713231611736539">DFIR Radar</source>
-      <pubDate>Wed, 07 Oct 2026 06:02:49 +0000</pubDate>
-      <guid isPermaLink="false">2107713231611736539</guid>
     </item>
   </channel>
 </rss>
