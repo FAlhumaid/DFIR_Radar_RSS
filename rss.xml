@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 13 Oct 2026 22:03:53 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Oct 2026 23:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attacker Chains Three Ivanti Connect Secure Zero-Days for Root Access, Only Two Patched So Far</title>
+      <link>https://thehackernews.com/2026/10/attacker-chains-three-ivanti-connect.html</link>
+      <description>CVE-2026-104935 (CVSS 8.6), actively exploited in Ivanti Connect Secure by UTA0576, chains auth bypass plus RCE to root; third escalation flaw unpatched. Ivanti's Integrity Checker Tool misses this chain: run memory forensics.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110144262008435178</description>
+      <content:encoded><![CDATA[<p>CVE-2026-104935 (CVSS 8.6), actively exploited in Ivanti Connect Secure by UTA0576, chains auth bypass plus RCE to root; third escalation flaw unpatched. Ivanti&#x27;s Integrity Checker Tool misses this chain: run memory forensics.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/attacker-chains-three-ivanti-connect.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110144262008435178">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2110144262008435178</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2110144262008435178">DFIR Radar</source>
+      <pubDate>Tue, 13 Oct 2026 23:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2110144262008435178</guid>
+    </item>
     <item>
       <title>Coruna, DarkSword and the Enterprise iPhone: Key Takeaways from Packet Protector</title>
       <link>https://www.iverify.com/blog/coruna-darksword-packet-protector-takeaways</link>
@@ -2238,34 +2252,6 @@ Practitioner takeaway: The investigative lesson here is that agentic AI tools ge
       <source url="https://x.com/DFIR_Radar/status/2107924892415111628">DFIR Radar</source>
       <pubDate>Wed, 07 Oct 2026 20:03:53 +0000</pubDate>
       <guid isPermaLink="false">2107924892415111628</guid>
-    </item>
-    <item>
-      <title>CERT-UA: Fake Cloudflare Checks Deliver LunexStealer Malware</title>
-      <link>https://securityaffairs.com/200537/hacking/cert-ua-fake-cloudflare-checks-deliver-lunexstealer-malware.html</link>
-      <description>Ukrainian 🇺🇦 CERT-UA exposes a blockchain-controlled ClickFix campaign across 100+ compromised sites delivering LunexStealer, a credential stealer with live browser hijacking and file system access via a malicious extension chain.
-
-Key findings:
-
-- Attackers injected malicious JavaScript into over 100 hacked websites to serve a fake Cloudflare bot-verification page using the ClickFix technique. The lure prompts visitors to open Run, Command Prompt, or PowerShell and paste a command that silently fetches and executes an MSI package from an attacker-controlled server. The attack only fires against Windows users arriving through search engines, and caps exposure at twice per visitor per 12-hour window, deliberately suppressing anomalous traffic signatures.
-
-- The command-and-control infrastructure uses a smart contract on Polygon or Ethereum blockchain to store the active domain and script configuration. The script polls the contract on each execution, letting operators rotate domains or toggle attack modes (off, passive tracking, or full ClickFix lure) without touching the compromised host sites. This architecture makes traditional domain-based takedown largely ineffective.
-
-- CERT-UA identified three distinct MSI variants delivering the same final payload. Variant one installs LunexStealer directly. Variant two attempts UAC bypass, carves Microsoft Defender exclusions, and deploys a vulnerable AMD driver to exploit CVE-2023-20598, a bring-your-own-vulnerable-driver (BYOVD) technique that disables security tooling before the stealer drops. Variant three bypasses the driver path entirely, using DLL side-loading to have a legitimate executable load a malicious library that decrypts and launches the stealer.
-
-- LunexStealer goes well beyond credential theft. It accepts commands from its control server to download and execute binaries, MSI packages, PowerShell scripts, and raw shell commands. It can also install a malicious browser extension named LUNARAXE, which presents in the browser as "Microsoft Office Word Editor." LUNARAXE harvests cookies, browsing history, and form input, and gives the attacker remote control over the browser: executing JavaScript on pages, managing tabs, taking tab snapshots, and changing proxy settings.
-
-- A PowerShell component called NAIVEMESS extends the attack surface further. CERT-UA says it registers as a native messaging host, which is a legitimate browser-to-OS communication mechanism, allowing the LUNARAXE extension to read, write, and launch files on the victim's machine. Forensically, look for unexpected native messaging host registry entries under HKCU\Software\Google\Chrome\NativeMessagingHosts or equivalent Firefox paths, browser extensions with names mimicking Microsoft products, unusual MSI installation events, AMD driver loads on non-AMD hardware, and DLL side-loading from writable directories adjacent to signed executables.
-
-DFIR takeaway: Hunt for PowerShell or msiexec.exe spawned from user-interactive contexts (clipboard paste patterns via Run dialog), unexpected native messaging host registrations, and browser extensions named "Microsoft Office Word Editor" in extension directories. For the BYOVD path, check for the vulnerable AMD driver load on systems without AMD hardware and any Defender exclusion registry writes preceding payload execution. The full IOC list and malware breakdown are in the CERT-UA advisory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107909692085223852</description>
-      <content:encoded><![CDATA[<p>Ukrainian 🇺🇦 CERT-UA exposes a blockchain-controlled ClickFix campaign across 100+ compromised sites delivering LunexStealer, a credential stealer with live browser hijacking and file system access via a malicious extension chain.</p><p>Key findings:</p><p>- Attackers injected malicious JavaScript into over 100 hacked websites to serve a fake Cloudflare bot-verification page using the ClickFix technique. The lure prompts visitors to open Run, Command Prompt, or PowerShell and paste a command that silently fetches and executes an MSI package from an attacker-controlled server. The attack only fires against Windows users arriving through search engines, and caps exposure at twice per visitor per 12-hour window, deliberately suppressing anomalous traffic signatures.</p><p>- The command-and-control infrastructure uses a smart contract on Polygon or Ethereum blockchain to store the active domain and script configuration. The script polls the contract on each execution, letting operators rotate domains or toggle attack modes (off, passive tracking, or full ClickFix lure) without touching the compromised host sites. This architecture makes traditional domain-based takedown largely ineffective.</p><p>- CERT-UA identified three distinct MSI variants delivering the same final payload. Variant one installs LunexStealer directly. Variant two attempts UAC bypass, carves Microsoft Defender exclusions, and deploys a vulnerable AMD driver to exploit CVE-2023-20598, a bring-your-own-vulnerable-driver (BYOVD) technique that disables security tooling before the stealer drops. Variant three bypasses the driver path entirely, using DLL side-loading to have a legitimate executable load a malicious library that decrypts and launches the stealer.</p><p>- LunexStealer goes well beyond credential theft. It accepts commands from its control server to download and execute binaries, MSI packages, PowerShell scripts, and raw shell commands. It can also install a malicious browser extension named LUNARAXE, which presents in the browser as &quot;Microsoft Office Word Editor.&quot; LUNARAXE harvests cookies, browsing history, and form input, and gives the attacker remote control over the browser: executing JavaScript on pages, managing tabs, taking tab snapshots, and changing proxy settings.</p><p>- A PowerShell component called NAIVEMESS extends the attack surface further. CERT-UA says it registers as a native messaging host, which is a legitimate browser-to-OS communication mechanism, allowing the LUNARAXE extension to read, write, and launch files on the victim&#x27;s machine. Forensically, look for unexpected native messaging host registry entries under HKCU\Software\Google\Chrome\NativeMessagingHosts or equivalent Firefox paths, browser extensions with names mimicking Microsoft products, unusual MSI installation events, AMD driver loads on non-AMD hardware, and DLL side-loading from writable directories adjacent to signed executables.</p><p>DFIR takeaway: Hunt for PowerShell or msiexec.exe spawned from user-interactive contexts (clipboard paste patterns via Run dialog), unexpected native messaging host registrations, and browser extensions named &quot;Microsoft Office Word Editor&quot; in extension directories. For the BYOVD path, check for the vulnerable AMD driver load on systems without AMD hardware and any Defender exclusion registry writes preceding payload execution. The full IOC list and malware breakdown are in the CERT-UA advisory.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200537/hacking/cert-ua-fake-cloudflare-checks-deliver-lunexstealer-malware.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107909692085223852">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107909692085223852</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107909692085223852">DFIR Radar</source>
-      <pubDate>Wed, 07 Oct 2026 19:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2107909692085223852</guid>
     </item>
   </channel>
 </rss>
