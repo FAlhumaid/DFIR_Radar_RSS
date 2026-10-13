@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 13 Oct 2026 06:02:52 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 13 Oct 2026 08:03:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside ICMacOS: From an Infostealer to a Persistent RAT</title>
+      <link>https://socradar.io/blog/icmacos-infostealer-rat/</link>
+      <description>ICMacOS (Icarus macOS), a new macOS MaaS stealer marketed by Russian-speaking actor GlowComa, evolved from credential theft into a persistent WebSocket RAT within weeks of its September 2026 launch.
+
+- GlowComa promotes ICMacOS on XSS, Exploit[.]in, and Rehub forums under the MADHASH crypto-draining affiliate group, bundling it with an Icarus ClickFix social engineering panel and a multi-chain crypto clipper. Subscriptions run $699/week to $1,699/month. The actor enforces a hard CIS geo-lock, checking locale | grep -c ru_RU and querying ipinfo[.]io/country before proceeding, a standard Russia-aligned MaaS safeguard.
+
+- Infection starts with a ClickFix paste-into-terminal lure (T1204.004). A Bash dropper fetches from hxxps[://]escapeai[.]live/icmacos_run_v2[.]command, strips Terminal window titles via com[.]apple.Terminal preference edits to hide activity (T1564), then uses osascript to spawn a fake "System Preferences" dialog capturing the login password (T1056.002). It validates the captured password directly against login.keychain-db with security unlock-keychain, allows five attempts, then downloads the architecture-matched Mach-O payload from hxxps[://]escapeai[.]live/ICMacOs?arch={arm64|amd64} and kills the Terminal window. Execution details log to /tmp/.update-helper.log.
+
+- Version 1 is a Go-compiled 64-bit Mach-O stealer covering: AES-128 Keychain-extracted browser master keys across Chromium, Gecko, and Safari; 29 browser extension IDs including MetaMask, Phantom, 1Password, and LastPass; desktop wallets across 20+ applications; Telegram tdata including key_data for offline session hijack; Discord LevelDB tokens; iMessage chat.db; and developer secrets covering .ssh/, .aws/credentials, .kube/config, .env files, and shell histories. Data archives to /tmp/.systemd-private-helper.zip and exfiltrates via HTTPS POST to hxxps[://]escapeai[.]live/upload (T1048.002).
+
+- Version 2 adds full RAT capability. It installs ~/Library/LaunchAgents/com.apple.systemupdater.plist (T1543.001), loaded immediately via launchctl bootstrap gui/{uid}, with KeepAlive and StartInterval 3600 for hourly restart. It opens a persistent WebSocket to wss[://]escapeai[.]live/ws?mac_id={hostname}&amp;username={username} via the Gorilla library, executing operator commands through /bin/sh in real time. New collection targets include Steam .ssfn SteamGuard bypass tokens, Outlook .olk15 cache, clipboard via pbpaste (T1115), and expanded password manager directories. A supplementary Python payload at hxxps[://]escapeai[.]live/payload[.]py covers Slack, Signal, Zoom, VPN configs, and a filegrabber targeting Desktop/Documents/Downloads for .pdf, .xlsx, .json, .key, and .csv files (T1213).
+
+- The developer-credential targeting, SSH keys, AWS, Kubernetes, Docker, Terraform, and .env files, creates direct supply chain exposure from a single infected developer Mac into broader enterprise cloud and pipeline infrastructure. 16 dropper SHA256 hashes, 4 Mach-O and Python payload hashes, C2 domains escapeai[.]live and mikoblico[.]xyz, and IPs 85.137.253[.]61 and 45.13.186[.]247 are in the IOC table of the SOCRadar report.
+
+Hunt for com[.]apple.systemupdater.plist under ~/Library/LaunchAgents/, hidden files /tmp/.update-helper.log and /tmp/.cache-update.log, ZIP archives in /tmp with dot-prefixed names, and outbound connections to escapeai[.]live or wss:// traffic to that host. On macOS, launchctl list | grep systemupdater and reviewing unified logs for osascript spawning security binary calls will surface this chain early.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109917825972257270</description>
+      <content:encoded><![CDATA[<p>ICMacOS (Icarus macOS), a new macOS MaaS stealer marketed by Russian-speaking actor GlowComa, evolved from credential theft into a persistent WebSocket RAT within weeks of its September 2026 launch.</p><p>- GlowComa promotes ICMacOS on XSS, Exploit[.]in, and Rehub forums under the MADHASH crypto-draining affiliate group, bundling it with an Icarus ClickFix social engineering panel and a multi-chain crypto clipper. Subscriptions run $699/week to $1,699/month. The actor enforces a hard CIS geo-lock, checking locale | grep -c ru_RU and querying ipinfo[.]io/country before proceeding, a standard Russia-aligned MaaS safeguard.</p><p>- Infection starts with a ClickFix paste-into-terminal lure (T1204.004). A Bash dropper fetches from hxxps[://]escapeai[.]live/icmacos_run_v2[.]command, strips Terminal window titles via com[.]apple.Terminal preference edits to hide activity (T1564), then uses osascript to spawn a fake &quot;System Preferences&quot; dialog capturing the login password (T1056.002). It validates the captured password directly against login.keychain-db with security unlock-keychain, allows five attempts, then downloads the architecture-matched Mach-O payload from hxxps[://]escapeai[.]live/ICMacOs?arch={arm64|amd64} and kills the Terminal window. Execution details log to /tmp/.update-helper.log.</p><p>- Version 1 is a Go-compiled 64-bit Mach-O stealer covering: AES-128 Keychain-extracted browser master keys across Chromium, Gecko, and Safari; 29 browser extension IDs including MetaMask, Phantom, 1Password, and LastPass; desktop wallets across 20+ applications; Telegram tdata including key_data for offline session hijack; Discord LevelDB tokens; iMessage chat.db; and developer secrets covering .ssh/, .aws/credentials, .kube/config, .env files, and shell histories. Data archives to /tmp/.systemd-private-helper.zip and exfiltrates via HTTPS POST to hxxps[://]escapeai[.]live/upload (T1048.002).</p><p>- Version 2 adds full RAT capability. It installs ~/Library/LaunchAgents/com.apple.systemupdater.plist (T1543.001), loaded immediately via launchctl bootstrap gui/{uid}, with KeepAlive and StartInterval 3600 for hourly restart. It opens a persistent WebSocket to wss[://]escapeai[.]live/ws?mac_id={hostname}&amp;username={username} via the Gorilla library, executing operator commands through /bin/sh in real time. New collection targets include Steam .ssfn SteamGuard bypass tokens, Outlook .olk15 cache, clipboard via pbpaste (T1115), and expanded password manager directories. A supplementary Python payload at hxxps[://]escapeai[.]live/payload[.]py covers Slack, Signal, Zoom, VPN configs, and a filegrabber targeting Desktop/Documents/Downloads for .pdf, .xlsx, .json, .key, and .csv files (T1213).</p><p>- The developer-credential targeting, SSH keys, AWS, Kubernetes, Docker, Terraform, and .env files, creates direct supply chain exposure from a single infected developer Mac into broader enterprise cloud and pipeline infrastructure. 16 dropper SHA256 hashes, 4 Mach-O and Python payload hashes, C2 domains escapeai[.]live and mikoblico[.]xyz, and IPs 85.137.253[.]61 and 45.13.186[.]247 are in the IOC table of the SOCRadar report.</p><p>Hunt for com[.]apple.systemupdater.plist under ~/Library/LaunchAgents/, hidden files /tmp/.update-helper.log and /tmp/.cache-update.log, ZIP archives in /tmp with dot-prefixed names, and outbound connections to escapeai[.]live or wss:// traffic to that host. On macOS, launchctl list | grep systemupdater and reviewing unified logs for osascript spawning security binary calls will surface this chain early.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/icmacos-infostealer-rat/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109917825972257270">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2109917825972257270</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2109917825972257270">DFIR Radar</source>
+      <pubDate>Tue, 13 Oct 2026 08:03:05 +0000</pubDate>
+      <guid isPermaLink="false">2109917825972257270</guid>
+    </item>
     <item>
       <title>CloudKeyVaultEvents: Azure Key Vault Logs, Schema and KQL Hunting</title>
       <link>https://kqlquery.com/posts/cloudkeyvaultevents/</link>
@@ -2230,20 +2256,6 @@ DFIR takeaway: This quarter's pattern is trusted-path abuse across every layer. 
       <source url="https://x.com/DFIR_Radar/status/2107668262817280138">DFIR Radar</source>
       <pubDate>Wed, 07 Oct 2026 03:04:07 +0000</pubDate>
       <guid isPermaLink="false">2107668262817280138</guid>
-    </item>
-    <item>
-      <title>Fake ChatGPT, Gemini, and Claude Ad Portals Capture Credentials and MFA Codes</title>
-      <link>https://thehackernews.com/2026/10/fake-chatgpt-gemini-and-claude-ad.html</link>
-      <description>A phishing platform spoofs AI ad portals for ChatGPT, Gemini, and Claude, using BitB attacks to steal credentials and MFA codes via Socket.IO. Hunt network logs for POST requests to /api/send/ip.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107652918346121694</description>
-      <content:encoded><![CDATA[<p>A phishing platform spoofs AI ad portals for ChatGPT, Gemini, and Claude, using BitB attacks to steal credentials and MFA codes via Socket.IO. Hunt network logs for POST requests to /api/send/ip.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/fake-chatgpt-gemini-and-claude-ad.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107652918346121694">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107652918346121694</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107652918346121694">DFIR Radar</source>
-      <pubDate>Wed, 07 Oct 2026 02:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2107652918346121694</guid>
     </item>
   </channel>
 </rss>
