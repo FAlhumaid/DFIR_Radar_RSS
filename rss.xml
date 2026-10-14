@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 14 Oct 2026 05:03:10 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Oct 2026 06:03:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers cranked French supermarkets’ freezers up to 50 degrees, causing hundreds of stores to lose their stock</title>
+      <link>https://securityaffairs.com/200863/hacking/hackers-cranked-french-supermarkets-freezers-up-to-50-degrees-causing-hundreds-of-stores-to-lose-their-stock.html</link>
+      <description>Attackers remotely triggered forced-defrost on Danfoss AK-SM800 and AK-SC355 refrigeration controllers, destroying stock across 400-plus French 🇫🇷 supermarkets. Isolate internet-exposed Danfoss units; end-of-life models have no patch path.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110250051909935378</description>
+      <content:encoded><![CDATA[<p>Attackers remotely triggered forced-defrost on Danfoss AK-SM800 and AK-SC355 refrigeration controllers, destroying stock across 400-plus French 🇫🇷 supermarkets. Isolate internet-exposed Danfoss units; end-of-life models have no patch path.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200863/hacking/hackers-cranked-french-supermarkets-freezers-up-to-50-degrees-causing-hundreds-of-stores-to-lose-their-stock.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110250051909935378">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2110250051909935378</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2110250051909935378">DFIR Radar</source>
+      <pubDate>Wed, 14 Oct 2026 06:03:14 +0000</pubDate>
+      <guid isPermaLink="false">2110250051909935378</guid>
+    </item>
     <item>
       <title>Releasing the Cobalt Strike Beacon Corpus</title>
       <link>https://blog.fox-it.com/2026/10/13/releasing-the-cobalt-strike-beacon-corpus/</link>
@@ -2198,32 +2212,6 @@ Takeaway: Baseline the ProviderOrder registry value now and alert on any modific
       <source url="https://x.com/DFIR_Radar/status/2108030531216576796">DFIR Radar</source>
       <pubDate>Thu, 08 Oct 2026 03:03:39 +0000</pubDate>
       <guid isPermaLink="false">2108030531216576796</guid>
-    </item>
-    <item>
-      <title>Citrix NetScaler CVE-2026-88771: Observed Exploitation Artifacts and Hunt Indicators</title>
-      <link>https://www.levelblue.com/blogs/spiderlabs-blog/citrix-netscaler-cve-2026-88771-observed-exploitation-artifacts-and-hunt-indicators</link>
-      <description>CVE-2026-88771, a critical pre-auth command injection in Citrix NetScaler ADC and Gateway, is being actively exploited in the wild, with LevelBlue's THOR team documenting the full kill chain across multiple customer environments.
-
-Key findings:
-
-- Exploitation leaves a distinct fingerprint in NetScaler authentication logs. Attacker-controlled usernames contain the strings pitboss, NSPPE, and "unexpectedly died" alongside injected shell commands. Defenders can hunt these strings combined with curl, wget, whoami, perl, python, tar, or cat. The use of ${IFS} as a whitespace substitute is an additional high-value search term because it avoids literal spaces in injected commands. Exploitation sources include 70.172.58[.]168, 162.243.36[.]88, 173.40.135[.]209, 47.230.224[.]154, 92.118.204[.]229, and 87.224.84[.]82.
-
-- Two second-stage payloads were recovered and analyzed. main[.]py (SHA-256: e9fe43968c6c0955300e3bc4d7fb0b05a18570b4733aaf4f5c6f7f09be5a242c), hosted at hxxp://23.27.143[.]20:9000/main.py, overwrites /var/python/bin/customsnmpd with Python code that opens a TCP reverse shell to 45.141.21[.]130:443 and launches /bin/sh. update_c08937.pl (SHA-256: 974b69782fdf5d67b97cfd508465939e44ee10798dbcc1e82b92d78776bad938), hosted at hxxp://64.94.85[.]67:443/update_c08937.pl, is piped directly into Perl from memory, leaving no fixed on-disk copy. Both payloads represent deliberate infrastructure: 64.94.85[.]67 served as exploit source, payload host, and exfiltration endpoint simultaneously.
-
-- Post-exploitation is comprehensive and targeted at persistent access plus data theft. update_c08937.pl creates a local superuser account named sec_monitor, archives /flash/nsconfig to /tmp/update_result_3567cs.tgz, uploads it to 64.94.85[.]67:443, then deletes the archive and the script. It also sets /bin/sh permissions to 6555, deploys a PHP web shell at /var/netscaler/logon/LogonPoint/.local_journal, and modifies /etc/httpd.conf to expose that shell through CSS-like URLs (LogonUISimple.html[.]style.min.css and randomized hex variants). Configuration data was also staged to /var/netscaler/logon/insight-new.js and /var/netscaler/logon/LogonPoint/xua.html.
-
-- Absence of files does not equal clean. The Perl payload deletes both the configuration archive and itself after execution. Investigators should not interpret missing artifacts as evidence of failed execution. If the sec_monitor account exists in /flash/nsconfig/ns.conf, /bin/sh carries 6555 permissions, or .local_journal is present in the LogonPoint directory, the payload ran successfully regardless of what is no longer on disk.
-
-Practitioner takeaway: Patch affected appliances immediately, then work backward through authentication logs before the patch date hunting for pitboss, NSPPE, and ${IFS}. For every identified attempt, do not stop at the auth event: pivot to network telemetry for outbound connections to 45.141.21[.]130 and 64.94.85[.]67, check /var/python/bin/customsnmpd for unexpected modification timestamps, audit local accounts for sec_monitor, verify /bin/sh permissions, and inspect /etc/httpd.conf for new Alias or SetHandler directives. A failed authentication event does not mean the injection failed. Full IOC list including all IPs, URLs, hashes, and file paths is in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108014958990553481</description>
-      <content:encoded><![CDATA[<p>CVE-2026-88771, a critical pre-auth command injection in Citrix NetScaler ADC and Gateway, is being actively exploited in the wild, with LevelBlue&#x27;s THOR team documenting the full kill chain across multiple customer environments.</p><p>Key findings:</p><p>- Exploitation leaves a distinct fingerprint in NetScaler authentication logs. Attacker-controlled usernames contain the strings pitboss, NSPPE, and &quot;unexpectedly died&quot; alongside injected shell commands. Defenders can hunt these strings combined with curl, wget, whoami, perl, python, tar, or cat. The use of ${IFS} as a whitespace substitute is an additional high-value search term because it avoids literal spaces in injected commands. Exploitation sources include 70.172.58[.]168, 162.243.36[.]88, 173.40.135[.]209, 47.230.224[.]154, 92.118.204[.]229, and 87.224.84[.]82.</p><p>- Two second-stage payloads were recovered and analyzed. main[.]py (SHA-256: e9fe43968c6c0955300e3bc4d7fb0b05a18570b4733aaf4f5c6f7f09be5a242c), hosted at hxxp://23.27.143[.]20:9000/main.py, overwrites /var/python/bin/customsnmpd with Python code that opens a TCP reverse shell to 45.141.21[.]130:443 and launches /bin/sh. update_c08937.pl (SHA-256: 974b69782fdf5d67b97cfd508465939e44ee10798dbcc1e82b92d78776bad938), hosted at hxxp://64.94.85[.]67:443/update_c08937.pl, is piped directly into Perl from memory, leaving no fixed on-disk copy. Both payloads represent deliberate infrastructure: 64.94.85[.]67 served as exploit source, payload host, and exfiltration endpoint simultaneously.</p><p>- Post-exploitation is comprehensive and targeted at persistent access plus data theft. update_c08937.pl creates a local superuser account named sec_monitor, archives /flash/nsconfig to /tmp/update_result_3567cs.tgz, uploads it to 64.94.85[.]67:443, then deletes the archive and the script. It also sets /bin/sh permissions to 6555, deploys a PHP web shell at /var/netscaler/logon/LogonPoint/.local_journal, and modifies /etc/httpd.conf to expose that shell through CSS-like URLs (LogonUISimple.html[.]style.min.css and randomized hex variants). Configuration data was also staged to /var/netscaler/logon/insight-new.js and /var/netscaler/logon/LogonPoint/xua.html.</p><p>- Absence of files does not equal clean. The Perl payload deletes both the configuration archive and itself after execution. Investigators should not interpret missing artifacts as evidence of failed execution. If the sec_monitor account exists in /flash/nsconfig/ns.conf, /bin/sh carries 6555 permissions, or .local_journal is present in the LogonPoint directory, the payload ran successfully regardless of what is no longer on disk.</p><p>Practitioner takeaway: Patch affected appliances immediately, then work backward through authentication logs before the patch date hunting for pitboss, NSPPE, and ${IFS}. For every identified attempt, do not stop at the auth event: pivot to network telemetry for outbound connections to 45.141.21[.]130 and 64.94.85[.]67, check /var/python/bin/customsnmpd for unexpected modification timestamps, audit local accounts for sec_monitor, verify /bin/sh permissions, and inspect /etc/httpd.conf for new Alias or SetHandler directives. A failed authentication event does not mean the injection failed. Full IOC list including all IPs, URLs, hashes, and file paths is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.levelblue.com/blogs/spiderlabs-blog/citrix-netscaler-cve-2026-88771-observed-exploitation-artifacts-and-hunt-indicators">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108014958990553481">View on X</a></p>]]></content:encoded>
-      <dc:creator>LevelBlue SpiderLabs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108014958990553481</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2108014958990553481">DFIR Radar</source>
-      <pubDate>Thu, 08 Oct 2026 02:01:46 +0000</pubDate>
-      <guid isPermaLink="false">2108014958990553481</guid>
     </item>
   </channel>
 </rss>
