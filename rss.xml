@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 14 Oct 2026 07:03:50 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Oct 2026 08:04:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake WatchGuard VPN Site Steals Credentials</title>
+      <link>https://www.huntress.com/blog/fake-watchguard-vpn-credential-phishing</link>
+      <description>A no-malware credential phish targeting WatchGuard VPN users delivers the real, signed installer while quietly exfiltrating credentials, making endpoint defenses nearly blind to the attack.
+
+Key findings:
+
+- The campaign uses SEO poisoning to surface watchguard-vpn[.]net in Bing results for VPN client searches. The lookalike site mimics the legitimate WatchGuard download page and presents a pop-up asking for Server, Login, and Password, matching exactly what the real Mobile VPN with SSL client requests. The phishing logic is entirely in popup.js, roughly 150 lines of unobfuscated JavaScript. Credentials are wrapped in JSON and POSTed to the collection domain watchguard-ssl[.]online (resolving to 158.94.209[.]19, Omegatech LTD, AS202412, Amsterdam).
+
+- The script deliberately rejects the first submission, clears the fields, and displays a red "Incorrect data" message to prompt a second entry. Both submissions are tagged with an attempt value, giving the attacker two credential sets to validate. After the second round, the script silently fetches the real WatchGuard installer directly from cdn.watchguard[.]com: a legitimately signed Inno Setup binary, WG-MVPN-SSL_12_11_5.exe, version 12.11.5, signed by WatchGuard Technologies, Inc. There is no trojanized file, no malicious DLL, and nothing for an endpoint agent to flag on disk.
+
+- The lure domain watchguard-vpn[.]net was re-registered on August 22, 2026 (Realtime Register B.V.) and resolves to 80.249.132[.]140 (Site BV / LeaseWeb Netherlands 🇳🇱, AS60781), a different IP than the January 2026 observation at 74.208.236[.]39. The collector watchguard-ssl[.]online was registered September 14, 2026 via Dynadot. As of October 8, only seven VirusTotal vendors flagged the lure domain and two flagged the collector, consistent with a no-malware chain that AV and sandboxes have little to grip.
+
+- Attribution context: WatchGuard's Secplicity team first reported this domain cluster in January 2026. Microsoft Threat Intelligence subsequently linked the broader campaign, which also targeted F5, Fortinet, SonicWall, and Sophos lookalike sites, to Storm-2561, a financially motivated actor active since May 2025. The October incident Huntress analyzed is consistent with that campaign but represents an evolution: the fake client has been removed entirely, replaced by the legitimate CDN download.
+
+- In the investigated incident, Huntress Managed Defender flagged the malicious domain 21 seconds after page load. Browser history showed no cdn.watchguard[.]com download, indicating the victim likely did not complete the second submission round, though first-round credentials may have been captured.
+
+Practitioner takeaway: The forensic pivot here is browser history and network logs, not endpoint telemetry. Look for outbound JSON POSTs to watchguard-ssl[.]online or connections to 158.94.209[.]19 in proxy and firewall logs. Check browser history for visits to watchguard-vpn[.]net and correlate timestamps against any VPN authentication events from hosting-provider ASNs (AS60781, AS202412) or previously unseen geolocations. Treat any VPN endpoint and account credential entered on the site as compromised: reset passwords immediately and review SSL VPN login logs for authentication from unfamiliar ASNs or countries. Enforce MFA on VPN accounts. Block watchguard-vpn[.]net, watchguard-ssl[.]online, 80.249.132[.]140, and 158.94.209[.]19. The full IOC table is in the Huntress report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110280456562221547</description>
+      <content:encoded><![CDATA[<p>A no-malware credential phish targeting WatchGuard VPN users delivers the real, signed installer while quietly exfiltrating credentials, making endpoint defenses nearly blind to the attack.</p><p>Key findings:</p><p>- The campaign uses SEO poisoning to surface watchguard-vpn[.]net in Bing results for VPN client searches. The lookalike site mimics the legitimate WatchGuard download page and presents a pop-up asking for Server, Login, and Password, matching exactly what the real Mobile VPN with SSL client requests. The phishing logic is entirely in popup.js, roughly 150 lines of unobfuscated JavaScript. Credentials are wrapped in JSON and POSTed to the collection domain watchguard-ssl[.]online (resolving to 158.94.209[.]19, Omegatech LTD, AS202412, Amsterdam).</p><p>- The script deliberately rejects the first submission, clears the fields, and displays a red &quot;Incorrect data&quot; message to prompt a second entry. Both submissions are tagged with an attempt value, giving the attacker two credential sets to validate. After the second round, the script silently fetches the real WatchGuard installer directly from cdn.watchguard[.]com: a legitimately signed Inno Setup binary, WG-MVPN-SSL_12_11_5.exe, version 12.11.5, signed by WatchGuard Technologies, Inc. There is no trojanized file, no malicious DLL, and nothing for an endpoint agent to flag on disk.</p><p>- The lure domain watchguard-vpn[.]net was re-registered on August 22, 2026 (Realtime Register B.V.) and resolves to 80.249.132[.]140 (Site BV / LeaseWeb Netherlands 🇳🇱, AS60781), a different IP than the January 2026 observation at 74.208.236[.]39. The collector watchguard-ssl[.]online was registered September 14, 2026 via Dynadot. As of October 8, only seven VirusTotal vendors flagged the lure domain and two flagged the collector, consistent with a no-malware chain that AV and sandboxes have little to grip.</p><p>- Attribution context: WatchGuard&#x27;s Secplicity team first reported this domain cluster in January 2026. Microsoft Threat Intelligence subsequently linked the broader campaign, which also targeted F5, Fortinet, SonicWall, and Sophos lookalike sites, to Storm-2561, a financially motivated actor active since May 2025. The October incident Huntress analyzed is consistent with that campaign but represents an evolution: the fake client has been removed entirely, replaced by the legitimate CDN download.</p><p>- In the investigated incident, Huntress Managed Defender flagged the malicious domain 21 seconds after page load. Browser history showed no cdn.watchguard[.]com download, indicating the victim likely did not complete the second submission round, though first-round credentials may have been captured.</p><p>Practitioner takeaway: The forensic pivot here is browser history and network logs, not endpoint telemetry. Look for outbound JSON POSTs to watchguard-ssl[.]online or connections to 158.94.209[.]19 in proxy and firewall logs. Check browser history for visits to watchguard-vpn[.]net and correlate timestamps against any VPN authentication events from hosting-provider ASNs (AS60781, AS202412) or previously unseen geolocations. Treat any VPN endpoint and account credential entered on the site as compromised: reset passwords immediately and review SSL VPN login logs for authentication from unfamiliar ASNs or countries. Enforce MFA on VPN accounts. Block watchguard-vpn[.]net, watchguard-ssl[.]online, 80.249.132[.]140, and 158.94.209[.]19. The full IOC table is in the Huntress report.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/fake-watchguard-vpn-credential-phishing">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110280456562221547">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2110280456562221547</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2110280456562221547">DFIR Radar</source>
+      <pubDate>Wed, 14 Oct 2026 08:04:03 +0000</pubDate>
+      <guid isPermaLink="false">2110280456562221547</guid>
+    </item>
     <item>
       <title>How a leaked builder of XWorm turned a remote access trojan into a surveillance kit</title>
       <link>https://securityaffairs.com/200910/malware/how-a-leaked-builder-of-xworm-turned-a-remote-access-trojan-into-a-surveillance-kit.html</link>
@@ -2198,20 +2226,6 @@ Takeaway: Baseline the ProviderOrder registry value now and alert on any modific
       <source url="https://x.com/DFIR_Radar/status/2108060594242728403">DFIR Radar</source>
       <pubDate>Thu, 08 Oct 2026 05:03:07 +0000</pubDate>
       <guid isPermaLink="false">2108060594242728403</guid>
-    </item>
-    <item>
-      <title>PoeLLM malware has assembled a sweeping botnet, taking technical cues from a poem</title>
-      <link>https://cyberscoop.com/poellm-malware-botnet-poem-lumen-black-lotus-labs/</link>
-      <description>PoeLLM botnet has compromised 3,400+ servers by resolving C2 addresses from GitHub-hosted poem keywords, targeting Ollama, LiteLLM, and Gitea. Hunt netflow for Italy-based IPs; IOCs are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108045505079247305</description>
-      <content:encoded><![CDATA[<p>PoeLLM botnet has compromised 3,400+ servers by resolving C2 addresses from GitHub-hosted poem keywords, targeting Ollama, LiteLLM, and Gitea. Hunt netflow for Italy-based IPs; IOCs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://cyberscoop.com/poellm-malware-botnet-poem-lumen-black-lotus-labs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108045505079247305">View on X</a></p>]]></content:encoded>
-      <dc:creator>CyberScoop</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108045505079247305</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2108045505079247305">DFIR Radar</source>
-      <pubDate>Thu, 08 Oct 2026 04:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2108045505079247305</guid>
     </item>
   </channel>
 </rss>
