@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 14 Oct 2026 12:03:37 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Oct 2026 13:02:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The eBPF forensics gap and what your EDR cannot see</title>
+      <link>https://andreafortuna.org/2026/10/14/ebpf-forensics-gap/</link>
+      <description>eBPF rootkits and Linux EDR share the same kernel privilege level, meaning your sensor and the implant read the same data structures, and only one of them decides what the other sees.
+
+Key findings:
+
+- LinkPro and VoidLink demonstrate how far this tradecraft has matured. LinkPro intercepts sys_bpf so its programs vanish from bpftool prog list. VoidLink fires a kernel timer every five seconds scanning for process names like bpftool, bpftrace, strace, gdb, and perf, pausing or self-destructing when it finds them. Its ss-hiding technique uses bpf_probe_write_user to lengthen the previous netlink message so hidden socket entries are swallowed as padding and never parsed. Running bpftool on a suspect host is itself a knock on the door. VoidLink was reportedly built by a single developer in under a week with AI-assisted development, suggesting the cost of this tradecraft is falling faster than the cost of the tools hunting it.
+
+- The live system is the weakest witness available. Rootkits that intercept bpf_ringbuf_submit drop telemetry records before user-space ever sees them: the dashboard stays green, the activity never happened. io_uring lets a process batch file, network, and process operations into a handful of syscalls, leaving per-syscall sensors blind to a significant slice of activity. Cross-view checks like comparing ss output against /proc/net/tcp can catch VoidLink when its hide lists drift out of sync, but when both views agree they prove very little.
+
+- A memory image bypasses the syscall interface a rootkit filters. Volatility 3's mainline linux.ebpf plugin walks the kernel's prog_idr and returns name, tag, and type for each loaded program. Community plugins from the 2023 Volatility contest add helper-based scoring, JIT code dumping, map enumeration, and attachment graphs. VoidLink's hidden_ports map, sitting in memory, lists exactly what the operator wanted concealed, including port 8080 by default. VoidLink also pairs its eBPF component with a kernel module that unlinks itself from the module list and masquerades as the AMD memory encryption driver, so linux.modxview and linux.netfilter matter alongside linux.ebpf. The ICMP command channel rides on Netfilter hooks, which linux.netfilter surfaces.
+
+- Auditd record type 1334, introduced via a Daniel Borkmann patch in 2019, captures every eBPF program load and unload on x86_64 hosts when enabled with: auditctl -a always,exit -F arch=b64 -S bpf. It records who loaded which program number and when, not what the program does. Elastic ships a detection rule correlating bpf_probe_write_user and bpf_override_return with load paths like world-writable directories. The kernel also logs a warning when bpf_probe_write_user is installed. VoidLink waits three seconds after its kernel module loads before installing hooks, long enough to outlast a synchronous check of the new module.
+
+- Kernel lockdown, recommended by Elastic against this class of malware and available since Linux 5.4, blocks AVML from reading /proc/kcore, /dev/mem, or /dev/crash. Hardening that blocks your own forensics is a debt paid at the worst moment. The acquisition path must be decided before the incident: a signed LiME module prepared per kernel build, or acquisition from the hypervisor layer to keep the rootkit away from the acquisition process entirely.
+
+Practitioner takeaway: Do not reboot before capturing memory. eBPF implants live in kernel memory and disappear with it. Build your baseline now on known-good hosts using bpftool prog list and bpftool map list, and keep Volatility symbol tables for every kernel in your fleet because the mainline plugin fails without prog_idr. On the analysis workstation, run linux.ebpf, linux.modxview, linux.netfilter, and linux.psscan against the image, then query the load timeline with ausearch -m 1334 --start today. The report includes detection logic and acquisition command examples.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110355670079856731</description>
+      <content:encoded><![CDATA[<p>eBPF rootkits and Linux EDR share the same kernel privilege level, meaning your sensor and the implant read the same data structures, and only one of them decides what the other sees.</p><p>Key findings:</p><p>- LinkPro and VoidLink demonstrate how far this tradecraft has matured. LinkPro intercepts sys_bpf so its programs vanish from bpftool prog list. VoidLink fires a kernel timer every five seconds scanning for process names like bpftool, bpftrace, strace, gdb, and perf, pausing or self-destructing when it finds them. Its ss-hiding technique uses bpf_probe_write_user to lengthen the previous netlink message so hidden socket entries are swallowed as padding and never parsed. Running bpftool on a suspect host is itself a knock on the door. VoidLink was reportedly built by a single developer in under a week with AI-assisted development, suggesting the cost of this tradecraft is falling faster than the cost of the tools hunting it.</p><p>- The live system is the weakest witness available. Rootkits that intercept bpf_ringbuf_submit drop telemetry records before user-space ever sees them: the dashboard stays green, the activity never happened. io_uring lets a process batch file, network, and process operations into a handful of syscalls, leaving per-syscall sensors blind to a significant slice of activity. Cross-view checks like comparing ss output against /proc/net/tcp can catch VoidLink when its hide lists drift out of sync, but when both views agree they prove very little.</p><p>- A memory image bypasses the syscall interface a rootkit filters. Volatility 3&#x27;s mainline linux.ebpf plugin walks the kernel&#x27;s prog_idr and returns name, tag, and type for each loaded program. Community plugins from the 2023 Volatility contest add helper-based scoring, JIT code dumping, map enumeration, and attachment graphs. VoidLink&#x27;s hidden_ports map, sitting in memory, lists exactly what the operator wanted concealed, including port 8080 by default. VoidLink also pairs its eBPF component with a kernel module that unlinks itself from the module list and masquerades as the AMD memory encryption driver, so linux.modxview and linux.netfilter matter alongside linux.ebpf. The ICMP command channel rides on Netfilter hooks, which linux.netfilter surfaces.</p><p>- Auditd record type 1334, introduced via a Daniel Borkmann patch in 2019, captures every eBPF program load and unload on x86_64 hosts when enabled with: auditctl -a always,exit -F arch=b64 -S bpf. It records who loaded which program number and when, not what the program does. Elastic ships a detection rule correlating bpf_probe_write_user and bpf_override_return with load paths like world-writable directories. The kernel also logs a warning when bpf_probe_write_user is installed. VoidLink waits three seconds after its kernel module loads before installing hooks, long enough to outlast a synchronous check of the new module.</p><p>- Kernel lockdown, recommended by Elastic against this class of malware and available since Linux 5.4, blocks AVML from reading /proc/kcore, /dev/mem, or /dev/crash. Hardening that blocks your own forensics is a debt paid at the worst moment. The acquisition path must be decided before the incident: a signed LiME module prepared per kernel build, or acquisition from the hypervisor layer to keep the rootkit away from the acquisition process entirely.</p><p>Practitioner takeaway: Do not reboot before capturing memory. eBPF implants live in kernel memory and disappear with it. Build your baseline now on known-good hosts using bpftool prog list and bpftool map list, and keep Volatility symbol tables for every kernel in your fleet because the mainline plugin fails without prog_idr. On the analysis workstation, run linux.ebpf, linux.modxview, linux.netfilter, and linux.psscan against the image, then query the load timeline with ausearch -m 1334 --start today. The report includes detection logic and acquisition command examples.</p><p>#DFIR_Radar</p><p><a href="https://andreafortuna.org/2026/10/14/ebpf-forensics-gap/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110355670079856731">View on X</a></p>]]></content:encoded>
+      <dc:creator>Andrea Fortuna</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2110355670079856731</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2110355670079856731">DFIR Radar</source>
+      <pubDate>Wed, 14 Oct 2026 13:02:55 +0000</pubDate>
+      <guid isPermaLink="false">2110355670079856731</guid>
+    </item>
     <item>
       <title>From ClickFix to C2: Comparative Analysis of Two Malware Loaders</title>
       <link>https://www.forescout.com/blog/from-clickfix-to-c2-comparative-analysis-of-two-malware-loaders/</link>
@@ -2238,20 +2266,6 @@ Talos tested across 135 matched pairs per anti-analysis string using five local 
       <source url="https://x.com/DFIR_Radar/status/2108136225689448459">DFIR Radar</source>
       <pubDate>Thu, 08 Oct 2026 10:03:38 +0000</pubDate>
       <guid isPermaLink="false">2108136225689448459</guid>
-    </item>
-    <item>
-      <title>How BlueMoon Exploits Chrome CVE-2026-85046 and CVE-2026-87491</title>
-      <link>https://www.picussecurity.com/resource/blog/how-bluemoon-exploits-chrome-cve-2026-85046-and-cve-2026-87491</link>
-      <description>BlueMoon Exploit Kit chains CVE-2026-85046, CVE-2026-87491, and CVE-2026-85880 to deliver GemStone and ShadowPad on Windows. Hunt %TEMP% for msgbox.exe and check scheduled tasks named EdgeCore_AutoUpdate.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108121034478026792</description>
-      <content:encoded><![CDATA[<p>BlueMoon Exploit Kit chains CVE-2026-85046, CVE-2026-87491, and CVE-2026-85880 to deliver GemStone and ShadowPad on Windows. Hunt %TEMP% for msgbox.exe and check scheduled tasks named EdgeCore_AutoUpdate.</p><p>#DFIR_Radar</p><p><a href="https://www.picussecurity.com/resource/blog/how-bluemoon-exploits-chrome-cve-2026-85046-and-cve-2026-87491">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108121034478026792">View on X</a></p>]]></content:encoded>
-      <dc:creator>Picus Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108121034478026792</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2108121034478026792">DFIR Radar</source>
-      <pubDate>Thu, 08 Oct 2026 09:03:16 +0000</pubDate>
-      <guid isPermaLink="false">2108121034478026792</guid>
     </item>
   </channel>
 </rss>
