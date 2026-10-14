@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 14 Oct 2026 01:03:36 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Oct 2026 02:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Noise Inside the Network: How an Unsophisticated Attack Exposed a Third-Party Risk</title>
+      <link>https://unit42.paloaltonetworks.com/noise-inside-network-third-party-risk/</link>
+      <description>An opportunistic actor breached a European bank via a misconfigured third-party VPN gateway lacking MFA, then attempted WSUS RCE for persistence. Audit third-party edge appliances for MFA enforcement and rotate exposed credentials.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110189745989202021</description>
+      <content:encoded><![CDATA[<p>An opportunistic actor breached a European bank via a misconfigured third-party VPN gateway lacking MFA, then attempted WSUS RCE for persistence. Audit third-party edge appliances for MFA enforcement and rotate exposed credentials.</p><p>#DFIR_Radar</p><p><a href="https://unit42.paloaltonetworks.com/noise-inside-network-third-party-risk/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110189745989202021">View on X</a></p>]]></content:encoded>
+      <dc:creator>Unit 42</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2110189745989202021</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2110189745989202021">DFIR Radar</source>
+      <pubDate>Wed, 14 Oct 2026 02:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2110189745989202021</guid>
+    </item>
     <item>
       <title>When LLM Gateways Go Wrong: Findings from LiteLLM</title>
       <link>https://research.checkpoint.com/2026/when-llm-gateways-go-wrong-findings-from-litellm/</link>
@@ -2222,34 +2236,6 @@ Takeaway: Hunt your environment for node.exe written to %APPDATA% by any npm ins
       <source url="https://x.com/DFIR_Radar/status/2107970368891945451">DFIR Radar</source>
       <pubDate>Wed, 07 Oct 2026 23:04:35 +0000</pubDate>
       <guid isPermaLink="false">2107970368891945451</guid>
-    </item>
-    <item>
-      <title>FBI Warns FortiBleed Remains Active After Amassing 86,644 Fortinet Device Credentials</title>
-      <link>https://thehackernews.com/2026/10/fbi-warns-fortibleed-remains-active.html</link>
-      <description>Russian-speaking initial access broker "FortiBleed" has harvested 86,644 Fortinet device credentials across 194 countries and remains active, with operator overlaps tying it to INC and Lynx ransomware deployments.
-
-Key details:
-
-- FortiBleed is a five-stage operation: reconnaissance of internet-exposed FortiGate firewalls and SSL VPN portals, credential stuffing and password spraying using prior leak dumps and infostealer logs, passive interception of authentication traffic across 24 protocols via a Go-based tool called FortigateSniffer, offline hash cracking on a GPU-accelerated cluster using Hashmat and Hashtopolis, and finally lateral movement, AD enumeration, Kerberos validation, SMB authentication, and network share exfiltration. Session cookies are weaponized to sustain persistent, authenticated access.
-
-- The campaign exploits legacy SHA-256 password storage to make offline cracking viable at scale. Cracked credentials are enriched and triaged by scripts that filter honeypots, map organizations, and prioritize targets by revenue and network structure, a clear indicator of a professional broker operation rather than opportunistic scanning.
-
-- Persistence on appliances is achieved by creating new administrative accounts and in some cases deleting original accounts to lock defenders out. The FBI and USSS have published a list of 19 commonly observed rogue account names to watch for, including adminin, fortiAdmin, forticloud-sync, fgtsecure, districtadmin, system_config, adminsslvpn, and forti_support2. Finding any of these in your firewall's user database is a high-confidence indicator of compromise.
-
-- Operator overlaps connect FortiBleed activity to INC and Lynx ransomware groups, confirming the access is being packaged and resold. Victims should treat FortiGate compromise as a ransomware precursor event, not just a credential theft incident. The blast radius extends well beyond the perimeter appliance into Active Directory.
-
-- DFIR responders should collect the full local user account list from the FortiGate admin interface and authentication logs before isolating the device, because account deletion is a documented actor behavior that destroys evidence in place. Check SSL VPN session logs and admin login history for authentication from unexpected source IPs, unusual session durations, or logins outside business hours. On the internal network, hunt for lateral movement artifacts: Kerberos ticket requests from the firewall's management IP, SMB authentication events in Windows Security logs (Event ID 4624 and 4625) originating from firewall-adjacent hosts, and new privileged AD accounts created around the time of initial firewall access.
-
-Takeaway: Audit your FortiGate local user list against the 19 rogue account names in the advisory right now. If you find any, treat the device as fully compromised, do not just delete the account and move on. Preserve logs and config snapshots before isolation, migrate to PBKDF2 password storage, and rotate all credentials that could have transited the device. The FBI and USSS advisory contains the full indicator and countermeasure details.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2107955062739816881</description>
-      <content:encoded><![CDATA[<p>Russian-speaking initial access broker &quot;FortiBleed&quot; has harvested 86,644 Fortinet device credentials across 194 countries and remains active, with operator overlaps tying it to INC and Lynx ransomware deployments.</p><p>Key details:</p><p>- FortiBleed is a five-stage operation: reconnaissance of internet-exposed FortiGate firewalls and SSL VPN portals, credential stuffing and password spraying using prior leak dumps and infostealer logs, passive interception of authentication traffic across 24 protocols via a Go-based tool called FortigateSniffer, offline hash cracking on a GPU-accelerated cluster using Hashmat and Hashtopolis, and finally lateral movement, AD enumeration, Kerberos validation, SMB authentication, and network share exfiltration. Session cookies are weaponized to sustain persistent, authenticated access.</p><p>- The campaign exploits legacy SHA-256 password storage to make offline cracking viable at scale. Cracked credentials are enriched and triaged by scripts that filter honeypots, map organizations, and prioritize targets by revenue and network structure, a clear indicator of a professional broker operation rather than opportunistic scanning.</p><p>- Persistence on appliances is achieved by creating new administrative accounts and in some cases deleting original accounts to lock defenders out. The FBI and USSS have published a list of 19 commonly observed rogue account names to watch for, including adminin, fortiAdmin, forticloud-sync, fgtsecure, districtadmin, system_config, adminsslvpn, and forti_support2. Finding any of these in your firewall&#x27;s user database is a high-confidence indicator of compromise.</p><p>- Operator overlaps connect FortiBleed activity to INC and Lynx ransomware groups, confirming the access is being packaged and resold. Victims should treat FortiGate compromise as a ransomware precursor event, not just a credential theft incident. The blast radius extends well beyond the perimeter appliance into Active Directory.</p><p>- DFIR responders should collect the full local user account list from the FortiGate admin interface and authentication logs before isolating the device, because account deletion is a documented actor behavior that destroys evidence in place. Check SSL VPN session logs and admin login history for authentication from unexpected source IPs, unusual session durations, or logins outside business hours. On the internal network, hunt for lateral movement artifacts: Kerberos ticket requests from the firewall&#x27;s management IP, SMB authentication events in Windows Security logs (Event ID 4624 and 4625) originating from firewall-adjacent hosts, and new privileged AD accounts created around the time of initial firewall access.</p><p>Takeaway: Audit your FortiGate local user list against the 19 rogue account names in the advisory right now. If you find any, treat the device as fully compromised, do not just delete the account and move on. Preserve logs and config snapshots before isolation, migrate to PBKDF2 password storage, and rotate all credentials that could have transited the device. The FBI and USSS advisory contains the full indicator and countermeasure details.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/fbi-warns-fortibleed-remains-active.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2107955062739816881">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2107955062739816881</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2107955062739816881">DFIR Radar</source>
-      <pubDate>Wed, 07 Oct 2026 22:03:46 +0000</pubDate>
-      <guid isPermaLink="false">2107955062739816881</guid>
     </item>
   </channel>
 </rss>
