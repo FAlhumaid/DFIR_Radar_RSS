@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 15 Oct 2026 05:04:03 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 15 Oct 2026 06:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI-Found Linux Kernel Flaw Gives Local Users Root, and Can Break a Guest Out to the Host</title>
+      <link>https://thehackernews.com/2026/10/ai-found-linux-kernel-flaw-gives-local.html</link>
+      <description>CVE-2026-74580 "Vghost": a Linux kernel vhost flaw gives any local user reliable kernel read/write and root across nearly a decade of kernels, with a second path that lets a VM escape to the host's QEMU process.
+
+Key findings:
+
+- The bug lives in Linux's vhost subsystem, reachable by opening /dev/vhost-net or /dev/vhost-vsock. A stale translation cache, introduced across two separate commits (a 2017 cache addition in Linux 4.11 and a 2020 check relocation in Linux 5.9), lets VHOST_SET_VRING_ADDR and VHOST_SET_VRING_NUM reconfigure a live ring's addresses without invalidating that cache. Subsequent copies use the old, unchecked mapping, producing an out-of-bounds kernel read and write. The local-privilege-escalation chain is deterministic, needs no heap grooming and no timing luck, bypasses KASLR, and reaches root. No public exploitation has been observed.
+
+- The guest-to-host escape is narrower but severe. It requires a virtio device behind a virtual IOMMU with iommu_platform enabled and vhost running in device-IOTLB mode. An untrusted guest triggers the same stale-cache path, causing the host kernel to write out of bounds into the host's QEMU process. From there, an attacker can overwrite a function pointer in QEMU and redirect host execution, or crash the hypervisor. The kernel[.]org CVE team scores this 8.8 with scope marked "changed" because the write crosses the guest-to-host boundary. Red Hat scores it 7.3, Amazon 7.8, Oracle 7.3.
+
+- Affected range is Linux 4.11 through 7.2-rc4. Tencent confirmed the full local-to-root chain on Ubuntu 26.04, RHEL 9.8, Amazon Linux 2023, Microsoft Azure Linux 3.0, and Oracle Linux 10.2. On Ubuntu, the device node is group-restricted to kvm, so the entry point is a kvm group member. On the other four images, /dev/vhost-net and /dev/vhost-vsock were world-readable at mode 0666, meaning any local user was in scope. The fix is commit de845981da67, which clears the cache on every ring reconfiguration. First fixed stable versions range from 5.10.265 through 7.1.9 across seven maintained branches. Red Hat, Amazon, and Oracle have shipped fixes; Ubuntu 24.04 and 26.04 fixes were still in progress as of October 13.
+
+- The flaw was found with help from Corvus AI, a multi-agent kernel vulnerability research pipeline Tencent Zhuque Lab built in-house. The upstream commit credits it with an Assisted-by line. This is the same team and toolchain that disclosed an 18-year-old SCTP kernel flaw in August 2026, also reaching root and container escape. This is machine-assisted research, not an autonomous attack.
+
+Practitioner takeaway: check your vhost device node permissions before a patch lands. Run "stat /dev/vhost-net /dev/vhost-vsock" on every Linux host and container host in your environment. If either shows mode 0666, remove world access and restrict the owning group to trusted virtualization services immediately. Treat kvm or equivalent group membership as a sensitive privilege while the vulnerable kernel runs. For the guest-to-host path, no workaround exists: the patched kernel is the only remedy, so prioritize hypervisor hosts, cloud-adjacent Linux images, and any multi-tenant environment where local access is broadly granted. The report includes working proof-of-concept demos for both attack chains.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110612504158101768</description>
+      <content:encoded><![CDATA[<p>CVE-2026-74580 &quot;Vghost&quot;: a Linux kernel vhost flaw gives any local user reliable kernel read/write and root across nearly a decade of kernels, with a second path that lets a VM escape to the host&#x27;s QEMU process.</p><p>Key findings:</p><p>- The bug lives in Linux&#x27;s vhost subsystem, reachable by opening /dev/vhost-net or /dev/vhost-vsock. A stale translation cache, introduced across two separate commits (a 2017 cache addition in Linux 4.11 and a 2020 check relocation in Linux 5.9), lets VHOST_SET_VRING_ADDR and VHOST_SET_VRING_NUM reconfigure a live ring&#x27;s addresses without invalidating that cache. Subsequent copies use the old, unchecked mapping, producing an out-of-bounds kernel read and write. The local-privilege-escalation chain is deterministic, needs no heap grooming and no timing luck, bypasses KASLR, and reaches root. No public exploitation has been observed.</p><p>- The guest-to-host escape is narrower but severe. It requires a virtio device behind a virtual IOMMU with iommu_platform enabled and vhost running in device-IOTLB mode. An untrusted guest triggers the same stale-cache path, causing the host kernel to write out of bounds into the host&#x27;s QEMU process. From there, an attacker can overwrite a function pointer in QEMU and redirect host execution, or crash the hypervisor. The kernel[.]org CVE team scores this 8.8 with scope marked &quot;changed&quot; because the write crosses the guest-to-host boundary. Red Hat scores it 7.3, Amazon 7.8, Oracle 7.3.</p><p>- Affected range is Linux 4.11 through 7.2-rc4. Tencent confirmed the full local-to-root chain on Ubuntu 26.04, RHEL 9.8, Amazon Linux 2023, Microsoft Azure Linux 3.0, and Oracle Linux 10.2. On Ubuntu, the device node is group-restricted to kvm, so the entry point is a kvm group member. On the other four images, /dev/vhost-net and /dev/vhost-vsock were world-readable at mode 0666, meaning any local user was in scope. The fix is commit de845981da67, which clears the cache on every ring reconfiguration. First fixed stable versions range from 5.10.265 through 7.1.9 across seven maintained branches. Red Hat, Amazon, and Oracle have shipped fixes; Ubuntu 24.04 and 26.04 fixes were still in progress as of October 13.</p><p>- The flaw was found with help from Corvus AI, a multi-agent kernel vulnerability research pipeline Tencent Zhuque Lab built in-house. The upstream commit credits it with an Assisted-by line. This is the same team and toolchain that disclosed an 18-year-old SCTP kernel flaw in August 2026, also reaching root and container escape. This is machine-assisted research, not an autonomous attack.</p><p>Practitioner takeaway: check your vhost device node permissions before a patch lands. Run &quot;stat /dev/vhost-net /dev/vhost-vsock&quot; on every Linux host and container host in your environment. If either shows mode 0666, remove world access and restrict the owning group to trusted virtualization services immediately. Treat kvm or equivalent group membership as a sensitive privilege while the vulnerable kernel runs. For the guest-to-host path, no workaround exists: the patched kernel is the only remedy, so prioritize hypervisor hosts, cloud-adjacent Linux images, and any multi-tenant environment where local access is broadly granted. The report includes working proof-of-concept demos for both attack chains.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/ai-found-linux-kernel-flaw-gives-local.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110612504158101768">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2110612504158101768</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2110612504158101768">DFIR Radar</source>
+      <pubDate>Thu, 15 Oct 2026 06:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2110612504158101768</guid>
+    </item>
     <item>
       <title>Frostbitten in France: A Danfoss StoreView Internet Exposure Report</title>
       <link>https://censys.com/blog/frostbitten-in-france-a-danfoss-storeview-internet-exposure-report/</link>
@@ -2240,20 +2266,6 @@ For defenders and responders: hunt scheduled tasks matching the naming patterns 
       <source url="https://x.com/DFIR_Radar/status/2108393042063286516">DFIR Radar</source>
       <pubDate>Fri, 09 Oct 2026 03:04:08 +0000</pubDate>
       <guid isPermaLink="false">2108393042063286516</guid>
-    </item>
-    <item>
-      <title>FBI disrupts Chinese hacking tools used to breach critical infrastructure</title>
-      <link>https://www.bleepingcomputer.com/news/security/fbi-disrupts-chinese-hacking-tools-used-to-breach-critical-infrastructure/</link>
-      <description>FBI seized seven domains linked to Chinese 🇨🇳 Integrity Tech's MicroScan and FishHub platforms used by Flax Typhoon to breach critical infrastructure. IOCs, hashes, and domains are in the joint advisory.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108377672002781673</description>
-      <content:encoded><![CDATA[<p>FBI seized seven domains linked to Chinese 🇨🇳 Integrity Tech&#x27;s MicroScan and FishHub platforms used by Flax Typhoon to breach critical infrastructure. IOCs, hashes, and domains are in the joint advisory.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/fbi-disrupts-chinese-hacking-tools-used-to-breach-critical-infrastructure/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108377672002781673">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108377672002781673</comments>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2108377672002781673">DFIR Radar</source>
-      <pubDate>Fri, 09 Oct 2026 02:03:04 +0000</pubDate>
-      <guid isPermaLink="false">2108377672002781673</guid>
     </item>
   </channel>
 </rss>
