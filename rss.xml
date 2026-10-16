@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 08:03:03 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 09:03:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Silent Lynx Exploits WinRAR Flaw to Deploy Reverse Shell in CIS Government Attacks</title>
+      <link>https://thehackernews.com/2026/10/silent-lynx-exploits-winrar-flaw-to.html</link>
+      <description>Kazakhstan-nexus Silent Lynx (UAT-6275 / TAG-193) hits CIS government targets across nine countries over 14 months, escalating from macro-laced docs to active CVE exploitation in its latest infection chain.
+
+Key details:
+
+- Silent Lynx ran at least eight phishing campaigns between January 2025 and May 2026, targeting Kazakhstan 🇰🇿, Kyrgyzstan, Tajikistan, Turkmenistan, Uzbekistan, Armenia, Azerbaijan, Russia 🇷🇺, and Belarus 🇧🇾. Spearphishing emails originate from compromised government accounts and carry lures themed around diplomacy, international trade, energy, and aviation, including a diplomatic letter to Armenia's Ministry of Foreign Affairs, a Turkmenistan airspace application form, and a business proposal tied to Russia's 🇷🇺 Orsk Oil Refinery. That level of lure specificity points to prior access and open-source research on targets.
+
+- Four distinct infection chains were observed across the campaign window. June 2025 used macro-enabled Word documents to pull and execute a second-stage binary. July 2025 used PS2EXE-packaged PowerShell executables as downloaders, with scheduled tasks created for persistence. October 2025 introduced a malicious LNK inside a RAR archive, launching PowerShell to retrieve a GitHub-hosted script providing remote shell access, with subsequent iterations also dropping PickleShell into the Windows Startup folder for login-triggered persistence. April 2026 weaponized CVE-2025-8088, a WinRAR flaw, to extract PickleShell directly into the Windows Startup folder, the group's first documented use of a CVE as a delivery mechanism.
+
+- The custom reverse shells deployed across campaigns include FoalShell, Chvost, Laplas, and PickleShell. Each provides interactive remote access to compromised hosts. PickleShell in particular appears across multiple infection chains and is staged in the Windows Startup folder, making it a key persistence artifact to hunt. The group's tooling overlaps with clusters tracked as YoroTrooper, ShadowSilk, Cavalry Werewolf, and Tomiris, though Cisco Talos notes no direct indicator or toolset overlap has been confirmed between UAT-6275 and YoroTrooper specifically.
+
+- Three publicly accessible staging directories linked to the actor were found hosting Linux-compatible tooling and a public proof-of-concept exploit for CVE-2025-25257, an SQL injection vulnerability in Fortinet FortiWeb. This signals a likely capability expansion beyond Windows endpoints toward internet-facing web application infrastructure, a meaningful shift for a group previously focused on endpoint-level access via phishing.
+
+- Targeting priorities center on environmental agencies, economic ministries, and energy infrastructure across Central Asia and the broader CIS region. Related cluster Hydra Saiga (also tracked as Comrade Saiga) compromised at least 34 organizations across 8 countries since December 2024 with custom implants written in Rust, Go, and Python alongside living-off-the-land techniques, with reconnaissance extending to over 200 additional targets globally.
+
+DFIR focus: Hunt the Windows Startup folder for PickleShell presence, especially on systems running WinRAR where CVE-2025-8088 may have been triggered by opening a crafted archive. Review scheduled tasks created around July 2025 campaign timeframes for PS2EXE-built executables. For October 2025-era intrusions, examine LNK execution followed by PowerShell reaching out to GitHub for hosted scripts. On network-facing Fortinet FortiWeb instances, assess exposure to CVE-2025-25257 and review web logs for SQL injection patterns. The Cisco Talos and Recorded Future Insikt Group reports are the primary sources for IOCs and campaign detail.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111020192956661918</description>
+      <content:encoded><![CDATA[<p>Kazakhstan-nexus Silent Lynx (UAT-6275 / TAG-193) hits CIS government targets across nine countries over 14 months, escalating from macro-laced docs to active CVE exploitation in its latest infection chain.</p><p>Key details:</p><p>- Silent Lynx ran at least eight phishing campaigns between January 2025 and May 2026, targeting Kazakhstan 🇰🇿, Kyrgyzstan, Tajikistan, Turkmenistan, Uzbekistan, Armenia, Azerbaijan, Russia 🇷🇺, and Belarus 🇧🇾. Spearphishing emails originate from compromised government accounts and carry lures themed around diplomacy, international trade, energy, and aviation, including a diplomatic letter to Armenia&#x27;s Ministry of Foreign Affairs, a Turkmenistan airspace application form, and a business proposal tied to Russia&#x27;s 🇷🇺 Orsk Oil Refinery. That level of lure specificity points to prior access and open-source research on targets.</p><p>- Four distinct infection chains were observed across the campaign window. June 2025 used macro-enabled Word documents to pull and execute a second-stage binary. July 2025 used PS2EXE-packaged PowerShell executables as downloaders, with scheduled tasks created for persistence. October 2025 introduced a malicious LNK inside a RAR archive, launching PowerShell to retrieve a GitHub-hosted script providing remote shell access, with subsequent iterations also dropping PickleShell into the Windows Startup folder for login-triggered persistence. April 2026 weaponized CVE-2025-8088, a WinRAR flaw, to extract PickleShell directly into the Windows Startup folder, the group&#x27;s first documented use of a CVE as a delivery mechanism.</p><p>- The custom reverse shells deployed across campaigns include FoalShell, Chvost, Laplas, and PickleShell. Each provides interactive remote access to compromised hosts. PickleShell in particular appears across multiple infection chains and is staged in the Windows Startup folder, making it a key persistence artifact to hunt. The group&#x27;s tooling overlaps with clusters tracked as YoroTrooper, ShadowSilk, Cavalry Werewolf, and Tomiris, though Cisco Talos notes no direct indicator or toolset overlap has been confirmed between UAT-6275 and YoroTrooper specifically.</p><p>- Three publicly accessible staging directories linked to the actor were found hosting Linux-compatible tooling and a public proof-of-concept exploit for CVE-2025-25257, an SQL injection vulnerability in Fortinet FortiWeb. This signals a likely capability expansion beyond Windows endpoints toward internet-facing web application infrastructure, a meaningful shift for a group previously focused on endpoint-level access via phishing.</p><p>- Targeting priorities center on environmental agencies, economic ministries, and energy infrastructure across Central Asia and the broader CIS region. Related cluster Hydra Saiga (also tracked as Comrade Saiga) compromised at least 34 organizations across 8 countries since December 2024 with custom implants written in Rust, Go, and Python alongside living-off-the-land techniques, with reconnaissance extending to over 200 additional targets globally.</p><p>DFIR focus: Hunt the Windows Startup folder for PickleShell presence, especially on systems running WinRAR where CVE-2025-8088 may have been triggered by opening a crafted archive. Review scheduled tasks created around July 2025 campaign timeframes for PS2EXE-built executables. For October 2025-era intrusions, examine LNK execution followed by PowerShell reaching out to GitHub for hosted scripts. On network-facing Fortinet FortiWeb instances, assess exposure to CVE-2025-25257 and review web logs for SQL injection patterns. The Cisco Talos and Recorded Future Insikt Group reports are the primary sources for IOCs and campaign detail.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/silent-lynx-exploits-winrar-flaw-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111020192956661918">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111020192956661918</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111020192956661918">DFIR Radar</source>
+      <pubDate>Fri, 16 Oct 2026 09:03:30 +0000</pubDate>
+      <guid isPermaLink="false">2111020192956661918</guid>
+    </item>
     <item>
       <title>[0day-rubbish] Maian Guardian 2.1 license generator projid command injection to www-data uid 33 code execution (7.2, PR:H)</title>
       <link>https://seclists.org/fulldisclosure/2026/Oct/16</link>
@@ -2324,20 +2352,6 @@ Practitioner takeaway: Enable diagnostic settings (Metrics and Log Errors) on ev
       <source url="https://x.com/DFIR_Radar/status/2108845701476286641">DFIR Radar</source>
       <pubDate>Sat, 10 Oct 2026 09:02:50 +0000</pubDate>
       <guid isPermaLink="false">2108845701476286641</guid>
-    </item>
-    <item>
-      <title>Attackers Exploit AhsayCBS Flaws to Deploy XMRig Miners Disguised as Microsoft Edge</title>
-      <link>https://thehackernews.com/2026/10/attackers-exploit-ahsaycbs-flaws-to.html</link>
-      <description>CVE-2026-105134 (CVSS 9.3) chained with CVE-2026-105133 in AhsayCBS is actively exploited as a zero-day, dropping webshells and XMRig as edge.exe. Hunt TEMP for WinRing0x64.sys and Taskgmr.ps1.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108830377682854349</description>
-      <content:encoded><![CDATA[<p>CVE-2026-105134 (CVSS 9.3) chained with CVE-2026-105133 in AhsayCBS is actively exploited as a zero-day, dropping webshells and XMRig as edge.exe. Hunt TEMP for WinRing0x64.sys and Taskgmr.ps1.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/attackers-exploit-ahsaycbs-flaws-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108830377682854349">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108830377682854349</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2108830377682854349">DFIR Radar</source>
-      <pubDate>Sat, 10 Oct 2026 08:01:57 +0000</pubDate>
-      <guid isPermaLink="false">2108830377682854349</guid>
     </item>
   </channel>
 </rss>
