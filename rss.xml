@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 10:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 11:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>China Espionage Actor Actively Targeting Critical BeyondTrust Flaw, Google Warns</title>
+      <link>https://www.infosecurity-magazine.com/news/china-actor-beyondtrust-flaw-google/</link>
+      <description>Chinese 🇨🇳 espionage actor Armory Castle exploited critical BeyondTrust flaw CVE-2026-102764 (CVSS 9.3) in August 2026, achieving root-level persistence on Remote Support appliances before public disclosure.
+
+Key findings:
+
+- CVE-2026-102764 (CVSS 9.3) in BeyondTrust Remote Support was exploited by Armory Castle as a zero-day in August 2026. BeyondTrust disclosed it October 15, 2026, with patches available for SaaS and self-hosted customers since October 8. Google warns broad opportunistic exploitation is now likely given public disclosure.
+
+- Post-exploitation centered on a PHP webshell named Sawfly, deployed with bidirectional encrypted C2. Armory Castle then copied the system shell to /usr/bin/dbus-authd, set SUID permissions and root ownership, creating a persistent root backdoor that survives reboots and configuration resets. They also modified BeyondTrust configuration templates to grant passwordless root to the site service account.
+
+- Credential harvesting targeted the appliance's native secrets database using /ns/sbin/bt-secrets, a proprietary BeyondTrust CLI utility for managing passwords, API keys, and endpoint credentials. Directly brokered credentials stored on the appliance were at risk. The actor also elevated a compromised account's Jump Item and Team permissions from No Access to Administrator, granting unrestricted ability to launch remote sessions to downstream systems.
+
+- Lateral movement used a tunneler named Bareclaw to route traffic through the compromised BeyondTrust device. Sensitive internal documents, including software inventories, were exfiltrated via BeyondTrust's native file transfer service directly from user desktops. Armory Castle then systematically deleted system, web server, and application logs to hinder detection.
+
+- Armory Castle has been active since October 2023, conducting long-term intelligence collection for the People's Republic of China 🇨🇳, targeting legal services, SaaS providers, business-process outsourcers, technology companies, and government entities. Google assesses with high confidence this actor will continue leveraging zero-day flaws in edge devices for espionage.
+
+Responder priority: preserve all available telemetry before taking containment action, Google explicitly flags this. Hunt for /usr/bin/dbus-authd as an anomalous SUID binary, any PHP webshells on the appliance, and unexpected use of /ns/sbin/bt-secrets. Check Jump Item and Team permission changes in the appliance audit log. Any appliance with confirmed or unknown compromise status should be rebuilt from a clean, fully patched image, not just patched in place. Rotate all credentials the appliance stored or brokered, in dependency order, after isolation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111050336055988303</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 espionage actor Armory Castle exploited critical BeyondTrust flaw CVE-2026-102764 (CVSS 9.3) in August 2026, achieving root-level persistence on Remote Support appliances before public disclosure.</p><p>Key findings:</p><p>- CVE-2026-102764 (CVSS 9.3) in BeyondTrust Remote Support was exploited by Armory Castle as a zero-day in August 2026. BeyondTrust disclosed it October 15, 2026, with patches available for SaaS and self-hosted customers since October 8. Google warns broad opportunistic exploitation is now likely given public disclosure.</p><p>- Post-exploitation centered on a PHP webshell named Sawfly, deployed with bidirectional encrypted C2. Armory Castle then copied the system shell to /usr/bin/dbus-authd, set SUID permissions and root ownership, creating a persistent root backdoor that survives reboots and configuration resets. They also modified BeyondTrust configuration templates to grant passwordless root to the site service account.</p><p>- Credential harvesting targeted the appliance&#x27;s native secrets database using /ns/sbin/bt-secrets, a proprietary BeyondTrust CLI utility for managing passwords, API keys, and endpoint credentials. Directly brokered credentials stored on the appliance were at risk. The actor also elevated a compromised account&#x27;s Jump Item and Team permissions from No Access to Administrator, granting unrestricted ability to launch remote sessions to downstream systems.</p><p>- Lateral movement used a tunneler named Bareclaw to route traffic through the compromised BeyondTrust device. Sensitive internal documents, including software inventories, were exfiltrated via BeyondTrust&#x27;s native file transfer service directly from user desktops. Armory Castle then systematically deleted system, web server, and application logs to hinder detection.</p><p>- Armory Castle has been active since October 2023, conducting long-term intelligence collection for the People&#x27;s Republic of China 🇨🇳, targeting legal services, SaaS providers, business-process outsourcers, technology companies, and government entities. Google assesses with high confidence this actor will continue leveraging zero-day flaws in edge devices for espionage.</p><p>Responder priority: preserve all available telemetry before taking containment action, Google explicitly flags this. Hunt for /usr/bin/dbus-authd as an anomalous SUID binary, any PHP webshells on the appliance, and unexpected use of /ns/sbin/bt-secrets. Check Jump Item and Team permission changes in the appliance audit log. Any appliance with confirmed or unknown compromise status should be rebuilt from a clean, fully patched image, not just patched in place. Rotate all credentials the appliance stored or brokered, in dependency order, after isolation.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/china-actor-beyondtrust-flaw-google/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111050336055988303">View on X</a></p>]]></content:encoded>
+      <dc:creator>InfoSecurity Magazine</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111050336055988303</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111050336055988303">DFIR Radar</source>
+      <pubDate>Fri, 16 Oct 2026 11:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2111050336055988303</guid>
+    </item>
     <item>
       <title>PEERSTITCH malware: How Attackers Compromised 500 Firewalls Through FortiManager</title>
       <link>https://securityaffairs.com/201077/malware/peerstitch-malware-how-attackers-compromised-500-firewalls-through-fortimanager.html</link>
@@ -2352,20 +2380,6 @@ Practitioner takeaway: Enable diagnostic settings (Metrics and Log Errors) on ev
       <source url="https://x.com/DFIR_Radar/status/2108875767094419836">DFIR Radar</source>
       <pubDate>Sat, 10 Oct 2026 11:02:19 +0000</pubDate>
       <guid isPermaLink="false">2108875767094419836</guid>
-    </item>
-    <item>
-      <title>Black Hat USA 2026 NOC: Cleartext, Leaky Apps, AI Mistakes</title>
-      <link>https://corelight.com/blog/black-hat-usa-2026-noc-cleartext-apps-ai-mistakes</link>
-      <description>Black Hat USA 🇺🇸 2026 NOC found Splunk Forwarder, BigFix, AI OTel, and a live MCP Bearer token all transmitting cleartext HTTP. Hunt HTTP logs for auth tokens, email addresses, and prompts in headers and POST bodies.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108860647538819476</description>
-      <content:encoded><![CDATA[<p>Black Hat USA 🇺🇸 2026 NOC found Splunk Forwarder, BigFix, AI OTel, and a live MCP Bearer token all transmitting cleartext HTTP. Hunt HTTP logs for auth tokens, email addresses, and prompts in headers and POST bodies.</p><p>#DFIR_Radar</p><p><a href="https://corelight.com/blog/black-hat-usa-2026-noc-cleartext-apps-ai-mistakes">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108860647538819476">View on X</a></p>]]></content:encoded>
-      <dc:creator>Corelight</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108860647538819476</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2108860647538819476">DFIR Radar</source>
-      <pubDate>Sat, 10 Oct 2026 10:02:14 +0000</pubDate>
-      <guid isPermaLink="false">2108860647538819476</guid>
     </item>
   </channel>
 </rss>
