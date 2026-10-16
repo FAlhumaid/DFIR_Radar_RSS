@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 09:03:30 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 10:03:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PEERSTITCH malware: How Attackers Compromised 500 Firewalls Through FortiManager</title>
+      <link>https://securityaffairs.com/201077/malware/peerstitch-malware-how-attackers-compromised-500-firewalls-through-fortimanager.html</link>
+      <description>CL-STA-0954 hit a telecom MSP's FortiManager with CVE-2024-47575, exfiltrating credentials and configs for 500+ downstream firewalls, then deployed the memory-only PEERSTITCH implant via a second CVE to maintain covert access.
+
+Key findings:
+
+- Initial access exploited CVE-2024-47575 (FortiJump), an unauthenticated flaw allowing a rogue virtual device to register with FortiManager over TCP port 541. Within minutes, the attackers extracted a configuration archive containing serial numbers, public IPs, routing tables, VPN credentials, and cryptographic trust material for every managed FortiGate. Passwords were stored as reversible ciphertext, so decryption was trivial. Those stolen keys remain valid until individually rotated on every managed device. Patching FortiManager does not invalidate them.
+
+- A second vulnerability, CVE-2025-61624, a path traversal flaw in the FortiOS auto-script engine, was used to deploy PEERSTITCH. Before execution, the attackers killed the logging and syslog daemons to suppress evidence, wiped crash logs, auto-deleted rogue admin accounts and script objects post-execution, overwrote the malicious ACME config file with benign text, and unlinked the injector binary from disk.
+
+- PEERSTITCH is a 64-bit ARM64 binary written in C that leaves no persistent file on disk, opens no listening ports, and makes no outbound connections. It injects into two legitimate FortiOS daemons, the logging process and the VPN service, using already-allocated memory. It watches for traffic carrying two specific markers (an embedded port number and a link-local IP) in the logging daemon, extracts a session token, and writes it directly into VPN daemon memory via Linux's /proc filesystem, creating a covert bridge between legitimate processes. Fortinet's Integrity Checker Tool cannot detect it because it only scans files on disk, which remain untouched.
+
+- A secondary command channel abused Apache's built-in certificate management module: shell commands were embedded in the domain name field of certificate validation requests, with Apache configured to retry them continuously, creating a persistent outbound reverse shell through a legitimate system process. The attackers also impersonated the FortiManager platform to pull from managed firewalls of other hosts in the targeted network.
+
+- Scope matters here. This was an MSP. The 500+ firewalls included both the provider's own infrastructure and its clients' networks. Those downstream organizations had no visibility into what was happening. Unit 42's investigation covered only the provider's environment, not the affected clients. A single management platform breach became a supply-chain incident.
+
+Practitioner takeaway: Fortinet's Integrity Checker Tool will not find PEERSTITCH. Detection requires live memory inspection of the FortiOS logging and VPN daemons, specifically looking for anomalous read-write-execute (RWX) memory regions or NOP patches at unexpected offsets in daemon code. For any FortiManager compromise involving CVE-2024-47575, treat all cryptographic trust material and VPN credentials as fully compromised regardless of patch status, and begin rotation across every managed device. Isolate management interfaces at the network level and audit for unauthorized SSL/VPN sessions originating from external addresses into internal management segments.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111035349690360142</description>
+      <content:encoded><![CDATA[<p>CL-STA-0954 hit a telecom MSP&#x27;s FortiManager with CVE-2024-47575, exfiltrating credentials and configs for 500+ downstream firewalls, then deployed the memory-only PEERSTITCH implant via a second CVE to maintain covert access.</p><p>Key findings:</p><p>- Initial access exploited CVE-2024-47575 (FortiJump), an unauthenticated flaw allowing a rogue virtual device to register with FortiManager over TCP port 541. Within minutes, the attackers extracted a configuration archive containing serial numbers, public IPs, routing tables, VPN credentials, and cryptographic trust material for every managed FortiGate. Passwords were stored as reversible ciphertext, so decryption was trivial. Those stolen keys remain valid until individually rotated on every managed device. Patching FortiManager does not invalidate them.</p><p>- A second vulnerability, CVE-2025-61624, a path traversal flaw in the FortiOS auto-script engine, was used to deploy PEERSTITCH. Before execution, the attackers killed the logging and syslog daemons to suppress evidence, wiped crash logs, auto-deleted rogue admin accounts and script objects post-execution, overwrote the malicious ACME config file with benign text, and unlinked the injector binary from disk.</p><p>- PEERSTITCH is a 64-bit ARM64 binary written in C that leaves no persistent file on disk, opens no listening ports, and makes no outbound connections. It injects into two legitimate FortiOS daemons, the logging process and the VPN service, using already-allocated memory. It watches for traffic carrying two specific markers (an embedded port number and a link-local IP) in the logging daemon, extracts a session token, and writes it directly into VPN daemon memory via Linux&#x27;s /proc filesystem, creating a covert bridge between legitimate processes. Fortinet&#x27;s Integrity Checker Tool cannot detect it because it only scans files on disk, which remain untouched.</p><p>- A secondary command channel abused Apache&#x27;s built-in certificate management module: shell commands were embedded in the domain name field of certificate validation requests, with Apache configured to retry them continuously, creating a persistent outbound reverse shell through a legitimate system process. The attackers also impersonated the FortiManager platform to pull from managed firewalls of other hosts in the targeted network.</p><p>- Scope matters here. This was an MSP. The 500+ firewalls included both the provider&#x27;s own infrastructure and its clients&#x27; networks. Those downstream organizations had no visibility into what was happening. Unit 42&#x27;s investigation covered only the provider&#x27;s environment, not the affected clients. A single management platform breach became a supply-chain incident.</p><p>Practitioner takeaway: Fortinet&#x27;s Integrity Checker Tool will not find PEERSTITCH. Detection requires live memory inspection of the FortiOS logging and VPN daemons, specifically looking for anomalous read-write-execute (RWX) memory regions or NOP patches at unexpected offsets in daemon code. For any FortiManager compromise involving CVE-2024-47575, treat all cryptographic trust material and VPN credentials as fully compromised regardless of patch status, and begin rotation across every managed device. Isolate management interfaces at the network level and audit for unauthorized SSL/VPN sessions originating from external addresses into internal management segments.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/201077/malware/peerstitch-malware-how-attackers-compromised-500-firewalls-through-fortimanager.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111035349690360142">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111035349690360142</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111035349690360142">DFIR Radar</source>
+      <pubDate>Fri, 16 Oct 2026 10:03:43 +0000</pubDate>
+      <guid isPermaLink="false">2111035349690360142</guid>
+    </item>
     <item>
       <title>Silent Lynx Exploits WinRAR Flaw to Deploy Reverse Shell in CIS Government Attacks</title>
       <link>https://thehackernews.com/2026/10/silent-lynx-exploits-winrar-flaw-to.html</link>
@@ -2338,20 +2366,6 @@ Practitioner takeaway: Enable diagnostic settings (Metrics and Log Errors) on ev
       <source url="https://x.com/DFIR_Radar/status/2108860647538819476">DFIR Radar</source>
       <pubDate>Sat, 10 Oct 2026 10:02:14 +0000</pubDate>
       <guid isPermaLink="false">2108860647538819476</guid>
-    </item>
-    <item>
-      <title>Hackers abuse Google Ads, Bing redirects to push Claude ClickFix attacks</title>
-      <link>https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-bing-redirects-to-push-claude-clickfix-attacks/</link>
-      <description>"Adception" by Push Security abuses Bing's bing[.]com/ck/a redirects inside Google Ads to deliver ClickFix macOS payloads via claude-desk-code[.]com. Hunt Terminal commands curling from lake-90[.]com piped into zsh.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108845701476286641</description>
-      <content:encoded><![CDATA[<p>&quot;Adception&quot; by Push Security abuses Bing&#x27;s bing[.]com/ck/a redirects inside Google Ads to deliver ClickFix macOS payloads via claude-desk-code[.]com. Hunt Terminal commands curling from lake-90[.]com piped into zsh.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-bing-redirects-to-push-claude-clickfix-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108845701476286641">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108845701476286641</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2108845701476286641">DFIR Radar</source>
-      <pubDate>Sat, 10 Oct 2026 09:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2108845701476286641</guid>
     </item>
   </channel>
 </rss>
