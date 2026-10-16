@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 11:03:16 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 12:03:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Analysis of the Infrastructure of ARTEX, a Chinese AI Penetration Testing Tool #4: The Birth of Copy Cat</title>
+      <link>https://asec.ahnlab.com/en/95875/</link>
+      <description>Chinese 🇨🇳 AI-assisted penetration testing framework ARTEX has fragmented into multiple rebranded forks after its GitHub repo went dark, with at least one operator deploying it alongside a live CVE-2026-75650 Magento RCE exploit and an IRC-based PHP implant.
+
+Key findings:
+
+- ARTEX has spawned at least six confirmed rebrands: ScopeWeaver, Tangora PTaaS, Horda, Meze, AegisLoop, and Bob Research Labs / THE GRIM REAPER. The core multi-agent orchestration architecture, PostgreSQL-backed task state, and Planner-plus-three-Workers model carry across all of them, making the shared lineage traceable even when product names and UIs are replaced. Hunt for the reaper-full project name and artex-linux-amd64 references in exposed internal paths.
+
+- The Bob Research Labs / REAPER instance exposed two frontends on TCP ports 3001 and 443, ran LLM profiles backed by DeepSeek, GLM, Kimi, and Claude, and carried a bobresearch agent profile. The multi-LLM backend design means operators can swap inference providers without restructuring the attack pipeline, a capability gap that commodity red-team tooling does not yet reflect.
+
+- CVE-2026-75650, an unauthenticated remote code execution flaw in Magento/Adobe Commerce, was actively staged in the Bob Research Labs environment using StyleSmuggler, the public PoC. Evidence of execution steps was present: Guest Cart creation, billing information manipulation, triggering the vulnerable checkout flow, and extraction of the Magento Report Identifier. The follow-up dropped cache.php and testnewbot.php, and an "IRC BOT DEPLOYED" message was logged.
+
+- irc.php functions as a persistence-anchored IRC C2 implant. It connects to the password-protected channel mg_master, installs itself via an [@]reboot cron job, copies itself to hidden paths, supports multiple PHP execution functions, and accepts !Cmd@ and !Cmd@all commands for remote tasking. This is post-exploitation infrastructure, not a scanner artifact.
+
+- Korean localization artifacts are widespread across forks: Korean strings embedded in Go code handling SMTP, Notes, and HTTP processing; a translate_go.py script mapping Korean and Chinese 🇨🇳 strings to English; and an artex-ko directory. Skills packages (skills-en-keep, skills-backup, skills-translated-en[.]zip, bob-research-skills-en[.]zip) show a deliberate workflow of collecting, translating, and repackaging attack playbooks covering SQL injection, SSRF, XSS, XXE, IDOR, command injection, cloud and container testing, and more.
+
+Practitioner takeaway: If you work Magento incident response, look for cache.php, testnewbot.php, and irc.php in the webroot and cache directories. Check crontabs for [@]reboot entries pointing to PHP processes and outbound IRC connections from the web tier. For threat hunters tracking ARTEX-lineage infrastructure, exposed PostgreSQL instances with task-state tables, dual-port frontends (3001/443), and artex-linux-amd64 binary references in process or path artifacts are the fingerprint. The AhnLab ASEC report documents IOCs, credential exposures, and runtime artifacts found in the wild.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111065450469601476</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 AI-assisted penetration testing framework ARTEX has fragmented into multiple rebranded forks after its GitHub repo went dark, with at least one operator deploying it alongside a live CVE-2026-75650 Magento RCE exploit and an IRC-based PHP implant.</p><p>Key findings:</p><p>- ARTEX has spawned at least six confirmed rebrands: ScopeWeaver, Tangora PTaaS, Horda, Meze, AegisLoop, and Bob Research Labs / THE GRIM REAPER. The core multi-agent orchestration architecture, PostgreSQL-backed task state, and Planner-plus-three-Workers model carry across all of them, making the shared lineage traceable even when product names and UIs are replaced. Hunt for the reaper-full project name and artex-linux-amd64 references in exposed internal paths.</p><p>- The Bob Research Labs / REAPER instance exposed two frontends on TCP ports 3001 and 443, ran LLM profiles backed by DeepSeek, GLM, Kimi, and Claude, and carried a bobresearch agent profile. The multi-LLM backend design means operators can swap inference providers without restructuring the attack pipeline, a capability gap that commodity red-team tooling does not yet reflect.</p><p>- CVE-2026-75650, an unauthenticated remote code execution flaw in Magento/Adobe Commerce, was actively staged in the Bob Research Labs environment using StyleSmuggler, the public PoC. Evidence of execution steps was present: Guest Cart creation, billing information manipulation, triggering the vulnerable checkout flow, and extraction of the Magento Report Identifier. The follow-up dropped cache.php and testnewbot.php, and an &quot;IRC BOT DEPLOYED&quot; message was logged.</p><p>- irc.php functions as a persistence-anchored IRC C2 implant. It connects to the password-protected channel mg_master, installs itself via an [@]reboot cron job, copies itself to hidden paths, supports multiple PHP execution functions, and accepts !Cmd@ and !Cmd@all commands for remote tasking. This is post-exploitation infrastructure, not a scanner artifact.</p><p>- Korean localization artifacts are widespread across forks: Korean strings embedded in Go code handling SMTP, Notes, and HTTP processing; a translate_go.py script mapping Korean and Chinese 🇨🇳 strings to English; and an artex-ko directory. Skills packages (skills-en-keep, skills-backup, skills-translated-en[.]zip, bob-research-skills-en[.]zip) show a deliberate workflow of collecting, translating, and repackaging attack playbooks covering SQL injection, SSRF, XSS, XXE, IDOR, command injection, cloud and container testing, and more.</p><p>Practitioner takeaway: If you work Magento incident response, look for cache.php, testnewbot.php, and irc.php in the webroot and cache directories. Check crontabs for [@]reboot entries pointing to PHP processes and outbound IRC connections from the web tier. For threat hunters tracking ARTEX-lineage infrastructure, exposed PostgreSQL instances with task-state tables, dual-port frontends (3001/443), and artex-linux-amd64 binary references in process or path artifacts are the fingerprint. The AhnLab ASEC report documents IOCs, credential exposures, and runtime artifacts found in the wild.</p><p>#DFIR_Radar</p><p><a href="https://asec.ahnlab.com/en/95875/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111065450469601476">View on X</a></p>]]></content:encoded>
+      <dc:creator>AhnLab ASEC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111065450469601476</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111065450469601476">DFIR Radar</source>
+      <pubDate>Fri, 16 Oct 2026 12:03:20 +0000</pubDate>
+      <guid isPermaLink="false">2111065450469601476</guid>
+    </item>
     <item>
       <title>China Espionage Actor Actively Targeting Critical BeyondTrust Flaw, Google Warns</title>
       <link>https://www.infosecurity-magazine.com/news/china-actor-beyondtrust-flaw-google/</link>
@@ -2366,20 +2394,6 @@ Practitioner takeaway: Enable diagnostic settings (Metrics and Log Errors) on ev
       <source url="https://x.com/DFIR_Radar/status/2108890888524927299">DFIR Radar</source>
       <pubDate>Sat, 10 Oct 2026 12:02:24 +0000</pubDate>
       <guid isPermaLink="false">2108890888524927299</guid>
-    </item>
-    <item>
-      <title>Attackers Hijack Three ccTLDs to Obtain Google Certificates</title>
-      <link>https://www.infosecurity-magazine.com/news/attackers-hijack-cctlds-obtain/</link>
-      <description>Attackers hijacked .gh, .sl, and .as ccTLD registries, manipulating DNS to obtain unauthorized HTTPS certificates for Google and other major domains. Monitor CT logs for unexpected certificate issuance across your ccTLD properties.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108875767094419836</description>
-      <content:encoded><![CDATA[<p>Attackers hijacked .gh, .sl, and .as ccTLD registries, manipulating DNS to obtain unauthorized HTTPS certificates for Google and other major domains. Monitor CT logs for unexpected certificate issuance across your ccTLD properties.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/attackers-hijack-cctlds-obtain/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108875767094419836">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108875767094419836</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2108875767094419836">DFIR Radar</source>
-      <pubDate>Sat, 10 Oct 2026 11:02:19 +0000</pubDate>
-      <guid isPermaLink="false">2108875767094419836</guid>
     </item>
   </channel>
 </rss>
