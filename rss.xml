@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 22:05:10 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 23:04:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Burning Fridges, Cold Evidence: The French Supermarket Attack From a Forensic Perspective</title>
+      <link>https://belkasoft.com/fridge-attack</link>
+      <description>Hundreds of French 🇫🇷 supermarket refrigeration controllers were hijacked remotely, spoiling food and starting fires across roughly 500 stores. The rush to factory-reset affected units is destroying forensic evidence before investigators can establish how the attackers got in.
+
+Key findings:
+
+- Affected retailers include Intermarché and Netto (at least 300 stores), Carrefour (80), Coopérative U (80), and Monoprix (about 30). Danfoss confirmed most hijacked controllers were either legacy models no longer receiving security updates or current models running outdated firmware. CERT-FR also identified Copeland and Dixell XWEB devices as targeted. Attackers forced units into continuous defrost cycles, pushing temperatures to 50°C, causing equipment fires and expected losses of tens of millions of euros.
+
+- Four initial access hypotheses remain open: exposed management interfaces discovered by internet scanning, exploitation of software flaws or default credentials, compromise of a contractor or retailer Windows endpoint to steal credentials or abuse an existing remote session, and theft of controller addresses and credentials from a supplier (E[.]Leclerc reported one of its refrigeration suppliers was breached). Attribution and the confirmed entry path are still unknown at time of writing.
+
+- CERT-FR's remediation guidance calls for cutting internet exposure and performing a factory reset, which wipes whatever the controller held. NIST SP 800-86 and RFC 3227 both call for evidence preservation before any reset or reimage. The evidence that survives a reset lives elsewhere: firewall and VPN logs, remote-access session records, browser artifacts, and RAM from live admin PCs and contractor laptops. No single source is guaranteed, and different access paths demand different evidence.
+
+- On Windows endpoints that managed the controllers, the artifacts most relevant to this incident are: remote-session records (RDP and third-party remote-access tool connections with IP and timestamp), execution traces from Prefetch, Amcache, Shimcache, Syscache, and BAM/DAM showing tools first run near the incident window, and persistence mechanisms including scheduled tasks, startup entries, and AppInit DLLs. Event logs covering successful logons and service installations, plus Windows Defender logs, round out the picture on the endpoint side.
+
+- Correlation across three sources is what turns a suspicious session into evidence: the same source IP appearing in firewall and VPN logs, a corresponding logon or configuration change (new defrost settings) in the controller logs within minutes, and a remote-session record on the admin PC. Timestamp alignment across Windows, firewalls, and controllers is a prerequisite; clock skew of even one hour can break the evidentiary chain.
+
+Practitioners: before any controller is reset or endpoint reimaged, image drives and capture RAM from store PCs, jump hosts, and contractor laptops, then pull firewall, VPN, and remote-access logs covering the window around October 11. Hunt execution artifacts for remote-access tools with first-run timestamps matching that night. Correlate those sessions against controller logs for defrost-command events at the same stores, and align time zones per source before building the timeline. Retailers with multi-site exposure should prioritize sites that share a contractor or supplier with the known-breached E[.]Leclerc vendor, since that supply-chain path may show a legitimate account in controller logs with no obvious anomaly on the device itself.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111231781299229121</description>
+      <content:encoded><![CDATA[<p>Hundreds of French 🇫🇷 supermarket refrigeration controllers were hijacked remotely, spoiling food and starting fires across roughly 500 stores. The rush to factory-reset affected units is destroying forensic evidence before investigators can establish how the attackers got in.</p><p>Key findings:</p><p>- Affected retailers include Intermarché and Netto (at least 300 stores), Carrefour (80), Coopérative U (80), and Monoprix (about 30). Danfoss confirmed most hijacked controllers were either legacy models no longer receiving security updates or current models running outdated firmware. CERT-FR also identified Copeland and Dixell XWEB devices as targeted. Attackers forced units into continuous defrost cycles, pushing temperatures to 50°C, causing equipment fires and expected losses of tens of millions of euros.</p><p>- Four initial access hypotheses remain open: exposed management interfaces discovered by internet scanning, exploitation of software flaws or default credentials, compromise of a contractor or retailer Windows endpoint to steal credentials or abuse an existing remote session, and theft of controller addresses and credentials from a supplier (E[.]Leclerc reported one of its refrigeration suppliers was breached). Attribution and the confirmed entry path are still unknown at time of writing.</p><p>- CERT-FR&#x27;s remediation guidance calls for cutting internet exposure and performing a factory reset, which wipes whatever the controller held. NIST SP 800-86 and RFC 3227 both call for evidence preservation before any reset or reimage. The evidence that survives a reset lives elsewhere: firewall and VPN logs, remote-access session records, browser artifacts, and RAM from live admin PCs and contractor laptops. No single source is guaranteed, and different access paths demand different evidence.</p><p>- On Windows endpoints that managed the controllers, the artifacts most relevant to this incident are: remote-session records (RDP and third-party remote-access tool connections with IP and timestamp), execution traces from Prefetch, Amcache, Shimcache, Syscache, and BAM/DAM showing tools first run near the incident window, and persistence mechanisms including scheduled tasks, startup entries, and AppInit DLLs. Event logs covering successful logons and service installations, plus Windows Defender logs, round out the picture on the endpoint side.</p><p>- Correlation across three sources is what turns a suspicious session into evidence: the same source IP appearing in firewall and VPN logs, a corresponding logon or configuration change (new defrost settings) in the controller logs within minutes, and a remote-session record on the admin PC. Timestamp alignment across Windows, firewalls, and controllers is a prerequisite; clock skew of even one hour can break the evidentiary chain.</p><p>Practitioners: before any controller is reset or endpoint reimaged, image drives and capture RAM from store PCs, jump hosts, and contractor laptops, then pull firewall, VPN, and remote-access logs covering the window around October 11. Hunt execution artifacts for remote-access tools with first-run timestamps matching that night. Correlate those sessions against controller logs for defrost-command events at the same stores, and align time zones per source before building the timeline. Retailers with multi-site exposure should prioritize sites that share a contractor or supplier with the known-breached E[.]Leclerc vendor, since that supply-chain path may show a legitimate account in controller logs with no obvious anomaly on the device itself.</p><p>#DFIR_Radar</p><p><a href="https://belkasoft.com/fridge-attack">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111231781299229121">View on X</a></p>]]></content:encoded>
+      <dc:creator>Belkasoft</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111231781299229121</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2111231781299229121">DFIR Radar</source>
+      <pubDate>Fri, 16 Oct 2026 23:04:16 +0000</pubDate>
+      <guid isPermaLink="false">2111231781299229121</guid>
+    </item>
     <item>
       <title>UAT-11985 Uses Fake Event Invites to Target Taiwan Research Affiliates With Google AitM Phishing</title>
       <link>https://thehackernews.com/2026/10/uat-11985-uses-fake-event-invites-to.html</link>
@@ -2464,20 +2492,6 @@ Practitioner takeaway: The Netresec report ships four Suricata rules (SIDs 14711
       <source url="https://x.com/DFIR_Radar/status/2109646033034571795">DFIR Radar</source>
       <pubDate>Mon, 12 Oct 2026 14:03:05 +0000</pubDate>
       <guid isPermaLink="false">2109646033034571795</guid>
-    </item>
-    <item>
-      <title>Unpatched credential leak in kubernetes/cloud-provider-gcp (auth-provider-gcp) - CVE requested (CAN-2026-2039459)</title>
-      <link>https://seclists.org/oss-sec/2026/q4/133</link>
-      <description>CAN-2026-2039459, unpatched in kubernetes/cloud-provider-gcp, leaks GCP OAuth2 tokens into kubelet ERROR-level logs via a klog.Errorf call when metadata JSON parsing fails. Hunt kubelet logs for raw token responses from metadata[.]google.internal.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109630634456940601</description>
-      <content:encoded><![CDATA[<p>CAN-2026-2039459, unpatched in kubernetes/cloud-provider-gcp, leaks GCP OAuth2 tokens into kubelet ERROR-level logs via a klog.Errorf call when metadata JSON parsing fails. Hunt kubelet logs for raw token responses from metadata[.]google.internal.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/133">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109630634456940601">View on X</a></p>]]></content:encoded>
-      <dc:creator>OSS-Security Mailing List</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109630634456940601</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2109630634456940601">DFIR Radar</source>
-      <pubDate>Mon, 12 Oct 2026 13:01:53 +0000</pubDate>
-      <guid isPermaLink="false">2109630634456940601</guid>
     </item>
   </channel>
 </rss>
