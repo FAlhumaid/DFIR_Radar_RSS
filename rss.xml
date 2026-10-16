@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 20:02:32 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 21:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How SentinelOne Blocked APT29's CaptiveCrunch Campaign</title>
+      <link>https://www.sentinelone.com/blog/how-sentinelone-blocked-apt29-s-captivecrunch-campaign/</link>
+      <description>APT29 ran a captive-portal poisoning campaign that cut EDR agents from their cloud consoles and delivered a Go RAT, all without a single phishing email. SentinelOne's telemetry adds a critical detail no public account included: the adversary was on the victim's own broadcast domain.
+
+Key findings:
+
+- The LLMNR poisoning (T1557.001, T1557) was local, not infrastructure-level. DnsPoison indicators showed UDP/5355 LLMNR responses carrying the adversary's address on roughly a third of affected hosts. LLMNR is link-local multicast and does not cross routers, meaning a Responder-style spoofer was physically on the same Layer-2 segment as the victim. Success rates ranged from 5.6% to 84% depending on the network. The spoofer replayed the legitimate CNAME chain and rewrote only the terminal A record, making poisoned and clean answers interleave seconds apart on the same machine.
+
+- Windows delivered the lure without email or a link. Windows fetches a known file over plain HTTP to detect captive portals. The spoofer rewrote that reply, Windows opened the default browser at the adversary's page, and a browser-matched updater was presented for manual download. Microsoft documented ClickFix-style lures for this campaign; SentinelOne saw only manual download-and-launch on its protected endpoints.
+
+- The payload chain is CornFlake (Go RAT) deploying ChocoShell (in-memory PowerShell infostealer). CornFlake installs persistence via service registration, Run keys, and scheduled tasks with a watchdog. ChocoShell lifts live browser cookies defeating Chrome's App-Bound Encryption, steals Microsoft 365 and Entra ID tokens from the Token Broker cache, disables AMSI via .NET reflection, runs timing-based sandbox checks, and chains three UAC bypasses through SilentCleanup, wsreset.exe, and sdclt.exe. 49 OAuth token POST requests to Microsoft login domains were recorded while those domains were actively resolving to the adversary's address.
+
+- No conventional control sat in the path. The attack used no email, attachment, or scripting host. DNS filtering was bypassed on the wire. The agent's own cloud endpoints were being answered by the adversary in two regions. Every payload copy was convicted by on-device Static AI before execution, including a partial .crdownload file still arriving mid-download, with no signature update or cloud lookup required. Zero process creations from Downloads, zero persistence, zero lateral movement across all affected environments.
+
+- Hunt for one address answering for unrelated domain owners. Take DNS resolution logs, drop RFC1918 answers, reduce each queried name to its registrable domain using the Public Suffix List, group by answered address, and count distinct owning organisations per address. A CDN answers for many domains owned by one org. The adversary's address answered for roughly 128 unrelated owners including Adobe, Apple, Akamai, AnyDesk, BeyondTrust, and Microsoft. This hunt surfaced nearly a third of confirmed victims that no alert had flagged. Supporting signals: LLMNR responses carrying non-RFC1918 addresses, wpad resolving to a non-RFC1918 address, the connectivity-check URL in a browser command line followed within 60 seconds by an executable or .crdownload in Downloads, and failed _ldap._tcp SRV lookups for your own domain controllers placing the machine off-network.
+
+Practitioner takeaway: disable LLMNR via Group Policy now, because no detection rule removes the protocol the adversary is answering on. Then test what your endpoint agent does when it cannot reach its own console: if any verdict requires a cloud lookup, that is your gap on a hostile network. For any suspected exposure window, review Entra ID for anomalous token issuance, unfamiliar sign-in infrastructure, and unexpected device registrations to account for the 49 token requests the endpoint telemetry could not resolve.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111201397295153245</description>
+      <content:encoded><![CDATA[<p>APT29 ran a captive-portal poisoning campaign that cut EDR agents from their cloud consoles and delivered a Go RAT, all without a single phishing email. SentinelOne&#x27;s telemetry adds a critical detail no public account included: the adversary was on the victim&#x27;s own broadcast domain.</p><p>Key findings:</p><p>- The LLMNR poisoning (T1557.001, T1557) was local, not infrastructure-level. DnsPoison indicators showed UDP/5355 LLMNR responses carrying the adversary&#x27;s address on roughly a third of affected hosts. LLMNR is link-local multicast and does not cross routers, meaning a Responder-style spoofer was physically on the same Layer-2 segment as the victim. Success rates ranged from 5.6% to 84% depending on the network. The spoofer replayed the legitimate CNAME chain and rewrote only the terminal A record, making poisoned and clean answers interleave seconds apart on the same machine.</p><p>- Windows delivered the lure without email or a link. Windows fetches a known file over plain HTTP to detect captive portals. The spoofer rewrote that reply, Windows opened the default browser at the adversary&#x27;s page, and a browser-matched updater was presented for manual download. Microsoft documented ClickFix-style lures for this campaign; SentinelOne saw only manual download-and-launch on its protected endpoints.</p><p>- The payload chain is CornFlake (Go RAT) deploying ChocoShell (in-memory PowerShell infostealer). CornFlake installs persistence via service registration, Run keys, and scheduled tasks with a watchdog. ChocoShell lifts live browser cookies defeating Chrome&#x27;s App-Bound Encryption, steals Microsoft 365 and Entra ID tokens from the Token Broker cache, disables AMSI via .NET reflection, runs timing-based sandbox checks, and chains three UAC bypasses through SilentCleanup, wsreset.exe, and sdclt.exe. 49 OAuth token POST requests to Microsoft login domains were recorded while those domains were actively resolving to the adversary&#x27;s address.</p><p>- No conventional control sat in the path. The attack used no email, attachment, or scripting host. DNS filtering was bypassed on the wire. The agent&#x27;s own cloud endpoints were being answered by the adversary in two regions. Every payload copy was convicted by on-device Static AI before execution, including a partial .crdownload file still arriving mid-download, with no signature update or cloud lookup required. Zero process creations from Downloads, zero persistence, zero lateral movement across all affected environments.</p><p>- Hunt for one address answering for unrelated domain owners. Take DNS resolution logs, drop RFC1918 answers, reduce each queried name to its registrable domain using the Public Suffix List, group by answered address, and count distinct owning organisations per address. A CDN answers for many domains owned by one org. The adversary&#x27;s address answered for roughly 128 unrelated owners including Adobe, Apple, Akamai, AnyDesk, BeyondTrust, and Microsoft. This hunt surfaced nearly a third of confirmed victims that no alert had flagged. Supporting signals: LLMNR responses carrying non-RFC1918 addresses, wpad resolving to a non-RFC1918 address, the connectivity-check URL in a browser command line followed within 60 seconds by an executable or .crdownload in Downloads, and failed _ldap._tcp SRV lookups for your own domain controllers placing the machine off-network.</p><p>Practitioner takeaway: disable LLMNR via Group Policy now, because no detection rule removes the protocol the adversary is answering on. Then test what your endpoint agent does when it cannot reach its own console: if any verdict requires a cloud lookup, that is your gap on a hostile network. For any suspected exposure window, review Entra ID for anomalous token issuance, unfamiliar sign-in infrastructure, and unexpected device registrations to account for the 49 token requests the endpoint telemetry could not resolve.</p><p>#DFIR_Radar</p><p><a href="https://www.sentinelone.com/blog/how-sentinelone-blocked-apt29-s-captivecrunch-campaign/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111201397295153245">View on X</a></p>]]></content:encoded>
+      <dc:creator>SentinelOne</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111201397295153245</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111201397295153245">DFIR Radar</source>
+      <pubDate>Fri, 16 Oct 2026 21:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2111201397295153245</guid>
+    </item>
     <item>
       <title>Keystrokes in Disguise: Forensic Analysis of a Digispark HID Device</title>
       <link>https://blog.nviso.eu/2026/10/16/keystrokes-in-disguise-forensic-analysis-of-a-digispark-hid-device/</link>
@@ -2448,20 +2476,6 @@ Practitioner takeaway: start with the read-only commands before installing any h
       <source url="https://x.com/DFIR_Radar/status/2109615943882334701">DFIR Radar</source>
       <pubDate>Mon, 12 Oct 2026 12:03:31 +0000</pubDate>
       <guid isPermaLink="false">2109615943882334701</guid>
-    </item>
-    <item>
-      <title>Attackers Exploit CVSS 10.0 Bricksforge WordPress Flaw Enabling Unauthenticated RCE</title>
-      <link>https://thehackernews.com/2026/10/attackers-exploit-cvss-100-bricksforge.html</link>
-      <description>CVE-2026-85097 (CVSS 10.0) in Bricksforge WordPress plugin is actively exploited via GIF/PHP polyglot upload for unauthenticated RCE. Audit wp-content/uploads/bricksforge/tmp/ for PHP files and update to 4.0.1.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109600629857694126</description>
-      <content:encoded><![CDATA[<p>CVE-2026-85097 (CVSS 10.0) in Bricksforge WordPress plugin is actively exploited via GIF/PHP polyglot upload for unauthenticated RCE. Audit wp-content/uploads/bricksforge/tmp/ for PHP files and update to 4.0.1.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/attackers-exploit-cvss-100-bricksforge.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109600629857694126">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109600629857694126</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2109600629857694126">DFIR Radar</source>
-      <pubDate>Mon, 12 Oct 2026 11:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2109600629857694126</guid>
     </item>
   </channel>
 </rss>
