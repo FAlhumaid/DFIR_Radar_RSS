@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 07:03:09 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 08:03:03 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>[0day-rubbish] Maian Guardian 2.1 license generator projid command injection to www-data uid 33 code execution (7.2, PR:H)</title>
+      <link>https://seclists.org/fulldisclosure/2026/Oct/16</link>
+      <description>Maian Guardian 2.1 carries an OS command injection in its license generator that gives an authenticated administrator arbitrary code execution as www-data. No CVE assigned yet; CVSS 3.1 base score 7.2 High (PR:H).
+
+Key findings:
+
+- The root cause is a dead sanitizer arrangement in control/classes/class.licensing.php. The escape() function at lines 68-70 returns its input unchanged, mswCD() at lines 152-154 is a second return $data stub stacked in front of it, and escapeArg() which correctly calls escapeshellarg() has no call site anywhere across the 308 PHP files in the shipped tree. The result: projid, projkey, property key/value pairs, and the encoder string all arrive from a POST to /admin/index.php?ajax-ops=generate, pass through two no-ops, and land inside double-quoted words in a shell_exec() call. A projid of $(id) executes in a subshell during argument expansion, before the command word resolves, so the injection fires even when the SourceGuardian generator binary is absent or misconfigured.
+
+- The CVSS vector is CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H = 7.2. PR:H carries the weight: exploitation requires an authenticated administrator session. Eight authentication bypass paths were examined and all eight were blocked. Unauthenticated RCE was not reached and is not claimed.
+
+- Impact as demonstrated: six distinct OS commands executed as uid=33(www-data) in a single authenticated POST, including a pipeline. A file written into the document root was served back over HTTP, which in a PHP-executing web tree is a durable implant reachable by unauthenticated visitors after the fact. The advisory argues (not demonstrated in the recorded run) that the same identity can read control/_cfg.php to recover database credentials, SECRET_KEY, and the API key. SECRET_KEY concatenated with a timestamp produces a valid guardian_access session value, meaning an attacker who reads it can forge administrator sessions with no login event logged.
+
+- Detection is constrained by design. The triggering request logs as a plain POST /admin/index.php?ajax-ops=generate with HTTP 200 and no error status, because the request body is not logged and the application returned its normal {"status":"rdr"} response. The advisory recommends alerting on any generate request body containing $( or its percent-encoded form %24%28 at the proxy layer, watching for /bin/sh -c child processes descended from the web server with argument lists containing redirections or semicolons, file-integrity monitoring on the document tree for new service-account-owned files, and auditing guardian_access sessions against login events as a high-signal post-compromise indicator.
+
+Practitioner takeaway: until a patch ships, treat Maian Guardian administrator credentials as equivalent to shell access on the licensing host. The advisory's mitigation priority is replacing shell_exec() at class.licensing.php:261 with a proc_open() array invocation so no shell is spawned at all. If you are scoping an incident, check the document root for unexpected files owned by www-data, cross-reference active guardian_access sessions against the access log for a corresponding login request, and rotate SECRET_KEY, the API key, the administrator credential, and database credentials if compromise is suspected. No CVE ID has been assigned; no patch exists at time of disclosure.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111004979670520314</description>
+      <content:encoded><![CDATA[<p>Maian Guardian 2.1 carries an OS command injection in its license generator that gives an authenticated administrator arbitrary code execution as www-data. No CVE assigned yet; CVSS 3.1 base score 7.2 High (PR:H).</p><p>Key findings:</p><p>- The root cause is a dead sanitizer arrangement in control/classes/class.licensing.php. The escape() function at lines 68-70 returns its input unchanged, mswCD() at lines 152-154 is a second return $data stub stacked in front of it, and escapeArg() which correctly calls escapeshellarg() has no call site anywhere across the 308 PHP files in the shipped tree. The result: projid, projkey, property key/value pairs, and the encoder string all arrive from a POST to /admin/index.php?ajax-ops=generate, pass through two no-ops, and land inside double-quoted words in a shell_exec() call. A projid of $(id) executes in a subshell during argument expansion, before the command word resolves, so the injection fires even when the SourceGuardian generator binary is absent or misconfigured.</p><p>- The CVSS vector is CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H = 7.2. PR:H carries the weight: exploitation requires an authenticated administrator session. Eight authentication bypass paths were examined and all eight were blocked. Unauthenticated RCE was not reached and is not claimed.</p><p>- Impact as demonstrated: six distinct OS commands executed as uid=33(www-data) in a single authenticated POST, including a pipeline. A file written into the document root was served back over HTTP, which in a PHP-executing web tree is a durable implant reachable by unauthenticated visitors after the fact. The advisory argues (not demonstrated in the recorded run) that the same identity can read control/_cfg.php to recover database credentials, SECRET_KEY, and the API key. SECRET_KEY concatenated with a timestamp produces a valid guardian_access session value, meaning an attacker who reads it can forge administrator sessions with no login event logged.</p><p>- Detection is constrained by design. The triggering request logs as a plain POST /admin/index.php?ajax-ops=generate with HTTP 200 and no error status, because the request body is not logged and the application returned its normal {&quot;status&quot;:&quot;rdr&quot;} response. The advisory recommends alerting on any generate request body containing $( or its percent-encoded form %24%28 at the proxy layer, watching for /bin/sh -c child processes descended from the web server with argument lists containing redirections or semicolons, file-integrity monitoring on the document tree for new service-account-owned files, and auditing guardian_access sessions against login events as a high-signal post-compromise indicator.</p><p>Practitioner takeaway: until a patch ships, treat Maian Guardian administrator credentials as equivalent to shell access on the licensing host. The advisory&#x27;s mitigation priority is replacing shell_exec() at class.licensing.php:261 with a proc_open() array invocation so no shell is spawned at all. If you are scoping an incident, check the document root for unexpected files owned by www-data, cross-reference active guardian_access sessions against the access log for a corresponding login request, and rotate SECRET_KEY, the API key, the administrator credential, and database credentials if compromise is suspected. No CVE ID has been assigned; no patch exists at time of disclosure.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/fulldisclosure/2026/Oct/16">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111004979670520314">View on X</a></p>]]></content:encoded>
+      <dc:creator>Full Disclosure</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111004979670520314</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2111004979670520314">DFIR Radar</source>
+      <pubDate>Fri, 16 Oct 2026 08:03:03 +0000</pubDate>
+      <guid isPermaLink="false">2111004979670520314</guid>
+    </item>
     <item>
       <title>PEERSTITCH Malware Deployed via FortiOS Flaw Bypasses Checks on Tagged VPN Sessions</title>
       <link>https://thehackernews.com/2026/10/attackers-exploit-fortios-flaw-to.html</link>
@@ -2312,20 +2338,6 @@ Practitioner takeaway: Enable diagnostic settings (Metrics and Log Errors) on ev
       <source url="https://x.com/DFIR_Radar/status/2108830377682854349">DFIR Radar</source>
       <pubDate>Sat, 10 Oct 2026 08:01:57 +0000</pubDate>
       <guid isPermaLink="false">2108830377682854349</guid>
-    </item>
-    <item>
-      <title>Unpatched AhsayCBS flaws exploited to deploy webshells, mine crypto</title>
-      <link>https://www.bleepingcomputer.com/news/security/unpatched-ahsaycbs-flaws-exploited-to-deploy-webshells-mine-crypto/</link>
-      <description>Zero-day chain CVE-2026-105133 and CVE-2026-105134 in AhsayCBS 10.3.4 drops JSP webshells and XMRig as edge.exe, persisting via MicrosoftEdgeUpdateSvc.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2108815305581744458</description>
-      <content:encoded><![CDATA[<p>Zero-day chain CVE-2026-105133 and CVE-2026-105134 in AhsayCBS 10.3.4 drops JSP webshells and XMRig as edge.exe, persisting via MicrosoftEdgeUpdateSvc.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/unpatched-ahsaycbs-flaws-exploited-to-deploy-webshells-mine-crypto/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2108815305581744458">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2108815305581744458</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2108815305581744458">DFIR Radar</source>
-      <pubDate>Sat, 10 Oct 2026 07:02:04 +0000</pubDate>
-      <guid isPermaLink="false">2108815305581744458</guid>
     </item>
   </channel>
 </rss>
