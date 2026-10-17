@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Oct 2026 22:02:54 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 23:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>French supermarket cyberattack exposes risks of unsecured remote access and legacy refrigeration systems</title>
+      <link>https://industrialcyber.co/control-device-security/french-supermarket-cyberattack-exposes-risks-of-unsecured-remote-access-and-legacy-refrigeration-systems/</link>
+      <description>Attackers hit French 🇫🇷 supermarkets via exposed Danfoss AK-SC, AK-SM, and Copeland XWEB refrigeration controllers.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111593888100073482</description>
+      <content:encoded><![CDATA[<p>Attackers hit French 🇫🇷 supermarkets via exposed Danfoss AK-SC, AK-SM, and Copeland XWEB refrigeration controllers.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/control-device-security/french-supermarket-cyberattack-exposes-risks-of-unsecured-remote-access-and-legacy-refrigeration-systems/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111593888100073482">View on X</a></p>]]></content:encoded>
+      <dc:creator>Industrial Cyber</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111593888100073482</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2111593888100073482">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 23:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2111593888100073482</guid>
+    </item>
     <item>
       <title>Frozen Privilege: Remote Code Execution in Snowflake-Managed PostgreSQL</title>
       <link>https://www.varonis.com/blog/remote-code-execution-in-snowflake-managed-postgresql</link>
@@ -2450,34 +2464,6 @@ Practitioner takeaway: Add five artifacts to your triage collection profile: the
       <source url="https://x.com/DFIR_Radar/status/2110095467040194649">DFIR Radar</source>
       <pubDate>Tue, 13 Oct 2026 19:48:58 +0000</pubDate>
       <guid isPermaLink="false">2110095467040194649</guid>
-    </item>
-    <item>
-      <title>MyReport Updater: From gRPC to SYSTEM</title>
-      <link>http://blog.quarkslab.com/myreport-updater-from-grpc-to-system.html</link>
-      <description>A LocalSystem-privileged updater service in MyReport's BI platform exposes an unauthenticated gRPC endpoint on TCP 9095, enabling LPE to SYSTEM and unauthenticated RCE from the network. Quarkslab discovered both flaws during an assumed breach assessment on a Citrix server.
-
-Key findings:
-
-- MyReportUpdaterService runs as NT AUTHORITY\SYSTEM and listens on TCP port 9095 on all interfaces, accepting gRPC requests including UpdateConfigReferent with no authentication. An attacker on the same network can remotely redirect the service to an attacker-controlled reference server, change the operating mode, and specify the reference port, all without credentials. The proof-of-concept Python script grpcmanual[.]py automates this call. Version 2.1.1 is confirmed vulnerable; fixes are scheduled in the October 13, 2026 release per the vendor's roadmap.
-
-- The LPE chain works entirely from a standard user session on the target host. UpdaterManager.exe and UpdaterManagerDesktop.exe, located at C:\Program Files (x86)\MyReport\MyReport Updater\manager\, communicate with the privileged service over gRPC. The CLI exposes a mode-switching feature not available in the GUI, allowing a standard user to set the client to Referent mode and point it at an attacker-controlled server. The service then downloads a tampered ZIP module archive and writes its contents to an attacker-specified installation directory as SYSTEM.
-
-- Integrity checks are bypassable. The reference server returns the MD5 digest and file size of each module archive, which the updater trusts. The attacker's infrastructure intercepts responses from updater.myreport[.]fr (contacted over TLS on TCP 443 with the domain visible in the SNI field), spoofs the MD5 and size for a modified archive, and serves the tampered payload. The certificate validation issue (RemoteCertificateNameMismatch) is bypassed by reproducing the vendor certificate's subject fields for the *.myreport[.]fr wildcard.
-
-- DLL planting to SYSTEM is the privilege escalation endgame. The attacker writes HID.dll into C:\Program Files\Common Files\microsoft shared\ink, a directory loaded by osk.exe, the Windows On-Screen Keyboard. osk.exe is launched by WinLogon as NT AUTHORITY\SYSTEM from the Ctrl+Alt+Delete secure desktop. The PoC DLL verifies the loaded process holds the WinLocalSystemSid token and then spawns cmd.exe as SYSTEM.
-
-- The RCE path removes the need for local access entirely. Network reachability to TCP 9095 plus egress from the target to attacker infrastructure is sufficient. In the tested environment an internal relay using netsh portproxy forwarded port 9095 traffic outbound; the custom gRPC call later made even that relay unnecessary by changing the reference port directly. The full chain delivers unauthenticated SYSTEM-level code execution on any host running the vulnerable updater, including Citrix servers where this was confirmed.
-
-Practitioner takeaway: If MyReport Updater is in your environment, treat TCP port 9095 as an attack surface right now. Hunt for unexpected outbound gRPC or TLS connections from UpdaterService.exe (which uses updater.myreport[.]fr in the TLS SNI) to hosts outside the expected vendor infrastructure, and look for UpdaterManager.exe or UpdaterManagerDesktop.exe making unusual calls. Check for HID.dll in C:\Program Files\Common Files\microsoft shared\ink as a direct IOC of this exploit chain. Firewall TCP 9095 to block unauthenticated network access while patching. The full technical report and PoC scripts (grpcmanual[.]py, get_hash_and_size.ps1) are detailed in the Quarkslab post.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110071075262406860</description>
-      <content:encoded><![CDATA[<p>A LocalSystem-privileged updater service in MyReport&#x27;s BI platform exposes an unauthenticated gRPC endpoint on TCP 9095, enabling LPE to SYSTEM and unauthenticated RCE from the network. Quarkslab discovered both flaws during an assumed breach assessment on a Citrix server.</p><p>Key findings:</p><p>- MyReportUpdaterService runs as NT AUTHORITY\SYSTEM and listens on TCP port 9095 on all interfaces, accepting gRPC requests including UpdateConfigReferent with no authentication. An attacker on the same network can remotely redirect the service to an attacker-controlled reference server, change the operating mode, and specify the reference port, all without credentials. The proof-of-concept Python script grpcmanual[.]py automates this call. Version 2.1.1 is confirmed vulnerable; fixes are scheduled in the October 13, 2026 release per the vendor&#x27;s roadmap.</p><p>- The LPE chain works entirely from a standard user session on the target host. UpdaterManager.exe and UpdaterManagerDesktop.exe, located at C:\Program Files (x86)\MyReport\MyReport Updater\manager\, communicate with the privileged service over gRPC. The CLI exposes a mode-switching feature not available in the GUI, allowing a standard user to set the client to Referent mode and point it at an attacker-controlled server. The service then downloads a tampered ZIP module archive and writes its contents to an attacker-specified installation directory as SYSTEM.</p><p>- Integrity checks are bypassable. The reference server returns the MD5 digest and file size of each module archive, which the updater trusts. The attacker&#x27;s infrastructure intercepts responses from updater.myreport[.]fr (contacted over TLS on TCP 443 with the domain visible in the SNI field), spoofs the MD5 and size for a modified archive, and serves the tampered payload. The certificate validation issue (RemoteCertificateNameMismatch) is bypassed by reproducing the vendor certificate&#x27;s subject fields for the *.myreport[.]fr wildcard.</p><p>- DLL planting to SYSTEM is the privilege escalation endgame. The attacker writes HID.dll into C:\Program Files\Common Files\microsoft shared\ink, a directory loaded by osk.exe, the Windows On-Screen Keyboard. osk.exe is launched by WinLogon as NT AUTHORITY\SYSTEM from the Ctrl+Alt+Delete secure desktop. The PoC DLL verifies the loaded process holds the WinLocalSystemSid token and then spawns cmd.exe as SYSTEM.</p><p>- The RCE path removes the need for local access entirely. Network reachability to TCP 9095 plus egress from the target to attacker infrastructure is sufficient. In the tested environment an internal relay using netsh portproxy forwarded port 9095 traffic outbound; the custom gRPC call later made even that relay unnecessary by changing the reference port directly. The full chain delivers unauthenticated SYSTEM-level code execution on any host running the vulnerable updater, including Citrix servers where this was confirmed.</p><p>Practitioner takeaway: If MyReport Updater is in your environment, treat TCP port 9095 as an attack surface right now. Hunt for unexpected outbound gRPC or TLS connections from UpdaterService.exe (which uses updater.myreport[.]fr in the TLS SNI) to hosts outside the expected vendor infrastructure, and look for UpdaterManager.exe or UpdaterManagerDesktop.exe making unusual calls. Check for HID.dll in C:\Program Files\Common Files\microsoft shared\ink as a direct IOC of this exploit chain. Firewall TCP 9095 to block unauthenticated network access while patching. The full technical report and PoC scripts (grpcmanual[.]py, get_hash_and_size.ps1) are detailed in the Quarkslab post.</p><p>#DFIR_Radar</p><p><a href="http://blog.quarkslab.com/myreport-updater-from-grpc-to-system.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110071075262406860">View on X</a></p>]]></content:encoded>
-      <dc:creator>Quarkslab</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110071075262406860</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2110071075262406860">DFIR Radar</source>
-      <pubDate>Tue, 13 Oct 2026 18:12:02 +0000</pubDate>
-      <guid isPermaLink="false">2110071075262406860</guid>
     </item>
   </channel>
 </rss>
