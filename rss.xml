@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 23:04:16 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 00:02:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-88771: Inside the Exploitation of a Critical NetScaler RCE Vulnerability</title>
+      <link>https://www.zscaler.com/blogs/security-research/cve-2026-88771-inside-exploitation-critical-netscaler-rce-vulnerability</link>
+      <description>CVE-2026-88771, a CVSS 9.8 unauthenticated RCE in Citrix NetScaler ADC and Gateway, is actively exploited in the wild and listed in CISA KEV. Patch immediately, but preserve forensics first.
+
+- CVE-2026-88771 requires no authentication and no optional features. The attack works by poisoning the HTTP access log with Base64-encoded shell commands in a User-Agent value beginning "INDEX:", then submitting a forged pitboss PPE failure string to /nf/auth/doAuthentication.do or /cgi/login. The legitimate NetScaler Perl script /netscaler/ns_monuploadd_err.pl later processes PPE failure records from /var/log/ns.log, selects the last matching line, and passes attacker-controlled content to a shell without escaping metacharacters. That is the trigger: no direct exploit request fires the code, a trusted diagnostic script does it.
+
+- Once execution lands, the payload creates directories, writes fingerprint HTML files using the prefix Nx_ (observed as Nx_7508.html and Nx_5936.html) across /var/vpn/bookmark/, /netscaler/ns_gui/vpn/, /var/netscaler/gui/vpn/, /var/vpn/theme/, and /var/netscaler/logon/LogonPoint/, then drops PHP and Perl web shells with the same naming pattern. It also modifies /etc/httpd.conf to flip php_engine off to php_engine on and appends AddHandler cgi-script .pl, then sends Apache a HUP signal. An inline variant fetched a Rust-based FreeBSD x64 binary named kw2-freebsd-x64-s11 from 209.141.43[.]95 to /var/kw2s11 and executed it.
+
+- ThreatLabz observed a coordinated burst from at least 26 source IP addresses over roughly six to seven minutes, all following the same log-poisoning and FreeBSD payload-delivery sequence. The download server at 209.141.43[.]95 also appeared in exploitation of CVE-2026-75650 (StyleSmuggler, CVSS 10.0, Adobe Commerce and Magento). Shared infrastructure across two unrelated platforms suggests a common operator or malware-distribution service, though attribution is not confirmed. The full IOC table with 27 source IPs is in the report.
+
+- CISA warns that patching before evidence collection can destroy forensic visibility. Before upgrading, capture a VM snapshot where possible, collect the NetScaler technical support bundle, remote syslog data, and packet-engine core dumps. Then search HTTP access logs for User-Agent values starting with "INDEX:" followed by Base64 content. Search /var/log/ns.log and /var/log/messages for forged pitboss PPE strings containing shell syntax. Find newly written files in webroot paths with: find /netscaler/ns_gui/ /var/netscaler/gui/ /var/vpn/ -type f -mtime -3. Look for Nx_*.php and Nx_*.pl alongside unexpected Nx_*.html fingerprint files. Check /etc/httpd.conf for php_engine on and AddHandler cgi-script .pl modifications. Run ps aux and grep for shells spawned under the nobody service context, and netstat -an to surface unexpected listening ports.
+
+Practitioner takeaway: Hunt for the INDEX: User-Agent pattern in HTTP access logs and forged pitboss PPE strings in ns.log before you touch the upgrade. Those two log sources together reconstruct the full pre-execution chain. Fixed builds are NetScaler ADC and Gateway 14.1-73.46 and 13.1-64.29. Rotate all credentials, tokens, and certificates stored on or reachable through any appliance confirmed compromised.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111246528530563264</description>
+      <content:encoded><![CDATA[<p>CVE-2026-88771, a CVSS 9.8 unauthenticated RCE in Citrix NetScaler ADC and Gateway, is actively exploited in the wild and listed in CISA KEV. Patch immediately, but preserve forensics first.</p><p>- CVE-2026-88771 requires no authentication and no optional features. The attack works by poisoning the HTTP access log with Base64-encoded shell commands in a User-Agent value beginning &quot;INDEX:&quot;, then submitting a forged pitboss PPE failure string to /nf/auth/doAuthentication.do or /cgi/login. The legitimate NetScaler Perl script /netscaler/ns_monuploadd_err.pl later processes PPE failure records from /var/log/ns.log, selects the last matching line, and passes attacker-controlled content to a shell without escaping metacharacters. That is the trigger: no direct exploit request fires the code, a trusted diagnostic script does it.</p><p>- Once execution lands, the payload creates directories, writes fingerprint HTML files using the prefix Nx_ (observed as Nx_7508.html and Nx_5936.html) across /var/vpn/bookmark/, /netscaler/ns_gui/vpn/, /var/netscaler/gui/vpn/, /var/vpn/theme/, and /var/netscaler/logon/LogonPoint/, then drops PHP and Perl web shells with the same naming pattern. It also modifies /etc/httpd.conf to flip php_engine off to php_engine on and appends AddHandler cgi-script .pl, then sends Apache a HUP signal. An inline variant fetched a Rust-based FreeBSD x64 binary named kw2-freebsd-x64-s11 from 209.141.43[.]95 to /var/kw2s11 and executed it.</p><p>- ThreatLabz observed a coordinated burst from at least 26 source IP addresses over roughly six to seven minutes, all following the same log-poisoning and FreeBSD payload-delivery sequence. The download server at 209.141.43[.]95 also appeared in exploitation of CVE-2026-75650 (StyleSmuggler, CVSS 10.0, Adobe Commerce and Magento). Shared infrastructure across two unrelated platforms suggests a common operator or malware-distribution service, though attribution is not confirmed. The full IOC table with 27 source IPs is in the report.</p><p>- CISA warns that patching before evidence collection can destroy forensic visibility. Before upgrading, capture a VM snapshot where possible, collect the NetScaler technical support bundle, remote syslog data, and packet-engine core dumps. Then search HTTP access logs for User-Agent values starting with &quot;INDEX:&quot; followed by Base64 content. Search /var/log/ns.log and /var/log/messages for forged pitboss PPE strings containing shell syntax. Find newly written files in webroot paths with: find /netscaler/ns_gui/ /var/netscaler/gui/ /var/vpn/ -type f -mtime -3. Look for Nx_*.php and Nx_*.pl alongside unexpected Nx_*.html fingerprint files. Check /etc/httpd.conf for php_engine on and AddHandler cgi-script .pl modifications. Run ps aux and grep for shells spawned under the nobody service context, and netstat -an to surface unexpected listening ports.</p><p>Practitioner takeaway: Hunt for the INDEX: User-Agent pattern in HTTP access logs and forged pitboss PPE strings in ns.log before you touch the upgrade. Those two log sources together reconstruct the full pre-execution chain. Fixed builds are NetScaler ADC and Gateway 14.1-73.46 and 13.1-64.29. Rotate all credentials, tokens, and certificates stored on or reachable through any appliance confirmed compromised.</p><p>#DFIR_Radar</p><p><a href="https://www.zscaler.com/blogs/security-research/cve-2026-88771-inside-exploitation-critical-netscaler-rce-vulnerability">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111246528530563264">View on X</a></p>]]></content:encoded>
+      <dc:creator>Zscaler ThreatLabz</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111246528530563264</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2111246528530563264">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 00:02:52 +0000</pubDate>
+      <guid isPermaLink="false">2111246528530563264</guid>
+    </item>
     <item>
       <title>Burning Fridges, Cold Evidence: The French Supermarket Attack From a Forensic Perspective</title>
       <link>https://belkasoft.com/fridge-attack</link>
@@ -2478,20 +2502,6 @@ Practitioner takeaway: The Netresec report ships four Suricata rules (SIDs 14711
       <source url="https://x.com/DFIR_Radar/status/2109661011485839678">DFIR Radar</source>
       <pubDate>Mon, 12 Oct 2026 15:02:36 +0000</pubDate>
       <guid isPermaLink="false">2109661011485839678</guid>
-    </item>
-    <item>
-      <title>Unpatched cross-namespace secret exfiltration in GoogleCloudPlatform/k8s-config-connector - CVE requested (CAN-2026-2039460)</title>
-      <link>https://seclists.org/oss-sec/2026/q4/134</link>
-      <description>CAN-2026-2039460 (unpatched) in k8s-config-connector lets any namespace-scoped user exfiltrate Secrets via NormalizedSecret() in Direct controllers. Audit SecretRef fields across BigQueryConnection and related CRDs for cross-namespace references.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109646033034571795</description>
-      <content:encoded><![CDATA[<p>CAN-2026-2039460 (unpatched) in k8s-config-connector lets any namespace-scoped user exfiltrate Secrets via NormalizedSecret() in Direct controllers. Audit SecretRef fields across BigQueryConnection and related CRDs for cross-namespace references.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/134">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109646033034571795">View on X</a></p>]]></content:encoded>
-      <dc:creator>OSS-Security Mailing List</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109646033034571795</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2109646033034571795">DFIR Radar</source>
-      <pubDate>Mon, 12 Oct 2026 14:03:05 +0000</pubDate>
-      <guid isPermaLink="false">2109646033034571795</guid>
     </item>
   </channel>
 </rss>
