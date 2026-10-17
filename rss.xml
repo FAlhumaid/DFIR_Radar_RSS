@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Oct 2026 12:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 13:03:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Targeted ads installed Candiru spyware in zero-click attacks</title>
+      <link>https://www.bleepingcomputer.com/news/security/zero-click-attacks-used-targeted-ads-to-deliver-candiru-spyware/</link>
+      <description>Israeli 🇮🇱 firm Discover-Tech embedded JavaScript in ad bids to deliver Candiru DevilsTongue spyware zero-click to 45 Al Jazeera devices. Network logs showed sequences from Discover-Tech infrastructure to Candiru validation servers then C2.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111442873413517330</description>
+      <content:encoded><![CDATA[<p>Israeli 🇮🇱 firm Discover-Tech embedded JavaScript in ad bids to deliver Candiru DevilsTongue spyware zero-click to 45 Al Jazeera devices. Network logs showed sequences from Discover-Tech infrastructure to Candiru validation servers then C2.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/zero-click-attacks-used-targeted-ads-to-deliver-candiru-spyware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111442873413517330">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111442873413517330</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111442873413517330">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 13:03:05 +0000</pubDate>
+      <guid isPermaLink="false">2111442873413517330</guid>
+    </item>
     <item>
       <title>MALFEX npm Package 'imgdecode' Hides Shellcode Loader in Windows Native Addon</title>
       <link>https://thehackernews.com/2026/10/malfex-npm-package-imgdecode-hides.html</link>
@@ -2472,34 +2486,6 @@ Practitioner takeaway: if you are triaging macOS samples, the multi-stage depend
       <source url="https://x.com/DFIR_Radar/status/2109948020611514711">DFIR Radar</source>
       <pubDate>Tue, 13 Oct 2026 10:03:04 +0000</pubDate>
       <guid isPermaLink="false">2109948020611514711</guid>
-    </item>
-    <item>
-      <title>Playing It SFAPE: Code Execution in Isolated User Mode</title>
-      <link>https://blog.doyensec.com/2026/10/13/Sfape.html</link>
-      <description>CVE-2026-83498 patched September 2026: a four-byte fixed-value write in Windows 11's SFAPE.dll VBS enclave escalates to full Isolated User Mode code execution inside lsass.exe, breaking Credential Guard's core isolation promise.
-
-Key findings:
-
-- The root bug is in SFAPE.dll's exported Initialize function. After the enclave is legitimately initialized, a repeated call writes the fixed DWORD 0xC0000510 (STATUS_ALREADY_INITIALIZED) to request+0x30 with no address validation, giving an attacker a constrained write primitive targeting any 4-byte-aligned location in VTL1 or VTL0 memory. The vulnerable build is SFAPE.dll 10.0.26100.8875 (SHA-256: AEFEDEB6A7F84679C192D3C19F6C08C3E508222574AE5C9E3D0E10FD2DECE4AF); the patch landed in 10.0.26100.9444 via KB5124008 on September 8, 2026.
-
-- The four-byte write corrupts the high DWORD of the cached g_enclaveBase pointer stored at SFAPE image RVA 0xE86C. This destroys the IsInsideEnclave range check used by all other exports, opening a TOCTOU path in ClipboardInput: the host process swaps the UNICODE_STRING Buffer and Length fields between the enclave's validation step and its final SecureZeroMemory call, converting the primitive into a controlled memset(ptr, 0, length) anywhere in VTL1.
-
-- With the memset primitive, the attacker pivots the credential-context red-black-tree map pointer stored at SFAPE RVA 0xE064 into a VTL0-resident synthetic tree node. This grants a 16-byte VTL1 read (via GetCcAttributes) and a 64-bit VTL1 write (via SetCcTimeStamps), which are used to replace the VertValidTargetTable (VTT) in vertdll, the list of approved CallEnclave targets. Replacing the VTT authorizes arbitrary existing VTL1 functions and ROP gadgets, bypassing VTL1 Arbitrary Code Guard.
-
-- NtContinue is then added to the replacement VTT and called via CallEnclave to restore a controlled CONTEXT structure (RIP, RSP, RCX, RDX, R8, R9) captured earlier with RtlCaptureContext. This gives full multi-argument calling convention control over existing VTL1 code, confirmed by exercising vertdll functions with verified argument and return-value control. The Secure Kernel syscall 0x08000019 (EnclaveCopyIntoEnclave / EnclaveCopyOutOfEnclave, at vertdll RVAs 0x4090 and 0x40B0) then provides clean arbitrary VTL1 read/write without the earlier constraints.
-
-- The host process for SFAPE.dll is SFAPM.dll, an LSA package loaded by lsass.exe as NT AUTHORITY\SYSTEM. LSA protection is on by default on Windows 11, but an attacker already inside lsass or able to load a crafted enclave host can weaponize this chain. The patched VbsSiPolicy.p7b now blocks all older SFAPE.dll images via VBS Code Integrity policy, so rollback to the vulnerable build is prevented. The vulnerable Edge prefs_enclave_x64.dll (CVE-2023-36880, CVE-2024-21423) remains unblocked by the current policy despite comparable impact.
-
-Takeaway: If you are investigating a system running unpatched Windows 11 builds before KB5124008, examine lsass.exe for unexpected enclave allocations and audit which enclave DLLs are loaded into it. Look for anomalous CallEnclave traffic patterns in ETW or kernel telemetry around the SFAPM LSA package. Confirm VbsSiPolicy.p7b has been updated: an outdated policy file is a reliable indicator that older, vulnerable enclave images can still load. The full exploit chain details, decompilation, and RVA offsets are in the Doyensec report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109932966126440740</description>
-      <content:encoded><![CDATA[<p>CVE-2026-83498 patched September 2026: a four-byte fixed-value write in Windows 11&#x27;s SFAPE.dll VBS enclave escalates to full Isolated User Mode code execution inside lsass.exe, breaking Credential Guard&#x27;s core isolation promise.</p><p>Key findings:</p><p>- The root bug is in SFAPE.dll&#x27;s exported Initialize function. After the enclave is legitimately initialized, a repeated call writes the fixed DWORD 0xC0000510 (STATUS_ALREADY_INITIALIZED) to request+0x30 with no address validation, giving an attacker a constrained write primitive targeting any 4-byte-aligned location in VTL1 or VTL0 memory. The vulnerable build is SFAPE.dll 10.0.26100.8875 (SHA-256: AEFEDEB6A7F84679C192D3C19F6C08C3E508222574AE5C9E3D0E10FD2DECE4AF); the patch landed in 10.0.26100.9444 via KB5124008 on September 8, 2026.</p><p>- The four-byte write corrupts the high DWORD of the cached g_enclaveBase pointer stored at SFAPE image RVA 0xE86C. This destroys the IsInsideEnclave range check used by all other exports, opening a TOCTOU path in ClipboardInput: the host process swaps the UNICODE_STRING Buffer and Length fields between the enclave&#x27;s validation step and its final SecureZeroMemory call, converting the primitive into a controlled memset(ptr, 0, length) anywhere in VTL1.</p><p>- With the memset primitive, the attacker pivots the credential-context red-black-tree map pointer stored at SFAPE RVA 0xE064 into a VTL0-resident synthetic tree node. This grants a 16-byte VTL1 read (via GetCcAttributes) and a 64-bit VTL1 write (via SetCcTimeStamps), which are used to replace the VertValidTargetTable (VTT) in vertdll, the list of approved CallEnclave targets. Replacing the VTT authorizes arbitrary existing VTL1 functions and ROP gadgets, bypassing VTL1 Arbitrary Code Guard.</p><p>- NtContinue is then added to the replacement VTT and called via CallEnclave to restore a controlled CONTEXT structure (RIP, RSP, RCX, RDX, R8, R9) captured earlier with RtlCaptureContext. This gives full multi-argument calling convention control over existing VTL1 code, confirmed by exercising vertdll functions with verified argument and return-value control. The Secure Kernel syscall 0x08000019 (EnclaveCopyIntoEnclave / EnclaveCopyOutOfEnclave, at vertdll RVAs 0x4090 and 0x40B0) then provides clean arbitrary VTL1 read/write without the earlier constraints.</p><p>- The host process for SFAPE.dll is SFAPM.dll, an LSA package loaded by lsass.exe as NT AUTHORITY\SYSTEM. LSA protection is on by default on Windows 11, but an attacker already inside lsass or able to load a crafted enclave host can weaponize this chain. The patched VbsSiPolicy.p7b now blocks all older SFAPE.dll images via VBS Code Integrity policy, so rollback to the vulnerable build is prevented. The vulnerable Edge prefs_enclave_x64.dll (CVE-2023-36880, CVE-2024-21423) remains unblocked by the current policy despite comparable impact.</p><p>Takeaway: If you are investigating a system running unpatched Windows 11 builds before KB5124008, examine lsass.exe for unexpected enclave allocations and audit which enclave DLLs are loaded into it. Look for anomalous CallEnclave traffic patterns in ETW or kernel telemetry around the SFAPM LSA package. Confirm VbsSiPolicy.p7b has been updated: an outdated policy file is a reliable indicator that older, vulnerable enclave images can still load. The full exploit chain details, decompilation, and RVA offsets are in the Doyensec report.</p><p>#DFIR_Radar</p><p><a href="https://blog.doyensec.com/2026/10/13/Sfape.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109932966126440740">View on X</a></p>]]></content:encoded>
-      <dc:creator>Doyensec</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109932966126440740</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2109932966126440740">DFIR Radar</source>
-      <pubDate>Tue, 13 Oct 2026 09:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2109932966126440740</guid>
     </item>
   </channel>
 </rss>
