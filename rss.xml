@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Oct 2026 07:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 08:02:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ConnectWise (SkyKick) Vendor Credentials Abused in M365 Attacks</title>
+      <link>https://www.huntress.com/blog/vendor-credential-enables-unauthorized-access</link>
+      <description>ConnectWise (SkyKick) vendor credentials compromised, granting attackers Microsoft Graph tokens across 162 confirmed M365 tenants. MSP environments face compounding risk as broad backup permissions enable bulk data access with minimal audit trail.
+
+Key findings:
+
+- The attacker obtained the ConnectWise Cloud Backup service principal credential (App ID 506e08f9-6e9a-4da4-942b-a099a03644ae) from the vendor's own tenant (owner tenant ID 3f9cd7a0-127a-4ed4-bf06-2f830d5616b7), then replayed it against every customer tenant where the app is consented. Authentication came from 144.172.64[.]128 (AS14956, RouterHosting) between 06:13 and 08:34 UTC on October 15. Tenants were hit in sorted GUID order, seconds apart, consistent with a script working from a list. This is a supply-chain credential abuse scenario: the customer did nothing wrong, and nothing on their side could have prevented the initial sign-in.
+
+- In one tenant, the ConnectWise Cloud Management for MS Teams app (App ID 24205314-2b89-4e07-a2a4-579e898a5640) assigned itself Global Administrator at 03:44 UTC, then a Python-urllib/3.12 User-Agent process modified two other applications, adding client secrets expiring in 2028 to an MSP management app and to the Huntress Security Platform app. This is T1098.001 (Additional Cloud Credentials) and T1098.003 (Additional Cloud Roles). The entire sequence took roughly five minutes. Because app-only sign-ins bypass MFA entirely, those planted secrets give the attacker durable, user-independent access until they are explicitly removed.
+
+- The audit trail is partial by design. Microsoft's Entra audit log records Add member to role, Update application, and Add service principal credentials events, but app-only actions carry no source IP. Directory reads through Microsoft Graph leave no audit trail at all, so confirmed token issuance does not rule out bulk mailbox, OneDrive, SharePoint, or Teams data access. The absence of visible read activity is not evidence of absence. Scope today: 162 confirmed tenants, with reconnaissance via password spray observed against four law firm tenants on October 13 to 14 using curl/7.88.1 from the same IP.
+
+- The ATT&amp;CK mapping the report gives: T1078.004 (Valid Cloud Accounts) for use of the vendor credential, T1098.003 (Additional Cloud Roles) for self-assigned administrator roles, and T1098.001 (Additional Cloud Credentials) for secrets added to other applications. The User-Agent pattern is a useful distinguisher: legitimate ConnectWise Cloud Management and Partner Center apps use kiota-dotnet for Graph calls; the malicious credential additions used Python-urllib/3.12, and the password spray used curl/7.88.1. No single agent is conclusive, but the combination with the acting application and operation is the signal.
+
+- MSP exposure is the force multiplier. Management applications consented into many customer tenants mean a credential planted in one MSP tenant can propagate outward. The report has not confirmed lateral movement across MSP customers but flags it as the primary structural risk.
+
+Practitioner takeaway: In Entra admin center, go to Monitoring, Service principal sign-ins, filter on App ID 506e08f9-6e9a-4da4-942b-a099a03644ae, and look for 144.172.64[.]128 or any non-Azure egress IP. Then sweep all Enterprise applications and App registrations for client secrets or certificates added since October 13 that you did not create, paying special attention to App IDs 24205314-2b89-4e07-a2a4-579e898a5640, 2399d300-6fca-4e6a-a686-399fefe75b83, and the full list in the report. Disable, do not delete, any ConnectWise or SkyKick service principal until ConnectWise confirms credential rotation. Hunt Entra audit logs for Add member to role and Add service principal credentials events where the initiating application is a ConnectWise or SkyKick principal. IOCs are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111367253799387411</description>
+      <content:encoded><![CDATA[<p>ConnectWise (SkyKick) vendor credentials compromised, granting attackers Microsoft Graph tokens across 162 confirmed M365 tenants. MSP environments face compounding risk as broad backup permissions enable bulk data access with minimal audit trail.</p><p>Key findings:</p><p>- The attacker obtained the ConnectWise Cloud Backup service principal credential (App ID 506e08f9-6e9a-4da4-942b-a099a03644ae) from the vendor&#x27;s own tenant (owner tenant ID 3f9cd7a0-127a-4ed4-bf06-2f830d5616b7), then replayed it against every customer tenant where the app is consented. Authentication came from 144.172.64[.]128 (AS14956, RouterHosting) between 06:13 and 08:34 UTC on October 15. Tenants were hit in sorted GUID order, seconds apart, consistent with a script working from a list. This is a supply-chain credential abuse scenario: the customer did nothing wrong, and nothing on their side could have prevented the initial sign-in.</p><p>- In one tenant, the ConnectWise Cloud Management for MS Teams app (App ID 24205314-2b89-4e07-a2a4-579e898a5640) assigned itself Global Administrator at 03:44 UTC, then a Python-urllib/3.12 User-Agent process modified two other applications, adding client secrets expiring in 2028 to an MSP management app and to the Huntress Security Platform app. This is T1098.001 (Additional Cloud Credentials) and T1098.003 (Additional Cloud Roles). The entire sequence took roughly five minutes. Because app-only sign-ins bypass MFA entirely, those planted secrets give the attacker durable, user-independent access until they are explicitly removed.</p><p>- The audit trail is partial by design. Microsoft&#x27;s Entra audit log records Add member to role, Update application, and Add service principal credentials events, but app-only actions carry no source IP. Directory reads through Microsoft Graph leave no audit trail at all, so confirmed token issuance does not rule out bulk mailbox, OneDrive, SharePoint, or Teams data access. The absence of visible read activity is not evidence of absence. Scope today: 162 confirmed tenants, with reconnaissance via password spray observed against four law firm tenants on October 13 to 14 using curl/7.88.1 from the same IP.</p><p>- The ATT&amp;CK mapping the report gives: T1078.004 (Valid Cloud Accounts) for use of the vendor credential, T1098.003 (Additional Cloud Roles) for self-assigned administrator roles, and T1098.001 (Additional Cloud Credentials) for secrets added to other applications. The User-Agent pattern is a useful distinguisher: legitimate ConnectWise Cloud Management and Partner Center apps use kiota-dotnet for Graph calls; the malicious credential additions used Python-urllib/3.12, and the password spray used curl/7.88.1. No single agent is conclusive, but the combination with the acting application and operation is the signal.</p><p>- MSP exposure is the force multiplier. Management applications consented into many customer tenants mean a credential planted in one MSP tenant can propagate outward. The report has not confirmed lateral movement across MSP customers but flags it as the primary structural risk.</p><p>Practitioner takeaway: In Entra admin center, go to Monitoring, Service principal sign-ins, filter on App ID 506e08f9-6e9a-4da4-942b-a099a03644ae, and look for 144.172.64[.]128 or any non-Azure egress IP. Then sweep all Enterprise applications and App registrations for client secrets or certificates added since October 13 that you did not create, paying special attention to App IDs 24205314-2b89-4e07-a2a4-579e898a5640, 2399d300-6fca-4e6a-a686-399fefe75b83, and the full list in the report. Disable, do not delete, any ConnectWise or SkyKick service principal until ConnectWise confirms credential rotation. Hunt Entra audit logs for Add member to role and Add service principal credentials events where the initiating application is a ConnectWise or SkyKick principal. IOCs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/vendor-credential-enables-unauthorized-access">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111367253799387411">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111367253799387411</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111367253799387411">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 08:02:35 +0000</pubDate>
+      <guid isPermaLink="false">2111367253799387411</guid>
+    </item>
     <item>
       <title>Hackers Use Compromised ConnectWise Credential to Sign In to 173 Microsoft 365 Tenants</title>
       <link>https://thehackernews.com/2026/10/hackers-use-compromised-connectwise.html</link>
@@ -2480,20 +2508,6 @@ DFIR and supply chain security takeaway: if your organization consumes Open VSX 
       <source url="https://x.com/DFIR_Radar/status/2109781755230114040">DFIR Radar</source>
       <pubDate>Mon, 12 Oct 2026 23:02:23 +0000</pubDate>
       <guid isPermaLink="false">2109781755230114040</guid>
-    </item>
-    <item>
-      <title>Low-cost Android phones are arriving with malware that owners can’t uninstall</title>
-      <link>https://www.helpnetsecurity.com/2026/10/12/midnight-mimosa-malware-cheap-android-phones/</link>
-      <description>Bitdefender's Midnight Mimosa campaign found firmware-preinstalled Android malware on MediaTek budget devices, unremovable by owners. Hunt for com[.]android.system[.]lite toggling Accessibility and Notification Access silently.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109766666586411131</description>
-      <content:encoded><![CDATA[<p>Bitdefender&#x27;s Midnight Mimosa campaign found firmware-preinstalled Android malware on MediaTek budget devices, unremovable by owners. Hunt for com[.]android.system[.]lite toggling Accessibility and Notification Access silently.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/12/midnight-mimosa-malware-cheap-android-phones/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109766666586411131">View on X</a></p>]]></content:encoded>
-      <dc:creator>Help Net Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109766666586411131</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2109766666586411131">DFIR Radar</source>
-      <pubDate>Mon, 12 Oct 2026 22:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2109766666586411131</guid>
     </item>
   </channel>
 </rss>
