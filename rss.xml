@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Oct 2026 09:02:34 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 10:02:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PSA: Malware Found in Some Rank Math SEO PRO 3.0.123 Downloads</title>
+      <link>https://www.wordfence.com/blog/2026/10/rank-math-seo-pro-3-0-123-malware/</link>
+      <description>CVE-2026-111862 (CVSS 9.8): Rank Math SEO PRO 3.0.123 supply-chain compromise beacons to rank1cdn[.]com and plants backdoors. Query wp_options for _uf6qdn2hmm and hunt wpsupport_ admin accounts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111397501567746180</description>
+      <content:encoded><![CDATA[<p>CVE-2026-111862 (CVSS 9.8): Rank Math SEO PRO 3.0.123 supply-chain compromise beacons to rank1cdn[.]com and plants backdoors. Query wp_options for _uf6qdn2hmm and hunt wpsupport_ admin accounts.</p><p>#DFIR_Radar</p><p><a href="https://www.wordfence.com/blog/2026/10/rank-math-seo-pro-3-0-123-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111397501567746180">View on X</a></p>]]></content:encoded>
+      <dc:creator>Wordfence</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111397501567746180</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111397501567746180">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 10:02:47 +0000</pubDate>
+      <guid isPermaLink="false">2111397501567746180</guid>
+    </item>
     <item>
       <title>Two Hawks in a Pod: one Android RAT behind a flock of fake Japanese brands</title>
       <link>https://starlabs.sg/blog/2026/10-two-hawks-in-a-pod-one-android-rat-behind-a-flock-of-fake-japanese-brands/</link>
@@ -2496,32 +2510,6 @@ Validate ingestion coverage first: confirm your Defender for Key Vault plan is e
       <source url="https://x.com/DFIR_Radar/status/2109887570582638922">DFIR Radar</source>
       <pubDate>Tue, 13 Oct 2026 06:02:52 +0000</pubDate>
       <guid isPermaLink="false">2109887570582638922</guid>
-    </item>
-    <item>
-      <title>Open Sesame: How a Fail-Open Bug in Open VSX's New Scanner Let Malware Walk Right In</title>
-      <link>https://www.paloaltonetworks.com/blog/security-operations/open-sesame-fail-open-bug-open-vsx-scanner/</link>
-      <description>A fail-open logic flaw in Open VSX's pre-publish scanner let any authenticated publisher flood the API, exhaust the database connection pool, and push uninspected malicious extensions directly to the marketplace with a "PASSED" status.
-
-Key details:
-
-- The root cause lives in ExtensionScanService[.]java: a single boolean return value could not distinguish between "no scanners configured" (safe, legitimate) and "all scanner jobs failed to enqueue" (unsafe, error). PublishExtensionVersionHandler[.]java treated both as the former and activated the extension. The recovery path in ExtensionScanJobRecoveryService[.]java carried the same flaw, so the safety net had the same hole. CWEs assigned: CWE-636, CWE-755, CWE-362, and CWE-400.
-
-- Exploitation required only a standard publisher account, no elevated privileges. An attacker prepared malicious .vsix packages and flooded the publish endpoint concurrently. Each publish attempt competes for database connections from a shared pool. Under sufficient load, jobScheduler.enqueue() throws exceptions that are caught and logged but not acted on. enqueuedCount stays at zero, the method returns false, and the extension goes live. No rate limiting existed on the publish endpoint, meaning retries cost the attacker nothing.
-
-- The activated extension was indistinguishable from a legitimately scanned one. The marketplace UI showed scan status: PASSED. Developers in Cursor, Windsurf, and VSCode-fork environments downloading extensions from open-vsx[.]org had no signal that any security check had been skipped. This affects the software supply chain for a broad set of developer toolchains, not a single target.
-
-- Disclosure was February 8, 2026. The Open VSX team acknowledged on February 11 and shipped fix commit 64720cc the same day, three days from initial report. The fix removes the ambiguous boolean and makes failure states explicit: failure returns failure, not a benign "nothing to do."
-
-DFIR and supply chain security takeaway: if your organization consumes Open VSX extensions, review extensions installed from open-vsx[.]org between roughly late 2025 (when the scanning pipeline launched) and February 11, 2026, particularly those installed in developer workstations running Cursor, Windsurf, or VSCode forks. Extensions that show "PASSED" in that window may have bypassed all scanning. Hunt for unexpected network connections or process executions spawned by the extension host process, and verify installed extension hashes against the post-fix re-scanned versions. For teams building similar pipelines: never let "no work needed" and "work failed" share a return value. Make every failure state explicit and fail-closed.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109842188473421912</description>
-      <content:encoded><![CDATA[<p>A fail-open logic flaw in Open VSX&#x27;s pre-publish scanner let any authenticated publisher flood the API, exhaust the database connection pool, and push uninspected malicious extensions directly to the marketplace with a &quot;PASSED&quot; status.</p><p>Key details:</p><p>- The root cause lives in ExtensionScanService[.]java: a single boolean return value could not distinguish between &quot;no scanners configured&quot; (safe, legitimate) and &quot;all scanner jobs failed to enqueue&quot; (unsafe, error). PublishExtensionVersionHandler[.]java treated both as the former and activated the extension. The recovery path in ExtensionScanJobRecoveryService[.]java carried the same flaw, so the safety net had the same hole. CWEs assigned: CWE-636, CWE-755, CWE-362, and CWE-400.</p><p>- Exploitation required only a standard publisher account, no elevated privileges. An attacker prepared malicious .vsix packages and flooded the publish endpoint concurrently. Each publish attempt competes for database connections from a shared pool. Under sufficient load, jobScheduler.enqueue() throws exceptions that are caught and logged but not acted on. enqueuedCount stays at zero, the method returns false, and the extension goes live. No rate limiting existed on the publish endpoint, meaning retries cost the attacker nothing.</p><p>- The activated extension was indistinguishable from a legitimately scanned one. The marketplace UI showed scan status: PASSED. Developers in Cursor, Windsurf, and VSCode-fork environments downloading extensions from open-vsx[.]org had no signal that any security check had been skipped. This affects the software supply chain for a broad set of developer toolchains, not a single target.</p><p>- Disclosure was February 8, 2026. The Open VSX team acknowledged on February 11 and shipped fix commit 64720cc the same day, three days from initial report. The fix removes the ambiguous boolean and makes failure states explicit: failure returns failure, not a benign &quot;nothing to do.&quot;</p><p>DFIR and supply chain security takeaway: if your organization consumes Open VSX extensions, review extensions installed from open-vsx[.]org between roughly late 2025 (when the scanning pipeline launched) and February 11, 2026, particularly those installed in developer workstations running Cursor, Windsurf, or VSCode forks. Extensions that show &quot;PASSED&quot; in that window may have bypassed all scanning. Hunt for unexpected network connections or process executions spawned by the extension host process, and verify installed extension hashes against the post-fix re-scanned versions. For teams building similar pipelines: never let &quot;no work needed&quot; and &quot;work failed&quot; share a return value. Make every failure state explicit and fail-closed.</p><p>#DFIR_Radar</p><p><a href="https://www.paloaltonetworks.com/blog/security-operations/open-sesame-fail-open-bug-open-vsx-scanner/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109842188473421912">View on X</a></p>]]></content:encoded>
-      <dc:creator>Palo Alto SecOps</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109842188473421912</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2109842188473421912">DFIR Radar</source>
-      <pubDate>Tue, 13 Oct 2026 03:02:32 +0000</pubDate>
-      <guid isPermaLink="false">2109842188473421912</guid>
     </item>
   </channel>
 </rss>
