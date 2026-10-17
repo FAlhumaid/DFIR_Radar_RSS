@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Oct 2026 06:02:23 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 07:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers Use Compromised ConnectWise Credential to Sign In to 173 Microsoft 365 Tenants</title>
+      <link>https://thehackernews.com/2026/10/hackers-use-compromised-connectwise.html</link>
+      <description>A compromised ConnectWise Cloud Backup credential was used to authenticate into 173 Microsoft 365 tenants in under two and a half hours, with one tenant showing Global Administrator privilege escalation and backdoored trusted apps.
+
+Key findings:
+
+- On October 15 between 06:13 and 08:34 UTC, a threat actor used a stolen credential for ConnectWise Cloud Backup (app ID 506e08f9-6e9a-4da4-942b-a099a03644ae) to obtain Microsoft Graph tokens across 173 partner and customer tenants, authenticating from 144.172.64[.]128. The actor traversed tenants in sorted GUID order seconds apart, consistent with automated scripting against a prebuilt target list. The same IP conducted password spraying against four law firm tenants on October 13 and 14.
+
+- Because ConnectWise Cloud Backup holds broad pre-consented permissions, the attacker inherited read/write access to mailboxes via Exchange Web Services, OneDrive, SharePoint files, Teams chats, and directory data without needing to compromise any individual user. Revoking user sessions does not stop this. Tokens already issued remain valid up to 90 minutes even after the app is disabled.
+
+- In at least one tenant, the ConnectWise Cloud Management app for Microsoft Teams (app ID 24205314-2b89-4e07-a2a4-579e898a5640) assigned itself Global Administrator, then ran a Python script (User-Agent: Python-urllib/3.12) that added new client secrets to an MSP management application and a security platform application. Adding secrets to an MSP management app extends potential access to every customer tenant that app is consented into.
+
+- Critically, some of this access, specifically directory reads through Microsoft Graph, leaves no audit trail. Scope of data exposure cannot be fully reconstructed from logs alone, which makes waiting for evidence of access the wrong posture here.
+
+- ConnectWise has closed Cloud Backup application access until further notice and found no evidence backup data itself was exfiltrated, but the credential compromise and downstream privilege escalation represent a live and expanding blast radius for any MSP with the app installed.
+
+Practitioner takeaway: Go to Microsoft Entra Admin Center, Monitoring, Sign-in logs, and select the Service principal sign-ins tab, not the default user tab. Filter by application ID 506e08f9-6e9a-4da4-942b-a099a03644ae and look for authentication from 144.172.64[.]128 or any non-Azure, non-IPv6 source. Then pull Entra audit logs and hunt for any ConnectWise or SkyKick application adding itself to a directory role, and audit all app registrations for new client secrets created since October 13. Enable Microsoft Graph activity logs if not already on. Disable the app in every tenant until ConnectWise confirms full credential rotation.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111352245426205073</description>
+      <content:encoded><![CDATA[<p>A compromised ConnectWise Cloud Backup credential was used to authenticate into 173 Microsoft 365 tenants in under two and a half hours, with one tenant showing Global Administrator privilege escalation and backdoored trusted apps.</p><p>Key findings:</p><p>- On October 15 between 06:13 and 08:34 UTC, a threat actor used a stolen credential for ConnectWise Cloud Backup (app ID 506e08f9-6e9a-4da4-942b-a099a03644ae) to obtain Microsoft Graph tokens across 173 partner and customer tenants, authenticating from 144.172.64[.]128. The actor traversed tenants in sorted GUID order seconds apart, consistent with automated scripting against a prebuilt target list. The same IP conducted password spraying against four law firm tenants on October 13 and 14.</p><p>- Because ConnectWise Cloud Backup holds broad pre-consented permissions, the attacker inherited read/write access to mailboxes via Exchange Web Services, OneDrive, SharePoint files, Teams chats, and directory data without needing to compromise any individual user. Revoking user sessions does not stop this. Tokens already issued remain valid up to 90 minutes even after the app is disabled.</p><p>- In at least one tenant, the ConnectWise Cloud Management app for Microsoft Teams (app ID 24205314-2b89-4e07-a2a4-579e898a5640) assigned itself Global Administrator, then ran a Python script (User-Agent: Python-urllib/3.12) that added new client secrets to an MSP management application and a security platform application. Adding secrets to an MSP management app extends potential access to every customer tenant that app is consented into.</p><p>- Critically, some of this access, specifically directory reads through Microsoft Graph, leaves no audit trail. Scope of data exposure cannot be fully reconstructed from logs alone, which makes waiting for evidence of access the wrong posture here.</p><p>- ConnectWise has closed Cloud Backup application access until further notice and found no evidence backup data itself was exfiltrated, but the credential compromise and downstream privilege escalation represent a live and expanding blast radius for any MSP with the app installed.</p><p>Practitioner takeaway: Go to Microsoft Entra Admin Center, Monitoring, Sign-in logs, and select the Service principal sign-ins tab, not the default user tab. Filter by application ID 506e08f9-6e9a-4da4-942b-a099a03644ae and look for authentication from 144.172.64[.]128 or any non-Azure, non-IPv6 source. Then pull Entra audit logs and hunt for any ConnectWise or SkyKick application adding itself to a directory role, and audit all app registrations for new client secrets created since October 13. Enable Microsoft Graph activity logs if not already on. Disable the app in every tenant until ConnectWise confirms full credential rotation.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/hackers-use-compromised-connectwise.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111352245426205073">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111352245426205073</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111352245426205073">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 07:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2111352245426205073</guid>
+    </item>
     <item>
       <title>Cisco Urges Customers to Patch Email Gateway Flaw and Check for Compromise</title>
       <link>https://securityaffairs.com/200985/security/cisco-urges-customers-to-patch-email-gateway-flaw-and-check-for-compromise.html</link>
@@ -2466,20 +2494,6 @@ DFIR and supply chain security takeaway: if your organization consumes Open VSX 
       <source url="https://x.com/DFIR_Radar/status/2109766666586411131">DFIR Radar</source>
       <pubDate>Mon, 12 Oct 2026 22:02:26 +0000</pubDate>
       <guid isPermaLink="false">2109766666586411131</guid>
-    </item>
-    <item>
-      <title>Quantum-resistant signing on AWS, Part 1: Build a software supply chain with ML-DSA</title>
-      <link>https://aws.amazon.com/blogs/security/quantum-resistant-signing-on-aws-part-1-build-a-software-supply-chain-with-ml-dsa/</link>
-      <description>AWS published a guide for building ML-DSA (FIPS 204) quantum-resistant software supply chain signing using KMS, Private CA, and IAM Roles Anywhere. Audit KMS SIGN_VERIFY keys for RSA or ECDSA specs before CNSA 2.0's 2030 exclusive-use deadline.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109751596095529198</description>
-      <content:encoded><![CDATA[<p>AWS published a guide for building ML-DSA (FIPS 204) quantum-resistant software supply chain signing using KMS, Private CA, and IAM Roles Anywhere. Audit KMS SIGN_VERIFY keys for RSA or ECDSA specs before CNSA 2.0&#x27;s 2030 exclusive-use deadline.</p><p>#DFIR_Radar</p><p><a href="https://aws.amazon.com/blogs/security/quantum-resistant-signing-on-aws-part-1-build-a-software-supply-chain-with-ml-dsa/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109751596095529198">View on X</a></p>]]></content:encoded>
-      <dc:creator>AWS Security Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109751596095529198</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2109751596095529198">DFIR Radar</source>
-      <pubDate>Mon, 12 Oct 2026 21:02:33 +0000</pubDate>
-      <guid isPermaLink="false">2109751596095529198</guid>
     </item>
   </channel>
 </rss>
