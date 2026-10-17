@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Oct 2026 08:02:35 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 09:02:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Two Hawks in a Pod: one Android RAT behind a flock of fake Japanese brands</title>
+      <link>https://starlabs.sg/blog/2026/10-two-hawks-in-a-pod-one-android-rat-behind-a-flock-of-fake-japanese-brands/</link>
+      <description>A single Android RAT sits behind 64 samples impersonating Japanese 🇯🇵 finance brands, tax portals, and romance apps, all phoning home to hawk-branded control panels and built for financial fraud.
+
+Key findings:
+
+- The dropper (reference sample SHA256: 24e58e12c24180abf800f142b83348b318f60894f94571a68eea98481abd84f0, package com.nova.core.high) is packed with a trivially reversible libsa XOR stub: a plaintext 32-byte key (AK) and asset name (AN) sit in the Sa application class, and hand-XORing the asset produces the inner dex with all config constants in the clear. That inner dex holds a single config class Cf with the C2 (S1), an AES-256 key (K1), the payload asset name (N1), and the dropped RAT package name com[.]open.stone[.]love. A second packer, the open-source maoabc/nmmp VM (libnmmp[.]so, libnmmvm[.]so), is used on another set of droppers where the config is harder to extract but the VM's instruction set is Android's own, only the 256-opcode table is reshuffled per build.
+
+- The RAT (com[.]open.stone[.]love) connects over WebSocket wss://&lt;host&gt;/w?d=&lt;deviceId&gt;, with every message authenticated by a per-device BouncyCastle Ed25519 keypair (stored in shared prefs rt_kp, keys k_priv and k_pub), a timestamped HMAC, and a pinned TLS certificate, all native-only via libnauth[.]so with the C2 host XOR-0xC3 obfuscated inside it. Capabilities include MediaProjection screen capture, accessibility-driven remote gesture control (TOUCH_TAP, TOUCH_SWIPE, TOUCH_LONG_PRESS), lock-screen credential harvest (CIPHER_TYPE_PIN, CIPHER_TYPE_PASSWORD, CIPHER_TYPE_PATTERN stored encrypted as last_cipher_data), and payment-field extraction targeting Alipay (com[.]alipay, com[.]eg[.]android.AlipayGphone) and WeChat (com.tencent[.]mm).
+
+- Local privilege escalation runs through features/dxs using libspake2[.]so and libdxs[.]so: the RAT performs wireless-ADB SPAKE2 self-pairing against the device's own adbd over a local TLS 1.3 socket, then self-grants WRITE_SECURE_SETTINGS. Failure codes direct_pair_failed, bridge_failed, secure_settings_failed, and deploy_failed are logged in PlatformAssistDaemon. Persistence is layered: device-admin receiver (AdminEventReceiver), boot receiver (BootReceiver, directBootAware), FCM wake service (FcmWakeService), job service (RecoveryJobService), and exact alarms, all running in a separate :core process so killing the main process leaves them running.
+
+- Three live operator panels share one identical login UI, hawk-on-circuit artwork, and tagline. Active C2 infrastructure from the report: cihqobpe.receivewelfarebenefits[.]com (12 samples), www.mengm[.]shop (14 samples), www.collectpointsjp[.]com (10 samples, 黑鹰安卓远控 panel), www.mm2mm[.]xyz and www.hyzj[.]shop (both live 2026-10-16). Phishing fronts include datingparadise[.]vip (11 samples), 8.209.208[.]167, whtas[.]me, and echo.mmaldwh[.]com. C2 and distribution infrastructure sits largely on Alibaba Cloud and rotates frequently.
+
+- Lure apps use zero-width non-joiner characters (U+200C) inserted between every visible letter in the app label so the display reads "e-Tax" but the stored bytes are 65 e2 80 8c 2d e2 80 8c 54... defeating string-match detection rules. The dropper always signs with the throwaway Android developer certificate (SHA256: a40da80a59d170caa950cf15c18c454d47a39b26989d8b640ecd745ba71bf5dc), shared by vast numbers of unrelated apps, making cert-based grouping unreliable.
+
+Hunt the behavioral fingerprint, not the cert. Look for APKs combining components named Wv (activity), Bv (service), and Ir (receiver) with a &lt;pkg&gt;.INSTALL_COMPLETE broadcast action and REQUEST_INSTALL_PACKAGES permission. On device, flag any non-developer app whose native libraries include libspake2[.]so and libdxs[.]so performing ADB pairing, or any app self-granting WRITE_SECURE_SETTINGS. The stable service marker across builds is .service.PlatformAssistDaemon. The STAR Labs report includes a standalone decoder script that peels both the dropper and the encrypted RAT payload without parsing the manifest.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111382345924190453</description>
+      <content:encoded><![CDATA[<p>A single Android RAT sits behind 64 samples impersonating Japanese 🇯🇵 finance brands, tax portals, and romance apps, all phoning home to hawk-branded control panels and built for financial fraud.</p><p>Key findings:</p><p>- The dropper (reference sample SHA256: 24e58e12c24180abf800f142b83348b318f60894f94571a68eea98481abd84f0, package com.nova.core.high) is packed with a trivially reversible libsa XOR stub: a plaintext 32-byte key (AK) and asset name (AN) sit in the Sa application class, and hand-XORing the asset produces the inner dex with all config constants in the clear. That inner dex holds a single config class Cf with the C2 (S1), an AES-256 key (K1), the payload asset name (N1), and the dropped RAT package name com[.]open.stone[.]love. A second packer, the open-source maoabc/nmmp VM (libnmmp[.]so, libnmmvm[.]so), is used on another set of droppers where the config is harder to extract but the VM&#x27;s instruction set is Android&#x27;s own, only the 256-opcode table is reshuffled per build.</p><p>- The RAT (com[.]open.stone[.]love) connects over WebSocket wss://&lt;host&gt;/w?d=&lt;deviceId&gt;, with every message authenticated by a per-device BouncyCastle Ed25519 keypair (stored in shared prefs rt_kp, keys k_priv and k_pub), a timestamped HMAC, and a pinned TLS certificate, all native-only via libnauth[.]so with the C2 host XOR-0xC3 obfuscated inside it. Capabilities include MediaProjection screen capture, accessibility-driven remote gesture control (TOUCH_TAP, TOUCH_SWIPE, TOUCH_LONG_PRESS), lock-screen credential harvest (CIPHER_TYPE_PIN, CIPHER_TYPE_PASSWORD, CIPHER_TYPE_PATTERN stored encrypted as last_cipher_data), and payment-field extraction targeting Alipay (com[.]alipay, com[.]eg[.]android.AlipayGphone) and WeChat (com.tencent[.]mm).</p><p>- Local privilege escalation runs through features/dxs using libspake2[.]so and libdxs[.]so: the RAT performs wireless-ADB SPAKE2 self-pairing against the device&#x27;s own adbd over a local TLS 1.3 socket, then self-grants WRITE_SECURE_SETTINGS. Failure codes direct_pair_failed, bridge_failed, secure_settings_failed, and deploy_failed are logged in PlatformAssistDaemon. Persistence is layered: device-admin receiver (AdminEventReceiver), boot receiver (BootReceiver, directBootAware), FCM wake service (FcmWakeService), job service (RecoveryJobService), and exact alarms, all running in a separate :core process so killing the main process leaves them running.</p><p>- Three live operator panels share one identical login UI, hawk-on-circuit artwork, and tagline. Active C2 infrastructure from the report: cihqobpe.receivewelfarebenefits[.]com (12 samples), www.mengm[.]shop (14 samples), www.collectpointsjp[.]com (10 samples, 黑鹰安卓远控 panel), www.mm2mm[.]xyz and www.hyzj[.]shop (both live 2026-10-16). Phishing fronts include datingparadise[.]vip (11 samples), 8.209.208[.]167, whtas[.]me, and echo.mmaldwh[.]com. C2 and distribution infrastructure sits largely on Alibaba Cloud and rotates frequently.</p><p>- Lure apps use zero-width non-joiner characters (U+200C) inserted between every visible letter in the app label so the display reads &quot;e-Tax&quot; but the stored bytes are 65 e2 80 8c 2d e2 80 8c 54... defeating string-match detection rules. The dropper always signs with the throwaway Android developer certificate (SHA256: a40da80a59d170caa950cf15c18c454d47a39b26989d8b640ecd745ba71bf5dc), shared by vast numbers of unrelated apps, making cert-based grouping unreliable.</p><p>Hunt the behavioral fingerprint, not the cert. Look for APKs combining components named Wv (activity), Bv (service), and Ir (receiver) with a &lt;pkg&gt;.INSTALL_COMPLETE broadcast action and REQUEST_INSTALL_PACKAGES permission. On device, flag any non-developer app whose native libraries include libspake2[.]so and libdxs[.]so performing ADB pairing, or any app self-granting WRITE_SECURE_SETTINGS. The stable service marker across builds is .service.PlatformAssistDaemon. The STAR Labs report includes a standalone decoder script that peels both the dropper and the encrypted RAT payload without parsing the manifest.</p><p>#DFIR_Radar</p><p><a href="https://starlabs.sg/blog/2026/10-two-hawks-in-a-pod-one-android-rat-behind-a-flock-of-fake-japanese-brands/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111382345924190453">View on X</a></p>]]></content:encoded>
+      <dc:creator>STAR Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111382345924190453</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2111382345924190453">DFIR Radar</source>
+      <pubDate>Sat, 17 Oct 2026 09:02:34 +0000</pubDate>
+      <guid isPermaLink="false">2111382345924190453</guid>
+    </item>
     <item>
       <title>ConnectWise (SkyKick) Vendor Credentials Abused in M365 Attacks</title>
       <link>https://www.huntress.com/blog/vendor-credential-enables-unauthorized-access</link>
@@ -2494,20 +2522,6 @@ DFIR and supply chain security takeaway: if your organization consumes Open VSX 
       <source url="https://x.com/DFIR_Radar/status/2109842188473421912">DFIR Radar</source>
       <pubDate>Tue, 13 Oct 2026 03:02:32 +0000</pubDate>
       <guid isPermaLink="false">2109842188473421912</guid>
-    </item>
-    <item>
-      <title>GuardDuty Extended Threat Detection has added five new indicators to surface attack sequences</title>
-      <link>https://aws.amazon.com/blogs/security/guardduty-extended-threat-detection-has-added-five-new-indicators-to-surface-attack-sequences/</link>
-      <description>AWS GuardDuty Extended Threat Detection now correlates five new indicator types into CRITICAL attack sequences. Hunt EKS nodes for frp binaries disguised as kuboard-agent under /var/lib/containerd snapshots.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2109781755230114040</description>
-      <content:encoded><![CDATA[<p>AWS GuardDuty Extended Threat Detection now correlates five new indicator types into CRITICAL attack sequences. Hunt EKS nodes for frp binaries disguised as kuboard-agent under /var/lib/containerd snapshots.</p><p>#DFIR_Radar</p><p><a href="https://aws.amazon.com/blogs/security/guardduty-extended-threat-detection-has-added-five-new-indicators-to-surface-attack-sequences/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2109781755230114040">View on X</a></p>]]></content:encoded>
-      <dc:creator>AWS Security Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2109781755230114040</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2109781755230114040">DFIR Radar</source>
-      <pubDate>Mon, 12 Oct 2026 23:02:23 +0000</pubDate>
-      <guid isPermaLink="false">2109781755230114040</guid>
     </item>
   </channel>
 </rss>
