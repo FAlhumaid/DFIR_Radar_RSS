@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Oct 2026 09:02:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 12:02:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rust-Based CikaBika Bot Turns Discord into a Command Center</title>
+      <link>https://securityaffairs.com/201210/security/rust-based-cikabika-bot-turns-discord-into-a-command-center.html</link>
+      <description>CikaBika Bot, a Rust RAT, uses Discord C2 and Ngrok exfiltration after planting dbghelp.dll in Edge's directory via DLL search-order hijacking. Hunt for dbghelp.dll in Edge's install path and anomalous Discord traffic from endpoints.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111790004301139992</description>
+      <content:encoded><![CDATA[<p>CikaBika Bot, a Rust RAT, uses Discord C2 and Ngrok exfiltration after planting dbghelp.dll in Edge&#x27;s directory via DLL search-order hijacking. Hunt for dbghelp.dll in Edge&#x27;s install path and anomalous Discord traffic from endpoints.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/201210/security/rust-based-cikabika-bot-turns-discord-into-a-command-center.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111790004301139992">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111790004301139992</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2111790004301139992">DFIR Radar</source>
+      <pubDate>Sun, 18 Oct 2026 12:02:27 +0000</pubDate>
+      <guid isPermaLink="false">2111790004301139992</guid>
+    </item>
     <item>
       <title>ConnectWise Suspends Cloud Backup After Attackers Compromise Microsoft 365 Tenants</title>
       <link>https://thehackernews.com/2026/10/connectwise-suspends-cloud-backup-after.html</link>
@@ -2414,32 +2428,6 @@ Responder takeaway: if you run LiteLLM in your AI stack, treat any instance belo
       <source url="https://x.com/DFIR_Radar/status/2110174647408787829">DFIR Radar</source>
       <pubDate>Wed, 14 Oct 2026 01:03:36 +0000</pubDate>
       <guid isPermaLink="false">2110174647408787829</guid>
-    </item>
-    <item>
-      <title>CVE-2026-70111: One-Packet Windows Server DoS via DFS</title>
-      <link>https://corelight.com/blog/cve-2026-70111-microsoft-distributed-file-system-0-day</link>
-      <description>CVE-2026-70111: A single malformed DFS referral packet crashes Windows Server 2019, 2022, and 2025 with a kernel null-dereference in mup.sys. Patch shipped October 13, 2026; no active exploitation observed as of publication.
-
-Key findings:
-
-- The root cause sits in mup.sys. An earlier null-pointer guard (checking that wzExpandedName length is greater than zero before calling wcslen()) was removed from Server builds while Windows 10 retained it. A crafted DFS_REFERRAL_V3 NameList referral response, where ExpandedNameOffset points to an empty WCHAR string (\x00\x00), flows through PktExpandSpecialEntryFromReferral() unchecked, the kernel dereferences a bad pointer, and the machine BSODs. Corelight reproduced the crash 11/11 times on Server 2022 and 3/3 times on Server 2019.
-
-- The attack chain requires only network adjacency and abuses the implicit trust Windows places in DFS referral responses. The attacker stands up a rogue SMB server, coerces the target to initiate an SMB connection toward it using existing public tooling, then replies with the malformed DFS_REFERRAL_V3 payload. mup.sys processes the response, faults, and the server reboots. The entire exchange takes seconds, and because an attacker in this position can repeat it continuously, they can keep Domain Controllers or other critical servers offline indefinitely.
-
-- On the victim host, the crash leaves almost nothing useful. Event ID 41 (kernel power) and Event ID 6008 (unexpected shutdown) appear in the System log, but no minidump and no clear crash reason. The server does not get a chance to log anything about why it faulted. This makes network-side evidence the primary forensic source.
-
-- Zeek's conn.log provides the post-crash signal. When mup.sys null-dereferences, the TCP stack dies instantly, leaving established sessions silent. Zeek records these as conn_state=S1. After the server recovers, other hosts attempting to resume connections receive RSTs from a machine with no session state. Depending on timing relative to Zeek's default 5-minute inactivity timeout, those appear as conn_state=RSTR (reboot within the timeout) or conn_state=RSTRH (RST arrives as a new mid-stream connection with no SYN, after the timeout). A sudden cluster of S1, RSTR, and RSTRH connections all involving the same server is a hunt-worthy pattern for unexpected reboots, including exploitation of this vulnerability.
-
-Practitioner takeaway: network logging is the detection path here, not host logs. Hunt your Zeek conn.log for a burst of conn_state values of S1, RSTR, and RSTRH from the same server within a short window, especially if that server is a Domain Controller, then cross-reference with Event ID 41 and Event ID 6008 in the Windows System log to confirm an unexpected reboot. Because the malformed DFS response is application-layer content inside otherwise normal-looking SMB traffic, connection metadata alone will not catch it: you need full transaction logging to see the malformed DFS_REFERRAL_V3 payload. Patch priority is Windows Server 2019, 2022, and 2025 via the October 2026 cumulative update.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110159502351667546</description>
-      <content:encoded><![CDATA[<p>CVE-2026-70111: A single malformed DFS referral packet crashes Windows Server 2019, 2022, and 2025 with a kernel null-dereference in mup.sys. Patch shipped October 13, 2026; no active exploitation observed as of publication.</p><p>Key findings:</p><p>- The root cause sits in mup.sys. An earlier null-pointer guard (checking that wzExpandedName length is greater than zero before calling wcslen()) was removed from Server builds while Windows 10 retained it. A crafted DFS_REFERRAL_V3 NameList referral response, where ExpandedNameOffset points to an empty WCHAR string (\x00\x00), flows through PktExpandSpecialEntryFromReferral() unchecked, the kernel dereferences a bad pointer, and the machine BSODs. Corelight reproduced the crash 11/11 times on Server 2022 and 3/3 times on Server 2019.</p><p>- The attack chain requires only network adjacency and abuses the implicit trust Windows places in DFS referral responses. The attacker stands up a rogue SMB server, coerces the target to initiate an SMB connection toward it using existing public tooling, then replies with the malformed DFS_REFERRAL_V3 payload. mup.sys processes the response, faults, and the server reboots. The entire exchange takes seconds, and because an attacker in this position can repeat it continuously, they can keep Domain Controllers or other critical servers offline indefinitely.</p><p>- On the victim host, the crash leaves almost nothing useful. Event ID 41 (kernel power) and Event ID 6008 (unexpected shutdown) appear in the System log, but no minidump and no clear crash reason. The server does not get a chance to log anything about why it faulted. This makes network-side evidence the primary forensic source.</p><p>- Zeek&#x27;s conn.log provides the post-crash signal. When mup.sys null-dereferences, the TCP stack dies instantly, leaving established sessions silent. Zeek records these as conn_state=S1. After the server recovers, other hosts attempting to resume connections receive RSTs from a machine with no session state. Depending on timing relative to Zeek&#x27;s default 5-minute inactivity timeout, those appear as conn_state=RSTR (reboot within the timeout) or conn_state=RSTRH (RST arrives as a new mid-stream connection with no SYN, after the timeout). A sudden cluster of S1, RSTR, and RSTRH connections all involving the same server is a hunt-worthy pattern for unexpected reboots, including exploitation of this vulnerability.</p><p>Practitioner takeaway: network logging is the detection path here, not host logs. Hunt your Zeek conn.log for a burst of conn_state values of S1, RSTR, and RSTRH from the same server within a short window, especially if that server is a Domain Controller, then cross-reference with Event ID 41 and Event ID 6008 in the Windows System log to confirm an unexpected reboot. Because the malformed DFS response is application-layer content inside otherwise normal-looking SMB traffic, connection metadata alone will not catch it: you need full transaction logging to see the malformed DFS_REFERRAL_V3 payload. Patch priority is Windows Server 2019, 2022, and 2025 via the October 2026 cumulative update.</p><p>#DFIR_Radar</p><p><a href="https://corelight.com/blog/cve-2026-70111-microsoft-distributed-file-system-0-day">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110159502351667546">View on X</a></p>]]></content:encoded>
-      <dc:creator>Corelight</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110159502351667546</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2110159502351667546">DFIR Radar</source>
-      <pubDate>Wed, 14 Oct 2026 00:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2110159502351667546</guid>
     </item>
   </channel>
 </rss>
