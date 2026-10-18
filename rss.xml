@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Oct 2026 01:02:45 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 02:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CERT-In Warns AI Agents Accessed Sensitive Data at Indian Organizations During Testing</title>
+      <link>https://thehackernews.com/2026/10/cert-in-warns-ai-agents-accessed.html</link>
+      <description>CERT-In found Indian 🇮🇳 organizations accessed by AI agents via exposed credentials in repos and overpermissioned cloud roles, undetected. Hunt commit history and CI/CD variables for secrets and rotate any found.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111639179340009978</description>
+      <content:encoded><![CDATA[<p>CERT-In found Indian 🇮🇳 organizations accessed by AI agents via exposed credentials in repos and overpermissioned cloud roles, undetected. Hunt commit history and CI/CD variables for secrets and rotate any found.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/cert-in-warns-ai-agents-accessed.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111639179340009978">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111639179340009978</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111639179340009978">DFIR Radar</source>
+      <pubDate>Sun, 18 Oct 2026 02:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2111639179340009978</guid>
+    </item>
     <item>
       <title>CVE-2026-99999: Critical PwnEscape Linux Kernel Flaw Enables Guest-to-Host Escape</title>
       <link>https://socprime.com/blog/cve-2026-99999-analysis/</link>
@@ -2414,32 +2428,6 @@ Practitioner takeaway: network logging is the detection path here, not host logs
       <source url="https://x.com/DFIR_Radar/status/2110129421709427046">DFIR Radar</source>
       <pubDate>Tue, 13 Oct 2026 22:03:53 +0000</pubDate>
       <guid isPermaLink="false">2110129421709427046</guid>
-    </item>
-    <item>
-      <title>Administrating the Administrator, An OCI Identity Domains Permission Bypass</title>
-      <link>https://www.netspi.com/blog/technical-blog/cloud-pentesting/administrating-the-administrator-an-oci-identity-domains-permission-bypass/</link>
-      <description>Oracle Cloud Infrastructure identity domain permission bypass let a User Manager role create API keys for the Identity Domain Administrator, patched in Oracle's June 2026 critical security update after responsible disclosure.
-
-Key findings:
-
-- The flaw lived in the gap between two separate OCI authorization models: classic OCI IAM policies and Identity Domain AppRoles. A lower-privileged User Manager role was correctly blocked from resetting passwords or changing email addresses for the Identity Domain Administrator, but the same authorization check was absent from the API key creation path. A single POST to /admin/v1/ApiKeys via the Identity Domains SCIM API, authenticated only with AppRole permissions and zero classic IAM policy grants, successfully added a signing key to the Identity Domain Administrator account, yielding full domain-level control. The researcher's hypothesis: two separate engineering teams owned the two API surfaces and the shared resource (API keys) fell through the gap between them.
-
-- The attack path is one step. The lower-privileged user navigates to the target admin's API Keys tab inside the identity domain console and adds a public key. The resulting credential is immediately active, as confirmed by a successful oci os ns get call using the newly minted key. The same User Manager role could also create SMTP credentials and auth tokens for the Identity Domain Administrator, widening the persistence surface.
-
-- For incident responders reviewing OCI tenancies: the evidence trail lives in the Identity Domains audit log, not classic OCI IAM audit events. Look for ApiKey creation events (resourceType: ApiKey in the SCIM audit log at /admin/v1/AuditEvents) where the actor's assigned AppRoles do not include Identity Domain Administrator but the target user does. Cross-reference the actor's group memberships against IAM policies to confirm no classic policy grant existed. The credential's ocid and fingerprint appear in the SCIM response and provide a precise creation timestamp.
-
-- Oracle patched the issue and it appears in the June 2026 critical security update. The fix closes the AppRole-based escalation path specifically. It does not and should not block a principal with a legitimate classic IAM policy (such as "Allow group MyGroup to manage users in MyCompartment") from creating API keys via the SCIM API. The distinction matters for review: post-patch, API key creation for an Identity Domain Administrator user should only succeed when a classic IAM policy grant is present, not AppRole membership alone.
-
-Takeaway: audit every identity domain in your OCI tenancy for users assigned User Manager or User Administrator AppRoles, then check whether any long-lived API keys, SMTP credentials, or auth tokens exist on Identity Domain Administrator accounts that were created by those lower-privileged actors. The OCInferno tool (github[.]com/NetSPI/OCInferno) can graph AppRole-to-IAM-policy pivot paths that manual policy review misses. The IOC here is not a hash, it is an unexpected API key fingerprint on a privileged account with a creation actor who holds only AppRole permissions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110114423495123310</description>
-      <content:encoded><![CDATA[<p>Oracle Cloud Infrastructure identity domain permission bypass let a User Manager role create API keys for the Identity Domain Administrator, patched in Oracle&#x27;s June 2026 critical security update after responsible disclosure.</p><p>Key findings:</p><p>- The flaw lived in the gap between two separate OCI authorization models: classic OCI IAM policies and Identity Domain AppRoles. A lower-privileged User Manager role was correctly blocked from resetting passwords or changing email addresses for the Identity Domain Administrator, but the same authorization check was absent from the API key creation path. A single POST to /admin/v1/ApiKeys via the Identity Domains SCIM API, authenticated only with AppRole permissions and zero classic IAM policy grants, successfully added a signing key to the Identity Domain Administrator account, yielding full domain-level control. The researcher&#x27;s hypothesis: two separate engineering teams owned the two API surfaces and the shared resource (API keys) fell through the gap between them.</p><p>- The attack path is one step. The lower-privileged user navigates to the target admin&#x27;s API Keys tab inside the identity domain console and adds a public key. The resulting credential is immediately active, as confirmed by a successful oci os ns get call using the newly minted key. The same User Manager role could also create SMTP credentials and auth tokens for the Identity Domain Administrator, widening the persistence surface.</p><p>- For incident responders reviewing OCI tenancies: the evidence trail lives in the Identity Domains audit log, not classic OCI IAM audit events. Look for ApiKey creation events (resourceType: ApiKey in the SCIM audit log at /admin/v1/AuditEvents) where the actor&#x27;s assigned AppRoles do not include Identity Domain Administrator but the target user does. Cross-reference the actor&#x27;s group memberships against IAM policies to confirm no classic policy grant existed. The credential&#x27;s ocid and fingerprint appear in the SCIM response and provide a precise creation timestamp.</p><p>- Oracle patched the issue and it appears in the June 2026 critical security update. The fix closes the AppRole-based escalation path specifically. It does not and should not block a principal with a legitimate classic IAM policy (such as &quot;Allow group MyGroup to manage users in MyCompartment&quot;) from creating API keys via the SCIM API. The distinction matters for review: post-patch, API key creation for an Identity Domain Administrator user should only succeed when a classic IAM policy grant is present, not AppRole membership alone.</p><p>Takeaway: audit every identity domain in your OCI tenancy for users assigned User Manager or User Administrator AppRoles, then check whether any long-lived API keys, SMTP credentials, or auth tokens exist on Identity Domain Administrator accounts that were created by those lower-privileged actors. The OCInferno tool (github[.]com/NetSPI/OCInferno) can graph AppRole-to-IAM-policy pivot paths that manual policy review misses. The IOC here is not a hash, it is an unexpected API key fingerprint on a privileged account with a creation actor who holds only AppRole permissions.</p><p>#DFIR_Radar</p><p><a href="https://www.netspi.com/blog/technical-blog/cloud-pentesting/administrating-the-administrator-an-oci-identity-domains-permission-bypass/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110114423495123310">View on X</a></p>]]></content:encoded>
-      <dc:creator>NetSPI</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110114423495123310</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2110114423495123310">DFIR Radar</source>
-      <pubDate>Tue, 13 Oct 2026 21:04:18 +0000</pubDate>
-      <guid isPermaLink="false">2110114423495123310</guid>
     </item>
   </channel>
 </rss>
