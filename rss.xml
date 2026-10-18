@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Oct 2026 00:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 01:02:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-99999: Critical PwnEscape Linux Kernel Flaw Enables Guest-to-Host Escape</title>
+      <link>https://socprime.com/blog/cve-2026-99999-analysis/</link>
+      <description>CVE-2026-99999 (CVSS 9.3), PwnEscape, lets guest VM code disclose host memory via malformed IPv4 checksum metadata. Patch and reboot host kernels; treat any compromised host as fully exposed, not just the guest.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111623983963709888</description>
+      <content:encoded><![CDATA[<p>CVE-2026-99999 (CVSS 9.3), PwnEscape, lets guest VM code disclose host memory via malformed IPv4 checksum metadata. Patch and reboot host kernels; treat any compromised host as fully exposed, not just the guest.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/cve-2026-99999-analysis/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111623983963709888">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111623983963709888</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2111623983963709888">DFIR Radar</source>
+      <pubDate>Sun, 18 Oct 2026 01:02:45 +0000</pubDate>
+      <guid isPermaLink="false">2111623983963709888</guid>
+    </item>
     <item>
       <title>North Korean IT Workers Used Stolen US Identities to Earn $3 Million</title>
       <link>https://securityaffairs.com/201193/intelligence/north-korean-it-workers-used-stolen-us-identities-to-earn-3-million.html</link>
@@ -2426,32 +2440,6 @@ Takeaway: audit every identity domain in your OCI tenancy for users assigned Use
       <source url="https://x.com/DFIR_Radar/status/2110114423495123310">DFIR Radar</source>
       <pubDate>Tue, 13 Oct 2026 21:04:18 +0000</pubDate>
       <guid isPermaLink="false">2110114423495123310</guid>
-    </item>
-    <item>
-      <title>ClingSTUN Turns Vulnerable Edge Devices Into Attacker Infrastructure</title>
-      <link>https://blog.polyswarm.io/clingstun-turns-vulnerable-edge-devices-into-attacker-infrastructure</link>
-      <description>ClingSTUN converts unpatched IoT and edge devices into attacker-controlled proxy nodes, abusing legitimate public STUN infrastructure to blend NAT traversal traffic with normal VoIP and WebRTC communications.
-
-Key details:
-
-- ClingSTUN is a Linux back-connect proxy backdoor attributed by FortiGuard Labs across three documented campaign phases, each expanding its exploitation scope. The earliest phase exploited CVE-2022-36553 (command injection in Hytec Inter HWL-2511-SS routers) using 124.163.212[.]119 as its download source. Later phases added CVE-2025-34035 (EnGenius EnShare IoT Gigabit Cloud Service) and CVE-2024-23625 (D-Link UPnP), with the third phase reaching vendors including Ivanti, Tenda, Sunhillo, MeiG, Lantronix, Realtek, TP-Link, and AVTECH. The progression from a single CVE to a multi-vendor exploitation portfolio signals deliberate infrastructure scaling, not opportunistic scanning.
-
-- The malware runs across ARM, Intel 80386, MIPS R3000, PowerPC, and AMD x86-64 architectures, making it viable across a wide range of consumer and SMB networking hardware. Persistence is written to /root/.cling and /usr/local/bin/.cling, with execution hooks inserted into /etc/inittab, /etc/init.d/rcS, and /etc/rc.d/rc.boot. Process concealment is aggressive: ClingSTUN clears its own command-line arguments to appear blank in ps output, then bind-mounts process metadata copied from /proc/1/ over its own /proc/PID/ directory, effectively impersonating init to inspection tools.
-
-- The STUN abuse is the forensic curveball. ClingSTUN opens a random UDP port, sends standard 20-byte STUN binding requests to a list of public STUN endpoints (13 in the latest version, all required to succeed), learns its external NAT-mapped IP and port, then periodically transmits its group identifier and port mapping back to those endpoints. Because the STUN servers are legitimate third-party infrastructure rather than attacker-controlled C2, IP reputation blocklists will not flag these exchanges. FortiGuard notes the operator's mechanism for retrieving the mapping and delivering control traffic through NAT remains unverified, which limits infrastructure-based detection further.
-
-- Seven hard-coded exploits inside ClingSTUN enable self-propagation to additional devices, targeting technologies linked to Realtek, MVPower, TBK, Linksys, LB-LINK, China 🇨🇳 Mobile, and KGUARD, with vulnerabilities spanning 2014 through 2026. The watchdog manipulation (opening /dev/watchdog and /dev/misc/watchdog via ioctl to kill the timer) prevents automatic device recovery, and the malware kills competing processes whose executables reside in /tmp or /var/tmp, evicting rival malware families including Mirai variants. The report lists 19 SHA-256 sample hashes.
-
-Practitioner takeaway: On a potentially compromised Linux IoT or embedded device, check for files at /root/.cling and /usr/local/bin/.cling, and inspect /etc/inittab, /etc/init.d/rcS, and /etc/rc.d/rc.boot for unauthorized entries. A process showing an empty command line in ps combined with a bind-mount anomaly under /proc is a strong behavioral indicator. For network hunting, look for outbound UDP to public STUN services (port 3478) originating from devices that have no legitimate VoIP or WebRTC function. Because STUN endpoints are not malicious by nature, the signal is context and device type, not destination reputation. The 19 sample hashes and full IOC detail are in the PolySwarm report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110100118217031736</description>
-      <content:encoded><![CDATA[<p>ClingSTUN converts unpatched IoT and edge devices into attacker-controlled proxy nodes, abusing legitimate public STUN infrastructure to blend NAT traversal traffic with normal VoIP and WebRTC communications.</p><p>Key details:</p><p>- ClingSTUN is a Linux back-connect proxy backdoor attributed by FortiGuard Labs across three documented campaign phases, each expanding its exploitation scope. The earliest phase exploited CVE-2022-36553 (command injection in Hytec Inter HWL-2511-SS routers) using 124.163.212[.]119 as its download source. Later phases added CVE-2025-34035 (EnGenius EnShare IoT Gigabit Cloud Service) and CVE-2024-23625 (D-Link UPnP), with the third phase reaching vendors including Ivanti, Tenda, Sunhillo, MeiG, Lantronix, Realtek, TP-Link, and AVTECH. The progression from a single CVE to a multi-vendor exploitation portfolio signals deliberate infrastructure scaling, not opportunistic scanning.</p><p>- The malware runs across ARM, Intel 80386, MIPS R3000, PowerPC, and AMD x86-64 architectures, making it viable across a wide range of consumer and SMB networking hardware. Persistence is written to /root/.cling and /usr/local/bin/.cling, with execution hooks inserted into /etc/inittab, /etc/init.d/rcS, and /etc/rc.d/rc.boot. Process concealment is aggressive: ClingSTUN clears its own command-line arguments to appear blank in ps output, then bind-mounts process metadata copied from /proc/1/ over its own /proc/PID/ directory, effectively impersonating init to inspection tools.</p><p>- The STUN abuse is the forensic curveball. ClingSTUN opens a random UDP port, sends standard 20-byte STUN binding requests to a list of public STUN endpoints (13 in the latest version, all required to succeed), learns its external NAT-mapped IP and port, then periodically transmits its group identifier and port mapping back to those endpoints. Because the STUN servers are legitimate third-party infrastructure rather than attacker-controlled C2, IP reputation blocklists will not flag these exchanges. FortiGuard notes the operator&#x27;s mechanism for retrieving the mapping and delivering control traffic through NAT remains unverified, which limits infrastructure-based detection further.</p><p>- Seven hard-coded exploits inside ClingSTUN enable self-propagation to additional devices, targeting technologies linked to Realtek, MVPower, TBK, Linksys, LB-LINK, China 🇨🇳 Mobile, and KGUARD, with vulnerabilities spanning 2014 through 2026. The watchdog manipulation (opening /dev/watchdog and /dev/misc/watchdog via ioctl to kill the timer) prevents automatic device recovery, and the malware kills competing processes whose executables reside in /tmp or /var/tmp, evicting rival malware families including Mirai variants. The report lists 19 SHA-256 sample hashes.</p><p>Practitioner takeaway: On a potentially compromised Linux IoT or embedded device, check for files at /root/.cling and /usr/local/bin/.cling, and inspect /etc/inittab, /etc/init.d/rcS, and /etc/rc.d/rc.boot for unauthorized entries. A process showing an empty command line in ps combined with a bind-mount anomaly under /proc is a strong behavioral indicator. For network hunting, look for outbound UDP to public STUN services (port 3478) originating from devices that have no legitimate VoIP or WebRTC function. Because STUN endpoints are not malicious by nature, the signal is context and device type, not destination reputation. The 19 sample hashes and full IOC detail are in the PolySwarm report.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/clingstun-turns-vulnerable-edge-devices-into-attacker-infrastructure">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110100118217031736">View on X</a></p>]]></content:encoded>
-      <dc:creator>PolySwarm</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110100118217031736</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2110100118217031736">DFIR Radar</source>
-      <pubDate>Tue, 13 Oct 2026 20:07:27 +0000</pubDate>
-      <guid isPermaLink="false">2110100118217031736</guid>
     </item>
   </channel>
 </rss>
