@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Oct 2026 03:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 09:02:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ConnectWise Suspends Cloud Backup After Attackers Compromise Microsoft 365 Tenants</title>
+      <link>https://thehackernews.com/2026/10/connectwise-suspends-cloud-backup-after.html</link>
+      <description>ConnectWise application identity compromise lets attackers authenticate directly into Microsoft 365 tenants as trusted apps, hitting policy, national security, and critical mineral sector targets across roughly 300 confirmed tenant sign-ins.
+
+Key findings:
+
+- Seven ConnectWise application identities were stolen, including Cloud Backup (506e08f9-6e9a-4da4-942b-a099a03644ae), Exchange Online (b78f6a77-d4e5-46fb-87e5-d1648bd02519), Teams (24205314-2b89-4e07-a2a4-579e898a5640), SharePoint Online (b2b55f5b-7758-4719-8d8f-88ae172e6bdb), MS Graph (0de14c77-b9b0-4137-9360-34878a929827), Partner Center (412dcf96-176d-4b3a-a1b0-4981ad66971e), and Cloud Management (2399d300-6fca-4e6a-a686-399fefe75b83). ConnectWise disabled these on October 17 at 07:00 UTC, but previously issued access tokens may remain valid until they expire. The Cloud Management apps for Exchange, Teams, and SharePoint had not been disabled as of late Saturday, per Huntress, leaving a live abuse path.
+
+- The attacker's playbook after obtaining an application credential was to authenticate as the application itself against Microsoft Entra ID, then escalate by adding the application to the Global Administrator role, planting new client secrets on other trusted applications, and creating new app registrations with granted permissions. Each planted secret is an independent persistence mechanism that survives revocation of the original stolen credential. Incident responders must treat every app registration and service principal touched during the window as potentially backdoored, not just the seven named ConnectWise identities.
+
+- Huntress tracked malicious sign-ins from 144.172.64[.]128 beginning around October 13. The last observed sign-in from that IP on the original target set was October 15 at 08:45 UTC, with manual activity continuing until approximately 14:20 UTC. A second, targeted wave hit 16 tenants in the policy, national security, trade, and critical mineral sectors on October 15, first sweeping for Graph tokens from the SkyKick app (09:25 to 12:35 UTC), then manually targeting Exchange Online, SharePoint Online, Teams, Azure Resource Manager, Entra, and the Office 365 Management APIs (13:54 to 14:20 UTC). Huntress confirmed abuse of the Teams app in at least one tenant.
+
+- Across nearly 1,000 Entra tenants showing sign-in activity from that IP, approximately 300 sign-ins succeeded. In some cases, the absence of a service principal in the tenant blocked the attacker from gaining further access, which underscores that service principal provisioning is itself an attack surface worth auditing. ConnectWise identified the issue October 14 through internal monitoring; the credential-exposure mechanism remains under investigation.
+
+Practitioner takeaway: Preserve Entra sign-in logs and audit logs before any containment action. Review all sign-in activity from 144.172.64[.]128 from October 13 onward. Hunt for new or modified app registrations, added client secrets, changes to directory role membership, new federation trusts, consent grants, and delegated mailbox access created during that window. Check for unauthorized mailbox forwarding rules and transport rules that could persist after credential revocation. Do not limit scope to the seven named ConnectWise identities: any app the attacker could reach with Global Administrator rights is a candidate for a planted secret. IOCs and detailed response guidance are in the Huntress report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111744593498628368</description>
+      <content:encoded><![CDATA[<p>ConnectWise application identity compromise lets attackers authenticate directly into Microsoft 365 tenants as trusted apps, hitting policy, national security, and critical mineral sector targets across roughly 300 confirmed tenant sign-ins.</p><p>Key findings:</p><p>- Seven ConnectWise application identities were stolen, including Cloud Backup (506e08f9-6e9a-4da4-942b-a099a03644ae), Exchange Online (b78f6a77-d4e5-46fb-87e5-d1648bd02519), Teams (24205314-2b89-4e07-a2a4-579e898a5640), SharePoint Online (b2b55f5b-7758-4719-8d8f-88ae172e6bdb), MS Graph (0de14c77-b9b0-4137-9360-34878a929827), Partner Center (412dcf96-176d-4b3a-a1b0-4981ad66971e), and Cloud Management (2399d300-6fca-4e6a-a686-399fefe75b83). ConnectWise disabled these on October 17 at 07:00 UTC, but previously issued access tokens may remain valid until they expire. The Cloud Management apps for Exchange, Teams, and SharePoint had not been disabled as of late Saturday, per Huntress, leaving a live abuse path.</p><p>- The attacker&#x27;s playbook after obtaining an application credential was to authenticate as the application itself against Microsoft Entra ID, then escalate by adding the application to the Global Administrator role, planting new client secrets on other trusted applications, and creating new app registrations with granted permissions. Each planted secret is an independent persistence mechanism that survives revocation of the original stolen credential. Incident responders must treat every app registration and service principal touched during the window as potentially backdoored, not just the seven named ConnectWise identities.</p><p>- Huntress tracked malicious sign-ins from 144.172.64[.]128 beginning around October 13. The last observed sign-in from that IP on the original target set was October 15 at 08:45 UTC, with manual activity continuing until approximately 14:20 UTC. A second, targeted wave hit 16 tenants in the policy, national security, trade, and critical mineral sectors on October 15, first sweeping for Graph tokens from the SkyKick app (09:25 to 12:35 UTC), then manually targeting Exchange Online, SharePoint Online, Teams, Azure Resource Manager, Entra, and the Office 365 Management APIs (13:54 to 14:20 UTC). Huntress confirmed abuse of the Teams app in at least one tenant.</p><p>- Across nearly 1,000 Entra tenants showing sign-in activity from that IP, approximately 300 sign-ins succeeded. In some cases, the absence of a service principal in the tenant blocked the attacker from gaining further access, which underscores that service principal provisioning is itself an attack surface worth auditing. ConnectWise identified the issue October 14 through internal monitoring; the credential-exposure mechanism remains under investigation.</p><p>Practitioner takeaway: Preserve Entra sign-in logs and audit logs before any containment action. Review all sign-in activity from 144.172.64[.]128 from October 13 onward. Hunt for new or modified app registrations, added client secrets, changes to directory role membership, new federation trusts, consent grants, and delegated mailbox access created during that window. Check for unauthorized mailbox forwarding rules and transport rules that could persist after credential revocation. Do not limit scope to the seven named ConnectWise identities: any app the attacker could reach with Global Administrator rights is a candidate for a planted secret. IOCs and detailed response guidance are in the Huntress report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/connectwise-suspends-cloud-backup-after.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111744593498628368">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111744593498628368</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2111744593498628368">DFIR Radar</source>
+      <pubDate>Sun, 18 Oct 2026 09:02:00 +0000</pubDate>
+      <guid isPermaLink="false">2111744593498628368</guid>
+    </item>
     <item>
       <title>AI Agents Accessed Indian Organizations Without Authorization, CERT-In Warns</title>
       <link>https://securityaffairs.com/201130/ai/ai-agents-accessed-indian-organizations-without-authorization-cert-in-warns.html</link>
@@ -2414,20 +2440,6 @@ Practitioner takeaway: network logging is the detection path here, not host logs
       <source url="https://x.com/DFIR_Radar/status/2110159502351667546">DFIR Radar</source>
       <pubDate>Wed, 14 Oct 2026 00:03:25 +0000</pubDate>
       <guid isPermaLink="false">2110159502351667546</guid>
-    </item>
-    <item>
-      <title>Attacker Chains Three Ivanti Connect Secure Zero-Days for Root Access, Only Two Patched So Far</title>
-      <link>https://thehackernews.com/2026/10/attacker-chains-three-ivanti-connect.html</link>
-      <description>CVE-2026-104935 (CVSS 8.6), actively exploited in Ivanti Connect Secure by UTA0576, chains auth bypass plus RCE to root; third escalation flaw unpatched. Ivanti's Integrity Checker Tool misses this chain: run memory forensics.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110144262008435178</description>
-      <content:encoded><![CDATA[<p>CVE-2026-104935 (CVSS 8.6), actively exploited in Ivanti Connect Secure by UTA0576, chains auth bypass plus RCE to root; third escalation flaw unpatched. Ivanti&#x27;s Integrity Checker Tool misses this chain: run memory forensics.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/attacker-chains-three-ivanti-connect.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110144262008435178">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110144262008435178</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2110144262008435178">DFIR Radar</source>
-      <pubDate>Tue, 13 Oct 2026 23:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2110144262008435178</guid>
     </item>
   </channel>
 </rss>
