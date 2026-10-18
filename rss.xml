@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Oct 2026 12:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 13:02:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Orphaned VBA Projects Inside DWG Files: YARA Rule, (Sun, Oct 18th)</title>
+      <link>https://isc.sans.edu/diary/rss/33434</link>
+      <description>Orphaned VBA projects embedded inside AutoCAD DWG files are a low-detection hiding spot for malicious macros, and a YARA rule now makes retrohunting viable.
+
+Key findings:
+
+- The technique embeds an OLE2 Compound Document (the VBA project container) inside a DWG file alongside the AutoCAD version header "AC10" at offset 0, creating what the author calls an orphaned VBA project. The DWG structure signals no embedded object at offset 0x24 (the value equals 0), yet the OLE2 magic bytes D0 CF 11 E0 A1 B1 1A E1 and a "[Host Extender Info]" string are both present, exposing the hidden payload.
+
+- The YARA rule targets exactly this combination: the AC10 magic at offset 0, a null uint32 at 0x24, the OLE2 header bytes anywhere in the file, and the ASCII string "[Host Extender Info]". Those four conditions together fingerprint the anomaly without matching clean DWG files or standard OLE documents.
+
+- A VirusTotal retrohunt using this rule returned only 2 hits, suggesting the technique is rare in the wild right now, which cuts both ways. It means defenders who deploy this rule will generate almost no noise, but it also means the few files that do match deserve close scrutiny.
+
+- AutoCAD's VBA engine can execute macro code embedded this way, making DWG files a plausible delivery vehicle for engineering and OT environments where CAD files are routine and may bypass standard Office-macro controls. The "orphaned" framing matters: the VBA project is not properly linked in the DWG structure, which is why conventional parsers and most AV engines miss it.
+
+Practitioners working in environments that handle AutoCAD files, especially ICS/OT shops, manufacturing, or architecture firms, should add this rule to their retrohunt rotation. Deploy it against your mail gateway archives, file share snapshots, and any DWG files received from external parties. The rule and all four conditions are in the SANS ISC diary by Didier Stevens; grab it directly from that post. Any match in your environment is anomalous by definition given the near-zero baseline on VirusTotal.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111805031414456532</description>
+      <content:encoded><![CDATA[<p>Orphaned VBA projects embedded inside AutoCAD DWG files are a low-detection hiding spot for malicious macros, and a YARA rule now makes retrohunting viable.</p><p>Key findings:</p><p>- The technique embeds an OLE2 Compound Document (the VBA project container) inside a DWG file alongside the AutoCAD version header &quot;AC10&quot; at offset 0, creating what the author calls an orphaned VBA project. The DWG structure signals no embedded object at offset 0x24 (the value equals 0), yet the OLE2 magic bytes D0 CF 11 E0 A1 B1 1A E1 and a &quot;[Host Extender Info]&quot; string are both present, exposing the hidden payload.</p><p>- The YARA rule targets exactly this combination: the AC10 magic at offset 0, a null uint32 at 0x24, the OLE2 header bytes anywhere in the file, and the ASCII string &quot;[Host Extender Info]&quot;. Those four conditions together fingerprint the anomaly without matching clean DWG files or standard OLE documents.</p><p>- A VirusTotal retrohunt using this rule returned only 2 hits, suggesting the technique is rare in the wild right now, which cuts both ways. It means defenders who deploy this rule will generate almost no noise, but it also means the few files that do match deserve close scrutiny.</p><p>- AutoCAD&#x27;s VBA engine can execute macro code embedded this way, making DWG files a plausible delivery vehicle for engineering and OT environments where CAD files are routine and may bypass standard Office-macro controls. The &quot;orphaned&quot; framing matters: the VBA project is not properly linked in the DWG structure, which is why conventional parsers and most AV engines miss it.</p><p>Practitioners working in environments that handle AutoCAD files, especially ICS/OT shops, manufacturing, or architecture firms, should add this rule to their retrohunt rotation. Deploy it against your mail gateway archives, file share snapshots, and any DWG files received from external parties. The rule and all four conditions are in the SANS ISC diary by Didier Stevens; grab it directly from that post. Any match in your environment is anomalous by definition given the near-zero baseline on VirusTotal.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33434">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111805031414456532">View on X</a></p>]]></content:encoded>
+      <dc:creator>SANS ISC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2111805031414456532</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2111805031414456532">DFIR Radar</source>
+      <pubDate>Sun, 18 Oct 2026 13:02:10 +0000</pubDate>
+      <guid isPermaLink="false">2111805031414456532</guid>
+    </item>
     <item>
       <title>Rust-Based CikaBika Bot Turns Discord into a Command Center</title>
       <link>https://securityaffairs.com/201210/security/rust-based-cikabika-bot-turns-discord-into-a-command-center.html</link>
@@ -2402,32 +2428,6 @@ DFIR takeaway: For incident response, look for unexpected privilege escalation t
       <source url="https://x.com/DFIR_Radar/status/2110189745989202021">DFIR Radar</source>
       <pubDate>Wed, 14 Oct 2026 02:03:36 +0000</pubDate>
       <guid isPermaLink="false">2110189745989202021</guid>
-    </item>
-    <item>
-      <title>When LLM Gateways Go Wrong: Findings from LiteLLM</title>
-      <link>https://research.checkpoint.com/2026/when-llm-gateways-go-wrong-findings-from-litellm/</link>
-      <description>Two CVEs in LiteLLM's gateway expose any authenticated user to RCE, admin takeover, and credential theft via a missing RBAC check on a single configuration endpoint, patched in v1.83.9.
-
-Key findings:
-
-- CVE-2026-35029 is the core flaw: the POST /config/update endpoint in litellm/proxy/proxy_server.py performs only a generic auth check (user_api_key_auth) and no subsequent role verification, while the UI session token's startswith("/config") prefix match against the ui_routes allowlist lets any logged-in user, including baseline "Internal User" accounts, reach an endpoint meant for admins only. The three immediate impacts are arbitrary file read (inject UI_LOGO_PATH into environment_variables, then call GET /get_image to retrieve any file the process can read, including secrets), admin account takeover (overwrite UI_USERNAME and UI_PASSWORD environment variables so the /login flow authenticates the attacker as PROXY_ADMIN), and RCE via pass-through endpoint configuration that triggers importlib exec_module() on a Python file downloaded from an attacker-controlled S3 or GCS bucket.
-
-- CVE-2026-59823 is a separate SSRF: the /chat/completions endpoint accepts a user_config body parameter that constructs a new litellm.Router with attacker-supplied api_base values, routing LLM API calls, including any configured provider keys in default headers, to an arbitrary server. The configurable_clientside_auth_params restriction that guards the direct api_base and api_key fields does not apply to the user_config code path, so it bypasses the intended guardrail entirely.
-
-- Two additional weaknesses tracked under GHSA-69x8-hrgq-fjj8 (marked duplicate): password hashes for all users are reachable by low-privileged accounts through the same UI token bypass, and those hashes are produced by a single unsalted iteration of a standard hash function, making offline cracking with rainbow tables or brute force practical once the hashes are extracted.
-
-- The full attack chain from a low-privileged account to RCE requires no zero-day and no memory corruption: authenticate, POST to /config/update with a malicious pass_through_endpoints entry pointing to an attacker-owned S3 bucket, and LiteLLM downloads and executes the Python file at configuration load time. The proof of concept in the report uses os.makedirs() as the payload; a reverse shell is a one-line substitution.
-
-Responder takeaway: if you run LiteLLM in your AI stack, treat any instance below v1.83.9 as fully compromised from the perspective of any authenticated user. Upgrade to v1.83.9 immediately. For forensic triage, review your proxy's persisted YAML configuration and database-stored general_settings for unexpected pass_through_endpoints entries with s3:// or gcs:// targets, and audit environment_variables stored in the config for anomalous UI_LOGO_PATH, UI_USERNAME, or UI_PASSWORD values. Check outbound network logs from the LiteLLM host for connections to S3/GCS endpoints or unexpected external IPs at LLM API call time, which would indicate SSRF exploitation of CVE-2026-59823. The report is from Check Point Research and contains the vulnerable and patched code paths.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110174647408787829</description>
-      <content:encoded><![CDATA[<p>Two CVEs in LiteLLM&#x27;s gateway expose any authenticated user to RCE, admin takeover, and credential theft via a missing RBAC check on a single configuration endpoint, patched in v1.83.9.</p><p>Key findings:</p><p>- CVE-2026-35029 is the core flaw: the POST /config/update endpoint in litellm/proxy/proxy_server.py performs only a generic auth check (user_api_key_auth) and no subsequent role verification, while the UI session token&#x27;s startswith(&quot;/config&quot;) prefix match against the ui_routes allowlist lets any logged-in user, including baseline &quot;Internal User&quot; accounts, reach an endpoint meant for admins only. The three immediate impacts are arbitrary file read (inject UI_LOGO_PATH into environment_variables, then call GET /get_image to retrieve any file the process can read, including secrets), admin account takeover (overwrite UI_USERNAME and UI_PASSWORD environment variables so the /login flow authenticates the attacker as PROXY_ADMIN), and RCE via pass-through endpoint configuration that triggers importlib exec_module() on a Python file downloaded from an attacker-controlled S3 or GCS bucket.</p><p>- CVE-2026-59823 is a separate SSRF: the /chat/completions endpoint accepts a user_config body parameter that constructs a new litellm.Router with attacker-supplied api_base values, routing LLM API calls, including any configured provider keys in default headers, to an arbitrary server. The configurable_clientside_auth_params restriction that guards the direct api_base and api_key fields does not apply to the user_config code path, so it bypasses the intended guardrail entirely.</p><p>- Two additional weaknesses tracked under GHSA-69x8-hrgq-fjj8 (marked duplicate): password hashes for all users are reachable by low-privileged accounts through the same UI token bypass, and those hashes are produced by a single unsalted iteration of a standard hash function, making offline cracking with rainbow tables or brute force practical once the hashes are extracted.</p><p>- The full attack chain from a low-privileged account to RCE requires no zero-day and no memory corruption: authenticate, POST to /config/update with a malicious pass_through_endpoints entry pointing to an attacker-owned S3 bucket, and LiteLLM downloads and executes the Python file at configuration load time. The proof of concept in the report uses os.makedirs() as the payload; a reverse shell is a one-line substitution.</p><p>Responder takeaway: if you run LiteLLM in your AI stack, treat any instance below v1.83.9 as fully compromised from the perspective of any authenticated user. Upgrade to v1.83.9 immediately. For forensic triage, review your proxy&#x27;s persisted YAML configuration and database-stored general_settings for unexpected pass_through_endpoints entries with s3:// or gcs:// targets, and audit environment_variables stored in the config for anomalous UI_LOGO_PATH, UI_USERNAME, or UI_PASSWORD values. Check outbound network logs from the LiteLLM host for connections to S3/GCS endpoints or unexpected external IPs at LLM API call time, which would indicate SSRF exploitation of CVE-2026-59823. The report is from Check Point Research and contains the vulnerable and patched code paths.</p><p>#DFIR_Radar</p><p><a href="https://research.checkpoint.com/2026/when-llm-gateways-go-wrong-findings-from-litellm/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110174647408787829">View on X</a></p>]]></content:encoded>
-      <dc:creator>Check Point Research</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110174647408787829</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2110174647408787829">DFIR Radar</source>
-      <pubDate>Wed, 14 Oct 2026 01:03:36 +0000</pubDate>
-      <guid isPermaLink="false">2110174647408787829</guid>
     </item>
   </channel>
 </rss>
