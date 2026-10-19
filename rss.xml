@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 19 Oct 2026 08:02:48 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 19 Oct 2026 10:02:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Abuse Stolen ConnectWise Application Credentials to Target Microsoft 365</title>
+      <link>https://securityaffairs.com/201236/hacking/attackers-abuse-stolen-connectwise-application-credentials-to-target-microsoft-365.html</link>
+      <description>Stolen ConnectWise application credentials granted attackers OAuth-level access to Microsoft 365 tenants, with roughly 300 successful sign-ins recorded and a manual second wave targeting policy, national security, trade, and critical minerals sectors.
+
+Key details:
+
+- Attackers obtained seven ConnectWise application identities, likely before October 13, and used them to request access tokens from Microsoft Entra ID without ever touching customer passwords. Because ConnectWise's apps already held delegated permissions to customer tenants, valid app credentials were all the attackers needed. Depending on the permissions scoped to each application, reachable data included mailboxes, SharePoint documents, Teams messages, and directory data.
+
+- Of roughly 1,000 Entra tenants that recorded sign-in activity from 144.172.64[.]128, approximately 300 sign-ins succeeded. A second, manually driven wave on October 15 at around 14:20 UTC specifically targeted 16 tenants in policy, national security, trade, and critical minerals sectors, hitting Exchange Online, SharePoint Online, Teams, Azure Resource Manager, Entra, and Office 365 Management APIs in rapid succession. All 16 second-wave attempts failed, but the deliberate sector targeting is significant threat-intel context.
+
+- Revoking the compromised ConnectWise credentials stops new authentication but does not undo what already happened inside a tenant. Huntress documented the persistence risk clearly: an attacker who entered via the stolen app credential could add a client secret to a different trusted application already registered in that tenant, create a net-new application and grant it permissions, assign directory roles including Global Administrator, reset user passwords and authentication methods, or modify Conditional Access policies. Every one of those actions survives the vendor credential revocation and provides an independent path back in.
+
+- ConnectWise Cloud Backup, formerly SkyKick, remains suspended as of the report. Scheduled backups are not running and restoration is unavailable. The archives themselves are described as encrypted, isolated, and preserved with no evidence of access, but the operational outage creates real recovery risk for organizations dependent on the service.
+
+Practitioner takeaway: Before running any containment steps, preserve Entra sign-in logs and unified audit logs, because remediation actions can overwrite the evidence baseline. Then audit every affected tenant, including dormant SkyKick-connected tenants, for sign-in activity from 144.172.64[.]128 starting October 13. Work through the full persistence checklist: application credentials and registered app secrets, federation trusts, directory role assignments, OAuth consent grants, recent Conditional Access policy changes, mailbox forwarding rules, and delegated mailbox access. IOCs and the full advisory are available in the ConnectWise alert and the Huntress report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112122109098885248</description>
+      <content:encoded><![CDATA[<p>Stolen ConnectWise application credentials granted attackers OAuth-level access to Microsoft 365 tenants, with roughly 300 successful sign-ins recorded and a manual second wave targeting policy, national security, trade, and critical minerals sectors.</p><p>Key details:</p><p>- Attackers obtained seven ConnectWise application identities, likely before October 13, and used them to request access tokens from Microsoft Entra ID without ever touching customer passwords. Because ConnectWise&#x27;s apps already held delegated permissions to customer tenants, valid app credentials were all the attackers needed. Depending on the permissions scoped to each application, reachable data included mailboxes, SharePoint documents, Teams messages, and directory data.</p><p>- Of roughly 1,000 Entra tenants that recorded sign-in activity from 144.172.64[.]128, approximately 300 sign-ins succeeded. A second, manually driven wave on October 15 at around 14:20 UTC specifically targeted 16 tenants in policy, national security, trade, and critical minerals sectors, hitting Exchange Online, SharePoint Online, Teams, Azure Resource Manager, Entra, and Office 365 Management APIs in rapid succession. All 16 second-wave attempts failed, but the deliberate sector targeting is significant threat-intel context.</p><p>- Revoking the compromised ConnectWise credentials stops new authentication but does not undo what already happened inside a tenant. Huntress documented the persistence risk clearly: an attacker who entered via the stolen app credential could add a client secret to a different trusted application already registered in that tenant, create a net-new application and grant it permissions, assign directory roles including Global Administrator, reset user passwords and authentication methods, or modify Conditional Access policies. Every one of those actions survives the vendor credential revocation and provides an independent path back in.</p><p>- ConnectWise Cloud Backup, formerly SkyKick, remains suspended as of the report. Scheduled backups are not running and restoration is unavailable. The archives themselves are described as encrypted, isolated, and preserved with no evidence of access, but the operational outage creates real recovery risk for organizations dependent on the service.</p><p>Practitioner takeaway: Before running any containment steps, preserve Entra sign-in logs and unified audit logs, because remediation actions can overwrite the evidence baseline. Then audit every affected tenant, including dormant SkyKick-connected tenants, for sign-in activity from 144.172.64[.]128 starting October 13. Work through the full persistence checklist: application credentials and registered app secrets, federation trusts, directory role assignments, OAuth consent grants, recent Conditional Access policy changes, mailbox forwarding rules, and delegated mailbox access. IOCs and the full advisory are available in the ConnectWise alert and the Huntress report.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/201236/hacking/attackers-abuse-stolen-connectwise-application-credentials-to-target-microsoft-365.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112122109098885248">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2112122109098885248</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2112122109098885248">DFIR Radar</source>
+      <pubDate>Mon, 19 Oct 2026 10:02:07 +0000</pubDate>
+      <guid isPermaLink="false">2112122109098885248</guid>
+    </item>
     <item>
       <title>Unpatched Broadcom Wi-Fi Flaw Lets Attackers in Range Run Code as Root on Routers</title>
       <link>https://thehackernews.com/2026/10/unpatched-broadcom-wi-fi-flaw-lets.html</link>
@@ -2428,20 +2454,6 @@ Practitioner takeaway: The forensic pivot here is browser history and network lo
       <source url="https://x.com/DFIR_Radar/status/2110250051909935378">DFIR Radar</source>
       <pubDate>Wed, 14 Oct 2026 06:03:14 +0000</pubDate>
       <guid isPermaLink="false">2110250051909935378</guid>
-    </item>
-    <item>
-      <title>Releasing the Cobalt Strike Beacon Corpus</title>
-      <link>https://blog.fox-it.com/2026/10/13/releasing-the-cobalt-strike-beacon-corpus/</link>
-      <description>Fox-IT released 56,843 parsed Cobalt Strike beacons from 30,604 Team Servers spanning 2018 to 2026, now public on Hugging Face. Pivot on watermark, C2 domains, and x509 certificates to cluster operator infrastructure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110234937651818771</description>
-      <content:encoded><![CDATA[<p>Fox-IT released 56,843 parsed Cobalt Strike beacons from 30,604 Team Servers spanning 2018 to 2026, now public on Hugging Face. Pivot on watermark, C2 domains, and x509 certificates to cluster operator infrastructure.</p><p>#DFIR_Radar</p><p><a href="https://blog.fox-it.com/2026/10/13/releasing-the-cobalt-strike-beacon-corpus/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110234937651818771">View on X</a></p>]]></content:encoded>
-      <dc:creator>Fox-IT</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110234937651818771</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2110234937651818771">DFIR Radar</source>
-      <pubDate>Wed, 14 Oct 2026 05:03:10 +0000</pubDate>
-      <guid isPermaLink="false">2110234937651818771</guid>
     </item>
   </channel>
 </rss>
