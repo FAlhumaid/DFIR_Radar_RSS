@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 19 Oct 2026 11:02:20 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 19 Oct 2026 12:02:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake Web3 Accelerator Uses npm Packages to Spread Malware and Hijack AI Agent Traffic</title>
+      <link>https://thehackernews.com/2026/10/fake-web3-accelerator-uses-npm-packages.html</link>
+      <description>Fake Web3 "accelerator" REF8801 targets crypto founders with malicious npm packages delivering a Windows infostealer, a macOS backdoor, and AI agent hijacking via MCP server abuse.
+
+Key findings:
+
+- The operation impersonates a venture capital accelerator called Apex Accelerator (npm user "apexaccelerator," GitHub "apexaccs," domains apexaccs[.]org and apexfdn[.]xyz), approaching cryptocurrency wallet developers and market intelligence builders on X with offers of $235,000 investments and requests to run their "due diligence" tool. Elastic Security Labs tracks this as REF8801. The group built credibility by appearing at TOKEN2049 in Singapore 🇸🇬. Neither npm package ([@]apexacc/cli or [@]apexacc/audit) delivers the promised functionality: the 18 security tools generate fabricated findings and the AI advisor returns nonsense assessments.
+
+- The Windows infection chain is multi-stage and deliberately evasive. An HTTP POST to vrf.apexaccs[.]org/api/v1/vrf kicks off a Base64-encoded PowerShell command that pulls drop.ps1 from 0auth-chromium[.]com/APIService, which downloads bludness.exe from ehegisnightmare[.]icu. A PyInstaller loader checks for admin rights, attempts UAC bypass via UACME's ucmDebugObjectMethod() if not elevated, and writes exegis.exe to %TEMP%. A Golang stage then patches AMSI and ETW and unhooks ntdll.dll before reflectively loading shellcode that harvests credentials, session cookies, clipboard content, Wi-Fi profiles, screenshots, browser data (Chrome, Edge, Firefox, Yandex) including Chrome app-bound encryption bypass, crypto wallets, messenger clients, VPN configs, FTP and remote-access tools, and game clients. Everything exfiltrates over Telegram.
+
+- The macOS chain downloads a bash script that pulls a GZIP archive from verify.apexfdn[.]xyz/unix/ as package.tar.gz, drops a backdoor called CloudSyncD, phishes the victim's login password with a fake system authorization prompt, and uses it to sudo-launch an embedded payload. That payload performs host discovery, collects hardware and OS details, beacons to ccmihr[.]com for tasking, and can download and run additional payloads. CloudSyncD was first documented by Jamf Threat Labs in late September 2026 spreading via a fake Zoom installer, and shows a clear trend toward native macOS implementations that minimize on-disk writes.
+
+- Beyond credential theft, both packages redirect OpenRouter LLM traffic to an attacker-controlled API endpoint and register a rogue MCP server in the victim's AI agent configuration. This gives the attacker access to every prompt, conversation turn, code snippet, and tool output the agent sends, and lets the attacker inject instructions and fabricated tool definitions back into the agent's prompt, shaping its subsequent actions. This is not a theoretical supply-chain risk: it is a running interception proxy for AI developer workflows.
+
+- The campaign has been active since at least April 2026. SafeDep documented an earlier wave in late July 2026 covering three related packages: [@]apexfdn/apex, [@]copilot-mcp/apex, and [@]apexfdn/copilot-mcp, distributing Atomic Stealer (AMOS) on macOS. REF8801 is iterating tradecraft across waves, rotating package names while keeping the same social engineering premise and infrastructure pattern.
+
+Practitioner takeaway: if you support developers in Web3 or AI agent tooling, hunt npm install history and agent configuration files for [@]apexacc or [@]apexfdn namespaced packages. Check MCP server registrations in agent configs for entries pointing to unexpected external hosts. On Windows, look for exegis.exe or updater_loader.exe in %TEMP%, PowerShell reaching 0auth-chromium[.]com or ehegisnightmare[.]icu, and evidence of ntdll.dll unhooking or AMSI patch. On macOS, look for package.tar.gz in temp directories, fake sudo password prompts, and outbound connections to ccmihr[.]com. IOCs and full technical detail are in the Elastic Security Labs report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112152383060942977</description>
+      <content:encoded><![CDATA[<p>Fake Web3 &quot;accelerator&quot; REF8801 targets crypto founders with malicious npm packages delivering a Windows infostealer, a macOS backdoor, and AI agent hijacking via MCP server abuse.</p><p>Key findings:</p><p>- The operation impersonates a venture capital accelerator called Apex Accelerator (npm user &quot;apexaccelerator,&quot; GitHub &quot;apexaccs,&quot; domains apexaccs[.]org and apexfdn[.]xyz), approaching cryptocurrency wallet developers and market intelligence builders on X with offers of $235,000 investments and requests to run their &quot;due diligence&quot; tool. Elastic Security Labs tracks this as REF8801. The group built credibility by appearing at TOKEN2049 in Singapore 🇸🇬. Neither npm package ([@]apexacc/cli or [@]apexacc/audit) delivers the promised functionality: the 18 security tools generate fabricated findings and the AI advisor returns nonsense assessments.</p><p>- The Windows infection chain is multi-stage and deliberately evasive. An HTTP POST to vrf.apexaccs[.]org/api/v1/vrf kicks off a Base64-encoded PowerShell command that pulls drop.ps1 from 0auth-chromium[.]com/APIService, which downloads bludness.exe from ehegisnightmare[.]icu. A PyInstaller loader checks for admin rights, attempts UAC bypass via UACME&#x27;s ucmDebugObjectMethod() if not elevated, and writes exegis.exe to %TEMP%. A Golang stage then patches AMSI and ETW and unhooks ntdll.dll before reflectively loading shellcode that harvests credentials, session cookies, clipboard content, Wi-Fi profiles, screenshots, browser data (Chrome, Edge, Firefox, Yandex) including Chrome app-bound encryption bypass, crypto wallets, messenger clients, VPN configs, FTP and remote-access tools, and game clients. Everything exfiltrates over Telegram.</p><p>- The macOS chain downloads a bash script that pulls a GZIP archive from verify.apexfdn[.]xyz/unix/ as package.tar.gz, drops a backdoor called CloudSyncD, phishes the victim&#x27;s login password with a fake system authorization prompt, and uses it to sudo-launch an embedded payload. That payload performs host discovery, collects hardware and OS details, beacons to ccmihr[.]com for tasking, and can download and run additional payloads. CloudSyncD was first documented by Jamf Threat Labs in late September 2026 spreading via a fake Zoom installer, and shows a clear trend toward native macOS implementations that minimize on-disk writes.</p><p>- Beyond credential theft, both packages redirect OpenRouter LLM traffic to an attacker-controlled API endpoint and register a rogue MCP server in the victim&#x27;s AI agent configuration. This gives the attacker access to every prompt, conversation turn, code snippet, and tool output the agent sends, and lets the attacker inject instructions and fabricated tool definitions back into the agent&#x27;s prompt, shaping its subsequent actions. This is not a theoretical supply-chain risk: it is a running interception proxy for AI developer workflows.</p><p>- The campaign has been active since at least April 2026. SafeDep documented an earlier wave in late July 2026 covering three related packages: [@]apexfdn/apex, [@]copilot-mcp/apex, and [@]apexfdn/copilot-mcp, distributing Atomic Stealer (AMOS) on macOS. REF8801 is iterating tradecraft across waves, rotating package names while keeping the same social engineering premise and infrastructure pattern.</p><p>Practitioner takeaway: if you support developers in Web3 or AI agent tooling, hunt npm install history and agent configuration files for [@]apexacc or [@]apexfdn namespaced packages. Check MCP server registrations in agent configs for entries pointing to unexpected external hosts. On Windows, look for exegis.exe or updater_loader.exe in %TEMP%, PowerShell reaching 0auth-chromium[.]com or ehegisnightmare[.]icu, and evidence of ntdll.dll unhooking or AMSI patch. On macOS, look for package.tar.gz in temp directories, fake sudo password prompts, and outbound connections to ccmihr[.]com. IOCs and full technical detail are in the Elastic Security Labs report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/fake-web3-accelerator-uses-npm-packages.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112152383060942977">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2112152383060942977</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2112152383060942977">DFIR Radar</source>
+      <pubDate>Mon, 19 Oct 2026 12:02:25 +0000</pubDate>
+      <guid isPermaLink="false">2112152383060942977</guid>
+    </item>
     <item>
       <title>Big Fish: OpenBSD Root Exploit Chains a 37-Year-Old BSD Bug With a Kernel Flaw</title>
       <link>https://securityaffairs.com/201285/hacking/big-fish-openbsd-root-exploit-chains-a-37-year-old-bsd-bug-with-a-kernel-flaw.html</link>
@@ -2454,20 +2482,6 @@ Practitioner takeaway: The forensic pivot here is browser history and network lo
       <source url="https://x.com/DFIR_Radar/status/2110280456562221547">DFIR Radar</source>
       <pubDate>Wed, 14 Oct 2026 08:04:03 +0000</pubDate>
       <guid isPermaLink="false">2110280456562221547</guid>
-    </item>
-    <item>
-      <title>How a leaked builder of XWorm turned a remote access trojan into a surveillance kit</title>
-      <link>https://securityaffairs.com/200910/malware/how-a-leaked-builder-of-xworm-turned-a-remote-access-trojan-into-a-surveillance-kit.html</link>
-      <description>XWorm's leaked V6.4 builder drove a fourfold detection surge, with 46 plugins now including HBrowser, which grants live browser session control, bypassing MFA entirely. IOCs are on Netskope Threat Labs' GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2110265301157753042</description>
-      <content:encoded><![CDATA[<p>XWorm&#x27;s leaked V6.4 builder drove a fourfold detection surge, with 46 plugins now including HBrowser, which grants live browser session control, bypassing MFA entirely. IOCs are on Netskope Threat Labs&#x27; GitHub.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200910/malware/how-a-leaked-builder-of-xworm-turned-a-remote-access-trojan-into-a-surveillance-kit.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2110265301157753042">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2110265301157753042</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2110265301157753042">DFIR Radar</source>
-      <pubDate>Wed, 14 Oct 2026 07:03:50 +0000</pubDate>
-      <guid isPermaLink="false">2110265301157753042</guid>
     </item>
   </channel>
 </rss>
