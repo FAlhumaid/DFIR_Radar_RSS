@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 21 Oct 2026 15:02:11 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 21 Oct 2026 16:02:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AOMEI Backupper supply chain attack</title>
+      <link>https://fieldeffect.com/blog/aomei-backupper-supply-chain-attack</link>
+      <description>UNC7017 poisoned AOMEI's update infrastructure for minutes at a time across April-July 2026, delivering the CROSSROAD downloader and SHINYROAD backdoor to IT, telecom, and education orgs across 11 countries.
+
+Key details:
+
+- UNC7017 modified configuration files on AOMEI's ABMarket update infrastructure during windows lasting five to ten minutes on May 28, July 16, and July 20, 2026. Only systems that checked for updates during those windows received malicious content, which means exposure is determined by connection timing, not software version. Affected sectors span IT services, telecommunications, and higher education across Australia 🇦🇺, Brazil 🇧🇷, India 🇮🇳, Pakistan 🇵🇰, Portugal 🇵🇹, Singapore 🇸🇬, South Africa 🇿🇦, Spain 🇪🇸, Switzerland 🇨🇭, Türkiye, and the United States 🇺🇸.
+
+- The modified configs redirected AOMEI clients to download a malicious ZIP from adversary infrastructure, executed automatically through the application's notification workflow via Backupper.exe and ABNotify.exe. The archive dropped CROSSROAD, a downloader that performs environment checks, pulls additional payloads, creates a scheduled task for persistence, then deletes itself from disk.
+
+- CROSSROAD's scheduled task launches SHINYROAD, a modular backdoor operating through a legitimate signed Radmin component. Later campaign stages deployed the Adaptix C2 framework disguised as Nitro PDF-related software. Hunt for scheduled tasks named RadminComponentRuntime and NitroRuntime, unexpected executables in AOMEI application directories, and EDR telemetry involving Backupper.exe, ABNotify.exe, upgrade-now.exe, and Radmin-related components.
+
+- On July 20, 2026, UNC7017 added a second technique: a one-pixel invisible popup in the notification config directed affected systems to a WebDAV resource, causing them to transmit NTLM authentication hashes to attacker-controlled infrastructure. Any system that connected to AOMEI update services on that date should have its authentication logs reviewed for accounts potentially exposed through this credential harvesting path.
+
+- Unlike SolarWinds or 3CX, no software code was modified, so file integrity checks and version audits return clean results. Vendor-side remediation does not clean already-infected endpoints. Backup servers and admin workstations running AOMEI Backupper carry elevated risk given their privileged access and broad network visibility.
+
+Practitioner takeaway: Start with historical endpoint, proxy, and network telemetry to identify which hosts contacted AOMEI update infrastructure during April-July 2026. Exposure is a timing question first. Then hunt the scheduled tasks RadminComponentRuntime and NitroRuntime, review AOMEI application directories for unexpected binaries, and pull NTLM authentication events for any system active on July 20. IOCs, detection guidance, and hunting artifacts are published by GTIG, Mandiant, and ManageEngine METAL.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112937490185150920</description>
+      <content:encoded><![CDATA[<p>UNC7017 poisoned AOMEI&#x27;s update infrastructure for minutes at a time across April-July 2026, delivering the CROSSROAD downloader and SHINYROAD backdoor to IT, telecom, and education orgs across 11 countries.</p><p>Key details:</p><p>- UNC7017 modified configuration files on AOMEI&#x27;s ABMarket update infrastructure during windows lasting five to ten minutes on May 28, July 16, and July 20, 2026. Only systems that checked for updates during those windows received malicious content, which means exposure is determined by connection timing, not software version. Affected sectors span IT services, telecommunications, and higher education across Australia 🇦🇺, Brazil 🇧🇷, India 🇮🇳, Pakistan 🇵🇰, Portugal 🇵🇹, Singapore 🇸🇬, South Africa 🇿🇦, Spain 🇪🇸, Switzerland 🇨🇭, Türkiye, and the United States 🇺🇸.</p><p>- The modified configs redirected AOMEI clients to download a malicious ZIP from adversary infrastructure, executed automatically through the application&#x27;s notification workflow via Backupper.exe and ABNotify.exe. The archive dropped CROSSROAD, a downloader that performs environment checks, pulls additional payloads, creates a scheduled task for persistence, then deletes itself from disk.</p><p>- CROSSROAD&#x27;s scheduled task launches SHINYROAD, a modular backdoor operating through a legitimate signed Radmin component. Later campaign stages deployed the Adaptix C2 framework disguised as Nitro PDF-related software. Hunt for scheduled tasks named RadminComponentRuntime and NitroRuntime, unexpected executables in AOMEI application directories, and EDR telemetry involving Backupper.exe, ABNotify.exe, upgrade-now.exe, and Radmin-related components.</p><p>- On July 20, 2026, UNC7017 added a second technique: a one-pixel invisible popup in the notification config directed affected systems to a WebDAV resource, causing them to transmit NTLM authentication hashes to attacker-controlled infrastructure. Any system that connected to AOMEI update services on that date should have its authentication logs reviewed for accounts potentially exposed through this credential harvesting path.</p><p>- Unlike SolarWinds or 3CX, no software code was modified, so file integrity checks and version audits return clean results. Vendor-side remediation does not clean already-infected endpoints. Backup servers and admin workstations running AOMEI Backupper carry elevated risk given their privileged access and broad network visibility.</p><p>Practitioner takeaway: Start with historical endpoint, proxy, and network telemetry to identify which hosts contacted AOMEI update infrastructure during April-July 2026. Exposure is a timing question first. Then hunt the scheduled tasks RadminComponentRuntime and NitroRuntime, review AOMEI application directories for unexpected binaries, and pull NTLM authentication events for any system active on July 20. IOCs, detection guidance, and hunting artifacts are published by GTIG, Mandiant, and ManageEngine METAL.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/aomei-backupper-supply-chain-attack">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112937490185150920">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2112937490185150920</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2112937490185150920">DFIR Radar</source>
+      <pubDate>Wed, 21 Oct 2026 16:02:09 +0000</pubDate>
+      <guid isPermaLink="false">2112937490185150920</guid>
+    </item>
     <item>
       <title>Amazon-Themed ClickFix Campaign Serves Up Finger-Licking Malware</title>
       <link>https://www.huntress.com/blog/amazon-clickfix-finger</link>
@@ -2465,34 +2493,6 @@ Practitioner takeaway: If you work Magento incident response, look for cache.php
       <source url="https://x.com/DFIR_Radar/status/2111065450469601476">DFIR Radar</source>
       <pubDate>Fri, 16 Oct 2026 12:03:20 +0000</pubDate>
       <guid isPermaLink="false">2111065450469601476</guid>
-    </item>
-    <item>
-      <title>China Espionage Actor Actively Targeting Critical BeyondTrust Flaw, Google Warns</title>
-      <link>https://www.infosecurity-magazine.com/news/china-actor-beyondtrust-flaw-google/</link>
-      <description>Chinese 🇨🇳 espionage actor Armory Castle exploited critical BeyondTrust flaw CVE-2026-102764 (CVSS 9.3) in August 2026, achieving root-level persistence on Remote Support appliances before public disclosure.
-
-Key findings:
-
-- CVE-2026-102764 (CVSS 9.3) in BeyondTrust Remote Support was exploited by Armory Castle as a zero-day in August 2026. BeyondTrust disclosed it October 15, 2026, with patches available for SaaS and self-hosted customers since October 8. Google warns broad opportunistic exploitation is now likely given public disclosure.
-
-- Post-exploitation centered on a PHP webshell named Sawfly, deployed with bidirectional encrypted C2. Armory Castle then copied the system shell to /usr/bin/dbus-authd, set SUID permissions and root ownership, creating a persistent root backdoor that survives reboots and configuration resets. They also modified BeyondTrust configuration templates to grant passwordless root to the site service account.
-
-- Credential harvesting targeted the appliance's native secrets database using /ns/sbin/bt-secrets, a proprietary BeyondTrust CLI utility for managing passwords, API keys, and endpoint credentials. Directly brokered credentials stored on the appliance were at risk. The actor also elevated a compromised account's Jump Item and Team permissions from No Access to Administrator, granting unrestricted ability to launch remote sessions to downstream systems.
-
-- Lateral movement used a tunneler named Bareclaw to route traffic through the compromised BeyondTrust device. Sensitive internal documents, including software inventories, were exfiltrated via BeyondTrust's native file transfer service directly from user desktops. Armory Castle then systematically deleted system, web server, and application logs to hinder detection.
-
-- Armory Castle has been active since October 2023, conducting long-term intelligence collection for the People's Republic of China 🇨🇳, targeting legal services, SaaS providers, business-process outsourcers, technology companies, and government entities. Google assesses with high confidence this actor will continue leveraging zero-day flaws in edge devices for espionage.
-
-Responder priority: preserve all available telemetry before taking containment action, Google explicitly flags this. Hunt for /usr/bin/dbus-authd as an anomalous SUID binary, any PHP webshells on the appliance, and unexpected use of /ns/sbin/bt-secrets. Check Jump Item and Team permission changes in the appliance audit log. Any appliance with confirmed or unknown compromise status should be rebuilt from a clean, fully patched image, not just patched in place. Rotate all credentials the appliance stored or brokered, in dependency order, after isolation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111050336055988303</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 espionage actor Armory Castle exploited critical BeyondTrust flaw CVE-2026-102764 (CVSS 9.3) in August 2026, achieving root-level persistence on Remote Support appliances before public disclosure.</p><p>Key findings:</p><p>- CVE-2026-102764 (CVSS 9.3) in BeyondTrust Remote Support was exploited by Armory Castle as a zero-day in August 2026. BeyondTrust disclosed it October 15, 2026, with patches available for SaaS and self-hosted customers since October 8. Google warns broad opportunistic exploitation is now likely given public disclosure.</p><p>- Post-exploitation centered on a PHP webshell named Sawfly, deployed with bidirectional encrypted C2. Armory Castle then copied the system shell to /usr/bin/dbus-authd, set SUID permissions and root ownership, creating a persistent root backdoor that survives reboots and configuration resets. They also modified BeyondTrust configuration templates to grant passwordless root to the site service account.</p><p>- Credential harvesting targeted the appliance&#x27;s native secrets database using /ns/sbin/bt-secrets, a proprietary BeyondTrust CLI utility for managing passwords, API keys, and endpoint credentials. Directly brokered credentials stored on the appliance were at risk. The actor also elevated a compromised account&#x27;s Jump Item and Team permissions from No Access to Administrator, granting unrestricted ability to launch remote sessions to downstream systems.</p><p>- Lateral movement used a tunneler named Bareclaw to route traffic through the compromised BeyondTrust device. Sensitive internal documents, including software inventories, were exfiltrated via BeyondTrust&#x27;s native file transfer service directly from user desktops. Armory Castle then systematically deleted system, web server, and application logs to hinder detection.</p><p>- Armory Castle has been active since October 2023, conducting long-term intelligence collection for the People&#x27;s Republic of China 🇨🇳, targeting legal services, SaaS providers, business-process outsourcers, technology companies, and government entities. Google assesses with high confidence this actor will continue leveraging zero-day flaws in edge devices for espionage.</p><p>Responder priority: preserve all available telemetry before taking containment action, Google explicitly flags this. Hunt for /usr/bin/dbus-authd as an anomalous SUID binary, any PHP webshells on the appliance, and unexpected use of /ns/sbin/bt-secrets. Check Jump Item and Team permission changes in the appliance audit log. Any appliance with confirmed or unknown compromise status should be rebuilt from a clean, fully patched image, not just patched in place. Rotate all credentials the appliance stored or brokered, in dependency order, after isolation.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/china-actor-beyondtrust-flaw-google/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111050336055988303">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111050336055988303</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2111050336055988303">DFIR Radar</source>
-      <pubDate>Fri, 16 Oct 2026 11:03:16 +0000</pubDate>
-      <guid isPermaLink="false">2111050336055988303</guid>
     </item>
   </channel>
 </rss>
