@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Oct 2026 22:04:40 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 23:04:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>LiteLLM release pipeline hacked to distribute info-stealer malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/litellm-release-pipeline-hacked-to-distribute-info-stealer-malware/</link>
+      <description>LiteLLM's PyPI release pipeline was compromised on Oct 21, pushing a credential-stealing payload to 92 million monthly download users via version 1.107.0 for roughly two hours.
+
+Key details:
+
+- The attacker modified only the installation package, placing three malicious files: cook.pth, cook[.]py, and sitecustomize[.]py into Python's library directory. Python processes .pth files and imports sitecustomize at startup, so the payload fires before the application on every Python launch, including when running pip or python to investigate the compromise. That means standard triage steps can re-trigger the malware.
+
+- Affected artifacts have precise timestamps responders need for scoping: all seven PyPI wheels for litellm==1.107.0 were live from 11:39:51 to 13:23 UTC Oct 21. Docker Hub tags v1.107.0, latest, main-latest, and main-stable pointed to compromised image index sha256:1bbcb1443bc962e45f5aad53fe3d2c330600e0379715fb6c664cdd3ac126c339e from 11:46:56 to 14:20 UTC. GHCR tags for the same names pointed to three compromised image digests from 11:46:56 until ~13:51 UTC.
+
+- The payload targeted an unusually wide credential surface: AWS, Azure, Google Cloud, Kubernetes, Docker, and IaC secrets; AI provider credentials and LiteLLM model configs; Git, GitHub, npm, PyPI, and CI/CD tokens; .env files; SSH, GPG, and TLS private keys; browser login databases, cookies, and autofill data; environment variables, shell history, and system/network info. All exfiltrated data is AES-256-CBC encrypted under an RSA-4096 key and sent to litellm[.]dev/healthcheck.
+
+- sitecustomize[.]py also drops a detached hourly loader that polls a GitHub-hosted pointer and pulls down arbitrary Python for execution, giving the attacker persistent RCE even after the malicious package is removed. Deleting the LiteLLM package directory alone does not eliminate this loader.
+
+- This is the second supply-chain hit on LiteLLM in 2026. The March incident involved the TeamPCP group gaining access through Aqua Security's Trivy scanner in LiteLLM's CI/CD pipeline. Two compromises in seven months against one of the most widely deployed AI gateway libraries signals a sustained, targeted pattern against this project's release infrastructure.
+
+DFIR takeaway: Do not run Python or pip on a potentially affected host; isolate it first. Check for the presence of cook.pth, cook[.]py, and sitecustomize[.]py in the Python library directory of any environment that pulled litellm==1.107.0 or ran the affected Docker tags during that UTC window. Look for outbound connections to litellm[.]dev and for any hourly scheduled or detached Python processes polling GitHub. Because the loader survives package removal, full host rebuild from a clean baseline is the only safe recovery path. Rotate every secret, token, and key accessible from affected environments immediately. The safe rollback version is litellm==1.106.2.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113406149441585493</description>
+      <content:encoded><![CDATA[<p>LiteLLM&#x27;s PyPI release pipeline was compromised on Oct 21, pushing a credential-stealing payload to 92 million monthly download users via version 1.107.0 for roughly two hours.</p><p>Key details:</p><p>- The attacker modified only the installation package, placing three malicious files: cook.pth, cook[.]py, and sitecustomize[.]py into Python&#x27;s library directory. Python processes .pth files and imports sitecustomize at startup, so the payload fires before the application on every Python launch, including when running pip or python to investigate the compromise. That means standard triage steps can re-trigger the malware.</p><p>- Affected artifacts have precise timestamps responders need for scoping: all seven PyPI wheels for litellm==1.107.0 were live from 11:39:51 to 13:23 UTC Oct 21. Docker Hub tags v1.107.0, latest, main-latest, and main-stable pointed to compromised image index sha256:1bbcb1443bc962e45f5aad53fe3d2c330600e0379715fb6c664cdd3ac126c339e from 11:46:56 to 14:20 UTC. GHCR tags for the same names pointed to three compromised image digests from 11:46:56 until ~13:51 UTC.</p><p>- The payload targeted an unusually wide credential surface: AWS, Azure, Google Cloud, Kubernetes, Docker, and IaC secrets; AI provider credentials and LiteLLM model configs; Git, GitHub, npm, PyPI, and CI/CD tokens; .env files; SSH, GPG, and TLS private keys; browser login databases, cookies, and autofill data; environment variables, shell history, and system/network info. All exfiltrated data is AES-256-CBC encrypted under an RSA-4096 key and sent to litellm[.]dev/healthcheck.</p><p>- sitecustomize[.]py also drops a detached hourly loader that polls a GitHub-hosted pointer and pulls down arbitrary Python for execution, giving the attacker persistent RCE even after the malicious package is removed. Deleting the LiteLLM package directory alone does not eliminate this loader.</p><p>- This is the second supply-chain hit on LiteLLM in 2026. The March incident involved the TeamPCP group gaining access through Aqua Security&#x27;s Trivy scanner in LiteLLM&#x27;s CI/CD pipeline. Two compromises in seven months against one of the most widely deployed AI gateway libraries signals a sustained, targeted pattern against this project&#x27;s release infrastructure.</p><p>DFIR takeaway: Do not run Python or pip on a potentially affected host; isolate it first. Check for the presence of cook.pth, cook[.]py, and sitecustomize[.]py in the Python library directory of any environment that pulled litellm==1.107.0 or ran the affected Docker tags during that UTC window. Look for outbound connections to litellm[.]dev and for any hourly scheduled or detached Python processes polling GitHub. Because the loader survives package removal, full host rebuild from a clean baseline is the only safe recovery path. Rotate every secret, token, and key accessible from affected environments immediately. The safe rollback version is litellm==1.106.2.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/litellm-release-pipeline-hacked-to-distribute-info-stealer-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113406149441585493">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113406149441585493</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113406149441585493">DFIR Radar</source>
+      <pubDate>Thu, 22 Oct 2026 23:04:26 +0000</pubDate>
+      <guid isPermaLink="false">2113406149441585493</guid>
+    </item>
     <item>
       <title>Detecting Compromised eMudhra Certificates with Zeek</title>
       <link>https://corelight.com/blog/detect-compromised-emudhra-certificates-zeek</link>
@@ -2573,20 +2601,6 @@ Immediate steps: disable app ID 506e08f9-6e9a-4da4-942b-a099a03644ae in Entra ad
       <source url="https://x.com/DFIR_Radar/status/2111548774694678786">DFIR Radar</source>
       <pubDate>Sat, 17 Oct 2026 20:03:53 +0000</pubDate>
       <guid isPermaLink="false">2111548774694678786</guid>
-    </item>
-    <item>
-      <title>Stolen AI API keys are paying for hackers’ autonomous scans</title>
-      <link>https://www.helpnetsecurity.com/2026/10/16/stolen-ai-api-keys-autonomous-scans/</link>
-      <description>MONST3R-AI lets attackers paste stolen OpenAI, Anthropic, and Google keys so victims fund autonomous scans against others. Treat any exposed AI provider key like a leaked credential and audit MCP server sources.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111533453917266124</description>
-      <content:encoded><![CDATA[<p>MONST3R-AI lets attackers paste stolen OpenAI, Anthropic, and Google keys so victims fund autonomous scans against others. Treat any exposed AI provider key like a leaked credential and audit MCP server sources.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/16/stolen-ai-api-keys-autonomous-scans/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111533453917266124">View on X</a></p>]]></content:encoded>
-      <dc:creator>Help Net Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111533453917266124</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2111533453917266124">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 19:03:01 +0000</pubDate>
-      <guid isPermaLink="false">2111533453917266124</guid>
     </item>
   </channel>
 </rss>
