@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Oct 2026 08:02:46 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 09:02:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New LiteLLM Supply Chain Attack Hits PyPI and Docker</title>
+      <link>https://socradar.io/blog/litellm-supply-chain-attack-pypi-docker/</link>
+      <description>LiteLLM 1.107.0 trojanized via stolen developer tokens: all seven PyPI wheels and matching Docker images carried a credential stealer active for roughly two hours on October 21, 2026, with follow-on AWS credential abuse already confirmed.
+
+Key details:
+
+- The attack used stolen GitHub CLI OAuth tokens from three LiteLLM engineers to hijack the official release pipeline. One account overrode branch protection and altered the release workflow, a second approved the production gate, and a third deleted workflow records. Build code was pulled from the lookalike repo github[.]com/Berri-AI/litellm rather than the legitimate BerriAI repository. PyPI wheels were live from 11:39 to 13:23 UTC; Docker Hub tags (v1.107.0, latest, main-latest, main-stable) stayed affected until 14:20 UTC; GHCR variants including litellm-database and litellm-non_root were affected until 13:51 UTC.
+
+- The payload uses Python Startup Hooks (T1546.018): cook.pth, cook[.]py, and sitecustomize[.]py drop into site-packages and fire on every interpreter start, no LiteLLM import required. A 16-module stealer targets cloud keys, Kubernetes, SSH, AI provider secrets, browser credentials, and LiteLLM proxy database tables, encrypts them, and exfiltrates to hxxp://www.litellm[.]dev/healthcheck. On Linux and macOS a second component polls raw.githubusercontent[.]com/letters9813/pythonclient-test/main/domain.txt hourly for remote code.
+
+- Exploitation is active. Wiz observed the attacker validating stolen AWS instance role credentials approximately 4.5 hours post-exfiltration, then listing Amazon Bedrock models and enumerating IAM, a pattern consistent with LLMjacking. Attacker source IPs reported by Wiz: 168.100.8[.]57 and 165.227.201[.]8. This is a separate campaign from the March 2026 TeamPCP incident affecting versions 1.82.7 and 1.82.8; no link between the two campaigns has been established.
+
+- File hashes from the report: cook.pth SHA-256 7f191632e7320705d154b85204f1ae546b543acbd7e8861229b76f5042b92bdb, cook[.]py SHA-256 9dd0a3926f96a37eb86cf1ee2310d9be93139cc4ebef3ef9e2efe9531390be25, sitecustomize[.]py SHA-256 34bef04fe88ac9d0aae0475630b1738681d15b94f233ac8aa46eacf5968305fa, malicious image index digest sha256:1bbcb1443bc962e45f5aad53fe3d2c30600e0379715fb6c664cdd3ac126c339e. The official v1.107.0 source tag on GitHub does not contain the malicious files.
+
+- Do not run pip to remove the package on an affected host: any Python process re-triggers the payload. Hunt site-packages for litellm-1.107.0.dist-info, cook.pth, cook[.]py, sitecustomize[.]py and their .pyc files; look for /tmp/remote_code_loader.lock and the /tmp/.pc_once_72129118c59f5636c0bb marker. A missing marker does not confirm a clean host. Search egress logs for requests to the /healthcheck URL and the domain.txt dead drop. In CloudTrail, hunt GetCallerIdentity, Bedrock model listing, and IAM enumeration calls from unfamiliar IPs. Credential rotation (cloud roles, every provider key in the proxy database, master and virtual keys, DATABASE_URL password, SSH keys, registry tokens) must happen from a clean machine. Pin to litellm==1.106.2 or an earlier explicit version and use image digests rather than floating tags. Note a separate LiteLLM vulnerability is scheduled for disclosure October 27, 2026.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113194297688314158</description>
+      <content:encoded><![CDATA[<p>LiteLLM 1.107.0 trojanized via stolen developer tokens: all seven PyPI wheels and matching Docker images carried a credential stealer active for roughly two hours on October 21, 2026, with follow-on AWS credential abuse already confirmed.</p><p>Key details:</p><p>- The attack used stolen GitHub CLI OAuth tokens from three LiteLLM engineers to hijack the official release pipeline. One account overrode branch protection and altered the release workflow, a second approved the production gate, and a third deleted workflow records. Build code was pulled from the lookalike repo github[.]com/Berri-AI/litellm rather than the legitimate BerriAI repository. PyPI wheels were live from 11:39 to 13:23 UTC; Docker Hub tags (v1.107.0, latest, main-latest, main-stable) stayed affected until 14:20 UTC; GHCR variants including litellm-database and litellm-non_root were affected until 13:51 UTC.</p><p>- The payload uses Python Startup Hooks (T1546.018): cook.pth, cook[.]py, and sitecustomize[.]py drop into site-packages and fire on every interpreter start, no LiteLLM import required. A 16-module stealer targets cloud keys, Kubernetes, SSH, AI provider secrets, browser credentials, and LiteLLM proxy database tables, encrypts them, and exfiltrates to hxxp://www.litellm[.]dev/healthcheck. On Linux and macOS a second component polls raw.githubusercontent[.]com/letters9813/pythonclient-test/main/domain.txt hourly for remote code.</p><p>- Exploitation is active. Wiz observed the attacker validating stolen AWS instance role credentials approximately 4.5 hours post-exfiltration, then listing Amazon Bedrock models and enumerating IAM, a pattern consistent with LLMjacking. Attacker source IPs reported by Wiz: 168.100.8[.]57 and 165.227.201[.]8. This is a separate campaign from the March 2026 TeamPCP incident affecting versions 1.82.7 and 1.82.8; no link between the two campaigns has been established.</p><p>- File hashes from the report: cook.pth SHA-256 7f191632e7320705d154b85204f1ae546b543acbd7e8861229b76f5042b92bdb, cook[.]py SHA-256 9dd0a3926f96a37eb86cf1ee2310d9be93139cc4ebef3ef9e2efe9531390be25, sitecustomize[.]py SHA-256 34bef04fe88ac9d0aae0475630b1738681d15b94f233ac8aa46eacf5968305fa, malicious image index digest sha256:1bbcb1443bc962e45f5aad53fe3d2c30600e0379715fb6c664cdd3ac126c339e. The official v1.107.0 source tag on GitHub does not contain the malicious files.</p><p>- Do not run pip to remove the package on an affected host: any Python process re-triggers the payload. Hunt site-packages for litellm-1.107.0.dist-info, cook.pth, cook[.]py, sitecustomize[.]py and their .pyc files; look for /tmp/remote_code_loader.lock and the /tmp/.pc_once_72129118c59f5636c0bb marker. A missing marker does not confirm a clean host. Search egress logs for requests to the /healthcheck URL and the domain.txt dead drop. In CloudTrail, hunt GetCallerIdentity, Bedrock model listing, and IAM enumeration calls from unfamiliar IPs. Credential rotation (cloud roles, every provider key in the proxy database, master and virtual keys, DATABASE_URL password, SSH keys, registry tokens) must happen from a clean machine. Pin to litellm==1.106.2 or an earlier explicit version and use image digests rather than floating tags. Note a separate LiteLLM vulnerability is scheduled for disclosure October 27, 2026.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/litellm-supply-chain-attack-pypi-docker/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113194297688314158">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113194297688314158</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113194297688314158">DFIR Radar</source>
+      <pubDate>Thu, 22 Oct 2026 09:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2113194297688314158</guid>
+    </item>
     <item>
       <title>Inside SiriusQT: A Seriously Skilled RAT</title>
       <link>https://www.group-ib.com/blog/siriusqt-rat-hvnc-stealer/</link>
@@ -2481,20 +2507,6 @@ Practitioner takeaway: Go to Microsoft Entra Admin Center, Monitoring, Sign-in l
       <source url="https://x.com/DFIR_Radar/status/2111321907563770225">DFIR Radar</source>
       <pubDate>Sat, 17 Oct 2026 05:02:24 +0000</pubDate>
       <guid isPermaLink="false">2111321907563770225</guid>
-    </item>
-    <item>
-      <title>Chinese State-Linked Hackers Target US Critical Infrastructure with Automated Scanning and Cyber Espionage Tools</title>
-      <link>https://blog.polyswarm.io/chinese-state-linked-hackers-target-us-critical-infrastructure-with-automated-scanning-and-cyber-espionage-tools</link>
-      <description>Chinese 🇨🇳 Flax Typhoon used MicroScan and DC.exe against US 🇺🇸 critical infrastructure for credential theft and email exfiltration. Hunt SoftEther VPN disguised as conhost.exe or dllhost.exe and DCSync events; IOCs and samples in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111306928723038590</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Flax Typhoon used MicroScan and DC.exe against US 🇺🇸 critical infrastructure for credential theft and email exfiltration. Hunt SoftEther VPN disguised as conhost.exe or dllhost.exe and DCSync events; IOCs and samples in the report.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/chinese-state-linked-hackers-target-us-critical-infrastructure-with-automated-scanning-and-cyber-espionage-tools">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111306928723038590">View on X</a></p>]]></content:encoded>
-      <dc:creator>PolySwarm</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111306928723038590</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2111306928723038590">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 04:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2111306928723038590</guid>
     </item>
   </channel>
 </rss>
