@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Oct 2026 21:04:59 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 22:04:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detecting Compromised eMudhra Certificates with Zeek</title>
+      <link>https://corelight.com/blog/detect-compromised-emudhra-certificates-zeek</link>
+      <description>Indian 🇮🇳 CA eMudhra accidentally issued 8 intermediate certificates with weak private keys in April 2025, allowing anyone to mint valid TLS certs for any hostname on the internet.
+
+Key details:
+
+- eMudhra, an Indian 🇮🇳 Certificate Authority, issued 8 intermediate certificates with trivially guessable private keys, at least one of which is literally the integer 4. Six were valid for TLS; two for code signing. Because the private keys are public knowledge, any attacker can generate a trusted certificate for any domain, enabling transparent MitM, credential theft, or malware delivery against clients that still trust the compromised intermediates.
+
+- Major browsers responded quickly: Chrome added the certificates to its CRLSet and Mozilla pushed them to OneCRL. But embedded devices, end-of-life Linux distributions, offline systems, and any software using the Mozilla root store without auto-update remain exposed. The eMudhra root was admitted to the Mozilla CA database in 2019, making the trust chain wide and the blast radius significant.
+
+- Detection at the network layer is possible for TLS 1.2 and below because certificates appear in the clear during the handshake. TLS 1.3 encrypts the handshake, so passive inspection cannot see the certificate there, but any client that negotiates TLS 1.2 or lower will still reveal it. The Corelight Open Source team built a Zeek package that fires four notices in notice.log: Compromised_Intermediate_Cert, Compromised_Intermediate_Cert_Established, Compromised_Intermediate_Issuer, and Compromised_Intermediate_Issuer_Established.
+
+- The detection logic matches on the SHA-256 hash of the Subject Public Key Info (SPKI) rather than a certificate fingerprint. This matters: ECDSA signatures used by these intermediates are malleable and can be encoded two valid ways, so fingerprint-only matching can be evaded. SPKI matching also catches cross-signed variants, which eMudhra used, and resists evasion through X.509 parser leniencies.
+
+- The second notice pair covers a subtler evasion: a server can send only the end-entity certificate and omit the intermediate entirely. Some clients cache or pre-load intermediate CAs and will still validate and accept the connection. Zeek's Compromised_Intermediate_Issuer notices catch this by matching the issuer field even when the intermediate certificate itself never appears in the handshake.
+
+For retroactive hunting in existing Zeek data, the report describes two paths: check the cert_chain_fps column in ssl.log or the fingerprint column in x509.log for SHA-256 certificate hashes, or match the issuer field in ssl.log against the affected CA names. The report points to a public JSON dataset at emudhra.we-have-a-problem[.]com/impacted-intermediates.json, queryable with jq, that provides the SHA-256 hashes and issuer names needed for both hunts. Note that Zeek does not log SPKI hashes by default, so historical searches must rely on those certificate-level hashes rather than the more evasion-resistant SPKI values the live detector uses.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113391109049340264</description>
+      <content:encoded><![CDATA[<p>Indian 🇮🇳 CA eMudhra accidentally issued 8 intermediate certificates with weak private keys in April 2025, allowing anyone to mint valid TLS certs for any hostname on the internet.</p><p>Key details:</p><p>- eMudhra, an Indian 🇮🇳 Certificate Authority, issued 8 intermediate certificates with trivially guessable private keys, at least one of which is literally the integer 4. Six were valid for TLS; two for code signing. Because the private keys are public knowledge, any attacker can generate a trusted certificate for any domain, enabling transparent MitM, credential theft, or malware delivery against clients that still trust the compromised intermediates.</p><p>- Major browsers responded quickly: Chrome added the certificates to its CRLSet and Mozilla pushed them to OneCRL. But embedded devices, end-of-life Linux distributions, offline systems, and any software using the Mozilla root store without auto-update remain exposed. The eMudhra root was admitted to the Mozilla CA database in 2019, making the trust chain wide and the blast radius significant.</p><p>- Detection at the network layer is possible for TLS 1.2 and below because certificates appear in the clear during the handshake. TLS 1.3 encrypts the handshake, so passive inspection cannot see the certificate there, but any client that negotiates TLS 1.2 or lower will still reveal it. The Corelight Open Source team built a Zeek package that fires four notices in notice.log: Compromised_Intermediate_Cert, Compromised_Intermediate_Cert_Established, Compromised_Intermediate_Issuer, and Compromised_Intermediate_Issuer_Established.</p><p>- The detection logic matches on the SHA-256 hash of the Subject Public Key Info (SPKI) rather than a certificate fingerprint. This matters: ECDSA signatures used by these intermediates are malleable and can be encoded two valid ways, so fingerprint-only matching can be evaded. SPKI matching also catches cross-signed variants, which eMudhra used, and resists evasion through X.509 parser leniencies.</p><p>- The second notice pair covers a subtler evasion: a server can send only the end-entity certificate and omit the intermediate entirely. Some clients cache or pre-load intermediate CAs and will still validate and accept the connection. Zeek&#x27;s Compromised_Intermediate_Issuer notices catch this by matching the issuer field even when the intermediate certificate itself never appears in the handshake.</p><p>For retroactive hunting in existing Zeek data, the report describes two paths: check the cert_chain_fps column in ssl.log or the fingerprint column in x509.log for SHA-256 certificate hashes, or match the issuer field in ssl.log against the affected CA names. The report points to a public JSON dataset at emudhra.we-have-a-problem[.]com/impacted-intermediates.json, queryable with jq, that provides the SHA-256 hashes and issuer names needed for both hunts. Note that Zeek does not log SPKI hashes by default, so historical searches must rely on those certificate-level hashes rather than the more evasion-resistant SPKI values the live detector uses.</p><p>#DFIR_Radar</p><p><a href="https://corelight.com/blog/detect-compromised-emudhra-certificates-zeek">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113391109049340264">View on X</a></p>]]></content:encoded>
+      <dc:creator>Corelight</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113391109049340264</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2113391109049340264">DFIR Radar</source>
+      <pubDate>Thu, 22 Oct 2026 22:04:40 +0000</pubDate>
+      <guid isPermaLink="false">2113391109049340264</guid>
+    </item>
     <item>
       <title>Beyond the Sandbox: Leveraging Android Intrusion Logs to Expose Advanced Threats</title>
       <link>https://zimperium.com/blog/beyond-the-sandbox-leveraging-android-intrusion-logs-to-expose-advanced-threats</link>
@@ -2559,20 +2587,6 @@ Immediate steps: disable app ID 506e08f9-6e9a-4da4-942b-a099a03644ae in Entra ad
       <source url="https://x.com/DFIR_Radar/status/2111533453917266124">DFIR Radar</source>
       <pubDate>Sat, 17 Oct 2026 19:03:01 +0000</pubDate>
       <guid isPermaLink="false">2111533453917266124</guid>
-    </item>
-    <item>
-      <title>CVE-2026-104935 | Ivanti Connect Secure Authentication Bypass and Remote Code Execution Vulnerability</title>
-      <link>https://horizon3.ai/attack-research/vulnerabilities/cve-2026-104935/</link>
-      <description>CVE-2026-104935 (CVSS 8.6), actively exploited in Ivanti Connect Secure, enables unauthenticated RCE; CISA KEV confirmed. Hunt inbound X-DSCGI-PATH headers and run memory forensics as the Integrity Checker misses in-memory execution.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111518276740170205</description>
-      <content:encoded><![CDATA[<p>CVE-2026-104935 (CVSS 8.6), actively exploited in Ivanti Connect Secure, enables unauthenticated RCE; CISA KEV confirmed. Hunt inbound X-DSCGI-PATH headers and run memory forensics as the Integrity Checker misses in-memory execution.</p><p>#DFIR_Radar</p><p><a href="https://horizon3.ai/attack-research/vulnerabilities/cve-2026-104935/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111518276740170205">View on X</a></p>]]></content:encoded>
-      <dc:creator>Horizon3.ai</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111518276740170205</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2111518276740170205">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 18:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2111518276740170205</guid>
     </item>
   </channel>
 </rss>
