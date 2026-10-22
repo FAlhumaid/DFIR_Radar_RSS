@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Oct 2026 18:04:38 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 19:04:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PHP2SHELL Detection Coverage in THOR</title>
+      <link>https://www.nextron-systems.com/2026/10/22/php2shell-detection-coverage-in-thor/</link>
+      <description>PHP2SHELL (CVE-2026-109618 and CVE-2026-109619) targets PHP memory corruption and stale global state. Nextron details existing and new Sigma and YARA coverage, and the forensic gaps that logging gaps create.
+
+Key findings:
+
+- CVE-2026-109618 and CVE-2026-109619 cover out-of-memory corruption and stale global state in PHP respectively. As of 22 October 2026, trusted sources report that exploitation remains possible after the initial fixes, meaning patching alone does not close the window. The PHP advisory explicitly warns that affected paths may lack predictable log entries, so an absence of findings does not rule out compromise.
+
+- Eight Sigma rules were already in place before PHP2SHELL was published, covering web-server processes spawning shells, download tools, and reconnaissance utilities on both Linux and Windows. The report estimates existing generic rules cover roughly 50 to 70 percent of early post-exploitation activity encountered, an experience-based figure drawn from past outbreaks including NetScaler compromises. New PHP2SHELL-specific additions are proposed in SigmaHQ PR #6506, which was open as of 22 October 2026. That PR updates six existing rules and adds one new rule: "PHP Memory Corruption Log: Potential Php2shell Indicators", targeting PHP fatal memory-exhaustion errors referencing rfc1867.c or Unknown on line 0, and session-open warnings containing /ndary=, sess_, and related terms.
+
+- Four private YARA rules ship with the detection update: LOG_PHP2SHELL_Artifacts_Oct26_1, LOG_PHP2SHELL_Artifacts_Oct26, LOG_SUSP_PHP2SHELL_Artifacts_Oct26, and LOG_PHP_Exploitation_Indicators_Oct26. These target log artifacts and suspicious PHP activity rather than binary samples.
+
+- The critical forensic gap is logging configuration. Apache's common and combined access-log formats do not capture Content-Type or Cookie headers, so multipart boundaries and session identifiers carried in those headers are invisible to request-level matching. PHP error logs are different and may contain upload-processing or session-path artifacts even when request headers are absent. Responders must verify log_errors, error_log, and Apache's LogLevel settings and confirm those logs are actually present and in scope for the scan. Process-event logs are equally essential: without parent-process and command-line fields, the Sigma rules covering apache2 spawning sh -c "id" or similar patterns cannot fire.
+
+- Mitigation context matters for triage. The report details several configuration controls including setting memory_limit=-1 to remove the controllable memory-limit failure, disabling session.upload_progress.enabled, and on PHP 8.5 setting fatal_error_backtraces=0. None is described as complete protection against every variant, and the advisory specifically warns against RLIMIT_AS and RLIMIT_DATA because they can force the allocation failure that reaches the vulnerable path.
+
+Practitioner takeaway: Before scanning, audit the effective PHP and Apache logging configuration for every serving pool and virtual host. Confirm error logs are routing to disk and are reachable. Preserve logs from before patching because remediation does not erase the need to investigate prior activity. Treat a memory-exhaustion error or Apache worker crash as a weak signal requiring correlation with child-process events, outbound connections, and persistence artifacts before drawing a conclusion. The new Sigma rule and the four YARA rules are in the report and in SigmaHQ PR #6506.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113345785932779538</description>
+      <content:encoded><![CDATA[<p>PHP2SHELL (CVE-2026-109618 and CVE-2026-109619) targets PHP memory corruption and stale global state. Nextron details existing and new Sigma and YARA coverage, and the forensic gaps that logging gaps create.</p><p>Key findings:</p><p>- CVE-2026-109618 and CVE-2026-109619 cover out-of-memory corruption and stale global state in PHP respectively. As of 22 October 2026, trusted sources report that exploitation remains possible after the initial fixes, meaning patching alone does not close the window. The PHP advisory explicitly warns that affected paths may lack predictable log entries, so an absence of findings does not rule out compromise.</p><p>- Eight Sigma rules were already in place before PHP2SHELL was published, covering web-server processes spawning shells, download tools, and reconnaissance utilities on both Linux and Windows. The report estimates existing generic rules cover roughly 50 to 70 percent of early post-exploitation activity encountered, an experience-based figure drawn from past outbreaks including NetScaler compromises. New PHP2SHELL-specific additions are proposed in SigmaHQ PR #6506, which was open as of 22 October 2026. That PR updates six existing rules and adds one new rule: &quot;PHP Memory Corruption Log: Potential Php2shell Indicators&quot;, targeting PHP fatal memory-exhaustion errors referencing rfc1867.c or Unknown on line 0, and session-open warnings containing /ndary=, sess_, and related terms.</p><p>- Four private YARA rules ship with the detection update: LOG_PHP2SHELL_Artifacts_Oct26_1, LOG_PHP2SHELL_Artifacts_Oct26, LOG_SUSP_PHP2SHELL_Artifacts_Oct26, and LOG_PHP_Exploitation_Indicators_Oct26. These target log artifacts and suspicious PHP activity rather than binary samples.</p><p>- The critical forensic gap is logging configuration. Apache&#x27;s common and combined access-log formats do not capture Content-Type or Cookie headers, so multipart boundaries and session identifiers carried in those headers are invisible to request-level matching. PHP error logs are different and may contain upload-processing or session-path artifacts even when request headers are absent. Responders must verify log_errors, error_log, and Apache&#x27;s LogLevel settings and confirm those logs are actually present and in scope for the scan. Process-event logs are equally essential: without parent-process and command-line fields, the Sigma rules covering apache2 spawning sh -c &quot;id&quot; or similar patterns cannot fire.</p><p>- Mitigation context matters for triage. The report details several configuration controls including setting memory_limit=-1 to remove the controllable memory-limit failure, disabling session.upload_progress.enabled, and on PHP 8.5 setting fatal_error_backtraces=0. None is described as complete protection against every variant, and the advisory specifically warns against RLIMIT_AS and RLIMIT_DATA because they can force the allocation failure that reaches the vulnerable path.</p><p>Practitioner takeaway: Before scanning, audit the effective PHP and Apache logging configuration for every serving pool and virtual host. Confirm error logs are routing to disk and are reachable. Preserve logs from before patching because remediation does not erase the need to investigate prior activity. Treat a memory-exhaustion error or Apache worker crash as a weak signal requiring correlation with child-process events, outbound connections, and persistence artifacts before drawing a conclusion. The new Sigma rule and the four YARA rules are in the report and in SigmaHQ PR #6506.</p><p>#DFIR_Radar</p><p><a href="https://www.nextron-systems.com/2026/10/22/php2shell-detection-coverage-in-thor/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113345785932779538">View on X</a></p>]]></content:encoded>
+      <dc:creator>Nextron Systems</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113345785932779538</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2113345785932779538">DFIR Radar</source>
+      <pubDate>Thu, 22 Oct 2026 19:04:34 +0000</pubDate>
+      <guid isPermaLink="false">2113345785932779538</guid>
+    </item>
     <item>
       <title>PHP2Shell (CVE-2026-109618 and CVE-2026-109619): Detecting unauthenticated remote code execution in PHP core</title>
       <link>https://webflow.sysdig.com/blog/php2shell-cve-2026-109618-and-cve-2026-109619-detecting-unauthenticated-remote-code-execution-in-php-core</link>
@@ -2547,20 +2575,6 @@ Practitioner takeaway: hunt in the Service principal sign-ins tab in Entra, not 
       <source url="https://x.com/DFIR_Radar/status/2111488059204145238">DFIR Radar</source>
       <pubDate>Sat, 17 Oct 2026 16:02:38 +0000</pubDate>
       <guid isPermaLink="false">2111488059204145238</guid>
-    </item>
-    <item>
-      <title>China-nexus espionage actor targets BeyondTrust support tool in zero-day campaign</title>
-      <link>https://www.cybersecuritydive.com/news/china-espionage-beyondtrust-zero-day-hacker/833240/</link>
-      <description>Chinese 🇨🇳 Armory Castle exploited BeyondTrust CVE-2026-102764, deploying PHP webshell Sawfly and SOCKS5 tunneler Bareclaw to harvest credentials. Forward appliance logs to SIEM; the actor deletes forensic evidence post-compromise.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111473144867205212</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Armory Castle exploited BeyondTrust CVE-2026-102764, deploying PHP webshell Sawfly and SOCKS5 tunneler Bareclaw to harvest credentials. Forward appliance logs to SIEM; the actor deletes forensic evidence post-compromise.</p><p>#DFIR_Radar</p><p><a href="https://www.cybersecuritydive.com/news/china-espionage-beyondtrust-zero-day-hacker/833240/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111473144867205212">View on X</a></p>]]></content:encoded>
-      <dc:creator>Cybersecurity Dive</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111473144867205212</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2111473144867205212">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 15:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2111473144867205212</guid>
     </item>
   </channel>
 </rss>
