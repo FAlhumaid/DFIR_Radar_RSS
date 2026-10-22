@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Oct 2026 14:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 15:02:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>StealC Is Back, and This Time It's a RAT</title>
+      <link>https://www.varonis.com/blog/stealc-returns</link>
+      <description>StealC's seller is back four months after Operation Endgame dismantled its infrastructure, rebranding as Stadia, a full RAT with HVNC, remote shell, and in-memory loading, with the StealC stealer still wired in as one of six modules.
+
+- Operation Endgame (June 2026) seized 326 servers and 142 domains tied to StealC, recovered 25 million credentials from 385,000 machines, and effectively killed the operation. By October 16, the same seller was back under the name Stadia, offering former StealC customers a free month on the $900/mo Pro tier to migrate. The panel hit version 1.1.2, with the first beta logged September 10 and the StealC 3.5 stealer module merged in by September 29. The four-month rebuild shows how fast a seller with existing code and a customer base can reconstitute after infrastructure seizure.
+
+- Stadia is a platform, not a stealer. The six modules cover HVNC (shared and hidden desktop with full input injection), Remote CMD, File Explorer, Process Manager, an in-memory Loader accepting EXE, PowerShell, BAT/CMD, and MSI, and the StealC-derived grabber harvesting 50+ browsers, 120+ crypto plugins, 50+ desktop wallets, Telegram, Discord, Steam, Outlook, Thunderbird, and VPN clients. The seller's own demo panel showed 596 hosts, with infections mapped across South and Southeast Asia, Africa, and Latin America.
+
+- The binary (stadia_x32.exe, SHA-256 ea928494fd30d88b98141d39a502a4324889fb732e74b44bfee12c72137dd73e, 560,128 bytes, unsigned PE32, MSVC, no packer) decrypts to build marker STADIA_BETA. The code link to StealC is byte-exact: a 26,112-byte Chromium App-Bound Encryption helper blob at file offset 0x77D48 carries SHA-256 0e5337a4cc8ebc772bc50f6e79befd1e8efad3410022e050d08d5269733c4ea4, identical at the same offset in both StealC v3.5 x86 and x64 builds. Nearly all strings are RC4-encrypted using a per-build key at file offset 0x6B1A0, then Base64-encoded; the outer RC4 key in this build is eepkTOgSwdNCgrhITR. The locale gate exits on Russian 🇷🇺, Ukrainian 🇺🇦, Belarusian 🇧🇾, Kazakh 🇰🇿, and Uzbek language IDs (0x0419, 0x0422, 0x0423, 0x043F, 0x0443).
+
+- C2 uses plain HTTP POST to the root path of three hard-coded bare IPs tried in fixed failover order: hxxp://93.152.213[.]215/, hxxp://91.92.43[.]45/, hxxp://193.148.56[.]97/. The body is RC4-encrypted JSON then Base64-encoded, but the Content-Type header still claims application/json. That mismatch is a detection signal independent of IP blocklists, which only cover one build. Persistence drops the agent to C:\ProgramData\&lt;12-char-random&gt;\&lt;name&gt;.exe using one of nine masquerade names (RuntimeBroker.exe, MicrosoftEdgeUpdate.exe, GoogleUpdate.exe, and six others), registers a COM-based hidden scheduled task running every 15 minutes for 3,650 days (schtasks.exe-based rules will miss it), and on elevated runs adds a Defender exclusion via powershell.exe Add-MpPreference -ExclusionPath for the install directory. The single-instance mutex is Local\&lt;username&gt;.&lt;computername&gt;.
+
+Practitioner takeaway: hunt three behavioral clusters together. First, an unsigned process under C:\ProgramData\ spawning Chrome, Edge, or Brave suspended and writing a ~26 KB code block into it, followed by a transient GUID-named .txt file in C:\ProgramData\ holding a 64-character hex string, which is the App-Bound key dump. Second, a COM-registered hidden scheduled task with a PT15M interval and P3650D duration, not created via schtasks.exe. Third, powershell.exe invoking Add-MpPreference -ExclusionPath pointing into C:\ProgramData\. On the wire, flag HTTP POST to a bare IP on port 80 where Content-Type is application/json but the body is Base64 ciphertext. The Varonis report includes a Sigma rule for the scheduled task and the full IOC table.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113284875448938709</description>
+      <content:encoded><![CDATA[<p>StealC&#x27;s seller is back four months after Operation Endgame dismantled its infrastructure, rebranding as Stadia, a full RAT with HVNC, remote shell, and in-memory loading, with the StealC stealer still wired in as one of six modules.</p><p>- Operation Endgame (June 2026) seized 326 servers and 142 domains tied to StealC, recovered 25 million credentials from 385,000 machines, and effectively killed the operation. By October 16, the same seller was back under the name Stadia, offering former StealC customers a free month on the $900/mo Pro tier to migrate. The panel hit version 1.1.2, with the first beta logged September 10 and the StealC 3.5 stealer module merged in by September 29. The four-month rebuild shows how fast a seller with existing code and a customer base can reconstitute after infrastructure seizure.</p><p>- Stadia is a platform, not a stealer. The six modules cover HVNC (shared and hidden desktop with full input injection), Remote CMD, File Explorer, Process Manager, an in-memory Loader accepting EXE, PowerShell, BAT/CMD, and MSI, and the StealC-derived grabber harvesting 50+ browsers, 120+ crypto plugins, 50+ desktop wallets, Telegram, Discord, Steam, Outlook, Thunderbird, and VPN clients. The seller&#x27;s own demo panel showed 596 hosts, with infections mapped across South and Southeast Asia, Africa, and Latin America.</p><p>- The binary (stadia_x32.exe, SHA-256 ea928494fd30d88b98141d39a502a4324889fb732e74b44bfee12c72137dd73e, 560,128 bytes, unsigned PE32, MSVC, no packer) decrypts to build marker STADIA_BETA. The code link to StealC is byte-exact: a 26,112-byte Chromium App-Bound Encryption helper blob at file offset 0x77D48 carries SHA-256 0e5337a4cc8ebc772bc50f6e79befd1e8efad3410022e050d08d5269733c4ea4, identical at the same offset in both StealC v3.5 x86 and x64 builds. Nearly all strings are RC4-encrypted using a per-build key at file offset 0x6B1A0, then Base64-encoded; the outer RC4 key in this build is eepkTOgSwdNCgrhITR. The locale gate exits on Russian 🇷🇺, Ukrainian 🇺🇦, Belarusian 🇧🇾, Kazakh 🇰🇿, and Uzbek language IDs (0x0419, 0x0422, 0x0423, 0x043F, 0x0443).</p><p>- C2 uses plain HTTP POST to the root path of three hard-coded bare IPs tried in fixed failover order: hxxp://93.152.213[.]215/, hxxp://91.92.43[.]45/, hxxp://193.148.56[.]97/. The body is RC4-encrypted JSON then Base64-encoded, but the Content-Type header still claims application/json. That mismatch is a detection signal independent of IP blocklists, which only cover one build. Persistence drops the agent to C:\ProgramData\&lt;12-char-random&gt;\&lt;name&gt;.exe using one of nine masquerade names (RuntimeBroker.exe, MicrosoftEdgeUpdate.exe, GoogleUpdate.exe, and six others), registers a COM-based hidden scheduled task running every 15 minutes for 3,650 days (schtasks.exe-based rules will miss it), and on elevated runs adds a Defender exclusion via powershell.exe Add-MpPreference -ExclusionPath for the install directory. The single-instance mutex is Local\&lt;username&gt;.&lt;computername&gt;.</p><p>Practitioner takeaway: hunt three behavioral clusters together. First, an unsigned process under C:\ProgramData\ spawning Chrome, Edge, or Brave suspended and writing a ~26 KB code block into it, followed by a transient GUID-named .txt file in C:\ProgramData\ holding a 64-character hex string, which is the App-Bound key dump. Second, a COM-registered hidden scheduled task with a PT15M interval and P3650D duration, not created via schtasks.exe. Third, powershell.exe invoking Add-MpPreference -ExclusionPath pointing into C:\ProgramData\. On the wire, flag HTTP POST to a bare IP on port 80 where Content-Type is application/json but the body is Base64 ciphertext. The Varonis report includes a Sigma rule for the scheduled task and the full IOC table.</p><p>#DFIR_Radar</p><p><a href="https://www.varonis.com/blog/stealc-returns">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113284875448938709">View on X</a></p>]]></content:encoded>
+      <dc:creator>Varonis</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113284875448938709</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113284875448938709">DFIR Radar</source>
+      <pubDate>Thu, 22 Oct 2026 15:02:32 +0000</pubDate>
+      <guid isPermaLink="false">2113284875448938709</guid>
+    </item>
     <item>
       <title>M365 Token Spray and Replay Campaign Compromises Business Email Accounts</title>
       <link>https://www.huntress.com/blog/token-replay-spray</link>
@@ -2515,20 +2539,6 @@ Practitioner takeaway: If any of these packages (imgdecode, imgbundle, runhelper
       <source url="https://x.com/DFIR_Radar/status/2111412536440672682">DFIR Radar</source>
       <pubDate>Sat, 17 Oct 2026 11:02:32 +0000</pubDate>
       <guid isPermaLink="false">2111412536440672682</guid>
-    </item>
-    <item>
-      <title>PSA: Malware Found in Some Rank Math SEO PRO 3.0.123 Downloads</title>
-      <link>https://www.wordfence.com/blog/2026/10/rank-math-seo-pro-3-0-123-malware/</link>
-      <description>CVE-2026-111862 (CVSS 9.8): Rank Math SEO PRO 3.0.123 supply-chain compromise beacons to rank1cdn[.]com and plants backdoors. Query wp_options for _uf6qdn2hmm and hunt wpsupport_ admin accounts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111397501567746180</description>
-      <content:encoded><![CDATA[<p>CVE-2026-111862 (CVSS 9.8): Rank Math SEO PRO 3.0.123 supply-chain compromise beacons to rank1cdn[.]com and plants backdoors. Query wp_options for _uf6qdn2hmm and hunt wpsupport_ admin accounts.</p><p>#DFIR_Radar</p><p><a href="https://www.wordfence.com/blog/2026/10/rank-math-seo-pro-3-0-123-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111397501567746180">View on X</a></p>]]></content:encoded>
-      <dc:creator>Wordfence</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111397501567746180</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2111397501567746180">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 10:02:47 +0000</pubDate>
-      <guid isPermaLink="false">2111397501567746180</guid>
     </item>
   </channel>
 </rss>
