@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Oct 2026 09:02:37 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 10:04:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>LiteLLM Suspects GitHub Token Leak in AI Gateway Logs Behind Malicious Package Release</title>
+      <link>https://thehackernews.com/2026/10/litellm-suspects-github-token-leak-in.html</link>
+      <description>LiteLLM's PyPI and Docker release pipeline was backdoored on October 21, 2026, delivering a credential stealer and hourly RAT to any environment that pulled an unpinned v1.107.0 between roughly 11:39 a.m. and 2:20 p.m. UTC.
+
+- The initial access chain is the forensic story here. LiteLLM suspects a publicly exposed internal deployment was reached by an attacker, likely via a recently patched vulnerability, and that Claude Code had embedded GitHub CLI OAuth tokens into logged response bodies. Those tokens gave the attacker credentials for three developer accounts, one of which belonged to a GitHub org owner. That owner token was used to disable branch protections, force-push malicious changes, and redirect the signing workflow to a lookalike repo "Berri-AI/litellm" instead of the legitimate "BerriAI/litellm", so the poisoned artifacts were signed and published as if legitimate.
+
+- The malware used a dual-persistence technique Wiz researchers describe as the first documented in-the-wild case combining both methods simultaneously. A path file "cook.pth" imports "cook[.]py" on interpreter startup, which deobfuscates itself and runs a stealer routine called "privcollect", harvesting system, browser, developer, cloud, and AI tool secrets and exfiltrating them via HTTP POST to litellm[.]dev/healthcheck. Separately, "sitecustomize[.]py" (Linux and macOS only) fetches a C2 domain from a GitHub dead drop at raw.githubusercontent[.]com/letters9813/pythonclient-test/main/domain[.]txt, downloads a second-stage payload from the path /codepy, and forks a background daemon that re-fetches and executes fresh payloads every hour, using /tmp/remote_code_loader.lock to prevent duplicate instances.
+
+- Credential abuse began approximately 4.5 hours after exfiltration. Between 4:20 p.m. and 5:01 p.m. UTC, the attacker validated stolen AWS instance role credentials from CI runners and Kubernetes nodes using sts:GetCallerIdentity, then called bedrock:ListFoundationModels and ListModels, a pattern consistent with LLMjacking. In a subset of environments, IAM enumeration followed: ListRoles, ListUsers, ListAccessKeys, ListAccounts, and DescribeTrails. Attribution IPs observed by Wiz were 168.100.8[.]57 and 165.227.201[.]8.
+
+- The .pth file delivery technique mirrors the March 2026 attack attributed to TeamPCP, but Socket has reviewed the public evidence and found no confirmed link: the embedded RSA public keys differ, as do the exfiltration implementation and backdoor behavior. Whether credentials stolen in March enabled this incident remains unverified. The supply-chain mechanic, compromised release permissions plus a lookalike org name, is the attack surface defenders should internalize regardless of attribution.
+
+If LiteLLM 1.107.0 ran anywhere in your environment, your response priorities are: hunt for cook.pth, cook[.]py, and sitecustomize[.]py on all hosts that ran the package; check for /tmp/remote_code_loader.lock as an indicator of the daemon having started; investigate any outbound connections to litellm[.]dev and executions of /codepy; and rotate every credential reachable from those hosts, prioritizing AWS keys, GitHub tokens, and any AI service API keys. For your pipeline, audit who holds release permissions right now, verify that your package pins resolve to expected hashes, and treat response-body logging in AI gateway deployments as a token-exfiltration risk going forward.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113209876344197210</description>
+      <content:encoded><![CDATA[<p>LiteLLM&#x27;s PyPI and Docker release pipeline was backdoored on October 21, 2026, delivering a credential stealer and hourly RAT to any environment that pulled an unpinned v1.107.0 between roughly 11:39 a.m. and 2:20 p.m. UTC.</p><p>- The initial access chain is the forensic story here. LiteLLM suspects a publicly exposed internal deployment was reached by an attacker, likely via a recently patched vulnerability, and that Claude Code had embedded GitHub CLI OAuth tokens into logged response bodies. Those tokens gave the attacker credentials for three developer accounts, one of which belonged to a GitHub org owner. That owner token was used to disable branch protections, force-push malicious changes, and redirect the signing workflow to a lookalike repo &quot;Berri-AI/litellm&quot; instead of the legitimate &quot;BerriAI/litellm&quot;, so the poisoned artifacts were signed and published as if legitimate.</p><p>- The malware used a dual-persistence technique Wiz researchers describe as the first documented in-the-wild case combining both methods simultaneously. A path file &quot;cook.pth&quot; imports &quot;cook[.]py&quot; on interpreter startup, which deobfuscates itself and runs a stealer routine called &quot;privcollect&quot;, harvesting system, browser, developer, cloud, and AI tool secrets and exfiltrating them via HTTP POST to litellm[.]dev/healthcheck. Separately, &quot;sitecustomize[.]py&quot; (Linux and macOS only) fetches a C2 domain from a GitHub dead drop at raw.githubusercontent[.]com/letters9813/pythonclient-test/main/domain[.]txt, downloads a second-stage payload from the path /codepy, and forks a background daemon that re-fetches and executes fresh payloads every hour, using /tmp/remote_code_loader.lock to prevent duplicate instances.</p><p>- Credential abuse began approximately 4.5 hours after exfiltration. Between 4:20 p.m. and 5:01 p.m. UTC, the attacker validated stolen AWS instance role credentials from CI runners and Kubernetes nodes using sts:GetCallerIdentity, then called bedrock:ListFoundationModels and ListModels, a pattern consistent with LLMjacking. In a subset of environments, IAM enumeration followed: ListRoles, ListUsers, ListAccessKeys, ListAccounts, and DescribeTrails. Attribution IPs observed by Wiz were 168.100.8[.]57 and 165.227.201[.]8.</p><p>- The .pth file delivery technique mirrors the March 2026 attack attributed to TeamPCP, but Socket has reviewed the public evidence and found no confirmed link: the embedded RSA public keys differ, as do the exfiltration implementation and backdoor behavior. Whether credentials stolen in March enabled this incident remains unverified. The supply-chain mechanic, compromised release permissions plus a lookalike org name, is the attack surface defenders should internalize regardless of attribution.</p><p>If LiteLLM 1.107.0 ran anywhere in your environment, your response priorities are: hunt for cook.pth, cook[.]py, and sitecustomize[.]py on all hosts that ran the package; check for /tmp/remote_code_loader.lock as an indicator of the daemon having started; investigate any outbound connections to litellm[.]dev and executions of /codepy; and rotate every credential reachable from those hosts, prioritizing AWS keys, GitHub tokens, and any AI service API keys. For your pipeline, audit who holds release permissions right now, verify that your package pins resolve to expected hashes, and treat response-body logging in AI gateway deployments as a token-exfiltration risk going forward.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/litellm-suspects-github-token-leak-in.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113209876344197210">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113209876344197210</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113209876344197210">DFIR Radar</source>
+      <pubDate>Thu, 22 Oct 2026 10:04:31 +0000</pubDate>
+      <guid isPermaLink="false">2113209876344197210</guid>
+    </item>
     <item>
       <title>New LiteLLM Supply Chain Attack Hits PyPI and Docker</title>
       <link>https://socradar.io/blog/litellm-supply-chain-attack-pypi-docker/</link>
@@ -2493,20 +2517,6 @@ Practitioner takeaway: Go to Microsoft Entra Admin Center, Monitoring, Sign-in l
       <source url="https://x.com/DFIR_Radar/status/2111337001035456875">DFIR Radar</source>
       <pubDate>Sat, 17 Oct 2026 06:02:23 +0000</pubDate>
       <guid isPermaLink="false">2111337001035456875</guid>
-    </item>
-    <item>
-      <title>Hirudo Android Trojan Replaces Banking Apps to Steal Credentials</title>
-      <link>https://securityaffairs.com/200970/malware/hirudo-android-trojan-replaces-banking-apps-to-steal-credentials.html</link>
-      <description>Hirudo Android trojan uninstalls genuine Indonesian 🇮🇩 banking apps and silently replaces them with patched copies signed with public test keys. Hunt for Play Integrity verdicts routed through non-Google servers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111321907563770225</description>
-      <content:encoded><![CDATA[<p>Hirudo Android trojan uninstalls genuine Indonesian 🇮🇩 banking apps and silently replaces them with patched copies signed with public test keys. Hunt for Play Integrity verdicts routed through non-Google servers.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/200970/malware/hirudo-android-trojan-replaces-banking-apps-to-steal-credentials.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111321907563770225">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111321907563770225</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2111321907563770225">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 05:02:24 +0000</pubDate>
-      <guid isPermaLink="false">2111321907563770225</guid>
     </item>
   </channel>
 </rss>
