@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 12:05:04 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 13:04:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-0257: Actively Exploited PAN-OS GlobalProtect Authentication Bypass Vulnerability</title>
+      <link>https://www.truesec.com/hub/blog/cve-2026-0257-actively-exploited-pan-os-globalprotect-authentication-bypass-vulnerability</link>
+      <description>CVE-2026-0257 is an actively exploited PAN-OS GlobalProtect authentication bypass enabling ransomware groups to skip MFA and land inside corporate networks via forged VPN sessions. Qilin and Inc Ransom have been observed in the wild since October 19.
+
+Key findings:
+
+- The flaw lives in the authentication override cookie mechanism on GlobalProtect portal and gateway. When that feature is enabled and a specific certificate configuration is present, an attacker can forge a valid cookie, present it to the gateway, and establish a fully authenticated VPN session without completing MFA. Unit42 has confirmed active ransomware exploitation since October 19, 2026, making this an urgent triage priority, not a scheduled patching item.
+
+- Affected versions span a wide surface: PAN-OS 10.2, 11.1, 11.2, and 12.1 branches below specific hotfix levels, plus Prisma Access 10.2 and 11.2. The report lists exact safe versions for each branch. Check your fleet against every listed branch before assuming you are clear.
+
+- For pre-PoC activity (before May 29, 2026), hunt GlobalProtect logs for successful logins originating from these defanged IPs: 23.128.228[.]6, 104.207.144[.]154, 146.19.216[.]119, 146.19.216[.]120, 146.19.216[.]125, 179.43.172[.]213, 185.195.232[.]139, 198.12.106[.]60, and 202.144.192[.]47.
+
+- Post-PoC, the hunt shifts to behavioral patterns from the public proof-of-concept code. Search GlobalProtect gateway-connected events for sessions where endpoint_os_version is "Microsoft Windows 10 Pro 64-bit" and source_user_info.domain is empty. Also flag sessions carrying generic or hardcoded host identifiers: MAC addresses aa:bb:cc:dd:ee:ff or 00:11:22:33:44:55, and device names WINDOWS-LAPTOP-001, DESKTOP-GP01, or GP-CLIENT.
+
+- If patching cannot happen immediately, the report gives a concrete mitigation path: verify whether Generate cookie for authentication override and Accept cookie for authentication override are checked on both the portal (Network &gt; GlobalProtect &gt; Portals &gt; Agent &gt; Authentication tab) and the gateway (Network &gt; GlobalProtect &gt; Gateways &gt; Agent &gt; Client Settings &gt; Authentication Override tab), then disable both options. If you must keep cookies enabled, generate a dedicated certificate used exclusively for this feature and do not share it with the portal or gateway certificate.
+
+Takeaway for responders: pull GlobalProtect logs now and run both hunt queries, the IP list for historical exposure and the PoC client fingerprint for current activity. A successful gateway-connected event with an empty domain field and the Windows 10 Pro 64-bit OS string from an unexpected source IP is your clearest signal of exploitation. Treat any confirmed hit as a potential MFA bypass and trace lateral movement from that VPN session onward. Patch to the safe hotfix for your branch as the definitive fix.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113617671736717464</description>
+      <content:encoded><![CDATA[<p>CVE-2026-0257 is an actively exploited PAN-OS GlobalProtect authentication bypass enabling ransomware groups to skip MFA and land inside corporate networks via forged VPN sessions. Qilin and Inc Ransom have been observed in the wild since October 19.</p><p>Key findings:</p><p>- The flaw lives in the authentication override cookie mechanism on GlobalProtect portal and gateway. When that feature is enabled and a specific certificate configuration is present, an attacker can forge a valid cookie, present it to the gateway, and establish a fully authenticated VPN session without completing MFA. Unit42 has confirmed active ransomware exploitation since October 19, 2026, making this an urgent triage priority, not a scheduled patching item.</p><p>- Affected versions span a wide surface: PAN-OS 10.2, 11.1, 11.2, and 12.1 branches below specific hotfix levels, plus Prisma Access 10.2 and 11.2. The report lists exact safe versions for each branch. Check your fleet against every listed branch before assuming you are clear.</p><p>- For pre-PoC activity (before May 29, 2026), hunt GlobalProtect logs for successful logins originating from these defanged IPs: 23.128.228[.]6, 104.207.144[.]154, 146.19.216[.]119, 146.19.216[.]120, 146.19.216[.]125, 179.43.172[.]213, 185.195.232[.]139, 198.12.106[.]60, and 202.144.192[.]47.</p><p>- Post-PoC, the hunt shifts to behavioral patterns from the public proof-of-concept code. Search GlobalProtect gateway-connected events for sessions where endpoint_os_version is &quot;Microsoft Windows 10 Pro 64-bit&quot; and source_user_info.domain is empty. Also flag sessions carrying generic or hardcoded host identifiers: MAC addresses aa:bb:cc:dd:ee:ff or 00:11:22:33:44:55, and device names WINDOWS-LAPTOP-001, DESKTOP-GP01, or GP-CLIENT.</p><p>- If patching cannot happen immediately, the report gives a concrete mitigation path: verify whether Generate cookie for authentication override and Accept cookie for authentication override are checked on both the portal (Network &gt; GlobalProtect &gt; Portals &gt; Agent &gt; Authentication tab) and the gateway (Network &gt; GlobalProtect &gt; Gateways &gt; Agent &gt; Client Settings &gt; Authentication Override tab), then disable both options. If you must keep cookies enabled, generate a dedicated certificate used exclusively for this feature and do not share it with the portal or gateway certificate.</p><p>Takeaway for responders: pull GlobalProtect logs now and run both hunt queries, the IP list for historical exposure and the PoC client fingerprint for current activity. A successful gateway-connected event with an empty domain field and the Windows 10 Pro 64-bit OS string from an unexpected source IP is your clearest signal of exploitation. Treat any confirmed hit as a potential MFA bypass and trace lateral movement from that VPN session onward. Patch to the safe hotfix for your branch as the definitive fix.</p><p>#DFIR_Radar</p><p><a href="https://www.truesec.com/hub/blog/cve-2026-0257-actively-exploited-pan-os-globalprotect-authentication-bypass-vulnerability">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113617671736717464">View on X</a></p>]]></content:encoded>
+      <dc:creator>Truesec</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113617671736717464</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2113617671736717464">DFIR Radar</source>
+      <pubDate>Fri, 23 Oct 2026 13:04:57 +0000</pubDate>
+      <guid isPermaLink="false">2113617671736717464</guid>
+    </item>
     <item>
       <title>Microsoft 365 accounts compromised at 79 organizations, no passwords needed</title>
       <link>https://www.helpnetsecurity.com/2026/10/23/microsoft-365-accounts-stolen-sessions/</link>
@@ -2681,20 +2709,6 @@ Practitioner takeaway: Before running any containment steps, preserve Entra sign
       <source url="https://x.com/DFIR_Radar/status/2112122109098885248">DFIR Radar</source>
       <pubDate>Mon, 19 Oct 2026 10:02:07 +0000</pubDate>
       <guid isPermaLink="false">2112122109098885248</guid>
-    </item>
-    <item>
-      <title>Unpatched Broadcom Wi-Fi Flaw Lets Attackers in Range Run Code as Root on Routers</title>
-      <link>https://thehackernews.com/2026/10/unpatched-broadcom-wi-fi-flaw-lets.html</link>
-      <description>An unpatched Broadcom WPS memory-corruption flaw lets unauthenticated attackers in Wi-Fi range execute code as root on affected routers, with no CVE assigned.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112092080788963561</description>
-      <content:encoded><![CDATA[<p>An unpatched Broadcom WPS memory-corruption flaw lets unauthenticated attackers in Wi-Fi range execute code as root on affected routers, with no CVE assigned.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/unpatched-broadcom-wi-fi-flaw-lets.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112092080788963561">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112092080788963561</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2112092080788963561">DFIR Radar</source>
-      <pubDate>Mon, 19 Oct 2026 08:02:48 +0000</pubDate>
-      <guid isPermaLink="false">2112092080788963561</guid>
     </item>
   </channel>
 </rss>
