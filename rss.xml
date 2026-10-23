@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 00:05:28 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 01:04:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Where to Find Sysmon Logs on Windows and How to Export Them</title>
+      <link>https://socprime.com/blog/where-to-find-sysmon-logs-on-windows-and-how-to-export-them/</link>
+      <description>Sysmon log location, export commands, and the event IDs that matter most when you pull a Windows host for investigation. A practical reference for any responder who needs to recover what Sysmon recorded before it overwrites.
+
+Key findings:
+
+- The Sysmon log lives at C:\Windows\System32\winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx. In Event Viewer the path is Applications and Services Logs &gt; Microsoft &gt; Windows &gt; Sysmon &gt; Operational. Confirm the service is running with "sc query sysmon64" (or "sysmon" on 32-bit) and look for STATE: RUNNING. If the channel does not exist, Sysmon is not installed and you have no log to pull.
+
+- Export from an elevated prompt with: wevtutil epl "Microsoft-Windows-Sysmon/Operational" C:\logs\sysmon.evtx. You can scope the export to the last 24 hours or to a single event ID during collection. On a busy server with a default channel size, that log can cover surprisingly little time, so run "wevtutil gl Microsoft-Windows-Sysmon/Operational" and check maxSize before you assume you have full coverage.
+
+- The event IDs that carry the most investigative weight: Event ID 1 (process creation with full command line, hashes, and parent) is the backbone of almost every investigation. ID 10 (process access) flags one process opening another, and access to lsass.exe is the classic credential-dumping signal. IDs 12, 13, and 14 cover registry changes including Run key persistence. ID 22 ties a DNS query to the process that made it. IDs 4 and 16 record Sysmon's own service state and config changes, which is where you look when events simply stop: an attacker turning Sysmon off or neutering its config leaves a trace right there.
+
+- Sysmon only records what its configuration tells it to. A host with no config file gives you a limited default set built around process creation. No network events in the log does not mean no network activity occurred: it likely means event ID 3 was excluded in the config, which is common because of volume. Pull the running config with "sysmon64 -c" and send it alongside the EVTX export so the analyst understands the gaps, not just the events that are present.
+
+- If events stop at a point in time, check for event IDs 4 and 16 immediately before the gap, then cross-reference the Windows System log for the Sysmon service being stopped or uninstalled. A gap with no service stop entry and no config change event suggests log rollover, in which case check maxSize and go to your SIEM for older data.
+
+Takeaway: before you collect, run "wevtutil gl Microsoft-Windows-Sysmon/Operational" to understand how far back the log actually goes, then "sysmon64 -c" to capture the active config. Export both together. The config output is what turns a confusing gap in coverage into an explainable artifact rather than a missing piece of the timeline.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113436280956871068</description>
+      <content:encoded><![CDATA[<p>Sysmon log location, export commands, and the event IDs that matter most when you pull a Windows host for investigation. A practical reference for any responder who needs to recover what Sysmon recorded before it overwrites.</p><p>Key findings:</p><p>- The Sysmon log lives at C:\Windows\System32\winevt\Logs\Microsoft-Windows-Sysmon%4Operational.evtx. In Event Viewer the path is Applications and Services Logs &gt; Microsoft &gt; Windows &gt; Sysmon &gt; Operational. Confirm the service is running with &quot;sc query sysmon64&quot; (or &quot;sysmon&quot; on 32-bit) and look for STATE: RUNNING. If the channel does not exist, Sysmon is not installed and you have no log to pull.</p><p>- Export from an elevated prompt with: wevtutil epl &quot;Microsoft-Windows-Sysmon/Operational&quot; C:\logs\sysmon.evtx. You can scope the export to the last 24 hours or to a single event ID during collection. On a busy server with a default channel size, that log can cover surprisingly little time, so run &quot;wevtutil gl Microsoft-Windows-Sysmon/Operational&quot; and check maxSize before you assume you have full coverage.</p><p>- The event IDs that carry the most investigative weight: Event ID 1 (process creation with full command line, hashes, and parent) is the backbone of almost every investigation. ID 10 (process access) flags one process opening another, and access to lsass.exe is the classic credential-dumping signal. IDs 12, 13, and 14 cover registry changes including Run key persistence. ID 22 ties a DNS query to the process that made it. IDs 4 and 16 record Sysmon&#x27;s own service state and config changes, which is where you look when events simply stop: an attacker turning Sysmon off or neutering its config leaves a trace right there.</p><p>- Sysmon only records what its configuration tells it to. A host with no config file gives you a limited default set built around process creation. No network events in the log does not mean no network activity occurred: it likely means event ID 3 was excluded in the config, which is common because of volume. Pull the running config with &quot;sysmon64 -c&quot; and send it alongside the EVTX export so the analyst understands the gaps, not just the events that are present.</p><p>- If events stop at a point in time, check for event IDs 4 and 16 immediately before the gap, then cross-reference the Windows System log for the Sysmon service being stopped or uninstalled. A gap with no service stop entry and no config change event suggests log rollover, in which case check maxSize and go to your SIEM for older data.</p><p>Takeaway: before you collect, run &quot;wevtutil gl Microsoft-Windows-Sysmon/Operational&quot; to understand how far back the log actually goes, then &quot;sysmon64 -c&quot; to capture the active config. Export both together. The config output is what turns a confusing gap in coverage into an explainable artifact rather than a missing piece of the timeline.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/where-to-find-sysmon-logs-on-windows-and-how-to-export-them/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113436280956871068">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113436280956871068</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2113436280956871068">DFIR Radar</source>
+      <pubDate>Fri, 23 Oct 2026 01:04:10 +0000</pubDate>
+      <guid isPermaLink="false">2113436280956871068</guid>
+    </item>
     <item>
       <title>How to Enable and Export PowerShell Script Block Logs</title>
       <link>https://socprime.com/blog/how-to-enable-and-export-powershell-script-block-logs/</link>
@@ -2589,32 +2617,6 @@ Practitioner takeaway: if you operate PostgreSQL, treat CREATEROLE as near-super
       <source url="https://x.com/DFIR_Radar/status/2111578725384937614">DFIR Radar</source>
       <pubDate>Sat, 17 Oct 2026 22:02:54 +0000</pubDate>
       <guid isPermaLink="false">2111578725384937614</guid>
-    </item>
-    <item>
-      <title>ConnectWise SkyKick Breach: How to Check Your Microsoft 365 Tenant</title>
-      <link>https://specterops.io/blog/2026/10/17/connectwise-skykick-breach-microsoft-365/</link>
-      <description>Active supply chain attack: a compromised ConnectWise Cloud Backup credential was used to access Microsoft 365 customer tenants between 06:13 and 08:34 UTC on October 15, 2026, with Huntress confirming unauthorized sign-ins across 162 tenants.
-
-Key details:
-
-- The attacker used the ConnectWise Cloud Backup service principal credential (app ID: 506e08f9-6e9a-4da4-942b-a099a03644ae, owned by ConnectWise tenant 3f9cd7a0-127a-4ed4-bf06-2f830d5616b7) to obtain Microsoft Graph tokens in customer tenants. MFA does not apply to application sign-ins, so the attacker inherited whatever permissions customers had already granted the app, likely including Directory.ReadWrite.All, giving access to mailboxes, OneDrive, SharePoint, Teams, and directory data with no user interaction or prompt.
-
-- The attacker's movement pattern was seconds apart per tenant, consistent with an automated script working through a target list. The source IP is 144.172.64[.]128, a hosting provider address. Six ConnectWise and Cloud Management app IDs are implicated beyond the primary Cloud Backup app, all owned by the same ConnectWise organization ID.
-
-- In at least one tenant, a second ConnectWise application granted itself Global Administrator and added new client secrets to two other trusted applications. This creates persistence paths that survive a credential reset on the original compromised app: even after the primary entry point is closed, attacker-added secrets on other service principals remain valid.
-
-- Tokens issued before an app is disabled can remain valid for up to 90 minutes. Disabling the app stops new authentications but does not immediately invalidate already-issued tokens, meaning the window for lateral movement inside a tenant extends past the moment you pull the plug.
-
-Immediate steps: disable app ID 506e08f9-6e9a-4da4-942b-a099a03644ae in Entra admin center now, then review Entra sign-in logs filtering on all six ConnectWise app IDs and source IP 144.172.64[.]128. Critically, audit every application in your tenant for client secrets or credentials added since October 13, not just the ConnectWise apps, because the persistence technique involves adding secrets to other trusted apps. The SpecterOps report includes two BloodHound Cypher queries to map outbound control from the ConnectWise service principal and shortest paths to Tier Zero assets: run those against your AzureHound-collected data to understand your blast radius before deciding what else to revoke.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111563605078630429</description>
-      <content:encoded><![CDATA[<p>Active supply chain attack: a compromised ConnectWise Cloud Backup credential was used to access Microsoft 365 customer tenants between 06:13 and 08:34 UTC on October 15, 2026, with Huntress confirming unauthorized sign-ins across 162 tenants.</p><p>Key details:</p><p>- The attacker used the ConnectWise Cloud Backup service principal credential (app ID: 506e08f9-6e9a-4da4-942b-a099a03644ae, owned by ConnectWise tenant 3f9cd7a0-127a-4ed4-bf06-2f830d5616b7) to obtain Microsoft Graph tokens in customer tenants. MFA does not apply to application sign-ins, so the attacker inherited whatever permissions customers had already granted the app, likely including Directory.ReadWrite.All, giving access to mailboxes, OneDrive, SharePoint, Teams, and directory data with no user interaction or prompt.</p><p>- The attacker&#x27;s movement pattern was seconds apart per tenant, consistent with an automated script working through a target list. The source IP is 144.172.64[.]128, a hosting provider address. Six ConnectWise and Cloud Management app IDs are implicated beyond the primary Cloud Backup app, all owned by the same ConnectWise organization ID.</p><p>- In at least one tenant, a second ConnectWise application granted itself Global Administrator and added new client secrets to two other trusted applications. This creates persistence paths that survive a credential reset on the original compromised app: even after the primary entry point is closed, attacker-added secrets on other service principals remain valid.</p><p>- Tokens issued before an app is disabled can remain valid for up to 90 minutes. Disabling the app stops new authentications but does not immediately invalidate already-issued tokens, meaning the window for lateral movement inside a tenant extends past the moment you pull the plug.</p><p>Immediate steps: disable app ID 506e08f9-6e9a-4da4-942b-a099a03644ae in Entra admin center now, then review Entra sign-in logs filtering on all six ConnectWise app IDs and source IP 144.172.64[.]128. Critically, audit every application in your tenant for client secrets or credentials added since October 13, not just the ConnectWise apps, because the persistence technique involves adding secrets to other trusted apps. The SpecterOps report includes two BloodHound Cypher queries to map outbound control from the ConnectWise service principal and shortest paths to Tier Zero assets: run those against your AzureHound-collected data to understand your blast radius before deciding what else to revoke.</p><p>#DFIR_Radar</p><p><a href="https://specterops.io/blog/2026/10/17/connectwise-skykick-breach-microsoft-365/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111563605078630429">View on X</a></p>]]></content:encoded>
-      <dc:creator>SpecterOps</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111563605078630429</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2111563605078630429">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 21:03:10 +0000</pubDate>
-      <guid isPermaLink="false">2111563605078630429</guid>
     </item>
   </channel>
 </rss>
