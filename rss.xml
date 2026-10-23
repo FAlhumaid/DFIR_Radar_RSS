@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 03:03:44 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 04:04:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Unboxing Phishing Kits: Huntress Examines 3 Real Kits</title>
+      <link>https://www.huntress.com/blog/unboxing-phishing-kits</link>
+      <description>Modern phishing kits hand low-skilled attackers authenticated session tokens and persistent footholds, bypassing MFA entirely. Three real kits targeting Microsoft 365 show how commoditized this capability has become.
+
+Key findings:
+
+- Huntress researchers analyzed three phishing kits, all targeting Microsoft 365 tokens. EvilTokens used device-code phishing and abused Railway as a PaaS token-harvesting and replay engine before a Microsoft Digital Crimes Unit and FBI collaboration led to an operator arrest. Kali365 goes further: it is described as a full criminal ecosystem with an admin dashboard, AI features, and infrastructure acquisition built in, not just a fake login page.
+
+- The kits support three modern credential-bypass techniques: device-code phishing (victim authenticates to the real identity provider while the attacker captures the authorization), adversary-in-the-middle phishing (attacker relays the full auth flow and captures the session cookie after MFA completes), and token theft with replay (the captured session token is replayed into live cloud access). All three techniques mean a completed MFA prompt does not make the resulting session trustworthy.
+
+- Scope and prevalence: Huntress' ITDR team found that roughly one in six investigated incidents involved a rogue device being registered, a direct downstream artifact of device-code phishing abuse. Conditional Access Policies blocking device-code flow are the cited prevention control, with the report noting the vast majority of Microsoft environments have no legitimate need for it.
+
+- Detection follows the chain, not a single signal. The report frames it clearly: lure, authentication event, token issuance or theft, device registration, then mailbox activity. Successful sign-ins from unfamiliar cloud infrastructure, device-code authentication flows, automated token refresh, new authentication methods, and new device registrations are the correlated signals. Audience polling placed sign-in address and new device registration as the top two investigative starting points when token theft is suspected.
+
+- Containment scope is wider than most runbooks account for. Revoking the session is not enough if the attacker registered a device or set Windows Hello credentials. Response must include revoking refresh tokens, removing unauthorized devices and Windows Hello credentials, auditing mailbox forwarding rules and outbound phishing activity, and restricting device-code authentication. Critically, hunting should continue after the original phishing domain disappears, since the token or registered device may still provide re-entry.
+
+DFIR takeaway: when you see a suspicious sign-in, pivot immediately to the identity provider logs and check for device registrations and new authentication methods added in the same window. Do not close the incident when you pull the phishing page down. The session artifact and any registered device outlive the lure and will be used for re-entry if not explicitly revoked and removed.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113481581624999970</description>
+      <content:encoded><![CDATA[<p>Modern phishing kits hand low-skilled attackers authenticated session tokens and persistent footholds, bypassing MFA entirely. Three real kits targeting Microsoft 365 show how commoditized this capability has become.</p><p>Key findings:</p><p>- Huntress researchers analyzed three phishing kits, all targeting Microsoft 365 tokens. EvilTokens used device-code phishing and abused Railway as a PaaS token-harvesting and replay engine before a Microsoft Digital Crimes Unit and FBI collaboration led to an operator arrest. Kali365 goes further: it is described as a full criminal ecosystem with an admin dashboard, AI features, and infrastructure acquisition built in, not just a fake login page.</p><p>- The kits support three modern credential-bypass techniques: device-code phishing (victim authenticates to the real identity provider while the attacker captures the authorization), adversary-in-the-middle phishing (attacker relays the full auth flow and captures the session cookie after MFA completes), and token theft with replay (the captured session token is replayed into live cloud access). All three techniques mean a completed MFA prompt does not make the resulting session trustworthy.</p><p>- Scope and prevalence: Huntress&#x27; ITDR team found that roughly one in six investigated incidents involved a rogue device being registered, a direct downstream artifact of device-code phishing abuse. Conditional Access Policies blocking device-code flow are the cited prevention control, with the report noting the vast majority of Microsoft environments have no legitimate need for it.</p><p>- Detection follows the chain, not a single signal. The report frames it clearly: lure, authentication event, token issuance or theft, device registration, then mailbox activity. Successful sign-ins from unfamiliar cloud infrastructure, device-code authentication flows, automated token refresh, new authentication methods, and new device registrations are the correlated signals. Audience polling placed sign-in address and new device registration as the top two investigative starting points when token theft is suspected.</p><p>- Containment scope is wider than most runbooks account for. Revoking the session is not enough if the attacker registered a device or set Windows Hello credentials. Response must include revoking refresh tokens, removing unauthorized devices and Windows Hello credentials, auditing mailbox forwarding rules and outbound phishing activity, and restricting device-code authentication. Critically, hunting should continue after the original phishing domain disappears, since the token or registered device may still provide re-entry.</p><p>DFIR takeaway: when you see a suspicious sign-in, pivot immediately to the identity provider logs and check for device registrations and new authentication methods added in the same window. Do not close the incident when you pull the phishing page down. The session artifact and any registered device outlive the lure and will be used for re-entry if not explicitly revoked and removed.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/unboxing-phishing-kits">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113481581624999970">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113481581624999970</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113481581624999970">DFIR Radar</source>
+      <pubDate>Fri, 23 Oct 2026 04:04:10 +0000</pubDate>
+      <guid isPermaLink="false">2113481581624999970</guid>
+    </item>
     <item>
       <title>China-Aligned Bronze Sandcastle Abuses Sandboxie DLL Sideloading to Deploy Backdoors</title>
       <link>https://thehackernews.com/2026/10/china-aligned-bronze-sandcastle-abuses.html</link>
@@ -2613,20 +2641,6 @@ Practitioner takeaway: Preserve Entra sign-in logs and audit logs before any con
       <source url="https://x.com/DFIR_Radar/status/2111623983963709888">DFIR Radar</source>
       <pubDate>Sun, 18 Oct 2026 01:02:45 +0000</pubDate>
       <guid isPermaLink="false">2111623983963709888</guid>
-    </item>
-    <item>
-      <title>North Korean IT Workers Used Stolen US Identities to Earn $3 Million</title>
-      <link>https://securityaffairs.com/201193/intelligence/north-korean-it-workers-used-stolen-us-identities-to-earn-3-million.html</link>
-      <description>North Korean 🇰🇵 Famous Chollima embedded fake IT workers at 70 US 🇺🇸 firms, earning $3M for the regime via stolen identities and laptop farms. Flag laptop-redirection requests, video avoidance, and intermediary payment accounts in hiring records.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111608868379754518</description>
-      <content:encoded><![CDATA[<p>North Korean 🇰🇵 Famous Chollima embedded fake IT workers at 70 US 🇺🇸 firms, earning $3M for the regime via stolen identities and laptop farms. Flag laptop-redirection requests, video avoidance, and intermediary payment accounts in hiring records.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/201193/intelligence/north-korean-it-workers-used-stolen-us-identities-to-earn-3-million.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111608868379754518">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111608868379754518</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2111608868379754518">DFIR Radar</source>
-      <pubDate>Sun, 18 Oct 2026 00:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2111608868379754518</guid>
     </item>
   </channel>
 </rss>
