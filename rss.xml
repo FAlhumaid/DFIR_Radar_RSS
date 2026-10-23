@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 05:03:58 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 06:04:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ARTEX in the Wild: Storm-0940 Expands Targeting of IT and Software Vendors</title>
+      <link>https://www.wiz.io/blog/artex-in-the-wild-storm-0940-expands-targeting-of-it-and-software-vendors</link>
+      <description>Storm-0940 is deploying ARTEX, a Chinese-developed autonomous AI pentesting agent, against IT and software vendors throughout October 2026, targeting Okta, Entra ID, and AWS Cognito in what looks like staged supply chain compromise groundwork.
+
+Key findings:
+
+- ARTEX is an open-source agentic framework published to GitHub in July 2026 by a Chinese 🇨🇳 developer. An operator gives it a target and objective, a planner agent selects next steps, and worker agents execute tools including nmap, curl, and Impacket. Every result feeds a shared asset graph, enabling fully automated chaining: source maps downloaded, internal API routes called by name minutes later, disposable accounts registered, then cross-tenant data immediately probed.
+
+- The attack sequence is consistent across victims: fetch JavaScript bundles, exposed source maps, runtime configs, and Swagger/OpenAPI docs first; then probe OAuth callbacks by injecting fabricated authorization codes and malformed state parameters; then test unsigned JWTs with alg:none payloads across more than 60 SSO route variations in under two minutes; then password-spray Entra and Okta in coordinated bursts at a strict one-second interval, targeting software engineer accounts specifically, with some individual users hit more than a dozen times per session.
+
+- In AWS Cognito logs, look for clusters of InitiateAuth, ForgotPassword, ResendConfirmationCode, and SignUp API calls originating from rotating user agents including boto and python-urllib strings. In Okta and Entra sign-in logs, the spray pattern is distinctive: highly regular one-second cadence, unique user-agent string per burst, 20-60 minute burst durations, then a new source IP within minutes of a block. One session ran 24-30 hours continuously.
+
+- Across victims, more than 15 user-agent strings were observed: Python clients, curl, truncated Chrome strings, headless browsers with randomized version numbers, and self-describing identifiers including ReconProbe/1.0. The combination of consistent attack pattern, ARTEX-related tooling, and shared infrastructure is what connected activity across multiple organizations. The reconnaissance footprint also includes requests to /zzz-nonexistent-xyz123-style paths as baseline fingerprinting before fuzzing runs.
+
+- The targeting scope is broader than initial access: the Wiz report describes the same actor pivoting infrastructure and TTPs toward the broader software vendor sector, indicating supply chain positioning rather than opportunistic credential theft. Most individual attempts failed, but the agentic model means the agent iterates indefinitely until it finds a single weak point, a fundamentally different threat model than a time-constrained human operator.
+
+Hunt tip: query your identity provider logs for authentication bursts with sub-two-second median inter-request timing across distinct user agents from the same source IP range, specifically against /sso, /forgot_password, /api/v1/Users/GeneratePasswordResetToken, and OAuth callback endpoints. In HTTP access logs, flag sequential hits to .js.map, config.json, env.js, and openapi spec files from a single client within a short window, that recon chain is ARTEX's opening move. IOC details are in the Wiz report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113511914609508639</description>
+      <content:encoded><![CDATA[<p>Storm-0940 is deploying ARTEX, a Chinese-developed autonomous AI pentesting agent, against IT and software vendors throughout October 2026, targeting Okta, Entra ID, and AWS Cognito in what looks like staged supply chain compromise groundwork.</p><p>Key findings:</p><p>- ARTEX is an open-source agentic framework published to GitHub in July 2026 by a Chinese 🇨🇳 developer. An operator gives it a target and objective, a planner agent selects next steps, and worker agents execute tools including nmap, curl, and Impacket. Every result feeds a shared asset graph, enabling fully automated chaining: source maps downloaded, internal API routes called by name minutes later, disposable accounts registered, then cross-tenant data immediately probed.</p><p>- The attack sequence is consistent across victims: fetch JavaScript bundles, exposed source maps, runtime configs, and Swagger/OpenAPI docs first; then probe OAuth callbacks by injecting fabricated authorization codes and malformed state parameters; then test unsigned JWTs with alg:none payloads across more than 60 SSO route variations in under two minutes; then password-spray Entra and Okta in coordinated bursts at a strict one-second interval, targeting software engineer accounts specifically, with some individual users hit more than a dozen times per session.</p><p>- In AWS Cognito logs, look for clusters of InitiateAuth, ForgotPassword, ResendConfirmationCode, and SignUp API calls originating from rotating user agents including boto and python-urllib strings. In Okta and Entra sign-in logs, the spray pattern is distinctive: highly regular one-second cadence, unique user-agent string per burst, 20-60 minute burst durations, then a new source IP within minutes of a block. One session ran 24-30 hours continuously.</p><p>- Across victims, more than 15 user-agent strings were observed: Python clients, curl, truncated Chrome strings, headless browsers with randomized version numbers, and self-describing identifiers including ReconProbe/1.0. The combination of consistent attack pattern, ARTEX-related tooling, and shared infrastructure is what connected activity across multiple organizations. The reconnaissance footprint also includes requests to /zzz-nonexistent-xyz123-style paths as baseline fingerprinting before fuzzing runs.</p><p>- The targeting scope is broader than initial access: the Wiz report describes the same actor pivoting infrastructure and TTPs toward the broader software vendor sector, indicating supply chain positioning rather than opportunistic credential theft. Most individual attempts failed, but the agentic model means the agent iterates indefinitely until it finds a single weak point, a fundamentally different threat model than a time-constrained human operator.</p><p>Hunt tip: query your identity provider logs for authentication bursts with sub-two-second median inter-request timing across distinct user agents from the same source IP range, specifically against /sso, /forgot_password, /api/v1/Users/GeneratePasswordResetToken, and OAuth callback endpoints. In HTTP access logs, flag sequential hits to .js.map, config.json, env.js, and openapi spec files from a single client within a short window, that recon chain is ARTEX&#x27;s opening move. IOC details are in the Wiz report.</p><p>#DFIR_Radar</p><p><a href="https://www.wiz.io/blog/artex-in-the-wild-storm-0940-expands-targeting-of-it-and-software-vendors">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113511914609508639">View on X</a></p>]]></content:encoded>
+      <dc:creator>Wiz Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113511914609508639</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113511914609508639">DFIR Radar</source>
+      <pubDate>Fri, 23 Oct 2026 06:04:42 +0000</pubDate>
+      <guid isPermaLink="false">2113511914609508639</guid>
+    </item>
     <item>
       <title>PHP2Shell Attacks Started Four Days Before Public Disclosure, AWS Reports</title>
       <link>https://securityaffairs.com/201479/hacking/php2shell-attacks-started-four-days-before-public-disclosure-aws-reports.html</link>
@@ -2641,20 +2669,6 @@ Practitioner takeaway: Preserve Entra sign-in logs and audit logs before any con
       <source url="https://x.com/DFIR_Radar/status/2111654187213668829">DFIR Radar</source>
       <pubDate>Sun, 18 Oct 2026 03:02:46 +0000</pubDate>
       <guid isPermaLink="false">2111654187213668829</guid>
-    </item>
-    <item>
-      <title>CERT-In Warns AI Agents Accessed Sensitive Data at Indian Organizations During Testing</title>
-      <link>https://thehackernews.com/2026/10/cert-in-warns-ai-agents-accessed.html</link>
-      <description>CERT-In found Indian 🇮🇳 organizations accessed by AI agents via exposed credentials in repos and overpermissioned cloud roles, undetected. Hunt commit history and CI/CD variables for secrets and rotate any found.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111639179340009978</description>
-      <content:encoded><![CDATA[<p>CERT-In found Indian 🇮🇳 organizations accessed by AI agents via exposed credentials in repos and overpermissioned cloud roles, undetected. Hunt commit history and CI/CD variables for secrets and rotate any found.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/cert-in-warns-ai-agents-accessed.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111639179340009978">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111639179340009978</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2111639179340009978">DFIR Radar</source>
-      <pubDate>Sun, 18 Oct 2026 02:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2111639179340009978</guid>
     </item>
   </channel>
 </rss>
