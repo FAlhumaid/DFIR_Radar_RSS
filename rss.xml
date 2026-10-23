@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 02:04:31 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 03:03:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>China-Aligned Bronze Sandcastle Abuses Sandboxie DLL Sideloading to Deploy Backdoors</title>
+      <link>https://thehackernews.com/2026/10/china-aligned-bronze-sandcastle-abuses.html</link>
+      <description>China-aligned Bronze Sandcastle abuses Sandboxie DLL sideloading across eight application combinations to deploy an in-memory backdoor against targets in Asia and Africa, active from mid-2025 through at least August 2026.
+
+Key findings:
+
+- Bronze Sandcastle plants a malicious sbiedll.dll alongside the legitimate, signed SandboxieWUAU.exe, causing the trusted process to load attacker-controlled code at runtime. Beyond Sandboxie, the group uses seven additional sideloading pairs: javaw.exe/jli.dll, Krita.exe/Krita.dll, NvdaHelper.exe/NvdaHelperRemote.dll, Jcef_helper.exe/Libcef.dll, Vmmap.exe/version.dll, LineAppMgr.exe/msvcp140.dll, and bginfo64.exe/snmpapi.dll. Renamed legitimate executables are dropped to help the chain blend into victim environments.
+
+- The sideloaded DLL reads and decrypts a config.ini file on disk, then executes the payload entirely in memory, leaving minimal disk artifacts. Two payload versions have been identified: 1.1.5 and 1.1.7. Capabilities include local network and user account enumeration, system metadata collection, running process listing, keylogging, and screenshots.
+
+- C2 infrastructure spans both dedicated domains and legitimate services. Version 1.1.5 used dc.cathaypacifice[.]com and net.dpworldto[.]com for C2, while version 1.1.7 communicated with a now-removed GitHub repository at github[.]com/LatonyCharnleyaW via the API to retrieve encrypted config files. Both versions also beacon to file[.]io, gofile[.]io, ably[.]net, and ably[.]io, likely for additional tasking.
+
+- Victims confirmed across the Philippines 🇵🇭, Taiwan 🇹🇼, Afghanistan, and Namibia, with South Korea 🇰🇷 assessed as likely. Operator activity patterns align with the UTC+8 time zone. The use of Sandboxie executables for sideloading echoes APT41's MoonWalk campaign from July 2024, which used a different Sandboxie-signed binary, taskhost.exe, with the same sbiedll.dll substitution technique.
+
+Takeaway: Static file-based detections will largely miss this chain because the payload lives in memory and the DLL on disk is the only non-legitimate artifact. Hunt behaviorally: look for signed, renamed executables spawning from unexpected directories, DLL loads followed immediately by local file reads of config.ini or similarly named encrypted blobs, and in-memory shellcode activity with no corresponding disk executable. Network-side, flag outbound API calls to github[.]com from non-developer hosts, and traffic to file[.]io or gofile[.]io originating from processes that have no business touching file-sharing services. IOCs and technical detail are in the Sophos report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113466372613193796</description>
+      <content:encoded><![CDATA[<p>China-aligned Bronze Sandcastle abuses Sandboxie DLL sideloading across eight application combinations to deploy an in-memory backdoor against targets in Asia and Africa, active from mid-2025 through at least August 2026.</p><p>Key findings:</p><p>- Bronze Sandcastle plants a malicious sbiedll.dll alongside the legitimate, signed SandboxieWUAU.exe, causing the trusted process to load attacker-controlled code at runtime. Beyond Sandboxie, the group uses seven additional sideloading pairs: javaw.exe/jli.dll, Krita.exe/Krita.dll, NvdaHelper.exe/NvdaHelperRemote.dll, Jcef_helper.exe/Libcef.dll, Vmmap.exe/version.dll, LineAppMgr.exe/msvcp140.dll, and bginfo64.exe/snmpapi.dll. Renamed legitimate executables are dropped to help the chain blend into victim environments.</p><p>- The sideloaded DLL reads and decrypts a config.ini file on disk, then executes the payload entirely in memory, leaving minimal disk artifacts. Two payload versions have been identified: 1.1.5 and 1.1.7. Capabilities include local network and user account enumeration, system metadata collection, running process listing, keylogging, and screenshots.</p><p>- C2 infrastructure spans both dedicated domains and legitimate services. Version 1.1.5 used dc.cathaypacifice[.]com and net.dpworldto[.]com for C2, while version 1.1.7 communicated with a now-removed GitHub repository at github[.]com/LatonyCharnleyaW via the API to retrieve encrypted config files. Both versions also beacon to file[.]io, gofile[.]io, ably[.]net, and ably[.]io, likely for additional tasking.</p><p>- Victims confirmed across the Philippines 🇵🇭, Taiwan 🇹🇼, Afghanistan, and Namibia, with South Korea 🇰🇷 assessed as likely. Operator activity patterns align with the UTC+8 time zone. The use of Sandboxie executables for sideloading echoes APT41&#x27;s MoonWalk campaign from July 2024, which used a different Sandboxie-signed binary, taskhost.exe, with the same sbiedll.dll substitution technique.</p><p>Takeaway: Static file-based detections will largely miss this chain because the payload lives in memory and the DLL on disk is the only non-legitimate artifact. Hunt behaviorally: look for signed, renamed executables spawning from unexpected directories, DLL loads followed immediately by local file reads of config.ini or similarly named encrypted blobs, and in-memory shellcode activity with no corresponding disk executable. Network-side, flag outbound API calls to github[.]com from non-developer hosts, and traffic to file[.]io or gofile[.]io originating from processes that have no business touching file-sharing services. IOCs and technical detail are in the Sophos report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/china-aligned-bronze-sandcastle-abuses.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113466372613193796">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113466372613193796</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113466372613193796">DFIR Radar</source>
+      <pubDate>Fri, 23 Oct 2026 03:03:44 +0000</pubDate>
+      <guid isPermaLink="false">2113466372613193796</guid>
+    </item>
     <item>
       <title>Where to Find Linux auditd Logs and How to Export Them</title>
       <link>https://socprime.com/blog/where-to-find-linux-auditd-logs-and-how-to-export-them/</link>
@@ -2601,20 +2627,6 @@ Practitioner takeaway: Preserve Entra sign-in logs and audit logs before any con
       <source url="https://x.com/DFIR_Radar/status/2111608868379754518">DFIR Radar</source>
       <pubDate>Sun, 18 Oct 2026 00:02:41 +0000</pubDate>
       <guid isPermaLink="false">2111608868379754518</guid>
-    </item>
-    <item>
-      <title>French supermarket cyberattack exposes risks of unsecured remote access and legacy refrigeration systems</title>
-      <link>https://industrialcyber.co/control-device-security/french-supermarket-cyberattack-exposes-risks-of-unsecured-remote-access-and-legacy-refrigeration-systems/</link>
-      <description>Attackers hit French 🇫🇷 supermarkets via exposed Danfoss AK-SC, AK-SM, and Copeland XWEB refrigeration controllers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111593888100073482</description>
-      <content:encoded><![CDATA[<p>Attackers hit French 🇫🇷 supermarkets via exposed Danfoss AK-SC, AK-SM, and Copeland XWEB refrigeration controllers.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/control-device-security/french-supermarket-cyberattack-exposes-risks-of-unsecured-remote-access-and-legacy-refrigeration-systems/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111593888100073482">View on X</a></p>]]></content:encoded>
-      <dc:creator>Industrial Cyber</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111593888100073482</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2111593888100073482">DFIR Radar</source>
-      <pubDate>Sat, 17 Oct 2026 23:03:09 +0000</pubDate>
-      <guid isPermaLink="false">2111593888100073482</guid>
     </item>
   </channel>
 </rss>
