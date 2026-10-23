@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 04:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 05:03:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PHP2Shell Attacks Started Four Days Before Public Disclosure, AWS Reports</title>
+      <link>https://securityaffairs.com/201479/hacking/php2shell-attacks-started-four-days-before-public-disclosure-aws-reports.html</link>
+      <description>PHP2Shell RCE exploitation began 4 days before public disclosure of CVE-2026-109618 and CVE-2026-109619, with AWS MadPot honeypots catching attempts from anonymized infrastructure as early as October 17, 2026.
+
+Key findings:
+
+- CVE-2026-109618 and CVE-2026-109619 are two critical unauthenticated remote code execution flaws in the PHP runtime itself, not in any specific CMS. Updating WordPress, Drupal, or similar applications does nothing if the underlying PHP runtime remains unpatched. Fixed versions are PHP 8.5.12, 8.4.27, 8.3.36, and 8.2.35, released October 21. AWS confirms no configuration-only workaround fully addresses both flaws, though temporarily blocking multipart file uploads may reduce immediate exposure for systems that cannot be patched right away.
+
+- The attack timeline is the critical forensic detail here. AWS MadPot recorded the first exploitation attempt on October 17, 2026, four days before the embargo lifted. By October 21 starting around 02:00 UTC, roughly 12 hours before the scheduled 14:00 UTC public release, multiple proof-of-concept exploits appeared from varied payloads and different anonymization services, pointing to multiple independent actors. Broad exploitation followed within hours of the official advisory.
+
+- The exploit mechanism involves a specially crafted POST request containing the string PHP_SESSION_UPLOAD_PROGRESS in multipart form data. That string in web server logs is the primary hunting pattern AWS calls out. Investigators should review POST requests with that string, look for unexpected processes spawned by PHP, and check for unexplained file changes on web application servers, because an attacker who progressed past probing may leave process and filesystem artifacts beyond the initial HTTP request.
+
+- AWS published six IP addresses tied to observed activity: 103.216.220[.]92 (October 17), 31.223.184[.]166, 37.19.200[.]5, 134.209.159[.]64, 103.114.163[.]188, and 95.217.98[.]37 (all October 21). AWS explicitly cautions that several belong to shared commercial anonymization infrastructure and are not exclusive to PHP2Shell traffic. Treat matches as leads for investigation, not automatic block candidates, and correlate with other behavioral indicators before acting.
+
+- The broader DFIR lesson AWS draws is blunt: the public advisory date is not a safe starting point for scoping an incident. With pre-disclosure exploitation confirmed, any PHP2Shell investigation must begin its log review on October 17, 2026, not October 21. Detection tooling that relies on signatures released at or after disclosure will miss this window entirely.
+
+Takeaway: Pull web server logs from October 17 onward and search for POST requests containing PHP_SESSION_UPLOAD_PROGRESS in multipart form data. Follow any hits with process tree analysis looking for unexpected command interpreters or shells launched as PHP children, and audit file system changes on web application servers in that same window. Patch to the fixed PHP runtime first; no WAF or upload restriction substitutes for it. IOCs and further technical analysis are in the AWS report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113496626773819690</description>
+      <content:encoded><![CDATA[<p>PHP2Shell RCE exploitation began 4 days before public disclosure of CVE-2026-109618 and CVE-2026-109619, with AWS MadPot honeypots catching attempts from anonymized infrastructure as early as October 17, 2026.</p><p>Key findings:</p><p>- CVE-2026-109618 and CVE-2026-109619 are two critical unauthenticated remote code execution flaws in the PHP runtime itself, not in any specific CMS. Updating WordPress, Drupal, or similar applications does nothing if the underlying PHP runtime remains unpatched. Fixed versions are PHP 8.5.12, 8.4.27, 8.3.36, and 8.2.35, released October 21. AWS confirms no configuration-only workaround fully addresses both flaws, though temporarily blocking multipart file uploads may reduce immediate exposure for systems that cannot be patched right away.</p><p>- The attack timeline is the critical forensic detail here. AWS MadPot recorded the first exploitation attempt on October 17, 2026, four days before the embargo lifted. By October 21 starting around 02:00 UTC, roughly 12 hours before the scheduled 14:00 UTC public release, multiple proof-of-concept exploits appeared from varied payloads and different anonymization services, pointing to multiple independent actors. Broad exploitation followed within hours of the official advisory.</p><p>- The exploit mechanism involves a specially crafted POST request containing the string PHP_SESSION_UPLOAD_PROGRESS in multipart form data. That string in web server logs is the primary hunting pattern AWS calls out. Investigators should review POST requests with that string, look for unexpected processes spawned by PHP, and check for unexplained file changes on web application servers, because an attacker who progressed past probing may leave process and filesystem artifacts beyond the initial HTTP request.</p><p>- AWS published six IP addresses tied to observed activity: 103.216.220[.]92 (October 17), 31.223.184[.]166, 37.19.200[.]5, 134.209.159[.]64, 103.114.163[.]188, and 95.217.98[.]37 (all October 21). AWS explicitly cautions that several belong to shared commercial anonymization infrastructure and are not exclusive to PHP2Shell traffic. Treat matches as leads for investigation, not automatic block candidates, and correlate with other behavioral indicators before acting.</p><p>- The broader DFIR lesson AWS draws is blunt: the public advisory date is not a safe starting point for scoping an incident. With pre-disclosure exploitation confirmed, any PHP2Shell investigation must begin its log review on October 17, 2026, not October 21. Detection tooling that relies on signatures released at or after disclosure will miss this window entirely.</p><p>Takeaway: Pull web server logs from October 17 onward and search for POST requests containing PHP_SESSION_UPLOAD_PROGRESS in multipart form data. Follow any hits with process tree analysis looking for unexpected command interpreters or shells launched as PHP children, and audit file system changes on web application servers in that same window. Patch to the fixed PHP runtime first; no WAF or upload restriction substitutes for it. IOCs and further technical analysis are in the AWS report.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/201479/hacking/php2shell-attacks-started-four-days-before-public-disclosure-aws-reports.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113496626773819690">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113496626773819690</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2113496626773819690">DFIR Radar</source>
+      <pubDate>Fri, 23 Oct 2026 05:03:58 +0000</pubDate>
+      <guid isPermaLink="false">2113496626773819690</guid>
+    </item>
     <item>
       <title>Unboxing Phishing Kits: Huntress Examines 3 Real Kits</title>
       <link>https://www.huntress.com/blog/unboxing-phishing-kits</link>
@@ -2627,20 +2655,6 @@ Practitioner takeaway: Preserve Entra sign-in logs and audit logs before any con
       <source url="https://x.com/DFIR_Radar/status/2111639179340009978">DFIR Radar</source>
       <pubDate>Sun, 18 Oct 2026 02:03:08 +0000</pubDate>
       <guid isPermaLink="false">2111639179340009978</guid>
-    </item>
-    <item>
-      <title>CVE-2026-99999: Critical PwnEscape Linux Kernel Flaw Enables Guest-to-Host Escape</title>
-      <link>https://socprime.com/blog/cve-2026-99999-analysis/</link>
-      <description>CVE-2026-99999 (CVSS 9.3), PwnEscape, lets guest VM code disclose host memory via malformed IPv4 checksum metadata. Patch and reboot host kernels; treat any compromised host as fully exposed, not just the guest.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111623983963709888</description>
-      <content:encoded><![CDATA[<p>CVE-2026-99999 (CVSS 9.3), PwnEscape, lets guest VM code disclose host memory via malformed IPv4 checksum metadata. Patch and reboot host kernels; treat any compromised host as fully exposed, not just the guest.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/cve-2026-99999-analysis/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111623983963709888">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111623983963709888</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2111623983963709888">DFIR Radar</source>
-      <pubDate>Sun, 18 Oct 2026 01:02:45 +0000</pubDate>
-      <guid isPermaLink="false">2111623983963709888</guid>
     </item>
   </channel>
 </rss>
