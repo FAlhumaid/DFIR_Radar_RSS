@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 09:02:18 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 10:05:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PHP2Shell: Two Critical PHP Vulnerabilities (CVE-2026-109618 and CVE-2026-109619): Are Your…</title>
+      <link>https://detect.fyi/php2shell-two-critical-php-vulnerabilities-cve-2026-109618-and-cve-2026-109619-are-your-3f0a0c08f6ec?source=rss----d5fd8f494f6a---4</link>
+      <description>Two critical PHP flaws tracked as CVE-2026-109618 and CVE-2026-109619 (PHP2Shell, CVSS v4.0 9.2) were disclosed ahead of their scheduled patch, leaving internet-facing PHP servers exposed while full technical details remain unconfirmed.
+
+Key details:
+
+- CVE-2026-109618 and CVE-2026-109619 carry a CVSS v4.0 score of 9.2 from the PHP security team. An emergency release was scheduled for October 21, 2026 at 14:00 UTC. At time of writing, affected version ranges are not officially confirmed, though initial reports suggest older PHP versions may also be impacted. Preliminary technical discussion mentions multipart requests and PHP session upload handling as possible vectors, but these remain unvalidated research leads, not confirmed exploitation indicators.
+
+- Exploitation status: no confirmed in-the-wild exploitation has been attributed to PHP2Shell in this report. However, the Huntress report referenced in the report documented a separate PHP abuse case involving temporary PHP files created, executed, and then removed, a behavior directly relevant to web shell investigations regardless of which vulnerability is leveraged.
+
+- The attack chain post-exploitation follows a recognizable pattern: PHP or web server processes (php-fpm, apache2, w3wp.exe) spawning shells or utilities (bash, cmd.exe, powershell.exe, curl, socat, nc), followed by reconnaissance commands (whoami, id, uname, hostname), then outbound connections to public IPs on unusual ports, and finally new PHP or phtml files written to /tmp/, /var/tmp/, /dev/shm/, or web root directories.
+
+- The report provides six KQL hunting queries for Microsoft Defender XDR covering: PHP installation discovery via DeviceTvmSoftwareInventory, suspicious child process spawning via DeviceProcessEvents, reconnaissance command execution, PHP file creation in sensitive paths via DeviceFileEvents, outbound network connections by web processes via DeviceNetworkEvents, and a behavioral baseline comparison (28-day lookback vs. last 2 days) to surface new child processes spawned by PHP workers that have no historical precedent on that device.
+
+- For Sentinel users, the report recommends correlating unusual HTTP POST requests, repeated 5xx responses, PHP worker crashes, and changes in request volume around the disclosure date with subsequent process execution or outbound connections on the same host. The exact KQL depends on the web server or WAF log schema ingested.
+
+Practitioner takeaway: Start with DeviceTvmSoftwareInventory to identify PHP runtime installations and flag legacy or end-of-life versions (Major &lt; 8, or 8.0/8.1). Prioritize internet-facing servers. Then run the behavioral baseline query against DeviceProcessEvents: any child process spawned by a PHP worker in the last 2 days that has no appearance in the prior 28-day window is your highest-priority lead. Cross-reference with DeviceFileEvents for .php or .phtml files written to /tmp/ or web directories, and DeviceNetworkEvents for outbound connections from those same processes. The KQL queries are published in the Detect FYI report and are ready to deploy in Defender XDR. Pin the patch date and re-run scope queries once affected version ranges are officially confirmed.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113572513087427065</description>
+      <content:encoded><![CDATA[<p>Two critical PHP flaws tracked as CVE-2026-109618 and CVE-2026-109619 (PHP2Shell, CVSS v4.0 9.2) were disclosed ahead of their scheduled patch, leaving internet-facing PHP servers exposed while full technical details remain unconfirmed.</p><p>Key details:</p><p>- CVE-2026-109618 and CVE-2026-109619 carry a CVSS v4.0 score of 9.2 from the PHP security team. An emergency release was scheduled for October 21, 2026 at 14:00 UTC. At time of writing, affected version ranges are not officially confirmed, though initial reports suggest older PHP versions may also be impacted. Preliminary technical discussion mentions multipart requests and PHP session upload handling as possible vectors, but these remain unvalidated research leads, not confirmed exploitation indicators.</p><p>- Exploitation status: no confirmed in-the-wild exploitation has been attributed to PHP2Shell in this report. However, the Huntress report referenced in the report documented a separate PHP abuse case involving temporary PHP files created, executed, and then removed, a behavior directly relevant to web shell investigations regardless of which vulnerability is leveraged.</p><p>- The attack chain post-exploitation follows a recognizable pattern: PHP or web server processes (php-fpm, apache2, w3wp.exe) spawning shells or utilities (bash, cmd.exe, powershell.exe, curl, socat, nc), followed by reconnaissance commands (whoami, id, uname, hostname), then outbound connections to public IPs on unusual ports, and finally new PHP or phtml files written to /tmp/, /var/tmp/, /dev/shm/, or web root directories.</p><p>- The report provides six KQL hunting queries for Microsoft Defender XDR covering: PHP installation discovery via DeviceTvmSoftwareInventory, suspicious child process spawning via DeviceProcessEvents, reconnaissance command execution, PHP file creation in sensitive paths via DeviceFileEvents, outbound network connections by web processes via DeviceNetworkEvents, and a behavioral baseline comparison (28-day lookback vs. last 2 days) to surface new child processes spawned by PHP workers that have no historical precedent on that device.</p><p>- For Sentinel users, the report recommends correlating unusual HTTP POST requests, repeated 5xx responses, PHP worker crashes, and changes in request volume around the disclosure date with subsequent process execution or outbound connections on the same host. The exact KQL depends on the web server or WAF log schema ingested.</p><p>Practitioner takeaway: Start with DeviceTvmSoftwareInventory to identify PHP runtime installations and flag legacy or end-of-life versions (Major &lt; 8, or 8.0/8.1). Prioritize internet-facing servers. Then run the behavioral baseline query against DeviceProcessEvents: any child process spawned by a PHP worker in the last 2 days that has no appearance in the prior 28-day window is your highest-priority lead. Cross-reference with DeviceFileEvents for .php or .phtml files written to /tmp/ or web directories, and DeviceNetworkEvents for outbound connections from those same processes. The KQL queries are published in the Detect FYI report and are ready to deploy in Defender XDR. Pin the patch date and re-run scope queries once affected version ranges are officially confirmed.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/php2shell-two-critical-php-vulnerabilities-cve-2026-109618-and-cve-2026-109619-are-your-3f0a0c08f6ec?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113572513087427065">View on X</a></p>]]></content:encoded>
+      <dc:creator>Detect FYI</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113572513087427065</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2113572513087427065">DFIR Radar</source>
+      <pubDate>Fri, 23 Oct 2026 10:05:30 +0000</pubDate>
+      <guid isPermaLink="false">2113572513087427065</guid>
+    </item>
     <item>
       <title>MythicRatatoskr: An Yggdrasil-enabled backdoor deployed in a UAC-0099-Sandworm collaboration</title>
       <link>https://www.welivesecurity.com/en/eset-research/mythicratatoskr-yggdrasil-enabled-backdoor-deployed-uac0099-sandworm-collaboration/</link>
@@ -2669,32 +2697,6 @@ Practitioners hunting for Heartbreaker or similar macOS ransomware should monito
       <source url="https://x.com/DFIR_Radar/status/2111880451757310095">DFIR Radar</source>
       <pubDate>Sun, 18 Oct 2026 18:01:52 +0000</pubDate>
       <guid isPermaLink="false">2111880451757310095</guid>
-    </item>
-    <item>
-      <title>Orphaned VBA Projects Inside DWG Files: YARA Rule, (Sun, Oct 18th)</title>
-      <link>https://isc.sans.edu/diary/rss/33434</link>
-      <description>Orphaned VBA projects embedded inside AutoCAD DWG files are a low-detection hiding spot for malicious macros, and a YARA rule now makes retrohunting viable.
-
-Key findings:
-
-- The technique embeds an OLE2 Compound Document (the VBA project container) inside a DWG file alongside the AutoCAD version header "AC10" at offset 0, creating what the author calls an orphaned VBA project. The DWG structure signals no embedded object at offset 0x24 (the value equals 0), yet the OLE2 magic bytes D0 CF 11 E0 A1 B1 1A E1 and a "[Host Extender Info]" string are both present, exposing the hidden payload.
-
-- The YARA rule targets exactly this combination: the AC10 magic at offset 0, a null uint32 at 0x24, the OLE2 header bytes anywhere in the file, and the ASCII string "[Host Extender Info]". Those four conditions together fingerprint the anomaly without matching clean DWG files or standard OLE documents.
-
-- A VirusTotal retrohunt using this rule returned only 2 hits, suggesting the technique is rare in the wild right now, which cuts both ways. It means defenders who deploy this rule will generate almost no noise, but it also means the few files that do match deserve close scrutiny.
-
-- AutoCAD's VBA engine can execute macro code embedded this way, making DWG files a plausible delivery vehicle for engineering and OT environments where CAD files are routine and may bypass standard Office-macro controls. The "orphaned" framing matters: the VBA project is not properly linked in the DWG structure, which is why conventional parsers and most AV engines miss it.
-
-Practitioners working in environments that handle AutoCAD files, especially ICS/OT shops, manufacturing, or architecture firms, should add this rule to their retrohunt rotation. Deploy it against your mail gateway archives, file share snapshots, and any DWG files received from external parties. The rule and all four conditions are in the SANS ISC diary by Didier Stevens; grab it directly from that post. Any match in your environment is anomalous by definition given the near-zero baseline on VirusTotal.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2111805031414456532</description>
-      <content:encoded><![CDATA[<p>Orphaned VBA projects embedded inside AutoCAD DWG files are a low-detection hiding spot for malicious macros, and a YARA rule now makes retrohunting viable.</p><p>Key findings:</p><p>- The technique embeds an OLE2 Compound Document (the VBA project container) inside a DWG file alongside the AutoCAD version header &quot;AC10&quot; at offset 0, creating what the author calls an orphaned VBA project. The DWG structure signals no embedded object at offset 0x24 (the value equals 0), yet the OLE2 magic bytes D0 CF 11 E0 A1 B1 1A E1 and a &quot;[Host Extender Info]&quot; string are both present, exposing the hidden payload.</p><p>- The YARA rule targets exactly this combination: the AC10 magic at offset 0, a null uint32 at 0x24, the OLE2 header bytes anywhere in the file, and the ASCII string &quot;[Host Extender Info]&quot;. Those four conditions together fingerprint the anomaly without matching clean DWG files or standard OLE documents.</p><p>- A VirusTotal retrohunt using this rule returned only 2 hits, suggesting the technique is rare in the wild right now, which cuts both ways. It means defenders who deploy this rule will generate almost no noise, but it also means the few files that do match deserve close scrutiny.</p><p>- AutoCAD&#x27;s VBA engine can execute macro code embedded this way, making DWG files a plausible delivery vehicle for engineering and OT environments where CAD files are routine and may bypass standard Office-macro controls. The &quot;orphaned&quot; framing matters: the VBA project is not properly linked in the DWG structure, which is why conventional parsers and most AV engines miss it.</p><p>Practitioners working in environments that handle AutoCAD files, especially ICS/OT shops, manufacturing, or architecture firms, should add this rule to their retrohunt rotation. Deploy it against your mail gateway archives, file share snapshots, and any DWG files received from external parties. The rule and all four conditions are in the SANS ISC diary by Didier Stevens; grab it directly from that post. Any match in your environment is anomalous by definition given the near-zero baseline on VirusTotal.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33434">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2111805031414456532">View on X</a></p>]]></content:encoded>
-      <dc:creator>SANS ISC</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2111805031414456532</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2111805031414456532">DFIR Radar</source>
-      <pubDate>Sun, 18 Oct 2026 13:02:10 +0000</pubDate>
-      <guid isPermaLink="false">2111805031414456532</guid>
     </item>
   </channel>
 </rss>
