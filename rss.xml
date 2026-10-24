@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 24 Oct 2026 06:04:10 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2026 07:04:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026-10-09: Pcap of infection from Macfinger Clickfix activity</title>
+      <link>https://www.malware-traffic-analysis.net/2026/10/09/index.html</link>
+      <description>A pcap from a Macfinger ClickFix infection chain is now publicly available for analysis, giving DFIR practitioners a full traffic capture to dissect the delivery and post-infection behavior.
+
+Key details:
+
+- The released file is 2026-10-09-Macfinger-ClickFix-and-infection-traffic.pcap[.]zip, weighing in at 20.7 MB (20,689,369 bytes), captured on Friday, October 9, 2026. The naming convention ties it directly to a Macfinger campaign using a ClickFix lure, the social-engineering technique that tricks users into manually executing malicious commands by presenting fake CAPTCHA or browser-fix prompts.
+
+- ClickFix infections typically generate distinctive early-stage traffic: DNS lookups and outbound connections initiated by user-spawned processes like cmd.exe, PowerShell, or mshta shortly after the lure page is visited. The pcap covers both the ClickFix delivery phase and the downstream infection traffic, making it useful for building a full timeline from lure to payload.
+
+- The zip is password-protected under Malware Traffic Analysis's updated password scheme. The password is no longer the legacy format: check the site's "about" page directly before attempting to extract. Failing to do so wastes time and risks confusion about file integrity.
+
+- For network defenders and threat hunters, pcaps like this are ground truth. You can reconstruct the full URI paths, user-agent strings, JA3/JA4 fingerprints, certificate subject fields, and payload delivery hosts directly from the capture without relying on third-party reporting. Wireshark's Protocol Hierarchy and Export Objects features are the fastest first pass.
+
+Practitioner takeaway: load the pcap and filter on HTTP and DNS activity in the first 60 seconds of the capture to isolate the ClickFix delivery stage, then pivot to any non-browser process making outbound connections to identify the post-execution C2 or payload retrieval. Cross-reference resolved domains and IP destinations against passive DNS and threat intel feeds. IOCs will be embedded in the traffic itself.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113889344578842953</description>
+      <content:encoded><![CDATA[<p>A pcap from a Macfinger ClickFix infection chain is now publicly available for analysis, giving DFIR practitioners a full traffic capture to dissect the delivery and post-infection behavior.</p><p>Key details:</p><p>- The released file is 2026-10-09-Macfinger-ClickFix-and-infection-traffic.pcap[.]zip, weighing in at 20.7 MB (20,689,369 bytes), captured on Friday, October 9, 2026. The naming convention ties it directly to a Macfinger campaign using a ClickFix lure, the social-engineering technique that tricks users into manually executing malicious commands by presenting fake CAPTCHA or browser-fix prompts.</p><p>- ClickFix infections typically generate distinctive early-stage traffic: DNS lookups and outbound connections initiated by user-spawned processes like cmd.exe, PowerShell, or mshta shortly after the lure page is visited. The pcap covers both the ClickFix delivery phase and the downstream infection traffic, making it useful for building a full timeline from lure to payload.</p><p>- The zip is password-protected under Malware Traffic Analysis&#x27;s updated password scheme. The password is no longer the legacy format: check the site&#x27;s &quot;about&quot; page directly before attempting to extract. Failing to do so wastes time and risks confusion about file integrity.</p><p>- For network defenders and threat hunters, pcaps like this are ground truth. You can reconstruct the full URI paths, user-agent strings, JA3/JA4 fingerprints, certificate subject fields, and payload delivery hosts directly from the capture without relying on third-party reporting. Wireshark&#x27;s Protocol Hierarchy and Export Objects features are the fastest first pass.</p><p>Practitioner takeaway: load the pcap and filter on HTTP and DNS activity in the first 60 seconds of the capture to isolate the ClickFix delivery stage, then pivot to any non-browser process making outbound connections to identify the post-execution C2 or payload retrieval. Cross-reference resolved domains and IP destinations against passive DNS and threat intel feeds. IOCs will be embedded in the traffic itself.</p><p>#DFIR_Radar</p><p><a href="https://www.malware-traffic-analysis.net/2026/10/09/index.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113889344578842953">View on X</a></p>]]></content:encoded>
+      <dc:creator>Malware Traffic Analysis</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113889344578842953</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2113889344578842953">DFIR Radar</source>
+      <pubDate>Sat, 24 Oct 2026 07:04:29 +0000</pubDate>
+      <guid isPermaLink="false">2113889344578842953</guid>
+    </item>
     <item>
       <title>PHP2Shell: One Upload, Full Server</title>
       <link>https://www.varonis.com/blog/php2shell</link>
@@ -2685,34 +2711,6 @@ Practitioner takeaway: for enterprise and BYOD environments, treat unmanaged low
       <source url="https://x.com/DFIR_Radar/status/2112394250130206775">DFIR Radar</source>
       <pubDate>Tue, 20 Oct 2026 04:03:30 +0000</pubDate>
       <guid isPermaLink="false">2112394250130206775</guid>
-    </item>
-    <item>
-      <title>Hackers hijack AOMEI update servers to secretly spread malware</title>
-      <link>https://www.bleepingcomputer.com/news/security/hackers-hijack-aomei-update-servers-to-secretly-spread-malware/</link>
-      <description>UNC7017 hijacked AOMEI's update servers to push novel malware through the app's own promotion system. Three brief exposure windows (May-July 2026) hit IT, telecom, and education orgs across six countries.
-
-Key findings:
-
-- UNC7017 modified two AOMEI-hosted config files, down_html.ini (controls update package downloads) and Notifycfg.ini (triggers in-app notifications), during windows as short as 5 minutes. They also swapped the expected checksum so the malicious ZIP passed the software's own file verification. The files were then restored to clean state, making server-side forensics difficult. Three confirmed exposure windows: May 28 (10 min), July 16 (6 min), and July 20 (5 min), all UTC-timestamped.
-
-- The payload chain delivered CROSSROAD, a previously unknown downloader that performs host reconnaissance, pulls additional components, and establishes persistence via a scheduled task, followed by SHINYROAD, a backdoor that loads malicious code through legitimate Radmin components and beacons outbound to attacker-controlled C2. Radmin itself was the first visible artifact on compromised endpoints.
-
-- During the July 20 window, attackers added a second technique: forcing AOMEI's notification system to silently load an attacker-controlled WebDAV resource via an invisible popup, triggering NTLM hash capture. That gives the actor offline cracking opportunities or relay material from victim networks.
-
-- Confirmed IOCs from the reports include the IP 8.210.84[.]56, the hostname serv.oss-cn-hongkong.aliyuncs[.]com, and hostnames under storage-data[.]com. Affected countries include the United States 🇺🇸, Australia 🇦🇺, India 🇮🇳, Singapore 🇸🇬, Spain 🇪🇸, and Switzerland 🇨🇭. Google notes the attack was opportunistic, so any host that checked for AOMEI updates during those windows may be affected, not just confirmed victims.
-
-- AOMEI says it patched and re-verified its hosted files. ManageEngine's warning is the critical DFIR point: a server-side fix does not evict backdoors already installed on customer machines. Affected organizations must treat endpoints as potentially compromised independent of what AOMEI's infrastructure now serves.
-
-Hunt priority: check AOMEI Backupper installation directories for unexpected executables, look for scheduled tasks created by or associated with the AOMEI promotion process, and review outbound connections to the IOCs above. Radmin appearing as a child process of AOMEI's update or notification component is a confirmed early artifact. Full IOC lists are published in the Google and ManageEngine reports.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112379288557371690</description>
-      <content:encoded><![CDATA[<p>UNC7017 hijacked AOMEI&#x27;s update servers to push novel malware through the app&#x27;s own promotion system. Three brief exposure windows (May-July 2026) hit IT, telecom, and education orgs across six countries.</p><p>Key findings:</p><p>- UNC7017 modified two AOMEI-hosted config files, down_html.ini (controls update package downloads) and Notifycfg.ini (triggers in-app notifications), during windows as short as 5 minutes. They also swapped the expected checksum so the malicious ZIP passed the software&#x27;s own file verification. The files were then restored to clean state, making server-side forensics difficult. Three confirmed exposure windows: May 28 (10 min), July 16 (6 min), and July 20 (5 min), all UTC-timestamped.</p><p>- The payload chain delivered CROSSROAD, a previously unknown downloader that performs host reconnaissance, pulls additional components, and establishes persistence via a scheduled task, followed by SHINYROAD, a backdoor that loads malicious code through legitimate Radmin components and beacons outbound to attacker-controlled C2. Radmin itself was the first visible artifact on compromised endpoints.</p><p>- During the July 20 window, attackers added a second technique: forcing AOMEI&#x27;s notification system to silently load an attacker-controlled WebDAV resource via an invisible popup, triggering NTLM hash capture. That gives the actor offline cracking opportunities or relay material from victim networks.</p><p>- Confirmed IOCs from the reports include the IP 8.210.84[.]56, the hostname serv.oss-cn-hongkong.aliyuncs[.]com, and hostnames under storage-data[.]com. Affected countries include the United States 🇺🇸, Australia 🇦🇺, India 🇮🇳, Singapore 🇸🇬, Spain 🇪🇸, and Switzerland 🇨🇭. Google notes the attack was opportunistic, so any host that checked for AOMEI updates during those windows may be affected, not just confirmed victims.</p><p>- AOMEI says it patched and re-verified its hosted files. ManageEngine&#x27;s warning is the critical DFIR point: a server-side fix does not evict backdoors already installed on customer machines. Affected organizations must treat endpoints as potentially compromised independent of what AOMEI&#x27;s infrastructure now serves.</p><p>Hunt priority: check AOMEI Backupper installation directories for unexpected executables, look for scheduled tasks created by or associated with the AOMEI promotion process, and review outbound connections to the IOCs above. Radmin appearing as a child process of AOMEI&#x27;s update or notification component is a confirmed early artifact. Full IOC lists are published in the Google and ManageEngine reports.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-hijack-aomei-update-servers-to-secretly-spread-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112379288557371690">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112379288557371690</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2112379288557371690">DFIR Radar</source>
-      <pubDate>Tue, 20 Oct 2026 03:04:03 +0000</pubDate>
-      <guid isPermaLink="false">2112379288557371690</guid>
     </item>
   </channel>
 </rss>
