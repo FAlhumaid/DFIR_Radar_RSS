@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 24 Oct 2026 21:04:33 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2026 22:04:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Export the Microsoft 365 Unified Audit Log</title>
+      <link>https://socprime.com/blog/how-to-export-the-microsoft-365-unified-audit-log/</link>
+      <description>Microsoft 365's Unified Audit Log captures BEC-critical events like New-InboxRule, Add-MailboxPermission, and MailItemsAccessed via Search-UnifiedAuditLog. Confirm UnifiedAuditLogIngestionEnabled is True before assuming coverage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114115717150744852</description>
+      <content:encoded><![CDATA[<p>Microsoft 365&#x27;s Unified Audit Log captures BEC-critical events like New-InboxRule, Add-MailboxPermission, and MailItemsAccessed via Search-UnifiedAuditLog. Confirm UnifiedAuditLogIngestionEnabled is True before assuming coverage.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-the-microsoft-365-unified-audit-log/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114115717150744852">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114115717150744852</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2114115717150744852">DFIR Radar</source>
+      <pubDate>Sat, 24 Oct 2026 22:04:00 +0000</pubDate>
+      <guid isPermaLink="false">2114115717150744852</guid>
+    </item>
     <item>
       <title>China APT Uses AI Pentest Tool Artex in ConnectWise Attacks</title>
       <link>https://www.securityweek.com/china-apt-uses-ai-pentest-tool-artex-in-connectwise-attacks/</link>
@@ -2668,35 +2682,6 @@ Practitioner takeaway: static file detection will miss this threat because the p
       <source url="https://x.com/DFIR_Radar/status/2112605366781407422">DFIR Radar</source>
       <pubDate>Tue, 20 Oct 2026 18:02:25 +0000</pubDate>
       <guid isPermaLink="false">2112605366781407422</guid>
-    </item>
-    <item>
-      <title>Fake Kernel Threads Are Hiding Backdoors on Linux Servers and Appliances</title>
-      <link>https://eclypsium.com/blog/linux-malware-fake-kernel-threads/</link>
-      <description>Fake kernel threads are hiding active backdoors across Linux servers and appliances. Four malware families in 2026 use T1036.004 to blend into process lists, and network appliances make detection painfully hard.
-
-Key findings:
-
-- CVE-2026-75650 (CVSS 10.0, Critical, actively exploited as a zero-day) let attackers plant the StyleSmuggler Rust backdoor on Magento and Adobe Commerce stores. Early samples ran as [kworker/u:8:0], a name the kernel would never actually produce: real unbound kworkers follow the format kworker/u8:2, so the missing pool digit and extra colon flag it immediately. Within one day of Sansec's September 5 disclosure, samples had already pivoted to fc-cache and chronyd, showing how fast a name-based detection decays.
-
-- A separate Cyclops Blink variant, attributed to the cluster UAT-11823 overlapping with Sandworm, hit Cisco Secure Firewall Management Center via CVE-2026-20079 (CVSS 10.0, Critical authentication bypass granting root). Talos confirmed the payload is an ELF binary dropped on the FMC appliance OS. FMC gives administrators no root shell and accepts no EDR agent, so process-level checks cannot run there without vendor-supported tooling.
-
-- The masquerade only works at the surface. Real kernel threads are parented to kthreadd (PID 2), show zero in VSZ and RSS, have no executable behind /proc/PID/exe, carry the PF_KTHREAD flag, own no network sockets, and have an empty /proc/PID/cmdline. A process whose comm or args contains a literal bracket character put it there itself: ps adds the brackets when the cmdline is empty. Every malware family in this report runs in user space and fails at least one of these checks.
-
-- Persistence varies by family. StyleSmuggler uses a cron job restarting the implant twice hourly. The OpenCart Go C2 agent (watchdogd, disguised as [kworker/7:2]) used an [@]reboot cron entry plus a five-minute restart job. Tengu installs a systemd service labelled "System Helper Service," SysV init scripts, OpenWrt procd entries, and /etc/rc.local. Talos lists /etc/init.d/ scripts as a Cyclops Blink persistence capability. Killing the process without clearing persistence brings it straight back.
-
-Practitioner takeaway: run the report's shell one-liner as root to get a first pass:
-ps -eo pid,ppid,user,stat,vsz,rss,comm,args | grep -E '\[(kworker|ksoftirqd|kswapd|migration|rcu_)'
-
-Real kernel threads show ppid=2, user=root, VSZ=0, RSS=0. Anything else is worth escalating. The report also includes a /proc-walking bash script that reads /proc/PID/exe via readlink and prints SUSPECT lines for any process claiming a kernel-thread name while backed by a file on disk. Before killing a confirmed hit, collect /proc/PID/exe, /proc/PID/environ, /proc/PID/cwd, and network socket output from ss. For Adobe Commerce, patch APSB26-146 and assume customer order data was exposed. For FMC, ask your vendor contact what process visibility is available under CVE-2026-20079 remediation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112590205785878854</description>
-      <content:encoded><![CDATA[<p>Fake kernel threads are hiding active backdoors across Linux servers and appliances. Four malware families in 2026 use T1036.004 to blend into process lists, and network appliances make detection painfully hard.</p><p>Key findings:</p><p>- CVE-2026-75650 (CVSS 10.0, Critical, actively exploited as a zero-day) let attackers plant the StyleSmuggler Rust backdoor on Magento and Adobe Commerce stores. Early samples ran as [kworker/u:8:0], a name the kernel would never actually produce: real unbound kworkers follow the format kworker/u8:2, so the missing pool digit and extra colon flag it immediately. Within one day of Sansec&#x27;s September 5 disclosure, samples had already pivoted to fc-cache and chronyd, showing how fast a name-based detection decays.</p><p>- A separate Cyclops Blink variant, attributed to the cluster UAT-11823 overlapping with Sandworm, hit Cisco Secure Firewall Management Center via CVE-2026-20079 (CVSS 10.0, Critical authentication bypass granting root). Talos confirmed the payload is an ELF binary dropped on the FMC appliance OS. FMC gives administrators no root shell and accepts no EDR agent, so process-level checks cannot run there without vendor-supported tooling.</p><p>- The masquerade only works at the surface. Real kernel threads are parented to kthreadd (PID 2), show zero in VSZ and RSS, have no executable behind /proc/PID/exe, carry the PF_KTHREAD flag, own no network sockets, and have an empty /proc/PID/cmdline. A process whose comm or args contains a literal bracket character put it there itself: ps adds the brackets when the cmdline is empty. Every malware family in this report runs in user space and fails at least one of these checks.</p><p>- Persistence varies by family. StyleSmuggler uses a cron job restarting the implant twice hourly. The OpenCart Go C2 agent (watchdogd, disguised as [kworker/7:2]) used an [@]reboot cron entry plus a five-minute restart job. Tengu installs a systemd service labelled &quot;System Helper Service,&quot; SysV init scripts, OpenWrt procd entries, and /etc/rc.local. Talos lists /etc/init.d/ scripts as a Cyclops Blink persistence capability. Killing the process without clearing persistence brings it straight back.</p><p>Practitioner takeaway: run the report&#x27;s shell one-liner as root to get a first pass:<br>ps -eo pid,ppid,user,stat,vsz,rss,comm,args | grep -E &#x27;\[(kworker|ksoftirqd|kswapd|migration|rcu_)&#x27;</p><p>Real kernel threads show ppid=2, user=root, VSZ=0, RSS=0. Anything else is worth escalating. The report also includes a /proc-walking bash script that reads /proc/PID/exe via readlink and prints SUSPECT lines for any process claiming a kernel-thread name while backed by a file on disk. Before killing a confirmed hit, collect /proc/PID/exe, /proc/PID/environ, /proc/PID/cwd, and network socket output from ss. For Adobe Commerce, patch APSB26-146 and assume customer order data was exposed. For FMC, ask your vendor contact what process visibility is available under CVE-2026-20079 remediation.</p><p>#DFIR_Radar</p><p><a href="https://eclypsium.com/blog/linux-malware-fake-kernel-threads/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112590205785878854">View on X</a></p>]]></content:encoded>
-      <dc:creator>Eclypsium</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112590205785878854</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2112590205785878854">DFIR Radar</source>
-      <pubDate>Tue, 20 Oct 2026 17:02:10 +0000</pubDate>
-      <guid isPermaLink="false">2112590205785878854</guid>
     </item>
   </channel>
 </rss>
