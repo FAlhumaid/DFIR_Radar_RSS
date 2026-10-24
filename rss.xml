@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 24 Oct 2026 22:04:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2026 23:03:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-9256 &amp; CVE-2026-42945: Chaining Two NGINX Rewrite-Engine Vulnerabilities into Remote Code Execution</title>
+      <link>https://www.opswat.com/blog/cve-2026-9256-cve-2026-42945-chaining-two-nginx-rewrite-engine-vulnerabilities-into-remote-code-execution</link>
+      <description>CVE-2026-9256 and CVE-2026-42945 (CVSS 8.1) chain a heap over-read to a heap overflow in NGINX's rewrite engine, enabling unauthenticated RCE. Upgrade to NGINX 1.30.2 or 1.31.1.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114130782377623979</description>
+      <content:encoded><![CDATA[<p>CVE-2026-9256 and CVE-2026-42945 (CVSS 8.1) chain a heap over-read to a heap overflow in NGINX&#x27;s rewrite engine, enabling unauthenticated RCE. Upgrade to NGINX 1.30.2 or 1.31.1.</p><p>#DFIR_Radar</p><p><a href="https://www.opswat.com/blog/cve-2026-9256-cve-2026-42945-chaining-two-nginx-rewrite-engine-vulnerabilities-into-remote-code-execution">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114130782377623979">View on X</a></p>]]></content:encoded>
+      <dc:creator>OPSWAT</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114130782377623979</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2114130782377623979">DFIR Radar</source>
+      <pubDate>Sat, 24 Oct 2026 23:03:52 +0000</pubDate>
+      <guid isPermaLink="false">2114130782377623979</guid>
+    </item>
     <item>
       <title>How to Export the Microsoft 365 Unified Audit Log</title>
       <link>https://socprime.com/blog/how-to-export-the-microsoft-365-unified-audit-log/</link>
@@ -2654,34 +2668,6 @@ DFIR action: query the database's script-object catalog for any PYTHON3, LUA, JA
       <source url="https://x.com/DFIR_Radar/status/2112620667397140538">DFIR Radar</source>
       <pubDate>Tue, 20 Oct 2026 19:03:12 +0000</pubDate>
       <guid isPermaLink="false">2112620667397140538</guid>
-    </item>
-    <item>
-      <title>BRONZE SANDCASTLE deploys modified Meterpreter shells</title>
-      <link>https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells</link>
-      <description>Chinese-nexus BRONZE SANDCASTLE targets Asia and Africa with a modified Meterpreter-based implant delivered via Sandboxie DLL sideloading, active August 2025 through August 2026.
-
-Key findings:
-
-- BRONZE SANDCASTLE's defining signature is DLL sideloading using legitimate executables (SandboxieWUAU.exe, javaw.exe, Krita.exe, bginfo64.exe, and others) paired with malicious DLLs that read and execute payloads from encrypted config.ini files on disk. The clean loader, malicious DLL, and encrypted payload are often bundled together in a ZIP archive (aez[.]zip was one observed example), keeping disk artifacts minimal and static detection largely ineffective.
-
-- The decrypted payload is a custom backdoor with structural similarities to stageless Metasploit shellcode, including position-independent execution and in-memory PE loading, but it is not standard MSF output. API resolution uses non-standard hashing rather than Metasploit's well-known ROR13 algorithm, and the codebase is substantially larger. It also incorporates COFFLoader elements, pointing to a custom Beacon Object File for post-exploitation capability. Two versions were identified: 1.1.5 and 1.1.7.
-
-- C2 infrastructure blends into legitimate traffic. Version 1.1.5 contacted dc.cathaypacifice[.]com and net.dpworldto[.]com. Version 1.1.7 communicated with github[.]com repositories (hxxps://api.github[.]com/repos/LatonyCharnleyaW) to pull encrypted config files disguised as .js.map and README[.]md files. The payload also reached out to file[.]io, gofile[.]io, ably[.]net, and ably[.]io for possible C2 tasking.
-
-- On-host post-compromise activity includes Windows "net" commands for network and user enumeration, followed by ntds.dit theft: threat actors created Volume Shadow Copies via vssadmin.exe before copying the Active Directory database, giving them the full credential store of the targeted domain.
-
-- Victims span the Philippines 🇵🇭, Taiwan 🇹🇼, Afghanistan, Namibia, and likely the Republic of Korea. Operator activity clusters in UTC+8 working hours, consistent with China-based attribution. CTU created the BRONZE SANDCASTLE designation because the technical profile is distinct from overlapping groups BRONZE PRESIDENT and BRONZE ATLAS despite similar geographic targeting.
-
-Practitioner takeaway: static file detection will miss this threat because the payload lives only in memory after decryption. Hunt for DLL loads followed by immediate in-memory shellcode activity, anomalous PE headers in process memory, and reflective loading patterns. Watch for vssadmin.exe creating shadow copies alongside LSASS or ntds.dit access, and flag outbound connections from unusual parent processes to github[.]com, file[.]io, or ably[.]io. Sophos detections ATK/Swrort-Y, ATK/ScLoad-W through ATK/ScLoad-Z, Troj/Loader-JL, and Troj/Loader-JP cover known samples. The full IOC list is in the SophosLabs GitHub repository.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112605366781407422</description>
-      <content:encoded><![CDATA[<p>Chinese-nexus BRONZE SANDCASTLE targets Asia and Africa with a modified Meterpreter-based implant delivered via Sandboxie DLL sideloading, active August 2025 through August 2026.</p><p>Key findings:</p><p>- BRONZE SANDCASTLE&#x27;s defining signature is DLL sideloading using legitimate executables (SandboxieWUAU.exe, javaw.exe, Krita.exe, bginfo64.exe, and others) paired with malicious DLLs that read and execute payloads from encrypted config.ini files on disk. The clean loader, malicious DLL, and encrypted payload are often bundled together in a ZIP archive (aez[.]zip was one observed example), keeping disk artifacts minimal and static detection largely ineffective.</p><p>- The decrypted payload is a custom backdoor with structural similarities to stageless Metasploit shellcode, including position-independent execution and in-memory PE loading, but it is not standard MSF output. API resolution uses non-standard hashing rather than Metasploit&#x27;s well-known ROR13 algorithm, and the codebase is substantially larger. It also incorporates COFFLoader elements, pointing to a custom Beacon Object File for post-exploitation capability. Two versions were identified: 1.1.5 and 1.1.7.</p><p>- C2 infrastructure blends into legitimate traffic. Version 1.1.5 contacted dc.cathaypacifice[.]com and net.dpworldto[.]com. Version 1.1.7 communicated with github[.]com repositories (hxxps://api.github[.]com/repos/LatonyCharnleyaW) to pull encrypted config files disguised as .js.map and README[.]md files. The payload also reached out to file[.]io, gofile[.]io, ably[.]net, and ably[.]io for possible C2 tasking.</p><p>- On-host post-compromise activity includes Windows &quot;net&quot; commands for network and user enumeration, followed by ntds.dit theft: threat actors created Volume Shadow Copies via vssadmin.exe before copying the Active Directory database, giving them the full credential store of the targeted domain.</p><p>- Victims span the Philippines 🇵🇭, Taiwan 🇹🇼, Afghanistan, Namibia, and likely the Republic of Korea. Operator activity clusters in UTC+8 working hours, consistent with China-based attribution. CTU created the BRONZE SANDCASTLE designation because the technical profile is distinct from overlapping groups BRONZE PRESIDENT and BRONZE ATLAS despite similar geographic targeting.</p><p>Practitioner takeaway: static file detection will miss this threat because the payload lives only in memory after decryption. Hunt for DLL loads followed by immediate in-memory shellcode activity, anomalous PE headers in process memory, and reflective loading patterns. Watch for vssadmin.exe creating shadow copies alongside LSASS or ntds.dit access, and flag outbound connections from unusual parent processes to github[.]com, file[.]io, or ably[.]io. Sophos detections ATK/Swrort-Y, ATK/ScLoad-W through ATK/ScLoad-Z, Troj/Loader-JL, and Troj/Loader-JP cover known samples. The full IOC list is in the SophosLabs GitHub repository.</p><p>#DFIR_Radar</p><p><a href="https://www.sophos.com/en-us/blog/bronze-sandcastle-deploys-modified-meterpreter-shells">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112605366781407422">View on X</a></p>]]></content:encoded>
-      <dc:creator>Sophos News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112605366781407422</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2112605366781407422">DFIR Radar</source>
-      <pubDate>Tue, 20 Oct 2026 18:02:25 +0000</pubDate>
-      <guid isPermaLink="false">2112605366781407422</guid>
     </item>
   </channel>
 </rss>
