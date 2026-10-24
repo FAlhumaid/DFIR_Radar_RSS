@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 24 Oct 2026 02:04:45 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2026 03:04:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Identify Compromised eMudhra Certificates With Qualys (CVE-2026-111943 and CVE-2026-111944)</title>
+      <link>https://blog.qualys.com/?p=43197</link>
+      <description>CVE-2026-111943 and CVE-2026-111944: Eight eMudhra intermediate CA certificates carry fatally weak P-384 keys, enabling private-key recovery and fraudulent cert issuance. Chrome, Mozilla, Apple, and Microsoft have blocked them; your environment may still trust them.
+
+Key findings:
+
+- The root cause is a flaw in a key generation ceremony held April 30, 2025, for 24 subordinate CAs. A wrap/unwrap step produced a second set of weak P-384 keys, reducing effective entropy to an estimated 3 to 8 bits, making private-key recovery trivial to compute. Six of the eight affected intermediates are TLS CAs; two are code-signing CAs. Google removed emSign ECC Root CA - G3 from the Chrome Root Store entirely. eMudhra states its root CA private keys and other intermediates are not affected, and that no leaf certificates were issued to websites or end users under the compromised intermediates.
+
+- The eight affected intermediates span eMudhra BV (G3B) and eMudhra Inc (G3C) and cover EV/OV/DV TLS and OV code-signing roles. Reliable identifiers for each are their SHA-256 fingerprints and serial numbers, all listed in the report. Example: EM EV TLS CA - G3B carries serial c7c41efe92d825f05eae841a4a82c1 and fingerprint E7568FE6E12331F4FD7DE61DA4C7559D0F8EB192A218D4741A3BA75184333838.
+
+- Go runtimes are a distinct exposure path. Go 1.27.3 and 1.26.10 block chains containing the compromised keys under CVE-2026-111943. Older Go versions will still accept those chains. The report notes that unmanaged endpoints and custom trust stores that do not receive automatic distrust updates remain at risk regardless of browser-level blocks.
+
+- Revocation is not a complete control. eMudhra has revoked all eight intermediates, but clients that skip revocation checks can still accept a chain containing them. Confirming that CRL and OCSP checks are functioning correctly is a required response step, not optional hygiene.
+
+Hunt. The issuer-organization query is certificate:(issuer.organization:eMudhra BV or issuer.organization:eMudhra Inc) and the serial-number query targets all eight compromised intermediates individually. For Go runtime exposure, the report ties QID 5019897 to affected Go versions. For certificate chain enumeration on hosts, QID 48395 (eMudhra Intermediate CA Certificates Enumeration) covers assets presenting or using chains containing the compromised intermediates. Any leaf certificate whose chain includes one of the eight should be reissued by a different trusted CA and redeployed before trusting revocation status alone to protect users. The eight SHA-256 fingerprints and serial numbers are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113829042277540130</description>
+      <content:encoded><![CDATA[<p>CVE-2026-111943 and CVE-2026-111944: Eight eMudhra intermediate CA certificates carry fatally weak P-384 keys, enabling private-key recovery and fraudulent cert issuance. Chrome, Mozilla, Apple, and Microsoft have blocked them; your environment may still trust them.</p><p>Key findings:</p><p>- The root cause is a flaw in a key generation ceremony held April 30, 2025, for 24 subordinate CAs. A wrap/unwrap step produced a second set of weak P-384 keys, reducing effective entropy to an estimated 3 to 8 bits, making private-key recovery trivial to compute. Six of the eight affected intermediates are TLS CAs; two are code-signing CAs. Google removed emSign ECC Root CA - G3 from the Chrome Root Store entirely. eMudhra states its root CA private keys and other intermediates are not affected, and that no leaf certificates were issued to websites or end users under the compromised intermediates.</p><p>- The eight affected intermediates span eMudhra BV (G3B) and eMudhra Inc (G3C) and cover EV/OV/DV TLS and OV code-signing roles. Reliable identifiers for each are their SHA-256 fingerprints and serial numbers, all listed in the report. Example: EM EV TLS CA - G3B carries serial c7c41efe92d825f05eae841a4a82c1 and fingerprint E7568FE6E12331F4FD7DE61DA4C7559D0F8EB192A218D4741A3BA75184333838.</p><p>- Go runtimes are a distinct exposure path. Go 1.27.3 and 1.26.10 block chains containing the compromised keys under CVE-2026-111943. Older Go versions will still accept those chains. The report notes that unmanaged endpoints and custom trust stores that do not receive automatic distrust updates remain at risk regardless of browser-level blocks.</p><p>- Revocation is not a complete control. eMudhra has revoked all eight intermediates, but clients that skip revocation checks can still accept a chain containing them. Confirming that CRL and OCSP checks are functioning correctly is a required response step, not optional hygiene.</p><p>Hunt. The issuer-organization query is certificate:(issuer.organization:eMudhra BV or issuer.organization:eMudhra Inc) and the serial-number query targets all eight compromised intermediates individually. For Go runtime exposure, the report ties QID 5019897 to affected Go versions. For certificate chain enumeration on hosts, QID 48395 (eMudhra Intermediate CA Certificates Enumeration) covers assets presenting or using chains containing the compromised intermediates. Any leaf certificate whose chain includes one of the eight should be reissued by a different trusted CA and redeployed before trusting revocation status alone to protect users. The eight SHA-256 fingerprints and serial numbers are in the report.</p><p>#DFIR_Radar</p><p><a href="https://blog.qualys.com/?p=43197">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113829042277540130">View on X</a></p>]]></content:encoded>
+      <dc:creator>Qualys Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2113829042277540130</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2113829042277540130">DFIR Radar</source>
+      <pubDate>Sat, 24 Oct 2026 03:04:52 +0000</pubDate>
+      <guid isPermaLink="false">2113829042277540130</guid>
+    </item>
     <item>
       <title>BlackX UEFI Bootkit Bypasses Secure Boot on Patched Windows Systems Missing Revocations</title>
       <link>https://thehackernews.com/2026/10/blackx-uefi-bootkit-bypasses-secure.html</link>
@@ -2685,32 +2711,6 @@ Practitioner takeaway: Do not delete the affected ConnectWise service principals
       <source url="https://x.com/DFIR_Radar/status/2112333759630524513">DFIR Radar</source>
       <pubDate>Tue, 20 Oct 2026 00:03:09 +0000</pubDate>
       <guid isPermaLink="false">2112333759630524513</guid>
-    </item>
-    <item>
-      <title>WordPress SEO plugin Rank Math compromised to backdoor websites</title>
-      <link>https://www.bleepingcomputer.com/news/security/wordpress-seo-plugin-rank-math-compromised-to-backdoor-websites/</link>
-      <description>WordPress supply-chain attack: Rank Math PRO v3.0.123 backdoored during an 11-hour window, exposing database credentials, cloud secrets, and SSH keys on affected sites. Clean version 3.0.124 is available but updating alone does not remove the threat.
-
-Key details:
-
-- The compromise window ran from October 15 at 20:02 UTC to October 16 at 07:12 UTC. Only Rank Math PRO was affected; the free plugin distributed via WordPress[.]org was not. The attack vector has not been publicly disclosed. Any site that installed and activated v3.0.123 during that window should be treated as fully compromised regardless of subsequent plugin updates or deactivations.
-
-- A PHP sample on VirusTotal named cache-preloader-fff033 (1).php appears to be a first-stage deployment script. It drops the persistent backdoor at wp-includes/class-wp-cache-util.php, creates administrator accounts using the wpsupport_ username prefix and [@]wp-mail[.]net email addresses, and writes the database entry _np5pvf754c and a cron job marked ms6v46. XOR obfuscation uses the key xmmqhn. The script can execute arbitrary commands, modify the WordPress database, and exfiltrate AWS, Cloudflare, Google Cloud, and Azure credentials, SSH keys, and API keys.
-
-- C2 communication and backdoor recreation are triggered on every site visit, contacting rank1cdn[.]com. Blocking outbound connections to that domain is an immediate containment step. The self-healing behavior means the backdoor will resurface if malicious database entries and files are not removed before any other remediation work.
-
-- Persistence artifacts to hunt: the file wp-includes/class-wp-cache-util.php (unexpected in a clean WordPress install), WordPress user accounts with the wpsupport_ prefix or [@]wp-mail[.]net addresses, the _np5pvf754c option in the wp_options table, and scheduled tasks bearing the ms6v46 marker. Check for any modified files, additional webshells, and changes made outside the WordPress directory.
-
-Practitioner takeaway: updating to v3.0.124 or deactivating the plugin does not clean an active compromise. For affected sites, restore from a pre-October-15 backup if one exists, then rotate all credentials, salts, and API keys. Where no clean backup is available, manually delete the full plugin directory, purge malicious database entries, audit all administrator accounts, and sweep the filesystem for additional backdoors before bringing the site back online. IOCs including the XOR key, database entry, cron marker, username prefix, and C2 domain are in the Rank Math advisory and the BleepingComputer report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112318366048235660</description>
-      <content:encoded><![CDATA[<p>WordPress supply-chain attack: Rank Math PRO v3.0.123 backdoored during an 11-hour window, exposing database credentials, cloud secrets, and SSH keys on affected sites. Clean version 3.0.124 is available but updating alone does not remove the threat.</p><p>Key details:</p><p>- The compromise window ran from October 15 at 20:02 UTC to October 16 at 07:12 UTC. Only Rank Math PRO was affected; the free plugin distributed via WordPress[.]org was not. The attack vector has not been publicly disclosed. Any site that installed and activated v3.0.123 during that window should be treated as fully compromised regardless of subsequent plugin updates or deactivations.</p><p>- A PHP sample on VirusTotal named cache-preloader-fff033 (1).php appears to be a first-stage deployment script. It drops the persistent backdoor at wp-includes/class-wp-cache-util.php, creates administrator accounts using the wpsupport_ username prefix and [@]wp-mail[.]net email addresses, and writes the database entry _np5pvf754c and a cron job marked ms6v46. XOR obfuscation uses the key xmmqhn. The script can execute arbitrary commands, modify the WordPress database, and exfiltrate AWS, Cloudflare, Google Cloud, and Azure credentials, SSH keys, and API keys.</p><p>- C2 communication and backdoor recreation are triggered on every site visit, contacting rank1cdn[.]com. Blocking outbound connections to that domain is an immediate containment step. The self-healing behavior means the backdoor will resurface if malicious database entries and files are not removed before any other remediation work.</p><p>- Persistence artifacts to hunt: the file wp-includes/class-wp-cache-util.php (unexpected in a clean WordPress install), WordPress user accounts with the wpsupport_ prefix or [@]wp-mail[.]net addresses, the _np5pvf754c option in the wp_options table, and scheduled tasks bearing the ms6v46 marker. Check for any modified files, additional webshells, and changes made outside the WordPress directory.</p><p>Practitioner takeaway: updating to v3.0.124 or deactivating the plugin does not clean an active compromise. For affected sites, restore from a pre-October-15 backup if one exists, then rotate all credentials, salts, and API keys. Where no clean backup is available, manually delete the full plugin directory, purge malicious database entries, audit all administrator accounts, and sweep the filesystem for additional backdoors before bringing the site back online. IOCs including the XOR key, database entry, cron marker, username prefix, and C2 domain are in the Rank Math advisory and the BleepingComputer report.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/wordpress-seo-plugin-rank-math-compromised-to-backdoor-websites/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112318366048235660">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112318366048235660</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2112318366048235660">DFIR Radar</source>
-      <pubDate>Mon, 19 Oct 2026 23:01:58 +0000</pubDate>
-      <guid isPermaLink="false">2112318366048235660</guid>
     </item>
   </channel>
 </rss>
