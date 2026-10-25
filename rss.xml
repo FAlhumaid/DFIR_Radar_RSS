@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 25 Oct 2026 09:03:36 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2026 16:04:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>AI coding agents hijacked using AGENTS.md file in Downloads folder</title>
+      <link>https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/</link>
+      <description>A silently browser-dropped AGENTS[.]md in ~/Downloads hijacked OpenAI Codex and Claude Code to install rogue npm packages or leak OAuth tokens. Never run AI coding agents from ~/Downloads; scope the working directory to the project root.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114387605852696607</description>
+      <content:encoded><![CDATA[<p>A silently browser-dropped AGENTS[.]md in ~/Downloads hijacked OpenAI Codex and Claude Code to install rogue npm packages or leak OAuth tokens. Never run AI coding agents from ~/Downloads; scope the working directory to the project root.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114387605852696607">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114387605852696607</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2114387605852696607">DFIR Radar</source>
+      <pubDate>Sun, 25 Oct 2026 16:04:24 +0000</pubDate>
+      <guid isPermaLink="false">2114387605852696607</guid>
+    </item>
     <item>
       <title>U.S. CISA adds Arista VeloCloud Orchestrator flaw to its Known Exploited Vulnerabilities catalog</title>
       <link>https://securityaffairs.com/201609/hacking/u-s-cisa-adds-arista-velocloud-orchestrator-flaw-to-its-known-exploited-vulnerabilities-catalog.html</link>
@@ -2516,34 +2530,6 @@ DFIR takeaway: The detection pivot Siemens calls out explicitly is "SiemensSoftw
       <source url="https://x.com/DFIR_Radar/status/2112786806466867438">DFIR Radar</source>
       <pubDate>Wed, 21 Oct 2026 06:03:23 +0000</pubDate>
       <guid isPermaLink="false">2112786806466867438</guid>
-    </item>
-    <item>
-      <title>Hackers Hijack Five OVHcloud CLI Releases to Distribute Secret-Stealing Malware</title>
-      <link>https://thehackernews.com/2026/10/hackers-hijack-five-ovhcloud-cli.html</link>
-      <description>A hijacked contributor account swapped malware into five OVHcloud CLI releases for 94 minutes on October 19, targeting secrets on any machine that ran the poisoned binary during that window.
-
-Key findings:
-
-- The attacker replaced six files on v0.15.0 and the same files on v0.11.0 through v0.14.0: macOS x86_64 and arm64, Linux x86_64 and arm64, Windows x86_64, and checksums.txt. The checksums were updated to match the malicious builds, so naive hash checks against the published sums would have passed. The exposure window ran from 12:47 to 14:21 UTC. Linux i386, Windows i386, Windows arm64, and WebAssembly builds were untouched. Homebrew and go install paths were not affected: Homebrew's cask retained the original SHA-256 and would have failed rather than installed the swapped file.
-
-- A customer's CI job caught the swap because it pinned the Linux arm64 SHA-256 and began failing. The only published hash of a swapped archive is that Linux arm64 file: swapped SHA-256 3833daffcaaaab27e4e0e0833240ffcb1df8df648f4ec0bc4a75c176e28933cb, original 5c2beb56e6d83a4b426565a1557791ef759316abcc4effb38dd627c90aeb80e0. No copy of the swapped binary was preserved for analysis, so what it reads or where it sends data remains unknown publicly.
-
-- Three forensic markers separate the bad build from a genuine release, all readable without executing the binary using go version -m. First, the module version string is v0.15.1-0.20261013083505-5ead8ef9b43d+dirty, a pseudo-version from an untagged October 13 commit. Second, the recorded commit is 5ead8ef, not 760fd72, which the v0.15.0 tag actually points to. Third, a -ldflags="-s -w" line is present. OVHcloud's pipeline omits that flag, so genuine releases show no -ldflags line. The +dirty marker alone does not identify the malicious build: the clean v0.16.0 also carries v0.16.0+dirty.
-
-- OpenSourceMalware links the hijacked contributor account to GlassWorm, a campaign that encodes loader stages in invisible Unicode characters and fetches next-stage instructions from the memo field of a Solana wallet's transactions. Four of the account's personal repositories were force-pushed in March with a loader tied to GlassWorm's ForceMemo campaign, which force-pushed malware into hundreds of Python repositories using stolen GitHub tokens. The wallet in that loader matches the one named in ForceMemo. The link between the March activity and the October CLI swap is attributed as an inference based on the shared account, not confirmed code overlap.
-
-- The root cause was GitHub's release immutability setting being disabled on the repository. Anyone with write access to a repo can silently delete and replace release assets with the same filename, and the download URL does not change. GitHub made release immutability generally available in October 2025. OVHcloud had not enabled it; it has now. The release pipeline never ran during the swap: no workflow execution appears between October 16 and the v0.16.0 tag push, confirming the attacker uploaded directly through GitHub's release API using the contributor's credentials.
-
-Practitioner takeaway: if your environment ran the OVHcloud CLI install script or upgrade command between 12:47 and 14:21 UTC on October 19, or pulled any of v0.11.0 through v0.15.0 from a GitHub release page during that window on macOS or Linux x86_64/arm64 or Windows x86_64, treat the machine as compromised. Run go version -m against any copy of the binary you retained without executing it and check the three markers above. Rotate every secret readable from that machine, including ~/.ovh.conf and environment variables, from a separate clean host before removing the binary. Verify v0.16.0 with gh release verify-asset before deploying it. For CI pipelines more broadly: pin SHA-256 hashes of release assets by commit, never by the published checksums file from the same release, and enable GitHub release immutability on any repository that ships binaries. IOCs and timeline details are in OpenSourceMalware's report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112771791261258126</description>
-      <content:encoded><![CDATA[<p>A hijacked contributor account swapped malware into five OVHcloud CLI releases for 94 minutes on October 19, targeting secrets on any machine that ran the poisoned binary during that window.</p><p>Key findings:</p><p>- The attacker replaced six files on v0.15.0 and the same files on v0.11.0 through v0.14.0: macOS x86_64 and arm64, Linux x86_64 and arm64, Windows x86_64, and checksums.txt. The checksums were updated to match the malicious builds, so naive hash checks against the published sums would have passed. The exposure window ran from 12:47 to 14:21 UTC. Linux i386, Windows i386, Windows arm64, and WebAssembly builds were untouched. Homebrew and go install paths were not affected: Homebrew&#x27;s cask retained the original SHA-256 and would have failed rather than installed the swapped file.</p><p>- A customer&#x27;s CI job caught the swap because it pinned the Linux arm64 SHA-256 and began failing. The only published hash of a swapped archive is that Linux arm64 file: swapped SHA-256 3833daffcaaaab27e4e0e0833240ffcb1df8df648f4ec0bc4a75c176e28933cb, original 5c2beb56e6d83a4b426565a1557791ef759316abcc4effb38dd627c90aeb80e0. No copy of the swapped binary was preserved for analysis, so what it reads or where it sends data remains unknown publicly.</p><p>- Three forensic markers separate the bad build from a genuine release, all readable without executing the binary using go version -m. First, the module version string is v0.15.1-0.20261013083505-5ead8ef9b43d+dirty, a pseudo-version from an untagged October 13 commit. Second, the recorded commit is 5ead8ef, not 760fd72, which the v0.15.0 tag actually points to. Third, a -ldflags=&quot;-s -w&quot; line is present. OVHcloud&#x27;s pipeline omits that flag, so genuine releases show no -ldflags line. The +dirty marker alone does not identify the malicious build: the clean v0.16.0 also carries v0.16.0+dirty.</p><p>- OpenSourceMalware links the hijacked contributor account to GlassWorm, a campaign that encodes loader stages in invisible Unicode characters and fetches next-stage instructions from the memo field of a Solana wallet&#x27;s transactions. Four of the account&#x27;s personal repositories were force-pushed in March with a loader tied to GlassWorm&#x27;s ForceMemo campaign, which force-pushed malware into hundreds of Python repositories using stolen GitHub tokens. The wallet in that loader matches the one named in ForceMemo. The link between the March activity and the October CLI swap is attributed as an inference based on the shared account, not confirmed code overlap.</p><p>- The root cause was GitHub&#x27;s release immutability setting being disabled on the repository. Anyone with write access to a repo can silently delete and replace release assets with the same filename, and the download URL does not change. GitHub made release immutability generally available in October 2025. OVHcloud had not enabled it; it has now. The release pipeline never ran during the swap: no workflow execution appears between October 16 and the v0.16.0 tag push, confirming the attacker uploaded directly through GitHub&#x27;s release API using the contributor&#x27;s credentials.</p><p>Practitioner takeaway: if your environment ran the OVHcloud CLI install script or upgrade command between 12:47 and 14:21 UTC on October 19, or pulled any of v0.11.0 through v0.15.0 from a GitHub release page during that window on macOS or Linux x86_64/arm64 or Windows x86_64, treat the machine as compromised. Run go version -m against any copy of the binary you retained without executing it and check the three markers above. Rotate every secret readable from that machine, including ~/.ovh.conf and environment variables, from a separate clean host before removing the binary. Verify v0.16.0 with gh release verify-asset before deploying it. For CI pipelines more broadly: pin SHA-256 hashes of release assets by commit, never by the published checksums file from the same release, and enable GitHub release immutability on any repository that ships binaries. IOCs and timeline details are in OpenSourceMalware&#x27;s report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/hackers-hijack-five-ovhcloud-cli.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112771791261258126">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112771791261258126</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2112771791261258126">DFIR Radar</source>
-      <pubDate>Wed, 21 Oct 2026 05:03:44 +0000</pubDate>
-      <guid isPermaLink="false">2112771791261258126</guid>
     </item>
   </channel>
 </rss>
