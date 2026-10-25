@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 25 Oct 2026 05:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2026 06:03:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Researchers Push Over 2 Million Updates to Remotely Disable Popcorn Time Updater That Could Fuel a Botnet</title>
+      <link>https://thehackernews.com/2026/10/researchers-push-over-2-million-updates.html</link>
+      <description>Eye Security's Operation IXIM sinkholed Time4Popcorn updater domains (CVE-2026-30612, CVSS 9.8) and pushed 2M disabling updates to exposed machines. Hunt for Updater.exe, PT.updd, and IOCs in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114236380884705478</description>
+      <content:encoded><![CDATA[<p>Eye Security&#x27;s Operation IXIM sinkholed Time4Popcorn updater domains (CVE-2026-30612, CVSS 9.8) and pushed 2M disabling updates to exposed machines. Hunt for Updater.exe, PT.updd, and IOCs in the report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/researchers-push-over-2-million-updates.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114236380884705478">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114236380884705478</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2114236380884705478">DFIR Radar</source>
+      <pubDate>Sun, 25 Oct 2026 06:03:29 +0000</pubDate>
+      <guid isPermaLink="false">2114236380884705478</guid>
+    </item>
     <item>
       <title>Forensic Focus Digest, 23 Oct 2026</title>
       <link>https://www.forensicfocus.com/news/forensic-focus-digest-23-oct-2026/</link>
@@ -2570,34 +2584,6 @@ Practitioners investigating impacted organizations should hunt for outbound API 
       <source url="https://x.com/DFIR_Radar/status/2112726431809626536">DFIR Radar</source>
       <pubDate>Wed, 21 Oct 2026 02:03:29 +0000</pubDate>
       <guid isPermaLink="false">2112726431809626536</guid>
-    </item>
-    <item>
-      <title>Wordfence Argus Discovers High Severity Unauthenticated PHP Object Injection in Duplicator</title>
-      <link>https://www.wordfence.com/blog/2026/10/wordfence-argus-discovers-high-severity-unauthenticated-php-object-injection-in-duplicator/</link>
-      <description>CVE-2026-82814 (CVSS 8.8): Unauthenticated PHP Object Injection in Duplicator and Duplicator Pro allows OS command execution or site takeover via a second-order deserialization flaw triggered during migration. Affects 1M+ active installs.
-
-Technical breakdown:
-
-- CVE-2026-82814 affects Duplicator Free through 1.5.17 and Duplicator Pro through 4.6.10. The root cause is DUPX_UpdateEngine::unserializeTest() calling PHP's native unserialize() without restricting which classes may be instantiated, allowing attacker-supplied class names to trigger __wakeup() and __destruct() methods automatically. The payload can also be base64-encoded, since the migration engine decodes and deserializes base64 content from database columns.
-
-- This is a second-order vulnerability with a multi-step chain. An unauthenticated attacker posts a base64-encoded serialized PHP object as a WordPress comment via the public wp-comments-post.php endpoint, no account or nonce required. The comment is stored in the database even if pending. Nothing fires on submission or package creation. The payload activates only when an administrator later runs a standard migration or import using a package that contains that comment, triggering the Update Data search-and-replace operation.
-
-- The two editions reach different impact. In Duplicator Free, the installed Requests 1.7 library provides a POP chain combining DbUserMode's __wakeup() with Requests_Utility_FilteredIterator, letting the attacker specify any PHP callback and argument, confirmed to achieve OS command execution as the web-server user. In Duplicator Pro, the IndexList destructor's unlink() call enables arbitrary file deletion. Deleting wp-config.php exposes the WordPress setup wizard, and an attacker who reaches it first and supplies a controlled database can create a new administrator and execute PHP code via plugin installation.
-
-- Stored packages do not self-trigger, but they permanently retain the installer from the version that created them. Post-patch testing confirmed that Duplicator Pro 5.0.5's Import workflow ran an older Pro 4.6.10 package installer and hit the vulnerable deserialization path. The fix in version 5.0.0 replaces the unsafe call with SnapUtil::safeUnserialize(), passing ['allowed_classes' =&gt; false] to PHP's unserialize() so no attacker-named classes are instantiated. Comment moderation is not a mitigation: unapproved comments are still copied into packages.
-
-- Patch released September 8, 2026. Actively exploited in the wild: not stated in the report. The fix is confirmed in Duplicator Free 5.0.0 and Duplicator Pro 5.0.0 and later.
-
-Practitioner takeaway: Update both Duplicator Free and Duplicator Pro to 5.0.0 or newer immediately. Updating the plugin does not retroactively fix older stored packages. Before using any package created under an affected version for a migration or import, build a fresh package with the updated plugin. Remove any publicly accessible standalone installer files (installer.php) left on disk from previous migrations. To hunt for pre-planted payloads, inspect the wp_comments table in your WordPress database for comment_content containing base64-encoded strings that decode to values beginning with serialized PHP object notation (O: or C:), particularly in comments with comment_approved set to 0 (pending). Those entries should be treated as suspect and removed before any migration is run.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112711247057842564</description>
-      <content:encoded><![CDATA[<p>CVE-2026-82814 (CVSS 8.8): Unauthenticated PHP Object Injection in Duplicator and Duplicator Pro allows OS command execution or site takeover via a second-order deserialization flaw triggered during migration. Affects 1M+ active installs.</p><p>Technical breakdown:</p><p>- CVE-2026-82814 affects Duplicator Free through 1.5.17 and Duplicator Pro through 4.6.10. The root cause is DUPX_UpdateEngine::unserializeTest() calling PHP&#x27;s native unserialize() without restricting which classes may be instantiated, allowing attacker-supplied class names to trigger __wakeup() and __destruct() methods automatically. The payload can also be base64-encoded, since the migration engine decodes and deserializes base64 content from database columns.</p><p>- This is a second-order vulnerability with a multi-step chain. An unauthenticated attacker posts a base64-encoded serialized PHP object as a WordPress comment via the public wp-comments-post.php endpoint, no account or nonce required. The comment is stored in the database even if pending. Nothing fires on submission or package creation. The payload activates only when an administrator later runs a standard migration or import using a package that contains that comment, triggering the Update Data search-and-replace operation.</p><p>- The two editions reach different impact. In Duplicator Free, the installed Requests 1.7 library provides a POP chain combining DbUserMode&#x27;s __wakeup() with Requests_Utility_FilteredIterator, letting the attacker specify any PHP callback and argument, confirmed to achieve OS command execution as the web-server user. In Duplicator Pro, the IndexList destructor&#x27;s unlink() call enables arbitrary file deletion. Deleting wp-config.php exposes the WordPress setup wizard, and an attacker who reaches it first and supplies a controlled database can create a new administrator and execute PHP code via plugin installation.</p><p>- Stored packages do not self-trigger, but they permanently retain the installer from the version that created them. Post-patch testing confirmed that Duplicator Pro 5.0.5&#x27;s Import workflow ran an older Pro 4.6.10 package installer and hit the vulnerable deserialization path. The fix in version 5.0.0 replaces the unsafe call with SnapUtil::safeUnserialize(), passing [&#x27;allowed_classes&#x27; =&gt; false] to PHP&#x27;s unserialize() so no attacker-named classes are instantiated. Comment moderation is not a mitigation: unapproved comments are still copied into packages.</p><p>- Patch released September 8, 2026. Actively exploited in the wild: not stated in the report. The fix is confirmed in Duplicator Free 5.0.0 and Duplicator Pro 5.0.0 and later.</p><p>Practitioner takeaway: Update both Duplicator Free and Duplicator Pro to 5.0.0 or newer immediately. Updating the plugin does not retroactively fix older stored packages. Before using any package created under an affected version for a migration or import, build a fresh package with the updated plugin. Remove any publicly accessible standalone installer files (installer.php) left on disk from previous migrations. To hunt for pre-planted payloads, inspect the wp_comments table in your WordPress database for comment_content containing base64-encoded strings that decode to values beginning with serialized PHP object notation (O: or C:), particularly in comments with comment_approved set to 0 (pending). Those entries should be treated as suspect and removed before any migration is run.</p><p>#DFIR_Radar</p><p><a href="https://www.wordfence.com/blog/2026/10/wordfence-argus-discovers-high-severity-unauthenticated-php-object-injection-in-duplicator/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112711247057842564">View on X</a></p>]]></content:encoded>
-      <dc:creator>Wordfence</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112711247057842564</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2112711247057842564">DFIR Radar</source>
-      <pubDate>Wed, 21 Oct 2026 01:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2112711247057842564</guid>
     </item>
   </channel>
 </rss>
