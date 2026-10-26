@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 26 Oct 2026 05:04:06 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2026 08:04:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malicious File in Downloads Folder Tries to Trick AI Coding Agent Into Installing Malware</title>
+      <link>https://thehackernews.com/2026/10/malicious-file-in-downloads-folder.html</link>
+      <description>A planted AGENTS[.]md in ~/Downloads tricked OpenAI's Codex into installing MALFEX-linked npm package function-color in over 90% of test runs. Check ~/.codex/config.toml for unexpected server blocks and rotate any exposed session tokens.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114629223914639416</description>
+      <content:encoded><![CDATA[<p>A planted AGENTS[.]md in ~/Downloads tricked OpenAI&#x27;s Codex into installing MALFEX-linked npm package function-color in over 90% of test runs. Check ~/.codex/config.toml for unexpected server blocks and rotate any exposed session tokens.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/malicious-file-in-downloads-folder.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114629223914639416">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114629223914639416</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2114629223914639416">DFIR Radar</source>
+      <pubDate>Mon, 26 Oct 2026 08:04:30 +0000</pubDate>
+      <guid isPermaLink="false">2114629223914639416</guid>
+    </item>
     <item>
       <title>Can’t Patch PHP2Shell Yet? Build a Stopgap with the Controls You Own</title>
       <link>https://blog.qualys.com/?p=43279</link>
@@ -2468,34 +2482,6 @@ Practitioner takeaway: If you run a Linux Tor relay, boot from rescue media or a
       <source url="https://x.com/DFIR_Radar/status/2112877196448542778">DFIR Radar</source>
       <pubDate>Wed, 21 Oct 2026 12:02:34 +0000</pubDate>
       <guid isPermaLink="false">2112877196448542778</guid>
-    </item>
-    <item>
-      <title>Where to Find SSH (sshd) Logs on Linux and How to Export Them</title>
-      <link>https://socprime.com/blog/where-to-find-ssh-sshd-logs-on-linux-and-how-to-export-them/</link>
-      <description>SSH log locations on Linux vary by distro and version, and knowing which file to pull, or whether there is no file at all, is the first step in any Linux authentication investigation.
-
-Key findings:
-
-- Log paths split by distro family. Debian and Ubuntu write sshd events to /var/log/auth.log (readable by root and the adm group). RHEL, Rocky, Alma, and CentOS Stream write to /var/log/secure (root-only). Fedora, Arch, and any minimal install without rsyslog have no flat file at all: the journal is the only source. Since Debian 12, rsyslog is no longer installed by default, so a fresh Debian box has no auth.log either. Confirm what you have with: ls -l /var/log/auth.log /var/log/secure 2&gt;/dev/null and systemctl is-active rsyslog before you start.
-
-- OpenSSH 9.8 broke tag-based log filtering. Since version 9.8, the SSH server splits into two binaries: sshd handles the listener and sshd-session handles per-connection work, including the login events you actually want. Filtering by tag (-t sshd) drops exactly those lines. Filter by unit instead: journalctl -u ssh -u sshd catches every process belonging to the service regardless of how it is tagged. RHEL 10 and other current releases ship 9.8 or newer, so this is not an edge case.
-
-- Exporting rotated file logs requires zgrep across all rotated copies, not just the current file. The current auth.log or secure only covers recent days. Rotated files on Debian and Ubuntu follow the pattern auth.log.1, auth.log.2.gz; on the Red Hat family they carry a date such as secure-20261012. The command sudo zgrep -h 'sshd' $(ls -tr /var/log/auth.log*) &gt; web-03_sshd.log reads both plain and gzipped files and sorts oldest-first so the output stays chronological. The sshd filter also matches sshd-session, which matters on 9.8 and later.
-
-- Volatile journals lose everything on reboot. If /var/log/journal does not exist, journald stores logs in memory under /run/log/journal. A reboot wipes them. On a box you are investigating, check for that directory before anyone restarts the host. If logs are already gone, go to your SIEM or log forwarder and compare: local auth.log or journal tampering is a documented attacker cleanup step, and an edited local log that diverges from forwarded records is itself an artifact.
-
-- Classic syslog timestamps carry no year and no time zone. Entries in auth.log look like Oct 19 10:15:01 with nothing else. If you try to correlate those against anything with full ISO 8601 timestamps, the alignment will be wrong without knowing the server's time zone. Export from the journal with -o short-iso to get year and offset included, or record the output of timedatectl before you leave the system.
-
-Practitioner takeaway: the sequence that warrants a stop is a run of "Failed password" or "Invalid user" lines from one IP followed by "Accepted" from that same IP. That is a brute force that worked. On a live investigation, pull both the rotated flat files and the journal export for your date range, export with -o short-iso to preserve timestamps, and confirm whether /var/log/journal exists before anyone touches the power. If the server forwards to a SIEM, pull from there too and diff it against the local copy. The report covers the relevant MITRE techniques as brute force (T1110), valid accounts (T1078), and lateral movement over SSH (T1021.004).
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112862442829328525</description>
-      <content:encoded><![CDATA[<p>SSH log locations on Linux vary by distro and version, and knowing which file to pull, or whether there is no file at all, is the first step in any Linux authentication investigation.</p><p>Key findings:</p><p>- Log paths split by distro family. Debian and Ubuntu write sshd events to /var/log/auth.log (readable by root and the adm group). RHEL, Rocky, Alma, and CentOS Stream write to /var/log/secure (root-only). Fedora, Arch, and any minimal install without rsyslog have no flat file at all: the journal is the only source. Since Debian 12, rsyslog is no longer installed by default, so a fresh Debian box has no auth.log either. Confirm what you have with: ls -l /var/log/auth.log /var/log/secure 2&gt;/dev/null and systemctl is-active rsyslog before you start.</p><p>- OpenSSH 9.8 broke tag-based log filtering. Since version 9.8, the SSH server splits into two binaries: sshd handles the listener and sshd-session handles per-connection work, including the login events you actually want. Filtering by tag (-t sshd) drops exactly those lines. Filter by unit instead: journalctl -u ssh -u sshd catches every process belonging to the service regardless of how it is tagged. RHEL 10 and other current releases ship 9.8 or newer, so this is not an edge case.</p><p>- Exporting rotated file logs requires zgrep across all rotated copies, not just the current file. The current auth.log or secure only covers recent days. Rotated files on Debian and Ubuntu follow the pattern auth.log.1, auth.log.2.gz; on the Red Hat family they carry a date such as secure-20261012. The command sudo zgrep -h &#x27;sshd&#x27; $(ls -tr /var/log/auth.log*) &gt; web-03_sshd.log reads both plain and gzipped files and sorts oldest-first so the output stays chronological. The sshd filter also matches sshd-session, which matters on 9.8 and later.</p><p>- Volatile journals lose everything on reboot. If /var/log/journal does not exist, journald stores logs in memory under /run/log/journal. A reboot wipes them. On a box you are investigating, check for that directory before anyone restarts the host. If logs are already gone, go to your SIEM or log forwarder and compare: local auth.log or journal tampering is a documented attacker cleanup step, and an edited local log that diverges from forwarded records is itself an artifact.</p><p>- Classic syslog timestamps carry no year and no time zone. Entries in auth.log look like Oct 19 10:15:01 with nothing else. If you try to correlate those against anything with full ISO 8601 timestamps, the alignment will be wrong without knowing the server&#x27;s time zone. Export from the journal with -o short-iso to get year and offset included, or record the output of timedatectl before you leave the system.</p><p>Practitioner takeaway: the sequence that warrants a stop is a run of &quot;Failed password&quot; or &quot;Invalid user&quot; lines from one IP followed by &quot;Accepted&quot; from that same IP. That is a brute force that worked. On a live investigation, pull both the rotated flat files and the journal export for your date range, export with -o short-iso to preserve timestamps, and confirm whether /var/log/journal exists before anyone touches the power. If the server forwards to a SIEM, pull from there too and diff it against the local copy. The report covers the relevant MITRE techniques as brute force (T1110), valid accounts (T1078), and lateral movement over SSH (T1021.004).</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/where-to-find-ssh-sshd-logs-on-linux-and-how-to-export-them/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112862442829328525">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112862442829328525</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2112862442829328525">DFIR Radar</source>
-      <pubDate>Wed, 21 Oct 2026 11:03:56 +0000</pubDate>
-      <guid isPermaLink="false">2112862442829328525</guid>
     </item>
   </channel>
 </rss>
