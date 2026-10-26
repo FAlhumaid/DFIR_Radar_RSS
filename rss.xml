@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 25 Oct 2026 22:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2026 05:04:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Can’t Patch PHP2Shell Yet? Build a Stopgap with the Controls You Own</title>
+      <link>https://blog.qualys.com/?p=43279</link>
+      <description>CVE-2026-109618 and CVE-2026-109619 are actively exploited; only 199k of 156M PHP installs patched in 12 hours. Disable session upload progress, verify PHP worker restarts, then patch.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114583825917341933</description>
+      <content:encoded><![CDATA[<p>CVE-2026-109618 and CVE-2026-109619 are actively exploited; only 199k of 156M PHP installs patched in 12 hours. Disable session upload progress, verify PHP worker restarts, then patch.</p><p>#DFIR_Radar</p><p><a href="https://blog.qualys.com/?p=43279">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114583825917341933">View on X</a></p>]]></content:encoded>
+      <dc:creator>Qualys Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114583825917341933</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2114583825917341933">DFIR Radar</source>
+      <pubDate>Mon, 26 Oct 2026 05:04:06 +0000</pubDate>
+      <guid isPermaLink="false">2114583825917341933</guid>
+    </item>
     <item>
       <title>Brotli2Shell: Beyond Node(2Shell) and HTTP(2Shell)</title>
       <link>https://research.jfrog.com/post/brotli2shell-beyond-node2shell-and-http2shell/</link>
@@ -2482,32 +2496,6 @@ Practitioner takeaway: the sequence that warrants a stop is a run of "Failed pas
       <source url="https://x.com/DFIR_Radar/status/2112862442829328525">DFIR Radar</source>
       <pubDate>Wed, 21 Oct 2026 11:03:56 +0000</pubDate>
       <guid isPermaLink="false">2112862442829328525</guid>
-    </item>
-    <item>
-      <title>Attackers Abuse UpdraftCentral Keys to Plant Backdoors on WordPress Sites</title>
-      <link>https://thehackernews.com/2026/10/attackers-abuse-updraftcentral-keys-to.html</link>
-      <description>TeamUpdraft's website was breached, exposing UpdraftCentral connection keys that attackers weaponized to push backdoor plugins across connected WordPress sites in an 18-hour campaign on October 18-19, 2026.
-
-Key details:
-
-- The breach exposed customer names, emails, billing addresses, hashed passwords, 2FA settings, and critically, the connection keys for UpdraftCentral, UpdraftVault, and UpdraftClone. Attackers used those keys to issue signed "plugin.upload_plugin" commands over UpdraftPlus's RPC channel (ordinary POST requests to the site root), triggering WordPress's standard installer to deploy and activate rogue plugins. Patchstack observed 99 distinct backdoor plugin names across the campaign, all carrying the string "Small maintenance toolkit: keeps option storage tidy."
-
-- The backdoor plugin hooks every inbound request and checks the URL for the parameter "?_9f5696=" against a 32-character token. A match triggers creation of a user named "data-ops43" (display name "Site Tools") in the Editor role, but with "manage_options" and "install_plugins" capabilities bolted on, enough to upload arbitrary PHP and modify site settings. A second persistence layer survives plugin removal: the rogue account stays in the WordPress user table with a known attacker-controlled password and can be used via the normal login form unless 2FA is enforced on that account.
-
-- Rogue plugin names to hunt include: Site Health Cache, Site Health 364F, Asset Forge 2, Content Helper, Wp Forge, Query Shelf, Style Bridge 8F5, Media Kit 183, Post Dock 776, Nav Hub, Speed Desk, Speed Kit 300, Link Latch, Script Shelf, and Feed Case. Rogue account usernames include system_team850, web.tech988, cmseditor170, cms.tech644, and web_mgr684, all registered with [@]example[.]com addresses and display names such as System Team, Web Tech, System Staff, System Ops, or Cms Tech. Attacker IPs observed: 43.250.53[.]42 and 2a09:bac5:4e21:2e3c::49b:9.
-
-- This is the second abuse of this channel in five months. In June 2026 TeamUpdraft patched CVE-2026-10795 (CVSS 8.1), an unsigned message flaw that let attackers forge UpdraftCentral commands with no keys at all, fixed in versions 1.26.5 and 2.26.5. Sites below those versions now face both the supply-chain key theft and that unauthenticated command-forgery issue simultaneously. Separately, the Rank Math PRO plugin website suffered a supply-chain compromise (CVE-2026-111862, CVSS 9.8), with trojanized version 3.0.123 phoning home to rank1cdn[.]com and planting hidden backdoors. And PHP disclosed two critical pre-release vulnerabilities codenamed PHP2Shell (CVE-2026-109618 and CVE-2026-109619, CVSS 9.2) affecting PHP versions 5 through 8, with broad exposure across WordPress, Drupal, Joomla, and shared hosting stacks.
-
-Practitioner takeaway: For any site with UpdraftPlus installed, start your triage at the WordPress Users table and the Plugins list including the Must-Use tab. Look for the named rogue accounts and plugin names above, and block the two attacker IPs at the perimeter. Check wp_usermeta for unexpected capability rows tied to Editor-role accounts. If you find any of the IOCs, treat the site as compromised: the rogue account persists after plugin removal, so plugin deletion alone is not remediation. Restore from a backup predating October 17, then update UpdraftPlus to 1.26.13 or 2.26.13, delete the UpdraftCentral connection key under Settings, and reconnect fresh. IOCs and analysis are in the Patchstack and Wordfence reports.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2112847039612789170</description>
-      <content:encoded><![CDATA[<p>TeamUpdraft&#x27;s website was breached, exposing UpdraftCentral connection keys that attackers weaponized to push backdoor plugins across connected WordPress sites in an 18-hour campaign on October 18-19, 2026.</p><p>Key details:</p><p>- The breach exposed customer names, emails, billing addresses, hashed passwords, 2FA settings, and critically, the connection keys for UpdraftCentral, UpdraftVault, and UpdraftClone. Attackers used those keys to issue signed &quot;plugin.upload_plugin&quot; commands over UpdraftPlus&#x27;s RPC channel (ordinary POST requests to the site root), triggering WordPress&#x27;s standard installer to deploy and activate rogue plugins. Patchstack observed 99 distinct backdoor plugin names across the campaign, all carrying the string &quot;Small maintenance toolkit: keeps option storage tidy.&quot;</p><p>- The backdoor plugin hooks every inbound request and checks the URL for the parameter &quot;?_9f5696=&quot; against a 32-character token. A match triggers creation of a user named &quot;data-ops43&quot; (display name &quot;Site Tools&quot;) in the Editor role, but with &quot;manage_options&quot; and &quot;install_plugins&quot; capabilities bolted on, enough to upload arbitrary PHP and modify site settings. A second persistence layer survives plugin removal: the rogue account stays in the WordPress user table with a known attacker-controlled password and can be used via the normal login form unless 2FA is enforced on that account.</p><p>- Rogue plugin names to hunt include: Site Health Cache, Site Health 364F, Asset Forge 2, Content Helper, Wp Forge, Query Shelf, Style Bridge 8F5, Media Kit 183, Post Dock 776, Nav Hub, Speed Desk, Speed Kit 300, Link Latch, Script Shelf, and Feed Case. Rogue account usernames include system_team850, web.tech988, cmseditor170, cms.tech644, and web_mgr684, all registered with [@]example[.]com addresses and display names such as System Team, Web Tech, System Staff, System Ops, or Cms Tech. Attacker IPs observed: 43.250.53[.]42 and 2a09:bac5:4e21:2e3c::49b:9.</p><p>- This is the second abuse of this channel in five months. In June 2026 TeamUpdraft patched CVE-2026-10795 (CVSS 8.1), an unsigned message flaw that let attackers forge UpdraftCentral commands with no keys at all, fixed in versions 1.26.5 and 2.26.5. Sites below those versions now face both the supply-chain key theft and that unauthenticated command-forgery issue simultaneously. Separately, the Rank Math PRO plugin website suffered a supply-chain compromise (CVE-2026-111862, CVSS 9.8), with trojanized version 3.0.123 phoning home to rank1cdn[.]com and planting hidden backdoors. And PHP disclosed two critical pre-release vulnerabilities codenamed PHP2Shell (CVE-2026-109618 and CVE-2026-109619, CVSS 9.2) affecting PHP versions 5 through 8, with broad exposure across WordPress, Drupal, Joomla, and shared hosting stacks.</p><p>Practitioner takeaway: For any site with UpdraftPlus installed, start your triage at the WordPress Users table and the Plugins list including the Must-Use tab. Look for the named rogue accounts and plugin names above, and block the two attacker IPs at the perimeter. Check wp_usermeta for unexpected capability rows tied to Editor-role accounts. If you find any of the IOCs, treat the site as compromised: the rogue account persists after plugin removal, so plugin deletion alone is not remediation. Restore from a backup predating October 17, then update UpdraftPlus to 1.26.13 or 2.26.13, delete the UpdraftCentral connection key under Settings, and reconnect fresh. IOCs and analysis are in the Patchstack and Wordfence reports.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/attackers-abuse-updraftcentral-keys-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2112847039612789170">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2112847039612789170</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2112847039612789170">DFIR Radar</source>
-      <pubDate>Wed, 21 Oct 2026 10:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2112847039612789170</guid>
     </item>
   </channel>
 </rss>
