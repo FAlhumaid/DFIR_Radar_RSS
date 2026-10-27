@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 27 Oct 2026 03:03:27 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 04:03:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Gheist Attackers Stumble in Attempt to Abuse GitHub Tokens</title>
+      <link>https://www.infosecurity-magazine.com/news/gheist-attackers-abuse-stolen/</link>
+      <description>Gheist attackers used stolen GitHub tokens to plant secret-stealing Actions workflows across 13,500 branches, exfiltrating secrets via API logs with no external C2. Audit Actions logs for short-lived branches and rotate all tokens.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114930936441602516</description>
+      <content:encoded><![CDATA[<p>Gheist attackers used stolen GitHub tokens to plant secret-stealing Actions workflows across 13,500 branches, exfiltrating secrets via API logs with no external C2. Audit Actions logs for short-lived branches and rotate all tokens.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/gheist-attackers-abuse-stolen/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114930936441602516">View on X</a></p>]]></content:encoded>
+      <dc:creator>InfoSecurity Magazine</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114930936441602516</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2114930936441602516">DFIR Radar</source>
+      <pubDate>Tue, 27 Oct 2026 04:03:24 +0000</pubDate>
+      <guid isPermaLink="false">2114930936441602516</guid>
+    </item>
     <item>
       <title>How to Export Okta System Logs</title>
       <link>https://socprime.com/blog/how-to-export-okta-system-logs/</link>
@@ -2428,34 +2442,6 @@ Hunt priority: pull any svchost.exe running from %APPDATA%\Microsoft\ or %TEMP%\
       <source url="https://x.com/DFIR_Radar/status/2113179237926797667">DFIR Radar</source>
       <pubDate>Thu, 22 Oct 2026 08:02:46 +0000</pubDate>
       <guid isPermaLink="false">2113179237926797667</guid>
-    </item>
-    <item>
-      <title>How APT41 revived the BlackLotus bootkit to attack diplomatic organizations in Central Asia</title>
-      <link>https://securelist.com/uefi-bootkit-blackx/121539/</link>
-      <description>APT41 revived the BlackLotus UEFI bootkit as "BlackX" to hit diplomatic targets in Central Asia, exploiting a patched-but-not-enforced vulnerability on fully updated machines.
-
-Key findings:
-
-- BlackX targets diplomatic agencies in Tajikistan, Uzbekistan, and Turkmenistan, deploying after attackers already hold admin privileges. The installer drops inst.exe and an RC4-encrypted blob (PVMDIJGKAX2) to C:\ProgramData\Intel\, launched as "inst.exe PVMDIJGKAX2 Q46F6MDLI3RX2KV1", with the RC4 key as the final argument. Payloads are entirely inside the encrypted file, leaving inst.exe clean on disk and complicating bootkit component recovery.
-
-- The attack chain exploits CVE-2022-21894 (Baton Drop) to install custom Machine Owner Keys, enabling arbitrary EFI loading and Secure Boot bypass. The targeted machines were fully patched, but the patch requires manual activation: setting a registry flag under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Secureboot and creating a scheduled task named Secure-Boot-Update. Without those manual steps, the certificate revocation never fires.
-
-- The kernel driver is signed by "温江区明宇网络技术服务工作室" (certificate serial 0bcdf5e0da32d68900b8b7638459d072, now revoked). It disables process, thread, and registry callbacks, tampers with ETW providers to blind security tooling, and intercepts kernel file-open requests for bootkit files, returning a handle to calc.exe in place of the malicious file.
-
-- Two user-mode espionage payloads follow. A RAT uses Google Drive, OneDrive, and Yandex.Disk for C2, polling files by suffix (0X01 through 0X06 plus SSSR for initial system info) to task and receive output. A second payload, OxiDLLRunner, is an OLLVM-obfuscated DLL sideloaded via a legitimate googleupdate.exe (MD5: AF8A983B9ADA07EAE1259BF2953ABD40). It decrypts v8_context_snapshot.bin in the same folder, executes embedded shellcode plus a Rust PE, and beacons to www.archivetj[.]com to receive plugin DLLs exporting a function named create_plugin.
-
-- Attribution to APT41 is medium confidence. The identifier "xdd" appears in BlackX PDB paths, matching a kernel implant described in ESET's June 2026 FishMonger post. DLL sideloading with an encrypted payload blob and heavy OLLVM use are both patterns common among Chinese-speaking actors.
-
-Takeaway: Check every Windows system for the Secure-Boot-Update scheduled task and the Secureboot registry flag under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Secureboot. Absence of the task on a patched host means the Baton Drop revocation never activated and the machine remains exploitable. Hunt for inst.exe under C:\ProgramData\Intel\ and for googleupdate.exe (original filename jcef_helper.exe) loading unexpected DLLs alongside v8_context_snapshot.bin. Monitor cloud storage outbound connections from non-browser processes, and alert on ETW provider tampering and kernel callback removal. IOCs and full technical details are in the Kaspersky SecureList report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113164202877530369</description>
-      <content:encoded><![CDATA[<p>APT41 revived the BlackLotus UEFI bootkit as &quot;BlackX&quot; to hit diplomatic targets in Central Asia, exploiting a patched-but-not-enforced vulnerability on fully updated machines.</p><p>Key findings:</p><p>- BlackX targets diplomatic agencies in Tajikistan, Uzbekistan, and Turkmenistan, deploying after attackers already hold admin privileges. The installer drops inst.exe and an RC4-encrypted blob (PVMDIJGKAX2) to C:\ProgramData\Intel\, launched as &quot;inst.exe PVMDIJGKAX2 Q46F6MDLI3RX2KV1&quot;, with the RC4 key as the final argument. Payloads are entirely inside the encrypted file, leaving inst.exe clean on disk and complicating bootkit component recovery.</p><p>- The attack chain exploits CVE-2022-21894 (Baton Drop) to install custom Machine Owner Keys, enabling arbitrary EFI loading and Secure Boot bypass. The targeted machines were fully patched, but the patch requires manual activation: setting a registry flag under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Secureboot and creating a scheduled task named Secure-Boot-Update. Without those manual steps, the certificate revocation never fires.</p><p>- The kernel driver is signed by &quot;温江区明宇网络技术服务工作室&quot; (certificate serial 0bcdf5e0da32d68900b8b7638459d072, now revoked). It disables process, thread, and registry callbacks, tampers with ETW providers to blind security tooling, and intercepts kernel file-open requests for bootkit files, returning a handle to calc.exe in place of the malicious file.</p><p>- Two user-mode espionage payloads follow. A RAT uses Google Drive, OneDrive, and Yandex.Disk for C2, polling files by suffix (0X01 through 0X06 plus SSSR for initial system info) to task and receive output. A second payload, OxiDLLRunner, is an OLLVM-obfuscated DLL sideloaded via a legitimate googleupdate.exe (MD5: AF8A983B9ADA07EAE1259BF2953ABD40). It decrypts v8_context_snapshot.bin in the same folder, executes embedded shellcode plus a Rust PE, and beacons to www.archivetj[.]com to receive plugin DLLs exporting a function named create_plugin.</p><p>- Attribution to APT41 is medium confidence. The identifier &quot;xdd&quot; appears in BlackX PDB paths, matching a kernel implant described in ESET&#x27;s June 2026 FishMonger post. DLL sideloading with an encrypted payload blob and heavy OLLVM use are both patterns common among Chinese-speaking actors.</p><p>Takeaway: Check every Windows system for the Secure-Boot-Update scheduled task and the Secureboot registry flag under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Secureboot. Absence of the task on a patched host means the Baton Drop revocation never activated and the machine remains exploitable. Hunt for inst.exe under C:\ProgramData\Intel\ and for googleupdate.exe (original filename jcef_helper.exe) loading unexpected DLLs alongside v8_context_snapshot.bin. Monitor cloud storage outbound connections from non-browser processes, and alert on ETW provider tampering and kernel callback removal. IOCs and full technical details are in the Kaspersky SecureList report.</p><p>#DFIR_Radar</p><p><a href="https://securelist.com/uefi-bootkit-blackx/121539/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113164202877530369">View on X</a></p>]]></content:encoded>
-      <dc:creator>Kaspersky SecureList</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2113164202877530369</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2113164202877530369">DFIR Radar</source>
-      <pubDate>Thu, 22 Oct 2026 07:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2113164202877530369</guid>
     </item>
   </channel>
 </rss>
