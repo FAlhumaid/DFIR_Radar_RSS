@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 27 Oct 2026 08:03:39 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 09:03:36 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Model Has Preferences, but the Harness Got Controls - Part 1</title>
+      <link>https://medium.com/anton-on-security/the-model-has-preferences-but-the-harness-got-controls-part-1-4b87beebced1?source=rss----8e8c3ed26c4c---4</link>
+      <description>The PocketOS 2026 incident shows AI coding agents need harness-layer controls: scoped identity, egress allowlists, and config governance, not just model alignment. Stream harness action telemetry to your SIEM.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115006484870549649</description>
+      <content:encoded><![CDATA[<p>The PocketOS 2026 incident shows AI coding agents need harness-layer controls: scoped identity, egress allowlists, and config governance, not just model alignment. Stream harness action telemetry to your SIEM.</p><p>#DFIR_Radar</p><p><a href="https://medium.com/anton-on-security/the-model-has-preferences-but-the-harness-got-controls-part-1-4b87beebced1?source=rss----8e8c3ed26c4c---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115006484870549649">View on X</a></p>]]></content:encoded>
+      <dc:creator>Anton on Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115006484870549649</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2115006484870549649">DFIR Radar</source>
+      <pubDate>Tue, 27 Oct 2026 09:03:36 +0000</pubDate>
+      <guid isPermaLink="false">2115006484870549649</guid>
+    </item>
     <item>
       <title>Hackers Infect 953 Online Stores With Scanner-Evading JavaScript, Mostly on Magento</title>
       <link>https://thehackernews.com/2026/10/hackers-infect-953-online-stores-with.html</link>
@@ -2378,34 +2392,6 @@ Responder action: Map every service that decodes untrusted Brotli data, whether 
       <source url="https://x.com/DFIR_Radar/status/2113255323490267359">DFIR Radar</source>
       <pubDate>Thu, 22 Oct 2026 13:05:06 +0000</pubDate>
       <guid isPermaLink="false">2113255323490267359</guid>
-    </item>
-    <item>
-      <title>CA-26-041: Compromised eMudhra Intermediate Certificate Authority Certificates</title>
-      <link>https://www.deepwatch.com/labs/ca-26-041-compromised-emudhra-intermediate-certificate-authority-certificates/</link>
-      <description>Eight eMudhra intermediate CA keys compromised via weak key-generation ceremony, enabling fraudulent TLS and code-signing certificates trusted by major browsers, OS platforms, and Microsoft's Authenticode chain.
-
-Key details:
-
-- The root cause is not a network breach but a wrap/unwrap flaw during a FIPS 140-2 Level 3 HSM key-generation ceremony that produced P-384 private values smaller than 256, making private key recovery from the public key effectively immediate. Six intermediates could issue browser-trusted TLS certificates; two (EM OV CS CA - G3B and G3C) could issue Microsoft-trusted code-signing certificates. Sectigo cross-signed the same key material, extending trust surface. No intrusion set has been attributed and no malicious use has been confirmed as of publication, but absence from Certificate Transparency logs does not exclude unlogged certificates against clients that do not enforce CT.
-
-- The response timeline matters for scoping remediation: Chrome blocked TLS keys via CRLSet on October 17, 2026 and Mozilla completed a OneCRL block the same day. eMudhra revoked all eight certificates October 18, Firefox released out-of-band updates (158.0.1, ESR 115.43.1, ESR 153.5.1, Android 158.0.2). Go pushed deny-list releases 1.26.10 and 1.27.3 (tracked as CVE-2026-111943 / GO-2026-6809, no CVSS published). Google plans full removal of emSign ECC Root CA - G3 from the Chrome Root Store on October 27, 2026, which can break legitimate services that chain to the removed root even if they were never issued by a compromised intermediate.
-
-- The MITRE-mapped threat scenarios are T1587.003 (Develop Capabilities: Digital Certificates, recovering weak CA keys to forge certificates), T1557 (Adversary-in-the-Middle, combining a forged TLS cert with DNS, routing, Wi-Fi, or proxy interception to impersonate services, decrypt traffic, or capture credentials), and T1553.002 (Subvert Trust Controls: Code Signing, making malicious software appear signed by a trusted chain where revocation or updated deny lists are not enforced).
-
-- Risk is highest in environments where revocation checks fail open, CT is not enforced, or trust stores are bundled and rarely refreshed: TLS-inspection proxies, secure web gateways, EDR agents, VPNs, package managers, embedded devices, containers, and custom applications. These are also the environments least likely to have received browser-level CRLSet or OneCRL coverage automatically.
-
-- For code signing, any executable, installer, driver, or script with an Authenticode chain through EM OV CS CA - G3B or G3C and a first-seen date on or after October 17, 2026 is a triage lead. Correlate against file prevalence, download source, parent process, and execution behavior before treating a chain match as proof of maliciousness.
-
-Practitioner takeaway: Inventory all services chaining to emSign ECC Root CA - G3, emSign Root TLS CA - G3, or AAA Certificate Services and replace certificates before the October 27 root removal creates availability impact. For detection, alert when high-value domains present a new or unexpected issuer, when a chain includes eMudhra G3B/G3C intermediates, or when a client accepts a chain a patched Chrome or Firefox reference client rejects. Hunt for DNS poisoning, rogue proxy settings, unauthorized VPN gateways, ARP spoofing, or route changes coinciding with certificate anomalies. Audit Authenticode chains for files first seen on or after October 17, 2026 chaining through the two code-signing intermediates. After applying trust-store updates, watch for spikes in OCSP, CRL, or TLS handshake failures to surface devices still carrying stale bundles.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113240108908560389</description>
-      <content:encoded><![CDATA[<p>Eight eMudhra intermediate CA keys compromised via weak key-generation ceremony, enabling fraudulent TLS and code-signing certificates trusted by major browsers, OS platforms, and Microsoft&#x27;s Authenticode chain.</p><p>Key details:</p><p>- The root cause is not a network breach but a wrap/unwrap flaw during a FIPS 140-2 Level 3 HSM key-generation ceremony that produced P-384 private values smaller than 256, making private key recovery from the public key effectively immediate. Six intermediates could issue browser-trusted TLS certificates; two (EM OV CS CA - G3B and G3C) could issue Microsoft-trusted code-signing certificates. Sectigo cross-signed the same key material, extending trust surface. No intrusion set has been attributed and no malicious use has been confirmed as of publication, but absence from Certificate Transparency logs does not exclude unlogged certificates against clients that do not enforce CT.</p><p>- The response timeline matters for scoping remediation: Chrome blocked TLS keys via CRLSet on October 17, 2026 and Mozilla completed a OneCRL block the same day. eMudhra revoked all eight certificates October 18, Firefox released out-of-band updates (158.0.1, ESR 115.43.1, ESR 153.5.1, Android 158.0.2). Go pushed deny-list releases 1.26.10 and 1.27.3 (tracked as CVE-2026-111943 / GO-2026-6809, no CVSS published). Google plans full removal of emSign ECC Root CA - G3 from the Chrome Root Store on October 27, 2026, which can break legitimate services that chain to the removed root even if they were never issued by a compromised intermediate.</p><p>- The MITRE-mapped threat scenarios are T1587.003 (Develop Capabilities: Digital Certificates, recovering weak CA keys to forge certificates), T1557 (Adversary-in-the-Middle, combining a forged TLS cert with DNS, routing, Wi-Fi, or proxy interception to impersonate services, decrypt traffic, or capture credentials), and T1553.002 (Subvert Trust Controls: Code Signing, making malicious software appear signed by a trusted chain where revocation or updated deny lists are not enforced).</p><p>- Risk is highest in environments where revocation checks fail open, CT is not enforced, or trust stores are bundled and rarely refreshed: TLS-inspection proxies, secure web gateways, EDR agents, VPNs, package managers, embedded devices, containers, and custom applications. These are also the environments least likely to have received browser-level CRLSet or OneCRL coverage automatically.</p><p>- For code signing, any executable, installer, driver, or script with an Authenticode chain through EM OV CS CA - G3B or G3C and a first-seen date on or after October 17, 2026 is a triage lead. Correlate against file prevalence, download source, parent process, and execution behavior before treating a chain match as proof of maliciousness.</p><p>Practitioner takeaway: Inventory all services chaining to emSign ECC Root CA - G3, emSign Root TLS CA - G3, or AAA Certificate Services and replace certificates before the October 27 root removal creates availability impact. For detection, alert when high-value domains present a new or unexpected issuer, when a chain includes eMudhra G3B/G3C intermediates, or when a client accepts a chain a patched Chrome or Firefox reference client rejects. Hunt for DNS poisoning, rogue proxy settings, unauthorized VPN gateways, ARP spoofing, or route changes coinciding with certificate anomalies. Audit Authenticode chains for files first seen on or after October 17, 2026 chaining through the two code-signing intermediates. After applying trust-store updates, watch for spikes in OCSP, CRL, or TLS handshake failures to surface devices still carrying stale bundles.</p><p>#DFIR_Radar</p><p><a href="https://www.deepwatch.com/labs/ca-26-041-compromised-emudhra-intermediate-certificate-authority-certificates/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113240108908560389">View on X</a></p>]]></content:encoded>
-      <dc:creator>Deepwatch</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2113240108908560389</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2113240108908560389">DFIR Radar</source>
-      <pubDate>Thu, 22 Oct 2026 12:04:39 +0000</pubDate>
-      <guid isPermaLink="false">2113240108908560389</guid>
     </item>
   </channel>
 </rss>
