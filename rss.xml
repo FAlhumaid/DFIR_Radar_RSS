@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 27 Oct 2026 02:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 03:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Export Okta System Logs</title>
+      <link>https://socprime.com/blog/how-to-export-okta-system-logs/</link>
+      <description>Okta System Log via GET /api/v1/logs retains 90 days of identity events: sign-ins, MFA pushes, factor resets, and admin role grants. Hunt actor.alternateId, client.ipAddress, and user.account.privilege.grant for post-compromise activity.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114915852621344863</description>
+      <content:encoded><![CDATA[<p>Okta System Log via GET /api/v1/logs retains 90 days of identity events: sign-ins, MFA pushes, factor resets, and admin role grants. Hunt actor.alternateId, client.ipAddress, and user.account.privilege.grant for post-compromise activity.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-okta-system-logs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114915852621344863">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114915852621344863</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2114915852621344863">DFIR Radar</source>
+      <pubDate>Tue, 27 Oct 2026 03:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2114915852621344863</guid>
+    </item>
     <item>
       <title>How to Export Kubernetes Audit Logs</title>
       <link>https://socprime.com/blog/how-to-export-kubernetes-audit-logs/</link>
@@ -2442,34 +2456,6 @@ Takeaway: Check every Windows system for the Secure-Boot-Update scheduled task a
       <source url="https://x.com/DFIR_Radar/status/2113164202877530369">DFIR Radar</source>
       <pubDate>Thu, 22 Oct 2026 07:03:02 +0000</pubDate>
       <guid isPermaLink="false">2113164202877530369</guid>
-    </item>
-    <item>
-      <title>PHP2Shell: AI uncovers critical RCE vulnerabilities affecting 70% of the Internet</title>
-      <link>https://www.wiz.io/blog/php2shell-php-rce</link>
-      <description>PHP2Shell: Critical RCE and memory disclosure flaws patched October 21, 2026, affect every PHP version back to 5.4, covering an estimated 70% of all websites. Two CVEs reach CVSS 9.2. Actively exploited in proof-of-concept by the discovering researchers; patch urgently.
-
-Key findings:
-
-- CVE-2026-109618 is an upload-progress unserializer use-after-free. PHP's Session module can decode session data before full initialization; a fatal out-of-memory error destroys the request heap but leaves global unserializer state published. A later worker request can consume attacker-reclaimed memory as live bookkeeping, enabling controlled corruption. Separately, a stale PS(id) pointer left after OOM abort causes PHP to URL-encode raw heap contents into a PHPSESSID response cookie, disclosing an attacker-sized window of live worker memory, including passwords, tokens, API keys, and certificates from other requests. This memory disclosure is application-agnostic: it fires even when the application never calls session_start().
-
-- CVE-2026-109619 covers two additional primitives. The fatal-error backtrace use-after-free leaves EG(last_fatal_error_backtrace) pointing to freed memory after a fatal OOM; an early diagnostic on the next request follows the dangling pointer before the executor reinitializes, yielding cross-request memory corruption. The OPcache type confusion arises during zend_accel_script_persist() when an allocation failure leaves the process-local CG(map_ptr_last) frontier advanced but the shared frontier unpublished; a second worker reuses those slots for a different runtime object, producing a cross-worker type confusion in shared OPcache memory. Wiz chained these into unauthenticated pre-authentication RCE demonstrated against WordPress, Drupal, and Joomla latest container images.
-
-- The bugs live below the application layer. Application logs may be sparse, but defenders should look for unusual multipart requests followed by memory-limit errors or repeated HTTP 500 responses, unexpectedly large or malformed PHPSESSID response cookies, and unexplained PHP worker churn. These are the signals the report identifies as investigation starting points for unpatched systems.
-
-- The AI angle is operationally significant for DFIR threat modeling. Wiz used Gemini 4 Argon and GPT-5.6 Sol alongside Wiz Atlas; the models reduced exploit development and cross-version adaptation from an estimated months-long effort for a world-class team to roughly one week for a single researcher. The report frames this as a shift in exploitability economics: complexity no longer provides the barrier it once did, and defenders should reassess how they prioritize "difficult to exploit" memory-safety flaws in critical runtimes going forward.
-
-- Coordinated disclosure involved the PHP team, OpenAI, Calif, Automattic, Akamai, AWS, Cloudflare, Fastly, Google, Imperva, Microsoft, and Vercel. The PHP patch released October 21, 2026, fixes the root cause and eliminates known variants. The report notes additional untracked variants exist in the PHP codebase; all should be covered by the same patch.
-
-Practitioner takeaway: Patch to the October 21, 2026 PHP release immediately. While awaiting patching, instrument your PHP-FPM or mod_php environment to alert on multipart POST requests that trigger memory-limit errors (HTTP 500 bursts from the same worker), and monitor outbound PHPSESSID cookie sizes for anomalously large values. The Wiz report includes remediation and threat hunting guidance; CDN and WAF-level mitigations were pre-deployed by several providers for customers who cannot patch immediately. If you observe the worker churn or cookie anomalies the report describes on a system that has not yet been patched, treat it as a potential active exploitation event and begin memory and process forensics on the affected PHP workers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113149877127696406</description>
-      <content:encoded><![CDATA[<p>PHP2Shell: Critical RCE and memory disclosure flaws patched October 21, 2026, affect every PHP version back to 5.4, covering an estimated 70% of all websites. Two CVEs reach CVSS 9.2. Actively exploited in proof-of-concept by the discovering researchers; patch urgently.</p><p>Key findings:</p><p>- CVE-2026-109618 is an upload-progress unserializer use-after-free. PHP&#x27;s Session module can decode session data before full initialization; a fatal out-of-memory error destroys the request heap but leaves global unserializer state published. A later worker request can consume attacker-reclaimed memory as live bookkeeping, enabling controlled corruption. Separately, a stale PS(id) pointer left after OOM abort causes PHP to URL-encode raw heap contents into a PHPSESSID response cookie, disclosing an attacker-sized window of live worker memory, including passwords, tokens, API keys, and certificates from other requests. This memory disclosure is application-agnostic: it fires even when the application never calls session_start().</p><p>- CVE-2026-109619 covers two additional primitives. The fatal-error backtrace use-after-free leaves EG(last_fatal_error_backtrace) pointing to freed memory after a fatal OOM; an early diagnostic on the next request follows the dangling pointer before the executor reinitializes, yielding cross-request memory corruption. The OPcache type confusion arises during zend_accel_script_persist() when an allocation failure leaves the process-local CG(map_ptr_last) frontier advanced but the shared frontier unpublished; a second worker reuses those slots for a different runtime object, producing a cross-worker type confusion in shared OPcache memory. Wiz chained these into unauthenticated pre-authentication RCE demonstrated against WordPress, Drupal, and Joomla latest container images.</p><p>- The bugs live below the application layer. Application logs may be sparse, but defenders should look for unusual multipart requests followed by memory-limit errors or repeated HTTP 500 responses, unexpectedly large or malformed PHPSESSID response cookies, and unexplained PHP worker churn. These are the signals the report identifies as investigation starting points for unpatched systems.</p><p>- The AI angle is operationally significant for DFIR threat modeling. Wiz used Gemini 4 Argon and GPT-5.6 Sol alongside Wiz Atlas; the models reduced exploit development and cross-version adaptation from an estimated months-long effort for a world-class team to roughly one week for a single researcher. The report frames this as a shift in exploitability economics: complexity no longer provides the barrier it once did, and defenders should reassess how they prioritize &quot;difficult to exploit&quot; memory-safety flaws in critical runtimes going forward.</p><p>- Coordinated disclosure involved the PHP team, OpenAI, Calif, Automattic, Akamai, AWS, Cloudflare, Fastly, Google, Imperva, Microsoft, and Vercel. The PHP patch released October 21, 2026, fixes the root cause and eliminates known variants. The report notes additional untracked variants exist in the PHP codebase; all should be covered by the same patch.</p><p>Practitioner takeaway: Patch to the October 21, 2026 PHP release immediately. While awaiting patching, instrument your PHP-FPM or mod_php environment to alert on multipart POST requests that trigger memory-limit errors (HTTP 500 bursts from the same worker), and monitor outbound PHPSESSID cookie sizes for anomalously large values. The Wiz report includes remediation and threat hunting guidance; CDN and WAF-level mitigations were pre-deployed by several providers for customers who cannot patch immediately. If you observe the worker churn or cookie anomalies the report describes on a system that has not yet been patched, treat it as a potential active exploitation event and begin memory and process forensics on the affected PHP workers.</p><p>#DFIR_Radar</p><p><a href="https://www.wiz.io/blog/php2shell-php-rce">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113149877127696406">View on X</a></p>]]></content:encoded>
-      <dc:creator>Wiz Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2113149877127696406</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2113149877127696406">DFIR Radar</source>
-      <pubDate>Thu, 22 Oct 2026 06:06:06 +0000</pubDate>
-      <guid isPermaLink="false">2113149877127696406</guid>
     </item>
   </channel>
 </rss>
