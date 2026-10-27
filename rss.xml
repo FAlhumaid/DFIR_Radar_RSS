@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 27 Oct 2026 00:05:01 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 01:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Kernel eviction notice: What wesp.sys reveals about the Windows Endpoint Security Platform</title>
+      <link>https://www.elastic.co/security-labs/blog/windows-endpoint-security-platform-wesp</link>
+      <description>Microsoft's Windows Endpoint Security Platform (WESP) reverse-engineered from Insider build binaries: a single Microsoft-owned kernel driver aims to replace every vendor's EDR kernel component, but key blocking capability is not yet present.
+
+Key findings:
+
+- wesp.sys lives in System32\Drivers and registers as a file system mini-filter at altitude 329500, sitting above WdFilter (328010) in the filter stack. It carries public symbols on the Microsoft symbol server, so a local kernel debugging session in WinDbg exposes its internals without source. The companion user-mode library espclient.dll lives in System32 and exports a C-based API where every function is prefixed Esp, covering rules and filter configuration. These two binaries are the entire public surface of WESP right now.
+
+- Communication between wesp.sys and user-mode clients runs through a FilterCommunicationPort object named ESPFilterPort, visible in WinObj under the root object manager directory. The driver has no device objects and handles no IRP major functions itself, so DeviceIoControl is off the table entirely. espclient.dll imports FilterConnectCommunicationPort, FilterGetMessage, and FilterSendMessage from FltLib.dll, but notably not FilterReplyMessage. That omission matters: without reply capability, user-mode clients cannot send a blocking decision back to the driver, meaning process creation veto is not yet implemented.
+
+- The motivation is the July 2024 CrowdStrike outage, where a bad content update crashed 8.5 million machines by faulting the vendor's kernel driver. WESP consolidates the kernel footprint into one Microsoft-tested driver, replacing the current model where every EDR ships its own kernel component. Notifications for process, thread, image, handle, registry, file system, and network events would all route through wesp.sys, though coverage today is partial and undocumented.
+
+- Filtering at the source is architecturally central: the Esp-prefixed exports confirm rule and filter objects exist in the client API, designed to drop high-volume events (registry reads, file reads) inside the driver before they ever reach user mode. This is essential for performance given the volume ProcMon illustrates at idle. Client processes must run elevated and will likely require Protected Process Light (PPL) status signed by Microsoft.
+
+Practitioner takeaway: For defenders and researchers, run fltmc in an elevated prompt on Insider builds and confirm wesp at altitude 329500. Enumerate ESPFilterPort in WinObj to verify the communication channel is active. The absence of FilterReplyMessage in espclient.dll is the key gap to track: until that or an equivalent is present, WESP cannot support inline blocking, and EDR vendors will need to retain their own kernel drivers for enforcement capability. Watch Microsoft's symbol server and Insider changelogs for updates to both binaries as the capability matures.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114885728748666898</description>
+      <content:encoded><![CDATA[<p>Microsoft&#x27;s Windows Endpoint Security Platform (WESP) reverse-engineered from Insider build binaries: a single Microsoft-owned kernel driver aims to replace every vendor&#x27;s EDR kernel component, but key blocking capability is not yet present.</p><p>Key findings:</p><p>- wesp.sys lives in System32\Drivers and registers as a file system mini-filter at altitude 329500, sitting above WdFilter (328010) in the filter stack. It carries public symbols on the Microsoft symbol server, so a local kernel debugging session in WinDbg exposes its internals without source. The companion user-mode library espclient.dll lives in System32 and exports a C-based API where every function is prefixed Esp, covering rules and filter configuration. These two binaries are the entire public surface of WESP right now.</p><p>- Communication between wesp.sys and user-mode clients runs through a FilterCommunicationPort object named ESPFilterPort, visible in WinObj under the root object manager directory. The driver has no device objects and handles no IRP major functions itself, so DeviceIoControl is off the table entirely. espclient.dll imports FilterConnectCommunicationPort, FilterGetMessage, and FilterSendMessage from FltLib.dll, but notably not FilterReplyMessage. That omission matters: without reply capability, user-mode clients cannot send a blocking decision back to the driver, meaning process creation veto is not yet implemented.</p><p>- The motivation is the July 2024 CrowdStrike outage, where a bad content update crashed 8.5 million machines by faulting the vendor&#x27;s kernel driver. WESP consolidates the kernel footprint into one Microsoft-tested driver, replacing the current model where every EDR ships its own kernel component. Notifications for process, thread, image, handle, registry, file system, and network events would all route through wesp.sys, though coverage today is partial and undocumented.</p><p>- Filtering at the source is architecturally central: the Esp-prefixed exports confirm rule and filter objects exist in the client API, designed to drop high-volume events (registry reads, file reads) inside the driver before they ever reach user mode. This is essential for performance given the volume ProcMon illustrates at idle. Client processes must run elevated and will likely require Protected Process Light (PPL) status signed by Microsoft.</p><p>Practitioner takeaway: For defenders and researchers, run fltmc in an elevated prompt on Insider builds and confirm wesp at altitude 329500. Enumerate ESPFilterPort in WinObj to verify the communication channel is active. The absence of FilterReplyMessage in espclient.dll is the key gap to track: until that or an equivalent is present, WESP cannot support inline blocking, and EDR vendors will need to retain their own kernel drivers for enforcement capability. Watch Microsoft&#x27;s symbol server and Insider changelogs for updates to both binaries as the capability matures.</p><p>#DFIR_Radar</p><p><a href="https://www.elastic.co/security-labs/blog/windows-endpoint-security-platform-wesp">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114885728748666898">View on X</a></p>]]></content:encoded>
+      <dc:creator>Elastic Security Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2114885728748666898</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2114885728748666898">DFIR Radar</source>
+      <pubDate>Tue, 27 Oct 2026 01:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2114885728748666898</guid>
+    </item>
     <item>
       <title>Researchers Uncover Rentable Android Spyware uCreater Targeting WeChat and Telegram</title>
       <link>https://securityaffairs.com/201764/malware/researchers-uncover-rentable-android-spyware-ucreater-targeting-wechat-and-telegram.html</link>
@@ -2446,32 +2472,6 @@ Responder takeaway: if Syncrify 6.2 is in your environment, examine /etc/cron.d/
       <source url="https://x.com/DFIR_Radar/status/2113134610800681226">DFIR Radar</source>
       <pubDate>Thu, 22 Oct 2026 05:05:26 +0000</pubDate>
       <guid isPermaLink="false">2113134610800681226</guid>
-    </item>
-    <item>
-      <title>Traces for Deleted photo/video Under Apple Photos app</title>
-      <link>https://www.msab.com/blog/traces-for-deleted-photo-video-under-apple-photos-app/</link>
-      <description>Deleted photos and videos on iPhone leave behind multiple forensic traces in the Photos.sqlite database and surrounding artifacts, even when the media itself is permanently unrecoverable due to file-based encryption.
-
-Key findings:
-
-- The Photos.sqlite database is the primary target. Even when acquisition is limited to an iTunes backup, this database retains metadata about permanently deleted media, including evidence of the deletion event itself, historical creation timestamps, the original filename, camera information, and recovered deleted ZASSET records. The media file is gone, but the database entry describing it may not be.
-
-- File-based encryption (FBE) on modern iPhones makes recovering the underlying photo or video extremely difficult or impossible with current forensic techniques, but it does not necessarily wipe the database records that referenced that media. This is the critical gap investigators can exploit: the capture event may be provable even when the image is not recoverable.
-
-- A full file system extraction opens additional corroborating sources beyond Photos.sqlite: File System Events, Biome data, and the Unified Logs. Cross-referencing these with ZASSET records from the database can build a more complete timeline of when media was created, managed, and deleted, which matters enormously in cases like upskirting where the timing of capture is the central question.
-
-- These artifacts are transient. They can be automatically purged, overwritten, or become unavailable as the device continues to operate. The report is explicit: the longer the gap between the relevant activity and device acquisition, the higher the probability that valuable traces are lost for good.
-
-Practitioner takeaway: In cases involving suspected deleted media on an iPhone, prioritize early acquisition. Parse Photos.sqlite for ZASSET table records, including deleted rows, and extract creation timestamps, filenames, and camera metadata even where no image is recoverable. If full file system access is available, correlate with File System Events, Biome, and Unified Logs to corroborate and timestamp the capture event. An iTunes backup is a viable fallback, but a full file system pull gives you the broader picture. Time is the enemy here: secure the device and acquire it before those transient records are gone.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113119423708201439</description>
-      <content:encoded><![CDATA[<p>Deleted photos and videos on iPhone leave behind multiple forensic traces in the Photos.sqlite database and surrounding artifacts, even when the media itself is permanently unrecoverable due to file-based encryption.</p><p>Key findings:</p><p>- The Photos.sqlite database is the primary target. Even when acquisition is limited to an iTunes backup, this database retains metadata about permanently deleted media, including evidence of the deletion event itself, historical creation timestamps, the original filename, camera information, and recovered deleted ZASSET records. The media file is gone, but the database entry describing it may not be.</p><p>- File-based encryption (FBE) on modern iPhones makes recovering the underlying photo or video extremely difficult or impossible with current forensic techniques, but it does not necessarily wipe the database records that referenced that media. This is the critical gap investigators can exploit: the capture event may be provable even when the image is not recoverable.</p><p>- A full file system extraction opens additional corroborating sources beyond Photos.sqlite: File System Events, Biome data, and the Unified Logs. Cross-referencing these with ZASSET records from the database can build a more complete timeline of when media was created, managed, and deleted, which matters enormously in cases like upskirting where the timing of capture is the central question.</p><p>- These artifacts are transient. They can be automatically purged, overwritten, or become unavailable as the device continues to operate. The report is explicit: the longer the gap between the relevant activity and device acquisition, the higher the probability that valuable traces are lost for good.</p><p>Practitioner takeaway: In cases involving suspected deleted media on an iPhone, prioritize early acquisition. Parse Photos.sqlite for ZASSET table records, including deleted rows, and extract creation timestamps, filenames, and camera metadata even where no image is recoverable. If full file system access is available, correlate with File System Events, Biome, and Unified Logs to corroborate and timestamp the capture event. An iTunes backup is a viable fallback, but a full file system pull gives you the broader picture. Time is the enemy here: secure the device and acquire it before those transient records are gone.</p><p>#DFIR_Radar</p><p><a href="https://www.msab.com/blog/traces-for-deleted-photo-video-under-apple-photos-app/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113119423708201439">View on X</a></p>]]></content:encoded>
-      <dc:creator>MSAB</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2113119423708201439</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2113119423708201439">DFIR Radar</source>
-      <pubDate>Thu, 22 Oct 2026 04:05:05 +0000</pubDate>
-      <guid isPermaLink="false">2113119423708201439</guid>
     </item>
   </channel>
 </rss>
