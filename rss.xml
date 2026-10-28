@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 28 Oct 2026 12:03:11 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 28 Oct 2026 13:03:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Doorway Botnet: Inside a Large-Scale IoT and Network Device Compromise Campaign</title>
+      <link>https://www.cloudsek.com/blog/doorway-botnet-global-iot-router-camera-enterprise-server-attacks</link>
+      <description>The Doorway botnet has systematically compromised routers, cameras, and enterprise servers globally, with 11,363 device joins recorded in a single hour and 41 GB of operational data left exposed by the operators themselves.
+
+Key findings:
+
+- CloudSEK's investigation began with 41 GB of exposed operational data left accessible by the Doorway operators, revealing the inner workings of the campaign at an unusual level of detail. The data contained 59 exploit modules targeting IoT devices, network gear, and enterprise servers, alongside automated credential stuffing logic designed to move through device populations at scale.
+
+- The attack chain combines known vulnerability exploitation with brute-force credential attacks. Devices compromised include consumer and enterprise routers, surveillance cameras, and servers, all folded into proxy infrastructure rather than used for traditional DDoS or spam purposes. The botnet's primary value appears to be as a commercial proxy network, routing third-party traffic through victim devices.
+
+- The 11,363 device joins in a single hour is the sharpest indicator of the campaign's operational tempo. At that rate, device turnover and fresh compromise happen continuously, meaning the active device count understates total victim exposure across the campaign's lifetime.
+
+- The 59 exploit modules represent a broad targeting surface. Rather than focusing on a single vendor or CVE, the Doorway operation maintains a module library that can be aimed at whichever device population presents the weakest resistance, a characteristic of mature, commercially motivated botnet operations rather than a targeted threat actor.
+
+Practitioners responding to suspected proxy abuse or unexplained outbound traffic on IoT or network devices should pull authentication logs for rapid sequential failed logins followed by a success, check for new or modified scheduled tasks, cron jobs, and startup scripts, and look for outbound connections to unfamiliar IPs on non-standard ports that persist across reboots. The CloudSEK report contains the IOC details from the exposed operational data.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115429341806919796</description>
+      <content:encoded><![CDATA[<p>The Doorway botnet has systematically compromised routers, cameras, and enterprise servers globally, with 11,363 device joins recorded in a single hour and 41 GB of operational data left exposed by the operators themselves.</p><p>Key findings:</p><p>- CloudSEK&#x27;s investigation began with 41 GB of exposed operational data left accessible by the Doorway operators, revealing the inner workings of the campaign at an unusual level of detail. The data contained 59 exploit modules targeting IoT devices, network gear, and enterprise servers, alongside automated credential stuffing logic designed to move through device populations at scale.</p><p>- The attack chain combines known vulnerability exploitation with brute-force credential attacks. Devices compromised include consumer and enterprise routers, surveillance cameras, and servers, all folded into proxy infrastructure rather than used for traditional DDoS or spam purposes. The botnet&#x27;s primary value appears to be as a commercial proxy network, routing third-party traffic through victim devices.</p><p>- The 11,363 device joins in a single hour is the sharpest indicator of the campaign&#x27;s operational tempo. At that rate, device turnover and fresh compromise happen continuously, meaning the active device count understates total victim exposure across the campaign&#x27;s lifetime.</p><p>- The 59 exploit modules represent a broad targeting surface. Rather than focusing on a single vendor or CVE, the Doorway operation maintains a module library that can be aimed at whichever device population presents the weakest resistance, a characteristic of mature, commercially motivated botnet operations rather than a targeted threat actor.</p><p>Practitioners responding to suspected proxy abuse or unexplained outbound traffic on IoT or network devices should pull authentication logs for rapid sequential failed logins followed by a success, check for new or modified scheduled tasks, cron jobs, and startup scripts, and look for outbound connections to unfamiliar IPs on non-standard ports that persist across reboots. The CloudSEK report contains the IOC details from the exposed operational data.</p><p>#DFIR_Radar</p><p><a href="https://www.cloudsek.com/blog/doorway-botnet-global-iot-router-camera-enterprise-server-attacks">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115429341806919796">View on X</a></p>]]></content:encoded>
+      <dc:creator>CloudSEK</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115429341806919796</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2115429341806919796">DFIR Radar</source>
+      <pubDate>Wed, 28 Oct 2026 13:03:53 +0000</pubDate>
+      <guid isPermaLink="false">2115429341806919796</guid>
+    </item>
     <item>
       <title>CA-26-043: Aokigahara Infostealer Marks Shift in Commodity Malware with Dedicated AI Harvesting</title>
       <link>https://www.deepwatch.com/labs/ca-26-043-aokigahara-infostealer-marks-shift-in-commodity-malware-with-dedicated-ai-harvesting/</link>
@@ -2346,34 +2372,6 @@ Takeaway: Apply KB5126646 to every domain controller immediately. After patching
       <source url="https://x.com/DFIR_Radar/status/2113677267830452369">DFIR Radar</source>
       <pubDate>Fri, 23 Oct 2026 17:01:46 +0000</pubDate>
       <guid isPermaLink="false">2113677267830452369</guid>
-    </item>
-    <item>
-      <title>How CVE-2026-73570 turns a Zimbra log file into remote code execution</title>
-      <link>https://www.elastic.co/security-labs/threat-command/command-injection-zimbra-cve-2026-73570</link>
-      <description>CVE-2026-73570 is an unauthenticated RCE in Zimbra that weaponizes a log file: one malformed SMTP address triggers shell execution as the zimbra user, giving an attacker read access to every mailbox and the ability to send as any local identity.
-
-Key findings:
-
-- The injection chain is: malformed RCPT TO -&gt; /var/log/zimbra.log -&gt; Swatchdog pattern match -&gt; Perl dosnmp backtick -&gt; /bin/sh. The attacker sends an SMTP message with an unclosed angle bracket in the recipient address. Postfix rejects it but logs the raw address, which the attacker has crafted to match the service status pattern "Service status change: localhost $(command) changed from stopped to running". Swatchdog tails the log, matches that pattern, and passes the SERVICE field directly into a backtick expression inside the dosnmp Perl subroutine in swatchrc[.]in. No authentication required, no prior foothold needed, just a TCP connection to port 25.
-
-- The vulnerability lives in the perlcode block at line 26 of swatchrc[.]in, specifically the dosnmp function where $args{SERVICE} is interpolated unescaped into a backtick shell call: backtick $snmptrap $snmpsvctrap $snmpsvcname s args{SERVICE} $snmpsvcstatus i $statuses{args{STATUS}} backtick. The zimbra user (uid=997 in Elastic's lab) runs the resulting command with membership in the zimbra and postfix groups, giving full mailbox read, mail relay as any local identity, and likely LDAP and signing key access.
-
-- Elastic Security Labs confirms active exploitation is feasible and that several public PoCs fail because they write incorrectly formatted log entries that Swatchdog never matches, so a failed PoC test can look like a patched server. Their working PoC uses an out-of-band curl callback to confirm execution without leaving additional on-disk artifacts. The 501 SMTP rejection is expected and does not indicate failure; the log write already happened.
-
-- Patch status: Zimbra 10.1.20 (Daffodil release) is the complete fix. The Elastic Security Labs report confirms the vulnerability was reproduced on Release 10.1.16.BETA.4200001.UBUNTU24.64. If you run internet-facing Zimbra SMTP and have not reached 10.1.20, this is pre-auth RCE on port 25 with a public PoC chain confirmed to work.
-
-- The Elastic report ships the detection rule "Zimbra Swatchdog SNMP Command Injection Execution" as a sequence query: it first looks for a shell (sh, bash, dash, ash, zsh, ksh) spawned by a perl parent whose command line matches .swatchdog_script. and contains snmptrap, zmservicename, and zmservicestatus, then correlated by process.entity_id it looks for any child of that shell where process[.]name != snmptrap. That second process is your payload. The rule is retroactive, so you can hunt pre-patch exploitation in historical EDR telemetry.
-
-Responder action: Run the sequence rule against your Linux EDR telemetry going back to your earliest Zimbra logs. If you find hits, treat the zimbra account as fully compromised and scope for mailbox exfil, phishing relay from the server, LDAP exports, and signing key theft. The report calls out local databases and signing keys explicitly as post-exploitation targets beyond the mail store. IOCs and the detection rule are in the Elastic Security Labs report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113662233376870882</description>
-      <content:encoded><![CDATA[<p>CVE-2026-73570 is an unauthenticated RCE in Zimbra that weaponizes a log file: one malformed SMTP address triggers shell execution as the zimbra user, giving an attacker read access to every mailbox and the ability to send as any local identity.</p><p>Key findings:</p><p>- The injection chain is: malformed RCPT TO -&gt; /var/log/zimbra.log -&gt; Swatchdog pattern match -&gt; Perl dosnmp backtick -&gt; /bin/sh. The attacker sends an SMTP message with an unclosed angle bracket in the recipient address. Postfix rejects it but logs the raw address, which the attacker has crafted to match the service status pattern &quot;Service status change: localhost $(command) changed from stopped to running&quot;. Swatchdog tails the log, matches that pattern, and passes the SERVICE field directly into a backtick expression inside the dosnmp Perl subroutine in swatchrc[.]in. No authentication required, no prior foothold needed, just a TCP connection to port 25.</p><p>- The vulnerability lives in the perlcode block at line 26 of swatchrc[.]in, specifically the dosnmp function where $args{SERVICE} is interpolated unescaped into a backtick shell call: backtick $snmptrap $snmpsvctrap $snmpsvcname s args{SERVICE} $snmpsvcstatus i $statuses{args{STATUS}} backtick. The zimbra user (uid=997 in Elastic&#x27;s lab) runs the resulting command with membership in the zimbra and postfix groups, giving full mailbox read, mail relay as any local identity, and likely LDAP and signing key access.</p><p>- Elastic Security Labs confirms active exploitation is feasible and that several public PoCs fail because they write incorrectly formatted log entries that Swatchdog never matches, so a failed PoC test can look like a patched server. Their working PoC uses an out-of-band curl callback to confirm execution without leaving additional on-disk artifacts. The 501 SMTP rejection is expected and does not indicate failure; the log write already happened.</p><p>- Patch status: Zimbra 10.1.20 (Daffodil release) is the complete fix. The Elastic Security Labs report confirms the vulnerability was reproduced on Release 10.1.16.BETA.4200001.UBUNTU24.64. If you run internet-facing Zimbra SMTP and have not reached 10.1.20, this is pre-auth RCE on port 25 with a public PoC chain confirmed to work.</p><p>- The Elastic report ships the detection rule &quot;Zimbra Swatchdog SNMP Command Injection Execution&quot; as a sequence query: it first looks for a shell (sh, bash, dash, ash, zsh, ksh) spawned by a perl parent whose command line matches .swatchdog_script. and contains snmptrap, zmservicename, and zmservicestatus, then correlated by process.entity_id it looks for any child of that shell where process[.]name != snmptrap. That second process is your payload. The rule is retroactive, so you can hunt pre-patch exploitation in historical EDR telemetry.</p><p>Responder action: Run the sequence rule against your Linux EDR telemetry going back to your earliest Zimbra logs. If you find hits, treat the zimbra account as fully compromised and scope for mailbox exfil, phishing relay from the server, LDAP exports, and signing key theft. The report calls out local databases and signing keys explicitly as post-exploitation targets beyond the mail store. IOCs and the detection rule are in the Elastic Security Labs report.</p><p>#DFIR_Radar</p><p><a href="https://www.elastic.co/security-labs/threat-command/command-injection-zimbra-cve-2026-73570">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113662233376870882">View on X</a></p>]]></content:encoded>
-      <dc:creator>Elastic Security Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2113662233376870882</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2113662233376870882">DFIR Radar</source>
-      <pubDate>Fri, 23 Oct 2026 16:02:01 +0000</pubDate>
-      <guid isPermaLink="false">2113662233376870882</guid>
     </item>
   </channel>
 </rss>
