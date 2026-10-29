@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Oct 2026 03:03:16 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 04:03:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Scalable Vector Grief</title>
+      <link>https://portswigger.net/research/scalable-vector-grief</link>
+      <description>Six of eight tested SVG sanitizers bypassed via namespace tricks, XSLT data-URL injection, and a Safari quirk that imports GIF files as SVG and executes embedded JavaScript.
+
+Key findings:
+
+- mattkrick/sanitize-svg falls to multiple vectors: switching a single element's XML namespace to XHTML (hxxp://www.w3[.]org/1999/xhtml) lets a bare frame or iframe tag render as HTML inside the SVG, with src="javascript:..." or srcdoc carrying the payload. The library also misses foreignObject written in lowercase because its querySelectorAll hunt uses the camel-case form and finds nothing, so the element passes through untouched. Even a nested svg onload handler escapes cleanly.
+
+- Borewit/svg-sanitizer passes animate and animateTransform tags intact, letting an attacker animate a link's href attribute into a JavaScript URL, either immediately or after a timed delay. This is a browser-specific behavior that fires in Safari.
+
+- bgalek/safe-svg, mattkrick/sanitize-svg, and alnorris/SVG-Sanitizer all miss an XSLT injection path: an xml-stylesheet processing instruction pointing at a data:text/xsl;base64,... URL causes Firefox to transform the document before rendering, producing a full HTML page with a script that executes in the document's origin, not a null origin. The body SVG content is completely benign; all the damage is in the processing instruction.
+
+- A more novel Firefox-specific variant moves the XSLT stylesheet entirely out of the document body and into a Link response header (rel="stylesheet"; type="text/xsl"). The response body is harmless XML. Firefox reads the header, fetches the data-URL stylesheet, and executes the resulting script in the document's origin. cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg all fail against this because sanitizers inspect the document body, not response headers.
+
+- Safari treats files referenced by use href= as SVG regardless of their MIME type or extension, so a GIF containing SVG markup with an image onerror handler can be uploaded as an innocent image file, then imported by a separate SVG via use href="/uploads/payload.gif#x". This bypasses cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg. The GIF does not render as SVG when opened directly, so it evades visual inspection. DOMPurify and darylldoyle/svg-sanitizer held against all techniques in the report.
+
+Practitioner takeaway: If your application accepts SVG uploads and routes them through any of the six affected libraries, your sanitization boundary is not the document body alone. Response headers (especially Content-Type and Link) are part of the attack surface in Firefox. For upload pipelines, audit whether your stack allows the xml-stylesheet processing instruction to survive, whether animate and animateTransform are allowlisted, and whether non-SVG files in the same origin can be pulled in via the use element. The XSLT data-URL technique is browser-deprecated as of November 2026, but the namespace-switching and GIF-import vectors are not. Switch to DOMPurify or darylldoyle/svg-sanitizer if you cannot patch immediately, and treat any file referenced by a use href as a potential SVG execution context regardless of its extension or MIME type.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115655826807595438</description>
+      <content:encoded><![CDATA[<p>Six of eight tested SVG sanitizers bypassed via namespace tricks, XSLT data-URL injection, and a Safari quirk that imports GIF files as SVG and executes embedded JavaScript.</p><p>Key findings:</p><p>- mattkrick/sanitize-svg falls to multiple vectors: switching a single element&#x27;s XML namespace to XHTML (hxxp://www.w3[.]org/1999/xhtml) lets a bare frame or iframe tag render as HTML inside the SVG, with src=&quot;javascript:...&quot; or srcdoc carrying the payload. The library also misses foreignObject written in lowercase because its querySelectorAll hunt uses the camel-case form and finds nothing, so the element passes through untouched. Even a nested svg onload handler escapes cleanly.</p><p>- Borewit/svg-sanitizer passes animate and animateTransform tags intact, letting an attacker animate a link&#x27;s href attribute into a JavaScript URL, either immediately or after a timed delay. This is a browser-specific behavior that fires in Safari.</p><p>- bgalek/safe-svg, mattkrick/sanitize-svg, and alnorris/SVG-Sanitizer all miss an XSLT injection path: an xml-stylesheet processing instruction pointing at a data:text/xsl;base64,... URL causes Firefox to transform the document before rendering, producing a full HTML page with a script that executes in the document&#x27;s origin, not a null origin. The body SVG content is completely benign; all the damage is in the processing instruction.</p><p>- A more novel Firefox-specific variant moves the XSLT stylesheet entirely out of the document body and into a Link response header (rel=&quot;stylesheet&quot;; type=&quot;text/xsl&quot;). The response body is harmless XML. Firefox reads the header, fetches the data-URL stylesheet, and executes the resulting script in the document&#x27;s origin. cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg all fail against this because sanitizers inspect the document body, not response headers.</p><p>- Safari treats files referenced by use href= as SVG regardless of their MIME type or extension, so a GIF containing SVG markup with an image onerror handler can be uploaded as an innocent image file, then imported by a separate SVG via use href=&quot;/uploads/payload.gif#x&quot;. This bypasses cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg. The GIF does not render as SVG when opened directly, so it evades visual inspection. DOMPurify and darylldoyle/svg-sanitizer held against all techniques in the report.</p><p>Practitioner takeaway: If your application accepts SVG uploads and routes them through any of the six affected libraries, your sanitization boundary is not the document body alone. Response headers (especially Content-Type and Link) are part of the attack surface in Firefox. For upload pipelines, audit whether your stack allows the xml-stylesheet processing instruction to survive, whether animate and animateTransform are allowlisted, and whether non-SVG files in the same origin can be pulled in via the use element. The XSLT data-URL technique is browser-deprecated as of November 2026, but the namespace-switching and GIF-import vectors are not. Switch to DOMPurify or darylldoyle/svg-sanitizer if you cannot patch immediately, and treat any file referenced by a use href as a potential SVG execution context regardless of its extension or MIME type.</p><p>#DFIR_Radar</p><p><a href="https://portswigger.net/research/scalable-vector-grief">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115655826807595438">View on X</a></p>]]></content:encoded>
+      <dc:creator>PortSwigger Research</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115655826807595438</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2115655826807595438">DFIR Radar</source>
+      <pubDate>Thu, 29 Oct 2026 04:03:51 +0000</pubDate>
+      <guid isPermaLink="false">2115655826807595438</guid>
+    </item>
     <item>
       <title>Exploiting Reversing (ER) series: article 11 | Windows: Missing Bounds in the Print Spooler</title>
       <link>https://exploitreversing.com/2026/10/27/exploiting-reversing-er-series-article-11/</link>
@@ -2334,32 +2362,6 @@ For responders investigating a suspected token replay compromise: start in the E
       <source url="https://x.com/DFIR_Radar/status/2113904598473945406">DFIR Radar</source>
       <pubDate>Sat, 24 Oct 2026 08:05:05 +0000</pubDate>
       <guid isPermaLink="false">2113904598473945406</guid>
-    </item>
-    <item>
-      <title>2026-10-09: Pcap of infection from Macfinger Clickfix activity</title>
-      <link>https://www.malware-traffic-analysis.net/2026/10/09/index.html</link>
-      <description>A pcap from a Macfinger ClickFix infection chain is now publicly available for analysis, giving DFIR practitioners a full traffic capture to dissect the delivery and post-infection behavior.
-
-Key details:
-
-- The released file is 2026-10-09-Macfinger-ClickFix-and-infection-traffic.pcap[.]zip, weighing in at 20.7 MB (20,689,369 bytes), captured on Friday, October 9, 2026. The naming convention ties it directly to a Macfinger campaign using a ClickFix lure, the social-engineering technique that tricks users into manually executing malicious commands by presenting fake CAPTCHA or browser-fix prompts.
-
-- ClickFix infections typically generate distinctive early-stage traffic: DNS lookups and outbound connections initiated by user-spawned processes like cmd.exe, PowerShell, or mshta shortly after the lure page is visited. The pcap covers both the ClickFix delivery phase and the downstream infection traffic, making it useful for building a full timeline from lure to payload.
-
-- The zip is password-protected under Malware Traffic Analysis's updated password scheme. The password is no longer the legacy format: check the site's "about" page directly before attempting to extract. Failing to do so wastes time and risks confusion about file integrity.
-
-- For network defenders and threat hunters, pcaps like this are ground truth. You can reconstruct the full URI paths, user-agent strings, JA3/JA4 fingerprints, certificate subject fields, and payload delivery hosts directly from the capture without relying on third-party reporting. Wireshark's Protocol Hierarchy and Export Objects features are the fastest first pass.
-
-Practitioner takeaway: load the pcap and filter on HTTP and DNS activity in the first 60 seconds of the capture to isolate the ClickFix delivery stage, then pivot to any non-browser process making outbound connections to identify the post-execution C2 or payload retrieval. Cross-reference resolved domains and IP destinations against passive DNS and threat intel feeds. IOCs will be embedded in the traffic itself.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2113889344578842953</description>
-      <content:encoded><![CDATA[<p>A pcap from a Macfinger ClickFix infection chain is now publicly available for analysis, giving DFIR practitioners a full traffic capture to dissect the delivery and post-infection behavior.</p><p>Key details:</p><p>- The released file is 2026-10-09-Macfinger-ClickFix-and-infection-traffic.pcap[.]zip, weighing in at 20.7 MB (20,689,369 bytes), captured on Friday, October 9, 2026. The naming convention ties it directly to a Macfinger campaign using a ClickFix lure, the social-engineering technique that tricks users into manually executing malicious commands by presenting fake CAPTCHA or browser-fix prompts.</p><p>- ClickFix infections typically generate distinctive early-stage traffic: DNS lookups and outbound connections initiated by user-spawned processes like cmd.exe, PowerShell, or mshta shortly after the lure page is visited. The pcap covers both the ClickFix delivery phase and the downstream infection traffic, making it useful for building a full timeline from lure to payload.</p><p>- The zip is password-protected under Malware Traffic Analysis&#x27;s updated password scheme. The password is no longer the legacy format: check the site&#x27;s &quot;about&quot; page directly before attempting to extract. Failing to do so wastes time and risks confusion about file integrity.</p><p>- For network defenders and threat hunters, pcaps like this are ground truth. You can reconstruct the full URI paths, user-agent strings, JA3/JA4 fingerprints, certificate subject fields, and payload delivery hosts directly from the capture without relying on third-party reporting. Wireshark&#x27;s Protocol Hierarchy and Export Objects features are the fastest first pass.</p><p>Practitioner takeaway: load the pcap and filter on HTTP and DNS activity in the first 60 seconds of the capture to isolate the ClickFix delivery stage, then pivot to any non-browser process making outbound connections to identify the post-execution C2 or payload retrieval. Cross-reference resolved domains and IP destinations against passive DNS and threat intel feeds. IOCs will be embedded in the traffic itself.</p><p>#DFIR_Radar</p><p><a href="https://www.malware-traffic-analysis.net/2026/10/09/index.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2113889344578842953">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malware Traffic Analysis</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2113889344578842953</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2113889344578842953">DFIR Radar</source>
-      <pubDate>Sat, 24 Oct 2026 07:04:29 +0000</pubDate>
-      <guid isPermaLink="false">2113889344578842953</guid>
     </item>
   </channel>
 </rss>
