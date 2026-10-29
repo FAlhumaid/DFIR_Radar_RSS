@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Oct 2026 20:02:16 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 21:02:18 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers exploit Cisco SD-WAN flaw to deploy custom KeyDrift malware</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-exploit-cisco-sd-wan-flaw-to-deploy-custom-keydrift-malware/</link>
+      <description>APT group UAT-11473, linked to Volt Typhoon, is exploiting a max-severity Cisco Catalyst SD-WAN auth-bypass to deploy KeyDrift, a framework built to silently steal IPsec encryption keys from network control-plane traffic.
+
+Key details:
+
+- CVE-2026-20127 is a max-severity authentication-bypass in Cisco Catalyst SD-WAN Controllers and Manager, patched in February 2026. UAT-8616 exploited it as a zero-day from at least 2023, and UAT-11473 overlaps with Volt Typhoon's "Silent Train" covert access network per Cisco Talos, though no definitive attribution link has been confirmed. Targets include space and satellite services, defense and aerospace technology, and policy research organizations.
+
+- KeyDrift has two components, PolyFlame and LittleFilch, both showing signs of active development including new anti-debugging mechanisms and process impersonation. PolyFlame runs inside legitimate vdaemon processes via modified service startup scripts and an injector, supports command execution through a TinyShell-styled component, and relays C2 communications across peers. LittleFilch hooks SSL_read inside the controller to intercept decrypted control-plane messages and extract IP identifiers plus 32-byte AES-256 IPsec data-plane key material, which it RSA-encrypts and writes to /var/tmp/vdaemon.bin before transmitting over UDP.
+
+- The forensic risk here is not just initial access but cryptographic compromise. If KeyDrift successfully exfiltrated keying material, any traffic encrypted with those IPsec keys is potentially retrospectively readable. Incident responders should treat IPsec key material across affected SD-WAN deployments as compromised and initiate re-keying across the entire data-plane fabric.
+
+- Detection opportunities center on process anomalies inside vdaemon, unexpected modifications to service startup scripts, the presence of /var/tmp/vdaemon.bin, and anomalous outbound UDP from SD-WAN controller nodes. Unauthorized peer additions in the Controller and Manager interface are also an indicator of post-exploitation activity enabled by the auth-bypass itself.
+
+Responder action: audit vdaemon process trees on all Catalyst SD-WAN controllers for injected children or modified startup scripts, and check /var/tmp/ for vdaemon.bin. Treat any positive finding as full key compromise and rotate IPsec keying material before trusting the network fabric. Apply Cisco's CVE-2026-20127 patch and consult the vendor's Catalyst SD-WAN hardening guide.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115912128645169550</description>
+      <content:encoded><![CDATA[<p>APT group UAT-11473, linked to Volt Typhoon, is exploiting a max-severity Cisco Catalyst SD-WAN auth-bypass to deploy KeyDrift, a framework built to silently steal IPsec encryption keys from network control-plane traffic.</p><p>Key details:</p><p>- CVE-2026-20127 is a max-severity authentication-bypass in Cisco Catalyst SD-WAN Controllers and Manager, patched in February 2026. UAT-8616 exploited it as a zero-day from at least 2023, and UAT-11473 overlaps with Volt Typhoon&#x27;s &quot;Silent Train&quot; covert access network per Cisco Talos, though no definitive attribution link has been confirmed. Targets include space and satellite services, defense and aerospace technology, and policy research organizations.</p><p>- KeyDrift has two components, PolyFlame and LittleFilch, both showing signs of active development including new anti-debugging mechanisms and process impersonation. PolyFlame runs inside legitimate vdaemon processes via modified service startup scripts and an injector, supports command execution through a TinyShell-styled component, and relays C2 communications across peers. LittleFilch hooks SSL_read inside the controller to intercept decrypted control-plane messages and extract IP identifiers plus 32-byte AES-256 IPsec data-plane key material, which it RSA-encrypts and writes to /var/tmp/vdaemon.bin before transmitting over UDP.</p><p>- The forensic risk here is not just initial access but cryptographic compromise. If KeyDrift successfully exfiltrated keying material, any traffic encrypted with those IPsec keys is potentially retrospectively readable. Incident responders should treat IPsec key material across affected SD-WAN deployments as compromised and initiate re-keying across the entire data-plane fabric.</p><p>- Detection opportunities center on process anomalies inside vdaemon, unexpected modifications to service startup scripts, the presence of /var/tmp/vdaemon.bin, and anomalous outbound UDP from SD-WAN controller nodes. Unauthorized peer additions in the Controller and Manager interface are also an indicator of post-exploitation activity enabled by the auth-bypass itself.</p><p>Responder action: audit vdaemon process trees on all Catalyst SD-WAN controllers for injected children or modified startup scripts, and check /var/tmp/ for vdaemon.bin. Treat any positive finding as full key compromise and rotate IPsec keying material before trusting the network fabric. Apply Cisco&#x27;s CVE-2026-20127 patch and consult the vendor&#x27;s Catalyst SD-WAN hardening guide.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-cisco-sd-wan-flaw-to-deploy-custom-keydrift-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115912128645169550">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115912128645169550</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2115912128645169550">DFIR Radar</source>
+      <pubDate>Thu, 29 Oct 2026 21:02:18 +0000</pubDate>
+      <guid isPermaLink="false">2115912128645169550</guid>
+    </item>
     <item>
       <title>The Quiet Phase: Why Active Directory Group Enumeration Deserves Your Attention</title>
       <link>https://trustedsec.com/blog/the-quiet-phase-why-active-directory-group-enumeration-deserves-your-attention</link>
@@ -2406,20 +2432,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114175954675265602">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 02:03:22 +0000</pubDate>
       <guid isPermaLink="false">2114175954675265602</guid>
-    </item>
-    <item>
-      <title>How to Export AWS CloudTrail Logs</title>
-      <link>https://socprime.com/blog/how-to-export-aws-cloudtrail-logs/</link>
-      <description>AWS CloudTrail logs live in Event history for 90 days or in S3 under AWSLogs/&lt;account-id&gt;/CloudTrail/&lt;region&gt;/YYYY/MM/DD/ for older data and data events. During cloud IR, verify IsLogging is not false on active trails before pulling logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114161090523177078</description>
-      <content:encoded><![CDATA[<p>AWS CloudTrail logs live in Event history for 90 days or in S3 under AWSLogs/&lt;account-id&gt;/CloudTrail/&lt;region&gt;/YYYY/MM/DD/ for older data and data events. During cloud IR, verify IsLogging is not false on active trails before pulling logs.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-aws-cloudtrail-logs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114161090523177078">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114161090523177078</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114161090523177078">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 01:04:19 +0000</pubDate>
-      <guid isPermaLink="false">2114161090523177078</guid>
     </item>
   </channel>
 </rss>
