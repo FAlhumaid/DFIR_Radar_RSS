@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Oct 2026 18:02:23 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 19:02:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Polymarket Breach Alert: Wallet-Draining Code Found in a Third-Party Script</title>
+      <link>https://www.infostealers.com/article/polymarket-breach-alert-wallet-draining-code-found-in-a-third-party-script/</link>
+      <description>Wallet-draining JavaScript found inside a DebugBear performance-monitoring script served to Polymarket users, with build metadata confirming removal and one user reporting $800,000 stolen on October 29, 2026.
+
+Key findings:
+
+- Hudson Rock retrieved cdn.debugbear[.]com/C7xcKKrjUnXK.js twice on October 29 at 18:12:06 and 18:13:04 UTC. Both downloads returned identical 15,187-byte payloads with SHA-256 0755e767504d8103f6c27b9e765a1026507a17c04513242adb503df7777879e5. The script reads three localStorage entries: polymarket.auth.params, polymarket.auth.proxyWallet, and poly_clob_api_key_map, then traverses React component internals to locate a live trading client exposing postOrder, createOrder, or createMarketOrder. It does not exfiltrate seed phrases or private keys; it reuses authority already present in the authenticated session to submit orders and sign EIP-712 DepositWallet batch transfers on Polygon.
+
+- The payload branches on account type. For EOA accounts it constructs an ERC-1155 batch transfer directly to a hard-coded fallback recipient: 0x3F99139F1C5854bb628c2e576Aaf638e99dFfc18. For Magic and non-EOA accounts it first attempts SELL orders at escalating prices, then moves proceeds. Theft is conditional on account state, signer availability, and relayer response, so not every exposed session necessarily lost funds. A configuration check to /metrics/init returned HTTP 404, meaning the script fell back to built-in settings including that recipient address.
+
+- Reporting paths encoded in the sample are data.debugbear[.]com/metrics/submit, data.debugbear[.]com/metrics/update, and data.debugbear[.]com/metrics/handle. Fields sent include wallet addresses, IP, country, OS, account type, portfolio values, and transfer-result fields. A tracking UUID 4c6b64a0-a7ef-4c0f-9c70-3a4e6f89065c appears in the configuration and reporting logic. No reporting requests were executed in the review.
+
+- Polymarket's own production build metadata, retrieved at 18:13:43 UTC from a first-party application asset (SHA-256 01c5bc78c4118115bd849ad34e3c42d7ff39479a0feb5b216b1e1ffdc02f853d), carries the change message "chore(polymarket): remove debugbear rum script (#15337)" with build timestamp 2026-10-29T17:59:20.443Z and commit f908fe564ea73067b09ab1f0c5d683970020fbca. The homepage captured at that same moment showed no DebugBear script reference in the page or its Content Security Policy. Build timestamp is not verified deployment or containment time: cached tabs, previously authenticated sessions, and dynamically imported code remain outside that scope.
+
+- Reported impact is $800,000 from a single user ([@]CarOnPolymarket), whose follow-up post states all positions were sold. The fallback recipient address held approximately $2.19 million in POL and token holdings per a PolygonScan screenshot, though that balance cannot be treated as a verified theft total independent of the loss report. The initial compromise vector, exact exposure window, number of affected users, and aggregate losses remain unresolved. A prior June 25, 2026 incident involving approximately $3 million is a separate event.
+
+Practitioner takeaway: The forensic priority right now is evidence preservation before CDN responses change. Capture the exact response bytes, HTTP headers, and hash for any cached or logged copy of cdn.debugbear[.]com/C7xcKKrjUnXK.js. For affected-user triage, review browser localStorage for the three polymarket.auth keys, examine local browser history and network logs for requests to the three /metrics/ paths at data.debugbear[.]com, and pull on-chain activity at the fallback recipient address to trace timing of inbound transfers. For application teams, this case is a direct argument for Subresource Integrity on every third-party script loaded into an authenticated signing context: a trusted CDN hostname provides no verification of the bytes it actually serves. IOCs and evidence details are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115881943556399352</description>
+      <content:encoded><![CDATA[<p>Wallet-draining JavaScript found inside a DebugBear performance-monitoring script served to Polymarket users, with build metadata confirming removal and one user reporting $800,000 stolen on October 29, 2026.</p><p>Key findings:</p><p>- Hudson Rock retrieved cdn.debugbear[.]com/C7xcKKrjUnXK.js twice on October 29 at 18:12:06 and 18:13:04 UTC. Both downloads returned identical 15,187-byte payloads with SHA-256 0755e767504d8103f6c27b9e765a1026507a17c04513242adb503df7777879e5. The script reads three localStorage entries: polymarket.auth.params, polymarket.auth.proxyWallet, and poly_clob_api_key_map, then traverses React component internals to locate a live trading client exposing postOrder, createOrder, or createMarketOrder. It does not exfiltrate seed phrases or private keys; it reuses authority already present in the authenticated session to submit orders and sign EIP-712 DepositWallet batch transfers on Polygon.</p><p>- The payload branches on account type. For EOA accounts it constructs an ERC-1155 batch transfer directly to a hard-coded fallback recipient: 0x3F99139F1C5854bb628c2e576Aaf638e99dFfc18. For Magic and non-EOA accounts it first attempts SELL orders at escalating prices, then moves proceeds. Theft is conditional on account state, signer availability, and relayer response, so not every exposed session necessarily lost funds. A configuration check to /metrics/init returned HTTP 404, meaning the script fell back to built-in settings including that recipient address.</p><p>- Reporting paths encoded in the sample are data.debugbear[.]com/metrics/submit, data.debugbear[.]com/metrics/update, and data.debugbear[.]com/metrics/handle. Fields sent include wallet addresses, IP, country, OS, account type, portfolio values, and transfer-result fields. A tracking UUID 4c6b64a0-a7ef-4c0f-9c70-3a4e6f89065c appears in the configuration and reporting logic. No reporting requests were executed in the review.</p><p>- Polymarket&#x27;s own production build metadata, retrieved at 18:13:43 UTC from a first-party application asset (SHA-256 01c5bc78c4118115bd849ad34e3c42d7ff39479a0feb5b216b1e1ffdc02f853d), carries the change message &quot;chore(polymarket): remove debugbear rum script (#15337)&quot; with build timestamp 2026-10-29T17:59:20.443Z and commit f908fe564ea73067b09ab1f0c5d683970020fbca. The homepage captured at that same moment showed no DebugBear script reference in the page or its Content Security Policy. Build timestamp is not verified deployment or containment time: cached tabs, previously authenticated sessions, and dynamically imported code remain outside that scope.</p><p>- Reported impact is $800,000 from a single user ([@]CarOnPolymarket), whose follow-up post states all positions were sold. The fallback recipient address held approximately $2.19 million in POL and token holdings per a PolygonScan screenshot, though that balance cannot be treated as a verified theft total independent of the loss report. The initial compromise vector, exact exposure window, number of affected users, and aggregate losses remain unresolved. A prior June 25, 2026 incident involving approximately $3 million is a separate event.</p><p>Practitioner takeaway: The forensic priority right now is evidence preservation before CDN responses change. Capture the exact response bytes, HTTP headers, and hash for any cached or logged copy of cdn.debugbear[.]com/C7xcKKrjUnXK.js. For affected-user triage, review browser localStorage for the three polymarket.auth keys, examine local browser history and network logs for requests to the three /metrics/ paths at data.debugbear[.]com, and pull on-chain activity at the fallback recipient address to trace timing of inbound transfers. For application teams, this case is a direct argument for Subresource Integrity on every third-party script loaded into an authenticated signing context: a trusted CDN hostname provides no verification of the bytes it actually serves. IOCs and evidence details are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.infostealers.com/article/polymarket-breach-alert-wallet-draining-code-found-in-a-third-party-script/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115881943556399352">View on X</a></p>]]></content:encoded>
+      <dc:creator>Hudson Rock (InfoStealers)</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115881943556399352</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2115881943556399352">DFIR Radar</source>
+      <pubDate>Thu, 29 Oct 2026 19:02:22 +0000</pubDate>
+      <guid isPermaLink="false">2115881943556399352</guid>
+    </item>
     <item>
       <title>Malicious Firefox extensions impersonate popular crypto wallets</title>
       <link>https://www.malwarebytes.com/blog/news/2026/10/malicious-firefox-extensions-impersonate-popular-crypto-wallets</link>
@@ -2378,20 +2406,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114145934309523644">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 00:04:04 +0000</pubDate>
       <guid isPermaLink="false">2114145934309523644</guid>
-    </item>
-    <item>
-      <title>CVE-2026-9256 &amp; CVE-2026-42945: Chaining Two NGINX Rewrite-Engine Vulnerabilities into Remote Code Execution</title>
-      <link>https://www.opswat.com/blog/cve-2026-9256-cve-2026-42945-chaining-two-nginx-rewrite-engine-vulnerabilities-into-remote-code-execution</link>
-      <description>CVE-2026-9256 and CVE-2026-42945 (CVSS 8.1) chain a heap over-read to a heap overflow in NGINX's rewrite engine, enabling unauthenticated RCE. Upgrade to NGINX 1.30.2 or 1.31.1.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114130782377623979</description>
-      <content:encoded><![CDATA[<p>CVE-2026-9256 and CVE-2026-42945 (CVSS 8.1) chain a heap over-read to a heap overflow in NGINX&#x27;s rewrite engine, enabling unauthenticated RCE. Upgrade to NGINX 1.30.2 or 1.31.1.</p><p>#DFIR_Radar</p><p><a href="https://www.opswat.com/blog/cve-2026-9256-cve-2026-42945-chaining-two-nginx-rewrite-engine-vulnerabilities-into-remote-code-execution">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114130782377623979">View on X</a></p>]]></content:encoded>
-      <dc:creator>OPSWAT</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114130782377623979</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114130782377623979">DFIR Radar</source>
-      <pubDate>Sat, 24 Oct 2026 23:03:52 +0000</pubDate>
-      <guid isPermaLink="false">2114130782377623979</guid>
     </item>
   </channel>
 </rss>
