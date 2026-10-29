@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Oct 2026 16:01:57 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 17:01:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Extracting Timestamps from ChatGPT IDs</title>
+      <link>https://hindsig.ht/blog/decoding-chatgpt-ids/</link>
+      <description>ChatGPT conversation URLs contain an embedded Unix timestamp in every UUIDv8 ID generated since 2024-08-30, extractable from the URL string alone without ever accessing the conversation.
+
+Key findings:
+
+- Every ChatGPT conversation URL created from 2024-08-30 onward uses a UUIDv8 where the first 8 hex characters are a plain big-endian Unix timestamp (seconds). Decode hex chars 0-7 as a 32-bit integer and you have the conversation creation time in UTC. Validated across 180k+ IDs against Wayback Machine capture times: the embedded time preceded first capture in the vast majority of cases, with a median gap of 71 seconds. The URL does not need to be reachable for this to work, so it is valid on dead links, private conversations, and evidence collected from browser history or proxy logs.
+
+- Pre-2024-08-30 conversation IDs are UUIDv4 (random, no timestamp), but that version difference is itself a forensic signal: a UUIDv4 conversation ID establishes the chat was created before the August 30 cutoff. The rollout was a node 6 canary from 2024-08-30 to 2024-09-02, then all 20 nodes live by 2024-09-04. Node values in the ID (hex chars 13-15) also correlate with rough date ranges, giving an independent consistency check.
+
+- The same 128-bit structure (timestamp, sub-second field, version 8, node, random) appears across the ChatGPT and OpenAI surface: shared conversation links at chatgpt[.]com/share/ and chatgpt[.]com/s/, Custom GPTs at chatgpt[.]com/g/, Codex task IDs (task_e_, task_b_, task_i_ prefixes), Sora 2 posts at sora.chatgpt[.]com/p/s_, OpenAI API objects (vs_, batch_, eval_, resp_, msg_ prefixes), and notification IDs in query parameters. A 32-hex-character string with the right layout carries a creation timestamp almost anywhere it appears in OpenAI infrastructure.
+
+- OpenAI Chat Completions API IDs (chatcmpl- followed by 29 alphanumeric characters) use a separate scheme: read the first 5 characters as a base62 number and add 1,576,800,000 (2019-12-20 00:00:00 UTC) to get the Unix creation time. Validated against 152 public API responses: 150 of 152 matched (138 exact, 12 off by one second). These IDs appear as image file names when API-generated images are published to the web, so file names in evidence can be decoded for a creation timestamp without any API access.
+
+- Sora generation and task links (sora[.]com/g/gen_..., sora.chatgpt[.]com/t/task_...) use 26-character ULIDs where the first 10 characters are a millisecond-precision timestamp. None of roughly 2,350 archived IDs had a time later than first capture. Earliest archived generation ID dates to 2024-11-19, about three weeks before Sora's public launch.
+
+Practitioner takeaway: When ChatGPT URLs appear in browser history, proxy logs, phishing redirect chains, or chat logs, extract the UUID from the /c/ path and decode hex chars 0-7 as a big-endian Unix timestamp. That gives you conversation creation time to the second, independent of whether the URL resolves. Unfurl (dfir-unfurl, updated in v2026.11) handles all of the formats described above automatically, including bare UUIDs that pass strict false-positive checks. Bare undashed 32-hex strings are more prone to misfire; the report recommends requiring dashes when no chatgpt[.]com URL context is present.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115851589344805005</description>
+      <content:encoded><![CDATA[<p>ChatGPT conversation URLs contain an embedded Unix timestamp in every UUIDv8 ID generated since 2024-08-30, extractable from the URL string alone without ever accessing the conversation.</p><p>Key findings:</p><p>- Every ChatGPT conversation URL created from 2024-08-30 onward uses a UUIDv8 where the first 8 hex characters are a plain big-endian Unix timestamp (seconds). Decode hex chars 0-7 as a 32-bit integer and you have the conversation creation time in UTC. Validated across 180k+ IDs against Wayback Machine capture times: the embedded time preceded first capture in the vast majority of cases, with a median gap of 71 seconds. The URL does not need to be reachable for this to work, so it is valid on dead links, private conversations, and evidence collected from browser history or proxy logs.</p><p>- Pre-2024-08-30 conversation IDs are UUIDv4 (random, no timestamp), but that version difference is itself a forensic signal: a UUIDv4 conversation ID establishes the chat was created before the August 30 cutoff. The rollout was a node 6 canary from 2024-08-30 to 2024-09-02, then all 20 nodes live by 2024-09-04. Node values in the ID (hex chars 13-15) also correlate with rough date ranges, giving an independent consistency check.</p><p>- The same 128-bit structure (timestamp, sub-second field, version 8, node, random) appears across the ChatGPT and OpenAI surface: shared conversation links at chatgpt[.]com/share/ and chatgpt[.]com/s/, Custom GPTs at chatgpt[.]com/g/, Codex task IDs (task_e_, task_b_, task_i_ prefixes), Sora 2 posts at sora.chatgpt[.]com/p/s_, OpenAI API objects (vs_, batch_, eval_, resp_, msg_ prefixes), and notification IDs in query parameters. A 32-hex-character string with the right layout carries a creation timestamp almost anywhere it appears in OpenAI infrastructure.</p><p>- OpenAI Chat Completions API IDs (chatcmpl- followed by 29 alphanumeric characters) use a separate scheme: read the first 5 characters as a base62 number and add 1,576,800,000 (2019-12-20 00:00:00 UTC) to get the Unix creation time. Validated against 152 public API responses: 150 of 152 matched (138 exact, 12 off by one second). These IDs appear as image file names when API-generated images are published to the web, so file names in evidence can be decoded for a creation timestamp without any API access.</p><p>- Sora generation and task links (sora[.]com/g/gen_..., sora.chatgpt[.]com/t/task_...) use 26-character ULIDs where the first 10 characters are a millisecond-precision timestamp. None of roughly 2,350 archived IDs had a time later than first capture. Earliest archived generation ID dates to 2024-11-19, about three weeks before Sora&#x27;s public launch.</p><p>Practitioner takeaway: When ChatGPT URLs appear in browser history, proxy logs, phishing redirect chains, or chat logs, extract the UUID from the /c/ path and decode hex chars 0-7 as a big-endian Unix timestamp. That gives you conversation creation time to the second, independent of whether the URL resolves. Unfurl (dfir-unfurl, updated in v2026.11) handles all of the formats described above automatically, including bare UUIDs that pass strict false-positive checks. Bare undashed 32-hex strings are more prone to misfire; the report recommends requiring dashes when no chatgpt[.]com URL context is present.</p><p>#DFIR_Radar</p><p><a href="https://hindsig.ht/blog/decoding-chatgpt-ids/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115851589344805005">View on X</a></p>]]></content:encoded>
+      <dc:creator>dfir.blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115851589344805005</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2115851589344805005">DFIR Radar</source>
+      <pubDate>Thu, 29 Oct 2026 17:01:44 +0000</pubDate>
+      <guid isPermaLink="false">2115851589344805005</guid>
+    </item>
     <item>
       <title>IR trends Q3 2026: Actors impersonate IT help desks in vishing attacks as ransomware activity increases</title>
       <link>https://blog.talosintelligence.com/ir-trends-q3-2026/</link>
@@ -2352,20 +2380,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114115717150744852">DFIR Radar</source>
       <pubDate>Sat, 24 Oct 2026 22:04:00 +0000</pubDate>
       <guid isPermaLink="false">2114115717150744852</guid>
-    </item>
-    <item>
-      <title>China APT Uses AI Pentest Tool Artex in ConnectWise Attacks</title>
-      <link>https://www.securityweek.com/china-apt-uses-ai-pentest-tool-artex-in-connectwise-attacks/</link>
-      <description>Chinese 🇨🇳 Storm-0940 used AI pentest tool Artex to automate ConnectWise credential abuse across 300+ Entra tenants. Examine service principal sign-ins for Microsoft Graph activity and application credential modifications indicating persistence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114100755301093806</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Storm-0940 used AI pentest tool Artex to automate ConnectWise credential abuse across 300+ Entra tenants. Examine service principal sign-ins for Microsoft Graph activity and application credential modifications indicating persistence.</p><p>#DFIR_Radar</p><p><a href="https://www.securityweek.com/china-apt-uses-ai-pentest-tool-artex-in-connectwise-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114100755301093806">View on X</a></p>]]></content:encoded>
-      <dc:creator>SecurityWeek</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114100755301093806</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2114100755301093806">DFIR Radar</source>
-      <pubDate>Sat, 24 Oct 2026 21:04:33 +0000</pubDate>
-      <guid isPermaLink="false">2114100755301093806</guid>
     </item>
   </channel>
 </rss>
