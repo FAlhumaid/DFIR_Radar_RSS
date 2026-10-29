@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Oct 2026 19:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 20:02:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Quiet Phase: Why Active Directory Group Enumeration Deserves Your Attention</title>
+      <link>https://trustedsec.com/blog/the-quiet-phase-why-active-directory-group-enumeration-deserves-your-attention</link>
+      <description>Active Directory group enumeration is the quiet phase attackers exploit before privilege escalation, and most teams have no visibility into it whatsoever.
+
+Key findings:
+
+- The core gap: alerting on Domain Admins membership changes catches attackers after the breach. Event 4662 (An operation was performed on an object) and Event 4799 catch them during reconnaissance, days or weeks earlier, when they still hold only low-privilege access. MITRE tracks this as T1069.002 (Permission Groups Discovery: Domain Groups). Tools like SharpHound, PowerView, and native ActiveDirectory PowerShell cmdlets gather this in minutes using any authenticated account.
+
+- Two prerequisites must both be in place or the logging silently fails. First, enable Audit Directory Service Access (Success) under Advanced Audit Policy &gt; DS Access via GPO on the Domain Controllers OU. For built-in groups, also enable Audit Security Group Management (Success) under Account Management. Second, add a SACL to every group you care about: Everyone, Success, This object only, Read member (attribute GUID bf9679c0-0de6-11d0-a285-00aa003049e2). The report includes the exact PowerShell to set both. Without the SACL, the policy is meaningless. AdminSDHolder needs the SACL too, because adminCount=1 groups like Domain Admins and Enterprise Admins are reset from it every 60 minutes, wiping any directly applied audit rule.
+
+- Event 4662 does not record the source IP or workstation. To recover those, join the event's SubjectLogonId to the TargetLogonId of a 4624 logon event on the same domain controller. That join is your pivot to identify the machine to isolate. Events are only logged on the DC that answered the query, so any DC missing the audit policy is a blind spot an attacker can exploit without knowing it. SAMR-based tools like net group /domain bypass the LDAP-based 4662 signal entirely, so cover that path separately: Event 4688 or Sysmon Event 1 for net.exe and net1.exe, and network-level detection of the SAMR RPC interface over SMB.
+
+- Honeypot groups are the high-confidence layer. A decoy group with a realistic name (think Tier0-Server-Admins or SQL-Prod-Admins), one or two fake members with SPNs to bait Kerberoasting (Event 4769), and a SACL auditing all property reads produces near-zero noise. Any 4662 against it is a true positive. When the same SubjectLogonId reads the decoy and real admin groups within minutes, you are watching a SharpHound-style collector in real time. That correlation is the alert worth paging someone over.
+
+- Log volume planning is not optional. Every SACL on every group generates events on every DC that serves reads. Baseline legitimate readers (Entra Connect, Exchange, PAM platforms, inventory tools, ADUC) for a month before alerting on production groups. Build allowlists in the SIEM so the raw evidence stays in the Security log for forensic use while analysts see only the signal. The report's phased rollout is: audit policy everywhere first, one or two honeypot groups with SIEM alert second, baseline and filter for a month third, then extend SACLs to Tier 0 groups via AdminSDHolder.
+
+Practitioner takeaway: TrustedSec released QuietPhase, a PowerShell script at github[.]com/d3lightfu1/QuietPhase that audits your current posture, checks SACLs on Domain Admins, Enterprise Admins, Schema Admins, Key Admins, Group Policy Creator Owners, Builtin operator groups, and AdminSDHolder, flags gaps as NeedsChange, and exports ready-to-paste remediation. Run it report-only first with -AllDomainControllers, then test in a lab by running SharpHound or PowerView from a test account and confirming 4662 and 4799 events fire before touching production.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115897019998839193</description>
+      <content:encoded><![CDATA[<p>Active Directory group enumeration is the quiet phase attackers exploit before privilege escalation, and most teams have no visibility into it whatsoever.</p><p>Key findings:</p><p>- The core gap: alerting on Domain Admins membership changes catches attackers after the breach. Event 4662 (An operation was performed on an object) and Event 4799 catch them during reconnaissance, days or weeks earlier, when they still hold only low-privilege access. MITRE tracks this as T1069.002 (Permission Groups Discovery: Domain Groups). Tools like SharpHound, PowerView, and native ActiveDirectory PowerShell cmdlets gather this in minutes using any authenticated account.</p><p>- Two prerequisites must both be in place or the logging silently fails. First, enable Audit Directory Service Access (Success) under Advanced Audit Policy &gt; DS Access via GPO on the Domain Controllers OU. For built-in groups, also enable Audit Security Group Management (Success) under Account Management. Second, add a SACL to every group you care about: Everyone, Success, This object only, Read member (attribute GUID bf9679c0-0de6-11d0-a285-00aa003049e2). The report includes the exact PowerShell to set both. Without the SACL, the policy is meaningless. AdminSDHolder needs the SACL too, because adminCount=1 groups like Domain Admins and Enterprise Admins are reset from it every 60 minutes, wiping any directly applied audit rule.</p><p>- Event 4662 does not record the source IP or workstation. To recover those, join the event&#x27;s SubjectLogonId to the TargetLogonId of a 4624 logon event on the same domain controller. That join is your pivot to identify the machine to isolate. Events are only logged on the DC that answered the query, so any DC missing the audit policy is a blind spot an attacker can exploit without knowing it. SAMR-based tools like net group /domain bypass the LDAP-based 4662 signal entirely, so cover that path separately: Event 4688 or Sysmon Event 1 for net.exe and net1.exe, and network-level detection of the SAMR RPC interface over SMB.</p><p>- Honeypot groups are the high-confidence layer. A decoy group with a realistic name (think Tier0-Server-Admins or SQL-Prod-Admins), one or two fake members with SPNs to bait Kerberoasting (Event 4769), and a SACL auditing all property reads produces near-zero noise. Any 4662 against it is a true positive. When the same SubjectLogonId reads the decoy and real admin groups within minutes, you are watching a SharpHound-style collector in real time. That correlation is the alert worth paging someone over.</p><p>- Log volume planning is not optional. Every SACL on every group generates events on every DC that serves reads. Baseline legitimate readers (Entra Connect, Exchange, PAM platforms, inventory tools, ADUC) for a month before alerting on production groups. Build allowlists in the SIEM so the raw evidence stays in the Security log for forensic use while analysts see only the signal. The report&#x27;s phased rollout is: audit policy everywhere first, one or two honeypot groups with SIEM alert second, baseline and filter for a month third, then extend SACLs to Tier 0 groups via AdminSDHolder.</p><p>Practitioner takeaway: TrustedSec released QuietPhase, a PowerShell script at github[.]com/d3lightfu1/QuietPhase that audits your current posture, checks SACLs on Domain Admins, Enterprise Admins, Schema Admins, Key Admins, Group Policy Creator Owners, Builtin operator groups, and AdminSDHolder, flags gaps as NeedsChange, and exports ready-to-paste remediation. Run it report-only first with -AllDomainControllers, then test in a lab by running SharpHound or PowerView from a test account and confirming 4662 and 4799 events fire before touching production.</p><p>#DFIR_Radar</p><p><a href="https://trustedsec.com/blog/the-quiet-phase-why-active-directory-group-enumeration-deserves-your-attention">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115897019998839193">View on X</a></p>]]></content:encoded>
+      <dc:creator>TrustedSec</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115897019998839193</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2115897019998839193">DFIR Radar</source>
+      <pubDate>Thu, 29 Oct 2026 20:02:16 +0000</pubDate>
+      <guid isPermaLink="false">2115897019998839193</guid>
+    </item>
     <item>
       <title>Polymarket Breach Alert: Wallet-Draining Code Found in a Third-Party Script</title>
       <link>https://www.infostealers.com/article/polymarket-breach-alert-wallet-draining-code-found-in-a-third-party-script/</link>
@@ -2392,20 +2420,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114161090523177078">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 01:04:19 +0000</pubDate>
       <guid isPermaLink="false">2114161090523177078</guid>
-    </item>
-    <item>
-      <title>Forescout warns internet-exposed refrigeration controls could enable attacks on food supply chains and hospitals</title>
-      <link>https://industrialcyber.co/industrial-cyber-attacks/forescout-warns-internet-exposed-refrigeration-controls-could-enable-attacks-on-food-supply-chains-and-hospitals/</link>
-      <description>Pro-Russian groups Z-Pentest Alliance and NoName057(16) manipulated temperature and defrost settings on internet-exposed Danfoss and Dixell XWEB refrigeration systems.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114145934309523644</description>
-      <content:encoded><![CDATA[<p>Pro-Russian groups Z-Pentest Alliance and NoName057(16) manipulated temperature and defrost settings on internet-exposed Danfoss and Dixell XWEB refrigeration systems.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/industrial-cyber-attacks/forescout-warns-internet-exposed-refrigeration-controls-could-enable-attacks-on-food-supply-chains-and-hospitals/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114145934309523644">View on X</a></p>]]></content:encoded>
-      <dc:creator>Industrial Cyber</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114145934309523644</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114145934309523644">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 00:04:04 +0000</pubDate>
-      <guid isPermaLink="false">2114145934309523644</guid>
     </item>
   </channel>
 </rss>
