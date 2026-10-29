@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Oct 2026 21:02:18 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 29 Oct 2026 22:03:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Volt Typhoon targeted enterprise control planes via ever-changing “Silent Train” relay network</title>
+      <link>https://www.helpnetsecurity.com/2026/10/29/volt-typhoon-silent-train-relay-network/</link>
+      <description>Chinese 🇨🇳 Volt Typhoon's "Silent Train" relay network targeted control plane infrastructure across US 🇺🇸 critical sectors using zero-days, in-memory webshells, and log erasure to minimize forensic trace.
+
+Key findings:
+
+- Silent Train is a covert, transient relay network built from more than 27 device classes, including TP-Link, Netgear, Zyxel, Ruckus, and Cambium SOHO/IoT gear as early hops, and Fortinet, Cisco, PRTG, Mirth Connect, and CyberPanel as final hops before the victim. Sessions originate from VPS nodes outside the US 🇺🇸, pass through overseas compromised devices, and exit through US-based nodes before hitting the target, blending traffic to bypass geo-blocking and IP reputation filters. Up to six hops separated the operator from the victim.
+
+- The zero-days and known CVEs exploited through Silent Train against control plane systems include CVE-2024-39717 (Versa Director), CVE-2025-8875 and CVE-2025-8876 (N-Able N-Central), CVE-2026-20127 (Cisco Catalyst SD-WAN), CVE-2026-16812 (VeloCloud Orchestrator), and a suspected unknown zero-day against Quest KACE. Targeting SD-WAN orchestrators and endpoint management platforms gave the group native administrative reach across victim networks without requiring lateral movement.
+
+- Post-incident forensics with partners found in-memory webshells (leaving no on-disk artifact), credential harvesting, abuse of native endpoint control and remote file transfer features, and deliberate log erasure or alteration. The Cisco Talos report on UAT-11473, whose infrastructure overlaps considerably with Silent Train, details a custom malware framework called KeyDrift deployed on Cisco SD-WAN Catalyst Controllers to maintain persistent access and exfiltrate control-session metadata and data-plane keying material.
+
+- Infrastructure evolved after the December 2023 KV botnet takedown: Volt Typhoon shifted from SSH-chaining through SOHO/IoT devices toward reverse-tunnel variants using open-source proxies Chisel and FRP, mixing models to avoid the recurring patterns that made the KV botnet detectable. Each Silent Train session was short-lived, with SOHO devices often wiped and restored after a single use, leaving a narrow forensic window.
+
+- Victimology over three years spans US 🇺🇸 federal entities, telecoms, defense contractors, satellite and mission-critical communications providers, MSPs, military-affiliated universities, and critical infrastructure in water, energy, transportation, aviation, and emergency services. Hawaii, California, and Texas were the most targeted states, consistent with pre-positioning for potential disruption of Indo-Pacific-relevant military and logistics networks.
+
+DFIR takeaway: The in-memory webshell and log-tampering combination means disk-based triage will under-report this activity. On compromised control plane systems (Versa Director, N-Central, Cisco SD-WAN controllers), prioritize volatile memory acquisition over disk imaging. Look for anomalous administrative actions (mass credential pulls, unexpected remote file transfers, config exports) in whatever audit or syslog telemetry survived before log erasure. On network edge gear acting as relay nodes, examine connection-state tables and process lists for Chisel or FRP reverse-tunnel processes, and correlate short-lived external SSH sessions with outbound tunnel establishment. IOCs and additional campaign detail are in the Black Lotus Labs report and the Cisco Talos post on UAT-11473.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115927493102158065</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Volt Typhoon&#x27;s &quot;Silent Train&quot; relay network targeted control plane infrastructure across US 🇺🇸 critical sectors using zero-days, in-memory webshells, and log erasure to minimize forensic trace.</p><p>Key findings:</p><p>- Silent Train is a covert, transient relay network built from more than 27 device classes, including TP-Link, Netgear, Zyxel, Ruckus, and Cambium SOHO/IoT gear as early hops, and Fortinet, Cisco, PRTG, Mirth Connect, and CyberPanel as final hops before the victim. Sessions originate from VPS nodes outside the US 🇺🇸, pass through overseas compromised devices, and exit through US-based nodes before hitting the target, blending traffic to bypass geo-blocking and IP reputation filters. Up to six hops separated the operator from the victim.</p><p>- The zero-days and known CVEs exploited through Silent Train against control plane systems include CVE-2024-39717 (Versa Director), CVE-2025-8875 and CVE-2025-8876 (N-Able N-Central), CVE-2026-20127 (Cisco Catalyst SD-WAN), CVE-2026-16812 (VeloCloud Orchestrator), and a suspected unknown zero-day against Quest KACE. Targeting SD-WAN orchestrators and endpoint management platforms gave the group native administrative reach across victim networks without requiring lateral movement.</p><p>- Post-incident forensics with partners found in-memory webshells (leaving no on-disk artifact), credential harvesting, abuse of native endpoint control and remote file transfer features, and deliberate log erasure or alteration. The Cisco Talos report on UAT-11473, whose infrastructure overlaps considerably with Silent Train, details a custom malware framework called KeyDrift deployed on Cisco SD-WAN Catalyst Controllers to maintain persistent access and exfiltrate control-session metadata and data-plane keying material.</p><p>- Infrastructure evolved after the December 2023 KV botnet takedown: Volt Typhoon shifted from SSH-chaining through SOHO/IoT devices toward reverse-tunnel variants using open-source proxies Chisel and FRP, mixing models to avoid the recurring patterns that made the KV botnet detectable. Each Silent Train session was short-lived, with SOHO devices often wiped and restored after a single use, leaving a narrow forensic window.</p><p>- Victimology over three years spans US 🇺🇸 federal entities, telecoms, defense contractors, satellite and mission-critical communications providers, MSPs, military-affiliated universities, and critical infrastructure in water, energy, transportation, aviation, and emergency services. Hawaii, California, and Texas were the most targeted states, consistent with pre-positioning for potential disruption of Indo-Pacific-relevant military and logistics networks.</p><p>DFIR takeaway: The in-memory webshell and log-tampering combination means disk-based triage will under-report this activity. On compromised control plane systems (Versa Director, N-Central, Cisco SD-WAN controllers), prioritize volatile memory acquisition over disk imaging. Look for anomalous administrative actions (mass credential pulls, unexpected remote file transfers, config exports) in whatever audit or syslog telemetry survived before log erasure. On network edge gear acting as relay nodes, examine connection-state tables and process lists for Chisel or FRP reverse-tunnel processes, and correlate short-lived external SSH sessions with outbound tunnel establishment. IOCs and additional campaign detail are in the Black Lotus Labs report and the Cisco Talos post on UAT-11473.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/29/volt-typhoon-silent-train-relay-network/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115927493102158065">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115927493102158065</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2115927493102158065">DFIR Radar</source>
+      <pubDate>Thu, 29 Oct 2026 22:03:21 +0000</pubDate>
+      <guid isPermaLink="false">2115927493102158065</guid>
+    </item>
     <item>
       <title>Hackers exploit Cisco SD-WAN flaw to deploy custom KeyDrift malware</title>
       <link>https://www.bleepingcomputer.com/news/security/hackers-exploit-cisco-sd-wan-flaw-to-deploy-custom-keydrift-malware/</link>
@@ -2418,20 +2446,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114191254678282414">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 03:04:10 +0000</pubDate>
       <guid isPermaLink="false">2114191254678282414</guid>
-    </item>
-    <item>
-      <title>ThreatMon From Underground Forums to SOC: PHP2Shell</title>
-      <link>https://threatmon.io/threatmon-from-underground-forums-to-soc-php2shell/</link>
-      <description>PHP patched two PHP2Shell vulnerabilities on 21 October 2026, but forum and Telegram redistribution continued through 23 October. ThreatMon's report includes 27 network indicators and hunting queries for Splunk, QRadar, and Sentinel.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114175954675265602</description>
-      <content:encoded><![CDATA[<p>PHP patched two PHP2Shell vulnerabilities on 21 October 2026, but forum and Telegram redistribution continued through 23 October. ThreatMon&#x27;s report includes 27 network indicators and hunting queries for Splunk, QRadar, and Sentinel.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/threatmon-from-underground-forums-to-soc-php2shell/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114175954675265602">View on X</a></p>]]></content:encoded>
-      <dc:creator>ThreatMon</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114175954675265602</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2114175954675265602">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 02:03:22 +0000</pubDate>
-      <guid isPermaLink="false">2114175954675265602</guid>
     </item>
   </channel>
 </rss>
