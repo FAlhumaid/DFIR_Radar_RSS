@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Oct 2026 01:03:32 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 02:03:14 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Ultra Trail: From Viewer to Mailer</title>
+      <link>https://www.infoblox.com/blog/threat-intelligence/the-ultra-trail-from-viewer-to-mailer/</link>
+      <description>A DNS pivot from UltraViewer, a remote-access tool seen in tech-support scams, unraveled a QuickBooks phishing operation using 350+ lookalike domains, a bulk-mail tracking service with no abuse mechanism, and trojanized installers dropping njRAT and DarkKometa.
+
+Key findings:
+
+- The QuickBooks phishing campaign uses over 350 lookalike domains, the majority registered with Dynadot in a single week between June 29 and July 5, 2026. Victims receive emails urging them to call scammer numbers, including +1 (805) 835-8090 and +1 (805) 699-1139. Every email contains a 1x1 tracking pixel firing a GET request to track.chanret[.]com, where the URL path encodes a campaign ID and the recipient's base64-encoded email address as the image filename, for example hxxp://track.chanret[.]com/images/4x406rtk5/ZW1haWxAZXhhbXBsZS5jb20.jpg. That means every open hands recipient data directly to the UltraMailer tracking service, a passive data-collection risk victims will never see.
+
+- UltraMailer's own documentation describes rotating the chanret[.]com tracking domain to a private domain when it gets blocklisted, language that reads as explicit anti-blocklist guidance. The tool is openly promoted on sinister[.]li, patched[.]to, BreachForums, and Russian-language dark web platforms under titles like "UltraMailer: Best Spamming Tool In The Market." When Infoblox reported the campaign to Mail250, the account was suspended and the campaign stopped within days. The actor returned to chanret[.]com on September 8, 2026, because UltraMailer has no abuse-reporting mechanism on its website.
+
+- A trojanized UltraMailer installer, UltraMailer_setup_v3.6_en.exe (SHA-256: 9e1a679ca45a149d2bd681cbb8ec3b1cc3d271fad51b092a3db5e5642eb6676b), carries an embedded njRAT payload, detected by 45 of 75 vendors on VirusTotal. The installer is unsigned but bundles an authentic UltraMailer copy signed with a DUC FABULOUS CO.,LTD Sectigo certificate (thumbprint 936BB9B6A2F8E1CD149B33F4A16D8A927CD675DE), meaning spammers hunting for the bulk-mail tool may themselves be getting backdoored.
+
+- A trojanized UltraViewer installer, UltraViewer_setup_6.6.133_vi.exe (SHA-256: 28f046d9f985e58cbc8b245b54d4179feacecc12f41e2f6594306867ce3e8727), submitted to VirusTotal on September 4, 2026, was detected by 60 of 76 vendors and attributed to Win32.Comet.A, also known as DarkKometa. It drops its payload to C:\ProgramData\Synaptics\Synaptics.exe, impersonating the Synaptics touchpad driver. Third-party research by Hexastrike links the DUC FABULOUS CO.,LTD certificate used across these samples to the Chinese 🇨🇳 threat actor Silver Fox, though Infoblox could not independently confirm the certificate was stolen.
+
+- Infoblox observed connections to ultraviewer[.]net from as many as 30% of their customers on some days, which reflects just how broadly this remote-access tool is deployed and how large the potential abuse surface is. qbcares[.]com is listed in the report as a QuickBooks lookalike example domain.
+
+Practitioner takeaway: Hunt your environment for Synaptics.exe running from C:\ProgramData\Synaptics\ as a process masquerading as a driver, and for outbound connections to track.chanret[.]com, ultraviewer[.]net, and ultramailer[.]org. Inspect email logs for GET requests containing base64-encoded addresses routed through chanret[.]com tracking pixels. Check endpoints for UltraViewer or UltraMailer installers signed with the DUC FABULOUS CO.,LTD certificate. The two SHA-256 hashes and additional IOCs are in the Infoblox report. If UltraViewer has no business justification in your environment, DNS or firewall blocks on ultraviewer[.]net will reduce the attack surface without waiting for an incident.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115987860004471227</description>
+      <content:encoded><![CDATA[<p>A DNS pivot from UltraViewer, a remote-access tool seen in tech-support scams, unraveled a QuickBooks phishing operation using 350+ lookalike domains, a bulk-mail tracking service with no abuse mechanism, and trojanized installers dropping njRAT and DarkKometa.</p><p>Key findings:</p><p>- The QuickBooks phishing campaign uses over 350 lookalike domains, the majority registered with Dynadot in a single week between June 29 and July 5, 2026. Victims receive emails urging them to call scammer numbers, including +1 (805) 835-8090 and +1 (805) 699-1139. Every email contains a 1x1 tracking pixel firing a GET request to track.chanret[.]com, where the URL path encodes a campaign ID and the recipient&#x27;s base64-encoded email address as the image filename, for example hxxp://track.chanret[.]com/images/4x406rtk5/ZW1haWxAZXhhbXBsZS5jb20.jpg. That means every open hands recipient data directly to the UltraMailer tracking service, a passive data-collection risk victims will never see.</p><p>- UltraMailer&#x27;s own documentation describes rotating the chanret[.]com tracking domain to a private domain when it gets blocklisted, language that reads as explicit anti-blocklist guidance. The tool is openly promoted on sinister[.]li, patched[.]to, BreachForums, and Russian-language dark web platforms under titles like &quot;UltraMailer: Best Spamming Tool In The Market.&quot; When Infoblox reported the campaign to Mail250, the account was suspended and the campaign stopped within days. The actor returned to chanret[.]com on September 8, 2026, because UltraMailer has no abuse-reporting mechanism on its website.</p><p>- A trojanized UltraMailer installer, UltraMailer_setup_v3.6_en.exe (SHA-256: 9e1a679ca45a149d2bd681cbb8ec3b1cc3d271fad51b092a3db5e5642eb6676b), carries an embedded njRAT payload, detected by 45 of 75 vendors on VirusTotal. The installer is unsigned but bundles an authentic UltraMailer copy signed with a DUC FABULOUS CO.,LTD Sectigo certificate (thumbprint 936BB9B6A2F8E1CD149B33F4A16D8A927CD675DE), meaning spammers hunting for the bulk-mail tool may themselves be getting backdoored.</p><p>- A trojanized UltraViewer installer, UltraViewer_setup_6.6.133_vi.exe (SHA-256: 28f046d9f985e58cbc8b245b54d4179feacecc12f41e2f6594306867ce3e8727), submitted to VirusTotal on September 4, 2026, was detected by 60 of 76 vendors and attributed to Win32.Comet.A, also known as DarkKometa. It drops its payload to C:\ProgramData\Synaptics\Synaptics.exe, impersonating the Synaptics touchpad driver. Third-party research by Hexastrike links the DUC FABULOUS CO.,LTD certificate used across these samples to the Chinese 🇨🇳 threat actor Silver Fox, though Infoblox could not independently confirm the certificate was stolen.</p><p>- Infoblox observed connections to ultraviewer[.]net from as many as 30% of their customers on some days, which reflects just how broadly this remote-access tool is deployed and how large the potential abuse surface is. qbcares[.]com is listed in the report as a QuickBooks lookalike example domain.</p><p>Practitioner takeaway: Hunt your environment for Synaptics.exe running from C:\ProgramData\Synaptics\ as a process masquerading as a driver, and for outbound connections to track.chanret[.]com, ultraviewer[.]net, and ultramailer[.]org. Inspect email logs for GET requests containing base64-encoded addresses routed through chanret[.]com tracking pixels. Check endpoints for UltraViewer or UltraMailer installers signed with the DUC FABULOUS CO.,LTD certificate. The two SHA-256 hashes and additional IOCs are in the Infoblox report. If UltraViewer has no business justification in your environment, DNS or firewall blocks on ultraviewer[.]net will reduce the attack surface without waiting for an incident.</p><p>#DFIR_Radar</p><p><a href="https://www.infoblox.com/blog/threat-intelligence/the-ultra-trail-from-viewer-to-mailer/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115987860004471227">View on X</a></p>]]></content:encoded>
+      <dc:creator>Infoblox Threat Intel</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115987860004471227</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2115987860004471227">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 02:03:14 +0000</pubDate>
+      <guid isPermaLink="false">2115987860004471227</guid>
+    </item>
     <item>
       <title>Hackers Exploited Cisco SD-WAN Flaw to Plant Malware Built to Steal Encryption Keys</title>
       <link>https://thehackernews.com/2026/10/hackers-exploited-cisco-sd-wan-flaw-to.html</link>
@@ -2468,20 +2496,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114251471973658889">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 07:03:27 +0000</pubDate>
       <guid isPermaLink="false">2114251471973658889</guid>
-    </item>
-    <item>
-      <title>Researchers Push Over 2 Million Updates to Remotely Disable Popcorn Time Updater That Could Fuel a Botnet</title>
-      <link>https://thehackernews.com/2026/10/researchers-push-over-2-million-updates.html</link>
-      <description>Eye Security's Operation IXIM sinkholed Time4Popcorn updater domains (CVE-2026-30612, CVSS 9.8) and pushed 2M disabling updates to exposed machines. Hunt for Updater.exe, PT.updd, and IOCs in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114236380884705478</description>
-      <content:encoded><![CDATA[<p>Eye Security&#x27;s Operation IXIM sinkholed Time4Popcorn updater domains (CVE-2026-30612, CVSS 9.8) and pushed 2M disabling updates to exposed machines. Hunt for Updater.exe, PT.updd, and IOCs in the report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/researchers-push-over-2-million-updates.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114236380884705478">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114236380884705478</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2114236380884705478">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 06:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2114236380884705478</guid>
     </item>
   </channel>
 </rss>
