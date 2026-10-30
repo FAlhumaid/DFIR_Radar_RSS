@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Oct 2026 02:03:14 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 03:05:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>php2shell one week later: Why one exploit doesn’t work everywhere</title>
+      <link>https://www.tenable.com/blog/php2shell-one-week-later-why-one-exploit-doesnt-work-everywhere</link>
+      <description>CVE-2026-109618 and CVE-2026-109619 (php2shell, CVSSv4 9.2 each) are confirmed exploited in the wild, but mass exploitation at Log4Shell scale is not materializing: the exploit must be tuned to each target's specific PHP build, SAPI, and memory layout.
+
+Key details:
+
+- Both CVEs are in CISA's KEV catalog. CVE-2026-109618 is an out-of-memory handling flaw; CVE-2026-109619 is a use-after-free caused by stale state shared between requests on the same worker. Confirmed exploitation includes 35 shell executions on honeypots running PHP 8.4.26 under Apache mod_php with a single worker, and a chained attack combining php2shell with Linux kernel LPE Fragnesia (CVE-2026-46300, also in KEV) that reportedly rooted 25 PAN-OS firewall and management servers across the United States 🇺🇸, Japan 🇯🇵, Taiwan 🇹🇼, and South Korea 🇰🇷. Palo Alto Networks independently verified the attacker's tooling and confirmed results. By October 29, active exploitation targeting internet-exposed PAN-OS management interfaces was confirmed.
+
+- Tenable's working RCE on PHP 7.4.33 required GDB-measured heap geometry specific to that exact build. Chunk-relative offsets for a PHP 8.3.35 docker-library bookworm amd64 build placed _zend_array at chunk+0x572a0 and arData at chunk+0x64b80. A Debian-packaged PHP 8.3.35, or the same version built with different extensions, produces different values. The UAF also requires worker reuse across consecutive requests: under mod_php this means keep-alive; under PHP-FPM it requires session affinity via PHPSESSID. A pm.max_requests setting that recycles workers silently breaks the entire exploitation chain.
+
+- Tenable identified two detection signals. Signal 1: a large filename in a multipart POST produces a measurably different allocation size on vulnerable vs. patched PHP because the patched allocator rounds to a corrected size class. Signal 2: compact amplification sequences expose the UAF window via a session upload-progress oracle that watches for a crash/recover pattern under controlled amplification. Both signals together form a stateful probe but carry false-negative and false-positive risk because memory limits controlled by memory_limit, ini_set, PHP_VALUE, or PHP_ADMIN_VALUE per-request directives affect whether the OOM condition fires at all.
+
+- The network appliance exception is the critical prioritization point. Where many devices share one PHP build, calibration cost is paid once and that single exploit reaches every device in the fleet. Roughly 30.3 million PHP services remained on affected versions as of October 29 per Censys tracking, though version match does not equal exploitability. AI-assisted tooling accelerated exploit research on both the attacker and defender side, and Tenable cautions that a successful shell is not proof a specific CVE was used: one AI agent in their lab produced a working shell via a local file inclusion weakness unrelated to php2shell.
+
+Practitioner takeaway: prioritize internet-exposed PAN-OS and other network appliance management interfaces for immediate patching or isolation since one calibrated exploit reaches the entire fleet. For the broader PHP estate, patch to PHP 8.5.12, 8.4.27, 8.3.36, or 8.2.35 on your critical schedule. Hunt for the multipart POST allocation-size anomaly Tenable describes as signal 1, watch for PHPSESSID-pinned request sequences preceding worker crashes as a UAF indicator, and treat CVE-2026-46300 (Fragnesia) as part of the same incident scope given confirmed chaining.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116003426517848249</description>
+      <content:encoded><![CDATA[<p>CVE-2026-109618 and CVE-2026-109619 (php2shell, CVSSv4 9.2 each) are confirmed exploited in the wild, but mass exploitation at Log4Shell scale is not materializing: the exploit must be tuned to each target&#x27;s specific PHP build, SAPI, and memory layout.</p><p>Key details:</p><p>- Both CVEs are in CISA&#x27;s KEV catalog. CVE-2026-109618 is an out-of-memory handling flaw; CVE-2026-109619 is a use-after-free caused by stale state shared between requests on the same worker. Confirmed exploitation includes 35 shell executions on honeypots running PHP 8.4.26 under Apache mod_php with a single worker, and a chained attack combining php2shell with Linux kernel LPE Fragnesia (CVE-2026-46300, also in KEV) that reportedly rooted 25 PAN-OS firewall and management servers across the United States 🇺🇸, Japan 🇯🇵, Taiwan 🇹🇼, and South Korea 🇰🇷. Palo Alto Networks independently verified the attacker&#x27;s tooling and confirmed results. By October 29, active exploitation targeting internet-exposed PAN-OS management interfaces was confirmed.</p><p>- Tenable&#x27;s working RCE on PHP 7.4.33 required GDB-measured heap geometry specific to that exact build. Chunk-relative offsets for a PHP 8.3.35 docker-library bookworm amd64 build placed _zend_array at chunk+0x572a0 and arData at chunk+0x64b80. A Debian-packaged PHP 8.3.35, or the same version built with different extensions, produces different values. The UAF also requires worker reuse across consecutive requests: under mod_php this means keep-alive; under PHP-FPM it requires session affinity via PHPSESSID. A pm.max_requests setting that recycles workers silently breaks the entire exploitation chain.</p><p>- Tenable identified two detection signals. Signal 1: a large filename in a multipart POST produces a measurably different allocation size on vulnerable vs. patched PHP because the patched allocator rounds to a corrected size class. Signal 2: compact amplification sequences expose the UAF window via a session upload-progress oracle that watches for a crash/recover pattern under controlled amplification. Both signals together form a stateful probe but carry false-negative and false-positive risk because memory limits controlled by memory_limit, ini_set, PHP_VALUE, or PHP_ADMIN_VALUE per-request directives affect whether the OOM condition fires at all.</p><p>- The network appliance exception is the critical prioritization point. Where many devices share one PHP build, calibration cost is paid once and that single exploit reaches every device in the fleet. Roughly 30.3 million PHP services remained on affected versions as of October 29 per Censys tracking, though version match does not equal exploitability. AI-assisted tooling accelerated exploit research on both the attacker and defender side, and Tenable cautions that a successful shell is not proof a specific CVE was used: one AI agent in their lab produced a working shell via a local file inclusion weakness unrelated to php2shell.</p><p>Practitioner takeaway: prioritize internet-exposed PAN-OS and other network appliance management interfaces for immediate patching or isolation since one calibrated exploit reaches the entire fleet. For the broader PHP estate, patch to PHP 8.5.12, 8.4.27, 8.3.36, or 8.2.35 on your critical schedule. Hunt for the multipart POST allocation-size anomaly Tenable describes as signal 1, watch for PHPSESSID-pinned request sequences preceding worker crashes as a UAF indicator, and treat CVE-2026-46300 (Fragnesia) as part of the same incident scope given confirmed chaining.</p><p>#DFIR_Radar</p><p><a href="https://www.tenable.com/blog/php2shell-one-week-later-why-one-exploit-doesnt-work-everywhere">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116003426517848249">View on X</a></p>]]></content:encoded>
+      <dc:creator>Tenable</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116003426517848249</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2116003426517848249">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 03:05:05 +0000</pubDate>
+      <guid isPermaLink="false">2116003426517848249</guid>
+    </item>
     <item>
       <title>The Ultra Trail: From Viewer to Mailer</title>
       <link>https://www.infoblox.com/blog/threat-intelligence/the-ultra-trail-from-viewer-to-mailer/</link>
@@ -2482,20 +2508,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114266685670846627">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 08:03:54 +0000</pubDate>
       <guid isPermaLink="false">2114266685670846627</guid>
-    </item>
-    <item>
-      <title>Hackers hijack exposed AI models to launch cyberattacks at victims’ expense</title>
-      <link>https://www.helpnetsecurity.com/2026/10/23/llmjacking-agent-hijacks-exposed-ai-models/</link>
-      <description>Symantec's honeypot caught an LLMjacking agent autonomously scanning, exploiting web frameworks, and deploying XMRig miners through hijacked AI endpoints. Audit exposed model servers and MCP endpoints for unauthenticated access.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114251471973658889</description>
-      <content:encoded><![CDATA[<p>Symantec&#x27;s honeypot caught an LLMjacking agent autonomously scanning, exploiting web frameworks, and deploying XMRig miners through hijacked AI endpoints. Audit exposed model servers and MCP endpoints for unauthenticated access.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/23/llmjacking-agent-hijacks-exposed-ai-models/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114251471973658889">View on X</a></p>]]></content:encoded>
-      <dc:creator>Help Net Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114251471973658889</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2114251471973658889">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 07:03:27 +0000</pubDate>
-      <guid isPermaLink="false">2114251471973658889</guid>
     </item>
   </channel>
 </rss>
