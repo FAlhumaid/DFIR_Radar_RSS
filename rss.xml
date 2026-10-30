@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Oct 2026 00:03:24 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 01:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers Exploited Cisco SD-WAN Flaw to Plant Malware Built to Steal Encryption Keys</title>
+      <link>https://thehackernews.com/2026/10/hackers-exploited-cisco-sd-wan-flaw-to.html</link>
+      <description>CVE-2026-20127 (CVSS 10.0): Custom malware KeyDrift planted on Cisco Catalyst SD-WAN Controllers to steal AES-256 encryption keys passing between routers, linked to infrastructure overlapping with Volt Typhoon activity.
+
+Key findings:
+
+- CVE-2026-20127 is a CVSS 10.0 authentication bypass affecting Cisco Catalyst SD-WAN Controller (formerly vSmart), Manager (formerly vManage), and Validator (formerly vBond), on-premises and hosted, including FedRAMP environments. Exploitation allows an unauthenticated remote attacker to gain administrative privileges. Cisco confirmed limited exploitation in the wild. Volt Typhoon, per Lumen, was exploiting this flaw by late 2025 and continued after Cisco's February disclosure. No workaround eliminates the flaw; port-restricting 22 and 830 to known controller IPs is a partial interim measure only, and it does not remove malware already present.
+
+- KeyDrift's architecture is purpose-built for key theft at the control plane. The component LittleFilch hooks into vdaemon, the process handling encrypted SD-WAN control connections, and reads control messages after decryption. It extracts IP addresses and a 32-byte field that Talos assesses is AES-256 key material, encrypts the collection with RSA, and writes it to /var/tmp/vdaemon.bin. A settings file at /var/tmp/vdaemon.conf specifies a UDP exfiltration destination and is deleted after a single read, which is why Talos could not recover it. Whether any keys were successfully exfiltrated is unknown.
+
+- Persistence and injection follow a deliberate masquerade pattern. Modified runit scripts under /etc/sv/sshd/ launch the loader script conf_sshd before the real SSH server. conf_sshd writes vdaemon PIDs to /tmp/system-vdaemon, then rsshd injects PolyFlame (libdssl[.]so) into those processes. PolyFlame runs entirely in memory inside vdaemon and functions as a TinyShell-style backdoor and relay. It accepts commands embedded in SD-WAN control traffic and contains no hardcoded C2 address, complicating network-level detection. On Validators, a fake compiled binary aaamgrd under /etc/sv/aaamgr/ impersonates the real Python-based aaamgr component. The group also performed timestomping, copying timestamps and permissions from legitimate files onto malicious ones to blend modification times.
+
+- Talos attributes this activity to UAT-11473, targeting space and satellite services, defense and aerospace, and policy research. Infrastructure "overlaps considerably" with Silent Train, the SOHO/IoT botnet Lumen associates with Volt Typhoon. Talos does not equate UAT-11473 with Volt Typhoon directly, and the relationship between UAT-11473 and UAT-8616 (the February exploitation cluster) is not stated. The Talos report does not include file hashes, domains, or IP IOCs for KeyDrift.
+
+Practitioner takeaway: Start by checking /var/log/auth.log for "Accepted publickey for vmanage-admin" entries from unrecognized IPs, the exploitation indicator Cisco specifies. Run request admin-tech on each control component before opening a TAC case and re-scan those files using the Check Bug Applicability feature for bug CSCws52722. On compromised devices, audit /etc/sv/ for unexpected service directories (specifically /etc/sv/aaamgr/), inspect the run script under /etc/sv/sshd/ for conf_sshd references, and check for libdssl[.]so and libcommon[.]so. Because upgrading does not confirmed-clear existing implants and key replacement guidance is absent from Talos's advice, treat any positive finding as a full IR event. Talos released Snort rules 67387-67416 (Snort 2, disabled by default for subscriber sets) and 7:44-7:73 (Snort 3) for KeyDrift C2 detection on October 28. Rules 65938 and 65958 cover the CVE itself. US 🇺🇸 federal civilian agencies are under CISA's February 25 emergency directive: report root compromise to CISA and rebuild Controller, Manager, and Validator from patched images.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115972836686700779</description>
+      <content:encoded><![CDATA[<p>CVE-2026-20127 (CVSS 10.0): Custom malware KeyDrift planted on Cisco Catalyst SD-WAN Controllers to steal AES-256 encryption keys passing between routers, linked to infrastructure overlapping with Volt Typhoon activity.</p><p>Key findings:</p><p>- CVE-2026-20127 is a CVSS 10.0 authentication bypass affecting Cisco Catalyst SD-WAN Controller (formerly vSmart), Manager (formerly vManage), and Validator (formerly vBond), on-premises and hosted, including FedRAMP environments. Exploitation allows an unauthenticated remote attacker to gain administrative privileges. Cisco confirmed limited exploitation in the wild. Volt Typhoon, per Lumen, was exploiting this flaw by late 2025 and continued after Cisco&#x27;s February disclosure. No workaround eliminates the flaw; port-restricting 22 and 830 to known controller IPs is a partial interim measure only, and it does not remove malware already present.</p><p>- KeyDrift&#x27;s architecture is purpose-built for key theft at the control plane. The component LittleFilch hooks into vdaemon, the process handling encrypted SD-WAN control connections, and reads control messages after decryption. It extracts IP addresses and a 32-byte field that Talos assesses is AES-256 key material, encrypts the collection with RSA, and writes it to /var/tmp/vdaemon.bin. A settings file at /var/tmp/vdaemon.conf specifies a UDP exfiltration destination and is deleted after a single read, which is why Talos could not recover it. Whether any keys were successfully exfiltrated is unknown.</p><p>- Persistence and injection follow a deliberate masquerade pattern. Modified runit scripts under /etc/sv/sshd/ launch the loader script conf_sshd before the real SSH server. conf_sshd writes vdaemon PIDs to /tmp/system-vdaemon, then rsshd injects PolyFlame (libdssl[.]so) into those processes. PolyFlame runs entirely in memory inside vdaemon and functions as a TinyShell-style backdoor and relay. It accepts commands embedded in SD-WAN control traffic and contains no hardcoded C2 address, complicating network-level detection. On Validators, a fake compiled binary aaamgrd under /etc/sv/aaamgr/ impersonates the real Python-based aaamgr component. The group also performed timestomping, copying timestamps and permissions from legitimate files onto malicious ones to blend modification times.</p><p>- Talos attributes this activity to UAT-11473, targeting space and satellite services, defense and aerospace, and policy research. Infrastructure &quot;overlaps considerably&quot; with Silent Train, the SOHO/IoT botnet Lumen associates with Volt Typhoon. Talos does not equate UAT-11473 with Volt Typhoon directly, and the relationship between UAT-11473 and UAT-8616 (the February exploitation cluster) is not stated. The Talos report does not include file hashes, domains, or IP IOCs for KeyDrift.</p><p>Practitioner takeaway: Start by checking /var/log/auth.log for &quot;Accepted publickey for vmanage-admin&quot; entries from unrecognized IPs, the exploitation indicator Cisco specifies. Run request admin-tech on each control component before opening a TAC case and re-scan those files using the Check Bug Applicability feature for bug CSCws52722. On compromised devices, audit /etc/sv/ for unexpected service directories (specifically /etc/sv/aaamgr/), inspect the run script under /etc/sv/sshd/ for conf_sshd references, and check for libdssl[.]so and libcommon[.]so. Because upgrading does not confirmed-clear existing implants and key replacement guidance is absent from Talos&#x27;s advice, treat any positive finding as a full IR event. Talos released Snort rules 67387-67416 (Snort 2, disabled by default for subscriber sets) and 7:44-7:73 (Snort 3) for KeyDrift C2 detection on October 28. Rules 65938 and 65958 cover the CVE itself. US 🇺🇸 federal civilian agencies are under CISA&#x27;s February 25 emergency directive: report root compromise to CISA and rebuild Controller, Manager, and Validator from patched images.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/hackers-exploited-cisco-sd-wan-flaw-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115972836686700779">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115972836686700779</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2115972836686700779">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 01:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2115972836686700779</guid>
+    </item>
     <item>
       <title>Hugging Face malware campaign returns to hijack GPUs for crypto mining</title>
       <link>https://www.bleepingcomputer.com/news/security/hugging-face-malware-campaign-returns-to-hijack-gpus-for-crypto-mining/</link>
@@ -2456,20 +2482,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114236380884705478">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 06:03:29 +0000</pubDate>
       <guid isPermaLink="false">2114236380884705478</guid>
-    </item>
-    <item>
-      <title>Forensic Focus Digest, 23 Oct 2026</title>
-      <link>https://www.forensicfocus.com/news/forensic-focus-digest-23-oct-2026/</link>
-      <description>Georgia Tech's ORISA recovers deleted Android AI-assistant chats from memory across 10 apps; open-source WhatsApp Web Extractor parses IndexedDB and localStorage from browser profiles directly. Both expand mobile artifact scope.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114221151274885441</description>
-      <content:encoded><![CDATA[<p>Georgia Tech&#x27;s ORISA recovers deleted Android AI-assistant chats from memory across 10 apps; open-source WhatsApp Web Extractor parses IndexedDB and localStorage from browser profiles directly. Both expand mobile artifact scope.</p><p>#DFIR_Radar</p><p><a href="https://www.forensicfocus.com/news/forensic-focus-digest-23-oct-2026/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114221151274885441">View on X</a></p>]]></content:encoded>
-      <dc:creator>Forensic Focus</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114221151274885441</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2114221151274885441">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 05:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2114221151274885441</guid>
     </item>
   </channel>
 </rss>
