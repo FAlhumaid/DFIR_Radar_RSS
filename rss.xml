@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Oct 2026 08:03:25 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 09:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attacker Tried to Exploit Alpine Linux’s GitLab via CVSS 10.0 Flaw Its Ruby Left Open</title>
+      <link>https://thehackernews.com/2026/10/attacker-tried-to-exploit-alpine-linuxs.html</link>
+      <description>CVE-2026-97229 (CVSS 10.0) in Ruby's Onigmo regex engine was actively exploited against Alpine Linux's GitLab server. A GitLab upgrade alone does not fix this: the Ruby runtime must be updated separately.
+
+- CVE-2026-97229 lives in Onigmo, the regex engine inside Ruby, not in GitLab's own code. GitLab's 12 October patch embedded fixed Ruby in its Linux packages and official container images, but self-compiled installs and images that supply their own Ruby, like Alpine's alpinelinux/gitlab image, kept the vulnerable engine after a GitLab upgrade. GitLab's own self-compiled installation guide still listed Ruby 3.2 as the minimum, and Ruby 3.2 reached end of life in April and will receive no fix for this flaw.
+
+- The attacker registered a fresh account and sent crafted CI configurations on 20 and 21 October to gitlab.alpinelinux[.]org, the host of aports, Alpine's package build repository. Those inputs crashed GitLab worker processes 8 times and caused 502 errors. In 4 of those crashes the attacker got partway through the exploit chain before failing at the next step. The attacker also downloaded Alpine's GitLab container image, which Alpine interpreted as tuning the exploit to their exact build. Rapid7 published proof-of-concept code on 13 October: its tested route requires write access to commit a malicious .gitlab-ci.yml and a file path with UTF-8 characters to a public project branch, with only the final CI lint request being unauthenticated. Whether the original unreported attack route also requires write access is still unknown.
+
+- Alpine cannot confirm code execution was avoided. A successful exploit leaves no crash and no trace in web logs. Logs from the attack window, including background job logs and the old container's filesystem, are gone, and neither Alpine nor its hosting provider logged outbound network connections. Because the evidence needed to confirm or deny execution no longer exists, Alpine treated the server as compromised, rebuilt it from scratch on 28 October, replaced all secret keys, and reset every account password. Data potentially exposed includes email addresses, IP addresses, password hashes, 2FA secrets, CI/CD variables, runner tokens, webhook credentials, and personal access tokens stored as hashes.
+
+- GitLab has published 6 Sigma detection rules for self-managed servers. Four are marked experimental and target hostile patterns in CI regexp warnings, GraphQL ciLint requests, unusually long file paths containing non-ASCII characters, and Ruby crash reports pointing to Onigmo. GitLab's own guidance notes that a successful exploit can leave no crash at all.
+
+Hunt now: check for files owned by the git user in /tmp, unexpected child processes of Puma or Sidekiq, outbound connections from the GitLab host, and changes to crontabs or SSH keys for the git user. If any of those are present, treat the server as compromised and rotate every secret in gitlab-secrets.json, all CI/CD variables, all runner tokens, and all access tokens. For remediation: Linux package and official image users upgrade to the newest release for their branch. Self-compiled installs and custom images must also update Ruby to 3.3.13, 3.4.12, or 4.0.9 or later.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116093687012741430</description>
+      <content:encoded><![CDATA[<p>CVE-2026-97229 (CVSS 10.0) in Ruby&#x27;s Onigmo regex engine was actively exploited against Alpine Linux&#x27;s GitLab server. A GitLab upgrade alone does not fix this: the Ruby runtime must be updated separately.</p><p>- CVE-2026-97229 lives in Onigmo, the regex engine inside Ruby, not in GitLab&#x27;s own code. GitLab&#x27;s 12 October patch embedded fixed Ruby in its Linux packages and official container images, but self-compiled installs and images that supply their own Ruby, like Alpine&#x27;s alpinelinux/gitlab image, kept the vulnerable engine after a GitLab upgrade. GitLab&#x27;s own self-compiled installation guide still listed Ruby 3.2 as the minimum, and Ruby 3.2 reached end of life in April and will receive no fix for this flaw.</p><p>- The attacker registered a fresh account and sent crafted CI configurations on 20 and 21 October to gitlab.alpinelinux[.]org, the host of aports, Alpine&#x27;s package build repository. Those inputs crashed GitLab worker processes 8 times and caused 502 errors. In 4 of those crashes the attacker got partway through the exploit chain before failing at the next step. The attacker also downloaded Alpine&#x27;s GitLab container image, which Alpine interpreted as tuning the exploit to their exact build. Rapid7 published proof-of-concept code on 13 October: its tested route requires write access to commit a malicious .gitlab-ci.yml and a file path with UTF-8 characters to a public project branch, with only the final CI lint request being unauthenticated. Whether the original unreported attack route also requires write access is still unknown.</p><p>- Alpine cannot confirm code execution was avoided. A successful exploit leaves no crash and no trace in web logs. Logs from the attack window, including background job logs and the old container&#x27;s filesystem, are gone, and neither Alpine nor its hosting provider logged outbound network connections. Because the evidence needed to confirm or deny execution no longer exists, Alpine treated the server as compromised, rebuilt it from scratch on 28 October, replaced all secret keys, and reset every account password. Data potentially exposed includes email addresses, IP addresses, password hashes, 2FA secrets, CI/CD variables, runner tokens, webhook credentials, and personal access tokens stored as hashes.</p><p>- GitLab has published 6 Sigma detection rules for self-managed servers. Four are marked experimental and target hostile patterns in CI regexp warnings, GraphQL ciLint requests, unusually long file paths containing non-ASCII characters, and Ruby crash reports pointing to Onigmo. GitLab&#x27;s own guidance notes that a successful exploit can leave no crash at all.</p><p>Hunt now: check for files owned by the git user in /tmp, unexpected child processes of Puma or Sidekiq, outbound connections from the GitLab host, and changes to crontabs or SSH keys for the git user. If any of those are present, treat the server as compromised and rotate every secret in gitlab-secrets.json, all CI/CD variables, all runner tokens, and all access tokens. For remediation: Linux package and official image users upgrade to the newest release for their branch. Self-compiled installs and custom images must also update Ruby to 3.3.13, 3.4.12, or 4.0.9 or later.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/attacker-tried-to-exploit-alpine-linuxs.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116093687012741430">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116093687012741430</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2116093687012741430">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 09:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2116093687012741430</guid>
+    </item>
     <item>
       <title>DefenderKiller: How Vulnerable Drivers Are Being Abused to Disable Endpoint Security</title>
       <link>https://flashpoint.io/blog/defenderkiller-how-vulnerable-drivers-are-being-abused-to-disable-endpoint-security/</link>
@@ -2548,20 +2572,6 @@ Practitioner takeaway: scope your exposure beyond package manifests. Hunt for Br
       <source url="https://x.com/DFIR_Radar/status/2114477771317448814">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 22:02:41 +0000</pubDate>
       <guid isPermaLink="false">2114477771317448814</guid>
-    </item>
-    <item>
-      <title>HTTP2Shell: Sweet Security Confirms Brotli Vulnerability Also Affects Native Go Implementations | Sweet blog</title>
-      <link>https://www.sweet.security/blog/http2shell-sweet-security-confirms-brotli-vulnerability-also-affects-native-go-implementations</link>
-      <description>CVE-2026-111497, a Brotli decoder out-of-bounds write, confirmed in Go Brotli v1.2.6, affecting Traefik, Fiber, and fasthttp. Upgrade to v1.2.7 and audit services decompressing untrusted Brotli payloads.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114462971883872426</description>
-      <content:encoded><![CDATA[<p>CVE-2026-111497, a Brotli decoder out-of-bounds write, confirmed in Go Brotli v1.2.6, affecting Traefik, Fiber, and fasthttp. Upgrade to v1.2.7 and audit services decompressing untrusted Brotli payloads.</p><p>#DFIR_Radar</p><p><a href="https://www.sweet.security/blog/http2shell-sweet-security-confirms-brotli-vulnerability-also-affects-native-go-implementations">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114462971883872426">View on X</a></p>]]></content:encoded>
-      <dc:creator>Sweet Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114462971883872426</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114462971883872426">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 21:03:52 +0000</pubDate>
-      <guid isPermaLink="false">2114462971883872426</guid>
     </item>
   </channel>
 </rss>
