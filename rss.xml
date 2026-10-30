@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Oct 2026 11:03:47 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 12:02:15 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Claude Code extension poisoned with persistent SSH backdoor</title>
+      <link>https://www.helpnetsecurity.com/2026/10/30/claude-code-extension-ssh-backdoor/</link>
+      <description>Poisoned Claude Code VS Code extension planted an SSH backdoor on up to 5,000 developer machines via Open VSX, surviving editor close, reboot, and extension removal with cross-platform persistence.
+
+Key findings:
+
+- The malicious payload was version 2.1.313 of the Claude Code extension, published to the Open VSX marketplace (not Microsoft's Visual Studio Marketplace) and live for roughly 11 hours on October 29, 2026. Editors that depend on Open VSX because they cannot use the Microsoft store, specifically Cursor and Windsurf, were the exposure surface. The Eclipse Foundation-run marketplace carried the compromised build; Anthropic did not publish it.
+
+- The injected code is an IIFE prepended to the legitimate minified bundle, so it executes via Node.js before the extension's normal activate callback runs. No user interaction is required. It uses standard Node modules (child_process, fs, os, path, http, crypto) and immediately writes an attacker SSH key to the victim's authorized_keys file, then opens an outbound SSH tunnel back to the attacker's server. The tunnel persists after the editor closes and retries the connection roughly every 60 seconds.
+
+- Persistence is cross-platform. On macOS it drops a launchd-style startup file using an Apple-style name. On Linux it adds a cron entry that runs at reboot. On Windows it attempts to create a scheduled task named SysMon, falling back to the Startup folder. This survives a reboot regardless of whether the extension is still installed.
+
+- The payload beacons the machine's hostname, username, OS, home directory, working directory, Git email, and public IP to the operator. It also reports the names of up to 40 environment variables that pattern-match against keys, tokens, passwords, and AWS/GCP credentials, giving the attacker a triage inventory of which machines hold cloud access worth targeting next.
+
+- A faulty privilege check on macOS often prevents the payload from enabling Remote Login, reducing SSH backdoor utility on Macs where the service was already off. However persistence and reconnaissance still fire. On hosts where SSH was already enabled, or is enabled later, the planted svc-telemetry key is ready to use. Cursor worked with the attacker's cloud provider to take the C2 server offline, breaking the tunnel and the data exfil channel.
+
+Takeaway: Uninstalling the extension does not remove the backdoor. For any machine that had version 2.1.313 installed, the response steps are: inspect the SSH authorized_keys file for an entry labelled svc-telemetry and remove it; audit launchd plists (macOS), crontab entries (Linux), and scheduled tasks plus the Startup folder (Windows) for persistence artefacts tied to this payload; then check SSH logs for logins from localhost authenticating with the svc-telemetry key to determine whether an operator gained interactive access. Isolate the host, rotate every credential and session the machine could reach (cloud tokens, API keys, Git credentials) from a clean system, and consider a rebuild. Cursor and Phorion have both published cleanup scripts and indicators of compromise.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116138609308741897</description>
+      <content:encoded><![CDATA[<p>Poisoned Claude Code VS Code extension planted an SSH backdoor on up to 5,000 developer machines via Open VSX, surviving editor close, reboot, and extension removal with cross-platform persistence.</p><p>Key findings:</p><p>- The malicious payload was version 2.1.313 of the Claude Code extension, published to the Open VSX marketplace (not Microsoft&#x27;s Visual Studio Marketplace) and live for roughly 11 hours on October 29, 2026. Editors that depend on Open VSX because they cannot use the Microsoft store, specifically Cursor and Windsurf, were the exposure surface. The Eclipse Foundation-run marketplace carried the compromised build; Anthropic did not publish it.</p><p>- The injected code is an IIFE prepended to the legitimate minified bundle, so it executes via Node.js before the extension&#x27;s normal activate callback runs. No user interaction is required. It uses standard Node modules (child_process, fs, os, path, http, crypto) and immediately writes an attacker SSH key to the victim&#x27;s authorized_keys file, then opens an outbound SSH tunnel back to the attacker&#x27;s server. The tunnel persists after the editor closes and retries the connection roughly every 60 seconds.</p><p>- Persistence is cross-platform. On macOS it drops a launchd-style startup file using an Apple-style name. On Linux it adds a cron entry that runs at reboot. On Windows it attempts to create a scheduled task named SysMon, falling back to the Startup folder. This survives a reboot regardless of whether the extension is still installed.</p><p>- The payload beacons the machine&#x27;s hostname, username, OS, home directory, working directory, Git email, and public IP to the operator. It also reports the names of up to 40 environment variables that pattern-match against keys, tokens, passwords, and AWS/GCP credentials, giving the attacker a triage inventory of which machines hold cloud access worth targeting next.</p><p>- A faulty privilege check on macOS often prevents the payload from enabling Remote Login, reducing SSH backdoor utility on Macs where the service was already off. However persistence and reconnaissance still fire. On hosts where SSH was already enabled, or is enabled later, the planted svc-telemetry key is ready to use. Cursor worked with the attacker&#x27;s cloud provider to take the C2 server offline, breaking the tunnel and the data exfil channel.</p><p>Takeaway: Uninstalling the extension does not remove the backdoor. For any machine that had version 2.1.313 installed, the response steps are: inspect the SSH authorized_keys file for an entry labelled svc-telemetry and remove it; audit launchd plists (macOS), crontab entries (Linux), and scheduled tasks plus the Startup folder (Windows) for persistence artefacts tied to this payload; then check SSH logs for logins from localhost authenticating with the svc-telemetry key to determine whether an operator gained interactive access. Isolate the host, rotate every credential and session the machine could reach (cloud tokens, API keys, Git credentials) from a clean system, and consider a rebuild. Cursor and Phorion have both published cleanup scripts and indicators of compromise.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/30/claude-code-extension-ssh-backdoor/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116138609308741897">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116138609308741897</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2116138609308741897">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 12:02:15 +0000</pubDate>
+      <guid isPermaLink="false">2116138609308741897</guid>
+    </item>
     <item>
       <title>Anthropic hacked to deliver remote access trojan to Claude developer laptops worldwide</title>
       <link>https://doublepulsar.com/anthropic-hacked-to-deliver-remote-access-trojan-to-claude-developer-laptops-worldwide-1148a92baae2?source=rss----8343faddf0ec---4</link>
@@ -2572,20 +2600,6 @@ For operators: place /etc/passwd, /etc/passwd_original, and /etc/db1 under file-
       <source url="https://x.com/DFIR_Radar/status/2114644033582555514">DFIR Radar</source>
       <pubDate>Mon, 26 Oct 2026 09:03:21 +0000</pubDate>
       <guid isPermaLink="false">2114644033582555514</guid>
-    </item>
-    <item>
-      <title>Malicious File in Downloads Folder Tries to Trick AI Coding Agent Into Installing Malware</title>
-      <link>https://thehackernews.com/2026/10/malicious-file-in-downloads-folder.html</link>
-      <description>A planted AGENTS[.]md in ~/Downloads tricked OpenAI's Codex into installing MALFEX-linked npm package function-color in over 90% of test runs. Check ~/.codex/config.toml for unexpected server blocks and rotate any exposed session tokens.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114629223914639416</description>
-      <content:encoded><![CDATA[<p>A planted AGENTS[.]md in ~/Downloads tricked OpenAI&#x27;s Codex into installing MALFEX-linked npm package function-color in over 90% of test runs. Check ~/.codex/config.toml for unexpected server blocks and rotate any exposed session tokens.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/malicious-file-in-downloads-folder.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114629223914639416">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114629223914639416</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2114629223914639416">DFIR Radar</source>
-      <pubDate>Mon, 26 Oct 2026 08:04:30 +0000</pubDate>
-      <guid isPermaLink="false">2114629223914639416</guid>
     </item>
   </channel>
 </rss>
