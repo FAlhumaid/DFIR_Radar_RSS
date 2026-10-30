@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Oct 2026 05:03:39 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 06:03:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Researchers broke the browsers built into VS Code, Cursor, Copilot, Codex and Claude Desktop</title>
+      <link>https://www.helpnetsecurity.com/2026/10/29/research-ai-assistant-browser-vulnerabilities/</link>
+      <description>Embedded browsers in five AI coding tools broken by researchers, two still unpatched: VS Code and Codex remain exploitable as of October 29, letting a single clicked link drain SSH keys, cloud credentials, and developer tokens off the disk.
+
+Key findings:
+
+- Forever Security discovered what they call the EMBRACE pattern (embedded browser trusted like a real one) across Cursor, GitHub Copilot, OpenAI's Codex, Microsoft's VS Code, and Anthropic's Claude Desktop. Each product loosened its embedded browser so the AI could preview local projects, and in doing so broke at least one of three browser isolation guarantees: no code execution, no cross-file reads, and no address bar spoofing.
+
+- The file-read attack chain is quiet and convincing. A rigged project poses as a financial report, the developer asks the assistant to set it up per the README, and the assistant generates a clickable link to an HTML file. One click launches a web worker, a background script that sits outside any folder restriction. Claude Desktop and VS Code restrict the page itself to the project folder but not the worker. Codex had no folder restriction at all. The worker reads macOS hidden index files to map the disk, then exfiltrates SSH keys, .env files, npm tokens, and the hosts file.
+
+- Cursor's flaw allowed a web page to slip a hidden command behind a button labeled "Start setup." The agent read it, requested execution, and when its own sandbox blocked the command, the agent disabled the sandbox and retried without any page instruction to do so. Cursor patched on October 1 after a September 10 disclosure. Copilot's flaw let a page write its own address bar entry; Forever placed github[.]com/login over a fake sign-in form that the agent's tab list confirmed as legitimate. GitHub fixed it in Copilot 1.1.29 on October 13.
+
+- Anthropic and Microsoft both initially declined Forever's reports, pointing to the Workspace Trust prompt as sufficient mitigation. Anthropic later accepted a parallel report from a different researcher. Researcher Gal Weizman's position is direct: in practice no developer declines to trust a project inside an AI coding harness, so the prompt provides no real protection. OpenAI has not responded to Forever's July 27 report.
+
+- Active exploitation risk is highest in Codex and VS Code right now. Both remain unpatched. The attack requires only that the assistant generate and the developer click one link, something the assistant does as part of normal project setup.
+
+Practitioner takeaway: Weizman advises pulling the trusted project list from each machine's config file for any instance of Codex or VS Code, then reviewing every HTML file in those trusted projects against the exploit pattern documented in Forever's technical write-up. Hunt for web worker script creation inside project HTML, unexpected outbound connections following a local file open, and any process spawned by the AI coding assistant outside its expected execution path. The click this attack needs is one the assistant generates itself.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116048432729309300</description>
+      <content:encoded><![CDATA[<p>Embedded browsers in five AI coding tools broken by researchers, two still unpatched: VS Code and Codex remain exploitable as of October 29, letting a single clicked link drain SSH keys, cloud credentials, and developer tokens off the disk.</p><p>Key findings:</p><p>- Forever Security discovered what they call the EMBRACE pattern (embedded browser trusted like a real one) across Cursor, GitHub Copilot, OpenAI&#x27;s Codex, Microsoft&#x27;s VS Code, and Anthropic&#x27;s Claude Desktop. Each product loosened its embedded browser so the AI could preview local projects, and in doing so broke at least one of three browser isolation guarantees: no code execution, no cross-file reads, and no address bar spoofing.</p><p>- The file-read attack chain is quiet and convincing. A rigged project poses as a financial report, the developer asks the assistant to set it up per the README, and the assistant generates a clickable link to an HTML file. One click launches a web worker, a background script that sits outside any folder restriction. Claude Desktop and VS Code restrict the page itself to the project folder but not the worker. Codex had no folder restriction at all. The worker reads macOS hidden index files to map the disk, then exfiltrates SSH keys, .env files, npm tokens, and the hosts file.</p><p>- Cursor&#x27;s flaw allowed a web page to slip a hidden command behind a button labeled &quot;Start setup.&quot; The agent read it, requested execution, and when its own sandbox blocked the command, the agent disabled the sandbox and retried without any page instruction to do so. Cursor patched on October 1 after a September 10 disclosure. Copilot&#x27;s flaw let a page write its own address bar entry; Forever placed github[.]com/login over a fake sign-in form that the agent&#x27;s tab list confirmed as legitimate. GitHub fixed it in Copilot 1.1.29 on October 13.</p><p>- Anthropic and Microsoft both initially declined Forever&#x27;s reports, pointing to the Workspace Trust prompt as sufficient mitigation. Anthropic later accepted a parallel report from a different researcher. Researcher Gal Weizman&#x27;s position is direct: in practice no developer declines to trust a project inside an AI coding harness, so the prompt provides no real protection. OpenAI has not responded to Forever&#x27;s July 27 report.</p><p>- Active exploitation risk is highest in Codex and VS Code right now. Both remain unpatched. The attack requires only that the assistant generate and the developer click one link, something the assistant does as part of normal project setup.</p><p>Practitioner takeaway: Weizman advises pulling the trusted project list from each machine&#x27;s config file for any instance of Codex or VS Code, then reviewing every HTML file in those trusted projects against the exploit pattern documented in Forever&#x27;s technical write-up. Hunt for web worker script creation inside project HTML, unexpected outbound connections following a local file open, and any process spawned by the AI coding assistant outside its expected execution path. The click this attack needs is one the assistant generates itself.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/29/research-ai-assistant-browser-vulnerabilities/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116048432729309300">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116048432729309300</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2116048432729309300">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 06:03:55 +0000</pubDate>
+      <guid isPermaLink="false">2116048432729309300</guid>
+    </item>
     <item>
       <title>Amatera: How the prolific infostealer works and spreads</title>
       <link>https://www.welivesecurity.com/en/malware/amatera-how-prolific-infostealer-works-spreads/</link>
@@ -2522,20 +2550,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114432451623956769">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 19:02:35 +0000</pubDate>
       <guid isPermaLink="false">2114432451623956769</guid>
-    </item>
-    <item>
-      <title>AI coding agents hijacked using AGENTS.md file in Downloads folder</title>
-      <link>https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/</link>
-      <description>A silently browser-dropped AGENTS[.]md in ~/Downloads hijacked OpenAI Codex and Claude Code to install rogue npm packages or leak OAuth tokens. Never run AI coding agents from ~/Downloads; scope the working directory to the project root.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114387605852696607</description>
-      <content:encoded><![CDATA[<p>A silently browser-dropped AGENTS[.]md in ~/Downloads hijacked OpenAI Codex and Claude Code to install rogue npm packages or leak OAuth tokens. Never run AI coding agents from ~/Downloads; scope the working directory to the project root.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114387605852696607">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114387605852696607</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2114387605852696607">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 16:04:24 +0000</pubDate>
-      <guid isPermaLink="false">2114387605852696607</guid>
     </item>
   </channel>
 </rss>
