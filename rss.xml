@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 29 Oct 2026 23:01:30 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 00:03:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hugging Face malware campaign returns to hijack GPUs for crypto mining</title>
+      <link>https://www.bleepingcomputer.com/news/security/hugging-face-malware-campaign-returns-to-hijack-gpus-for-crypto-mining/</link>
+      <description>Malicious Hugging Face model repositories return days after takedown, abusing trust_remote_code to deploy cryptominers and reverse shells on GPU inference servers, with one model reaching 28,412 downloads before removal.
+
+Key findings:
+
+- Pluto Security identified 31 malicious repositories across seven Hugging Face accounts, published in two waves since September. The models pose as Qwen2 test checkpoints and specifically target GPU hosts running self-hosted inference servers like Xinference and GPUStack. Rather than exploiting pickle deserialization or poisoned weights, the campaign abuses Hugging Face's trust_remote_code option, which executes a model's bundled Python code the moment a user loads it. Code runs before any model inference begins, so the attacker foothold is established silently at load time.
+
+- The primary payload installs a cryptocurrency miner disguised as a Linux system process, includes a watchdog that restarts it if killed, and evicts competing miners from the machine. Some variants also open a reverse shell for direct attacker access. A model pushed hours after the first-wave takedown added a container escape script capable of taking over the underlying host. The operator's wallet received roughly $5,000 in Pearl (PRL) cryptocurrency, and the mining infrastructure was still active on pools after the repositories were removed.
+
+- A second wave of 19 repositories appeared within days under new accounts. The flagship model scanned clean through Hugging Face's antivirus and partner tooling from Protect AI and JFrog, collecting 28,412 downloads while evading detection. A near-identical copy uploaded October 25 by account htt0118 was still live at time of reporting and BleepingComputer confirmed it carries the same miner and reverse shell. Pluto attributes the campaign to a financially motivated, Chinese 🇨🇳 speaking operator based on Simplified Chinese 🇨🇳 code comments, C2 infrastructure on Alibaba Cloud, and activity timing consistent with late-night hours in China 🇨🇳.
+
+- Separately, Air Security flagged GitHub repository SolanaUpdateTools/solana-starter-kit, live since November 2025 with 286 stars, that positions itself as a top AI coding agent search result for Solana development. Its README contains a single PowerShell one-liner that assembles a URL from fragments at developer-update[.]app and fetches a script into memory. That script installs NetSupport Manager configured to beacon to maxwintodaybtc[.]com and establishes persistence at every login. A fake error message tells the user or agent to retry in 72 hours, designed to pass as a routine service hiccup. Air links this to a known NetSupport RAT operator previously tracked by eSentire.
+
+Takeaway: Any system that loaded a Hugging Face model with trust_remote_code enabled in the last several months should be treated as fully compromised, not merely mined. Killing the miner process is insufficient. Hunt for unexpected processes masquerading as Linux system services, outbound connections to mining pools, and unauthorized reverse shell activity. Check for container escape artifacts if the host runs a shared GPU cluster. Rotate all credentials that machine could have accessed. For the Solana kit exposure, look for NetSupport Manager persistence and outbound connections to maxwintodaybtc[.]com. IOCs for both campaigns are in Pluto's and Air Security's respective reports.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115957704342519879</description>
+      <content:encoded><![CDATA[<p>Malicious Hugging Face model repositories return days after takedown, abusing trust_remote_code to deploy cryptominers and reverse shells on GPU inference servers, with one model reaching 28,412 downloads before removal.</p><p>Key findings:</p><p>- Pluto Security identified 31 malicious repositories across seven Hugging Face accounts, published in two waves since September. The models pose as Qwen2 test checkpoints and specifically target GPU hosts running self-hosted inference servers like Xinference and GPUStack. Rather than exploiting pickle deserialization or poisoned weights, the campaign abuses Hugging Face&#x27;s trust_remote_code option, which executes a model&#x27;s bundled Python code the moment a user loads it. Code runs before any model inference begins, so the attacker foothold is established silently at load time.</p><p>- The primary payload installs a cryptocurrency miner disguised as a Linux system process, includes a watchdog that restarts it if killed, and evicts competing miners from the machine. Some variants also open a reverse shell for direct attacker access. A model pushed hours after the first-wave takedown added a container escape script capable of taking over the underlying host. The operator&#x27;s wallet received roughly $5,000 in Pearl (PRL) cryptocurrency, and the mining infrastructure was still active on pools after the repositories were removed.</p><p>- A second wave of 19 repositories appeared within days under new accounts. The flagship model scanned clean through Hugging Face&#x27;s antivirus and partner tooling from Protect AI and JFrog, collecting 28,412 downloads while evading detection. A near-identical copy uploaded October 25 by account htt0118 was still live at time of reporting and BleepingComputer confirmed it carries the same miner and reverse shell. Pluto attributes the campaign to a financially motivated, Chinese 🇨🇳 speaking operator based on Simplified Chinese 🇨🇳 code comments, C2 infrastructure on Alibaba Cloud, and activity timing consistent with late-night hours in China 🇨🇳.</p><p>- Separately, Air Security flagged GitHub repository SolanaUpdateTools/solana-starter-kit, live since November 2025 with 286 stars, that positions itself as a top AI coding agent search result for Solana development. Its README contains a single PowerShell one-liner that assembles a URL from fragments at developer-update[.]app and fetches a script into memory. That script installs NetSupport Manager configured to beacon to maxwintodaybtc[.]com and establishes persistence at every login. A fake error message tells the user or agent to retry in 72 hours, designed to pass as a routine service hiccup. Air links this to a known NetSupport RAT operator previously tracked by eSentire.</p><p>Takeaway: Any system that loaded a Hugging Face model with trust_remote_code enabled in the last several months should be treated as fully compromised, not merely mined. Killing the miner process is insufficient. Hunt for unexpected processes masquerading as Linux system services, outbound connections to mining pools, and unauthorized reverse shell activity. Check for container escape artifacts if the host runs a shared GPU cluster. Rotate all credentials that machine could have accessed. For the Solana kit exposure, look for NetSupport Manager persistence and outbound connections to maxwintodaybtc[.]com. IOCs for both campaigns are in Pluto&#x27;s and Air Security&#x27;s respective reports.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hugging-face-malware-campaign-returns-to-hijack-gpus-for-crypto-mining/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115957704342519879">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2115957704342519879</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2115957704342519879">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 00:03:24 +0000</pubDate>
+      <guid isPermaLink="false">2115957704342519879</guid>
+    </item>
     <item>
       <title>VAPOR PANDA Uses AI-Driven ARTEX to Scale a Global Espionage Campaign</title>
       <link>https://www.crowdstrike.com/en-us/blog/vapor-panda-uses-artex-to-scale-global-campaign/</link>
@@ -2444,20 +2470,6 @@ Hunt in CloudTrail and equivalent cloud audit logs for OIDC token exchanges or r
       <source url="https://x.com/DFIR_Radar/status/2114221151274885441">DFIR Radar</source>
       <pubDate>Sun, 25 Oct 2026 05:02:58 +0000</pubDate>
       <guid isPermaLink="false">2114221151274885441</guid>
-    </item>
-    <item>
-      <title>PHP2Shell: Client Data, Breach Scope and Reporting</title>
-      <link>https://www.todyl.com/blog/php2shell-client-data-breach-reporting</link>
-      <description>PHP2Shell (CVE-2026-109618, CVE-2026-109619, CVSS 9.2) is under active exploitation attempts since October 17. Hunt POST requests with PHP_SESSION_UPLOAD_PROGRESS and unexpected process execution; preserve logs before patching.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114206549316927750</description>
-      <content:encoded><![CDATA[<p>PHP2Shell (CVE-2026-109618, CVE-2026-109619, CVSS 9.2) is under active exploitation attempts since October 17. Hunt POST requests with PHP_SESSION_UPLOAD_PROGRESS and unexpected process execution; preserve logs before patching.</p><p>#DFIR_Radar</p><p><a href="https://www.todyl.com/blog/php2shell-client-data-breach-reporting">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114206549316927750">View on X</a></p>]]></content:encoded>
-      <dc:creator>Todyl</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114206549316927750</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114206549316927750">DFIR Radar</source>
-      <pubDate>Sun, 25 Oct 2026 04:04:56 +0000</pubDate>
-      <guid isPermaLink="false">2114206549316927750</guid>
     </item>
   </channel>
 </rss>
