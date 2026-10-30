@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Oct 2026 10:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2026 11:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Anthropic hacked to deliver remote access trojan to Claude developer laptops worldwide</title>
+      <link>https://doublepulsar.com/anthropic-hacked-to-deliver-remote-access-trojan-to-claude-developer-laptops-worldwide-1148a92baae2?source=rss----8343faddf0ec---4</link>
+      <description>Supply chain attack on Anthropic's official Claude Code VSCode extension (version 2.1.313) delivered an SSH reverse backdoor to developer machines worldwide, silently patched without customer notification.
+
+Key findings:
+
+- The malicious version 2.1.313 of the Anthropic.claude-code extension, installed across VSCode and Cursor, auto-updated to over 40 million installations without user interaction. The replacement version 2.1.314 removes the backdoor from the extension itself but does NOT remediate systems already compromised. Any host that loaded 2.1.313 should be treated as potentially backdoored until proven otherwise.
+
+- The malware conducted reconnaissance before attempting persistence: collecting hostname, username, OS, architecture, home directory path, environment variable names, working directories, configured Git email, and public IP, then beaconing that data via HTTP POST to /beacon on port 8099. This recon data was exfiltrated regardless of whether the persistence step succeeded.
+
+- Persistence was attempted via injection of an attacker-controlled SSH key into authorized_keys, enabling the local SSH service, and establishing a reverse SSH tunnel that retried roughly every 60 seconds. On macOS, persistence was via a LaunchAgent; on Windows, a scheduled task running as SYSTEM with a Startup-script fallback. Due to errors in the malicious code, these steps would fail outside of cases where Cursor was launched with administrator privileges.
+
+- The compromise affected a named high-value target pool: Binance is cited among thousands of enterprise customers running Claude Code on developer laptops. Developer workstations are high-value targets precisely because they hold source code, credentials, cloud tokens, and signing keys, all accessible to hands-on or automated remote sessions via the installed backdoor.
+
+- Anthropic silently replaced the malicious version without issuing any customer advisory. The first public disclosure came from Phorion's security advisory, not from Anthropic. Cursor has since published a security notice confirming the malicious activity.
+
+Practitioner takeaway: Treat any host that had 2.1.313 installed as a potential hands-on compromise, not just a malware hit. On macOS, hunt LaunchAgents in ~/Library/LaunchAgents and /Library/LaunchAgents for unfamiliar plist entries with network or SSH invocations. On Windows, review scheduled tasks for entries with SYSTEM privileges and Startup-script fallbacks created around the exposure window. Check authorized_keys on every affected host for unknown public keys added by the attacker. Review SSH service state changes and outbound connections on port 8099. The report is an emerging situation; Phorion's advisory contains the full behavioral detail for endpoint triage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116123894302265693</description>
+      <content:encoded><![CDATA[<p>Supply chain attack on Anthropic&#x27;s official Claude Code VSCode extension (version 2.1.313) delivered an SSH reverse backdoor to developer machines worldwide, silently patched without customer notification.</p><p>Key findings:</p><p>- The malicious version 2.1.313 of the Anthropic.claude-code extension, installed across VSCode and Cursor, auto-updated to over 40 million installations without user interaction. The replacement version 2.1.314 removes the backdoor from the extension itself but does NOT remediate systems already compromised. Any host that loaded 2.1.313 should be treated as potentially backdoored until proven otherwise.</p><p>- The malware conducted reconnaissance before attempting persistence: collecting hostname, username, OS, architecture, home directory path, environment variable names, working directories, configured Git email, and public IP, then beaconing that data via HTTP POST to /beacon on port 8099. This recon data was exfiltrated regardless of whether the persistence step succeeded.</p><p>- Persistence was attempted via injection of an attacker-controlled SSH key into authorized_keys, enabling the local SSH service, and establishing a reverse SSH tunnel that retried roughly every 60 seconds. On macOS, persistence was via a LaunchAgent; on Windows, a scheduled task running as SYSTEM with a Startup-script fallback. Due to errors in the malicious code, these steps would fail outside of cases where Cursor was launched with administrator privileges.</p><p>- The compromise affected a named high-value target pool: Binance is cited among thousands of enterprise customers running Claude Code on developer laptops. Developer workstations are high-value targets precisely because they hold source code, credentials, cloud tokens, and signing keys, all accessible to hands-on or automated remote sessions via the installed backdoor.</p><p>- Anthropic silently replaced the malicious version without issuing any customer advisory. The first public disclosure came from Phorion&#x27;s security advisory, not from Anthropic. Cursor has since published a security notice confirming the malicious activity.</p><p>Practitioner takeaway: Treat any host that had 2.1.313 installed as a potential hands-on compromise, not just a malware hit. On macOS, hunt LaunchAgents in ~/Library/LaunchAgents and /Library/LaunchAgents for unfamiliar plist entries with network or SSH invocations. On Windows, review scheduled tasks for entries with SYSTEM privileges and Startup-script fallbacks created around the exposure window. Check authorized_keys on every affected host for unknown public keys added by the attacker. Review SSH service state changes and outbound connections on port 8099. The report is an emerging situation; Phorion&#x27;s advisory contains the full behavioral detail for endpoint triage.</p><p>#DFIR_Radar</p><p><a href="https://doublepulsar.com/anthropic-hacked-to-deliver-remote-access-trojan-to-claude-developer-laptops-worldwide-1148a92baae2?source=rss----8343faddf0ec---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116123894302265693">View on X</a></p>]]></content:encoded>
+      <dc:creator>DoublePulsar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116123894302265693</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2116123894302265693">DFIR Radar</source>
+      <pubDate>Fri, 30 Oct 2026 11:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2116123894302265693</guid>
+    </item>
     <item>
       <title>Node2Shell: Taking Over a Server with a Single Compressed Data File (CVE-2026-111497)</title>
       <link>https://asec.ahnlab.com/en/96267/</link>
@@ -2558,20 +2586,6 @@ For operators: place /etc/passwd, /etc/passwd_original, and /etc/db1 under file-
       <source url="https://x.com/DFIR_Radar/status/2114629223914639416">DFIR Radar</source>
       <pubDate>Mon, 26 Oct 2026 08:04:30 +0000</pubDate>
       <guid isPermaLink="false">2114629223914639416</guid>
-    </item>
-    <item>
-      <title>Can’t Patch PHP2Shell Yet? Build a Stopgap with the Controls You Own</title>
-      <link>https://blog.qualys.com/?p=43279</link>
-      <description>CVE-2026-109618 and CVE-2026-109619 are actively exploited; only 199k of 156M PHP installs patched in 12 hours. Disable session upload progress, verify PHP worker restarts, then patch.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114583825917341933</description>
-      <content:encoded><![CDATA[<p>CVE-2026-109618 and CVE-2026-109619 are actively exploited; only 199k of 156M PHP installs patched in 12 hours. Disable session upload progress, verify PHP worker restarts, then patch.</p><p>#DFIR_Radar</p><p><a href="https://blog.qualys.com/?p=43279">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114583825917341933">View on X</a></p>]]></content:encoded>
-      <dc:creator>Qualys Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114583825917341933</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114583825917341933">DFIR Radar</source>
-      <pubDate>Mon, 26 Oct 2026 05:04:06 +0000</pubDate>
-      <guid isPermaLink="false">2114583825917341933</guid>
     </item>
   </channel>
 </rss>
