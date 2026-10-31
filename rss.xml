@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 16:02:12 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 17:02:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Export Advanced Hunting Results from Microsoft Defender XDR</title>
+      <link>https://socprime.com/blog/how-to-export-advanced-hunting-results-from-microsoft-defender-xdr/</link>
+      <description>Microsoft Defender XDR Advanced Hunting retains 30 days; export results via Microsoft Graph's runHuntingQuery endpoint with ThreatHunting[.]Read.All permission. Pivot to Sentinel for older data.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116576536614535312</description>
+      <content:encoded><![CDATA[<p>Microsoft Defender XDR Advanced Hunting retains 30 days; export results via Microsoft Graph&#x27;s runHuntingQuery endpoint with ThreatHunting[.]Read.All permission. Pivot to Sentinel for older data.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-advanced-hunting-results-from-microsoft-defender-xdr/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116576536614535312">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116576536614535312</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2116576536614535312">DFIR Radar</source>
+      <pubDate>Sat, 31 Oct 2026 17:02:25 +0000</pubDate>
+      <guid isPermaLink="false">2116576536614535312</guid>
+    </item>
     <item>
       <title>Binance attack: how DPRK targets developer laptops</title>
       <link>https://www.jamf.com/blog/binance-attack-dprk-developer-laptop-security/</link>
@@ -2632,34 +2646,6 @@ Practitioner takeaway: Hunt web roots for the string 96.126.130[.]81, for .whk.p
       <source url="https://x.com/DFIR_Radar/status/2115066557940273222">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 13:02:18 +0000</pubDate>
       <guid isPermaLink="false">2115066557940273222</guid>
-    </item>
-    <item>
-      <title>Private repos still leak secrets to Gheist, a stolen GitHub token campaign</title>
-      <link>https://www.helpnetsecurity.com/2026/10/27/gheist-github-token-abuse/</link>
-      <description>A GitHub Actions campaign called Gheist has harvested secrets from private repositories across 850+ compromised accounts by exploiting a gap in GitHub's workflow approval protections that only covers public repos.
-
-Key findings:
-
-- Gheist operates with a stolen GitHub token and no external attacker infrastructure. The tool enumerates every repository the token can reach, creates a branch named ci-sync- plus six random characters, commits a workflow file called sync-check, triggers it automatically on push, and exfiltrates secrets through GitHub's own API. The run log is deleted seconds after download, leaving a narrow evidence window. Because exfil travels entirely over GitHub's API, there is no outbound domain or C2 connection to block at the network layer.
-
-- GitHub's secret masking is bypassed by Base32-encoding each secret before printing it to the workflow run log. GitHub only redacts a secret that appears exactly as stored, so the encoded output prints in full and is downloaded via API. Wiz recovered more than 13,500 planted branches across the 850+ accounts, which gives a sense of scale before deletion.
-
-- The critical protection gap: GitHub's July 28 hold on potentially malicious workflow runs applies only to public repositories. Private repositories and GitHub Enterprise Server are unprotected. Wiz confirmed exploitation by cross-referencing GitHub audit logs showing ci-sync-* branch runs completing and then being deleted by the gheist user agent, and CloudTrail showing those branches triggering Actions that assumed AWS roles, proving execution happened without any approval gate.
-
-- In at least one enterprise intrusion, the tool cycled through tokens for multiple users and automation accounts within minutes, cloned private repositories, and hours later cloud credentials from the same organization were used to enumerate AWS Secrets Manager. One Gheist variant added a second job on October 19 that targets self-hosted runners, searching the host for tokens and keys and using Docker to reach host filesystem contents.
-
-- The same compromised accounts are shared infrastructure. On October 6, 391 accounts renamed roughly 1,461 repositories to cracked-software lures. On October 18, 25 Gheist accounts each created a "Windows RDP Runner" repository within a nine-minute window. This overlap means a single account compromise may serve multiple campaigns simultaneously.
-
-DFIR takeaway: If your workflows use OIDC to authenticate to cloud providers, query your CloudTrail or equivalent cloud audit log for role assumption events whose subject field contains a ci-sync- branch name. That evidence survives even if you have no GitHub log retention. In GitHub audit logs, filter for the gheist user agent. Deleted runs and branches do not undo the secret exposure: rotate every repository, organization, and environment secret accessible to any affected repository, and revoke the tokens that pushed the commits.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115051767666745537</description>
-      <content:encoded><![CDATA[<p>A GitHub Actions campaign called Gheist has harvested secrets from private repositories across 850+ compromised accounts by exploiting a gap in GitHub&#x27;s workflow approval protections that only covers public repos.</p><p>Key findings:</p><p>- Gheist operates with a stolen GitHub token and no external attacker infrastructure. The tool enumerates every repository the token can reach, creates a branch named ci-sync- plus six random characters, commits a workflow file called sync-check, triggers it automatically on push, and exfiltrates secrets through GitHub&#x27;s own API. The run log is deleted seconds after download, leaving a narrow evidence window. Because exfil travels entirely over GitHub&#x27;s API, there is no outbound domain or C2 connection to block at the network layer.</p><p>- GitHub&#x27;s secret masking is bypassed by Base32-encoding each secret before printing it to the workflow run log. GitHub only redacts a secret that appears exactly as stored, so the encoded output prints in full and is downloaded via API. Wiz recovered more than 13,500 planted branches across the 850+ accounts, which gives a sense of scale before deletion.</p><p>- The critical protection gap: GitHub&#x27;s July 28 hold on potentially malicious workflow runs applies only to public repositories. Private repositories and GitHub Enterprise Server are unprotected. Wiz confirmed exploitation by cross-referencing GitHub audit logs showing ci-sync-* branch runs completing and then being deleted by the gheist user agent, and CloudTrail showing those branches triggering Actions that assumed AWS roles, proving execution happened without any approval gate.</p><p>- In at least one enterprise intrusion, the tool cycled through tokens for multiple users and automation accounts within minutes, cloned private repositories, and hours later cloud credentials from the same organization were used to enumerate AWS Secrets Manager. One Gheist variant added a second job on October 19 that targets self-hosted runners, searching the host for tokens and keys and using Docker to reach host filesystem contents.</p><p>- The same compromised accounts are shared infrastructure. On October 6, 391 accounts renamed roughly 1,461 repositories to cracked-software lures. On October 18, 25 Gheist accounts each created a &quot;Windows RDP Runner&quot; repository within a nine-minute window. This overlap means a single account compromise may serve multiple campaigns simultaneously.</p><p>DFIR takeaway: If your workflows use OIDC to authenticate to cloud providers, query your CloudTrail or equivalent cloud audit log for role assumption events whose subject field contains a ci-sync- branch name. That evidence survives even if you have no GitHub log retention. In GitHub audit logs, filter for the gheist user agent. Deleted runs and branches do not undo the secret exposure: rotate every repository, organization, and environment secret accessible to any affected repository, and revoke the tokens that pushed the commits.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/27/gheist-github-token-abuse/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115051767666745537">View on X</a></p>]]></content:encoded>
-      <dc:creator>Help Net Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115051767666745537</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2115051767666745537">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 12:03:32 +0000</pubDate>
-      <guid isPermaLink="false">2115051767666745537</guid>
     </item>
   </channel>
 </rss>
