@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 17:02:25 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 18:02:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How to Export Event Data from CrowdStrike Falcon</title>
+      <link>https://socprime.com/blog/how-to-export-event-data-from-crowdstrike-falcon/</link>
+      <description>CrowdStrike Falcon telemetry exports via Advanced Event Search (JSON/CSV) or Falcon Data Replicator to S3 as gzipped JSONL. Filter raw pulls by aid and event_simpleName before ingestion.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116591642140451078</description>
+      <content:encoded><![CDATA[<p>CrowdStrike Falcon telemetry exports via Advanced Event Search (JSON/CSV) or Falcon Data Replicator to S3 as gzipped JSONL. Filter raw pulls by aid and event_simpleName before ingestion.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-event-data-from-crowdstrike-falcon/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116591642140451078">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116591642140451078</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2116591642140451078">DFIR Radar</source>
+      <pubDate>Sat, 31 Oct 2026 18:02:27 +0000</pubDate>
+      <guid isPermaLink="false">2116591642140451078</guid>
+    </item>
     <item>
       <title>How to Export Advanced Hunting Results from Microsoft Defender XDR</title>
       <link>https://socprime.com/blog/how-to-export-advanced-hunting-results-from-microsoft-defender-xdr/</link>
@@ -2618,34 +2632,6 @@ Key findings:
       <source url="https://x.com/DFIR_Radar/status/2115081742050542051">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 14:02:38 +0000</pubDate>
       <guid isPermaLink="false">2115081742050542051</guid>
-    </item>
-    <item>
-      <title>PHP2Shell Weaponized After Japanese Real Estate Extortion</title>
-      <link>https://socradar.io/blog/php2shell-weaponized-japanese-real-estate-extortion/</link>
-      <description>Extortion operator "kkkkevin777" exposed their full staging server, revealing a shared-hosting pivot across nearly 20 Japanese 🇯🇵 real estate sites, 16,061 plaintext member records, and a weaponized PHP2Shell toolkit staged for what comes next.
-
-Key findings:
-
-- An open HTTP directory listing on 96.126.130[.]81 port 9999 exposed the operator's entire working environment: web shells, beacon and C2 logs, ransom page templates, SSH private keys, stolen databases, and a weaponized copy of the PHP2Shell reproducer package for CVE-2026-109618 and CVE-2026-109619 (unauthenticated memory corruption in PHP session upload progress handling). File timestamps place the bulk of activity between October 8 and October 27, 2026, with the PHP2Shell tooling arriving October 21, roughly ten days after the extortion wave. No saved output on the server confirms a successful PHP2Shell exploitation of a live target, but the tooling was staged and follow-on probe scripts were ready.
-
-- Initial access to one Japanese 🇯🇵 real estate services company was already held by October 9. The operator placed PHP web shells with random 32-character hexadecimal names under image upload directories (artifact: .whk.php in the web root), injected a beacon into the site's database config calling back to 96.126.130[.]81:9001 via /b?h=hostname, and installed a cron job rewriting .htaccess to "Require all granted" every minute (T1053.003) to undo the owner's lockout attempts. MITRE coverage includes T1190, T1505.003, T1071.001, T1491.002, and T1490.
-
-- A single SSH private key stored on the staging server (key comment: administrator@chenzicccc) and one database password reused across victim sites turned one compromise into beacon callbacks from roughly 20 Japanese 🇯🇵 domains between October 9 and 11 (T1552.004, T1021.004). The operator also swept victims' home directories for backup files to limit recovery options, and on October 22 and 23 pivoted to a Taiwanese 🇹🇼 Windows server, pulling five SQL Server database backups, 663 FoxPro files, and 730 business emails via web shell.
-
-- The stolen haul on the server includes 16,061 member records from the initial victim with plaintext passwords, annual income, savings, occupation, and property search details. A bulk-mail script was staged to send each member their own data plus 49 other members' records from the victim's own mail server, and a draft 5ch newsplus post accused the company of failing to notify Japan's 🇯🇵 Personal Information Protection Commission. Email addresses in the stolen data touch major Japanese 🇯🇵 banking, telecom, and technology consumer mail domains, creating downstream phishing and credential-stuffing exposure well beyond the breached sites.
-
-- The operator's scripts carry Simplified Chinese 🇨🇳 comments, every victim-facing message is written in Japanese 🇯🇵, the ransom contact is kkkkevin777@tutamail[.]com with a fallback at theudinhthi421@gmail[.]com, and a separate Python C2 on port 8443 paired with a PowerShell agent (T1059.001) was labeled a "finance line" beacon for operations outside the real estate campaign. On October 21, the same day PHP2Shell arrived, the operator compiled 3,913 Hong Kong and Taiwanese 🇹🇼 IP ranges and ran mass scans against them.
-
-Practitioner takeaway: Hunt web roots for the string 96.126.130[.]81, for .whk.php, for files matching *.orig20261010, and for PHP files with 32-character hexadecimal names in upload or image directories. Review every hosting account's crontab for entries rewriting .htaccess, audit authorized_keys for the administrator@chenzicccc comment, and check web server logs for multipart requests with unusually long filenames returning HTTP 500, a pattern the report associates with PHP2Shell exploitation attempts. On shared hosting, audit every other account's SSH authorized_keys and database passwords if any co-tenant was touched: one reused credential was the entire pivot mechanism here. IOCs, beacon URI patterns, file artifacts, and the full MITRE mapping are in the SOCRadar report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115066557940273222</description>
-      <content:encoded><![CDATA[<p>Extortion operator &quot;kkkkevin777&quot; exposed their full staging server, revealing a shared-hosting pivot across nearly 20 Japanese 🇯🇵 real estate sites, 16,061 plaintext member records, and a weaponized PHP2Shell toolkit staged for what comes next.</p><p>Key findings:</p><p>- An open HTTP directory listing on 96.126.130[.]81 port 9999 exposed the operator&#x27;s entire working environment: web shells, beacon and C2 logs, ransom page templates, SSH private keys, stolen databases, and a weaponized copy of the PHP2Shell reproducer package for CVE-2026-109618 and CVE-2026-109619 (unauthenticated memory corruption in PHP session upload progress handling). File timestamps place the bulk of activity between October 8 and October 27, 2026, with the PHP2Shell tooling arriving October 21, roughly ten days after the extortion wave. No saved output on the server confirms a successful PHP2Shell exploitation of a live target, but the tooling was staged and follow-on probe scripts were ready.</p><p>- Initial access to one Japanese 🇯🇵 real estate services company was already held by October 9. The operator placed PHP web shells with random 32-character hexadecimal names under image upload directories (artifact: .whk.php in the web root), injected a beacon into the site&#x27;s database config calling back to 96.126.130[.]81:9001 via /b?h=hostname, and installed a cron job rewriting .htaccess to &quot;Require all granted&quot; every minute (T1053.003) to undo the owner&#x27;s lockout attempts. MITRE coverage includes T1190, T1505.003, T1071.001, T1491.002, and T1490.</p><p>- A single SSH private key stored on the staging server (key comment: administrator@chenzicccc) and one database password reused across victim sites turned one compromise into beacon callbacks from roughly 20 Japanese 🇯🇵 domains between October 9 and 11 (T1552.004, T1021.004). The operator also swept victims&#x27; home directories for backup files to limit recovery options, and on October 22 and 23 pivoted to a Taiwanese 🇹🇼 Windows server, pulling five SQL Server database backups, 663 FoxPro files, and 730 business emails via web shell.</p><p>- The stolen haul on the server includes 16,061 member records from the initial victim with plaintext passwords, annual income, savings, occupation, and property search details. A bulk-mail script was staged to send each member their own data plus 49 other members&#x27; records from the victim&#x27;s own mail server, and a draft 5ch newsplus post accused the company of failing to notify Japan&#x27;s 🇯🇵 Personal Information Protection Commission. Email addresses in the stolen data touch major Japanese 🇯🇵 banking, telecom, and technology consumer mail domains, creating downstream phishing and credential-stuffing exposure well beyond the breached sites.</p><p>- The operator&#x27;s scripts carry Simplified Chinese 🇨🇳 comments, every victim-facing message is written in Japanese 🇯🇵, the ransom contact is kkkkevin777@tutamail[.]com with a fallback at theudinhthi421@gmail[.]com, and a separate Python C2 on port 8443 paired with a PowerShell agent (T1059.001) was labeled a &quot;finance line&quot; beacon for operations outside the real estate campaign. On October 21, the same day PHP2Shell arrived, the operator compiled 3,913 Hong Kong and Taiwanese 🇹🇼 IP ranges and ran mass scans against them.</p><p>Practitioner takeaway: Hunt web roots for the string 96.126.130[.]81, for .whk.php, for files matching *.orig20261010, and for PHP files with 32-character hexadecimal names in upload or image directories. Review every hosting account&#x27;s crontab for entries rewriting .htaccess, audit authorized_keys for the administrator@chenzicccc comment, and check web server logs for multipart requests with unusually long filenames returning HTTP 500, a pattern the report associates with PHP2Shell exploitation attempts. On shared hosting, audit every other account&#x27;s SSH authorized_keys and database passwords if any co-tenant was touched: one reused credential was the entire pivot mechanism here. IOCs, beacon URI patterns, file artifacts, and the full MITRE mapping are in the SOCRadar report.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/php2shell-weaponized-japanese-real-estate-extortion/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115066557940273222">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115066557940273222</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2115066557940273222">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 13:02:18 +0000</pubDate>
-      <guid isPermaLink="false">2115066557940273222</guid>
     </item>
   </channel>
 </rss>
