@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 09:02:40 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 10:02:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Suspected DPRK Hackers Conduct Targeted PHP2Shell Scanning</title>
+      <link>https://blog.polyswarm.io/suspected-dprk-hackers-conduct-targeted-php2shell-scanning</link>
+      <description>Suspected DPRK operators move from recon to active scanning of PHP2Shell vulnerabilities, targeting 216 servers across government, finance, and critical sectors in 12+ countries.
+
+Key details:
+
+- CVE-2026-109618 and CVE-2026-109619, collectively PHP2Shell, are two memory-safety flaws in the PHP runtime itself, both scoring CVSS v4.0 9.2. CVE-2026-109618 involves memory corruption during out-of-memory handling. CVE-2026-109619 is a use-after-free reachable via session upload-progress functionality. A third related flaw, CVE-2026-115560, was disclosed October 23 and affects the same session upload-progress path but is not patched by the October 21 releases and is not yet tied to this campaign. Patches for the first two land in PHP 8.5.12, 8.4.27, 8.3.36, and 8.2.35. End-of-life branches have no official upstream fix. Verify the PHP version your web-serving process is actually running, not just the CLI binary.
+
+- CYFIRMA intercepted communications in a closed I2P channel beginning October 22. Operators assembled a filtered list of 216 targets, discarding hosts advertising patched versions or strong filtering, then organized survivors by sector and geography. Roughly one-third had been scanned by October 24. Priority sectors: government, financial institutions, manufacturing, logistics, aviation, and online transaction platforms across the United States 🇺🇸, Japan 🇯🇵, South Korea 🇰🇷, Australia 🇦🇺, India 🇮🇳, Taiwan 🇹🇼, Singapore 🇸🇬, Indonesia 🇮🇩, Thailand 🇹🇭, UAE 🇦🇪, Saudi Arabia 🇸🇦, and the EU.
+
+- The scanning infrastructure uses 21 compromised nodes distinct from 15 previously identified staging addresses and 17 additional suspicious source IPs. Operators rotate nodes, cap request volumes, and drop addresses that hit rate-limiting, making volume-threshold detection unreliable. The 21 nodes were also observed conducting PHP web-shell-related activity and session-poisoning attempts during an eight-hour window before the advisory, linking their communications to their network behavior. Source addresses may belong to innocent previously compromised organizations, complicating indicator-based blocking and demanding behavioral correlation.
+
+- Detection opportunities the report names: crafted multipart/form-data requests, particularly against Apache mod_php deployments; unexpected PHP session behavior; repeated memory-exhaustion errors and worker crashes; HTTP 500 responses near PHP memory errors or Apache worker failures; web-server processes spawning command interpreters. Post-exploitation artifacts to hunt: newly created PHP files in web-accessible directories, unexpected outbound connections from PHP worker processes, and access to application configuration files or credential stores. Because scanning is deliberately low-volume, these behavioral signals matter more than request-count thresholds.
+
+- Attribution is suspected, not confirmed. CYFIRMA links the campaign to the Lazarus Group ecosystem based on Korean-language communications and targeting preferences consistent with North Korean 🇰🇵 operations, but no definitive tooling or infrastructure overlap has been established and no named victims or confirmed compromises are reported. The one published IOC is a second-stage ELF x86-64 sample (SHA-256: 0c5486f06620e26e316f4b33f318b0d646d5e1133789331aa2fed012360d1486), detected by 1 of 11 engines at time of reporting.
+
+Practitioner takeaway: Do not wait on attacker confirmation before investigating. Audit every PHP process your web servers are actually executing and confirm the patched version is live. Then pull web-server logs for the period between October 21 disclosure and your patch deployment and search for multipart/form-data anomalies, PHP worker crashes, and new files written to document roots. Correlate with outbound network connections from PHP worker PIDs. The IOC hash is in the report; check it against your endpoints and proxies now.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116470979874771051</description>
+      <content:encoded><![CDATA[<p>Suspected DPRK operators move from recon to active scanning of PHP2Shell vulnerabilities, targeting 216 servers across government, finance, and critical sectors in 12+ countries.</p><p>Key details:</p><p>- CVE-2026-109618 and CVE-2026-109619, collectively PHP2Shell, are two memory-safety flaws in the PHP runtime itself, both scoring CVSS v4.0 9.2. CVE-2026-109618 involves memory corruption during out-of-memory handling. CVE-2026-109619 is a use-after-free reachable via session upload-progress functionality. A third related flaw, CVE-2026-115560, was disclosed October 23 and affects the same session upload-progress path but is not patched by the October 21 releases and is not yet tied to this campaign. Patches for the first two land in PHP 8.5.12, 8.4.27, 8.3.36, and 8.2.35. End-of-life branches have no official upstream fix. Verify the PHP version your web-serving process is actually running, not just the CLI binary.</p><p>- CYFIRMA intercepted communications in a closed I2P channel beginning October 22. Operators assembled a filtered list of 216 targets, discarding hosts advertising patched versions or strong filtering, then organized survivors by sector and geography. Roughly one-third had been scanned by October 24. Priority sectors: government, financial institutions, manufacturing, logistics, aviation, and online transaction platforms across the United States 🇺🇸, Japan 🇯🇵, South Korea 🇰🇷, Australia 🇦🇺, India 🇮🇳, Taiwan 🇹🇼, Singapore 🇸🇬, Indonesia 🇮🇩, Thailand 🇹🇭, UAE 🇦🇪, Saudi Arabia 🇸🇦, and the EU.</p><p>- The scanning infrastructure uses 21 compromised nodes distinct from 15 previously identified staging addresses and 17 additional suspicious source IPs. Operators rotate nodes, cap request volumes, and drop addresses that hit rate-limiting, making volume-threshold detection unreliable. The 21 nodes were also observed conducting PHP web-shell-related activity and session-poisoning attempts during an eight-hour window before the advisory, linking their communications to their network behavior. Source addresses may belong to innocent previously compromised organizations, complicating indicator-based blocking and demanding behavioral correlation.</p><p>- Detection opportunities the report names: crafted multipart/form-data requests, particularly against Apache mod_php deployments; unexpected PHP session behavior; repeated memory-exhaustion errors and worker crashes; HTTP 500 responses near PHP memory errors or Apache worker failures; web-server processes spawning command interpreters. Post-exploitation artifacts to hunt: newly created PHP files in web-accessible directories, unexpected outbound connections from PHP worker processes, and access to application configuration files or credential stores. Because scanning is deliberately low-volume, these behavioral signals matter more than request-count thresholds.</p><p>- Attribution is suspected, not confirmed. CYFIRMA links the campaign to the Lazarus Group ecosystem based on Korean-language communications and targeting preferences consistent with North Korean 🇰🇵 operations, but no definitive tooling or infrastructure overlap has been established and no named victims or confirmed compromises are reported. The one published IOC is a second-stage ELF x86-64 sample (SHA-256: 0c5486f06620e26e316f4b33f318b0d646d5e1133789331aa2fed012360d1486), detected by 1 of 11 engines at time of reporting.</p><p>Practitioner takeaway: Do not wait on attacker confirmation before investigating. Audit every PHP process your web servers are actually executing and confirm the patched version is live. Then pull web-server logs for the period between October 21 disclosure and your patch deployment and search for multipart/form-data anomalies, PHP worker crashes, and new files written to document roots. Correlate with outbound network connections from PHP worker PIDs. The IOC hash is in the report; check it against your endpoints and proxies now.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/suspected-dprk-hackers-conduct-targeted-php2shell-scanning">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116470979874771051">View on X</a></p>]]></content:encoded>
+      <dc:creator>PolySwarm</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116470979874771051</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2116470979874771051">DFIR Radar</source>
+      <pubDate>Sat, 31 Oct 2026 10:02:59 +0000</pubDate>
+      <guid isPermaLink="false">2116470979874771051</guid>
+    </item>
     <item>
       <title>Fake IT help desk callers got by on little more than names and email addresses</title>
       <link>https://www.helpnetsecurity.com/2026/10/30/cisco-talos-it-help-desk-vishing/</link>
@@ -2632,20 +2660,6 @@ Practitioner takeaway: On any Dahua device in scope, pull the audit log and filt
       <source url="https://x.com/DFIR_Radar/status/2114976487598170267">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 07:04:24 +0000</pubDate>
       <guid isPermaLink="false">2114976487598170267</guid>
-    </item>
-    <item>
-      <title>Popcorn Time’s forgotten updater left millions of devices exposed to hijacking</title>
-      <link>https://www.malwarebytes.com/blog/news/2026/10/popcorn-times-forgotten-updater-left-millions-of-devices-exposed-to-hijacking</link>
-      <description>CVE-2026-30612 in the abandoned Time4Popcorn updater enabled silent RCE via unsigned HTTP updates on millions of devices. Check for Updater.exe under Program Files and PT.updd at /Library/PrivilegedHelperTools/ on macOS.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114961194385572254</description>
-      <content:encoded><![CDATA[<p>CVE-2026-30612 in the abandoned Time4Popcorn updater enabled silent RCE via unsigned HTTP updates on millions of devices. Check for Updater.exe under Program Files and PT.updd at /Library/PrivilegedHelperTools/ on macOS.</p><p>#DFIR_Radar</p><p><a href="https://www.malwarebytes.com/blog/news/2026/10/popcorn-times-forgotten-updater-left-millions-of-devices-exposed-to-hijacking">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114961194385572254">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malwarebytes Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114961194385572254</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114961194385572254">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 06:03:38 +0000</pubDate>
-      <guid isPermaLink="false">2114961194385572254</guid>
     </item>
   </channel>
 </rss>
