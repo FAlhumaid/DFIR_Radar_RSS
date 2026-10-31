@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 07:03:12 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 08:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake ChatGPT and Claude Apps Abuse Signed Executables to Deploy Crypto Miners</title>
+      <link>https://thehackernews.com/2026/10/fake-chatgpt-and-claude-apps-abuse.html</link>
+      <description>Fake AI desktop apps (ChatGPT, Claude) on GitHub deliver YobaLoader via DLL sideloading, ultimately injecting XMRig into svchost.exe. SEO poisoning drives victims to convincing GitHub[.]io lure pages active since late August 2026.
+
+Key findings:
+
+- The infection chain starts with a ZIP archive containing two files: Setup.exe, a legitimately signed OpenAI Codex or Claude executable, and winmm.dll, the malicious YobaDropper. Because the signed binary loads the DLL, the technique bypasses many security controls that trust signed processes. YobaDropper validates its host by hashing the executable basename and checking it against 0xE6C2F326, causing it to fail silently in sandboxes that rename the binary.
+
+- YobaDropper then stages a second sideloading chain: it copies wmpdmc.exe from system32 into a new ProgramData\WMProcess directory, drops the decrypted YobaLoader as ampdui.dll alongside it, and creates a scheduled task pointing at the legitimate wmpdmc.exe to maintain persistence across reboots.
+
+- YobaLoader contacts a Telegram channel (t[.]me/yoba_fanclub) to download an image, reads its last 50 bytes as a DGA seed, and constructs a domain in the format adjective-noun-verb-digit.dedyn[.]io. It then resolves that domain via Google's DNS-over-HTTPS API to retrieve a Base64-encoded command from a DNS TXT record, obscuring C2 traffic inside legitimate HTTPS flows. The resolved next-stage payload is fetched from files.catbox[.]moe/z5zpy9.dat and injected into svchost.exe as XMRig.
+
+- The malware skips infection on machines whose keyboard layout matches Russia 🇷🇺, Belarus 🇧🇾, Tajikistan, Armenia, Azerbaijan, Georgia, Kazakhstan 🇰🇿, Kyrgyzstan, Turkmenistan, Uzbekistan, or Tatar locale. Ukraine 🇺🇦 is notably absent from this exclusion list. Early versions excluded only Russia 🇷🇺 and included heavier anti-VM checks that have since been stripped out, suggesting active development. The three GitHub accounts use separate Outlook addresses and show activity across UTC+3, UTC+4, and UTC-4, likely to obscure the operator's real time zone.
+
+- Lure infrastructure includes github[.]com/gpt-5-6/sol-free-desktop, gpt-5-6.github[.]io, github[.]com/gpt-6-astra/gpt-6-astra.github[.]io, gpt-6-astra.github[.]io, and opus-5-0.github[.]io, promoted via SEO poisoning rather than fake engagement. Contact addresses are edwardcarlsonmkym[@]outlook[.]com, daxschneiderdjuu[@]outlook[.]com, and rioprestonlfyx[@]outlook[.]com.
+
+Practitioner takeaway: Hunt for wmpdmc.exe executing from ProgramData\WMProcess rather than system32, and look for scheduled tasks whose action path points to that same non-standard directory. DNS-over-HTTPS queries that resolve dedyn[.]io subdomains matching the adjective-noun-verb-digit pattern are a strong signal even when traditional DNS logging is blind to the exchange. The Check Point report contains the full IOC table.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116440771662319629</description>
+      <content:encoded><![CDATA[<p>Fake AI desktop apps (ChatGPT, Claude) on GitHub deliver YobaLoader via DLL sideloading, ultimately injecting XMRig into svchost.exe. SEO poisoning drives victims to convincing GitHub[.]io lure pages active since late August 2026.</p><p>Key findings:</p><p>- The infection chain starts with a ZIP archive containing two files: Setup.exe, a legitimately signed OpenAI Codex or Claude executable, and winmm.dll, the malicious YobaDropper. Because the signed binary loads the DLL, the technique bypasses many security controls that trust signed processes. YobaDropper validates its host by hashing the executable basename and checking it against 0xE6C2F326, causing it to fail silently in sandboxes that rename the binary.</p><p>- YobaDropper then stages a second sideloading chain: it copies wmpdmc.exe from system32 into a new ProgramData\WMProcess directory, drops the decrypted YobaLoader as ampdui.dll alongside it, and creates a scheduled task pointing at the legitimate wmpdmc.exe to maintain persistence across reboots.</p><p>- YobaLoader contacts a Telegram channel (t[.]me/yoba_fanclub) to download an image, reads its last 50 bytes as a DGA seed, and constructs a domain in the format adjective-noun-verb-digit.dedyn[.]io. It then resolves that domain via Google&#x27;s DNS-over-HTTPS API to retrieve a Base64-encoded command from a DNS TXT record, obscuring C2 traffic inside legitimate HTTPS flows. The resolved next-stage payload is fetched from files.catbox[.]moe/z5zpy9.dat and injected into svchost.exe as XMRig.</p><p>- The malware skips infection on machines whose keyboard layout matches Russia 🇷🇺, Belarus 🇧🇾, Tajikistan, Armenia, Azerbaijan, Georgia, Kazakhstan 🇰🇿, Kyrgyzstan, Turkmenistan, Uzbekistan, or Tatar locale. Ukraine 🇺🇦 is notably absent from this exclusion list. Early versions excluded only Russia 🇷🇺 and included heavier anti-VM checks that have since been stripped out, suggesting active development. The three GitHub accounts use separate Outlook addresses and show activity across UTC+3, UTC+4, and UTC-4, likely to obscure the operator&#x27;s real time zone.</p><p>- Lure infrastructure includes github[.]com/gpt-5-6/sol-free-desktop, gpt-5-6.github[.]io, github[.]com/gpt-6-astra/gpt-6-astra.github[.]io, gpt-6-astra.github[.]io, and opus-5-0.github[.]io, promoted via SEO poisoning rather than fake engagement. Contact addresses are edwardcarlsonmkym[@]outlook[.]com, daxschneiderdjuu[@]outlook[.]com, and rioprestonlfyx[@]outlook[.]com.</p><p>Practitioner takeaway: Hunt for wmpdmc.exe executing from ProgramData\WMProcess rather than system32, and look for scheduled tasks whose action path points to that same non-standard directory. DNS-over-HTTPS queries that resolve dedyn[.]io subdomains matching the adjective-noun-verb-digit pattern are a strong signal even when traditional DNS logging is blind to the exchange. The Check Point report contains the full IOC table.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/fake-chatgpt-and-claude-apps-abuse.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116440771662319629">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116440771662319629</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2116440771662319629">DFIR Radar</source>
+      <pubDate>Sat, 31 Oct 2026 08:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2116440771662319629</guid>
+    </item>
     <item>
       <title>eMudhra Certificate Compromise: Browsers Are Protected. Is the Rest of Your Network?</title>
       <link>https://www.extrahop.com/blog/emudhra-certificate-compromise-browsers-are-protected-is-the-rest-of-your-network</link>
@@ -2604,20 +2632,6 @@ Practitioner takeaway: On any Dahua device in scope, pull the audit log and filt
       <source url="https://x.com/DFIR_Radar/status/2114946135576264749">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 05:03:47 +0000</pubDate>
       <guid isPermaLink="false">2114946135576264749</guid>
-    </item>
-    <item>
-      <title>Gheist Attackers Stumble in Attempt to Abuse GitHub Tokens</title>
-      <link>https://www.infosecurity-magazine.com/news/gheist-attackers-abuse-stolen/</link>
-      <description>Gheist attackers used stolen GitHub tokens to plant secret-stealing Actions workflows across 13,500 branches, exfiltrating secrets via API logs with no external C2. Audit Actions logs for short-lived branches and rotate all tokens.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114930936441602516</description>
-      <content:encoded><![CDATA[<p>Gheist attackers used stolen GitHub tokens to plant secret-stealing Actions workflows across 13,500 branches, exfiltrating secrets via API logs with no external C2. Audit Actions logs for short-lived branches and rotate all tokens.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/gheist-attackers-abuse-stolen/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114930936441602516">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114930936441602516</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114930936441602516">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 04:03:24 +0000</pubDate>
-      <guid isPermaLink="false">2114930936441602516</guid>
     </item>
   </channel>
 </rss>
