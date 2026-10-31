@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 08:02:57 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 09:02:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fake IT help desk callers got by on little more than names and email addresses</title>
+      <link>https://www.helpnetsecurity.com/2026/10/30/cisco-talos-it-help-desk-vishing/</link>
+      <description>Vishing-to-ransomware chain: attackers armed with only names and email addresses talked employees into Quick Assist sessions, ending in a new ransomware variant and AI credential harvesting across Q3 2026 engagements.
+
+Key findings:
+
+- The initial access bar was remarkably low. Talos IR found attackers needed only employee names and contact details to impersonate IT help desk staff over phone, email, and Microsoft Teams. Victims were not screened by seniority or technical role, making every employee a viable target. One victim called the attacker themselves after a browser scam pop-up displayed a fake support number, and another was caught in a two-wave phishing campaign designed so that at least one target would fall. This is social engineering at scale, not precision targeting.
+
+- The ransomware path ran through Microsoft Quick Assist. A voice phishing call convinced a user to start a Quick Assist session. RMM tooling already present on the network then executed PowerShell commands that pulled and installed an MSI package from a remote IP. The payload was VYPR, a new and operationally immature ransomware variant built on leaked Conti-derived source code with minimal changes. VYPR operators deployed an unusually high volume of bring-your-own-vulnerable-driver (BYOVD) files to achieve kernel-level EDR suppression, possibly keeping extras as backup. Exfiltration ran over multiple days, atypical for ransomware cases. The group had no data leak site until after the engagement concluded.
+
+- A separate macOS compromise involved a trojanized application and a scripted keychain dump targeting AI credentials. The command executed was: /bin/sh -c security find-generic-password -a "[USER_NAME]" -w -s "Claude Code-credentials". The -w flag returns the plaintext secret. No confirmed use of the stolen credentials was observed, but the deliberate targeting of Anthropic's Claude Code assistant is a notable shift worth logging for.
+
+- An insider threat case surfaced in the same quarter. An employee hired under false credentials used legitimate developer access to install GitHub Copilot CLI and Claude Code. No malicious activity or confirmed data theft was found, but their access included cloning repositories and connecting to databases, exactly the foothold needed to automate exfiltration or reconnaissance. The cases together signal that AI coding tools are becoming a focus for both external attackers and malicious insiders.
+
+- Visibility gaps compounded every engagement. Insufficient logging appeared in over 40 percent of cases, driven by both attacker-deleted logs and customer misconfigurations. Phishing led initial access vectors at 37 percent, followed by exploitation of public-facing applications at 33 percent. Credential and weak MFA problems each appeared in 33 percent of cases.
+
+Practitioner takeaway: Hunt for Quick Assist (quickassist.exe) spawning child processes or making outbound connections, and flag any RMM tool executing PowerShell that fetches and installs MSI packages from external IPs. On macOS endpoints, query for executions of the security find-generic-password command, especially with the -w flag and service names tied to AI tools or developer credential stores. Review help desk call and Teams logs for contacts initiated to non-senior employees, a pattern protection built around executives would miss entirely. Talos recommends 90 days of centralized, off-device log retention as a baseline; if logs did not survive this incident at your organization, that gap is the first finding to remediate. Enforce FIDO2 or hardware security key MFA and require help desk verification before any new MFA method enrollment is permitted.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116455804220178717</description>
+      <content:encoded><![CDATA[<p>Vishing-to-ransomware chain: attackers armed with only names and email addresses talked employees into Quick Assist sessions, ending in a new ransomware variant and AI credential harvesting across Q3 2026 engagements.</p><p>Key findings:</p><p>- The initial access bar was remarkably low. Talos IR found attackers needed only employee names and contact details to impersonate IT help desk staff over phone, email, and Microsoft Teams. Victims were not screened by seniority or technical role, making every employee a viable target. One victim called the attacker themselves after a browser scam pop-up displayed a fake support number, and another was caught in a two-wave phishing campaign designed so that at least one target would fall. This is social engineering at scale, not precision targeting.</p><p>- The ransomware path ran through Microsoft Quick Assist. A voice phishing call convinced a user to start a Quick Assist session. RMM tooling already present on the network then executed PowerShell commands that pulled and installed an MSI package from a remote IP. The payload was VYPR, a new and operationally immature ransomware variant built on leaked Conti-derived source code with minimal changes. VYPR operators deployed an unusually high volume of bring-your-own-vulnerable-driver (BYOVD) files to achieve kernel-level EDR suppression, possibly keeping extras as backup. Exfiltration ran over multiple days, atypical for ransomware cases. The group had no data leak site until after the engagement concluded.</p><p>- A separate macOS compromise involved a trojanized application and a scripted keychain dump targeting AI credentials. The command executed was: /bin/sh -c security find-generic-password -a &quot;[USER_NAME]&quot; -w -s &quot;Claude Code-credentials&quot;. The -w flag returns the plaintext secret. No confirmed use of the stolen credentials was observed, but the deliberate targeting of Anthropic&#x27;s Claude Code assistant is a notable shift worth logging for.</p><p>- An insider threat case surfaced in the same quarter. An employee hired under false credentials used legitimate developer access to install GitHub Copilot CLI and Claude Code. No malicious activity or confirmed data theft was found, but their access included cloning repositories and connecting to databases, exactly the foothold needed to automate exfiltration or reconnaissance. The cases together signal that AI coding tools are becoming a focus for both external attackers and malicious insiders.</p><p>- Visibility gaps compounded every engagement. Insufficient logging appeared in over 40 percent of cases, driven by both attacker-deleted logs and customer misconfigurations. Phishing led initial access vectors at 37 percent, followed by exploitation of public-facing applications at 33 percent. Credential and weak MFA problems each appeared in 33 percent of cases.</p><p>Practitioner takeaway: Hunt for Quick Assist (quickassist.exe) spawning child processes or making outbound connections, and flag any RMM tool executing PowerShell that fetches and installs MSI packages from external IPs. On macOS endpoints, query for executions of the security find-generic-password command, especially with the -w flag and service names tied to AI tools or developer credential stores. Review help desk call and Teams logs for contacts initiated to non-senior employees, a pattern protection built around executives would miss entirely. Talos recommends 90 days of centralized, off-device log retention as a baseline; if logs did not survive this incident at your organization, that gap is the first finding to remediate. Enforce FIDO2 or hardware security key MFA and require help desk verification before any new MFA method enrollment is permitted.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/10/30/cisco-talos-it-help-desk-vishing/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116455804220178717">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116455804220178717</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2116455804220178717">DFIR Radar</source>
+      <pubDate>Sat, 31 Oct 2026 09:02:40 +0000</pubDate>
+      <guid isPermaLink="false">2116455804220178717</guid>
+    </item>
     <item>
       <title>Fake ChatGPT and Claude Apps Abuse Signed Executables to Deploy Crypto Miners</title>
       <link>https://thehackernews.com/2026/10/fake-chatgpt-and-claude-apps-abuse.html</link>
@@ -2618,20 +2646,6 @@ Practitioner takeaway: On any Dahua device in scope, pull the audit log and filt
       <source url="https://x.com/DFIR_Radar/status/2114961194385572254">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 06:03:38 +0000</pubDate>
       <guid isPermaLink="false">2114961194385572254</guid>
-    </item>
-    <item>
-      <title>How to Export Google Cloud Audit Logs</title>
-      <link>https://socprime.com/blog/how-to-logtotal/how-to-export-google-cloud-audit-logs/</link>
-      <description>Google Cloud audit logs export via gcloud logging read silently caps to 24 hours without a timestamp filter. Hunt SetIamPolicy, CreateServiceAccountKey, and UpdateSink for privilege escalation and log tampering.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2114946135576264749</description>
-      <content:encoded><![CDATA[<p>Google Cloud audit logs export via gcloud logging read silently caps to 24 hours without a timestamp filter. Hunt SetIamPolicy, CreateServiceAccountKey, and UpdateSink for privilege escalation and log tampering.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-logtotal/how-to-export-google-cloud-audit-logs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2114946135576264749">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2114946135576264749</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2114946135576264749">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 05:03:47 +0000</pubDate>
-      <guid isPermaLink="false">2114946135576264749</guid>
     </item>
   </channel>
 </rss>
