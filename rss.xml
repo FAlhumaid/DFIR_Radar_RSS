@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 18:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 19:02:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>WordPress 7.1.4 Patches Unauthenticated Upgrade-Window RCE; Exploitation Attempts Detected After Release</title>
+      <link>https://www.wordfence.com/blog/2026/10/wordpress-7-1-4-security-release-rce/</link>
+      <description>WordPress 4.7 - 7.1.3 has a CVSS 8.1 unauthenticated RCE exploited within 9 minutes of disclosure via staged setup-config.php under wp-content/upgrade. Update to 7.1.4 and audit that path for unexpected PHP requests.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116606658398884186</description>
+      <content:encoded><![CDATA[<p>WordPress 4.7 - 7.1.3 has a CVSS 8.1 unauthenticated RCE exploited within 9 minutes of disclosure via staged setup-config.php under wp-content/upgrade. Update to 7.1.4 and audit that path for unexpected PHP requests.</p><p>#DFIR_Radar</p><p><a href="https://www.wordfence.com/blog/2026/10/wordpress-7-1-4-security-release-rce/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116606658398884186">View on X</a></p>]]></content:encoded>
+      <dc:creator>Wordfence</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116606658398884186</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2116606658398884186">DFIR Radar</source>
+      <pubDate>Sat, 31 Oct 2026 19:02:07 +0000</pubDate>
+      <guid isPermaLink="false">2116606658398884186</guid>
+    </item>
     <item>
       <title>How to Export Event Data from CrowdStrike Falcon</title>
       <link>https://socprime.com/blog/how-to-export-event-data-from-crowdstrike-falcon/</link>
@@ -2606,32 +2620,6 @@ Responders assessing managed cloud environments should hunt for the following ev
       <source url="https://x.com/DFIR_Radar/status/2115096816433967143">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 15:02:33 +0000</pubDate>
       <guid isPermaLink="false">2115096816433967143</guid>
-    </item>
-    <item>
-      <title>Detections Digest #20261026</title>
-      <link>https://detections-digest.rulecheck.io/p/detections-digest-20261026</link>
-      <description>Detections Digest #20261026 roundup: 45 new rules and 50 updates across 10 repositories this week, covering PHP2Shell exploitation, AI agent abuse, BYOVD, Golden dMSA attacks, and evasive email infrastructure.
-
-Key findings:
-
-- PHP2Shell (CVE-2026-109618 and CVE-2026-109619) gets layered coverage in splunk/security_content. Zeek rules flag multipart POST requests abusing PHP_SESSION_UPLOAD_PROGRESS to inject serialized PHP objects or PHP tags in filename headers. Splunk correlates Apache and Nginx logs for memory exhaustion faults and POST bodies 1MB or larger returning HTTP 500. A separate process rule catches inline PHP execution via -r, --run, and -s switches across standard interpreters, phpdbg, and FrankenPHP without a file being written to disk. Parent process coverage for webshell spawning rules also now includes caddy, frankenphp, roadrunner, lighttpd, and iisexpress.
-
-- SigmaHQ/sigma adds end-to-end Defendnot coverage, targeting a hacktool that disables Windows Defender through undocumented Windows Security Center APIs. Detections span PowerShell download cradles, binary execution by import hash, registry tampering against Security Center AV provider keys, and scheduled task creation via Event IDs 4698 and 4702. Golden dMSA attack detection covers Event ID 4662 reads on msDS-DelegatedManagedServiceAccount and msKds-ProvRootKey objects, Event ID 4771 Kerberos pre-auth failures with codes 0x18 and 0x19 on machine accounts, and GoldenDMSA tool execution by command-line pattern. LSASS access rules drop the SYNCHRONIZE mask (0x100000) to cut EDR-generated noise while keeping credential dumping visibility.
-
-- AI agent and LLM threat rules expand significantly. Agent-Threat-Rule/agent-threat-rules adds detection for zero-width, soft-hyphen, and bidirectional Unicode control characters in MCP tool descriptions and SKILL[.]md files, mapped to MITRE ATLAS AML.T0051.001. SSRF logic now covers apex loopback wildcard domains, IPv4-mapped IPv6 subnets, internal-only domains (.internal, .local, .lan), and non-HTTP protocols including file, gopher, dict, ldap, and tftp. CVEs tracked across these rules include CVE-2025-68143, CVE-2025-68144, CVE-2026-0628, CVE-2026-55096, CVE-2019-5418, and CVE-2021-21311. Sublime-security adds prompt injection rules for calendar invites (.ics), invisible HTML Unicode sequences, and plain email bodies.
-
-- LOLRMM adds Sigma coverage for Ping32 (registry, process, network to cloud.nsecsoft[.]com, and file artifacts) and rogue VS Code Remote Tunnels with code-insiders.exe placed under C:\Windows\debug and outbound connections to global.rel.tunnels.api.visualstudio[.]com. LOLDrivers refreshes MD5, SHA1, SHA256, and IMPHASH lists for BYOVD rules covering both malicious and vulnerable driver loads, including environments with HVCI enabled.
-
-- The digest's engineering tip is worth operationalizing: defanged literals copied from threat reports into live query strings fail silently because they never match raw telemetry. The RuleCheck checks Q0700, Q0710-Q0713, Q0721, and Q0722 codify validation for IP and CIDR syntax, cloud IP overlap across AWS, Azure, GCP, and Cloudflare, hash format, and defanged value detection. If your team maintains an internal detection repository, run these checks before your next rule deployment, and audit existing rules for the SYNCHRONIZE mask noise pattern the LSASS updates address this week.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115081742050542051</description>
-      <content:encoded><![CDATA[<p>Detections Digest #20261026 roundup: 45 new rules and 50 updates across 10 repositories this week, covering PHP2Shell exploitation, AI agent abuse, BYOVD, Golden dMSA attacks, and evasive email infrastructure.</p><p>Key findings:</p><p>- PHP2Shell (CVE-2026-109618 and CVE-2026-109619) gets layered coverage in splunk/security_content. Zeek rules flag multipart POST requests abusing PHP_SESSION_UPLOAD_PROGRESS to inject serialized PHP objects or PHP tags in filename headers. Splunk correlates Apache and Nginx logs for memory exhaustion faults and POST bodies 1MB or larger returning HTTP 500. A separate process rule catches inline PHP execution via -r, --run, and -s switches across standard interpreters, phpdbg, and FrankenPHP without a file being written to disk. Parent process coverage for webshell spawning rules also now includes caddy, frankenphp, roadrunner, lighttpd, and iisexpress.</p><p>- SigmaHQ/sigma adds end-to-end Defendnot coverage, targeting a hacktool that disables Windows Defender through undocumented Windows Security Center APIs. Detections span PowerShell download cradles, binary execution by import hash, registry tampering against Security Center AV provider keys, and scheduled task creation via Event IDs 4698 and 4702. Golden dMSA attack detection covers Event ID 4662 reads on msDS-DelegatedManagedServiceAccount and msKds-ProvRootKey objects, Event ID 4771 Kerberos pre-auth failures with codes 0x18 and 0x19 on machine accounts, and GoldenDMSA tool execution by command-line pattern. LSASS access rules drop the SYNCHRONIZE mask (0x100000) to cut EDR-generated noise while keeping credential dumping visibility.</p><p>- AI agent and LLM threat rules expand significantly. Agent-Threat-Rule/agent-threat-rules adds detection for zero-width, soft-hyphen, and bidirectional Unicode control characters in MCP tool descriptions and SKILL[.]md files, mapped to MITRE ATLAS AML.T0051.001. SSRF logic now covers apex loopback wildcard domains, IPv4-mapped IPv6 subnets, internal-only domains (.internal, .local, .lan), and non-HTTP protocols including file, gopher, dict, ldap, and tftp. CVEs tracked across these rules include CVE-2025-68143, CVE-2025-68144, CVE-2026-0628, CVE-2026-55096, CVE-2019-5418, and CVE-2021-21311. Sublime-security adds prompt injection rules for calendar invites (.ics), invisible HTML Unicode sequences, and plain email bodies.</p><p>- LOLRMM adds Sigma coverage for Ping32 (registry, process, network to cloud.nsecsoft[.]com, and file artifacts) and rogue VS Code Remote Tunnels with code-insiders.exe placed under C:\Windows\debug and outbound connections to global.rel.tunnels.api.visualstudio[.]com. LOLDrivers refreshes MD5, SHA1, SHA256, and IMPHASH lists for BYOVD rules covering both malicious and vulnerable driver loads, including environments with HVCI enabled.</p><p>- The digest&#x27;s engineering tip is worth operationalizing: defanged literals copied from threat reports into live query strings fail silently because they never match raw telemetry. The RuleCheck checks Q0700, Q0710-Q0713, Q0721, and Q0722 codify validation for IP and CIDR syntax, cloud IP overlap across AWS, Azure, GCP, and Cloudflare, hash format, and defanged value detection. If your team maintains an internal detection repository, run these checks before your next rule deployment, and audit existing rules for the SYNCHRONIZE mask noise pattern the LSASS updates address this week.</p><p>#DFIR_Radar</p><p><a href="https://detections-digest.rulecheck.io/p/detections-digest-20261026">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115081742050542051">View on X</a></p>]]></content:encoded>
-      <dc:creator>Detections Digest</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115081742050542051</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2115081742050542051">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 14:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2115081742050542051</guid>
     </item>
   </channel>
 </rss>
