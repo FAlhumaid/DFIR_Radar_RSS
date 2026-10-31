@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 13:02:25 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 15:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Malicious Claude Code extension distributed through Cursor marketplace</title>
+      <link>https://www.sophos.com/en-us/blog/malicious-claude-code-extension-distributed-through-cursor-marketplace</link>
+      <description>Malicious Claude Code extension (v2.1.313) in the Cursor marketplace backdoored up to 5,000 hosts via SSH key injection to 134.209.82[.]225. Uninstalling leaves the backdoor; purge authorized_keys and persistence manually.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116546390411112795</description>
+      <content:encoded><![CDATA[<p>Malicious Claude Code extension (v2.1.313) in the Cursor marketplace backdoored up to 5,000 hosts via SSH key injection to 134.209.82[.]225. Uninstalling leaves the backdoor; purge authorized_keys and persistence manually.</p><p>#DFIR_Radar</p><p><a href="https://www.sophos.com/en-us/blog/malicious-claude-code-extension-distributed-through-cursor-marketplace">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116546390411112795">View on X</a></p>]]></content:encoded>
+      <dc:creator>Sophos News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116546390411112795</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2116546390411112795">DFIR Radar</source>
+      <pubDate>Sat, 31 Oct 2026 15:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2116546390411112795</guid>
+    </item>
     <item>
       <title>Official Claude Code Extension on Cursor Marketplace Trojanized with Persistent SSH Backdoor</title>
       <link>https://thehackernews.com/2026/10/official-claude-code-vs-code-extension.html</link>
@@ -2646,32 +2660,6 @@ DFIR takeaway: If your workflows use OIDC to authenticate to cloud providers, qu
       <source url="https://x.com/DFIR_Radar/status/2115036729589817543">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 11:03:47 +0000</pubDate>
       <guid isPermaLink="false">2115036729589817543</guid>
-    </item>
-    <item>
-      <title>The Blind Spot You Created on Purpose. The Real Architecture of Microsoft Defender Exclusions</title>
-      <link>https://detect.fyi/the-blind-spot-you-created-on-purpose-the-real-architecture-of-microsoft-defender-exclusions-20fb35287397?source=rss----d5fd8f494f6a---4</link>
-      <description>Microsoft Defender exclusions are not a master key: they are engine-specific bypasses with cross-platform behavior differences that can silently kill EDR visibility, and attackers know how to exploit that.
-
-Key findings:
-
-- Defender is not a single engine. It is composed of Antivirus, Attack Surface Reduction, Controlled Folder Access, Network Protection, and automated remediation, each with its own exclusion surface. Adding a path exclusion to silence a false positive does not mean all engines stop watching. On Windows, EDR telemetry and behavioral alerting continue inside excluded folders. On macOS, exclusions are antivirus-only with EDR still active. On Linux, the distinction is critical: standard Antivirus Exclusions skip file scanning but preserve process telemetry, while Global Exclusions operate at the fanotify/eBPF kernel sensor level and blind both AV and EDR alert generation simultaneously.
-
-- The priority chain on Windows is the source of the most dangerous misconception in the report's opening scenario. Defender evaluates rules in a fixed order and stops at the first match: Application Control (WDAC/AppLocker) first, then Antivirus Exclusions, then custom Indicators. An active Antivirus path exclusion for C:\Builds causes Defender to grant an immediate scan bypass before it ever evaluates a Block IoC for a known malicious hash. A SOC-created block indicator on a file hash is effectively dead on a machine where the file lives in an excluded path.
-
-- Process exclusions carry hidden blast radius. Excluding a named process does not limit the impact to file scanning. On Windows, a process exclusion can also suppress Network Protection inspection of that process's outbound connections, meaning attacker C2 traffic originating from a compromised or injected excluded process passes uninspected. The report flags code injection into an excluded process as the key threat vector here.
-
-- Conflicting indicators follow a documented tiebreaker order: SHA-256 beats SHA-1 beats MD5; device-group-scoped indicators beat organization-wide ones; full URLs beat domain-level indicators. An Allow indicator for a hash or certificate grants execution before ASR rules, CFA, or heuristic scans can act on the behavior.
-
-Takeaway: Hunt your own exclusion configuration before an attacker does. The report includes two KQL queries for Advanced Hunting you can deploy now. The first queries DeviceRegistryEvents for RegistryValueSet actions where RegistryKey contains "Windows Defender\Exclusions" and DeviceProcessEvents for PowerShell (powershell.exe, pwsh.exe, powershell_ise.exe) running Add-MpPreference or Set-MpPreference with "Exclusion" in the command line, both with a 7-day lookback. The second uses a baseline/recent-window comparison against DeviceProcessEvents scoped to your known excluded folder paths, surfacing any SHA256 hashes that executed in the last 7 days but were not seen in the prior 14-day baseline. On Linux, audit whether any Global Exclusions exist at all: that setting should require explicit sign-off because it removes both scanning and EDR coverage simultaneously.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115021395948093906</description>
-      <content:encoded><![CDATA[<p>Microsoft Defender exclusions are not a master key: they are engine-specific bypasses with cross-platform behavior differences that can silently kill EDR visibility, and attackers know how to exploit that.</p><p>Key findings:</p><p>- Defender is not a single engine. It is composed of Antivirus, Attack Surface Reduction, Controlled Folder Access, Network Protection, and automated remediation, each with its own exclusion surface. Adding a path exclusion to silence a false positive does not mean all engines stop watching. On Windows, EDR telemetry and behavioral alerting continue inside excluded folders. On macOS, exclusions are antivirus-only with EDR still active. On Linux, the distinction is critical: standard Antivirus Exclusions skip file scanning but preserve process telemetry, while Global Exclusions operate at the fanotify/eBPF kernel sensor level and blind both AV and EDR alert generation simultaneously.</p><p>- The priority chain on Windows is the source of the most dangerous misconception in the report&#x27;s opening scenario. Defender evaluates rules in a fixed order and stops at the first match: Application Control (WDAC/AppLocker) first, then Antivirus Exclusions, then custom Indicators. An active Antivirus path exclusion for C:\Builds causes Defender to grant an immediate scan bypass before it ever evaluates a Block IoC for a known malicious hash. A SOC-created block indicator on a file hash is effectively dead on a machine where the file lives in an excluded path.</p><p>- Process exclusions carry hidden blast radius. Excluding a named process does not limit the impact to file scanning. On Windows, a process exclusion can also suppress Network Protection inspection of that process&#x27;s outbound connections, meaning attacker C2 traffic originating from a compromised or injected excluded process passes uninspected. The report flags code injection into an excluded process as the key threat vector here.</p><p>- Conflicting indicators follow a documented tiebreaker order: SHA-256 beats SHA-1 beats MD5; device-group-scoped indicators beat organization-wide ones; full URLs beat domain-level indicators. An Allow indicator for a hash or certificate grants execution before ASR rules, CFA, or heuristic scans can act on the behavior.</p><p>Takeaway: Hunt your own exclusion configuration before an attacker does. The report includes two KQL queries for Advanced Hunting you can deploy now. The first queries DeviceRegistryEvents for RegistryValueSet actions where RegistryKey contains &quot;Windows Defender\Exclusions&quot; and DeviceProcessEvents for PowerShell (powershell.exe, pwsh.exe, powershell_ise.exe) running Add-MpPreference or Set-MpPreference with &quot;Exclusion&quot; in the command line, both with a 7-day lookback. The second uses a baseline/recent-window comparison against DeviceProcessEvents scoped to your known excluded folder paths, surfacing any SHA256 hashes that executed in the last 7 days but were not seen in the prior 14-day baseline. On Linux, audit whether any Global Exclusions exist at all: that setting should require explicit sign-off because it removes both scanning and EDR coverage simultaneously.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/the-blind-spot-you-created-on-purpose-the-real-architecture-of-microsoft-defender-exclusions-20fb35287397?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115021395948093906">View on X</a></p>]]></content:encoded>
-      <dc:creator>Detect FYI</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115021395948093906</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2115021395948093906">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 10:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2115021395948093906</guid>
     </item>
   </channel>
 </rss>
