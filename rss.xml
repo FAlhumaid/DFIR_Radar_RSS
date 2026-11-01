@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Nov 2026 01:01:33 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 02:01:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Binance Hack: Inside the $6.3B Hot Wallet Theft</title>
+      <link>https://socradar.io/blog/binance-hack-6-3b-hot-wallet-theft/</link>
+      <description>TraderTraitor likely drained ~$6.3B from Binance hot wallets across 10 chains via a compromised DevOps laptop. Hunt EIP-7702 type-4 transactions batching 50 authorizations and Tornado Cash-funded staging wallets.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116712208227061887</description>
+      <content:encoded><![CDATA[<p>TraderTraitor likely drained ~$6.3B from Binance hot wallets across 10 chains via a compromised DevOps laptop. Hunt EIP-7702 type-4 transactions batching 50 authorizations and Tornado Cash-funded staging wallets.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/binance-hack-6-3b-hot-wallet-theft/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116712208227061887">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116712208227061887</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2116712208227061887">DFIR Radar</source>
+      <pubDate>Sun, 01 Nov 2026 02:01:32 +0000</pubDate>
+      <guid isPermaLink="false">2116712208227061887</guid>
+    </item>
     <item>
       <title>Operationalizing CISA AA26-194A: Automating Cisco Router Security Assessments with Qualys Policy Audit</title>
       <link>https://blog.qualys.com/?p=43347</link>
@@ -2530,30 +2544,6 @@ Practitioner takeaway: Start triage at the PSIGW access logs and look for POST r
       <source url="https://x.com/DFIR_Radar/status/2115202844701704302">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 22:03:52 +0000</pubDate>
       <guid isPermaLink="false">2115202844701704302</guid>
-    </item>
-    <item>
-      <title>Patched, Not Over: PHP2Shell Exploits Keep Spreading Underground</title>
-      <link>https://threatmon.io/patched-not-over-php2shell-exploits-keep-spreading-underground/</link>
-      <description>CVE-2026-109618 and CVE-2026-109619 (CVSS 9.2 each) hit PHP core at the web server layer. Patches shipped Oct 21, but exploit code kept circulating on underground forums through Oct 23.
-
-- Both flaws are memory-safety bugs in PHP core: CVE-2026-109618 covers invalid state after an out-of-memory interruption, CVE-2026-109619 covers stale global state persisting across requests. PHP's own disclosure includes a demonstrated Apache mod_php exploit path that fires before any application code runs, putting every PHP deployment serving web traffic in scope. Unit 42 estimates more than 22.6 million potentially exposed instances. Fixed versions are 8.2.35, 8.3.36, 8.4.27, and 8.5.12. A separate third flaw, CVE-2026-115560, a configuration-dependent RCE tied to session upload progress, was noticed on Oct 23 and is distinct from the two original CVEs. PHP recommends disabling session.upload_progress.enabled until the next bugfix release.
-
-- Exploitation is not theoretical. watchTowr's honeypots recorded active exploitation attempts on Oct 21, the same day patches dropped. VulnCheck links scanning to 85.11.167[.]243 and 45.198.224[.]169. Arctic Wolf links the domains thunder.godofthunder[.]st and godofthunder[.]st to Potassium samples, and observed attempted retrieval of /nfs-setup from 92.118.112[.]100, though payload execution was not confirmed. An inbound scanner hit alone does not confirm RCE: prioritize hosts where scanning coincides with suspicious child processes or unexpected files.
-
-- Underground circulation after the patch is the signal defenders should not dismiss. ThreatMon reviewed 13 observations across English, Russian 🇷🇺, and Turkish 🇹🇷 forums and Persian-language Telegram channels. A php2shell[.]py download offer appeared Oct 23, a "Full Exploit Source" archive posted Oct 22 cited the fixed PHP versions in the same message, and a claimed local RCE with www-data command output appeared Oct 22. No independently verified customer compromise was found, but the mix of download offers and PoC redistribution shows sustained attacker interest.
-
-- The most reliable post-exploitation signal is a PHP or web server process doing something it never normally does. The ThreatMon report describes five hunt categories: web server processes (php-fpm, php-cgi, php, lsphp, apache2, httpd, nginx, w3wp.exe) spawning shells or interpreters; post-exploitation recon commands such as whoami, id, uname, curl, wget, or inline php -r; PHP files created or modified by web processes in the web directory; PHP worker segfaults and core dumps; and PHP_SESSION_UPLOAD_PROGRESS requests paired with memory-exhaustion errors. The full report ships 28 queries covering Carbon Black EDR, Splunk, Elasticsearch, QRadar, and Microsoft Sentinel.
-
-Confirm the running runtime version separately from the CLI version, because container images and bundled runtimes often lag behind OS packages. The ThreatMon report includes the full 28-query detection set, 20 IPs, 4 domains, and 3 URLs as IOCs. Preserve EDR process trees, web request logs, PHP error logs, and any files created in /tmp or /dev/shm before removing exclusions or rotating logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115187517636956306</description>
-      <content:encoded><![CDATA[<p>CVE-2026-109618 and CVE-2026-109619 (CVSS 9.2 each) hit PHP core at the web server layer. Patches shipped Oct 21, but exploit code kept circulating on underground forums through Oct 23.</p><p>- Both flaws are memory-safety bugs in PHP core: CVE-2026-109618 covers invalid state after an out-of-memory interruption, CVE-2026-109619 covers stale global state persisting across requests. PHP&#x27;s own disclosure includes a demonstrated Apache mod_php exploit path that fires before any application code runs, putting every PHP deployment serving web traffic in scope. Unit 42 estimates more than 22.6 million potentially exposed instances. Fixed versions are 8.2.35, 8.3.36, 8.4.27, and 8.5.12. A separate third flaw, CVE-2026-115560, a configuration-dependent RCE tied to session upload progress, was noticed on Oct 23 and is distinct from the two original CVEs. PHP recommends disabling session.upload_progress.enabled until the next bugfix release.</p><p>- Exploitation is not theoretical. watchTowr&#x27;s honeypots recorded active exploitation attempts on Oct 21, the same day patches dropped. VulnCheck links scanning to 85.11.167[.]243 and 45.198.224[.]169. Arctic Wolf links the domains thunder.godofthunder[.]st and godofthunder[.]st to Potassium samples, and observed attempted retrieval of /nfs-setup from 92.118.112[.]100, though payload execution was not confirmed. An inbound scanner hit alone does not confirm RCE: prioritize hosts where scanning coincides with suspicious child processes or unexpected files.</p><p>- Underground circulation after the patch is the signal defenders should not dismiss. ThreatMon reviewed 13 observations across English, Russian 🇷🇺, and Turkish 🇹🇷 forums and Persian-language Telegram channels. A php2shell[.]py download offer appeared Oct 23, a &quot;Full Exploit Source&quot; archive posted Oct 22 cited the fixed PHP versions in the same message, and a claimed local RCE with www-data command output appeared Oct 22. No independently verified customer compromise was found, but the mix of download offers and PoC redistribution shows sustained attacker interest.</p><p>- The most reliable post-exploitation signal is a PHP or web server process doing something it never normally does. The ThreatMon report describes five hunt categories: web server processes (php-fpm, php-cgi, php, lsphp, apache2, httpd, nginx, w3wp.exe) spawning shells or interpreters; post-exploitation recon commands such as whoami, id, uname, curl, wget, or inline php -r; PHP files created or modified by web processes in the web directory; PHP worker segfaults and core dumps; and PHP_SESSION_UPLOAD_PROGRESS requests paired with memory-exhaustion errors. The full report ships 28 queries covering Carbon Black EDR, Splunk, Elasticsearch, QRadar, and Microsoft Sentinel.</p><p>Confirm the running runtime version separately from the CLI version, because container images and bundled runtimes often lag behind OS packages. The ThreatMon report includes the full 28-query detection set, 20 IPs, 4 domains, and 3 URLs as IOCs. Preserve EDR process trees, web request logs, PHP error logs, and any files created in /tmp or /dev/shm before removing exclusions or rotating logs.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/patched-not-over-php2shell-exploits-keep-spreading-underground/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115187517636956306">View on X</a></p>]]></content:encoded>
-      <dc:creator>ThreatMon</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115187517636956306</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2115187517636956306">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 21:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2115187517636956306</guid>
     </item>
   </channel>
 </rss>
