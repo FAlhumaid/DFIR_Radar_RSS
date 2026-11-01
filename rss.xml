@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Nov 2026 09:01:44 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 10:01:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>OneNote File Extraction, (Sun, Nov 1st)</title>
+      <link>https://isc.sans.edu/diary/rss/33478</link>
+      <description>Didier Stevens added JSON batch output to onedump[.]py, letting analysts extract all embedded files from multiple .one OneNote samples in one pass. Pipe through myjson-filter[.]py with -W hashvir to write files to disk named by SHA-256 hash.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116832954961862716</description>
+      <content:encoded><![CDATA[<p>Didier Stevens added JSON batch output to onedump[.]py, letting analysts extract all embedded files from multiple .one OneNote samples in one pass. Pipe through myjson-filter[.]py with -W hashvir to write files to disk named by SHA-256 hash.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33478">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116832954961862716">View on X</a></p>]]></content:encoded>
+      <dc:creator>SANS ISC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116832954961862716</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2116832954961862716">DFIR Radar</source>
+      <pubDate>Sun, 01 Nov 2026 10:01:20 +0000</pubDate>
+      <guid isPermaLink="false">2116832954961862716</guid>
+    </item>
     <item>
       <title>FBI Links North Korea's TraderTraitor to Record $6.43 Billion Binance Crypto Heist</title>
       <link>https://thehackernews.com/2026/11/fbi-links-north-koreas-tradertraitor-to.html</link>
@@ -2506,32 +2520,6 @@ DFIR takeaway: On any South Korean 🇰🇷 endpoint running INISAFE CrossWeb EX
       <source url="https://x.com/DFIR_Radar/status/2115248212739334175">DFIR Radar</source>
       <pubDate>Wed, 28 Oct 2026 01:04:08 +0000</pubDate>
       <guid isPermaLink="false">2115248212739334175</guid>
-    </item>
-    <item>
-      <title>Responder Guidance for PHP2Shell (CVE-2026-109618 and CVE-2026-109619)</title>
-      <link>https://bishopfox.com/blog/responder-guidance-for-php2shell</link>
-      <description>Two critical unauthenticated RCE flaws in PHP's core engine (CVE-2026-109618 and CVE-2026-109619) affect every PHP install serving web requests, regardless of application. Public PoCs are circulating and Bishop Fox confirmed RCE in their lab with ASLR enabled.
-
-Key findings:
-
-- CVE-2026-109618 is an out-of-memory corruption triggered by flooding PHP's multipart POST parser with a large number of per-part header lines. The OOM interrupts parsing while internal structures like the $_POST array are partially initialized, and request cleanup then treats that invalid data as valid, handing an attacker a corrupted-memory primitive. On mod_php this fires before any application code runs. CVE-2026-109619 is a use-after-free in PHP's serializer state: a request that dies mid-flight (attacker-induced fatal error or timeout) can strand stale, freed state that a subsequent worker request reuses before per-request initialization resets it. The confirmed delivery path rides session.upload_progress, a default-on engine feature. Both are fixed in PHP 8.5.12, 8.4.27, 8.3.36, and 8.2.35.
-
-- Exploitation scope is every SAPI: mod_php, PHP-FPM, php-cgi, FrankenPHP, and LiteSpeed are all in scope. Risk is highest under mod_php, where a single unauthenticated request triggers both bugs pre-application. On PHP-FPM and php-cgi the direct OOM path produces a worker crash and respawn (denial of service) rather than RCE, but the vendor still considers all SAPIs at risk and an application-dependent RCE path exists on FPM. Bishop Fox confirmed full unauthenticated RCE with ASLR enabled against stock php:8.3, php:8.4, and php:8.5 Apache mod_php Docker images.
-
-- The CVE-2026-109619 public session chain leaks memory addresses out of a PHP error message printed into the HTTP response during request parsing, using that one-shot leak to defeat ASLR. Setting display_errors = Off before any application ini_set removes that leak and forces an attacker to blind brute-force. On Apache prefork, every respawned worker inherits the parent's memory layout, making ASLR constant per master and giving a brute-force attacker a stable, repeatable target.
-
-- Partial mitigations that raise the bar without replacing a patch: set session.upload_progress.enabled = 0 in php.ini or the FPM pool config (not via ini_set or .user.ini) to remove the confirmed CVE-2026-109619 delivery vector; set memory_limit = -1 and enforce it via a container or cgroup boundary that kills only the affected worker (not RLIMIT_AS or RLIMIT_DATA, which reintroduce the allocation failure); cap post_max_size, input field count, multipart part count, header count, and nesting depth at the proxy or web server layer; set fatal_error_backtraces = 0 on PHP 8.5 to block the confirmed fatal-backtrace trigger for CVE-2026-109619. None of these is a substitute for patching.
-
-Responder takeaway: version alone tells you a host is exposed but not how exploitable it is. Inventory every PHP host and prioritize mod_php deployments, EOL branches (7.4, 8.0, 8.1), and hosts with display_errors = On or session.upload_progress enabled, as those present the cleanest attack surface. Hunt for bursts of worker crashes or respawns in Apache and FPM logs as a signal of active exploitation attempts, particularly on ARM where blind brute-force produces detectable crash bursts. Patch to the fixed versions listed above and restart every worker after any change. The Bishop Fox report details the confirmed attack chains and interim mitigations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115232692967006350</description>
-      <content:encoded><![CDATA[<p>Two critical unauthenticated RCE flaws in PHP&#x27;s core engine (CVE-2026-109618 and CVE-2026-109619) affect every PHP install serving web requests, regardless of application. Public PoCs are circulating and Bishop Fox confirmed RCE in their lab with ASLR enabled.</p><p>Key findings:</p><p>- CVE-2026-109618 is an out-of-memory corruption triggered by flooding PHP&#x27;s multipart POST parser with a large number of per-part header lines. The OOM interrupts parsing while internal structures like the $_POST array are partially initialized, and request cleanup then treats that invalid data as valid, handing an attacker a corrupted-memory primitive. On mod_php this fires before any application code runs. CVE-2026-109619 is a use-after-free in PHP&#x27;s serializer state: a request that dies mid-flight (attacker-induced fatal error or timeout) can strand stale, freed state that a subsequent worker request reuses before per-request initialization resets it. The confirmed delivery path rides session.upload_progress, a default-on engine feature. Both are fixed in PHP 8.5.12, 8.4.27, 8.3.36, and 8.2.35.</p><p>- Exploitation scope is every SAPI: mod_php, PHP-FPM, php-cgi, FrankenPHP, and LiteSpeed are all in scope. Risk is highest under mod_php, where a single unauthenticated request triggers both bugs pre-application. On PHP-FPM and php-cgi the direct OOM path produces a worker crash and respawn (denial of service) rather than RCE, but the vendor still considers all SAPIs at risk and an application-dependent RCE path exists on FPM. Bishop Fox confirmed full unauthenticated RCE with ASLR enabled against stock php:8.3, php:8.4, and php:8.5 Apache mod_php Docker images.</p><p>- The CVE-2026-109619 public session chain leaks memory addresses out of a PHP error message printed into the HTTP response during request parsing, using that one-shot leak to defeat ASLR. Setting display_errors = Off before any application ini_set removes that leak and forces an attacker to blind brute-force. On Apache prefork, every respawned worker inherits the parent&#x27;s memory layout, making ASLR constant per master and giving a brute-force attacker a stable, repeatable target.</p><p>- Partial mitigations that raise the bar without replacing a patch: set session.upload_progress.enabled = 0 in php.ini or the FPM pool config (not via ini_set or .user.ini) to remove the confirmed CVE-2026-109619 delivery vector; set memory_limit = -1 and enforce it via a container or cgroup boundary that kills only the affected worker (not RLIMIT_AS or RLIMIT_DATA, which reintroduce the allocation failure); cap post_max_size, input field count, multipart part count, header count, and nesting depth at the proxy or web server layer; set fatal_error_backtraces = 0 on PHP 8.5 to block the confirmed fatal-backtrace trigger for CVE-2026-109619. None of these is a substitute for patching.</p><p>Responder takeaway: version alone tells you a host is exposed but not how exploitable it is. Inventory every PHP host and prioritize mod_php deployments, EOL branches (7.4, 8.0, 8.1), and hosts with display_errors = On or session.upload_progress enabled, as those present the cleanest attack surface. Hunt for bursts of worker crashes or respawns in Apache and FPM logs as a signal of active exploitation attempts, particularly on ARM where blind brute-force produces detectable crash bursts. Patch to the fixed versions listed above and restart every worker after any change. The Bishop Fox report details the confirmed attack chains and interim mitigations.</p><p>#DFIR_Radar</p><p><a href="https://bishopfox.com/blog/responder-guidance-for-php2shell">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115232692967006350">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bishop Fox</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115232692967006350</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2115232692967006350">DFIR Radar</source>
-      <pubDate>Wed, 28 Oct 2026 00:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2115232692967006350</guid>
     </item>
   </channel>
 </rss>
