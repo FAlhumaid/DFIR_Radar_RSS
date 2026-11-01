@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 23:01:38 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 00:01:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>WordPress RCE Flaw Draws Nearly 63,000 Attack Attempts in Just 24 Hours</title>
+      <link>https://thehackernews.com/2026/10/wordpress-rce-flaw-draws-nearly-63000.html</link>
+      <description>A CVSS 8.1 WordPress Core RCE flaw drew 62,969 exploitation attempts in 24 hours via polling wp-content/upgrade/setup-config.php. Review logs for those requests and audit admin accounts; patch to 7.1.4.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116682008415867287</description>
+      <content:encoded><![CDATA[<p>A CVSS 8.1 WordPress Core RCE flaw drew 62,969 exploitation attempts in 24 hours via polling wp-content/upgrade/setup-config.php. Review logs for those requests and audit admin accounts; patch to 7.1.4.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/wordpress-rce-flaw-draws-nearly-63000.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116682008415867287">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116682008415867287</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2116682008415867287">DFIR Radar</source>
+      <pubDate>Sun, 01 Nov 2026 00:01:32 +0000</pubDate>
+      <guid isPermaLink="false">2116682008415867287</guid>
+    </item>
     <item>
       <title>Unpacking ATT&amp;CK With MalChela v4.4</title>
       <link>https://bakerstreetforensics.com/2026/10/31/unpacking-attck-with-malchela-v4-4/</link>
@@ -2554,34 +2568,6 @@ Practitioner takeaway: Pull your external attack surface for exposed phpinfo pag
       <source url="https://x.com/DFIR_Radar/status/2115172321967169578">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 20:02:35 +0000</pubDate>
       <guid isPermaLink="false">2115172321967169578</guid>
-    </item>
-    <item>
-      <title>SkyW4lker Exposed: A Growing Microsoft 365 Phishing Threat to American Enterprises</title>
-      <link>https://any.run/cybersecurity-blog/skyw4lker-phishing-kit-analysis/</link>
-      <description>SkyW4lker phishing kit bypasses MFA by abusing Microsoft's device-code OAuth flow, hitting US 🇺🇸 enterprises hard: 618 sandbox analyses logged June through October 2026, with monthly volume jumping from 20 to 200 submissions.
-
-Key findings:
-
-- SkyW4lker is a PHP-plus-JavaScript phishing kit that never needs to steal a password. It directs victims through a chain of decoy pages, eventually asking them to enter a Microsoft device code at login[.]microsoft[.]com/device or login.microsoftonline[.]com/common/oauth2/deviceauth. The backend polls /assets/php/endpoints/session_public.php?action=poll every few seconds; when authentication completes, the attacker receives a valid OAuth access token (T1528), bypassing MFA entirely. Victim email, password, browser fingerprint, MFA status, and country are also logged via endpoint.js to php/endpoints/accounts.php (T1056.003).
-
-- Delivery starts with a password-protected PDF, DOCX, or XLSX lure (T1566.001), password included in the email body, using business subjects like contracts, invoices, and service proposals (T1656). Intermediate redirect stages abuse Miro, Google Sites, Zoom, Axure Cloud, and Smartsheet to pass reputation checks (T1566.002, T1608.005). A self-hosted CAPTCHA at /assets/private_captcha/public/widget.js?v=4 gates the final phishing page against automated scanners (T1497). JavaScript is obfuscated via obfuscator[.]io (T1027), flagged in 520 of 618 analyses.
-
-- With high confidence, ANY.RUN's report links SkyW4lker to Gabagool, a credential phishing kit first seen April 23, 2026, two months prior. Both kits share client_geo.js, url_helper.js, and endpoint.js modules, the /assets/php/endpoints/confirm_visit.php endpoint, the same self-hosted CAPTCHA path, and landing URL token patterns zt[A-Za-z0-9]{32}op and it[A-Za-z0-9]{32}us. They were co-hosted on the same directories across 5200m[.]com/kvme2/, torvion[.]life/ofulium/, and ghethim[.]com/hyllen/ on overlapping dates. Gabagool harvests credentials via accounts.php; SkyW4lker steals tokens via session_public.php: two attack modes, one developer platform.
-
-- Infrastructure leans heavily on DigitalOcean (50 of 92 backend IPs), with notable backend IPs including 162.243.64[.]121 and 67.205.154[.]32, and a shared IP of 172.86.85[.]51 (priorispace[.]biz). Typosquatted Microsoft-themed hostname chains follow patterns like (docshare|sdocshares|pdocshared|efaxdoc|reauth|statement|copilot|login|auth).*(outlook|onedrive|copilot|office365).*. with examples including sdocshares.auth.outlook2026common.copilos26.csr-rooflng[.]com and pdocshared.payments2026.outlooks.common.ecmholdlnggroup[.]com. The report lists 173 domains hosting the kit, plus a full IOC table of URL patterns and backend indicators.
-
-- The administration panel sits at /admin/index.php on the same domain as each kit's backend, protected by MFA via Telegram. CSS class names from command-center.css reveal a dashboard with victim geolocation stats, live visit notifications, link generation, and server management. The report's attribution pivot started from the distinctive /js/url_helper.js, /js/client_geo.js, and /js/endpoint.js paths returning results tagged gabagool in threat intelligence searches.
-
-Practitioner takeaway: Hunt Microsoft Entra ID sign-in logs for device-code authentication flows that follow receipt of a suspicious attachment or an inbound link from a document-sharing service; device-code grants appearing without a registered device enrollment workflow are a high-confidence signal. In proxy or DNS logs, watch for repeated GET requests to /assets/php/endpoints/session_public.php?action=poll at short intervals originating from a browser session, and flag any outbound resolution to the hostname chain patterns above. The full IOC table of 173 domains, backend IPs, URL patterns, and the single confirmed hash (SHA256 9aa0b87974b9b4cd42603833b7ad44257578467d279b315a071108a5ed02c268 for a lure document) is in the report. If device-code auth is not operationally required, restrict or block it via Microsoft Entra Conditional Access before the next polling cycle beats you to a token.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115157202713391464</description>
-      <content:encoded><![CDATA[<p>SkyW4lker phishing kit bypasses MFA by abusing Microsoft&#x27;s device-code OAuth flow, hitting US 🇺🇸 enterprises hard: 618 sandbox analyses logged June through October 2026, with monthly volume jumping from 20 to 200 submissions.</p><p>Key findings:</p><p>- SkyW4lker is a PHP-plus-JavaScript phishing kit that never needs to steal a password. It directs victims through a chain of decoy pages, eventually asking them to enter a Microsoft device code at login[.]microsoft[.]com/device or login.microsoftonline[.]com/common/oauth2/deviceauth. The backend polls /assets/php/endpoints/session_public.php?action=poll every few seconds; when authentication completes, the attacker receives a valid OAuth access token (T1528), bypassing MFA entirely. Victim email, password, browser fingerprint, MFA status, and country are also logged via endpoint.js to php/endpoints/accounts.php (T1056.003).</p><p>- Delivery starts with a password-protected PDF, DOCX, or XLSX lure (T1566.001), password included in the email body, using business subjects like contracts, invoices, and service proposals (T1656). Intermediate redirect stages abuse Miro, Google Sites, Zoom, Axure Cloud, and Smartsheet to pass reputation checks (T1566.002, T1608.005). A self-hosted CAPTCHA at /assets/private_captcha/public/widget.js?v=4 gates the final phishing page against automated scanners (T1497). JavaScript is obfuscated via obfuscator[.]io (T1027), flagged in 520 of 618 analyses.</p><p>- With high confidence, ANY.RUN&#x27;s report links SkyW4lker to Gabagool, a credential phishing kit first seen April 23, 2026, two months prior. Both kits share client_geo.js, url_helper.js, and endpoint.js modules, the /assets/php/endpoints/confirm_visit.php endpoint, the same self-hosted CAPTCHA path, and landing URL token patterns zt[A-Za-z0-9]{32}op and it[A-Za-z0-9]{32}us. They were co-hosted on the same directories across 5200m[.]com/kvme2/, torvion[.]life/ofulium/, and ghethim[.]com/hyllen/ on overlapping dates. Gabagool harvests credentials via accounts.php; SkyW4lker steals tokens via session_public.php: two attack modes, one developer platform.</p><p>- Infrastructure leans heavily on DigitalOcean (50 of 92 backend IPs), with notable backend IPs including 162.243.64[.]121 and 67.205.154[.]32, and a shared IP of 172.86.85[.]51 (priorispace[.]biz). Typosquatted Microsoft-themed hostname chains follow patterns like (docshare|sdocshares|pdocshared|efaxdoc|reauth|statement|copilot|login|auth).*(outlook|onedrive|copilot|office365).*. with examples including sdocshares.auth.outlook2026common.copilos26.csr-rooflng[.]com and pdocshared.payments2026.outlooks.common.ecmholdlnggroup[.]com. The report lists 173 domains hosting the kit, plus a full IOC table of URL patterns and backend indicators.</p><p>- The administration panel sits at /admin/index.php on the same domain as each kit&#x27;s backend, protected by MFA via Telegram. CSS class names from command-center.css reveal a dashboard with victim geolocation stats, live visit notifications, link generation, and server management. The report&#x27;s attribution pivot started from the distinctive /js/url_helper.js, /js/client_geo.js, and /js/endpoint.js paths returning results tagged gabagool in threat intelligence searches.</p><p>Practitioner takeaway: Hunt Microsoft Entra ID sign-in logs for device-code authentication flows that follow receipt of a suspicious attachment or an inbound link from a document-sharing service; device-code grants appearing without a registered device enrollment workflow are a high-confidence signal. In proxy or DNS logs, watch for repeated GET requests to /assets/php/endpoints/session_public.php?action=poll at short intervals originating from a browser session, and flag any outbound resolution to the hostname chain patterns above. The full IOC table of 173 domains, backend IPs, URL patterns, and the single confirmed hash (SHA256 9aa0b87974b9b4cd42603833b7ad44257578467d279b315a071108a5ed02c268 for a lure document) is in the report. If device-code auth is not operationally required, restrict or block it via Microsoft Entra Conditional Access before the next polling cycle beats you to a token.</p><p>#DFIR_Radar</p><p><a href="https://any.run/cybersecurity-blog/skyw4lker-phishing-kit-analysis/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115157202713391464">View on X</a></p>]]></content:encoded>
-      <dc:creator>ANY.RUN Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115157202713391464</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2115157202713391464">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 19:02:30 +0000</pubDate>
-      <guid isPermaLink="false">2115157202713391464</guid>
     </item>
   </channel>
 </rss>
