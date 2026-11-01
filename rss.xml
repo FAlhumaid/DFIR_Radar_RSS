@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Nov 2026 00:01:32 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 01:01:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Operationalizing CISA AA26-194A: Automating Cisco Router Security Assessments with Qualys Policy Audit</title>
+      <link>https://blog.qualys.com/?p=43347</link>
+      <description>CISA AA26-194A links Russian 🇷🇺 FSB Center 16 to active exploitation of misconfigured Cisco routers via weak SNMP and Smart Install. Audit router configs for SNMPv1/v2, open Smart Install, and unrestricted management access.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116697113530671121</description>
+      <content:encoded><![CDATA[<p>CISA AA26-194A links Russian 🇷🇺 FSB Center 16 to active exploitation of misconfigured Cisco routers via weak SNMP and Smart Install. Audit router configs for SNMPv1/v2, open Smart Install, and unrestricted management access.</p><p>#DFIR_Radar</p><p><a href="https://blog.qualys.com/?p=43347">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116697113530671121">View on X</a></p>]]></content:encoded>
+      <dc:creator>Qualys Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116697113530671121</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2116697113530671121">DFIR Radar</source>
+      <pubDate>Sun, 01 Nov 2026 01:01:33 +0000</pubDate>
+      <guid isPermaLink="false">2116697113530671121</guid>
+    </item>
     <item>
       <title>WordPress RCE Flaw Draws Nearly 63,000 Attack Attempts in Just 24 Hours</title>
       <link>https://thehackernews.com/2026/10/wordpress-rce-flaw-draws-nearly-63000.html</link>
@@ -2540,34 +2554,6 @@ Confirm the running runtime version separately from the CLI version, because con
       <source url="https://x.com/DFIR_Radar/status/2115187517636956306">DFIR Radar</source>
       <pubDate>Tue, 27 Oct 2026 21:02:57 +0000</pubDate>
       <guid isPermaLink="false">2115187517636956306</guid>
-    </item>
-    <item>
-      <title>php2shell in Practice: Exploitable, Conditional, and Hard to Mass-Exploit</title>
-      <link>https://www.praetorian.com/blog/php2shell/</link>
-      <description>php2shell (CVE-2026-109618 / CVE-2026-109619): pre-auth RCE in PHP core is confirmed exploitable but heavily conditional, with real-world mass exploitation unlikely due to version-specific offsets, heap precision requirements, and configuration dependencies.
-
-Key findings:
-
-- Two pre-auth RCE bugs affect PHP core. CVE-2026-109618 targets the dangling PS session global via mod_php (Apache) and the php -S dev server. CVE-2026-109619 involves the serializer and hits PHP-FPM. Public exploits have focused almost entirely on the mod_php path. Palo Alto Networks PAN-OS and Citrix NetScaler have both published advisories confirming impact, and their management interfaces running Apache with mod_php are notable high-value targets given that management traffic is low-volume, making it easier to land two requests on the same worker as the exploit requires.
-
-- Exploitation of mod_php under the default display_errors=Off setting requires: defeating ASLR via a heap information leak through a stale PS(id) pointer in php_session_rfc1867_callback, version and build-specific binary offsets (compiler flags and distribution builds change the layout), precise heap grooming to exhaust freelist buckets and trigger an OOM exactly inside php_session_send_cookie so PS(send_cookie) stays set to 1, and pairing two requests on the same Apache prefork worker. Crucially, Apache prefork does not re-randomize ASLR on fork, so a successful leak exposes the heap base and libphp addresses for all workers until a restart.
-
-- The display_errors=On exploitation path is substantially easier because an early error causes SG(headers_sent) to be set, which makes php_session_send_cookie fail and leaves PS(send_cookie) = 1 without the precise heap timing. Praetorian found zero live customer-facing hosts with display_errors=On across their exposed phpinfo scan data. That means the easy path is largely theoretical in production, and real exploitation requires the much harder OOM-timed leak.
-
-- Exposed phpinfo pages, typically rated low or informational, are the reconnaissance gift that makes this practical. A single phpinfo response reveals: exact PHP version and build provider (enough to pull a matching Docker image and derive offsets locally), Server API confirming mod_php, display_errors and memory_limit values, and the Apache MPM confirming prefork. Together these let an attacker skip guesswork and confirm whether their offset database applies before sending a single exploit request.
-
-- The flood of non-functional AI-generated PoCs released after the leak illustrates a specific failure mode: models bypassed the vulnerability entirely by enabling display_errors=On in their lab environments or by attempting to brute-force 64-bit ASLR rather than implementing the leak. Defenders should treat public PoC counts as a poor signal of actual exploitability right now. The FPM variant (CVE-2026-109619) has early public exploits but Praetorian has not yet confirmed that exploitation path.
-
-Practitioner takeaway: Pull your external attack surface for exposed phpinfo pages and any management interfaces running PHP. The php_session_rfc1867_callback function and multipart form POST requests with PHPSESSID and PHP_SESSION_UPLOAD_PROGRESS fields in the same session are the behavioral signature of exploitation attempts on the mod_php path. On network logging, watch for repeated large multipart uploads followed immediately by a second request to the same application from the same source: that two-request sequencing is structurally required by the exploit. For PAN-OS and NetScaler specifically, confirm management interfaces are not internet-exposed. Patch to a fixed PHP build and treat any exposed phpinfo finding in pending reports as urgent to remediate now, not at next cycle.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115172321967169578</description>
-      <content:encoded><![CDATA[<p>php2shell (CVE-2026-109618 / CVE-2026-109619): pre-auth RCE in PHP core is confirmed exploitable but heavily conditional, with real-world mass exploitation unlikely due to version-specific offsets, heap precision requirements, and configuration dependencies.</p><p>Key findings:</p><p>- Two pre-auth RCE bugs affect PHP core. CVE-2026-109618 targets the dangling PS session global via mod_php (Apache) and the php -S dev server. CVE-2026-109619 involves the serializer and hits PHP-FPM. Public exploits have focused almost entirely on the mod_php path. Palo Alto Networks PAN-OS and Citrix NetScaler have both published advisories confirming impact, and their management interfaces running Apache with mod_php are notable high-value targets given that management traffic is low-volume, making it easier to land two requests on the same worker as the exploit requires.</p><p>- Exploitation of mod_php under the default display_errors=Off setting requires: defeating ASLR via a heap information leak through a stale PS(id) pointer in php_session_rfc1867_callback, version and build-specific binary offsets (compiler flags and distribution builds change the layout), precise heap grooming to exhaust freelist buckets and trigger an OOM exactly inside php_session_send_cookie so PS(send_cookie) stays set to 1, and pairing two requests on the same Apache prefork worker. Crucially, Apache prefork does not re-randomize ASLR on fork, so a successful leak exposes the heap base and libphp addresses for all workers until a restart.</p><p>- The display_errors=On exploitation path is substantially easier because an early error causes SG(headers_sent) to be set, which makes php_session_send_cookie fail and leaves PS(send_cookie) = 1 without the precise heap timing. Praetorian found zero live customer-facing hosts with display_errors=On across their exposed phpinfo scan data. That means the easy path is largely theoretical in production, and real exploitation requires the much harder OOM-timed leak.</p><p>- Exposed phpinfo pages, typically rated low or informational, are the reconnaissance gift that makes this practical. A single phpinfo response reveals: exact PHP version and build provider (enough to pull a matching Docker image and derive offsets locally), Server API confirming mod_php, display_errors and memory_limit values, and the Apache MPM confirming prefork. Together these let an attacker skip guesswork and confirm whether their offset database applies before sending a single exploit request.</p><p>- The flood of non-functional AI-generated PoCs released after the leak illustrates a specific failure mode: models bypassed the vulnerability entirely by enabling display_errors=On in their lab environments or by attempting to brute-force 64-bit ASLR rather than implementing the leak. Defenders should treat public PoC counts as a poor signal of actual exploitability right now. The FPM variant (CVE-2026-109619) has early public exploits but Praetorian has not yet confirmed that exploitation path.</p><p>Practitioner takeaway: Pull your external attack surface for exposed phpinfo pages and any management interfaces running PHP. The php_session_rfc1867_callback function and multipart form POST requests with PHPSESSID and PHP_SESSION_UPLOAD_PROGRESS fields in the same session are the behavioral signature of exploitation attempts on the mod_php path. On network logging, watch for repeated large multipart uploads followed immediately by a second request to the same application from the same source: that two-request sequencing is structurally required by the exploit. For PAN-OS and NetScaler specifically, confirm management interfaces are not internet-exposed. Patch to a fixed PHP build and treat any exposed phpinfo finding in pending reports as urgent to remediate now, not at next cycle.</p><p>#DFIR_Radar</p><p><a href="https://www.praetorian.com/blog/php2shell/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115172321967169578">View on X</a></p>]]></content:encoded>
-      <dc:creator>Praetorian</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115172321967169578</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2115172321967169578">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 20:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2115172321967169578</guid>
     </item>
   </channel>
 </rss>
