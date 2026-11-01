@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Nov 2026 10:01:20 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 13:01:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SMS of Death: Android under attack, an invisible SMS can block calls and emergency services</title>
+      <link>https://securityaffairs.com/202184/security/sms-of-death-android-under-attack-an-invisible-sms-can-block-calls-and-emergency-services.html</link>
+      <description>CVE-2026-58882 (Critical) crashes Android's com[.]android[.]phone via a zero-click WAP Push on port 2948, blocking calls including emergency services. Android 12 and 13 remain unpatched; verify device patch level now.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116878270058594356</description>
+      <content:encoded><![CDATA[<p>CVE-2026-58882 (Critical) crashes Android&#x27;s com[.]android[.]phone via a zero-click WAP Push on port 2948, blocking calls including emergency services. Android 12 and 13 remain unpatched; verify device patch level now.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/202184/security/sms-of-death-android-under-attack-an-invisible-sms-can-block-calls-and-emergency-services.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116878270058594356">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116878270058594356</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2116878270058594356">DFIR Radar</source>
+      <pubDate>Sun, 01 Nov 2026 13:01:24 +0000</pubDate>
+      <guid isPermaLink="false">2116878270058594356</guid>
+    </item>
     <item>
       <title>OneNote File Extraction, (Sun, Nov 1st)</title>
       <link>https://isc.sans.edu/diary/rss/33478</link>
@@ -2492,34 +2506,6 @@ Practitioner takeaway: before treating absent log data as absence of activity, a
       <source url="https://x.com/DFIR_Radar/status/2115263385663427016">DFIR Radar</source>
       <pubDate>Wed, 28 Oct 2026 02:04:26 +0000</pubDate>
       <guid isPermaLink="false">2115263385663427016</guid>
-    </item>
-    <item>
-      <title>Lazarus Abuses South Korean Security Software to Deploy Malware Using Post-Quantum Encryption</title>
-      <link>https://thehackernews.com/2026/10/lazarus-abuses-south-korean-security.html</link>
-      <description>North Korean 🇰🇵 Lazarus Group's Operation FlashHole abuses mandatory South Korean 🇰🇷 financial security software INISAFE CrossWeb EX to deliver a multi-stage, fully in-memory malware framework protected by post-quantum encryption, active since at least July 2025.
-
-Key findings:
-
-- The attack chain exploits Initech's INISAFE CrossWeb EX, a certificate authentication tool installed on virtually every South Korean 🇰🇷 banking and government-portal machine, to abuse the legitimate Windows binary fsquirt.exe via DLL sideloading. A malicious DLL called TechHub loads entirely in memory, downloads TouchHub from GitHub, which sideloads TOUCHSHIFT (disguised as mscoree.dll) for persistence, then chains into ClientHub and LPEClient before landing Cubridge, the framework's orchestration engine. The entire initial compromise exists only in memory, leaving minimal on-disk artifacts to recover.
-
-- The malware stack is a generational evolution of known Lazarus tooling. TechHub advances CLOUDBURST/NickelLoader. Cubridge is an improved SIDESHOW/LightlessCan and also assessed as an advanced CookiePlus variant. ClientHub is previously undocumented and comes in two versions: one using HTTPS C2 and one interacting with the Dropbox API. LPEClient, in use since 2019, profiles victims and delivers payloads. Cubridge pulls reusable plugins capable of ZIP archiving, file collection by search pattern, file deletion, and local drive change monitoring.
-
-- The standout technical development is LPEClient's adoption of ML-KEM-1024, a post-quantum cryptographic algorithm, to encrypt C2 communications before downloading and executing additional malware in memory. Kaspersky traces this capability back to at least September 2024, meaning Lazarus has been running quantum-resistant comms for over a year before this disclosure. This directly degrades any passive decryption or SSL inspection capability defenders relied on.
-
-- In at least one confirmed FlashHole-linked intrusion, COPPERHEDGE (also tracked as Brandoor) resulted in data exfiltration to a dark web leak site named ULOSE, mirroring Gunra ransomware extortion tactics against South Korean 🇰🇷 targets at the same period. This blurs the line between espionage and financially motivated extortion and widens the impact classification. Operation FlashHole is assessed by Kaspersky as the latest wave of the broader Cascade Hole campaign.
-
-- Initial lure infrastructure included malicious GitHub Pages hosting AI-generated profile photos and fabricated senior network developer resumes, used in targeted spearphishing to direct victims to sites that trigger the CrossWeb EX exploit chain. This continues Lazarus's pattern from Operation SyncHole (Cross EX exploitation) and Operation Double Barrel (AnySign4PC exploitation flagged in a joint July 2026 KISA advisory).
-
-DFIR takeaway: On any South Korean 🇰🇷 endpoint running INISAFE CrossWeb EX, hunt for fsquirt.exe spawned by INISAFECrossWebEXSvc.exe and any DLL loaded from unusual paths by that process. Because the chain runs in memory, focus on injected threads in fsquirt.exe and SyncHost.exe, and look for mscoree.dll loaded from non-standard locations. LPEClient's ML-KEM-1024 C2 traffic will resist decryption at the perimeter, so detections need to pivot to behavioral indicators: unusual GitHub-directed network calls from sideloaded DLLs and Dropbox API traffic from processes that have no business reaching it. The full technical breakdown and malware family details are in Kaspersky's report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115248212739334175</description>
-      <content:encoded><![CDATA[<p>North Korean 🇰🇵 Lazarus Group&#x27;s Operation FlashHole abuses mandatory South Korean 🇰🇷 financial security software INISAFE CrossWeb EX to deliver a multi-stage, fully in-memory malware framework protected by post-quantum encryption, active since at least July 2025.</p><p>Key findings:</p><p>- The attack chain exploits Initech&#x27;s INISAFE CrossWeb EX, a certificate authentication tool installed on virtually every South Korean 🇰🇷 banking and government-portal machine, to abuse the legitimate Windows binary fsquirt.exe via DLL sideloading. A malicious DLL called TechHub loads entirely in memory, downloads TouchHub from GitHub, which sideloads TOUCHSHIFT (disguised as mscoree.dll) for persistence, then chains into ClientHub and LPEClient before landing Cubridge, the framework&#x27;s orchestration engine. The entire initial compromise exists only in memory, leaving minimal on-disk artifacts to recover.</p><p>- The malware stack is a generational evolution of known Lazarus tooling. TechHub advances CLOUDBURST/NickelLoader. Cubridge is an improved SIDESHOW/LightlessCan and also assessed as an advanced CookiePlus variant. ClientHub is previously undocumented and comes in two versions: one using HTTPS C2 and one interacting with the Dropbox API. LPEClient, in use since 2019, profiles victims and delivers payloads. Cubridge pulls reusable plugins capable of ZIP archiving, file collection by search pattern, file deletion, and local drive change monitoring.</p><p>- The standout technical development is LPEClient&#x27;s adoption of ML-KEM-1024, a post-quantum cryptographic algorithm, to encrypt C2 communications before downloading and executing additional malware in memory. Kaspersky traces this capability back to at least September 2024, meaning Lazarus has been running quantum-resistant comms for over a year before this disclosure. This directly degrades any passive decryption or SSL inspection capability defenders relied on.</p><p>- In at least one confirmed FlashHole-linked intrusion, COPPERHEDGE (also tracked as Brandoor) resulted in data exfiltration to a dark web leak site named ULOSE, mirroring Gunra ransomware extortion tactics against South Korean 🇰🇷 targets at the same period. This blurs the line between espionage and financially motivated extortion and widens the impact classification. Operation FlashHole is assessed by Kaspersky as the latest wave of the broader Cascade Hole campaign.</p><p>- Initial lure infrastructure included malicious GitHub Pages hosting AI-generated profile photos and fabricated senior network developer resumes, used in targeted spearphishing to direct victims to sites that trigger the CrossWeb EX exploit chain. This continues Lazarus&#x27;s pattern from Operation SyncHole (Cross EX exploitation) and Operation Double Barrel (AnySign4PC exploitation flagged in a joint July 2026 KISA advisory).</p><p>DFIR takeaway: On any South Korean 🇰🇷 endpoint running INISAFE CrossWeb EX, hunt for fsquirt.exe spawned by INISAFECrossWebEXSvc.exe and any DLL loaded from unusual paths by that process. Because the chain runs in memory, focus on injected threads in fsquirt.exe and SyncHost.exe, and look for mscoree.dll loaded from non-standard locations. LPEClient&#x27;s ML-KEM-1024 C2 traffic will resist decryption at the perimeter, so detections need to pivot to behavioral indicators: unusual GitHub-directed network calls from sideloaded DLLs and Dropbox API traffic from processes that have no business reaching it. The full technical breakdown and malware family details are in Kaspersky&#x27;s report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/lazarus-abuses-south-korean-security.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115248212739334175">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115248212739334175</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2115248212739334175">DFIR Radar</source>
-      <pubDate>Wed, 28 Oct 2026 01:04:08 +0000</pubDate>
-      <guid isPermaLink="false">2115248212739334175</guid>
     </item>
   </channel>
 </rss>
