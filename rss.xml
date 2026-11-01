@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Nov 2026 08:02:02 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 09:01:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FBI Links North Korea's TraderTraitor to Record $6.43 Billion Binance Crypto Heist</title>
+      <link>https://thehackernews.com/2026/11/fbi-links-north-koreas-tradertraitor-to.html</link>
+      <description>North Korean 🇰🇵 TraderTraitor stole $6.43B from Binance across 11 blockchains, now laundering via DeFi swaps; FBI published wallet addresses. Hunt for trojanized Terraform providers delivering FLATROOF and ROOFDECK on developer endpoints.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116817953337336170</description>
+      <content:encoded><![CDATA[<p>North Korean 🇰🇵 TraderTraitor stole $6.43B from Binance across 11 blockchains, now laundering via DeFi swaps; FBI published wallet addresses. Hunt for trojanized Terraform providers delivering FLATROOF and ROOFDECK on developer endpoints.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/fbi-links-north-koreas-tradertraitor-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116817953337336170">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2116817953337336170</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2116817953337336170">DFIR Radar</source>
+      <pubDate>Sun, 01 Nov 2026 09:01:44 +0000</pubDate>
+      <guid isPermaLink="false">2116817953337336170</guid>
+    </item>
     <item>
       <title>NetamLoader Malware Targets Government Windows 10 Systems in Asia via .NET Injection</title>
       <link>https://thehackernews.com/2026/11/netamloader-malware-targets-government.html</link>
@@ -2518,34 +2532,6 @@ Responder takeaway: version alone tells you a host is exposed but not how exploi
       <source url="https://x.com/DFIR_Radar/status/2115232692967006350">DFIR Radar</source>
       <pubDate>Wed, 28 Oct 2026 00:02:28 +0000</pubDate>
       <guid isPermaLink="false">2115232692967006350</guid>
-    </item>
-    <item>
-      <title>Where to Find Windows DNS Server Logs</title>
-      <link>https://socprime.com/blog/where-to-find-windows-dns-server-logs/</link>
-      <description>Windows DNS Server logs to four distinct locations, most disabled by default. Knowing where each lives and what it captures is the difference between a complete timeline and a dead end during an active investigation.
-
-Key findings:
-
-- The Audit channel (Microsoft-Windows-DNSServer/Audit) is on by default and records zone and record changes: creation, deletion, and modification. This is your first stop for record hijacking, such as a rogue wpad entry being added outside a change window. Export it with: wevtutil epl "Microsoft-Windows-DNSServer/Audit" C:\logs\dns_audit.evtx. The Analytical channel captures every query and response but is off by default and hidden until you enable View &gt; Show Analytic and Debug Logs in Event Viewer. Enable it going forward with: wevtutil sl "Microsoft-Windows-DNSServer/Analytical" /e:true. If you are responding to something that already happened and Analytical was never enabled, there are no server-side query logs to recover from this source.
-
-- When server-side query logs are absent, pivot to client-side and network sources: Sysmon event 22 on endpoints, the DNS Client event log, firewall or proxy logs, or a network sensor. These are your retrospective options. Sysmon event 22 adds process attribution the DNS server log never provides, since the server only records the client IP, not the process that made the request.
-
-- The debug log at C:\Windows\System32\dns\dns.log is a plain-text file enabled through DNS Manager &gt; server Properties &gt; Debug Logging. It carries more packet detail than the Analytical channel but overwrites itself when it hits its size limit, which means it may already be gone if the incident is not fresh. Collect it with: copy C:\Windows\System32\dns\dns.log C:\logs\. A plugin DLL loaded by the DNS Server service is also worth examining: DnsAdmins group abuse can drop a malicious DLL that runs as SYSTEM.
-
-- On the investigation side, hunt for: very long or high-entropy subdomains (DNS tunneling, T1071.004), single clients generating high NXDOMAIN volumes (domain-generation algorithm activity, T1568.002), and elevated TXT query rates from one host (C2 or data exfil over DNS). Audit log events for record changes outside approved windows point to record hijacking or internal reconnaissance.
-
-- A practical note on collection: Get-WinEvent against the Analytical channel requires the -Oldest flag or it will error. Event Viewer may require you to disable the Analytical log before it displays events. The debug log and EVTX files contain internal hostnames and client IPs. Treat them as sensitive before routing to any external or shared analysis platform.
-
-Takeaway: Before anything else, check whether the Analytical channel was enabled on your DNS server. If it was not, note the gap in your timeline and shift to Sysmon event 22, DNS Client logs, and network sensor data for retrospective query visibility. Enable Analytical logging now to close the gap going forward, and set up log forwarding so the debug log does not silently roll over during your next investigation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115217867352506856</description>
-      <content:encoded><![CDATA[<p>Windows DNS Server logs to four distinct locations, most disabled by default. Knowing where each lives and what it captures is the difference between a complete timeline and a dead end during an active investigation.</p><p>Key findings:</p><p>- The Audit channel (Microsoft-Windows-DNSServer/Audit) is on by default and records zone and record changes: creation, deletion, and modification. This is your first stop for record hijacking, such as a rogue wpad entry being added outside a change window. Export it with: wevtutil epl &quot;Microsoft-Windows-DNSServer/Audit&quot; C:\logs\dns_audit.evtx. The Analytical channel captures every query and response but is off by default and hidden until you enable View &gt; Show Analytic and Debug Logs in Event Viewer. Enable it going forward with: wevtutil sl &quot;Microsoft-Windows-DNSServer/Analytical&quot; /e:true. If you are responding to something that already happened and Analytical was never enabled, there are no server-side query logs to recover from this source.</p><p>- When server-side query logs are absent, pivot to client-side and network sources: Sysmon event 22 on endpoints, the DNS Client event log, firewall or proxy logs, or a network sensor. These are your retrospective options. Sysmon event 22 adds process attribution the DNS server log never provides, since the server only records the client IP, not the process that made the request.</p><p>- The debug log at C:\Windows\System32\dns\dns.log is a plain-text file enabled through DNS Manager &gt; server Properties &gt; Debug Logging. It carries more packet detail than the Analytical channel but overwrites itself when it hits its size limit, which means it may already be gone if the incident is not fresh. Collect it with: copy C:\Windows\System32\dns\dns.log C:\logs\. A plugin DLL loaded by the DNS Server service is also worth examining: DnsAdmins group abuse can drop a malicious DLL that runs as SYSTEM.</p><p>- On the investigation side, hunt for: very long or high-entropy subdomains (DNS tunneling, T1071.004), single clients generating high NXDOMAIN volumes (domain-generation algorithm activity, T1568.002), and elevated TXT query rates from one host (C2 or data exfil over DNS). Audit log events for record changes outside approved windows point to record hijacking or internal reconnaissance.</p><p>- A practical note on collection: Get-WinEvent against the Analytical channel requires the -Oldest flag or it will error. Event Viewer may require you to disable the Analytical log before it displays events. The debug log and EVTX files contain internal hostnames and client IPs. Treat them as sensitive before routing to any external or shared analysis platform.</p><p>Takeaway: Before anything else, check whether the Analytical channel was enabled on your DNS server. If it was not, note the gap in your timeline and shift to Sysmon event 22, DNS Client logs, and network sensor data for retrospective query visibility. Enable Analytical logging now to close the gap going forward, and set up log forwarding so the debug log does not silently roll over during your next investigation.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/where-to-find-windows-dns-server-logs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115217867352506856">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115217867352506856</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2115217867352506856">DFIR Radar</source>
-      <pubDate>Tue, 27 Oct 2026 23:03:33 +0000</pubDate>
-      <guid isPermaLink="false">2115217867352506856</guid>
     </item>
   </channel>
 </rss>
