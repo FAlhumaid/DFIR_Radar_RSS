@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 02 Nov 2026 07:02:32 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2026 08:01:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Apache Struts2 Core Arbitrary Code Execution via OGNL Sandbox Escape</title>
+      <link>https://seclists.org/fulldisclosure/2026/Nov/7</link>
+      <description>Apache Struts2 Core 7.4.0 and below allow OGNL sandbox escape via nested reflective calls, enabling arbitrary code execution. Hunt application logs for requests containing java.beans.Expression or java.beans.Statement in OGNL-parsed parameters.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117165294120738941</description>
+      <content:encoded><![CDATA[<p>Apache Struts2 Core 7.4.0 and below allow OGNL sandbox escape via nested reflective calls, enabling arbitrary code execution. Hunt application logs for requests containing java.beans.Expression or java.beans.Statement in OGNL-parsed parameters.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/fulldisclosure/2026/Nov/7">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117165294120738941">View on X</a></p>]]></content:encoded>
+      <dc:creator>Full Disclosure</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117165294120738941</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2117165294120738941">DFIR Radar</source>
+      <pubDate>Mon, 02 Nov 2026 08:01:56 +0000</pubDate>
+      <guid isPermaLink="false">2117165294120738941</guid>
+    </item>
     <item>
       <title>Apache Struts2 JSON Plugin Insecure Deserialisation -- Object Deserialisation Element-Count Limit Bypass</title>
       <link>https://seclists.org/fulldisclosure/2026/Nov/0</link>
@@ -2454,34 +2468,6 @@ Takeaway: Do not rotate credentials before completing forensic preservation and 
       <source url="https://x.com/DFIR_Radar/status/2115353458702168448">DFIR Radar</source>
       <pubDate>Wed, 28 Oct 2026 08:02:21 +0000</pubDate>
       <guid isPermaLink="false">2115353458702168448</guid>
-    </item>
-    <item>
-      <title>From Hijacked PBX to Stolen Trunk: INJ3CTOR3’s Campaign Evolves</title>
-      <link>https://cyble.com/blog/hijacked-pbx-to-stolen-trunk-inj3ctor3s-campaign/</link>
-      <description>INJ3CTOR3's FreePBX implant now exfiltrates credentials every minute, meaning rebuilding an infected host no longer ends exposure. Stolen SIP trunk secrets let the operator call as you from anywhere.
-
-Key details:
-
-- The September build of k.php added credential theft that was absent in April. On every run (cron fires it every minute), it executes 17 curl commands uploading FreePBX, Issabel, and Elastix config files covering chan_sip, PJSIP, AMI, the PBX database, and the Postfix SMTP relay account to /hima_data/index.php on both staging hosts: 45.95.147[.]178 and 160.119.69[.]4. Rotating credentials on a still-infected host hands the new secrets to the operator within minutes.
-
-- The operator rotated every identifier defenders had. The JOMANGY webshell gate hash moved from a2f6863413c4192a4abfa360577b9961 to 8b3a1d970fda0c17a0b785a990fb7b6a (shared with ZenharR), the per-host watermarks are now trace_bd42a8a0d23ae16c85dede7d2abaec05 and trace_7544725ebaaadac217dfaa7ca8e8fe7e, and 160.119.69[.]4 was added for plain-text commands while base64-encoded channels still reach 45.95.147[.]178. Hunts seeded from the May report now miss active infections.
-
-- A seven-line .htaccess written to /var/www/html/admin/views/ creates an access-log gap that matters forensically. Requests with an encoded space, tab, or newline (%20, %09, %0A) immediately after a slash return 200 from config.php without that filename appearing in the access log. The takeover script also truncates then deletes the web server, Asterisk, cron, and audit logs and clears shell and MySQL histories, so log hunting is secondary and the credential upload itself leaves no file on disk.
-
-- The /x takeover script grew from 367 to 620 lines, mostly adding cleanup of rival actors' implants and SSH keys. The backdoor account password hash prefix $1$nRz1Cbtk$ is unchanged, as are the eight immutable crontab spares hidden in dot-paths (including /var/tmp/.X11/.Xauthority and /usr/lib/.systemd/.cache), the /root/.bash_profile and /etc/rc.local stagers, and the encoding chain (base64, base64, ROT13). The full IOC table including five SHA256 hashes for k.php, wr.php, and the /x script is in the report.
-
-- Cyble's report maps 19 MITRE ATT&amp;CK techniques including T1552.001, T1119, and T1041, which are new in this generation and describe the credential grab. Three techniques the previous report lacked now cover automated collection and exfiltration over the C2 channel.
-
-Takeaway: Do not rotate credentials before the host is clean, and do not stop at the two known staging hosts when scoping the block. Audit the Asterisk CLI directly (pjsip show registrations, sip show registry) and compare against the FreePBX console because trunks written to /etc/asterisk/*_custom.conf never appear there. Hunt for outbound HTTP POSTs to any /hima_data/ path, cron children that download and pipe to a shell, and any .htaccess under the web root that no installed package or team member placed. The beagle[.]sh triage script is at github[.]com/0x1da5/malware-campaigns and makes no changes to the host. IOCs, hashes, and ATT&amp;CK mappings are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115338669598855584</description>
-      <content:encoded><![CDATA[<p>INJ3CTOR3&#x27;s FreePBX implant now exfiltrates credentials every minute, meaning rebuilding an infected host no longer ends exposure. Stolen SIP trunk secrets let the operator call as you from anywhere.</p><p>Key details:</p><p>- The September build of k.php added credential theft that was absent in April. On every run (cron fires it every minute), it executes 17 curl commands uploading FreePBX, Issabel, and Elastix config files covering chan_sip, PJSIP, AMI, the PBX database, and the Postfix SMTP relay account to /hima_data/index.php on both staging hosts: 45.95.147[.]178 and 160.119.69[.]4. Rotating credentials on a still-infected host hands the new secrets to the operator within minutes.</p><p>- The operator rotated every identifier defenders had. The JOMANGY webshell gate hash moved from a2f6863413c4192a4abfa360577b9961 to 8b3a1d970fda0c17a0b785a990fb7b6a (shared with ZenharR), the per-host watermarks are now trace_bd42a8a0d23ae16c85dede7d2abaec05 and trace_7544725ebaaadac217dfaa7ca8e8fe7e, and 160.119.69[.]4 was added for plain-text commands while base64-encoded channels still reach 45.95.147[.]178. Hunts seeded from the May report now miss active infections.</p><p>- A seven-line .htaccess written to /var/www/html/admin/views/ creates an access-log gap that matters forensically. Requests with an encoded space, tab, or newline (%20, %09, %0A) immediately after a slash return 200 from config.php without that filename appearing in the access log. The takeover script also truncates then deletes the web server, Asterisk, cron, and audit logs and clears shell and MySQL histories, so log hunting is secondary and the credential upload itself leaves no file on disk.</p><p>- The /x takeover script grew from 367 to 620 lines, mostly adding cleanup of rival actors&#x27; implants and SSH keys. The backdoor account password hash prefix $1$nRz1Cbtk$ is unchanged, as are the eight immutable crontab spares hidden in dot-paths (including /var/tmp/.X11/.Xauthority and /usr/lib/.systemd/.cache), the /root/.bash_profile and /etc/rc.local stagers, and the encoding chain (base64, base64, ROT13). The full IOC table including five SHA256 hashes for k.php, wr.php, and the /x script is in the report.</p><p>- Cyble&#x27;s report maps 19 MITRE ATT&amp;CK techniques including T1552.001, T1119, and T1041, which are new in this generation and describe the credential grab. Three techniques the previous report lacked now cover automated collection and exfiltration over the C2 channel.</p><p>Takeaway: Do not rotate credentials before the host is clean, and do not stop at the two known staging hosts when scoping the block. Audit the Asterisk CLI directly (pjsip show registrations, sip show registry) and compare against the FreePBX console because trunks written to /etc/asterisk/*_custom.conf never appear there. Hunt for outbound HTTP POSTs to any /hima_data/ path, cron children that download and pipe to a shell, and any .htaccess under the web root that no installed package or team member placed. The beagle[.]sh triage script is at github[.]com/0x1da5/malware-campaigns and makes no changes to the host. IOCs, hashes, and ATT&amp;CK mappings are in the report.</p><p>#DFIR_Radar</p><p><a href="https://cyble.com/blog/hijacked-pbx-to-stolen-trunk-inj3ctor3s-campaign/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115338669598855584">View on X</a></p>]]></content:encoded>
-      <dc:creator>Cyble</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115338669598855584</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2115338669598855584">DFIR Radar</source>
-      <pubDate>Wed, 28 Oct 2026 07:03:35 +0000</pubDate>
-      <guid isPermaLink="false">2115338669598855584</guid>
     </item>
   </channel>
 </rss>
