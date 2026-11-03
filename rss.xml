@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Nov 2026 04:01:30 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 05:02:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PHP Vulnerabilities, ARTEX &amp; AI-Powered Cyber Attacks</title>
+      <link>https://www.darktrace.com/blog/vulnerability-discovery-to-active-attacks-ai-in-cyber-operations</link>
+      <description>Chinese 🇨🇳 Storm-0940 used ARTEX AI via ConnectWise supply-chain compromise to spray 151,000+ credentials, reaching privileged cloud access in under three hours. Correlate service-principal sign-ins with Graph activity and directory changes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117482417837531621</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Storm-0940 used ARTEX AI via ConnectWise supply-chain compromise to spray 151,000+ credentials, reaching privileged cloud access in under three hours. Correlate service-principal sign-ins with Graph activity and directory changes.</p><p>#DFIR_Radar</p><p><a href="https://www.darktrace.com/blog/vulnerability-discovery-to-active-attacks-ai-in-cyber-operations">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117482417837531621">View on X</a></p>]]></content:encoded>
+      <dc:creator>Darktrace</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117482417837531621</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2117482417837531621">DFIR Radar</source>
+      <pubDate>Tue, 03 Nov 2026 05:02:04 +0000</pubDate>
+      <guid isPermaLink="false">2117482417837531621</guid>
+    </item>
     <item>
       <title>Bitter Deploys PapRAT in Asian Cyber-Espionage Campaign</title>
       <link>https://www.infosecurity-magazine.com/news/paprat-bitter-cyberespionage/</link>
@@ -2430,34 +2444,6 @@ No patch exists and no CVE is assigned. Operators should immediately restrict ma
       <source url="https://x.com/DFIR_Radar/status/2115670503222296740">DFIR Radar</source>
       <pubDate>Thu, 29 Oct 2026 05:02:10 +0000</pubDate>
       <guid isPermaLink="false">2115670503222296740</guid>
-    </item>
-    <item>
-      <title>Scalable Vector Grief</title>
-      <link>https://portswigger.net/research/scalable-vector-grief</link>
-      <description>Six of eight tested SVG sanitizers bypassed via namespace tricks, XSLT data-URL injection, and a Safari quirk that imports GIF files as SVG and executes embedded JavaScript.
-
-Key findings:
-
-- mattkrick/sanitize-svg falls to multiple vectors: switching a single element's XML namespace to XHTML (hxxp://www.w3[.]org/1999/xhtml) lets a bare frame or iframe tag render as HTML inside the SVG, with src="javascript:..." or srcdoc carrying the payload. The library also misses foreignObject written in lowercase because its querySelectorAll hunt uses the camel-case form and finds nothing, so the element passes through untouched. Even a nested svg onload handler escapes cleanly.
-
-- Borewit/svg-sanitizer passes animate and animateTransform tags intact, letting an attacker animate a link's href attribute into a JavaScript URL, either immediately or after a timed delay. This is a browser-specific behavior that fires in Safari.
-
-- bgalek/safe-svg, mattkrick/sanitize-svg, and alnorris/SVG-Sanitizer all miss an XSLT injection path: an xml-stylesheet processing instruction pointing at a data:text/xsl;base64,... URL causes Firefox to transform the document before rendering, producing a full HTML page with a script that executes in the document's origin, not a null origin. The body SVG content is completely benign; all the damage is in the processing instruction.
-
-- A more novel Firefox-specific variant moves the XSLT stylesheet entirely out of the document body and into a Link response header (rel="stylesheet"; type="text/xsl"). The response body is harmless XML. Firefox reads the header, fetches the data-URL stylesheet, and executes the resulting script in the document's origin. cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg all fail against this because sanitizers inspect the document body, not response headers.
-
-- Safari treats files referenced by use href= as SVG regardless of their MIME type or extension, so a GIF containing SVG markup with an image onerror handler can be uploaded as an innocent image file, then imported by a separate SVG via use href="/uploads/payload.gif#x". This bypasses cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg. The GIF does not render as SVG when opened directly, so it evades visual inspection. DOMPurify and darylldoyle/svg-sanitizer held against all techniques in the report.
-
-Practitioner takeaway: If your application accepts SVG uploads and routes them through any of the six affected libraries, your sanitization boundary is not the document body alone. Response headers (especially Content-Type and Link) are part of the attack surface in Firefox. For upload pipelines, audit whether your stack allows the xml-stylesheet processing instruction to survive, whether animate and animateTransform are allowlisted, and whether non-SVG files in the same origin can be pulled in via the use element. The XSLT data-URL technique is browser-deprecated as of November 2026, but the namespace-switching and GIF-import vectors are not. Switch to DOMPurify or darylldoyle/svg-sanitizer if you cannot patch immediately, and treat any file referenced by a use href as a potential SVG execution context regardless of its extension or MIME type.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115655826807595438</description>
-      <content:encoded><![CDATA[<p>Six of eight tested SVG sanitizers bypassed via namespace tricks, XSLT data-URL injection, and a Safari quirk that imports GIF files as SVG and executes embedded JavaScript.</p><p>Key findings:</p><p>- mattkrick/sanitize-svg falls to multiple vectors: switching a single element&#x27;s XML namespace to XHTML (hxxp://www.w3[.]org/1999/xhtml) lets a bare frame or iframe tag render as HTML inside the SVG, with src=&quot;javascript:...&quot; or srcdoc carrying the payload. The library also misses foreignObject written in lowercase because its querySelectorAll hunt uses the camel-case form and finds nothing, so the element passes through untouched. Even a nested svg onload handler escapes cleanly.</p><p>- Borewit/svg-sanitizer passes animate and animateTransform tags intact, letting an attacker animate a link&#x27;s href attribute into a JavaScript URL, either immediately or after a timed delay. This is a browser-specific behavior that fires in Safari.</p><p>- bgalek/safe-svg, mattkrick/sanitize-svg, and alnorris/SVG-Sanitizer all miss an XSLT injection path: an xml-stylesheet processing instruction pointing at a data:text/xsl;base64,... URL causes Firefox to transform the document before rendering, producing a full HTML page with a script that executes in the document&#x27;s origin, not a null origin. The body SVG content is completely benign; all the damage is in the processing instruction.</p><p>- A more novel Firefox-specific variant moves the XSLT stylesheet entirely out of the document body and into a Link response header (rel=&quot;stylesheet&quot;; type=&quot;text/xsl&quot;). The response body is harmless XML. Firefox reads the header, fetches the data-URL stylesheet, and executes the resulting script in the document&#x27;s origin. cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg all fail against this because sanitizers inspect the document body, not response headers.</p><p>- Safari treats files referenced by use href= as SVG regardless of their MIME type or extension, so a GIF containing SVG markup with an image onerror handler can be uploaded as an innocent image file, then imported by a separate SVG via use href=&quot;/uploads/payload.gif#x&quot;. This bypasses cloudflare/svg-hush, jams2/py-svg-hush, and bgalek/safe-svg. The GIF does not render as SVG when opened directly, so it evades visual inspection. DOMPurify and darylldoyle/svg-sanitizer held against all techniques in the report.</p><p>Practitioner takeaway: If your application accepts SVG uploads and routes them through any of the six affected libraries, your sanitization boundary is not the document body alone. Response headers (especially Content-Type and Link) are part of the attack surface in Firefox. For upload pipelines, audit whether your stack allows the xml-stylesheet processing instruction to survive, whether animate and animateTransform are allowlisted, and whether non-SVG files in the same origin can be pulled in via the use element. The XSLT data-URL technique is browser-deprecated as of November 2026, but the namespace-switching and GIF-import vectors are not. Switch to DOMPurify or darylldoyle/svg-sanitizer if you cannot patch immediately, and treat any file referenced by a use href as a potential SVG execution context regardless of its extension or MIME type.</p><p>#DFIR_Radar</p><p><a href="https://portswigger.net/research/scalable-vector-grief">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115655826807595438">View on X</a></p>]]></content:encoded>
-      <dc:creator>PortSwigger Research</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115655826807595438</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2115655826807595438">DFIR Radar</source>
-      <pubDate>Thu, 29 Oct 2026 04:03:51 +0000</pubDate>
-      <guid isPermaLink="false">2115655826807595438</guid>
     </item>
   </channel>
 </rss>
