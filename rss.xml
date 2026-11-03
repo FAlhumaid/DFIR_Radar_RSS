@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Nov 2026 11:01:54 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 12:01:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside XCPE, the botnet that turned 1.3M set-top boxes into proxy servers</title>
+      <link>https://securityaffairs.com/202323/malware/inside-xcpe-the-botnet-that-turned-1-3m-set-top-boxes-into-proxy-servers.html</link>
+      <description>Google dismantled the XCPE botnet, attributing 1.3M backdoored Android TV boxes to OEM Videostrong for ad fraud and proxy abuse. Hunt firmware partition /oem/ for x.cpe and monitor MQTT traffic to ott.szbboys[.]com.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117588075790655626</description>
+      <content:encoded><![CDATA[<p>Google dismantled the XCPE botnet, attributing 1.3M backdoored Android TV boxes to OEM Videostrong for ad fraud and proxy abuse. Hunt firmware partition /oem/ for x.cpe and monitor MQTT traffic to ott.szbboys[.]com.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/202323/malware/inside-xcpe-the-botnet-that-turned-1-3m-set-top-boxes-into-proxy-servers.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117588075790655626">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117588075790655626</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2117588075790655626">DFIR Radar</source>
+      <pubDate>Tue, 03 Nov 2026 12:01:55 +0000</pubDate>
+      <guid isPermaLink="false">2117588075790655626</guid>
+    </item>
     <item>
       <title>Gorbag APT group hits Ukrainian courts and city councils with self-deleting malware</title>
       <link>https://www.helpnetsecurity.com/2026/11/03/gorbag-apt-group-malware/</link>
@@ -2364,32 +2378,6 @@ Hunt for this now. Check all endpoints running Codex or Claude Code for sandbox_
       <source url="https://x.com/DFIR_Radar/status/2115776350292259030">DFIR Radar</source>
       <pubDate>Thu, 29 Oct 2026 12:02:46 +0000</pubDate>
       <guid isPermaLink="false">2115776350292259030</guid>
-    </item>
-    <item>
-      <title>From Webshell to Proxy Exit: Inside an Exposed AhsayCBS Operation</title>
-      <link>https://threatmon.io/from-webshell-to-proxy-exit-inside-an-exposed-ahsaycbs-operation/</link>
-      <description>Exposed operator workspace reveals a unified post-exploitation framework converting webshell access into SOCKS proxy tunnels across AhsayCBS and seven other CVEs, with 134 confirmed-live webshell endpoints and 141 host identifiers showing positive proxy checks.
-
-Key findings:
-
-- AhsayCBS (CVE-2026-105133 / CVE-2026-105134, an RCE-to-JSP-webshell chain documented by Huntress and Bitdefender beginning 7 October 2026) provides the strongest evidentiary trail. Of 189 webshell probes in webshell_probe.jsonl, 134 returned alive=true with operating system output confirming command execution, not just an open port. Windows dominated: 118 Windows responses versus 15 Linux, with Server 2019 (44), Server 2022 (26), and Server 2016 (25) most common. AhsayCBS is widely deployed by managed service providers, so the exposed population skews toward MSP-hosted infrastructure. Hotfix builds are v10.3.4.45 and v9.15.2.70 or later for v7-v9.
-
-- The framework, centered on poc2tunnel[.]py, follows a fixed workflow: confirm command execution via PoC or existing webshell (T1190, T1505.003), fingerprint the target OS and architecture, pull Chisel and GOST binaries from GitHub releases or a fallback file server at 143.244.140[.]188:9191, start a local GOST SOCKS listener on the target (T1090), then have Chisel dial out to the control VPS (T1572) at 143.244.140[.]188:26925, mapping a VPS-side port to the target's SOCKS service. The operator then validates the route with a proxy check. Positive proxy results included Windows SYSTEM and Linux root command contexts. The framework was designed to accept any vulnerability module, not just AhsayCBS.
-
-- The workspace also contained modules targeting CVE-2025-68953 (Frappe), CVE-2026-110447 (Nextcloud built-in CODE Server), CVE-2026-94169 (WordPress The Grid), CVE-2026-20182 (Cisco Catalyst SD-WAN), CVE-2026-97229 (GitLab), CVE-2026-102785 (Joomla/YOOtheme Pro), and CVE-2026-112346 (OpenHands SDK). Evidentiary weight varies sharply: the SD-WAN dataset covers 2,218 host identifiers but zero records classified as REAL; the Nextcloud NVR report shows 108 rows all marked transfer_fail. OpenHands added four proxy-positive hosts not in the main dataset. These are probing records, not confirmed compromises.
-
-- The Chisel server log runs to 18,835 lines with 936 reverse-mapping messages. An HTTP receiver log records 894 GET requests, 877 for /payload.jpg, from 98 source IPs. A webshell management script can preserve a selected JSP file while proposing deletion of others, but all 134 records in remediate_report.jsonl show dry_run=true: the cleanup was not executed per the recovered evidence. Attribution is unresolved; Chinese-language comments, ZCode and Zhipu references, and a .bash_history with 38 tmux attach appearances are provenance leads, not actor attribution.
-
-Hunt and response steps: For AhsayCBS hosts, audit the replication receiver for unexpected JSP files and review child processes spawned by backup service processes, especially command interpreters or download utilities. A shell that already exists survives patching. For network investigations, pivot on 143.244.140[.]188 across the relevant timeframe: look for outbound connections to TCP/26925 (primary Chisel listener) or TCP/9191, and for any process downloading binaries to a temporary directory followed by a persistent outbound tunnel. On Linux, check for local SOCKS listeners bound by unfamiliar executables. On Windows, correlate the AhsayCBS service process tree with subsequent outbound traffic. The SSH host-key fingerprint SHA256:ytM/3PMwMS8eKymWGeuP0HGsnU/4TADBOOPFX1vz0G4 and the authorized_keys label dsh-jump-20261020 are infrastructure-correlation artifacts. IOCs and full methodology are in the ThreatMon report; working webshell URLs and target IPs were withheld deliberately.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115761018596884742</description>
-      <content:encoded><![CDATA[<p>Exposed operator workspace reveals a unified post-exploitation framework converting webshell access into SOCKS proxy tunnels across AhsayCBS and seven other CVEs, with 134 confirmed-live webshell endpoints and 141 host identifiers showing positive proxy checks.</p><p>Key findings:</p><p>- AhsayCBS (CVE-2026-105133 / CVE-2026-105134, an RCE-to-JSP-webshell chain documented by Huntress and Bitdefender beginning 7 October 2026) provides the strongest evidentiary trail. Of 189 webshell probes in webshell_probe.jsonl, 134 returned alive=true with operating system output confirming command execution, not just an open port. Windows dominated: 118 Windows responses versus 15 Linux, with Server 2019 (44), Server 2022 (26), and Server 2016 (25) most common. AhsayCBS is widely deployed by managed service providers, so the exposed population skews toward MSP-hosted infrastructure. Hotfix builds are v10.3.4.45 and v9.15.2.70 or later for v7-v9.</p><p>- The framework, centered on poc2tunnel[.]py, follows a fixed workflow: confirm command execution via PoC or existing webshell (T1190, T1505.003), fingerprint the target OS and architecture, pull Chisel and GOST binaries from GitHub releases or a fallback file server at 143.244.140[.]188:9191, start a local GOST SOCKS listener on the target (T1090), then have Chisel dial out to the control VPS (T1572) at 143.244.140[.]188:26925, mapping a VPS-side port to the target&#x27;s SOCKS service. The operator then validates the route with a proxy check. Positive proxy results included Windows SYSTEM and Linux root command contexts. The framework was designed to accept any vulnerability module, not just AhsayCBS.</p><p>- The workspace also contained modules targeting CVE-2025-68953 (Frappe), CVE-2026-110447 (Nextcloud built-in CODE Server), CVE-2026-94169 (WordPress The Grid), CVE-2026-20182 (Cisco Catalyst SD-WAN), CVE-2026-97229 (GitLab), CVE-2026-102785 (Joomla/YOOtheme Pro), and CVE-2026-112346 (OpenHands SDK). Evidentiary weight varies sharply: the SD-WAN dataset covers 2,218 host identifiers but zero records classified as REAL; the Nextcloud NVR report shows 108 rows all marked transfer_fail. OpenHands added four proxy-positive hosts not in the main dataset. These are probing records, not confirmed compromises.</p><p>- The Chisel server log runs to 18,835 lines with 936 reverse-mapping messages. An HTTP receiver log records 894 GET requests, 877 for /payload.jpg, from 98 source IPs. A webshell management script can preserve a selected JSP file while proposing deletion of others, but all 134 records in remediate_report.jsonl show dry_run=true: the cleanup was not executed per the recovered evidence. Attribution is unresolved; Chinese-language comments, ZCode and Zhipu references, and a .bash_history with 38 tmux attach appearances are provenance leads, not actor attribution.</p><p>Hunt and response steps: For AhsayCBS hosts, audit the replication receiver for unexpected JSP files and review child processes spawned by backup service processes, especially command interpreters or download utilities. A shell that already exists survives patching. For network investigations, pivot on 143.244.140[.]188 across the relevant timeframe: look for outbound connections to TCP/26925 (primary Chisel listener) or TCP/9191, and for any process downloading binaries to a temporary directory followed by a persistent outbound tunnel. On Linux, check for local SOCKS listeners bound by unfamiliar executables. On Windows, correlate the AhsayCBS service process tree with subsequent outbound traffic. The SSH host-key fingerprint SHA256:ytM/3PMwMS8eKymWGeuP0HGsnU/4TADBOOPFX1vz0G4 and the authorized_keys label dsh-jump-20261020 are infrastructure-correlation artifacts. IOCs and full methodology are in the ThreatMon report; working webshell URLs and target IPs were withheld deliberately.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/from-webshell-to-proxy-exit-inside-an-exposed-ahsaycbs-operation/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115761018596884742">View on X</a></p>]]></content:encoded>
-      <dc:creator>ThreatMon</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115761018596884742</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2115761018596884742">DFIR Radar</source>
-      <pubDate>Thu, 29 Oct 2026 11:01:51 +0000</pubDate>
-      <guid isPermaLink="false">2115761018596884742</guid>
     </item>
   </channel>
 </rss>
