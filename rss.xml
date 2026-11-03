@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Nov 2026 06:01:36 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 07:02:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Google Disrupts 1.3 Million-Device Android Botnet, Says TV Box Maker Sold Criminal Access</title>
+      <link>https://thehackernews.com/2026/11/google-disrupts-13-million-device.html</link>
+      <description>Google dismantled BadBox 2.0, a 1.3M-device botnet tied to Chinese 🇨🇳 maker Videostrong's firmware backdoor x.cpe. Synthient's report lists IOCs and device models for network hunting.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117512623470117138</description>
+      <content:encoded><![CDATA[<p>Google dismantled BadBox 2.0, a 1.3M-device botnet tied to Chinese 🇨🇳 maker Videostrong&#x27;s firmware backdoor x.cpe. Synthient&#x27;s report lists IOCs and device models for network hunting.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/google-disrupts-13-million-device.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117512623470117138">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117512623470117138</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2117512623470117138">DFIR Radar</source>
+      <pubDate>Tue, 03 Nov 2026 07:02:06 +0000</pubDate>
+      <guid isPermaLink="false">2117512623470117138</guid>
+    </item>
     <item>
       <title>Beyond DKIM key rotation: understanding email replay attacks</title>
       <link>https://aws.amazon.com/blogs/security/beyond-dkim-key-rotation-understanding-email-replay-attacks/</link>
@@ -2402,34 +2416,6 @@ Operator actions now, before any patch: rotate the factory-default administrator
       <source url="https://x.com/DFIR_Radar/status/2115701086749347949">DFIR Radar</source>
       <pubDate>Thu, 29 Oct 2026 07:03:42 +0000</pubDate>
       <guid isPermaLink="false">2115701086749347949</guid>
-    </item>
-    <item>
-      <title>[0day-rubbish] Moxa MAR-2000 firmware FWR_MAR2000_V1.0_Build_15010909 scenario ping condition command injection through the auto-executing ping thread (7.2)</title>
-      <link>https://seclists.org/fulldisclosure/2026/Oct/55</link>
-      <description>Unauthenticated-default-credential path to recurring root-level command execution on Moxa MAR-2000 industrial LTE routers, via a stored command injection in the scenario ping condition that re-fires on every watchdog cycle without further attacker interaction.
-
-Key details:
-
-- No CVE has been assigned. CVSS 3.1 score is 7.2 High (AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H) with Privileges Required set to High, reflecting the single administrator role. Where factory-default credentials remain in place, the researchers calculate the vector collapses to PR:N and the arithmetic base rises to 9.8 Critical. Changing the default credential is the single most immediate risk reduction available right now.
-
-- The vulnerability lives in /home/model/scenario/scenario.py inside the ARM Debian 6.0.8 root filesystem of firmware FWR_MAR2000_V1.0_Build_15010909. The MIRF stack runs a Node.js Express 4.0 management application on port 80 bound to all interfaces, bridged via express-sanji middleware to a local MQTT broker, with Python 2.6 model scripts acting on stored configuration. The scenario watchdog builds its ping command as a raw string handed to /bin/sh with shell=True, interpolating the stored ip and interface fields directly and with no validation at any layer of the stack, from Express middleware through broker leg to storage and thread execution.
-
-- Payload delivery is a single authenticated PUT /api/v1/scenario. Once stored, the attacker does nothing further: the product's own watchdog evaluates the condition on its own schedule, executing the injected command repeatedly on every cycle. The payload survives reboots because it is stored configuration. Two verified injection forms are published: command substitution ($(id &gt; marker)) placed in the ip field, which the shell expands before ping even executes; and a newline separator in the same field, which gives ping its own complete command line and runs injected text as a second command. A naive semicolon form was also tested and confirmed to instead produce an unbounded ping with no count flag, blocking the monitoring thread and functioning as a denial-of-service against the scenario machinery rather than code execution.
-
-- Detection is structurally quiet because the executing process is the product's own monitoring thread. The advisory identifies the readable signals: a saved ping condition whose ip or interface field contains $( , a semicolon, a pipe, a backtick, or a newline; ping processes running without a -c count flag; and unexpected child processes under the model daemon. Separately, the report notes the web API answers unauthenticated GET requests across its surface, meaning a poisoned scenario condition can be enumerated without any login by an intruder already on the network.
-
-- This is one of three independent command injection findings released together for the MAR-2000. The companion advisories cover an Executer program-activation injection through a stored argument field and an IPsec tunnel address injection through route-management shell commands, each a different model file, REST resource, and sink. No patch exists at time of disclosure. The research was published unconditionally with no vendor coordination or embargo, and no CVE identifier has been assigned to any of the three findings.
-
-Responder action: sweep the scenario configuration on any MAR-2000 deployment now. Pull saved ping conditions from PUT /api/v1/scenario and inspect the ip and interface parameter values for metacharacters ($, (, ), ;, |, backtick, newline). Confirm the factory default administrator credential has been rotated. Keep the port 80 management listener off any WAN-facing interface. Where scheduled monitoring is not operationally required, disable the scenario feature entirely. The proof-of-concept Python 3 client and full technical analysis are published at 0day-rubbish[.]com, with the three advisory URLs and the GitHub archive at github[.]com/Exploit-Garbage/0day-Rubbish.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115685711504646508</description>
-      <content:encoded><![CDATA[<p>Unauthenticated-default-credential path to recurring root-level command execution on Moxa MAR-2000 industrial LTE routers, via a stored command injection in the scenario ping condition that re-fires on every watchdog cycle without further attacker interaction.</p><p>Key details:</p><p>- No CVE has been assigned. CVSS 3.1 score is 7.2 High (AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H) with Privileges Required set to High, reflecting the single administrator role. Where factory-default credentials remain in place, the researchers calculate the vector collapses to PR:N and the arithmetic base rises to 9.8 Critical. Changing the default credential is the single most immediate risk reduction available right now.</p><p>- The vulnerability lives in /home/model/scenario/scenario.py inside the ARM Debian 6.0.8 root filesystem of firmware FWR_MAR2000_V1.0_Build_15010909. The MIRF stack runs a Node.js Express 4.0 management application on port 80 bound to all interfaces, bridged via express-sanji middleware to a local MQTT broker, with Python 2.6 model scripts acting on stored configuration. The scenario watchdog builds its ping command as a raw string handed to /bin/sh with shell=True, interpolating the stored ip and interface fields directly and with no validation at any layer of the stack, from Express middleware through broker leg to storage and thread execution.</p><p>- Payload delivery is a single authenticated PUT /api/v1/scenario. Once stored, the attacker does nothing further: the product&#x27;s own watchdog evaluates the condition on its own schedule, executing the injected command repeatedly on every cycle. The payload survives reboots because it is stored configuration. Two verified injection forms are published: command substitution ($(id &gt; marker)) placed in the ip field, which the shell expands before ping even executes; and a newline separator in the same field, which gives ping its own complete command line and runs injected text as a second command. A naive semicolon form was also tested and confirmed to instead produce an unbounded ping with no count flag, blocking the monitoring thread and functioning as a denial-of-service against the scenario machinery rather than code execution.</p><p>- Detection is structurally quiet because the executing process is the product&#x27;s own monitoring thread. The advisory identifies the readable signals: a saved ping condition whose ip or interface field contains $( , a semicolon, a pipe, a backtick, or a newline; ping processes running without a -c count flag; and unexpected child processes under the model daemon. Separately, the report notes the web API answers unauthenticated GET requests across its surface, meaning a poisoned scenario condition can be enumerated without any login by an intruder already on the network.</p><p>- This is one of three independent command injection findings released together for the MAR-2000. The companion advisories cover an Executer program-activation injection through a stored argument field and an IPsec tunnel address injection through route-management shell commands, each a different model file, REST resource, and sink. No patch exists at time of disclosure. The research was published unconditionally with no vendor coordination or embargo, and no CVE identifier has been assigned to any of the three findings.</p><p>Responder action: sweep the scenario configuration on any MAR-2000 deployment now. Pull saved ping conditions from PUT /api/v1/scenario and inspect the ip and interface parameter values for metacharacters ($, (, ), ;, |, backtick, newline). Confirm the factory default administrator credential has been rotated. Keep the port 80 management listener off any WAN-facing interface. Where scheduled monitoring is not operationally required, disable the scenario feature entirely. The proof-of-concept Python 3 client and full technical analysis are published at 0day-rubbish[.]com, with the three advisory URLs and the GitHub archive at github[.]com/Exploit-Garbage/0day-Rubbish.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/fulldisclosure/2026/Oct/55">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115685711504646508">View on X</a></p>]]></content:encoded>
-      <dc:creator>Full Disclosure</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115685711504646508</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2115685711504646508">DFIR Radar</source>
-      <pubDate>Thu, 29 Oct 2026 06:02:36 +0000</pubDate>
-      <guid isPermaLink="false">2115685711504646508</guid>
     </item>
   </channel>
 </rss>
