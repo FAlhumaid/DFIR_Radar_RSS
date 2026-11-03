@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Nov 2026 22:03:15 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 23:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Security Monitoring of AI Agents in Microsoft Defender XDR</title>
+      <link>https://blog.compass-security.com/2026/11/security-monitoring-of-ai-agents-in-microsoft-defender-xdr/</link>
+      <description>Microsoft Defender XDR monitors M365 AI agents via Agent 365, surfacing jailbreaks and prompt injection as alerts. Hunt CloudAppEvents for InvokeAgent actions and UnifiedAgentObservability for tool call payloads.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117754511888658508</description>
+      <content:encoded><![CDATA[<p>Microsoft Defender XDR monitors M365 AI agents via Agent 365, surfacing jailbreaks and prompt injection as alerts. Hunt CloudAppEvents for InvokeAgent actions and UnifiedAgentObservability for tool call payloads.</p><p>#DFIR_Radar</p><p><a href="https://blog.compass-security.com/2026/11/security-monitoring-of-ai-agents-in-microsoft-defender-xdr/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117754511888658508">View on X</a></p>]]></content:encoded>
+      <dc:creator>Compass Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117754511888658508</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2117754511888658508">DFIR Radar</source>
+      <pubDate>Tue, 03 Nov 2026 23:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2117754511888658508</guid>
+    </item>
     <item>
       <title>Russia-Aligned Gorbag Targets Ukraine for Intelligence</title>
       <link>https://www.infosecurity-magazine.com/news/russia-gorbag-targets-ukraine/</link>
@@ -2296,32 +2310,6 @@ Takeaway: Any system that loaded a Hugging Face model with trust_remote_code ena
       <source url="https://x.com/DFIR_Radar/status/2115957704342519879">DFIR Radar</source>
       <pubDate>Fri, 30 Oct 2026 00:03:24 +0000</pubDate>
       <guid isPermaLink="false">2115957704342519879</guid>
-    </item>
-    <item>
-      <title>VAPOR PANDA Uses AI-Driven ARTEX to Scale a Global Espionage Campaign</title>
-      <link>https://www.crowdstrike.com/en-us/blog/vapor-panda-uses-artex-to-scale-global-campaign/</link>
-      <description>Chinese 🇨🇳 APT VAPOR PANDA weaponizes the ARTEX agentic AI framework alongside DeepSeek to hit 200+ organizations across 14 countries in 11 days, deploying the BLOODALCHEMY backdoor and scaling espionage at a pace no manual operation could match.
-
-Key details:
-
-- Starting October 17, 2026, a single ARTEX controller linked to VAPOR PANDA infrastructure directed simultaneous intrusions against foreign ministries in Latin America, Europe, Asia, and the Middle East; 19 U.S. 🇺🇸 organizations spanning pharma, semiconductor, defense, nuclear, and finance; and telecom providers in the U.S. 🇺🇸, Belgium 🇧🇪, and the Philippines 🇵🇭. CrowdStrike OverWatch confirmed post-exploitation at nine organizations. ARTEX transcripts recovered from an inadvertently exposed controller show the operator issuing instructions in Chinese 🇨🇳, timestamped in China 🇨🇳 Standard Time, labeled 【人类指令】 ("human instruction"), with commands to write web shells, extract domain admin passwords, and map endpoint sensor coverage.
-
-- The attack chains were multi-path and adaptive. At one U.S. 🇺🇸 pharma org, the agent chained an unsigned SAML assertion (T1606.002) with an XXE flaw (T1190) to query the cloud Instance Metadata Service (T1552.005), obtaining a role with command-execution reach over thousands of instances. At a second pharma org, the agent deployed web shells (T1505.003), abused an unauthenticated orchestration service for container root access, read LAPS passwords (T1555), and used resource-based constrained delegation to impersonate a privileged account (T1134.001). Against a Greek 🇬🇷 government entity, the operator fed the agent a 2022 mail server directory export containing unrotated authentication keys; the agent forged an admin token (T1606), read mailboxes (T1114.002), and pivoted internally via leaked VPN configs (T1078, T1133). Planning agents consumed roughly 1.4 billion input tokens in a single intrusion, indicating enormous automated throughput across the full operation.
-
-- BLOODALCHEMY, a backdoor first documented in October 2023, was deployed at a Middle East-based interior ministry and a Latin America-based foreign ministry. Delivery used DLL hijacking (T1574.001): a legitimate GameHook binary was renamed svchost.exe (T1036.005) to load graphics-hook-filter64.dll, which decrypted the payload graphics-hook_config.bin. The implant's internal project path is D:\ProjectX\Merman_New\. C2 domains: nginxmysql[.]com (45.153.126[.]223), sqlserver-sqlite[.]com (89.46.234[.]50), www.ddduuuppp[.]com (192.121.47[.]20). Hashes for all three files are in the IOC table in the report. C2 traffic was routed through Tor, SOCKS proxies, and a compromised relay (T1090.003), and tunneled via Chisel and SoftEther (T1572).
-
-- Sensor evasion was baked directly into the agentic workflow. The operator instructed agents to "find Windows machines in the domain without Falcon, judging by tasklist and folder listings" (T1518.001), using 猎鹰, PRC red-team slang for the CrowdStrike Falcon sensor. This means unprotected hosts are being systematically identified and prioritized for follow-on activity at machine speed, not discovered opportunistically by a human operator.
-
-Practitioner takeaway: hunt for ARTEX artifacts directly. The report specifies: command-line parameters containing artx or artex strings, artx-prefixed cloud role names, art18- administration-command comments in cloud logs, and the directory C:\ProgramData\artx5v\. Also audit for the BLOODALCHEMY triad: svchost.exe with a hash mismatch against the legitimate binary, graphics-hook-filter64.dll, and graphics-hook_config.bin in the same path. Rotate any signing keys, preauthentication keys, or service credentials that appeared in historical directory exports or backup data, including keys from 2022 or earlier. Enforce SAML signature validation and IMDSv2 now. IOCs and the full ATT&amp;CK technique table are in the CrowdStrike report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115942124956831965</description>
-      <content:encoded><![CDATA[<p>Chinese 🇨🇳 APT VAPOR PANDA weaponizes the ARTEX agentic AI framework alongside DeepSeek to hit 200+ organizations across 14 countries in 11 days, deploying the BLOODALCHEMY backdoor and scaling espionage at a pace no manual operation could match.</p><p>Key details:</p><p>- Starting October 17, 2026, a single ARTEX controller linked to VAPOR PANDA infrastructure directed simultaneous intrusions against foreign ministries in Latin America, Europe, Asia, and the Middle East; 19 U.S. 🇺🇸 organizations spanning pharma, semiconductor, defense, nuclear, and finance; and telecom providers in the U.S. 🇺🇸, Belgium 🇧🇪, and the Philippines 🇵🇭. CrowdStrike OverWatch confirmed post-exploitation at nine organizations. ARTEX transcripts recovered from an inadvertently exposed controller show the operator issuing instructions in Chinese 🇨🇳, timestamped in China 🇨🇳 Standard Time, labeled 【人类指令】 (&quot;human instruction&quot;), with commands to write web shells, extract domain admin passwords, and map endpoint sensor coverage.</p><p>- The attack chains were multi-path and adaptive. At one U.S. 🇺🇸 pharma org, the agent chained an unsigned SAML assertion (T1606.002) with an XXE flaw (T1190) to query the cloud Instance Metadata Service (T1552.005), obtaining a role with command-execution reach over thousands of instances. At a second pharma org, the agent deployed web shells (T1505.003), abused an unauthenticated orchestration service for container root access, read LAPS passwords (T1555), and used resource-based constrained delegation to impersonate a privileged account (T1134.001). Against a Greek 🇬🇷 government entity, the operator fed the agent a 2022 mail server directory export containing unrotated authentication keys; the agent forged an admin token (T1606), read mailboxes (T1114.002), and pivoted internally via leaked VPN configs (T1078, T1133). Planning agents consumed roughly 1.4 billion input tokens in a single intrusion, indicating enormous automated throughput across the full operation.</p><p>- BLOODALCHEMY, a backdoor first documented in October 2023, was deployed at a Middle East-based interior ministry and a Latin America-based foreign ministry. Delivery used DLL hijacking (T1574.001): a legitimate GameHook binary was renamed svchost.exe (T1036.005) to load graphics-hook-filter64.dll, which decrypted the payload graphics-hook_config.bin. The implant&#x27;s internal project path is D:\ProjectX\Merman_New\. C2 domains: nginxmysql[.]com (45.153.126[.]223), sqlserver-sqlite[.]com (89.46.234[.]50), www.ddduuuppp[.]com (192.121.47[.]20). Hashes for all three files are in the IOC table in the report. C2 traffic was routed through Tor, SOCKS proxies, and a compromised relay (T1090.003), and tunneled via Chisel and SoftEther (T1572).</p><p>- Sensor evasion was baked directly into the agentic workflow. The operator instructed agents to &quot;find Windows machines in the domain without Falcon, judging by tasklist and folder listings&quot; (T1518.001), using 猎鹰, PRC red-team slang for the CrowdStrike Falcon sensor. This means unprotected hosts are being systematically identified and prioritized for follow-on activity at machine speed, not discovered opportunistically by a human operator.</p><p>Practitioner takeaway: hunt for ARTEX artifacts directly. The report specifies: command-line parameters containing artx or artex strings, artx-prefixed cloud role names, art18- administration-command comments in cloud logs, and the directory C:\ProgramData\artx5v\. Also audit for the BLOODALCHEMY triad: svchost.exe with a hash mismatch against the legitimate binary, graphics-hook-filter64.dll, and graphics-hook_config.bin in the same path. Rotate any signing keys, preauthentication keys, or service credentials that appeared in historical directory exports or backup data, including keys from 2022 or earlier. Enforce SAML signature validation and IMDSv2 now. IOCs and the full ATT&amp;CK technique table are in the CrowdStrike report.</p><p>#DFIR_Radar</p><p><a href="https://www.crowdstrike.com/en-us/blog/vapor-panda-uses-artex-to-scale-global-campaign/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115942124956831965">View on X</a></p>]]></content:encoded>
-      <dc:creator>CrowdStrike</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115942124956831965</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2115942124956831965">DFIR Radar</source>
-      <pubDate>Thu, 29 Oct 2026 23:01:30 +0000</pubDate>
-      <guid isPermaLink="false">2115942124956831965</guid>
     </item>
   </channel>
 </rss>
