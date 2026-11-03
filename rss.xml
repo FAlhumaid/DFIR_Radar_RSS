@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Nov 2026 03:01:40 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 04:01:30 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Bitter Deploys PapRAT in Asian Cyber-Espionage Campaign</title>
+      <link>https://www.infosecurity-magazine.com/news/paprat-bitter-cyberespionage/</link>
+      <description>Bitter (TA397) deploys PapRAT and WmRAT via LNK, VHDX, and MSI lures targeting South Asian organizations, with one chain using only ftp.exe and curl. Hunt scheduled tasks created by ftp.exe and curl beaconing to unknown hosts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117467175476937120</description>
+      <content:encoded><![CDATA[<p>Bitter (TA397) deploys PapRAT and WmRAT via LNK, VHDX, and MSI lures targeting South Asian organizations, with one chain using only ftp.exe and curl. Hunt scheduled tasks created by ftp.exe and curl beaconing to unknown hosts.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/paprat-bitter-cyberespionage/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117467175476937120">View on X</a></p>]]></content:encoded>
+      <dc:creator>InfoSecurity Magazine</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117467175476937120</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2117467175476937120">DFIR Radar</source>
+      <pubDate>Tue, 03 Nov 2026 04:01:30 +0000</pubDate>
+      <guid isPermaLink="false">2117467175476937120</guid>
+    </item>
     <item>
       <title>HTTP2Shell: What the Critical Brotli Vulnerability Means for WordPress Sites</title>
       <link>https://www.wordfence.com/blog/2026/11/http2shell-wordpress-brotli/</link>
@@ -2444,34 +2458,6 @@ Practitioner takeaway: If your application accepts SVG uploads and routes them t
       <source url="https://x.com/DFIR_Radar/status/2115655826807595438">DFIR Radar</source>
       <pubDate>Thu, 29 Oct 2026 04:03:51 +0000</pubDate>
       <guid isPermaLink="false">2115655826807595438</guid>
-    </item>
-    <item>
-      <title>Exploiting Reversing (ER) series: article 11 | Windows: Missing Bounds in the Print Spooler</title>
-      <link>https://exploitreversing.com/2026/10/27/exploiting-reversing-er-series-article-11/</link>
-      <description>An unpatched heap overflow in Windows Print Spooler reaches SYSTEM without crashing the service, disclosed publicly after Microsoft declined to patch it urgently because the PoC requires admin rights.
-
-Key details:
-
-- The bug is a CWE-122 heap overflow in the form-enumeration code path: InternalEnumForms calls CopyIniFormToFormInfo, which calls PackStrings, which calls memcpy without a proper bounds check. The flaw sits in spoolsv.exe, a user-mode service running as SYSTEM, making it a privilege-escalation and lateral-movement-relevant target even though initial access requires administrative rights on the local machine.
-
-- Exploitation is documented across four stages in the 60-page report: groom the heap, corrupt an adjacent allocation, gain control of execution, and execute a payload. The process never crashes: spoolsv.exe keeps running after exploitation and the planted spooler form is cleaned up, meaning the attack is designed to leave minimal trace and no service disruption to trigger alerting.
-
-- Disclosure timeline matters here. Alexandre Borges submitted this to MSRC in March 2026. MSRC assessed it as below the bar for immediate servicing due to the admin-rights prerequisite. Borges notified MSRC in advance that public write-up and a working demo video would follow. As of October 2026, the bug remains unpatched and confirmed working against current mainstream and Windows Canary builds. There is no CVE ID or CVSS score assigned in the report.
-
-- The attack is user-mode, not kernel, which changes the artifact profile. Exploitation runs entirely within the spoolsv.exe process space. No kernel crash dump, no Blue Screen, no driver load event to catch. Evidence of abuse would need to come from process-level telemetry: unusual child processes spawned by spoolsv.exe, unexpected network connections originating from it, or anomalous form additions and deletions in spooler state.
-
-- The full 60-page technical write-up including the exploitation methodology is publicly available as a free PDF, meaning capability development time for any threat actor comfortable with heap exploitation is now significantly shorter.
-
-Practitioner takeaway: since spoolsv.exe stays alive and the planted form is removed, you will not catch this on service crash or form persistence. Hunt for spoolsv.exe spawning unexpected child processes or making outbound connections, which your EDR process-creation and network telemetry should surface. If your environment does not need Print Spooler running, this is a renewed reason to disable it via the Stop-Service and Set-Service commands or Group Policy, a mitigation Microsoft has recommended for Spooler-class bugs since PrintNightmare. Where Spooler must run, monitor for new form additions via the Windows Spooler API and baseline what your environment's spoolsv.exe process tree normally looks like.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2115640582164844825</description>
-      <content:encoded><![CDATA[<p>An unpatched heap overflow in Windows Print Spooler reaches SYSTEM without crashing the service, disclosed publicly after Microsoft declined to patch it urgently because the PoC requires admin rights.</p><p>Key details:</p><p>- The bug is a CWE-122 heap overflow in the form-enumeration code path: InternalEnumForms calls CopyIniFormToFormInfo, which calls PackStrings, which calls memcpy without a proper bounds check. The flaw sits in spoolsv.exe, a user-mode service running as SYSTEM, making it a privilege-escalation and lateral-movement-relevant target even though initial access requires administrative rights on the local machine.</p><p>- Exploitation is documented across four stages in the 60-page report: groom the heap, corrupt an adjacent allocation, gain control of execution, and execute a payload. The process never crashes: spoolsv.exe keeps running after exploitation and the planted spooler form is cleaned up, meaning the attack is designed to leave minimal trace and no service disruption to trigger alerting.</p><p>- Disclosure timeline matters here. Alexandre Borges submitted this to MSRC in March 2026. MSRC assessed it as below the bar for immediate servicing due to the admin-rights prerequisite. Borges notified MSRC in advance that public write-up and a working demo video would follow. As of October 2026, the bug remains unpatched and confirmed working against current mainstream and Windows Canary builds. There is no CVE ID or CVSS score assigned in the report.</p><p>- The attack is user-mode, not kernel, which changes the artifact profile. Exploitation runs entirely within the spoolsv.exe process space. No kernel crash dump, no Blue Screen, no driver load event to catch. Evidence of abuse would need to come from process-level telemetry: unusual child processes spawned by spoolsv.exe, unexpected network connections originating from it, or anomalous form additions and deletions in spooler state.</p><p>- The full 60-page technical write-up including the exploitation methodology is publicly available as a free PDF, meaning capability development time for any threat actor comfortable with heap exploitation is now significantly shorter.</p><p>Practitioner takeaway: since spoolsv.exe stays alive and the planted form is removed, you will not catch this on service crash or form persistence. Hunt for spoolsv.exe spawning unexpected child processes or making outbound connections, which your EDR process-creation and network telemetry should surface. If your environment does not need Print Spooler running, this is a renewed reason to disable it via the Stop-Service and Set-Service commands or Group Policy, a mitigation Microsoft has recommended for Spooler-class bugs since PrintNightmare. Where Spooler must run, monitor for new form additions via the Windows Spooler API and baseline what your environment&#x27;s spoolsv.exe process tree normally looks like.</p><p>#DFIR_Radar</p><p><a href="https://exploitreversing.com/2026/10/27/exploiting-reversing-er-series-article-11/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2115640582164844825">View on X</a></p>]]></content:encoded>
-      <dc:creator>Exploit Reversing</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2115640582164844825</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2115640582164844825">DFIR Radar</source>
-      <pubDate>Thu, 29 Oct 2026 03:03:16 +0000</pubDate>
-      <guid isPermaLink="false">2115640582164844825</guid>
     </item>
   </channel>
 </rss>
