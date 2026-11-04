@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 04 Nov 2026 07:02:32 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 Nov 2026 08:02:25 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Black Hat USA 2026: Apps Leaking PII in the Clear</title>
+      <link>https://corelight.com/blog/black-hat-usa-2026-apps-leaking-pii-in-the-clear-corelight</link>
+      <description>Black Hat USA 🇺🇸 2026 NOC caught legitimate apps leaking PII, SIP audio, and live video over cleartext HTTP, FTP, and port 5060. Filter for cleartext protocols and GET requests with access_token parameters.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117890190026969489</description>
+      <content:encoded><![CDATA[<p>Black Hat USA 🇺🇸 2026 NOC caught legitimate apps leaking PII, SIP audio, and live video over cleartext HTTP, FTP, and port 5060. Filter for cleartext protocols and GET requests with access_token parameters.</p><p>#DFIR_Radar</p><p><a href="https://corelight.com/blog/black-hat-usa-2026-apps-leaking-pii-in-the-clear-corelight">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117890190026969489">View on X</a></p>]]></content:encoded>
+      <dc:creator>Corelight</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117890190026969489</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2117890190026969489">DFIR Radar</source>
+      <pubDate>Wed, 04 Nov 2026 08:02:25 +0000</pubDate>
+      <guid isPermaLink="false">2117890190026969489</guid>
+    </item>
     <item>
       <title>Google Warns LLMjacking Attacks Are Costing Some Enterprises Up to $1 Million in Cloud Charges</title>
       <link>https://thehackernews.com/2026/11/google-warns-llmjacking-attacks-are.html</link>
@@ -2214,34 +2228,6 @@ Hunt now: check for files owned by the git user in /tmp, unexpected child proces
       <source url="https://x.com/DFIR_Radar/status/2116093687012741430">DFIR Radar</source>
       <pubDate>Fri, 30 Oct 2026 09:03:45 +0000</pubDate>
       <guid isPermaLink="false">2116093687012741430</guid>
-    </item>
-    <item>
-      <title>DefenderKiller: How Vulnerable Drivers Are Being Abused to Disable Endpoint Security</title>
-      <link>https://flashpoint.io/blog/defenderkiller-how-vulnerable-drivers-are-being-abused-to-disable-endpoint-security/</link>
-      <description>DefenderKiller abuses a 2011-era Microsoft driver, still loadable on Windows 11 today, to terminate EDR and security processes via a kernel-level BYOVD technique with 13 public samples already in the wild.
-
-Key findings:
-
-- The target is KSLDriver.sys version 1.1.0013.0, a digitally signed Microsoft driver from 2011 associated with malware protection infrastructure. Despite its age, Windows driver verification accepts it on the latest Windows 11 builds, giving attackers a kernel foothold without triggering signature-based driver block policies. SHA-256: d5764d24e78914ab2a9db6b24e323342d0b37998f43add1a9e49b00992b0d645.
-
-- The bypass is a registry manipulation trick, not a memory corruption exploit. Before starting the driver service, the attacker writes a controlled process image path into the AllowedProcessName registry value under HKLM\SYSTEM\CurrentControlSet\Services\DefenderKiller. The driver then accepts IOCTL requests from that attacker-controlled process, which passes a target PID and invokes ZwTerminateProcess() in kernel context, cleanly killing protected security processes.
-
-- Exploitation requires administrative or SYSTEM privileges to create and configure the driver service, but that bar is routinely cleared via local privilege escalation in post-compromise scenarios. The technique lands squarely in Bring Your Own Vulnerable Driver territory: a legitimate, signed binary doing the attacker's dirty work inside the kernel.
-
-- Researcher Jehad Abudagga (redteamfortress) published the original POC on June 29, 2026. Flashpoint has since identified 13 publicly available samples incorporating the DefenderKiller technique, including obfuscated variants, indicating active modification of the original code. Attribution to confirmed intrusions has not been established, but the presence of obfuscated derivatives signals the technique is being weaponized beyond a raw POC.
-
-- Flashpoint notes that advances in large language models may be lowering the barrier to BYOVD and EDR killer development by making kernel-mode code more accessible to a broader pool of actors.
-
-Hunt for the service name DefenderKiller and the registry key HKLM\SYSTEM\CurrentControlSet\Services\DefenderKiller, paying particular attention to the AllowedProcessName and ImagePath values. Correlate unexpected writes to those values with driver load events and subsequent security process terminations. The driver hash above can seed a block rule or a retrospective search across endpoint telemetry and file reputation logs. IOCs and artifacts are in the Flashpoint report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116078505440194718</description>
-      <content:encoded><![CDATA[<p>DefenderKiller abuses a 2011-era Microsoft driver, still loadable on Windows 11 today, to terminate EDR and security processes via a kernel-level BYOVD technique with 13 public samples already in the wild.</p><p>Key findings:</p><p>- The target is KSLDriver.sys version 1.1.0013.0, a digitally signed Microsoft driver from 2011 associated with malware protection infrastructure. Despite its age, Windows driver verification accepts it on the latest Windows 11 builds, giving attackers a kernel foothold without triggering signature-based driver block policies. SHA-256: d5764d24e78914ab2a9db6b24e323342d0b37998f43add1a9e49b00992b0d645.</p><p>- The bypass is a registry manipulation trick, not a memory corruption exploit. Before starting the driver service, the attacker writes a controlled process image path into the AllowedProcessName registry value under HKLM\SYSTEM\CurrentControlSet\Services\DefenderKiller. The driver then accepts IOCTL requests from that attacker-controlled process, which passes a target PID and invokes ZwTerminateProcess() in kernel context, cleanly killing protected security processes.</p><p>- Exploitation requires administrative or SYSTEM privileges to create and configure the driver service, but that bar is routinely cleared via local privilege escalation in post-compromise scenarios. The technique lands squarely in Bring Your Own Vulnerable Driver territory: a legitimate, signed binary doing the attacker&#x27;s dirty work inside the kernel.</p><p>- Researcher Jehad Abudagga (redteamfortress) published the original POC on June 29, 2026. Flashpoint has since identified 13 publicly available samples incorporating the DefenderKiller technique, including obfuscated variants, indicating active modification of the original code. Attribution to confirmed intrusions has not been established, but the presence of obfuscated derivatives signals the technique is being weaponized beyond a raw POC.</p><p>- Flashpoint notes that advances in large language models may be lowering the barrier to BYOVD and EDR killer development by making kernel-mode code more accessible to a broader pool of actors.</p><p>Hunt for the service name DefenderKiller and the registry key HKLM\SYSTEM\CurrentControlSet\Services\DefenderKiller, paying particular attention to the AllowedProcessName and ImagePath values. Correlate unexpected writes to those values with driver load events and subsequent security process terminations. The driver hash above can seed a block rule or a retrospective search across endpoint telemetry and file reputation logs. IOCs and artifacts are in the Flashpoint report.</p><p>#DFIR_Radar</p><p><a href="https://flashpoint.io/blog/defenderkiller-how-vulnerable-drivers-are-being-abused-to-disable-endpoint-security/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116078505440194718">View on X</a></p>]]></content:encoded>
-      <dc:creator>Flashpoint Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116078505440194718</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2116078505440194718">DFIR Radar</source>
-      <pubDate>Fri, 30 Oct 2026 08:03:25 +0000</pubDate>
-      <guid isPermaLink="false">2116078505440194718</guid>
     </item>
   </channel>
 </rss>
