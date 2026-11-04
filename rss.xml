@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 04 Nov 2026 03:02:17 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 Nov 2026 04:02:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Network Forensics: Extracting Files and Credentials from Network Traffic with BruteShark</title>
+      <link>https://hackers-arise.com/network-forensics-extracting-files-and-credentials-from-network-traffic-with-bruteshark/</link>
+      <description>BruteShark parses PCAP and PCAPNG files to extract credentials, hashes, DNS, and files from captured traffic. Run brutesharkcli -m Credentials against captured dumps; output saves in hashcat format.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117829861720863106</description>
+      <content:encoded><![CDATA[<p>BruteShark parses PCAP and PCAPNG files to extract credentials, hashes, DNS, and files from captured traffic. Run brutesharkcli -m Credentials against captured dumps; output saves in hashcat format.</p><p>#DFIR_Radar</p><p><a href="https://hackers-arise.com/network-forensics-extracting-files-and-credentials-from-network-traffic-with-bruteshark/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117829861720863106">View on X</a></p>]]></content:encoded>
+      <dc:creator>Hackers Arise</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2117829861720863106</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2117829861720863106">DFIR Radar</source>
+      <pubDate>Wed, 04 Nov 2026 04:02:41 +0000</pubDate>
+      <guid isPermaLink="false">2117829861720863106</guid>
+    </item>
     <item>
       <title>cPGuard Update Channel Hijacked to Backdoor Linux Servers and Collect Password Hashes</title>
       <link>https://thehackernews.com/2026/11/cpguard-update-channel-hijacked-to.html</link>
@@ -2244,34 +2258,6 @@ Practitioner takeaway: When investigating a suspected Amatera compromise, scope 
       <source url="https://x.com/DFIR_Radar/status/2116033265140445649">DFIR Radar</source>
       <pubDate>Fri, 30 Oct 2026 05:03:39 +0000</pubDate>
       <guid isPermaLink="false">2116033265140445649</guid>
-    </item>
-    <item>
-      <title>Threat Researcher’s Notebook: How Attackers Redirect Crypto Payments</title>
-      <link>https://www.reversinglabs.com/blog/threat-researchers-notebook-how-attackers-redirect-crypto-payments</link>
-      <description>Two Clipbanker families, AnimateClipper and Efimer, stole cryptocurrency by silently swapping wallet addresses in the clipboard, with a likely successor called CryptoBandit emerging in 2026.
-
-Key findings:
-
-- AnimateClipper (also called ZigClipper, referencing its use of the Zig compiler) monitors the clipboard for patterns matching cryptocurrency wallet address formats, then replaces them with attacker-controlled addresses in the same ecosystem. It was first seen in January 2026, peaked in July 2026, and was frequently distributed alongside infostealers via fake software installs and ClickFix lures. The ClickFix angle is significant: users are socially engineered into running PowerShell, which is not a legitimate identity verification step and should be treated as a red flag on any endpoint.
-
-- Efimer goes a step further than simple pattern matching: it tries to match the first or last one to three digits of the original address depending on the cryptocurrency type, so a quick sanity check of the beginning or end of a pasted address will not catch the swap. Ethereum addresses are identified by the leading 0x character and a total length of 40 to 44 characters. Bitcoin and Monero addresses are similarly fingerprinted. Efimer also exfiltrates clipboard contents and takes screenshots, connects to C2 exclusively over TOR using .onion domains (specific onion addresses in the IOC list below), and limits C2 contact to timed intervals to reduce network noise. Code is protected with Pyarmor, the payload is XOR-encrypted, and embedded JavaScript is obfuscated. Efimer shuts itself down when it detects analysis environments or tools. Builds are generated hourly, producing roughly 24 fresh samples per day, which means signature-based detection degrades rapidly.
-
-- CryptoBandit emerged in 2026 and shares digit-matching logic, C2 infrastructure, file structure, and anti-analysis features with Efimer, suggesting it is a direct evolution of that family. The report cites code overlap as the basis for this attribution.
-
-- Distribution vectors across both families include phishing emails, fake torrent sites, fake software packages (lure names in the IOC list include IIPaint Software, VisionCraft Labs, and Composer Dependency Manager for PHP), and ClickFix pages. AnimateClipper was also dropped alongside infostealers, meaning a Clipbanker infection should prompt a broader hunt for credential theft activity on the same host.
-
-- The report includes a substantial IOC list covering dozens of SHA-256 hashes (including a 24-hour sample set and September 2026 samples), payload URLs, staging domains such as celebration-internet[.]cc, static.quorashift[.]cc, and kffd3.vexlatech[.]cc, download URLs from hosts including hxxp://91.92.47[.]8/quis.exe and hxxp://64.89.161[.]122/SW.exe, and Efimer's TOR C2 endpoints including hxxp[://]hek5ensy7wqqls2cafflihs7sdqr4dwxux47vp3k7pgffeasxsfeeyid[.]onion/recvf.php and hxxp[://]swjxev2rvxfivi2wvkxre5vaxkjeepxzxva4u4ydm2qbkbakh6wnyead[.]onion/core/repla.php.
-
-Practitioner takeaway: Hunt clipboard-monitoring behavior by looking for processes that open a handle to the clipboard repeatedly outside of user-initiated context, particularly processes with no legitimate UI ancestry. For Efimer specifically, outbound connections to .onion addresses from non-browser processes are a strong signal, and Pyarmor-protected Python alongside XOR-encrypted payloads are consistent staging artifacts to look for on disk. Verify the IOC list in the ReversingLabs report before ingesting hashes given the volume of hourly-generated samples. Any confirmed Clipbanker hit should expand scope to include infostealer hunting on the same host given AnimateClipper's documented co-delivery pattern.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116018189348073679</description>
-      <content:encoded><![CDATA[<p>Two Clipbanker families, AnimateClipper and Efimer, stole cryptocurrency by silently swapping wallet addresses in the clipboard, with a likely successor called CryptoBandit emerging in 2026.</p><p>Key findings:</p><p>- AnimateClipper (also called ZigClipper, referencing its use of the Zig compiler) monitors the clipboard for patterns matching cryptocurrency wallet address formats, then replaces them with attacker-controlled addresses in the same ecosystem. It was first seen in January 2026, peaked in July 2026, and was frequently distributed alongside infostealers via fake software installs and ClickFix lures. The ClickFix angle is significant: users are socially engineered into running PowerShell, which is not a legitimate identity verification step and should be treated as a red flag on any endpoint.</p><p>- Efimer goes a step further than simple pattern matching: it tries to match the first or last one to three digits of the original address depending on the cryptocurrency type, so a quick sanity check of the beginning or end of a pasted address will not catch the swap. Ethereum addresses are identified by the leading 0x character and a total length of 40 to 44 characters. Bitcoin and Monero addresses are similarly fingerprinted. Efimer also exfiltrates clipboard contents and takes screenshots, connects to C2 exclusively over TOR using .onion domains (specific onion addresses in the IOC list below), and limits C2 contact to timed intervals to reduce network noise. Code is protected with Pyarmor, the payload is XOR-encrypted, and embedded JavaScript is obfuscated. Efimer shuts itself down when it detects analysis environments or tools. Builds are generated hourly, producing roughly 24 fresh samples per day, which means signature-based detection degrades rapidly.</p><p>- CryptoBandit emerged in 2026 and shares digit-matching logic, C2 infrastructure, file structure, and anti-analysis features with Efimer, suggesting it is a direct evolution of that family. The report cites code overlap as the basis for this attribution.</p><p>- Distribution vectors across both families include phishing emails, fake torrent sites, fake software packages (lure names in the IOC list include IIPaint Software, VisionCraft Labs, and Composer Dependency Manager for PHP), and ClickFix pages. AnimateClipper was also dropped alongside infostealers, meaning a Clipbanker infection should prompt a broader hunt for credential theft activity on the same host.</p><p>- The report includes a substantial IOC list covering dozens of SHA-256 hashes (including a 24-hour sample set and September 2026 samples), payload URLs, staging domains such as celebration-internet[.]cc, static.quorashift[.]cc, and kffd3.vexlatech[.]cc, download URLs from hosts including hxxp://91.92.47[.]8/quis.exe and hxxp://64.89.161[.]122/SW.exe, and Efimer&#x27;s TOR C2 endpoints including hxxp[://]hek5ensy7wqqls2cafflihs7sdqr4dwxux47vp3k7pgffeasxsfeeyid[.]onion/recvf.php and hxxp[://]swjxev2rvxfivi2wvkxre5vaxkjeepxzxva4u4ydm2qbkbakh6wnyead[.]onion/core/repla.php.</p><p>Practitioner takeaway: Hunt clipboard-monitoring behavior by looking for processes that open a handle to the clipboard repeatedly outside of user-initiated context, particularly processes with no legitimate UI ancestry. For Efimer specifically, outbound connections to .onion addresses from non-browser processes are a strong signal, and Pyarmor-protected Python alongside XOR-encrypted payloads are consistent staging artifacts to look for on disk. Verify the IOC list in the ReversingLabs report before ingesting hashes given the volume of hourly-generated samples. Any confirmed Clipbanker hit should expand scope to include infostealer hunting on the same host given AnimateClipper&#x27;s documented co-delivery pattern.</p><p>#DFIR_Radar</p><p><a href="https://www.reversinglabs.com/blog/threat-researchers-notebook-how-attackers-redirect-crypto-payments">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116018189348073679">View on X</a></p>]]></content:encoded>
-      <dc:creator>ReversingLabs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116018189348073679</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2116018189348073679">DFIR Radar</source>
-      <pubDate>Fri, 30 Oct 2026 04:03:45 +0000</pubDate>
-      <guid isPermaLink="false">2116018189348073679</guid>
     </item>
   </channel>
 </rss>
