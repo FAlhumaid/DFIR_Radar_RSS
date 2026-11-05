@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Nov 2026 15:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2026 16:02:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>| …</title>
+      <link>https://detect.fyi/-add55da050ad?source=rss----d5fd8f494f6a---4</link>
+      <description>Attackers are abusing stolen Entra ID application client secrets to authenticate as legitimate workloads, bypassing user-centric identity controls entirely and potentially accessing Graph, Key Vault, SharePoint, and Azure DevOps.
+
+Key details:
+
+- The attack vector is non-human identity: threat actors using stolen client secrets authenticate as service principals, not users, meaning no password spray, no MFA to bypass, and no user sign-in to alert on. Depending on permissions granted to the compromised app, often years ago and never reviewed, the attacker lands with the same access as the application itself.
+
+- Two Entra ID error codes surface attacker reconnaissance and credential stuffing against application secrets: AADSTS7000215 (invalid client secret) and AADSTS7000222 (expired client secret). These codes appear in both EntraIdSignInEvents and EntraIdSpnSignInEvents in Microsoft Defender XDR, and the hunt query published in the report unions both tables to cover the full identity surface.
+
+- The KQL hunt filters both tables for those two error codes over the last seven days, tags each result with its source table (UserSignIns or ServicePrincipalSignIns), and enriches with Application, IPAddress, Country, and an ErrorDescription field derived via a case statement. The full query is in the report.
+
+- Risk triage is not binary: a single failure from an internal deployment pipeline is noise. The signal is clusters of failures from unusual source IPs, failures followed by successful authentications from the same IP or application, and applications with broad permissions that have never been audited. The report explicitly deprioritizes static IP-based IOCs because they rotate; the focus is indicators of attack behavior.
+
+- Service principals are a persistent blind spot in identity monitoring. Most detection engineering effort targets regular Entra ID users. If your org uses service principals, they are part of the identity attack surface and need coverage in authentication hunting, even if the detection logic differs from user-focused rules.
+
+Practitioner takeaway: Run the union query from the report against EntraIdSignInEvents and EntraIdSpnSignIns, then pivot on any IP with repeated failures that also has a successful authentication event in the same window. From there, pull the application's current API permissions in Entra ID and check audit logs for resource access after the successful auth. That sequence, failure cluster, then success, then permission scope, then downstream access, is the investigation chain that separates a stale config from an active intrusion.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118373274249990259</description>
+      <content:encoded><![CDATA[<p>Attackers are abusing stolen Entra ID application client secrets to authenticate as legitimate workloads, bypassing user-centric identity controls entirely and potentially accessing Graph, Key Vault, SharePoint, and Azure DevOps.</p><p>Key details:</p><p>- The attack vector is non-human identity: threat actors using stolen client secrets authenticate as service principals, not users, meaning no password spray, no MFA to bypass, and no user sign-in to alert on. Depending on permissions granted to the compromised app, often years ago and never reviewed, the attacker lands with the same access as the application itself.</p><p>- Two Entra ID error codes surface attacker reconnaissance and credential stuffing against application secrets: AADSTS7000215 (invalid client secret) and AADSTS7000222 (expired client secret). These codes appear in both EntraIdSignInEvents and EntraIdSpnSignInEvents in Microsoft Defender XDR, and the hunt query published in the report unions both tables to cover the full identity surface.</p><p>- The KQL hunt filters both tables for those two error codes over the last seven days, tags each result with its source table (UserSignIns or ServicePrincipalSignIns), and enriches with Application, IPAddress, Country, and an ErrorDescription field derived via a case statement. The full query is in the report.</p><p>- Risk triage is not binary: a single failure from an internal deployment pipeline is noise. The signal is clusters of failures from unusual source IPs, failures followed by successful authentications from the same IP or application, and applications with broad permissions that have never been audited. The report explicitly deprioritizes static IP-based IOCs because they rotate; the focus is indicators of attack behavior.</p><p>- Service principals are a persistent blind spot in identity monitoring. Most detection engineering effort targets regular Entra ID users. If your org uses service principals, they are part of the identity attack surface and need coverage in authentication hunting, even if the detection logic differs from user-focused rules.</p><p>Practitioner takeaway: Run the union query from the report against EntraIdSignInEvents and EntraIdSpnSignIns, then pivot on any IP with repeated failures that also has a successful authentication event in the same window. From there, pull the application&#x27;s current API permissions in Entra ID and check audit logs for resource access after the successful auth. That sequence, failure cluster, then success, then permission scope, then downstream access, is the investigation chain that separates a stale config from an active intrusion.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/-add55da050ad?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118373274249990259">View on X</a></p>]]></content:encoded>
+      <dc:creator>Detect FYI</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118373274249990259</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2118373274249990259">DFIR Radar</source>
+      <pubDate>Thu, 05 Nov 2026 16:02:01 +0000</pubDate>
+      <guid isPermaLink="false">2118373274249990259</guid>
+    </item>
     <item>
       <title>Supply chain attack: BO Team in a software developer's infrastructure</title>
       <link>https://ics-cert.kaspersky.com/publications/reports/2026/11/05/supply-chain-attack-bo-team-in-a-software-developers-infrastructure/?utm_source=ics-cert.kaspersky.com&amp;utm_medium=rss&amp;utm_campaign=main</link>
@@ -2188,20 +2216,6 @@ Practitioners on incident response or threat hunting for this should start with 
       <source url="https://x.com/DFIR_Radar/status/2116591642140451078">DFIR Radar</source>
       <pubDate>Sat, 31 Oct 2026 18:02:27 +0000</pubDate>
       <guid isPermaLink="false">2116591642140451078</guid>
-    </item>
-    <item>
-      <title>How to Export Advanced Hunting Results from Microsoft Defender XDR</title>
-      <link>https://socprime.com/blog/how-to-export-advanced-hunting-results-from-microsoft-defender-xdr/</link>
-      <description>Microsoft Defender XDR Advanced Hunting retains 30 days; export results via Microsoft Graph's runHuntingQuery endpoint with ThreatHunting[.]Read.All permission. Pivot to Sentinel for older data.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116576536614535312</description>
-      <content:encoded><![CDATA[<p>Microsoft Defender XDR Advanced Hunting retains 30 days; export results via Microsoft Graph&#x27;s runHuntingQuery endpoint with ThreatHunting[.]Read.All permission. Pivot to Sentinel for older data.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-advanced-hunting-results-from-microsoft-defender-xdr/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116576536614535312">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116576536614535312</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2116576536614535312">DFIR Radar</source>
-      <pubDate>Sat, 31 Oct 2026 17:02:25 +0000</pubDate>
-      <guid isPermaLink="false">2116576536614535312</guid>
     </item>
   </channel>
 </rss>
