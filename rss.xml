@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Nov 2026 12:02:07 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2026 13:02:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Lindnor Backdoor and Glut of Security Killers Used in Ransomware Attack on U.S. Org</title>
+      <link>https://www.security.com/threat-intelligence/lindnor-new-backdoor-anubis-ransomware</link>
+      <description>Anubis-focused ransomware crew deploys previously undocumented Lindnor backdoor and 13 security-killer tools in a single hour, targeting a U.S. 🇺🇸 org running Microsoft SQL Server in October 2026.
+
+Key details:
+
+- Backdoor.Lindnor, the custom implant at the center of this attack, masqueraded as a Chrome component unpacker (healthcontroller64.exe) on one SQL Server and as a VMware helper (svchelper.exe) on another, running as a service in both cases. It beaconed system metadata including process ID, OS version, file path, computer name, username, domain, and logon server to a primary C2 and a fallback, both over port 443. C2s: msrcontrib[.]com and cfgsync-relay.eastus.cloudapp[.]azure[.]com. Three Lindnor hashes are in the report (fc200686175559f4544a5de826905f09a68476d889690a3be40ac32356790cb8, 5d2dd9caf2ae4a5083dbec16e688040456cdbc31eaeecbab78188e322ed0415b, ad9575a9ef2dcc9d2fd2a24376c418549d4b3db5564c22b20081d33cf7629e43). The same backdoor appeared on two other unrelated organizations without ransomware follow-through, suggesting it may serve as a persistent staging implant across separate operations.
+
+- Within roughly an hour the attackers dropped at least 13 executables targeting security products, 11 of them previously unpublished, plus 5 publicly known vulnerable drivers (havoc.sys, monprocessex.sys, xhunter1.sys, bdapiutil64.sys, fly.sys) for BYOVD kernel-level access. Two tools, gbbsym.exe and symgooq.exe, impersonated Symantec software and accepted a -l switch to list kernel callbacks and a -d switch to remove them. Only huntreagent.exe and s1.exe ran unblocked; both share the same file size but carry different hashes, suggesting two builds of one tool.
+
+- The attackers registered AnyDesk as a Safe Mode with Networking service using: reg.exe add HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\Network\AnyDesk /ve /t REG_SZ /d Service /f. The dedicated tool safemode.exe (hash 47a864736764112d7897c76e56d51111ce75b3e46fdbac6933df8a5b29507d17) automated this. A new local account was created and added to a local group alongside this. Because security software does not fully operate in Safe Mode, this gives the BYOVD drivers a clean window to strip kernel callbacks and disable protections before full encryption.
+
+- The Anubis payload (iservice.exe, e69b882218fa2a19fd351741874bfcd10a6ae91076e6a8483795e0e357f8d026) was blocked before execution. Had it run, it appends .anubis to encrypted files and drops ransom notes named restore files.txt and restore files.html. It also carries an optional wiper mode that empties file contents entirely rather than encrypting them. Hawkmoth, the RaaS operator behind Anubis, rebranded from Sphinx ransomware in December 2024 with the payload largely unchanged. The group has claimed roughly 96 victims in the past 12 months, 52% of them in the U.S..
+
+Practitioner takeaway: Initial access was not identified, but both affected machines were Microsoft SQL Servers, making them a natural pivot point for initial triage. Hunt for services named or hosting healthcontroller64.exe or svchelper.exe in Chrome or VMware directory paths, and check for the HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\Network\AnyDesk registry key as a high-confidence indicator of Safe Mode persistence staging. Any of the five named vulnerable drivers loaded from non-standard paths alongside a new local account creation should be treated as a confirmed pre-ransomware pattern. Full IOCs and file hashes are in the Symantec report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118327999112094159</description>
+      <content:encoded><![CDATA[<p>Anubis-focused ransomware crew deploys previously undocumented Lindnor backdoor and 13 security-killer tools in a single hour, targeting a U.S. 🇺🇸 org running Microsoft SQL Server in October 2026.</p><p>Key details:</p><p>- Backdoor.Lindnor, the custom implant at the center of this attack, masqueraded as a Chrome component unpacker (healthcontroller64.exe) on one SQL Server and as a VMware helper (svchelper.exe) on another, running as a service in both cases. It beaconed system metadata including process ID, OS version, file path, computer name, username, domain, and logon server to a primary C2 and a fallback, both over port 443. C2s: msrcontrib[.]com and cfgsync-relay.eastus.cloudapp[.]azure[.]com. Three Lindnor hashes are in the report (fc200686175559f4544a5de826905f09a68476d889690a3be40ac32356790cb8, 5d2dd9caf2ae4a5083dbec16e688040456cdbc31eaeecbab78188e322ed0415b, ad9575a9ef2dcc9d2fd2a24376c418549d4b3db5564c22b20081d33cf7629e43). The same backdoor appeared on two other unrelated organizations without ransomware follow-through, suggesting it may serve as a persistent staging implant across separate operations.</p><p>- Within roughly an hour the attackers dropped at least 13 executables targeting security products, 11 of them previously unpublished, plus 5 publicly known vulnerable drivers (havoc.sys, monprocessex.sys, xhunter1.sys, bdapiutil64.sys, fly.sys) for BYOVD kernel-level access. Two tools, gbbsym.exe and symgooq.exe, impersonated Symantec software and accepted a -l switch to list kernel callbacks and a -d switch to remove them. Only huntreagent.exe and s1.exe ran unblocked; both share the same file size but carry different hashes, suggesting two builds of one tool.</p><p>- The attackers registered AnyDesk as a Safe Mode with Networking service using: reg.exe add HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\Network\AnyDesk /ve /t REG_SZ /d Service /f. The dedicated tool safemode.exe (hash 47a864736764112d7897c76e56d51111ce75b3e46fdbac6933df8a5b29507d17) automated this. A new local account was created and added to a local group alongside this. Because security software does not fully operate in Safe Mode, this gives the BYOVD drivers a clean window to strip kernel callbacks and disable protections before full encryption.</p><p>- The Anubis payload (iservice.exe, e69b882218fa2a19fd351741874bfcd10a6ae91076e6a8483795e0e357f8d026) was blocked before execution. Had it run, it appends .anubis to encrypted files and drops ransom notes named restore files.txt and restore files.html. It also carries an optional wiper mode that empties file contents entirely rather than encrypting them. Hawkmoth, the RaaS operator behind Anubis, rebranded from Sphinx ransomware in December 2024 with the payload largely unchanged. The group has claimed roughly 96 victims in the past 12 months, 52% of them in the U.S..</p><p>Practitioner takeaway: Initial access was not identified, but both affected machines were Microsoft SQL Servers, making them a natural pivot point for initial triage. Hunt for services named or hosting healthcontroller64.exe or svchelper.exe in Chrome or VMware directory paths, and check for the HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\Network\AnyDesk registry key as a high-confidence indicator of Safe Mode persistence staging. Any of the five named vulnerable drivers loaded from non-standard paths alongside a new local account creation should be treated as a confirmed pre-ransomware pattern. Full IOCs and file hashes are in the Symantec report.</p><p>#DFIR_Radar</p><p><a href="https://www.security.com/threat-intelligence/lindnor-new-backdoor-anubis-ransomware">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118327999112094159">View on X</a></p>]]></content:encoded>
+      <dc:creator>Symantec Threat Intelligence</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118327999112094159</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2118327999112094159">DFIR Radar</source>
+      <pubDate>Thu, 05 Nov 2026 13:02:07 +0000</pubDate>
+      <guid isPermaLink="false">2118327999112094159</guid>
+    </item>
     <item>
       <title>CWPdoor: The Invisible Backdoor Living Inside Control Web Panel</title>
       <link>https://blog.xlab.qianxin.com/cwpdoor-the-invisible-backdoor-living-inside-control-web-panel/</link>
@@ -2150,20 +2176,6 @@ Practitioners on incident response or threat hunting for this should start with 
       <source url="https://x.com/DFIR_Radar/status/2116546390411112795">DFIR Radar</source>
       <pubDate>Sat, 31 Oct 2026 15:02:38 +0000</pubDate>
       <guid isPermaLink="false">2116546390411112795</guid>
-    </item>
-    <item>
-      <title>Official Claude Code Extension on Cursor Marketplace Trojanized with Persistent SSH Backdoor</title>
-      <link>https://thehackernews.com/2026/10/official-claude-code-vs-code-extension.html</link>
-      <description>Trojanized anthropic.claude-code v2.1.313 backdoored Cursor Marketplace users via SSH key "svc-telemetry" tunneling to 134.209.82[.]225. Audit ~/.ssh/authorized_keys and remove scheduled task, crontab, or LaunchAgent persistence.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116516137642991659</description>
-      <content:encoded><![CDATA[<p>Trojanized anthropic.claude-code v2.1.313 backdoored Cursor Marketplace users via SSH key &quot;svc-telemetry&quot; tunneling to 134.209.82[.]225. Audit ~/.ssh/authorized_keys and remove scheduled task, crontab, or LaunchAgent persistence.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/official-claude-code-vs-code-extension.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116516137642991659">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116516137642991659</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2116516137642991659">DFIR Radar</source>
-      <pubDate>Sat, 31 Oct 2026 13:02:25 +0000</pubDate>
-      <guid isPermaLink="false">2116516137642991659</guid>
     </item>
   </channel>
 </rss>
