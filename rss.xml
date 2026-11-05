@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Nov 2026 22:02:16 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2026 23:02:05 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ARTEX: Agentic Asbestos</title>
+      <link>https://censys.com/blog/artex-agentic-asbestos/</link>
+      <description>ARTEX, an open-source LLM-driven autonomous pentesting framework, has been attributed to Chinese 🇨🇳 state-aligned and financially motivated threat actors in two separate October 2026 campaigns, with Censys now tracking 1,465 exposed consoles globally.
+
+Key findings:
+
+- ARTEX was published July 26, 2026 by GitHub user Autumn-27, the same developer behind ScopeSentry, a widely used Chinese 🇨🇳 asset-discovery and vuln-scanning platform. ARTEX acts as an AI agent layer on top of ScopeSentry's recon output: a Planner agent converts operator-defined goals into attack intents, Worker agents execute tools like nmap, and an event-driven loop runs reconnaissance through data exfiltration with minimal human input. It supports Anthropic, OpenAI, or any OpenAI-compatible model endpoint. The repo has been taken down, but archived copies and rebrands including ScopeWeaver continue to circulate.
+
+- CrowdStrike (October 7) reported an unattributed, moderately confident financially motivated Chinese 🇨🇳 speaker used ARTEX against South Korean 🇰🇷 financial institutions from late September into early October, breaching a broker-facing loan inquiry service and an employee mobile system and exfiltrating data. The actor ran ARTEX on 38.244.50[.]120 using DeepSeek v4.1-flash via an API reseller (xcai[.]pro), and also ran Claude Code sessions backed by GLM and Grok. The actor was caught because they left open directories on port 18899 exposing a .claude folder, prompts, session histories, and ARTEX config files. Censys scan history shows that directory had been exposed since August 18, seven weeks before the report.
+
+- Microsoft (October 21) attributed the ConnectWise Cloud Backup supply-chain compromise to Storm-0940, a China 🇨🇳 state-aligned actor active since 2021. Storm-0940 used ARTEX to automate scanning, password spraying, and OAuth application abuse against more than 2,250 tenants, peaking at 2,900 sign-in attempts per minute. Some victims saw privileged cloud access gained in under three hours. Storm-0940 infrastructure includes 144.172.64[.]60, 144.172.64[.]99, and 144.172.64[.]128.
+
+- Censys currently observes 32 open directories on active ARTEX hosts exposing post-exploitation tooling. Specific examples include GodPotato and pass-the-hash scripts on 110.42.215[.]163:18080, a CVE-2021-3156 exploit and heap dumps on 111.68.4[.]13:18080, three beacon_linux_amd64 implant builds on 108.165.147[.]226:8299, a MITM root CA private key and HTA droppers on 181.41.194[.]136:8081, and an operator's full home directory including .ssh and .bash_history on 154.12.86[.]207:18080. These directories are often live for only hours to days, but Censys scan history preserves the file listings after takedown.
+
+- Of 1,465 ARTEX hosts, 155 (10.6%) co-host at least one other detected threat. CyberStrikeAI appears on 70 hosts. Several hosts pair ARTEX with Cobalt Strike, Vshell, Adaptix C2, NPS, FRP, and Gophish. 43 hosts run self-hosted LLM gateway or reseller software, primarily CLIProxyAPI (19 hosts) and New API (18 hosts). Two hosting netblocks, PEG Tech AS54600 (493 hosts across 38.11.221[.]0/24 and 38.11.173[.]0/24) and Yancy Limited AS138415 (157 hosts in 156.234.0[.]0/16), account for roughly 44% of observed instances and appear to be provisioning templates rather than individual operators.
+
+Hunt: query for ARTEX consoles using the page title pattern and Next.js asset fingerprint on default port 8787/tcp (also 8790 and 443). On any hit, pivot to co-located services: check for Vshell or FRP listeners, open directories with Python SimpleHTTP servers on high ports, and mitmproxy banners in scan history, which often predate the console. In egress logs, flag outbound connections to unfamiliar LLM proxy or reseller endpoints. Full IOC tables from both CrowdStrike and Microsoft, plus Censys-observed hosts, are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118478986317902089</description>
+      <content:encoded><![CDATA[<p>ARTEX, an open-source LLM-driven autonomous pentesting framework, has been attributed to Chinese 🇨🇳 state-aligned and financially motivated threat actors in two separate October 2026 campaigns, with Censys now tracking 1,465 exposed consoles globally.</p><p>Key findings:</p><p>- ARTEX was published July 26, 2026 by GitHub user Autumn-27, the same developer behind ScopeSentry, a widely used Chinese 🇨🇳 asset-discovery and vuln-scanning platform. ARTEX acts as an AI agent layer on top of ScopeSentry&#x27;s recon output: a Planner agent converts operator-defined goals into attack intents, Worker agents execute tools like nmap, and an event-driven loop runs reconnaissance through data exfiltration with minimal human input. It supports Anthropic, OpenAI, or any OpenAI-compatible model endpoint. The repo has been taken down, but archived copies and rebrands including ScopeWeaver continue to circulate.</p><p>- CrowdStrike (October 7) reported an unattributed, moderately confident financially motivated Chinese 🇨🇳 speaker used ARTEX against South Korean 🇰🇷 financial institutions from late September into early October, breaching a broker-facing loan inquiry service and an employee mobile system and exfiltrating data. The actor ran ARTEX on 38.244.50[.]120 using DeepSeek v4.1-flash via an API reseller (xcai[.]pro), and also ran Claude Code sessions backed by GLM and Grok. The actor was caught because they left open directories on port 18899 exposing a .claude folder, prompts, session histories, and ARTEX config files. Censys scan history shows that directory had been exposed since August 18, seven weeks before the report.</p><p>- Microsoft (October 21) attributed the ConnectWise Cloud Backup supply-chain compromise to Storm-0940, a China 🇨🇳 state-aligned actor active since 2021. Storm-0940 used ARTEX to automate scanning, password spraying, and OAuth application abuse against more than 2,250 tenants, peaking at 2,900 sign-in attempts per minute. Some victims saw privileged cloud access gained in under three hours. Storm-0940 infrastructure includes 144.172.64[.]60, 144.172.64[.]99, and 144.172.64[.]128.</p><p>- Censys currently observes 32 open directories on active ARTEX hosts exposing post-exploitation tooling. Specific examples include GodPotato and pass-the-hash scripts on 110.42.215[.]163:18080, a CVE-2021-3156 exploit and heap dumps on 111.68.4[.]13:18080, three beacon_linux_amd64 implant builds on 108.165.147[.]226:8299, a MITM root CA private key and HTA droppers on 181.41.194[.]136:8081, and an operator&#x27;s full home directory including .ssh and .bash_history on 154.12.86[.]207:18080. These directories are often live for only hours to days, but Censys scan history preserves the file listings after takedown.</p><p>- Of 1,465 ARTEX hosts, 155 (10.6%) co-host at least one other detected threat. CyberStrikeAI appears on 70 hosts. Several hosts pair ARTEX with Cobalt Strike, Vshell, Adaptix C2, NPS, FRP, and Gophish. 43 hosts run self-hosted LLM gateway or reseller software, primarily CLIProxyAPI (19 hosts) and New API (18 hosts). Two hosting netblocks, PEG Tech AS54600 (493 hosts across 38.11.221[.]0/24 and 38.11.173[.]0/24) and Yancy Limited AS138415 (157 hosts in 156.234.0[.]0/16), account for roughly 44% of observed instances and appear to be provisioning templates rather than individual operators.</p><p>Hunt: query for ARTEX consoles using the page title pattern and Next.js asset fingerprint on default port 8787/tcp (also 8790 and 443). On any hit, pivot to co-located services: check for Vshell or FRP listeners, open directories with Python SimpleHTTP servers on high ports, and mitmproxy banners in scan history, which often predate the console. In egress logs, flag outbound connections to unfamiliar LLM proxy or reseller endpoints. Full IOC tables from both CrowdStrike and Microsoft, plus Censys-observed hosts, are in the report.</p><p>#DFIR_Radar</p><p><a href="https://censys.com/blog/artex-agentic-asbestos/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118478986317902089">View on X</a></p>]]></content:encoded>
+      <dc:creator>Censys Research</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118478986317902089</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2118478986317902089">DFIR Radar</source>
+      <pubDate>Thu, 05 Nov 2026 23:02:05 +0000</pubDate>
+      <guid isPermaLink="false">2118478986317902089</guid>
+    </item>
     <item>
       <title>Barracuda Networks is your new best friend (Barracuda Email Security Gateway Pre-Auth Remote Root RCE CVE-2026-116606 / CVE-2026-111560)</title>
       <link>https://labs.watchtowr.com/barracuda-networks-is-your-new-best-friend-barracuda-email-security-gateway-pre-auth-remote-root-rce-cve-2026-116606-cve-2026-111560/</link>
@@ -2272,20 +2300,6 @@ Takeaway: Prefetch deletion is your signal. When Prefetch is absent or cleared f
       <source url="https://x.com/DFIR_Radar/status/2116697113530671121">DFIR Radar</source>
       <pubDate>Sun, 01 Nov 2026 01:01:33 +0000</pubDate>
       <guid isPermaLink="false">2116697113530671121</guid>
-    </item>
-    <item>
-      <title>WordPress RCE Flaw Draws Nearly 63,000 Attack Attempts in Just 24 Hours</title>
-      <link>https://thehackernews.com/2026/10/wordpress-rce-flaw-draws-nearly-63000.html</link>
-      <description>A CVSS 8.1 WordPress Core RCE flaw drew 62,969 exploitation attempts in 24 hours via polling wp-content/upgrade/setup-config.php. Review logs for those requests and audit admin accounts; patch to 7.1.4.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116682008415867287</description>
-      <content:encoded><![CDATA[<p>A CVSS 8.1 WordPress Core RCE flaw drew 62,969 exploitation attempts in 24 hours via polling wp-content/upgrade/setup-config.php. Review logs for those requests and audit admin accounts; patch to 7.1.4.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/10/wordpress-rce-flaw-draws-nearly-63000.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116682008415867287">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116682008415867287</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2116682008415867287">DFIR Radar</source>
-      <pubDate>Sun, 01 Nov 2026 00:01:32 +0000</pubDate>
-      <guid isPermaLink="false">2116682008415867287</guid>
     </item>
   </channel>
 </rss>
