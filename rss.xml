@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Nov 2026 16:02:01 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2026 17:02:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Actively Probing for Upgrade-Window RCE Vulnerability in WordPress Core</title>
+      <link>https://www.wordfence.com/blog/2026/11/attackers-actively-probing-for-upgrade-window-rce-vulnerability-in-wordpress-core/</link>
+      <description>CVE-2026-119977 (CVSS 8.1) is an unauthenticated RCE in WordPress core 4.7 through 7.1.3, exploitable during the brief upgrade window. Active exploitation began on disclosure day, October 28, 2026, and is now in CISA's KEV catalog.
+
+Key findings:
+
+- The root cause is predictable, web-accessible staging paths created during full-package core upgrades. WordPress extracts update files to /wp-content/upgrade/wordpress-[version]/ before completing the swap, and the installer PHP files there are reachable from the web during that window. An unauthenticated attacker who hits setup-config.php during that window can complete the staged installation, create a rogue administrator account, and upload arbitrary PHP. The attack pattern observed in the report is a GET request to paths like /wp-content/upgrade/wordpress-6.9.11/setup-config.php.
+
+- Exploitation is a race condition, difficult but not theoretical. Over 240,000 exploit attempts have been blocked since disclosure, peaking at over 74,000 on October 30, 2026. The volume reflects mass automated scanning to the predictable path, not precision timing, meaning attackers are sending bulk requests and betting on hitting sites mid-upgrade.
+
+- Top attacking IPs from the report: 103.59.160[.]171 (over 74,900 blocked requests), 2001:df1:e8c0::106b (over 40,400), 51.89.103[.]78 (over 34,600), 185.177.72[.]61, 195.3.220[.]7, 96.62.218[.]148, 20.217.186[.]29, 87.58.197[.]83, 154.26.238[.]8, and 20.46.43[.]126.
+
+- Patched versions span every supported branch from 4.7.39 through 7.1.4. Because the vulnerable upgrade routine runs one final time when applying the patch from an affected version, the update itself briefly exposes the window. The mitigation before patching is to block external HTTP access to PHP files under /wp-content/upgrade/ at the web server level, removing the attacker's ability to reach the installer even if the timing is right.
+
+- Post-compromise artifacts to review: unexpected files or directories remaining under /wp-content/upgrade/, newly created administrator accounts, unfamiliar plugins, and web shells or backdoor PHP dropped to the document root or plugin directories. The report notes absence of access log entries does not rule out compromise.
+
+Hunt your web server access logs for any GET or POST requests targeting PHP files under /wp-content/upgrade/, especially setup-config.php. Flag requests from the IPs above as high priority. Then audit WordPress user tables and the installed plugin list for accounts or additions created around October 28 through November 1, 2026. Patch to 7.1.4 or the branch equivalent, and block /wp-content/upgrade/*.php at the web server before you trigger the update if you have not done so already.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118388524420403622</description>
+      <content:encoded><![CDATA[<p>CVE-2026-119977 (CVSS 8.1) is an unauthenticated RCE in WordPress core 4.7 through 7.1.3, exploitable during the brief upgrade window. Active exploitation began on disclosure day, October 28, 2026, and is now in CISA&#x27;s KEV catalog.</p><p>Key findings:</p><p>- The root cause is predictable, web-accessible staging paths created during full-package core upgrades. WordPress extracts update files to /wp-content/upgrade/wordpress-[version]/ before completing the swap, and the installer PHP files there are reachable from the web during that window. An unauthenticated attacker who hits setup-config.php during that window can complete the staged installation, create a rogue administrator account, and upload arbitrary PHP. The attack pattern observed in the report is a GET request to paths like /wp-content/upgrade/wordpress-6.9.11/setup-config.php.</p><p>- Exploitation is a race condition, difficult but not theoretical. Over 240,000 exploit attempts have been blocked since disclosure, peaking at over 74,000 on October 30, 2026. The volume reflects mass automated scanning to the predictable path, not precision timing, meaning attackers are sending bulk requests and betting on hitting sites mid-upgrade.</p><p>- Top attacking IPs from the report: 103.59.160[.]171 (over 74,900 blocked requests), 2001:df1:e8c0::106b (over 40,400), 51.89.103[.]78 (over 34,600), 185.177.72[.]61, 195.3.220[.]7, 96.62.218[.]148, 20.217.186[.]29, 87.58.197[.]83, 154.26.238[.]8, and 20.46.43[.]126.</p><p>- Patched versions span every supported branch from 4.7.39 through 7.1.4. Because the vulnerable upgrade routine runs one final time when applying the patch from an affected version, the update itself briefly exposes the window. The mitigation before patching is to block external HTTP access to PHP files under /wp-content/upgrade/ at the web server level, removing the attacker&#x27;s ability to reach the installer even if the timing is right.</p><p>- Post-compromise artifacts to review: unexpected files or directories remaining under /wp-content/upgrade/, newly created administrator accounts, unfamiliar plugins, and web shells or backdoor PHP dropped to the document root or plugin directories. The report notes absence of access log entries does not rule out compromise.</p><p>Hunt your web server access logs for any GET or POST requests targeting PHP files under /wp-content/upgrade/, especially setup-config.php. Flag requests from the IPs above as high priority. Then audit WordPress user tables and the installed plugin list for accounts or additions created around October 28 through November 1, 2026. Patch to 7.1.4 or the branch equivalent, and block /wp-content/upgrade/*.php at the web server before you trigger the update if you have not done so already.</p><p>#DFIR_Radar</p><p><a href="https://www.wordfence.com/blog/2026/11/attackers-actively-probing-for-upgrade-window-rce-vulnerability-in-wordpress-core/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118388524420403622">View on X</a></p>]]></content:encoded>
+      <dc:creator>Wordfence</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118388524420403622</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2118388524420403622">DFIR Radar</source>
+      <pubDate>Thu, 05 Nov 2026 17:02:37 +0000</pubDate>
+      <guid isPermaLink="false">2118388524420403622</guid>
+    </item>
     <item>
       <title>| …</title>
       <link>https://detect.fyi/-add55da050ad?source=rss----d5fd8f494f6a---4</link>
@@ -2202,20 +2230,6 @@ Practitioners on incident response or threat hunting for this should start with 
       <source url="https://x.com/DFIR_Radar/status/2116606658398884186">DFIR Radar</source>
       <pubDate>Sat, 31 Oct 2026 19:02:07 +0000</pubDate>
       <guid isPermaLink="false">2116606658398884186</guid>
-    </item>
-    <item>
-      <title>How to Export Event Data from CrowdStrike Falcon</title>
-      <link>https://socprime.com/blog/how-to-export-event-data-from-crowdstrike-falcon/</link>
-      <description>CrowdStrike Falcon telemetry exports via Advanced Event Search (JSON/CSV) or Falcon Data Replicator to S3 as gzipped JSONL. Filter raw pulls by aid and event_simpleName before ingestion.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116591642140451078</description>
-      <content:encoded><![CDATA[<p>CrowdStrike Falcon telemetry exports via Advanced Event Search (JSON/CSV) or Falcon Data Replicator to S3 as gzipped JSONL. Filter raw pulls by aid and event_simpleName before ingestion.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-event-data-from-crowdstrike-falcon/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116591642140451078">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116591642140451078</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2116591642140451078">DFIR Radar</source>
-      <pubDate>Sat, 31 Oct 2026 18:02:27 +0000</pubDate>
-      <guid isPermaLink="false">2116591642140451078</guid>
     </item>
   </channel>
 </rss>
