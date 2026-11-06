@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2026 10:02:44 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 11:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Virtualization security: attack layers and misconfiguration impact</title>
+      <link>https://securelist.com/virtualization-security-esxi-and-proxmox-ransomware-cases/121819/</link>
+      <description>Kaspersky GERT details two 2025-2026 ransomware intrusions hitting ESXi and Proxmox environments where no VM escape was needed: credential reuse, a monitoring platform with admin-level access, and plaintext credential notes were enough to encrypt entire virtual farms.
+
+Key findings:
+
+- In Case 1, BlackNevas ransomware reached multiple ESXi hosts through a PRTG Network Monitor deployment that stored reusable root credentials. Once the attacker SSH'd to the first host as root, they found the same password on neighboring nodes. Execution of the dropped binary named "esx" was initially blocked by the execInstalledOnly policy, so the attacker ran "esxcli system settings advanced set -o /User/execInstalledOnly -i 0" to disable it, then followed with chmod and nohup execution across both hosts. Log deletion ran as a final step. UserAssist artifacts on a Windows system in the domain controller segment recorded AnyDesk and GMER execution, giving responders an early pivot point.
+
+- In Case 2, The Gentlemen group ransomware operators found Proxmox root credentials stored in plaintext notes on a compromised sysadmin workstation during dwell time. They authenticated to Proxmox as root@pam and activated VNC web sockets via the API path /api2/json/nodes/[node]/vncwebsocket to gain console-level control over each VM in the cluster. Proxmox API logs show the root@pam GET requests timestamped across a roughly 16-minute window on 2026-01-08, then cluster-wide encryption followed.
+
+- Both cases share the same structural failure: the monitoring plane and admin workstation each held credentials that could reach the hypervisor management layer directly, without passing through role-based controls. No exploit was required. The attack surface the report maps out includes VM and container escapes (VMware CVE-2025-22224, container kernel flaw CVE-2026-31431, runc CVE-2024-21626, Docker CVE-2026-41567/41568/42306, Portainer advisory GHSA-7fw3-x4r2-g7wc), but the GERT cases bypassed all of that through configuration weakness alone.
+
+- For ESXi investigations, evidence lives in SSH auth logs, shell history tied to the root session, and the esxcli command that modified /User/execInstalledOnly. For Proxmox, the API access log is the primary forensic record: source IP, account name, endpoint, and timestamp are all present. Both are targets for attacker log deletion, so the report stresses forwarding these logs to write-protected remote storage that a compromised administrator cannot reach.
+
+Takeaway: Start your hunt in the monitoring platform. Audit which accounts PRTG or equivalent tools use to poll hypervisors, whether those accounts are root or global admin equivalents, and whether any credential is shared across nodes. On ESXi, check the current value of /User/execInstalledOnly and treat any recent change as a security event. On Proxmox, review API logs for root@pam VNC websocket requests outside approved change windows. On any compromised sysadmin workstation, treat local notes, text files, and browser-saved passwords as credential exposure incidents affecting every system the administrator managed.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118660507389603842</description>
+      <content:encoded><![CDATA[<p>Kaspersky GERT details two 2025-2026 ransomware intrusions hitting ESXi and Proxmox environments where no VM escape was needed: credential reuse, a monitoring platform with admin-level access, and plaintext credential notes were enough to encrypt entire virtual farms.</p><p>Key findings:</p><p>- In Case 1, BlackNevas ransomware reached multiple ESXi hosts through a PRTG Network Monitor deployment that stored reusable root credentials. Once the attacker SSH&#x27;d to the first host as root, they found the same password on neighboring nodes. Execution of the dropped binary named &quot;esx&quot; was initially blocked by the execInstalledOnly policy, so the attacker ran &quot;esxcli system settings advanced set -o /User/execInstalledOnly -i 0&quot; to disable it, then followed with chmod and nohup execution across both hosts. Log deletion ran as a final step. UserAssist artifacts on a Windows system in the domain controller segment recorded AnyDesk and GMER execution, giving responders an early pivot point.</p><p>- In Case 2, The Gentlemen group ransomware operators found Proxmox root credentials stored in plaintext notes on a compromised sysadmin workstation during dwell time. They authenticated to Proxmox as root@pam and activated VNC web sockets via the API path /api2/json/nodes/[node]/vncwebsocket to gain console-level control over each VM in the cluster. Proxmox API logs show the root@pam GET requests timestamped across a roughly 16-minute window on 2026-01-08, then cluster-wide encryption followed.</p><p>- Both cases share the same structural failure: the monitoring plane and admin workstation each held credentials that could reach the hypervisor management layer directly, without passing through role-based controls. No exploit was required. The attack surface the report maps out includes VM and container escapes (VMware CVE-2025-22224, container kernel flaw CVE-2026-31431, runc CVE-2024-21626, Docker CVE-2026-41567/41568/42306, Portainer advisory GHSA-7fw3-x4r2-g7wc), but the GERT cases bypassed all of that through configuration weakness alone.</p><p>- For ESXi investigations, evidence lives in SSH auth logs, shell history tied to the root session, and the esxcli command that modified /User/execInstalledOnly. For Proxmox, the API access log is the primary forensic record: source IP, account name, endpoint, and timestamp are all present. Both are targets for attacker log deletion, so the report stresses forwarding these logs to write-protected remote storage that a compromised administrator cannot reach.</p><p>Takeaway: Start your hunt in the monitoring platform. Audit which accounts PRTG or equivalent tools use to poll hypervisors, whether those accounts are root or global admin equivalents, and whether any credential is shared across nodes. On ESXi, check the current value of /User/execInstalledOnly and treat any recent change as a security event. On Proxmox, review API logs for root@pam VNC websocket requests outside approved change windows. On any compromised sysadmin workstation, treat local notes, text files, and browser-saved passwords as credential exposure incidents affecting every system the administrator managed.</p><p>#DFIR_Radar</p><p><a href="https://securelist.com/virtualization-security-esxi-and-proxmox-ransomware-cases/121819/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118660507389603842">View on X</a></p>]]></content:encoded>
+      <dc:creator>Kaspersky SecureList</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118660507389603842</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2118660507389603842">DFIR Radar</source>
+      <pubDate>Fri, 06 Nov 2026 11:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2118660507389603842</guid>
+    </item>
     <item>
       <title>India Warns of New AI-Driven Cyber-Attacks Targeting Financial and Crypto Businesses</title>
       <link>https://www.infosecurity-magazine.com/news/india-warns-ai-cyberattacks/</link>
@@ -2322,20 +2348,6 @@ Practitioner takeaway: the detection surface here is entirely traditional. Hunt 
       <source url="https://x.com/DFIR_Radar/status/2117180629838143969">DFIR Radar</source>
       <pubDate>Mon, 02 Nov 2026 09:02:52 +0000</pubDate>
       <guid isPermaLink="false">2117180629838143969</guid>
-    </item>
-    <item>
-      <title>Apache Struts2 Core Arbitrary Code Execution via OGNL Sandbox Escape</title>
-      <link>https://seclists.org/fulldisclosure/2026/Nov/7</link>
-      <description>Apache Struts2 Core 7.4.0 and below allow OGNL sandbox escape via nested reflective calls, enabling arbitrary code execution. Hunt application logs for requests containing java.beans.Expression or java.beans.Statement in OGNL-parsed parameters.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117165294120738941</description>
-      <content:encoded><![CDATA[<p>Apache Struts2 Core 7.4.0 and below allow OGNL sandbox escape via nested reflective calls, enabling arbitrary code execution. Hunt application logs for requests containing java.beans.Expression or java.beans.Statement in OGNL-parsed parameters.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/fulldisclosure/2026/Nov/7">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117165294120738941">View on X</a></p>]]></content:encoded>
-      <dc:creator>Full Disclosure</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117165294120738941</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2117165294120738941">DFIR Radar</source>
-      <pubDate>Mon, 02 Nov 2026 08:01:56 +0000</pubDate>
-      <guid isPermaLink="false">2117165294120738941</guid>
     </item>
   </channel>
 </rss>
