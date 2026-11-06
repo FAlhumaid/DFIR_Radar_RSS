@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2026 00:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 01:02:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Threat actors use agentic AI tooling to find and abuse exposed secrets</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/11/05/threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/</link>
+      <description>Agentic AI frameworks are now automating secret harvesting from GitHub and chaining directly into Azure cloud compromise, with one observed case moving from secret discovery to Key Vault exfiltration in five minutes.
+
+Key findings:
+
+- Microsoft Threat Intelligence observed threat actors using ARTEX, an agentic AI offensive framework, to submit high-volume queries against public GitHub repositories starting August 2026, targeting credentials, OAuth client secrets, and AI inference API keys. Queries were structured around organization names, cloud service keywords, and AI provider names. As early as October 28, 2026, successful service principal sign-ins were observed from 199.19.77[.]84 and 199.19.77[.]18 (a Tor exit node) across multiple customer tenants, including multitenant app credential abuse that pivoted into downstream customer environments.
+
+- The post-compromise actions read like a full cloud intrusion playbook, all executed autonomously: service principal authentication, enumeration of subscriptions, resource groups, AI model deployments and service configs via Azure Resource Manager, secret reads from Azure Key Vault, storage account key harvesting, App Service publishing credential access, AKS user credential retrieval, SharePoint and OneDrive file downloads, mailbox item access, Microsoft Graph API searches, and Run Command execution on Azure VMs. The agent also searched Azure DevOps for additional secrets.
+
+- A behavioral signature of the agentic activity is adaptive API troubleshooting at machine speed. When ARM requests failed with HTTP 400 due to wrong API versions, the agent retried with corrected versions within 28 to 80 seconds and received HTTP 200 responses. This retry-and-succeed pattern across Key Vault, SQL firewall rules, and Application Insights endpoints is distinct from typical human operator cadence and visible in Azure Activity logs.
+
+- A second IP, 65.87.223[.]26, showed embedded shell commands in user agent strings consistent with vulnerability exploitation and attempts to obtain App Service authentication tokens. A third IP, 157.22.126[.]128, conducted reconnaissance against victim Azure AI workloads. Entra sign-in errors AADSTS7000215 (invalid secret) and AADSTS7000222 (expired secret) indicate a credential is held by a threat actor; a failure followed by a success on the same application ID is an urgent indicator.
+
+- ARTEX by default uses Nmap, curl, wget, Python HTTP clients, Norma SDK WebFetch, and headless Chromium via Playwright, leaving distinctive default user agent strings in network logs. The report notes that honeypots, tarpits, and fake wins were effective in Microsoft's own testing at reducing attack traffic reaching real assets and generating attribution-quality signal.
+
+Hunt now: the report provides KQL queries for EntraIdSpnSignInEvents, GraphAPIAuditEvents, CloudAppEvents, CloudAuditEvents, and CloudStorageAggregatedEvents scoped to 199.19.77[.]84, 65.87.223[.]26, and 157.22.126[.]128 from October 28, 2026 onward. Pivot on one app ID authenticating to three or more service principals with mixed success, or one app requesting tokens across ARM, Key Vault, Storage, and Graph in a short window. Rotate every credential reachable by any affected service principal; tokens already issued remain valid until expiry, so rotation alone does not close open sessions.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118509294836388326</description>
+      <content:encoded><![CDATA[<p>Agentic AI frameworks are now automating secret harvesting from GitHub and chaining directly into Azure cloud compromise, with one observed case moving from secret discovery to Key Vault exfiltration in five minutes.</p><p>Key findings:</p><p>- Microsoft Threat Intelligence observed threat actors using ARTEX, an agentic AI offensive framework, to submit high-volume queries against public GitHub repositories starting August 2026, targeting credentials, OAuth client secrets, and AI inference API keys. Queries were structured around organization names, cloud service keywords, and AI provider names. As early as October 28, 2026, successful service principal sign-ins were observed from 199.19.77[.]84 and 199.19.77[.]18 (a Tor exit node) across multiple customer tenants, including multitenant app credential abuse that pivoted into downstream customer environments.</p><p>- The post-compromise actions read like a full cloud intrusion playbook, all executed autonomously: service principal authentication, enumeration of subscriptions, resource groups, AI model deployments and service configs via Azure Resource Manager, secret reads from Azure Key Vault, storage account key harvesting, App Service publishing credential access, AKS user credential retrieval, SharePoint and OneDrive file downloads, mailbox item access, Microsoft Graph API searches, and Run Command execution on Azure VMs. The agent also searched Azure DevOps for additional secrets.</p><p>- A behavioral signature of the agentic activity is adaptive API troubleshooting at machine speed. When ARM requests failed with HTTP 400 due to wrong API versions, the agent retried with corrected versions within 28 to 80 seconds and received HTTP 200 responses. This retry-and-succeed pattern across Key Vault, SQL firewall rules, and Application Insights endpoints is distinct from typical human operator cadence and visible in Azure Activity logs.</p><p>- A second IP, 65.87.223[.]26, showed embedded shell commands in user agent strings consistent with vulnerability exploitation and attempts to obtain App Service authentication tokens. A third IP, 157.22.126[.]128, conducted reconnaissance against victim Azure AI workloads. Entra sign-in errors AADSTS7000215 (invalid secret) and AADSTS7000222 (expired secret) indicate a credential is held by a threat actor; a failure followed by a success on the same application ID is an urgent indicator.</p><p>- ARTEX by default uses Nmap, curl, wget, Python HTTP clients, Norma SDK WebFetch, and headless Chromium via Playwright, leaving distinctive default user agent strings in network logs. The report notes that honeypots, tarpits, and fake wins were effective in Microsoft&#x27;s own testing at reducing attack traffic reaching real assets and generating attribution-quality signal.</p><p>Hunt now: the report provides KQL queries for EntraIdSpnSignInEvents, GraphAPIAuditEvents, CloudAppEvents, CloudAuditEvents, and CloudStorageAggregatedEvents scoped to 199.19.77[.]84, 65.87.223[.]26, and 157.22.126[.]128 from October 28, 2026 onward. Pivot on one app ID authenticating to three or more service principals with mixed success, or one app requesting tokens across ARM, Key Vault, Storage, and Graph in a short window. Rotate every credential reachable by any affected service principal; tokens already issued remain valid until expiry, so rotation alone does not close open sessions.</p><p>#DFIR_Radar</p><p><a href="https://www.microsoft.com/en-us/security/blog/2026/11/05/threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118509294836388326">View on X</a></p>]]></content:encoded>
+      <dc:creator>Microsoft Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118509294836388326</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2118509294836388326">DFIR Radar</source>
+      <pubDate>Fri, 06 Nov 2026 01:02:31 +0000</pubDate>
+      <guid isPermaLink="false">2118509294836388326</guid>
+    </item>
     <item>
       <title>Email threat landscape: Q3 2026 trends and insights</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/11/05/email-threat-landscape-q3-2026-trends-and-insights/</link>
@@ -2300,20 +2328,6 @@ Takeaway: Prefetch deletion is your signal. When Prefetch is absent or cleared f
       <source url="https://x.com/DFIR_Radar/status/2116802930414145657">DFIR Radar</source>
       <pubDate>Sun, 01 Nov 2026 08:02:02 +0000</pubDate>
       <guid isPermaLink="false">2116802930414145657</guid>
-    </item>
-    <item>
-      <title>Binance Hack: Inside the $6.3B Hot Wallet Theft</title>
-      <link>https://socradar.io/blog/binance-hack-6-3b-hot-wallet-theft/</link>
-      <description>TraderTraitor likely drained ~$6.3B from Binance hot wallets across 10 chains via a compromised DevOps laptop. Hunt EIP-7702 type-4 transactions batching 50 authorizations and Tornado Cash-funded staging wallets.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116712208227061887</description>
-      <content:encoded><![CDATA[<p>TraderTraitor likely drained ~$6.3B from Binance hot wallets across 10 chains via a compromised DevOps laptop. Hunt EIP-7702 type-4 transactions batching 50 authorizations and Tornado Cash-funded staging wallets.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/binance-hack-6-3b-hot-wallet-theft/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116712208227061887">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116712208227061887</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2116712208227061887">DFIR Radar</source>
-      <pubDate>Sun, 01 Nov 2026 02:01:32 +0000</pubDate>
-      <guid isPermaLink="false">2116712208227061887</guid>
     </item>
   </channel>
 </rss>
