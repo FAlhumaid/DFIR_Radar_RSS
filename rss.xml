@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2026 22:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 23:02:22 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Not just refrigerators: the security challenges of connected operational technology (OT)</title>
+      <link>https://fieldeffect.com/blog/security-challenges-connected-operational-technology</link>
+      <description>Attackers hit 700+ European supermarkets and France's 🇫🇷 blood service via third-party refrigeration providers, manipulating Danfoss and Dixell controllers. Alert on setpoint changes outside maintenance windows in controller audit logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118841446879142369</description>
+      <content:encoded><![CDATA[<p>Attackers hit 700+ European supermarkets and France&#x27;s 🇫🇷 blood service via third-party refrigeration providers, manipulating Danfoss and Dixell controllers. Alert on setpoint changes outside maintenance windows in controller audit logs.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/security-challenges-connected-operational-technology">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118841446879142369">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118841446879142369</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2118841446879142369">DFIR Radar</source>
+      <pubDate>Fri, 06 Nov 2026 23:02:22 +0000</pubDate>
+      <guid isPermaLink="false">2118841446879142369</guid>
+    </item>
     <item>
       <title>InfiniteWP Client: the NOSSL signing key has 31 bits of secret: recovered live in 291.9 seconds</title>
       <link>https://seclists.org/oss-sec/2026/q4/563</link>
@@ -2310,32 +2324,6 @@ Practitioner takeaway: Patching with Adobe's VULN-39341 hotfix closes the door b
       <source url="https://x.com/DFIR_Radar/status/2117361621408645384">DFIR Radar</source>
       <pubDate>Mon, 02 Nov 2026 21:02:04 +0000</pubDate>
       <guid isPermaLink="false">2117361621408645384</guid>
-    </item>
-    <item>
-      <title>Additional Ivanti Connect Secure zero-days exploited in the wild (CVE-2026-111357, CVE-2026-118527)</title>
-      <link>https://www.rapid7.com/blog/post/etr-additional-ivanti-connect-secure-zero-days-exploited-in-the-wild-cve-2026-111357-cve-2026-118527</link>
-      <description>Three chained Ivanti Connect Secure zero-days (CVE-2026-104935, CVE-2026-111357, CVE-2026-118527) exploited in the wild since October 3, granting unauthenticated root access. All three are now in CISA KEV. Patches exist for all three as of October 29.
-
-Key findings:
-
-- The chain works as follows: CVE-2026-104935 (CVSS 8.6, CWE-290, authentication bypass by spoofing) enables unauthenticated entry. CVE-2026-111357 (Ivanti CVSS 8.8, CWE-306/862/345, missing authentication for a critical function) provides local privilege escalation to root. CVE-2026-118527 (CVSS 4.3, CWE-340, predictable identifier generation) allows a remote authenticated attacker to upload attacker-controlled content to a known path on disk. Ivanti's advisory identifies all three as components of the observed exploit chain against appliances running 22.8R2.4.
-
-- Volexity's investigation attributes active exploitation to UTA0576, beginning October 3, 2026, weeks before the October 29 patch. Post-compromise activity included credential theft, Active Directory queries for Windows LAPS passwords, and BitLocker recovery key harvesting. Those objectives signal the attackers pivoted toward persistent internal access well beyond the VPN appliance itself.
-
-- Critical forensic caveat: Ivanti's Integrity Checker Tool does not detect this compromise. A clean result cannot be used to rule out intrusion. Preserve memory and logs before rebooting or factory-resetting any affected appliance. Selective log deletion was observed in /home/runtime/dlogs/debuglog and /var/log/audit/audit.log, so absence of log entries is itself a signal worth noting.
-
-- Artifact locations from Volexity's investigation to prioritize on affected appliances: /tmp/ contains ml[.]py, rq5[.]py, mk[.]py, rr[.]py, pu.txt, sp_out.txt, and spray_hits.json. /data/.icscap/ contains dsstatmond, cap* files, and h[.]py. /home/runtime/tmp/ contains ics-root-run-inband-*.pl and ics-root-result-inband-* files. The October 13 fixes (25.1.1.2 and 22.8R2.5) do not patch CVE-2026-111357 or CVE-2026-118527. Target versions are 25.1.1.3 or 22.8R2.6.
-
-Takeaway: Hunt web logs for requests to /dana-na/auth/url_default/welcome.cgi with X-DSCGI-PATH header values pointing to /home/webserver/htdocs/dana/fb/smb/wu.cgi or /home/runtime/tmp/ paths, as Volexity flags URL/header mismatches there as the request-level indicator of exploitation. The exploitation IP 108.165.147[.]64 is confirmed in Volexity's IOC list. Volexity also published YARA rules covering request-header evidence and the privilege escalation payload in memory. After patching to 25.1.1.3 or 22.8R2.6, rotate all credentials that may have transited the appliance, including any LAPS and BitLocker secrets reachable from it.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117346460723269668</description>
-      <content:encoded><![CDATA[<p>Three chained Ivanti Connect Secure zero-days (CVE-2026-104935, CVE-2026-111357, CVE-2026-118527) exploited in the wild since October 3, granting unauthenticated root access. All three are now in CISA KEV. Patches exist for all three as of October 29.</p><p>Key findings:</p><p>- The chain works as follows: CVE-2026-104935 (CVSS 8.6, CWE-290, authentication bypass by spoofing) enables unauthenticated entry. CVE-2026-111357 (Ivanti CVSS 8.8, CWE-306/862/345, missing authentication for a critical function) provides local privilege escalation to root. CVE-2026-118527 (CVSS 4.3, CWE-340, predictable identifier generation) allows a remote authenticated attacker to upload attacker-controlled content to a known path on disk. Ivanti&#x27;s advisory identifies all three as components of the observed exploit chain against appliances running 22.8R2.4.</p><p>- Volexity&#x27;s investigation attributes active exploitation to UTA0576, beginning October 3, 2026, weeks before the October 29 patch. Post-compromise activity included credential theft, Active Directory queries for Windows LAPS passwords, and BitLocker recovery key harvesting. Those objectives signal the attackers pivoted toward persistent internal access well beyond the VPN appliance itself.</p><p>- Critical forensic caveat: Ivanti&#x27;s Integrity Checker Tool does not detect this compromise. A clean result cannot be used to rule out intrusion. Preserve memory and logs before rebooting or factory-resetting any affected appliance. Selective log deletion was observed in /home/runtime/dlogs/debuglog and /var/log/audit/audit.log, so absence of log entries is itself a signal worth noting.</p><p>- Artifact locations from Volexity&#x27;s investigation to prioritize on affected appliances: /tmp/ contains ml[.]py, rq5[.]py, mk[.]py, rr[.]py, pu.txt, sp_out.txt, and spray_hits.json. /data/.icscap/ contains dsstatmond, cap* files, and h[.]py. /home/runtime/tmp/ contains ics-root-run-inband-*.pl and ics-root-result-inband-* files. The October 13 fixes (25.1.1.2 and 22.8R2.5) do not patch CVE-2026-111357 or CVE-2026-118527. Target versions are 25.1.1.3 or 22.8R2.6.</p><p>Takeaway: Hunt web logs for requests to /dana-na/auth/url_default/welcome.cgi with X-DSCGI-PATH header values pointing to /home/webserver/htdocs/dana/fb/smb/wu.cgi or /home/runtime/tmp/ paths, as Volexity flags URL/header mismatches there as the request-level indicator of exploitation. The exploitation IP 108.165.147[.]64 is confirmed in Volexity&#x27;s IOC list. Volexity also published YARA rules covering request-header evidence and the privilege escalation payload in memory. After patching to 25.1.1.3 or 22.8R2.6, rotate all credentials that may have transited the appliance, including any LAPS and BitLocker secrets reachable from it.</p><p>#DFIR_Radar</p><p><a href="https://www.rapid7.com/blog/post/etr-additional-ivanti-connect-secure-zero-days-exploited-in-the-wild-cve-2026-111357-cve-2026-118527">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117346460723269668">View on X</a></p>]]></content:encoded>
-      <dc:creator>Rapid7 Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117346460723269668</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2117346460723269668">DFIR Radar</source>
-      <pubDate>Mon, 02 Nov 2026 20:01:50 +0000</pubDate>
-      <guid isPermaLink="false">2117346460723269668</guid>
     </item>
   </channel>
 </rss>
