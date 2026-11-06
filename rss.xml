@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 05 Nov 2026 23:02:05 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 00:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Email threat landscape: Q3 2026 trends and insights</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/11/05/email-threat-landscape-q3-2026-trends-and-insights/</link>
+      <description>Microsoft tracked 7.3 billion phishing threats in Q3 2026, with September spiking 41% month-over-month. SVG attachments fueled a CAPTCHA-gated phishing revival, and two campaigns show credential theft staying central.
+
+Key findings:
+
+- Spoofed sender domains hit roughly 129 million malicious messages across Q3, with DocuSign accounting for 29% of September's volume. The sharper finding: in September, overrides applied to 63% of messages with a recorded security outcome, most at the tenant level, meaning detection fired but exceptions let the messages through anyway. Overly broad allow-lists are actively undermining email security controls.
+
+- QR code phishing fell 67% from Q2 and sat 86% below its March peak, but the technique is not gone. An August 19 campaign hit more than 10,000 users across 4,800+ organizations, almost exclusively US 🇺🇸 legal sector targets. Sender: smtp[@]wekash[.]net via Amazon SES. Attachment: Your-Q3-Compensation-Summary.docx, a personalized Word doc with company branding and recipient name. The embedded QR code pointed to hxxps://splace[.]co[.]za/0987643345678908765421234567890987654320987654321223456787654/onedrive/, a fake OneDrive portal using device code phishing. The page pre-generated a user code, instructed recipients to enter it at the legitimate microsoft[.]com/devicelogin, and captured a valid session token without touching the password or re-triggering MFA.
+
+- A September 21 Agent Tesla campaign reached 56,000+ users across 8,100+ organizations, heavily targeting Colombia 🇨🇴, Mexico 🇲🇽, Chile 🇨🇱, Spain 🇪🇸, and the US. Sender: contacto06[@]carloxmextos[.]org, with SPF, DKIM, and DMARC all passing. Purchase order lure attached Nuevo orden de compra - 21092026.pdf.uu, a RAR archive containing a .js downloader (CE832350...) that fetched Lincoln.ps1 (F8B49891...) from Firebase Storage to deliver Agent Tesla. Payroll lure attached Nomina 21.09.2026.xml.001, a RAR containing Nomina 21.09.2026.xml.exe (72966B30...), an Agent Tesla binary with a double XML-themed extension requiring no separate downloader stage.
+
+- CAPTCHA-gated phishing recovered in August after months of decline, driven by a sixfold surge in SVG attachments. SVGs represented 65% of CAPTCHA-gated delivery in August and 49% in September, now running roughly 50% above the first-half-2026 monthly average. SVG abuse is not exclusive to CAPTCHA-gating: the report notes the resurgence was broader. HTML and PDF remained the dominant payload types at 56-62% combined, and 94-96% of payload-based attacks aimed at credential theft rather than malware installation.
+
+- Microsoft Teams saw approximately 141,000 malicious call attempts in Q3. The most notable behavioral shift: attackers using ordinary personal names as display names rose from 46% of the July sample to 88% in September, while explicit help desk identities fell from 17% to 2%. The underlying account addresses may still carry IT-related wording, and some domains mimicked the target organization's own domain. Volume peaked in July and fell 31% by September but remained 38% above the first-half-2026 monthly average.
+
+Takeaway: For the device code campaign, hunt EmailEvents for SenderMailFromAddress == "smtp[@]wekash[.]net". For the Agent Tesla campaign, hunt for SenderMailFromAddress == "contacto06[@]carloxmextos[.]org". Both KQL queries are in the report. On the exception problem, pull your tenant-level mail flow overrides and audit any allow-list entry tied to a business-service domain: DocuSign, Adobe, SurveyMonkey, and Barracuda all saw elevated spoofing volume in Q3. Full IOC table including five SHA-256 hashes for the Agent Tesla campaign and the phishing domain splace[.]co[.]za is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118494489610428557</description>
+      <content:encoded><![CDATA[<p>Microsoft tracked 7.3 billion phishing threats in Q3 2026, with September spiking 41% month-over-month. SVG attachments fueled a CAPTCHA-gated phishing revival, and two campaigns show credential theft staying central.</p><p>Key findings:</p><p>- Spoofed sender domains hit roughly 129 million malicious messages across Q3, with DocuSign accounting for 29% of September&#x27;s volume. The sharper finding: in September, overrides applied to 63% of messages with a recorded security outcome, most at the tenant level, meaning detection fired but exceptions let the messages through anyway. Overly broad allow-lists are actively undermining email security controls.</p><p>- QR code phishing fell 67% from Q2 and sat 86% below its March peak, but the technique is not gone. An August 19 campaign hit more than 10,000 users across 4,800+ organizations, almost exclusively US 🇺🇸 legal sector targets. Sender: smtp[@]wekash[.]net via Amazon SES. Attachment: Your-Q3-Compensation-Summary.docx, a personalized Word doc with company branding and recipient name. The embedded QR code pointed to hxxps://splace[.]co[.]za/0987643345678908765421234567890987654320987654321223456787654/onedrive/, a fake OneDrive portal using device code phishing. The page pre-generated a user code, instructed recipients to enter it at the legitimate microsoft[.]com/devicelogin, and captured a valid session token without touching the password or re-triggering MFA.</p><p>- A September 21 Agent Tesla campaign reached 56,000+ users across 8,100+ organizations, heavily targeting Colombia 🇨🇴, Mexico 🇲🇽, Chile 🇨🇱, Spain 🇪🇸, and the US. Sender: contacto06[@]carloxmextos[.]org, with SPF, DKIM, and DMARC all passing. Purchase order lure attached Nuevo orden de compra - 21092026.pdf.uu, a RAR archive containing a .js downloader (CE832350...) that fetched Lincoln.ps1 (F8B49891...) from Firebase Storage to deliver Agent Tesla. Payroll lure attached Nomina 21.09.2026.xml.001, a RAR containing Nomina 21.09.2026.xml.exe (72966B30...), an Agent Tesla binary with a double XML-themed extension requiring no separate downloader stage.</p><p>- CAPTCHA-gated phishing recovered in August after months of decline, driven by a sixfold surge in SVG attachments. SVGs represented 65% of CAPTCHA-gated delivery in August and 49% in September, now running roughly 50% above the first-half-2026 monthly average. SVG abuse is not exclusive to CAPTCHA-gating: the report notes the resurgence was broader. HTML and PDF remained the dominant payload types at 56-62% combined, and 94-96% of payload-based attacks aimed at credential theft rather than malware installation.</p><p>- Microsoft Teams saw approximately 141,000 malicious call attempts in Q3. The most notable behavioral shift: attackers using ordinary personal names as display names rose from 46% of the July sample to 88% in September, while explicit help desk identities fell from 17% to 2%. The underlying account addresses may still carry IT-related wording, and some domains mimicked the target organization&#x27;s own domain. Volume peaked in July and fell 31% by September but remained 38% above the first-half-2026 monthly average.</p><p>Takeaway: For the device code campaign, hunt EmailEvents for SenderMailFromAddress == &quot;smtp[@]wekash[.]net&quot;. For the Agent Tesla campaign, hunt for SenderMailFromAddress == &quot;contacto06[@]carloxmextos[.]org&quot;. Both KQL queries are in the report. On the exception problem, pull your tenant-level mail flow overrides and audit any allow-list entry tied to a business-service domain: DocuSign, Adobe, SurveyMonkey, and Barracuda all saw elevated spoofing volume in Q3. Full IOC table including five SHA-256 hashes for the Agent Tesla campaign and the phishing domain splace[.]co[.]za is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.microsoft.com/en-us/security/blog/2026/11/05/email-threat-landscape-q3-2026-trends-and-insights/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118494489610428557">View on X</a></p>]]></content:encoded>
+      <dc:creator>Microsoft Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118494489610428557</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2118494489610428557">DFIR Radar</source>
+      <pubDate>Fri, 06 Nov 2026 00:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2118494489610428557</guid>
+    </item>
     <item>
       <title>ARTEX: Agentic Asbestos</title>
       <link>https://censys.com/blog/artex-agentic-asbestos/</link>
@@ -2286,20 +2314,6 @@ Takeaway: Prefetch deletion is your signal. When Prefetch is absent or cleared f
       <source url="https://x.com/DFIR_Radar/status/2116712208227061887">DFIR Radar</source>
       <pubDate>Sun, 01 Nov 2026 02:01:32 +0000</pubDate>
       <guid isPermaLink="false">2116712208227061887</guid>
-    </item>
-    <item>
-      <title>Operationalizing CISA AA26-194A: Automating Cisco Router Security Assessments with Qualys Policy Audit</title>
-      <link>https://blog.qualys.com/?p=43347</link>
-      <description>CISA AA26-194A links Russian 🇷🇺 FSB Center 16 to active exploitation of misconfigured Cisco routers via weak SNMP and Smart Install. Audit router configs for SNMPv1/v2, open Smart Install, and unrestricted management access.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116697113530671121</description>
-      <content:encoded><![CDATA[<p>CISA AA26-194A links Russian 🇷🇺 FSB Center 16 to active exploitation of misconfigured Cisco routers via weak SNMP and Smart Install. Audit router configs for SNMPv1/v2, open Smart Install, and unrestricted management access.</p><p>#DFIR_Radar</p><p><a href="https://blog.qualys.com/?p=43347">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116697113530671121">View on X</a></p>]]></content:encoded>
-      <dc:creator>Qualys Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116697113530671121</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2116697113530671121">DFIR Radar</source>
-      <pubDate>Sun, 01 Nov 2026 01:01:33 +0000</pubDate>
-      <guid isPermaLink="false">2116697113530671121</guid>
     </item>
   </channel>
 </rss>
