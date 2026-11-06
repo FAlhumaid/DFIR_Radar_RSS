@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2026 06:02:10 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 07:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>European Refrigeration Controller Exposure: A Second Attack Wave</title>
+      <link>https://censys.com/blog/european-refrigeration-controller-exposure-sitrep/</link>
+      <description>Two attack waves exploited Danfoss CVE-2025-41450, chainable for RCE, hitting European refrigeration controllers; 3,124 hosts remain exposed. Isolate internet-facing Danfoss StoreView and Copeland/Dixell XWEB interfaces per CERTFR-2026-ALE-012.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118599924505866441</description>
+      <content:encoded><![CDATA[<p>Two attack waves exploited Danfoss CVE-2025-41450, chainable for RCE, hitting European refrigeration controllers; 3,124 hosts remain exposed. Isolate internet-facing Danfoss StoreView and Copeland/Dixell XWEB interfaces per CERTFR-2026-ALE-012.</p><p>#DFIR_Radar</p><p><a href="https://censys.com/blog/european-refrigeration-controller-exposure-sitrep/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118599924505866441">View on X</a></p>]]></content:encoded>
+      <dc:creator>Censys Research</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118599924505866441</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2118599924505866441">DFIR Radar</source>
+      <pubDate>Fri, 06 Nov 2026 07:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2118599924505866441</guid>
+    </item>
     <item>
       <title>(TLP:CLEAR) Researchers Demonstrate Attack that Disrupts Encrypted Cloud SCADA Traffic without Breaking Encryption</title>
       <link>https://www.waterisac.org/tlpclear-researchers-demonstrate-attack-that-disrupts-encrypted-cloud-scada-traffic-without-breaking-encryption</link>
@@ -2322,34 +2336,6 @@ Takeaway: before pulling logs, run the config dump commands to find every active
       <source url="https://x.com/DFIR_Radar/status/2117074688320942382">DFIR Radar</source>
       <pubDate>Mon, 02 Nov 2026 02:01:54 +0000</pubDate>
       <guid isPermaLink="false">2117074688320942382</guid>
-    </item>
-    <item>
-      <title>Windows Search Index: Gaps in Existing Open Source Tooling and the Implementation of WAL Carving</title>
-      <link>https://protokol-7.github.io/dfir/2026/10/28/windows-search-index-gaps-and-wal-carving.html</link>
-      <description>WAL carving of Windows.db unlocks deleted-file history the live Search Index never shows. SIDR breaks on Windows 11 24H2+ and SQLECmd returns unreadable hex, leaving a forensic gap that Protokol-7's new tooling now closes.
-
-Key findings:
-
-- SIDR (base commit 5bde8e8) is effectively dead on Windows 11 24H2, 25H2, and 26H2, producing near-empty output. SQLECmd parses Windows.db on these builds but returns hex-encoded values without a decode step. Both gaps leave the Windows Search Index, one of the richest file-activity artifacts on a Windows host, inaccessible on current builds without extra work.
-
-- sidr-patch v1.0.0 fixes the crash on modern builds and adds a --history flag that performs WAL carving: it walks Windows.db-wal and freed pages in the main database file byte by byte, reconstructing every historical version of every row, including overwritten states, half-finished transactions interrupted by a crash or kill, and property values that vanished after a checkpoint. Versions matching the current live value are discarded; only changed, deleted, or disappeared properties are written to the report.
-
-- The forensic payoff is significant. In the demonstrated scenario, a file was created, renamed, deleted with the Recycle Bin emptied, and MFT and Journal entries treated as gone. A normal SIDR parse of the copied Windows.db showed neither the original nor the renamed file name. Parsing the same database with sidr-patch --history recovered the renamed file name (Renamed_WAL_Carve_Test.txt), its metadata, and its AutoSummary content preview, evidence that a live query or a checkpoint-aware engine would never surface.
-
-- This is time-sensitive, probabilistic evidence. SQLite checkpoints copy only the latest committed page version into the main file and discard all intermediate states the moment they are superseded. Ongoing indexing activity continuously overwrites the WAL and freed pages. The longer the system runs after the deletion event, the less of this history survives. Acquisition and parsing with --history should happen as early in the response as possible.
-
-- sqlecmd_SI_decode is a companion script for responders who use SQLECmd: it decodes the hex output and adds a --pivot flag that correlates WorkIds across the PropertyStore and PropertyStore_Metadata tables, producing a wide CSV structurally similar to SIDR's File Report. It is not a replacement for sidr-patch but makes SQLECmd usable when that is the preferred path. Tested against SQLECmd versions 2026.10.3 and 2026.5.0.
-
-Practitioner takeaway: copy Windows.db and Windows.db-wal as early as possible (a live handle is open, so copy both files together), then run sidr-patch --history against the copy. The WAL file, not the main database, is where deleted-file names, renamed-file history, and content previews survive after a normal query goes dark. If MFT and Journal entries are gone, the Search Index WAL may be the only surviving record of what the file was named and what it contained. Both tools are in the Protokol-7 GitHub repositories linked in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116983372732113068</description>
-      <content:encoded><![CDATA[<p>WAL carving of Windows.db unlocks deleted-file history the live Search Index never shows. SIDR breaks on Windows 11 24H2+ and SQLECmd returns unreadable hex, leaving a forensic gap that Protokol-7&#x27;s new tooling now closes.</p><p>Key findings:</p><p>- SIDR (base commit 5bde8e8) is effectively dead on Windows 11 24H2, 25H2, and 26H2, producing near-empty output. SQLECmd parses Windows.db on these builds but returns hex-encoded values without a decode step. Both gaps leave the Windows Search Index, one of the richest file-activity artifacts on a Windows host, inaccessible on current builds without extra work.</p><p>- sidr-patch v1.0.0 fixes the crash on modern builds and adds a --history flag that performs WAL carving: it walks Windows.db-wal and freed pages in the main database file byte by byte, reconstructing every historical version of every row, including overwritten states, half-finished transactions interrupted by a crash or kill, and property values that vanished after a checkpoint. Versions matching the current live value are discarded; only changed, deleted, or disappeared properties are written to the report.</p><p>- The forensic payoff is significant. In the demonstrated scenario, a file was created, renamed, deleted with the Recycle Bin emptied, and MFT and Journal entries treated as gone. A normal SIDR parse of the copied Windows.db showed neither the original nor the renamed file name. Parsing the same database with sidr-patch --history recovered the renamed file name (Renamed_WAL_Carve_Test.txt), its metadata, and its AutoSummary content preview, evidence that a live query or a checkpoint-aware engine would never surface.</p><p>- This is time-sensitive, probabilistic evidence. SQLite checkpoints copy only the latest committed page version into the main file and discard all intermediate states the moment they are superseded. Ongoing indexing activity continuously overwrites the WAL and freed pages. The longer the system runs after the deletion event, the less of this history survives. Acquisition and parsing with --history should happen as early in the response as possible.</p><p>- sqlecmd_SI_decode is a companion script for responders who use SQLECmd: it decodes the hex output and adds a --pivot flag that correlates WorkIds across the PropertyStore and PropertyStore_Metadata tables, producing a wide CSV structurally similar to SIDR&#x27;s File Report. It is not a replacement for sidr-patch but makes SQLECmd usable when that is the preferred path. Tested against SQLECmd versions 2026.10.3 and 2026.5.0.</p><p>Practitioner takeaway: copy Windows.db and Windows.db-wal as early as possible (a live handle is open, so copy both files together), then run sidr-patch --history against the copy. The WAL file, not the main database, is where deleted-file names, renamed-file history, and content previews survive after a normal query goes dark. If MFT and Journal entries are gone, the Search Index WAL may be the only surviving record of what the file was named and what it contained. Both tools are in the Protokol-7 GitHub repositories linked in the report.</p><p>#DFIR_Radar</p><p><a href="https://protokol-7.github.io/dfir/2026/10/28/windows-search-index-gaps-and-wal-carving.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116983372732113068">View on X</a></p>]]></content:encoded>
-      <dc:creator>Protokol-7</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116983372732113068</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2116983372732113068">DFIR Radar</source>
-      <pubDate>Sun, 01 Nov 2026 19:59:02 +0000</pubDate>
-      <guid isPermaLink="false">2116983372732113068</guid>
     </item>
   </channel>
 </rss>
