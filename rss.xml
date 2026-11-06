@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2026 02:02:21 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 03:02:42 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Russian APT29 Targets Mobile Users with Watering Hole Attacks</title>
+      <link>https://securityaffairs.com/202473/apt/russian-apt29-targets-mobile-users-with-watering-hole-attacks.html</link>
+      <description>Russian 🇷🇺 APT29 ran a large-scale watering hole campaign against iOS and Android users, poisoning hacked sites and a Ukrainian 🇺🇦 analytics supply chain to deliver n-day mobile exploit chains.
+
+Key details:
+
+- Three delivery vectors, one payload pipeline. APT29 injected malicious JavaScript into compromised high-profile sites across the US 🇺🇸, Ukraine 🇺🇦, Czech 🇨🇿 Republic, and Bulgaria 🇧🇬, stood up fake sites impersonating America250 and a London hotel adjacent to the UK 🇬🇧 Ministry of Defence (theowo[.]club, now offline, acted as a reverse proxy), and from August 27 to September 3, 2026, compromised the Plerdy analytics tracker at a.plerdy[.]com, which is loaded by thousands of mostly Ukrainian 🇺🇦 websites including military and recruitment sites. The Bulgarian 🇧🇬 compromise modified an existing JavaScript library without touching visible page content, a subtle artifact to look for.
+
+- The profiling script, which the attackers named UltimateFingerprinter, was hidden inside a minified AngularJS library that makes up 98 percent of a 2.3 MB file. It runs 61 collectors building 394 fields before querying the server at static.flux-telemetry[.]com for exploit delivery. Despite collecting hundreds of data points, only implausible screen sizes or zero touch-point values blocked delivery. The bulk of the file likely served to defeat automated analysis rather than to inform targeting.
+
+- Three exploit chains were retrieved: Class A targets iOS 16.7 and steals cookies. Class B, named DarkSword, targets iOS 18.5 and exfiltrates texts, iMessages, Mail indexes, voicemail, WhatsApp and Telegram databases, Keychain passwords, contacts, call history, Safari data, location caches, Health data, photos, and iCloud Drive. Class C, named AndroSnitch, targets Android Chrome versions 139-145 (excluding 143 for unknown reasons) and steals Chrome cookies, saved logins, browsing history, and Wi-Fi credentials. All exfiltration goes to ad.starx-net[.]com:8881/telemetry/v12. No persistence is established, and no zero-days are involved.
+
+- Attribution is moderate to high confidence per Sekoia. Backend files on a compromised site matched a private report on a 2025 APT29 watering hole campaign. Google TAG confirmed the framework resembles APT29's 2024 campaign against Mongolian 🇲🇳 government websites. DarkSword was uploaded to VirusTotal in September 2026 and is assessed to originate from a commercial surveillance vendor, reinforcing Sekoia's observation that state actors are increasingly reusing packaged exploit kits from the surveillance industry.
+
+Practitioner takeaway: every device running an up-to-date OS was safe. The forensic priority on a potentially exposed device is the absence of persistence: these chains leave no foothold, so artifact recovery focuses on volatile or short-lived evidence. Hunt for outbound connections to static.flux-telemetry[.]com and ad.starx-net[.]com:8881 in proxy and DNS logs. If Plerdy's script loaded on sites you protect during August 27 to September 3, 2026, treat visitor mobile devices as potentially profiled. IOCs and the full exploit chain analysis are in Sekoia's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118539539543425383</description>
+      <content:encoded><![CDATA[<p>Russian 🇷🇺 APT29 ran a large-scale watering hole campaign against iOS and Android users, poisoning hacked sites and a Ukrainian 🇺🇦 analytics supply chain to deliver n-day mobile exploit chains.</p><p>Key details:</p><p>- Three delivery vectors, one payload pipeline. APT29 injected malicious JavaScript into compromised high-profile sites across the US 🇺🇸, Ukraine 🇺🇦, Czech 🇨🇿 Republic, and Bulgaria 🇧🇬, stood up fake sites impersonating America250 and a London hotel adjacent to the UK 🇬🇧 Ministry of Defence (theowo[.]club, now offline, acted as a reverse proxy), and from August 27 to September 3, 2026, compromised the Plerdy analytics tracker at a.plerdy[.]com, which is loaded by thousands of mostly Ukrainian 🇺🇦 websites including military and recruitment sites. The Bulgarian 🇧🇬 compromise modified an existing JavaScript library without touching visible page content, a subtle artifact to look for.</p><p>- The profiling script, which the attackers named UltimateFingerprinter, was hidden inside a minified AngularJS library that makes up 98 percent of a 2.3 MB file. It runs 61 collectors building 394 fields before querying the server at static.flux-telemetry[.]com for exploit delivery. Despite collecting hundreds of data points, only implausible screen sizes or zero touch-point values blocked delivery. The bulk of the file likely served to defeat automated analysis rather than to inform targeting.</p><p>- Three exploit chains were retrieved: Class A targets iOS 16.7 and steals cookies. Class B, named DarkSword, targets iOS 18.5 and exfiltrates texts, iMessages, Mail indexes, voicemail, WhatsApp and Telegram databases, Keychain passwords, contacts, call history, Safari data, location caches, Health data, photos, and iCloud Drive. Class C, named AndroSnitch, targets Android Chrome versions 139-145 (excluding 143 for unknown reasons) and steals Chrome cookies, saved logins, browsing history, and Wi-Fi credentials. All exfiltration goes to ad.starx-net[.]com:8881/telemetry/v12. No persistence is established, and no zero-days are involved.</p><p>- Attribution is moderate to high confidence per Sekoia. Backend files on a compromised site matched a private report on a 2025 APT29 watering hole campaign. Google TAG confirmed the framework resembles APT29&#x27;s 2024 campaign against Mongolian 🇲🇳 government websites. DarkSword was uploaded to VirusTotal in September 2026 and is assessed to originate from a commercial surveillance vendor, reinforcing Sekoia&#x27;s observation that state actors are increasingly reusing packaged exploit kits from the surveillance industry.</p><p>Practitioner takeaway: every device running an up-to-date OS was safe. The forensic priority on a potentially exposed device is the absence of persistence: these chains leave no foothold, so artifact recovery focuses on volatile or short-lived evidence. Hunt for outbound connections to static.flux-telemetry[.]com and ad.starx-net[.]com:8881 in proxy and DNS logs. If Plerdy&#x27;s script loaded on sites you protect during August 27 to September 3, 2026, treat visitor mobile devices as potentially profiled. IOCs and the full exploit chain analysis are in Sekoia&#x27;s report.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/202473/apt/russian-apt29-targets-mobile-users-with-watering-hole-attacks.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118539539543425383">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118539539543425383</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2118539539543425383">DFIR Radar</source>
+      <pubDate>Fri, 06 Nov 2026 03:02:42 +0000</pubDate>
+      <guid isPermaLink="false">2118539539543425383</guid>
+    </item>
     <item>
       <title>CERT-In Flags AI-Driven Attacks as Backdoored ARTEX Exposes 62 Consoles to Root Access</title>
       <link>https://thehackernews.com/2026/11/backdoored-docker-image-for-artex-ai.html</link>
@@ -2312,20 +2338,6 @@ Practitioner takeaway: treat Claude like any other SaaS your organization has de
       <source url="https://x.com/DFIR_Radar/status/2116832954961862716">DFIR Radar</source>
       <pubDate>Sun, 01 Nov 2026 10:01:20 +0000</pubDate>
       <guid isPermaLink="false">2116832954961862716</guid>
-    </item>
-    <item>
-      <title>FBI Links North Korea's TraderTraitor to Record $6.43 Billion Binance Crypto Heist</title>
-      <link>https://thehackernews.com/2026/11/fbi-links-north-koreas-tradertraitor-to.html</link>
-      <description>North Korean 🇰🇵 TraderTraitor stole $6.43B from Binance across 11 blockchains, now laundering via DeFi swaps; FBI published wallet addresses. Hunt for trojanized Terraform providers delivering FLATROOF and ROOFDECK on developer endpoints.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2116817953337336170</description>
-      <content:encoded><![CDATA[<p>North Korean 🇰🇵 TraderTraitor stole $6.43B from Binance across 11 blockchains, now laundering via DeFi swaps; FBI published wallet addresses. Hunt for trojanized Terraform providers delivering FLATROOF and ROOFDECK on developer endpoints.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/fbi-links-north-koreas-tradertraitor-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2116817953337336170">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2116817953337336170</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2116817953337336170">DFIR Radar</source>
-      <pubDate>Sun, 01 Nov 2026 09:01:44 +0000</pubDate>
-      <guid isPermaLink="false">2116817953337336170</guid>
     </item>
   </channel>
 </rss>
