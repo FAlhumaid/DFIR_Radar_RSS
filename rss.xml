@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 05:03:08 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 06:02:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Re: "sshole": password authentication bypass: OpenSSH + musl libc</title>
+      <link>https://seclists.org/oss-sec/2026/q4/569</link>
+      <description>"sshole" OpenSSH password bypass is confirmed dead in 10.6p2, but empirical testing on the oss-sec list resolves two open questions the thread left hanging: exactly where the crypt() failure-value chain breaks, and whether a timing side-channel survives to the network layer.
+
+Key findings:
+
+- The bypass chain requires four links to hold simultaneously: a stored password field of "*", sshd borrowing a sha-crypt salt as the dummy, a candidate password of exactly 257 or more characters triggering musl's crypt() to return "*", and that "*" comparing equal to the stored field. The researcher confirms the threshold is &gt;=257 characters, not the "&gt;257" stated in earlier write-ups. OpenSSH 10.6p2 built without PAM refuses this 10 out of 10 in direct testing.
+
+- The root contract failure sits in musl 1.2.5's crypt(): it never returns NULL and never sets errno. Any setting two characters or longer is silently treated as a DES call using the first two characters as salt, so locked account spellings like !!, *LK*, and !$y$... all produce valid-looking 13-character DES output rather than an error. libxcrypt 4.4.36 (glibc systems, Ubuntu 24.04) avoids the bypass because its failure token "*0" cannot equal the setting that generated it, and it has no password-length failure path at all.
+
+- The timing side-channel Jeff raised in the thread is real but the mechanism was misdescribed. Single-character locked fields never reach crypt() at all; sshd routes them through the dummy hash path. The exploitable class is two-or-more-character locked spellings (!!, *LK*, !y$...). At the library level, libxcrypt resolves an invalid setting in roughly 0.06 microseconds versus 34.8 ms for yescrypt, a ~580,000x gap. musl runs those same spellings through an ~8 microsecond DES path against 3.8-66 ms for real KDFs. The signal is binary: real KDF or not, with no per-algorithm fingerprint inside the fast class.
+
+- End-to-end against a local sshd on loopback, the researcher measured 60 interleaved auth-request samples per account. bcrypt accounts sat roughly +100 ms above the none-auth baseline, yescrypt roughly +46 ms, and all locked-spelling and dummy-path accounts sat within ~11 ms of the floor. A live y$ account and the same hash locked as !y$... differed by ~37 ms of median. The sha512crypt gap of 2.5 ms at the library did not resolve through host overhead. PerSourcePenalties in a stock 10.6p2 sshd dropped 365 of 370 attempts from a single source before rate-limiting was disabled, which is a practical ceiling on remote timing exploitation.
+
+Practitioner takeaway: if you run OpenSSH on Alpine Linux or any musl-based system, verify you are on 10.6p2 and confirm no accounts carry a literal "*" in the shadow password field, since that is the first link in the chain. For locked accounts, audit whether your locking convention uses a single "!" (routed to the dummy path, no crypt() call) or multi-character spellings like "!!" or "*LK*" (which do reach crypt() and produce the timing gap described above). The timing channel does not give remote attackers per-algorithm resolution, but it does leak whether an account has a real KDF or not, which is enough to enumerate valid locked accounts against a noisy network. IOCs are not applicable here; the oss-sec thread contains the raw methodology and measurement data.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118947158242013362</description>
+      <content:encoded><![CDATA[<p>&quot;sshole&quot; OpenSSH password bypass is confirmed dead in 10.6p2, but empirical testing on the oss-sec list resolves two open questions the thread left hanging: exactly where the crypt() failure-value chain breaks, and whether a timing side-channel survives to the network layer.</p><p>Key findings:</p><p>- The bypass chain requires four links to hold simultaneously: a stored password field of &quot;*&quot;, sshd borrowing a sha-crypt salt as the dummy, a candidate password of exactly 257 or more characters triggering musl&#x27;s crypt() to return &quot;*&quot;, and that &quot;*&quot; comparing equal to the stored field. The researcher confirms the threshold is &gt;=257 characters, not the &quot;&gt;257&quot; stated in earlier write-ups. OpenSSH 10.6p2 built without PAM refuses this 10 out of 10 in direct testing.</p><p>- The root contract failure sits in musl 1.2.5&#x27;s crypt(): it never returns NULL and never sets errno. Any setting two characters or longer is silently treated as a DES call using the first two characters as salt, so locked account spellings like !!, *LK*, and !$y$... all produce valid-looking 13-character DES output rather than an error. libxcrypt 4.4.36 (glibc systems, Ubuntu 24.04) avoids the bypass because its failure token &quot;*0&quot; cannot equal the setting that generated it, and it has no password-length failure path at all.</p><p>- The timing side-channel Jeff raised in the thread is real but the mechanism was misdescribed. Single-character locked fields never reach crypt() at all; sshd routes them through the dummy hash path. The exploitable class is two-or-more-character locked spellings (!!, *LK*, !y$...). At the library level, libxcrypt resolves an invalid setting in roughly 0.06 microseconds versus 34.8 ms for yescrypt, a ~580,000x gap. musl runs those same spellings through an ~8 microsecond DES path against 3.8-66 ms for real KDFs. The signal is binary: real KDF or not, with no per-algorithm fingerprint inside the fast class.</p><p>- End-to-end against a local sshd on loopback, the researcher measured 60 interleaved auth-request samples per account. bcrypt accounts sat roughly +100 ms above the none-auth baseline, yescrypt roughly +46 ms, and all locked-spelling and dummy-path accounts sat within ~11 ms of the floor. A live y$ account and the same hash locked as !y$... differed by ~37 ms of median. The sha512crypt gap of 2.5 ms at the library did not resolve through host overhead. PerSourcePenalties in a stock 10.6p2 sshd dropped 365 of 370 attempts from a single source before rate-limiting was disabled, which is a practical ceiling on remote timing exploitation.</p><p>Practitioner takeaway: if you run OpenSSH on Alpine Linux or any musl-based system, verify you are on 10.6p2 and confirm no accounts carry a literal &quot;*&quot; in the shadow password field, since that is the first link in the chain. For locked accounts, audit whether your locking convention uses a single &quot;!&quot; (routed to the dummy path, no crypt() call) or multi-character spellings like &quot;!!&quot; or &quot;*LK*&quot; (which do reach crypt() and produce the timing gap described above). The timing channel does not give remote attackers per-algorithm resolution, but it does leak whether an account has a real KDF or not, which is enough to enumerate valid locked accounts against a noisy network. IOCs are not applicable here; the oss-sec thread contains the raw methodology and measurement data.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/569">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118947158242013362">View on X</a></p>]]></content:encoded>
+      <dc:creator>OSS-Security Mailing List</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118947158242013362</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2118947158242013362">DFIR Radar</source>
+      <pubDate>Sat, 07 Nov 2026 06:02:26 +0000</pubDate>
+      <guid isPermaLink="false">2118947158242013362</guid>
+    </item>
     <item>
       <title>Zyxel GS1900 Zero-Day: Patch 3 Fixes Bypassed Bug</title>
       <link>https://socradar.io/blog/zyxel-gs1900-zero-day-patch-3-fixes-bypassed-bug/</link>
@@ -2242,20 +2268,6 @@ DFIR takeaway: if you are investigating anomalous outbound traffic from embedded
       <source url="https://x.com/DFIR_Radar/status/2117467175476937120">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 04:01:30 +0000</pubDate>
       <guid isPermaLink="false">2117467175476937120</guid>
-    </item>
-    <item>
-      <title>HTTP2Shell: What the Critical Brotli Vulnerability Means for WordPress Sites</title>
-      <link>https://www.wordfence.com/blog/2026/11/http2shell-wordpress-brotli/</link>
-      <description>CVE-2026-111497 (CVSS 9.2), a critical Brotli out-of-bounds write, enables unauthenticated RCE via WordPress XML-RPC pingback. Hunt xmlrpc.php pingback requests, unusual outbound connections, and PHP crashes; patch the server-level Brotli library.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117452118529544366</description>
-      <content:encoded><![CDATA[<p>CVE-2026-111497 (CVSS 9.2), a critical Brotli out-of-bounds write, enables unauthenticated RCE via WordPress XML-RPC pingback. Hunt xmlrpc.php pingback requests, unusual outbound connections, and PHP crashes; patch the server-level Brotli library.</p><p>#DFIR_Radar</p><p><a href="https://www.wordfence.com/blog/2026/11/http2shell-wordpress-brotli/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117452118529544366">View on X</a></p>]]></content:encoded>
-      <dc:creator>Wordfence</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117452118529544366</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2117452118529544366">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 03:01:40 +0000</pubDate>
-      <guid isPermaLink="false">2117452118529544366</guid>
     </item>
   </channel>
 </rss>
