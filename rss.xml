@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 02:02:39 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 03:01:55 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Experts Demonstrate Barracuda Email Security Gateway Chain Enabling Root Access Without Login</title>
+      <link>https://thehackernews.com/2026/11/experts-demonstrate-barracuda-email.html</link>
+      <description>CVE-2026-116606 (CVSS 9.3) chained with CVE-2026-111560 (CVSS 8.6) enables unauthenticated root on Barracuda Email Security Gateway via a forged backup checksum. Patch to 9.4.0.030; no KEV listing yet but exploitation is straightforward.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118901732654682147</description>
+      <content:encoded><![CDATA[<p>CVE-2026-116606 (CVSS 9.3) chained with CVE-2026-111560 (CVSS 8.6) enables unauthenticated root on Barracuda Email Security Gateway via a forged backup checksum. Patch to 9.4.0.030; no KEV listing yet but exploitation is straightforward.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/experts-demonstrate-barracuda-email.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118901732654682147">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118901732654682147</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2118901732654682147">DFIR Radar</source>
+      <pubDate>Sat, 07 Nov 2026 03:01:55 +0000</pubDate>
+      <guid isPermaLink="false">2118901732654682147</guid>
+    </item>
     <item>
       <title>Infostealers In Banking Fraud: How Stolen Credentials Lead To Silent Intrusions</title>
       <link>https://www.group-ib.com/blog/infostealers-banking-fraud-stolen-credentials/</link>
@@ -2258,34 +2272,6 @@ Practitioner takeaway: On Linux systems in scope, check for .bashrc modification
       <source url="https://x.com/DFIR_Radar/status/2117422106065396150">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 01:02:25 +0000</pubDate>
       <guid isPermaLink="false">2117422106065396150</guid>
-    </item>
-    <item>
-      <title>Windows Event Log Permissions: Who Can Export EVTX</title>
-      <link>https://socprime.com/blog/windows-event-log-permissions-who-can-export-evtx/</link>
-      <description>Windows Event Log access control explained for DFIR: who can read, export, and forward EVTX files, why "Access is denied" still bites admins, and how to fix it without handing out local admin rights.
-
-Key findings:
-
-- Default read access splits into two tiers. Administrators can read and export all logs but only from an elevated session because UAC strips the Administrators group from a filtered token. The built-in Event Log Readers group (SID S-1-5-32-573) gives non-admin accounts read access to most logs locally and remotely. The Security log is readable by both, but clearing it or changing auditing requires "Manage auditing and security log", which defaults to Administrators only.
-
-- The most common field failure is a non-elevated admin session. Event Viewer and wevtutil both behave as an unprivileged user when UAC filtering is active. Before chasing permissions, confirm the session is elevated. This accounts for the majority of "Access is denied" calls during IR.
-
-- Least-privilege onboarding for analysts and log collectors is one command: net localgroup "Event Log Readers" analyst /add, or the PowerShell equivalent Add-LocalGroupMember. Group membership is evaluated at logon, so a sign-out and sign-in is required before the change takes effect. Across a domain, push via Group Policy Restricted Groups or GP Preferences so every endpoint and every DC is covered without touching each machine.
-
-- Channel-level SDDL overrides silently break access. Run wevtutil gl Security and inspect the channelAccess string. An entry of (A;;0x1;;;S-1-5-32-573) means Event Log Readers can read that channel. If the SID is absent, membership in the group is not enough. Changes via wevtutil sl are possible but fragile; prefer group membership adjustments where the channel's default SDDL already includes the right SID.
-
-- Windows Event Forwarding has a specific prerequisite for the Security log: NETWORK SERVICE must be a member of Event Log Readers on source machines. Without it, a WEF subscription reports healthy but delivers no Security events, a silent gap that is easy to miss during collection validation. Remote collection via Event Viewer and wevtutil uses RPC, enabled with Enable-NetFirewallRule -DisplayGroup "Remote Event Log Management". PowerShell remoting via Invoke-Command uses WinRM, which is often already open where RPC is not.
-
-Practitioner takeaway: before an IR engagement, validate collection health on every source. Run wevtutil gl Security on representative endpoints and confirm S-1-5-32-573 appears in channelAccess. If you run WEF, verify NETWORK SERVICE is in Event Log Readers and spot-check that Security events are actually arriving in the subscription, not just that the subscription shows as active. When exporting EVTX files for sharing or upload, the report notes that some destinations do not sanitize EVTX content, so convert to JSON first if the receiving platform is not hardened for raw EVTX ingestion.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117407062179410274</description>
-      <content:encoded><![CDATA[<p>Windows Event Log access control explained for DFIR: who can read, export, and forward EVTX files, why &quot;Access is denied&quot; still bites admins, and how to fix it without handing out local admin rights.</p><p>Key findings:</p><p>- Default read access splits into two tiers. Administrators can read and export all logs but only from an elevated session because UAC strips the Administrators group from a filtered token. The built-in Event Log Readers group (SID S-1-5-32-573) gives non-admin accounts read access to most logs locally and remotely. The Security log is readable by both, but clearing it or changing auditing requires &quot;Manage auditing and security log&quot;, which defaults to Administrators only.</p><p>- The most common field failure is a non-elevated admin session. Event Viewer and wevtutil both behave as an unprivileged user when UAC filtering is active. Before chasing permissions, confirm the session is elevated. This accounts for the majority of &quot;Access is denied&quot; calls during IR.</p><p>- Least-privilege onboarding for analysts and log collectors is one command: net localgroup &quot;Event Log Readers&quot; analyst /add, or the PowerShell equivalent Add-LocalGroupMember. Group membership is evaluated at logon, so a sign-out and sign-in is required before the change takes effect. Across a domain, push via Group Policy Restricted Groups or GP Preferences so every endpoint and every DC is covered without touching each machine.</p><p>- Channel-level SDDL overrides silently break access. Run wevtutil gl Security and inspect the channelAccess string. An entry of (A;;0x1;;;S-1-5-32-573) means Event Log Readers can read that channel. If the SID is absent, membership in the group is not enough. Changes via wevtutil sl are possible but fragile; prefer group membership adjustments where the channel&#x27;s default SDDL already includes the right SID.</p><p>- Windows Event Forwarding has a specific prerequisite for the Security log: NETWORK SERVICE must be a member of Event Log Readers on source machines. Without it, a WEF subscription reports healthy but delivers no Security events, a silent gap that is easy to miss during collection validation. Remote collection via Event Viewer and wevtutil uses RPC, enabled with Enable-NetFirewallRule -DisplayGroup &quot;Remote Event Log Management&quot;. PowerShell remoting via Invoke-Command uses WinRM, which is often already open where RPC is not.</p><p>Practitioner takeaway: before an IR engagement, validate collection health on every source. Run wevtutil gl Security on representative endpoints and confirm S-1-5-32-573 appears in channelAccess. If you run WEF, verify NETWORK SERVICE is in Event Log Readers and spot-check that Security events are actually arriving in the subscription, not just that the subscription shows as active. When exporting EVTX files for sharing or upload, the report notes that some destinations do not sanitize EVTX content, so convert to JSON first if the receiving platform is not hardened for raw EVTX ingestion.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/windows-event-log-permissions-who-can-export-evtx/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117407062179410274">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117407062179410274</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2117407062179410274">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 00:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2117407062179410274</guid>
     </item>
   </channel>
 </rss>
