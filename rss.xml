@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 22:02:15 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 23:02:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers Target OpenSSH SSHole Flaw Within Hours of Disclosure, Gain Root on Honeypot</title>
+      <link>https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html</link>
+      <description>CVE-2026-123158 (CVSS 8.1) in OpenSSH on musl-based Alpine Linux exploitation observed within 9 hours. Hunt /var/log/messages for "Accepted password" on asterisk-hash accounts, then patch to 10.6p2.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119203828491071748</description>
+      <content:encoded><![CDATA[<p>CVE-2026-123158 (CVSS 8.1) in OpenSSH on musl-based Alpine Linux exploitation observed within 9 hours. Hunt /var/log/messages for &quot;Accepted password&quot; on asterisk-hash accounts, then patch to 10.6p2.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119203828491071748">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119203828491071748</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2119203828491071748">DFIR Radar</source>
+      <pubDate>Sat, 07 Nov 2026 23:02:20 +0000</pubDate>
+      <guid isPermaLink="false">2119203828491071748</guid>
+    </item>
     <item>
       <title>ARTEX Offensive AI Tool Activity Far Exceeds Reported Campaigns, Censys Finds</title>
       <link>https://www.infosecurity-magazine.com/news/artex-activity-exceeds-reported/</link>
@@ -2202,34 +2216,6 @@ Practitioner takeaway: The report publishes three ready-to-run Microsoft Defende
       <source url="https://x.com/DFIR_Radar/status/2117694013528797389">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 19:02:53 +0000</pubDate>
       <guid isPermaLink="false">2117694013528797389</guid>
-    </item>
-    <item>
-      <title>Designing a Malware Analysis Lab With REMnux</title>
-      <link>https://zeltser.com/malware-analysis-lab-remnux</link>
-      <description>A practical REMnux lab architecture for AI-assisted analysis: two VMs on a host-only network, one allowlisted egress path, and deliberate choices about where the agent runs and what it can reach.
-
-Key details:
-
-- The core network design places both the Windows VM and REMnux on a host-only virtual network with no internet access. The Windows VM uses REMnux as its default gateway and DNS server, so all sample traffic lands on REMnux, where fakedns redirects hostname lookups to the REMnux address and accept-all-ips handles IP-based connections. INetSim or a custom listener then responds on the targeted port, keeping the sample running so you can observe the next stage rather than watching it stall and exit.
-
-- The AI agent placement decision carries real security weight. Running the agent on REMnux keeps it inside the disposable VM, so a prompt injection via malicious content in the sample acts there rather than on your workstation. Running it on your workstation is the higher-risk choice: a hijacked agent has access to your files, credentials, and network. If you choose the workstation path, sandbox the agent and limit what it can read and connect to, the same care you would apply on REMnux.
-
-- REMnux's restrict-egress script controls outbound access from the VM. You list allowed destinations (domains, IPs, or CIDR ranges) in /etc/restrict-egress.conf and toggle the rules with sudo restrict-egress on or off. Keep the allowlist short, typically just the AI model's endpoint, because each allowed entry is a place a manipulated agent can send data or fetch a payload. Two limits to know: the default REMnux user has passwordless sudo and can disable these rules from inside the VM, and an allowed domain on a shared CDN covers everything behind it.
-
-- Giving the Windows VM a temporary internet path requires routing through the REMnux NAT adapter. You enable ip_forward, override Docker's DROP forwarding policy with iptables -I FORWARD -j ACCEPT, and masquerade outbound traffic through the NAT interface. While that path is open, restrict-egress does not filter Windows VM traffic, the sample can reach live malicious infrastructure and your local network, and external operators see your public IP. A VPN such as AlgoVPN mitigates the attribution risk.
-
-- The REMnux MCP server is worth understanding as an artifact boundary. It runs on the REMnux VM or container and gives the agent structured access to analysis tools rather than a raw shell. This matters forensically: an agent with only shell access must pick tools and parse raw output itself, increasing the chance it runs something unintended. The MCP server returns structured results and limits what ends up in the agent's context window, which reduces the surface for prompt injection to exploit.
-
-Practitioner takeaway: before you run anything, decide two things: where the agent lives and what egress you allow. Start restrict-egress with only the AI model endpoint in /etc/restrict-egress.conf, verify the Windows VM has no path out that bypasses REMnux, and treat every addition to the allowlist as a conscious risk decision. The report walks through the full setup sequence and covers both VM and container deployment options.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117678900163526821</description>
-      <content:encoded><![CDATA[<p>A practical REMnux lab architecture for AI-assisted analysis: two VMs on a host-only network, one allowlisted egress path, and deliberate choices about where the agent runs and what it can reach.</p><p>Key details:</p><p>- The core network design places both the Windows VM and REMnux on a host-only virtual network with no internet access. The Windows VM uses REMnux as its default gateway and DNS server, so all sample traffic lands on REMnux, where fakedns redirects hostname lookups to the REMnux address and accept-all-ips handles IP-based connections. INetSim or a custom listener then responds on the targeted port, keeping the sample running so you can observe the next stage rather than watching it stall and exit.</p><p>- The AI agent placement decision carries real security weight. Running the agent on REMnux keeps it inside the disposable VM, so a prompt injection via malicious content in the sample acts there rather than on your workstation. Running it on your workstation is the higher-risk choice: a hijacked agent has access to your files, credentials, and network. If you choose the workstation path, sandbox the agent and limit what it can read and connect to, the same care you would apply on REMnux.</p><p>- REMnux&#x27;s restrict-egress script controls outbound access from the VM. You list allowed destinations (domains, IPs, or CIDR ranges) in /etc/restrict-egress.conf and toggle the rules with sudo restrict-egress on or off. Keep the allowlist short, typically just the AI model&#x27;s endpoint, because each allowed entry is a place a manipulated agent can send data or fetch a payload. Two limits to know: the default REMnux user has passwordless sudo and can disable these rules from inside the VM, and an allowed domain on a shared CDN covers everything behind it.</p><p>- Giving the Windows VM a temporary internet path requires routing through the REMnux NAT adapter. You enable ip_forward, override Docker&#x27;s DROP forwarding policy with iptables -I FORWARD -j ACCEPT, and masquerade outbound traffic through the NAT interface. While that path is open, restrict-egress does not filter Windows VM traffic, the sample can reach live malicious infrastructure and your local network, and external operators see your public IP. A VPN such as AlgoVPN mitigates the attribution risk.</p><p>- The REMnux MCP server is worth understanding as an artifact boundary. It runs on the REMnux VM or container and gives the agent structured access to analysis tools rather than a raw shell. This matters forensically: an agent with only shell access must pick tools and parse raw output itself, increasing the chance it runs something unintended. The MCP server returns structured results and limits what ends up in the agent&#x27;s context window, which reduces the surface for prompt injection to exploit.</p><p>Practitioner takeaway: before you run anything, decide two things: where the agent lives and what egress you allow. Start restrict-egress with only the AI model endpoint in /etc/restrict-egress.conf, verify the Windows VM has no path out that bypasses REMnux, and treat every addition to the allowlist as a conscious risk decision. The report walks through the full setup sequence and covers both VM and container deployment options.</p><p>#DFIR_Radar</p><p><a href="https://zeltser.com/malware-analysis-lab-remnux">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117678900163526821">View on X</a></p>]]></content:encoded>
-      <dc:creator>Lenny Zeltser</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117678900163526821</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2117678900163526821">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 18:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2117678900163526821</guid>
     </item>
   </channel>
 </rss>
