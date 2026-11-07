@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 04:01:41 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 05:03:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Zyxel GS1900 Zero-Day: Patch 3 Fixes Bypassed Bug</title>
+      <link>https://socradar.io/blog/zyxel-gs1900-zero-day-patch-3-fixes-bypassed-bug/</link>
+      <description>CVE-2026-107441 (CVSS 9.8), a zero-day out-of-bounds write in Zyxel GS1900 dispatcher.cgi, saw active exploitation before Patch 3 fixed it; Patch 2 left the flaw open. Upgrade all GS1900 models to 2.90 Patch 3 and rotate root credentials.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118932236745797700</description>
+      <content:encoded><![CDATA[<p>CVE-2026-107441 (CVSS 9.8), a zero-day out-of-bounds write in Zyxel GS1900 dispatcher.cgi, saw active exploitation before Patch 3 fixed it; Patch 2 left the flaw open. Upgrade all GS1900 models to 2.90 Patch 3 and rotate root credentials.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/zyxel-gs1900-zero-day-patch-3-fixes-bypassed-bug/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118932236745797700">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2118932236745797700</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2118932236745797700">DFIR Radar</source>
+      <pubDate>Sat, 07 Nov 2026 05:03:08 +0000</pubDate>
+      <guid isPermaLink="false">2118932236745797700</guid>
+    </item>
     <item>
       <title>ARTEX abuse expands as cybercriminals target financial sector</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/11/06/artex-abuse-expands-as-cybercriminals-target-financial-sector/</link>
@@ -2242,34 +2256,6 @@ DFIR takeaway: if you are investigating anomalous outbound traffic from embedded
       <source url="https://x.com/DFIR_Radar/status/2117452118529544366">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 03:01:40 +0000</pubDate>
       <guid isPermaLink="false">2117452118529544366</guid>
-    </item>
-    <item>
-      <title>Attackers Pose as IT Support on Microsoft Teams, Abuse AD CS to Steal Company Data</title>
-      <link>https://thehackernews.com/2026/11/attackers-pose-as-it-support-on.html</link>
-      <description>Attackers impersonating IT support on Microsoft Teams combined social engineering, Quick Assist abuse, and misconfigured AD CS to steal credentials and company data across two investigated intrusions.
-
-Key findings:
-
-- Initial access in both cases came through Teams messages and calls from external tenants with support-themed names. Employees were coached into opening Quick Assist and reading back the connection code, handing the attacker live control of the workstation. The attacker then dropped an archive into the Downloads folder, unpacked it into a folder named to resemble a Windows update, and executed contents using a portable Python, Bun, or Java runtime, making file-name-based detection unreliable.
-
-- Case 1 exploited ESC1, a certificate template misconfiguration where the requester can specify the account the certificate represents. A low-privileged foothold produced certificates for 11 highly privileged accounts across two waves. One account was excluded from Microsoft Defender's automatic attack disruption, and that gap was enough: within seconds of obtaining a certificate the attacker ran DCSync against a domain controller, then used a renamed Rclone binary to exfiltrate data to an external SFTP server. The report's framing is precise: "partial identity containment can reduce attack activity while still leaving a viable privileged route."
-
-- Case 2 lacked the ESC1 template weakness, so the attacker pivoted to PetitPotam to coerce the domain controller into authenticating outbound via NTLM, then relayed that authentication to the AD CS web enrollment page (ESC8) to obtain a certificate for the domain controller itself. Using PKINIT, they converted that certificate into a Kerberos ticket-granting ticket, turning a one-time relayed login into persistent domain controller identity. Defender raised ESC8 alerts, the workstation was isolated, and the attack stopped there.
-
-- No software vulnerability was exploited. ESC1 and ESC8 were documented by researchers in 2021, and PetitPotam was disclosed the same year. The Teams help-desk entry method had been documented by Microsoft earlier in 2026. What this report establishes is that these techniques converge in real intrusions, and that the outcome difference between the two cases came down entirely to whether containment was complete. Microsoft has not attributed either intrusion to a known group.
-
-- Three file hashes for the initial-access scripts are in the report: 85b6c424117494d3056e88689dbc94c75e9afdb187a339714043aec0da109f17 (JavaScript), f326201269f1ee2f803ae435317507263bb6e0dbfdeb70bd1bb5446e2e46f001 (Python), and 06c5c14f043aee3bcc5843b5f50909623d5c9a6239a7c1fba9cddad4111469e7 (Python). The report also lists Defender alert names across Teams, endpoint, and identity signals.
-
-Practitioner takeaway: audit your AD CS templates now, specifically for ESC1 (requester-controlled SAN) and ESC8 (NTLM-relayable web enrollment). Enable EPA on web enrollment endpoints and review KB5005413 for Server 2022 and 2019 since Server 2025 enables it by default. Turn on certificate auditing and check what has been issued recently. If you are reviewing a potential intrusion, remember that revoking a certificate does not cancel Kerberos tickets already in hand. Hunt Downloads folders for archives unpacked into update-themed directories and look for portable runtime processes (Python, Bun, Java) spawning from unusual parent paths. Any account excluded from automatic containment needs a manual action assigned immediately, not later.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117437224589422605</description>
-      <content:encoded><![CDATA[<p>Attackers impersonating IT support on Microsoft Teams combined social engineering, Quick Assist abuse, and misconfigured AD CS to steal credentials and company data across two investigated intrusions.</p><p>Key findings:</p><p>- Initial access in both cases came through Teams messages and calls from external tenants with support-themed names. Employees were coached into opening Quick Assist and reading back the connection code, handing the attacker live control of the workstation. The attacker then dropped an archive into the Downloads folder, unpacked it into a folder named to resemble a Windows update, and executed contents using a portable Python, Bun, or Java runtime, making file-name-based detection unreliable.</p><p>- Case 1 exploited ESC1, a certificate template misconfiguration where the requester can specify the account the certificate represents. A low-privileged foothold produced certificates for 11 highly privileged accounts across two waves. One account was excluded from Microsoft Defender&#x27;s automatic attack disruption, and that gap was enough: within seconds of obtaining a certificate the attacker ran DCSync against a domain controller, then used a renamed Rclone binary to exfiltrate data to an external SFTP server. The report&#x27;s framing is precise: &quot;partial identity containment can reduce attack activity while still leaving a viable privileged route.&quot;</p><p>- Case 2 lacked the ESC1 template weakness, so the attacker pivoted to PetitPotam to coerce the domain controller into authenticating outbound via NTLM, then relayed that authentication to the AD CS web enrollment page (ESC8) to obtain a certificate for the domain controller itself. Using PKINIT, they converted that certificate into a Kerberos ticket-granting ticket, turning a one-time relayed login into persistent domain controller identity. Defender raised ESC8 alerts, the workstation was isolated, and the attack stopped there.</p><p>- No software vulnerability was exploited. ESC1 and ESC8 were documented by researchers in 2021, and PetitPotam was disclosed the same year. The Teams help-desk entry method had been documented by Microsoft earlier in 2026. What this report establishes is that these techniques converge in real intrusions, and that the outcome difference between the two cases came down entirely to whether containment was complete. Microsoft has not attributed either intrusion to a known group.</p><p>- Three file hashes for the initial-access scripts are in the report: 85b6c424117494d3056e88689dbc94c75e9afdb187a339714043aec0da109f17 (JavaScript), f326201269f1ee2f803ae435317507263bb6e0dbfdeb70bd1bb5446e2e46f001 (Python), and 06c5c14f043aee3bcc5843b5f50909623d5c9a6239a7c1fba9cddad4111469e7 (Python). The report also lists Defender alert names across Teams, endpoint, and identity signals.</p><p>Practitioner takeaway: audit your AD CS templates now, specifically for ESC1 (requester-controlled SAN) and ESC8 (NTLM-relayable web enrollment). Enable EPA on web enrollment endpoints and review KB5005413 for Server 2022 and 2019 since Server 2025 enables it by default. Turn on certificate auditing and check what has been issued recently. If you are reviewing a potential intrusion, remember that revoking a certificate does not cancel Kerberos tickets already in hand. Hunt Downloads folders for archives unpacked into update-themed directories and look for portable runtime processes (Python, Bun, Java) spawning from unusual parent paths. Any account excluded from automatic containment needs a manual action assigned immediately, not later.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/attackers-pose-as-it-support-on.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117437224589422605">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117437224589422605</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2117437224589422605">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 02:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2117437224589422605</guid>
     </item>
   </channel>
 </rss>
