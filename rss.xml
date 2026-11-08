@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 23:02:20 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 00:02:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>OpenSSH flaw exploited in the wild just hours after disclosure (CVE-2026-123158)</title>
+      <link>https://www.helpnetsecurity.com/2026/11/06/openssh-sshole-cve-2026-123158-exploitation/</link>
+      <description>CVE-2026-123158 in OpenSSH on musl-based systems is actively exploited, with confirmed root access on a honeypot. Search /var/log/messages for "Accepted password for" on accounts lacking a password hash, then patch and restart sshd.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119218950953226410</description>
+      <content:encoded><![CDATA[<p>CVE-2026-123158 in OpenSSH on musl-based systems is actively exploited, with confirmed root access on a honeypot. Search /var/log/messages for &quot;Accepted password for&quot; on accounts lacking a password hash, then patch and restart sshd.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/11/06/openssh-sshole-cve-2026-123158-exploitation/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119218950953226410">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119218950953226410</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2119218950953226410">DFIR Radar</source>
+      <pubDate>Sun, 08 Nov 2026 00:02:26 +0000</pubDate>
+      <guid isPermaLink="false">2119218950953226410</guid>
+    </item>
     <item>
       <title>Hackers Target OpenSSH SSHole Flaw Within Hours of Disclosure, Gain Root on Honeypot</title>
       <link>https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html</link>
@@ -2190,32 +2204,6 @@ Practitioner takeaway: if the IP appears in your logs, treat it as a confirmed d
       <source url="https://x.com/DFIR_Radar/status/2117708860966535519">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 20:01:53 +0000</pubDate>
       <guid isPermaLink="false">2117708860966535519</guid>
-    </item>
-    <item>
-      <title>Fake-download campaign uses trojanized installers to deliver monetization payloads</title>
-      <link>https://www.microsoft.com/en-us/security/blog/2026/11/03/fake-download-campaign-uses-trojanized-installers-deliver-monetization-payloads/</link>
-      <description>Trojanized fake-download installers silently enroll victim machines into proxyware pools, distributed-compute networks, and adware bundles via a multi-offer Inno Setup delivery chain tracked by Microsoft Threat Intelligence.
-
-Key findings:
-
-- The attack chain begins when users run lures named as cracked commercial software, game installers, Roblox executors, or driver tools (T1204.002, T1036). The installer spawns an Inno Setup temporary runner under %TEMP%\is-*.tmp\ and launches numbered staged payloads: eld0.exe through eld5.exe and set_*.exe variants. Arguments /SL5, /SPAWNWND, and /FIRSTWND in the command line are durable process-tree signals that outlast the original lure filename and survive across lure categories.
-
-- After staging, the runner sends per-offer HTTP callbacks to rotating infrastructure using a repeatable query pattern: d=inno with r=offer_execution or r=offer_execution_fail. Offer and download-network pairs (o=1712/dn=507 through o=1730/dn=567) coordinate which payload each slot delivers. A failed offer does not stop the chain. In some EDR traces, child payloads launched before the callback completed, so the callback is an attribution signal, not a prevention guarantee. Observed callback domains include beliefdesk[.]xyz, companyharbor[.]xyz, signalpane[.]cfd, inkact[.]xyz, and wishgrove[.]cfd, along with orbittrack[.]cfd, prairielink[.]cfd, willowbox[.]xyz, and others listed in the report's IOC section.
-
-- Three confirmed monetization branches install silently via unattended switches (/qn, /S, /quiet, /norestart). WorldProxyPool (T1496) drops sdk-agent.exe under C:\Program Files\WorldProxyPool\ and creates three SYSTEM-level scheduled tasks: WorldProxyPoolAgent at startup, WorldProxyPoolWatchdog running a hidden noninteractive PowerShell script every five minutes (T1564.003, T1053.005), and WorldProxyPoolUpdater hourly. CharityEngine and BOINC install under C:\Program Files\BOINC\ and C:\ProgramData\BOINC\ alongside VirtualBox-7.2.8-r173730.msi to support distributed compute workloads. AW Manager installs AdvancedWindowsManager.exe and Windows Updater.exe under paths resembling %APPDATA%\AW Manager\Windows Manager 1.0.0\ or C:\Program Files (x86)\AW Manager\Windows Manager\.
-
-- Seven SHA-256 hashes are provided in the report covering Inno runners, loaders, and staged eld payloads. Microsoft Defender detections tied to this chain include Trojan:Win64/OfferLoader.DA!MTB, Trojan:Win64/OfferLoader.DB!MTB, Behavior:Win32/SuspInnoOffer.A!mapsi, Adware:Win32/Clover, and Trojan:Win32/OffLoader.A. Defender for Endpoint alert names include "Suspicious scheduled task activity", "Suspicious Scheduled Task Process Launched", and "Suspicious 'SuspInnoOffer' behavior was blocked".
-
-Practitioner takeaway: The report publishes three ready-to-run Microsoft Defender XDR advanced hunting queries covering Inno offer-execution callbacks (filter DeviceNetworkEvents for RemoteUrl containing d=inno plus r=offer_execution or r=offer_execution_fail), payload execution from Inno temp directories (DeviceProcessEvents where FolderPath matches \AppData\Local\Temp\is-* and FileName matches the eld/set_/FirstFast/SecondRunner pattern), and outbound connections to the listed callback domains. For hosts already showing these signals, pivot to scheduled task creation events: WorldProxyPoolAgent, WorldProxyPoolWatchdog, and WorldProxyPoolUpdater running as SYSTEM are a clean confirmation of the proxyware branch. Then audit software inventory for BOINC, VirtualBox, CharityEngine, and AW Manager installs the user did not initiate. Full IOCs, hashes, and MITRE mappings are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117694013528797389</description>
-      <content:encoded><![CDATA[<p>Trojanized fake-download installers silently enroll victim machines into proxyware pools, distributed-compute networks, and adware bundles via a multi-offer Inno Setup delivery chain tracked by Microsoft Threat Intelligence.</p><p>Key findings:</p><p>- The attack chain begins when users run lures named as cracked commercial software, game installers, Roblox executors, or driver tools (T1204.002, T1036). The installer spawns an Inno Setup temporary runner under %TEMP%\is-*.tmp\ and launches numbered staged payloads: eld0.exe through eld5.exe and set_*.exe variants. Arguments /SL5, /SPAWNWND, and /FIRSTWND in the command line are durable process-tree signals that outlast the original lure filename and survive across lure categories.</p><p>- After staging, the runner sends per-offer HTTP callbacks to rotating infrastructure using a repeatable query pattern: d=inno with r=offer_execution or r=offer_execution_fail. Offer and download-network pairs (o=1712/dn=507 through o=1730/dn=567) coordinate which payload each slot delivers. A failed offer does not stop the chain. In some EDR traces, child payloads launched before the callback completed, so the callback is an attribution signal, not a prevention guarantee. Observed callback domains include beliefdesk[.]xyz, companyharbor[.]xyz, signalpane[.]cfd, inkact[.]xyz, and wishgrove[.]cfd, along with orbittrack[.]cfd, prairielink[.]cfd, willowbox[.]xyz, and others listed in the report&#x27;s IOC section.</p><p>- Three confirmed monetization branches install silently via unattended switches (/qn, /S, /quiet, /norestart). WorldProxyPool (T1496) drops sdk-agent.exe under C:\Program Files\WorldProxyPool\ and creates three SYSTEM-level scheduled tasks: WorldProxyPoolAgent at startup, WorldProxyPoolWatchdog running a hidden noninteractive PowerShell script every five minutes (T1564.003, T1053.005), and WorldProxyPoolUpdater hourly. CharityEngine and BOINC install under C:\Program Files\BOINC\ and C:\ProgramData\BOINC\ alongside VirtualBox-7.2.8-r173730.msi to support distributed compute workloads. AW Manager installs AdvancedWindowsManager.exe and Windows Updater.exe under paths resembling %APPDATA%\AW Manager\Windows Manager 1.0.0\ or C:\Program Files (x86)\AW Manager\Windows Manager\.</p><p>- Seven SHA-256 hashes are provided in the report covering Inno runners, loaders, and staged eld payloads. Microsoft Defender detections tied to this chain include Trojan:Win64/OfferLoader.DA!MTB, Trojan:Win64/OfferLoader.DB!MTB, Behavior:Win32/SuspInnoOffer.A!mapsi, Adware:Win32/Clover, and Trojan:Win32/OffLoader.A. Defender for Endpoint alert names include &quot;Suspicious scheduled task activity&quot;, &quot;Suspicious Scheduled Task Process Launched&quot;, and &quot;Suspicious &#x27;SuspInnoOffer&#x27; behavior was blocked&quot;.</p><p>Practitioner takeaway: The report publishes three ready-to-run Microsoft Defender XDR advanced hunting queries covering Inno offer-execution callbacks (filter DeviceNetworkEvents for RemoteUrl containing d=inno plus r=offer_execution or r=offer_execution_fail), payload execution from Inno temp directories (DeviceProcessEvents where FolderPath matches \AppData\Local\Temp\is-* and FileName matches the eld/set_/FirstFast/SecondRunner pattern), and outbound connections to the listed callback domains. For hosts already showing these signals, pivot to scheduled task creation events: WorldProxyPoolAgent, WorldProxyPoolWatchdog, and WorldProxyPoolUpdater running as SYSTEM are a clean confirmation of the proxyware branch. Then audit software inventory for BOINC, VirtualBox, CharityEngine, and AW Manager installs the user did not initiate. Full IOCs, hashes, and MITRE mappings are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.microsoft.com/en-us/security/blog/2026/11/03/fake-download-campaign-uses-trojanized-installers-deliver-monetization-payloads/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117694013528797389">View on X</a></p>]]></content:encoded>
-      <dc:creator>Microsoft Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117694013528797389</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2117694013528797389">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 19:02:53 +0000</pubDate>
-      <guid isPermaLink="false">2117694013528797389</guid>
     </item>
   </channel>
 </rss>
