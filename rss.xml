@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 08 Nov 2026 16:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 16:33:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Pass-ta-key Golden Attack: Extracting the Security Domain Secret from Chrome process memory</title>
+      <link>https://0rcruxe.github.io/posts/pass-ta-key-golden-attack-sds-extraction/</link>
+      <description>Chrome's Google Password Manager holds a 32-byte master key (the Security Domain Secret) that decrypts every synced passkey. A new memory-extraction variant recovers it without elevated privileges, rendering passkey-protected accounts fully compromisable offline.
+
+Key details:
+
+- The Security Domain Secret (SDS) encrypts all GPM synced passkeys stored as WebAuthnCredentialSpecifics records in %LocalAppData%\Google\Chrome\User Data\&lt;Profile&gt;\Sync Data\LevelDB. Malware running at standard user rights can copy that folder and exfiltrate the protobuf records, then wait for the SDS to perform offline decryption of every ECDSA private key. With those keys the attacker forges valid WebAuthn assertions independently, no victim device, no TPM, no MFA prompt required.
+
+- The SDS is structurally present in plaintext in Chrome memory during every device onboarding. It lives inside EnclaveManager::secret_ at offset +0x210 and briefly appears inside CBOR buffers constructed by BuildSecretWrappingEnclaveRequest (keys/wrap), BuildGetAssertionCommand (passkeys/assert), and BuildMakeCredentialCommand (passkeys/create) before being sent over WebSocket to enclave.ua5v[.]com. Three distinct CBOR byte-prefix patterns mark its exact location in those buffers: 81 a3 63 63 6d 64 69 6b 65 79 73 2f 77 72 61 70 63 6b 65 79 58 20 (wrap), 81 a5 63 63 6d 64 6f 70 61 73 73 6b 65 79 73 2f 61 73 73 65 72 74 66 73 65 63 72 65 74 58 20 (assert), 81 a5 63 63 6d 64 6f 70 61 73 73 6b 65 79 73 2f 63 72 65 61 74 65 66 73 65 63 72 65 74 58 20 (create). The SDS immediately follows each prefix as 32 raw bytes.
+
+- An attacker-controlled process triggers onboarding by deleting passkey_enclave_state from the Chrome profile directory. It then monitors either the recreation of that file or a new TCP connection to enclave.ua5v[.]com. Once detected, a multi-threaded scan of MEM_PRIVATE PAGE_READWRITE regions in the main Chrome process can capture the SDS during a combined exposure window of roughly 330 ms spread across a 2.2-second span. The report confirms this method succeeds at a 100% rate and was validated against Chrome Stable 136, Beta 136, Dev 138, and Canary 138.
+
+- The first variant (CVE-2025-12910) leaked the SDS in plaintext into the chrome://device-log FIDO event ring buffer in a "secret" then "key" JSON field. Google patched both fields. This second variant has no dependency on that log path: it targets the CBOR construction layer, which is a cryptographic necessity. The SDS cannot be absent from client memory at that moment, so no log-level filter resolves it. The wrapped credential blob on disk (wrapped_security_domain_secrets in passkey_enclave_state) cannot be decrypted without the Cloud Authenticator, but the SDS in memory requires no such assistance.
+
+- Google classes this as a physically-local attack outside its threat model, yet assigned CVE-2025-12910 and CVE-2025-12439 and CVE-2026-13914 and CVE-2026-12444 for earlier instances of the same class of exposure, and patched all of them urgently. The researcher's report received a fix but no CVE, and no revision to the browser's architecture. Because the SDS is irrevocable in Google's current implementation, a single successful extraction permanently compromises every passkey on the Google account.
+
+Practitioner takeaway: on a host you are triaging, treat deletion or unusual modification timestamps on passkey_enclave_state as a high-confidence precursor indicator. Correlate with process network telemetry showing a Chrome child or renderer process opening a TCP connection to enclave.ua5v[.]com outside of normal user interaction. Pair that with memory acquisition: a full Chrome process memory image taken during that window, scanned for the three CBOR prefixes above, may directly yield the SDS. Also preserve the Sync Data\LevelDB folder intact; the WebAuthnCredentialSpecifics records there are the encrypted passkey corpus an attacker would need to complete the offline decryption chain detailed in the forthcoming Part 2.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119468403735842898</description>
+      <content:encoded><![CDATA[<p>Chrome&#x27;s Google Password Manager holds a 32-byte master key (the Security Domain Secret) that decrypts every synced passkey. A new memory-extraction variant recovers it without elevated privileges, rendering passkey-protected accounts fully compromisable offline.</p><p>Key details:</p><p>- The Security Domain Secret (SDS) encrypts all GPM synced passkeys stored as WebAuthnCredentialSpecifics records in %LocalAppData%\Google\Chrome\User Data\&lt;Profile&gt;\Sync Data\LevelDB. Malware running at standard user rights can copy that folder and exfiltrate the protobuf records, then wait for the SDS to perform offline decryption of every ECDSA private key. With those keys the attacker forges valid WebAuthn assertions independently, no victim device, no TPM, no MFA prompt required.</p><p>- The SDS is structurally present in plaintext in Chrome memory during every device onboarding. It lives inside EnclaveManager::secret_ at offset +0x210 and briefly appears inside CBOR buffers constructed by BuildSecretWrappingEnclaveRequest (keys/wrap), BuildGetAssertionCommand (passkeys/assert), and BuildMakeCredentialCommand (passkeys/create) before being sent over WebSocket to enclave.ua5v[.]com. Three distinct CBOR byte-prefix patterns mark its exact location in those buffers: 81 a3 63 63 6d 64 69 6b 65 79 73 2f 77 72 61 70 63 6b 65 79 58 20 (wrap), 81 a5 63 63 6d 64 6f 70 61 73 73 6b 65 79 73 2f 61 73 73 65 72 74 66 73 65 63 72 65 74 58 20 (assert), 81 a5 63 63 6d 64 6f 70 61 73 73 6b 65 79 73 2f 63 72 65 61 74 65 66 73 65 63 72 65 74 58 20 (create). The SDS immediately follows each prefix as 32 raw bytes.</p><p>- An attacker-controlled process triggers onboarding by deleting passkey_enclave_state from the Chrome profile directory. It then monitors either the recreation of that file or a new TCP connection to enclave.ua5v[.]com. Once detected, a multi-threaded scan of MEM_PRIVATE PAGE_READWRITE regions in the main Chrome process can capture the SDS during a combined exposure window of roughly 330 ms spread across a 2.2-second span. The report confirms this method succeeds at a 100% rate and was validated against Chrome Stable 136, Beta 136, Dev 138, and Canary 138.</p><p>- The first variant (CVE-2025-12910) leaked the SDS in plaintext into the chrome://device-log FIDO event ring buffer in a &quot;secret&quot; then &quot;key&quot; JSON field. Google patched both fields. This second variant has no dependency on that log path: it targets the CBOR construction layer, which is a cryptographic necessity. The SDS cannot be absent from client memory at that moment, so no log-level filter resolves it. The wrapped credential blob on disk (wrapped_security_domain_secrets in passkey_enclave_state) cannot be decrypted without the Cloud Authenticator, but the SDS in memory requires no such assistance.</p><p>- Google classes this as a physically-local attack outside its threat model, yet assigned CVE-2025-12910 and CVE-2025-12439 and CVE-2026-13914 and CVE-2026-12444 for earlier instances of the same class of exposure, and patched all of them urgently. The researcher&#x27;s report received a fix but no CVE, and no revision to the browser&#x27;s architecture. Because the SDS is irrevocable in Google&#x27;s current implementation, a single successful extraction permanently compromises every passkey on the Google account.</p><p>Practitioner takeaway: on a host you are triaging, treat deletion or unusual modification timestamps on passkey_enclave_state as a high-confidence precursor indicator. Correlate with process network telemetry showing a Chrome child or renderer process opening a TCP connection to enclave.ua5v[.]com outside of normal user interaction. Pair that with memory acquisition: a full Chrome process memory image taken during that window, scanned for the three CBOR prefixes above, may directly yield the SDS. Also preserve the Sync Data\LevelDB folder intact; the WebAuthnCredentialSpecifics records there are the encrypted passkey corpus an attacker would need to complete the offline decryption chain detailed in the forthcoming Part 2.</p><p>#DFIR_Radar</p><p><a href="https://0rcruxe.github.io/posts/pass-ta-key-golden-attack-sds-extraction/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119468403735842898">View on X</a></p>]]></content:encoded>
+      <dc:creator>0rcruxe</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119468403735842898</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2119468403735842898">DFIR Radar</source>
+      <pubDate>Sun, 08 Nov 2026 16:33:40 +0000</pubDate>
+      <guid isPermaLink="false">2119468403735842898</guid>
+    </item>
     <item>
       <title>Scans for Sshole Vulnerability (CVE-2026-123158), (Sun, Nov 8th)</title>
       <link>https://isc.sans.edu/diary/rss/33498</link>
@@ -2178,20 +2206,6 @@ Practitioner takeaway: Run the grep command against /opt/cpguard/logs/install_lo
       <source url="https://x.com/DFIR_Radar/status/2117754511888658508">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 23:03:16 +0000</pubDate>
       <guid isPermaLink="false">2117754511888658508</guid>
-    </item>
-    <item>
-      <title>Russia-Aligned Gorbag Targets Ukraine for Intelligence</title>
-      <link>https://www.infosecurity-magazine.com/news/russia-gorbag-targets-ukraine/</link>
-      <description>Russia-aligned Gorbag targets Ukrainian 🇺🇦 government and defense orgs with BeautyStealer via CVE-2025-8088 WinRAR archives. Hunt ProgramData for encrypted payloads and Windows Startup for rogue shortcuts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117739403934363779</description>
-      <content:encoded><![CDATA[<p>Russia-aligned Gorbag targets Ukrainian 🇺🇦 government and defense orgs with BeautyStealer via CVE-2025-8088 WinRAR archives. Hunt ProgramData for encrypted payloads and Windows Startup for rogue shortcuts.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/russia-gorbag-targets-ukraine/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117739403934363779">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117739403934363779</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2117739403934363779">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 22:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2117739403934363779</guid>
     </item>
   </channel>
 </rss>
