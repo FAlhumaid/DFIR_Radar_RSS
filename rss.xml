@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 08 Nov 2026 15:01:58 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 16:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Scans for Sshole Vulnerability (CVE-2026-123158), (Sun, Nov 8th)</title>
+      <link>https://isc.sans.edu/diary/rss/33498</link>
+      <description>SANS honeypots detected rapid scanning growth for the "sshole" SSH vulnerability starting November 5th, with exploit attempts using oversized all-"A" passwords. Review SSH auth logs for anomalous password lengths from scanner IPs in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119460677261873640</description>
+      <content:encoded><![CDATA[<p>SANS honeypots detected rapid scanning growth for the &quot;sshole&quot; SSH vulnerability starting November 5th, with exploit attempts using oversized all-&quot;A&quot; passwords. Review SSH auth logs for anomalous password lengths from scanner IPs in the report.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33498">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119460677261873640">View on X</a></p>]]></content:encoded>
+      <dc:creator>SANS ISC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119460677261873640</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2119460677261873640">DFIR Radar</source>
+      <pubDate>Sun, 08 Nov 2026 16:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2119460677261873640</guid>
+    </item>
     <item>
       <title>Fake Google Meet Updates, Abused RMM Tools, the AgtaBackup RAT Ecosystem &amp; Campaign</title>
       <link>https://detect.fyi/fake-google-meet-updates-abused-rmm-tools-the-agtabackup-rat-ecosystem-campaign-814b6f09541c?source=rss----d5fd8f494f6a---4</link>
@@ -2178,32 +2192,6 @@ Practitioner takeaway: Run the grep command against /opt/cpguard/logs/install_lo
       <source url="https://x.com/DFIR_Radar/status/2117739403934363779">DFIR Radar</source>
       <pubDate>Tue, 03 Nov 2026 22:03:15 +0000</pubDate>
       <guid isPermaLink="false">2117739403934363779</guid>
-    </item>
-    <item>
-      <title>Kimsuky Detection and Exploitation Analysis</title>
-      <link>https://socprime.com/blog/kimsuky-detection-and-exploitation-analysis/</link>
-      <description>Kimsuky (G0094) tradecraft dissected through native Windows audit telemetry: a 3,087-event emulation maps LNK lures, hidden PowerShell, service and task persistence, and log clearing to the exact event IDs a defender needs to hunt.
-
-Key findings:
-
-- The emulation compresses a full Kimsuky kill chain into just over three minutes on a single domain controller. The chain opens with Event 1102 (Security log cleared at 15:02:41 UTC), then runs a dot-padded LNK lure (vvn.31.Pdf......Lnk), drops DefenderUpdate.Js to C:\Users\Public\Downloads\ for wscript.exe to execute, runs capture.Ps1 with -ExecutionPolicy Bypass -WindowStyle Hidden, launches mshta.exe against %TEMP%\D.21_SEOUL.hta, and places a masquerading binary under Public\Downloads\system32\smss.Exe. Every attacker command line is captured in the 49 Event ID 4688 process creation records, which carry most of the evidential weight here.
-
-- Persistence lands on two channels. Service OrbitalTestSvc (Event ID 4697) launches hidden PowerShell via COMSPEC. Scheduled task \OrbitalHealthCheck (Event ID 4698) triggers on logon and runs svc_update.ps1 hidden. Account persistence comes via net.exe: local user adminuserz and group admingroupz are created, then Administrator is hidden from the logon screen by writing the Winlogon\SpecialAccounts\UserList registry value. These four mechanisms, service, task, hidden account, and registry suppression, are the persistence layer to verify and remove on any suspect DC.
-
-- The 2026 campaign context matters for scoping. Operation GitPower (ongoing, with an October 2026 Ukrainian-diplomacy expansion) uses ZIP archives with LNK files posing as embassy correspondence, obfuscated PowerShell, and GitHub for staging and C2. The HTTPSpy wave ran March through April 2026 against South Korean 🇰🇷 military and corporate targets via spoofed installer pages. The groupware supply-chain compromise (2025 to early 2026) breached South Korean 🇰🇷 collaboration software vendors and pivoted to their customers. The dot-padded PDF LNK and logon-triggered task in this sample are consistent fingerprints across those campaigns.
-
-- Because the target is a domain controller, the blast radius is domain-wide. A confirmed hit on a DC means planning a double krbtgt reset, not just a local remediation. The Security log was cleared before attacker activity ran, so pre-clearance evidence must be recovered from other sources: Sysmon, DNS debug logs, authentication logs on adjacent systems, or memory.
-
-Practitioner takeaway: start your timeline at the 1102 event. Collect and hash everything under C:\Users\Public\Downloads\ and %TEMP%, confirm OrbitalTestSvc and \OrbitalHealthCheck are gone, revert Winlogon\SpecialAccounts\UserList, and reset the Administrator password before the krbtgt cycle. For proactive hunting, alert on script hosts (wscript.exe, cscript.exe, mshta.exe, powershell.exe) with parent paths in user-writable folders using 4688 command-line data, and treat any 1102 on a DC as an immediate incident trigger. Enable Script Block Logging and AMSI telemetry if they are not already on. The report names the specific event IDs (4688, 4697, 4698, 4699, 4702, 4720-4738, 5136, 1102) and artifact paths to build those detections from native Windows audit logs without additional tooling.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117724056216834131</description>
-      <content:encoded><![CDATA[<p>Kimsuky (G0094) tradecraft dissected through native Windows audit telemetry: a 3,087-event emulation maps LNK lures, hidden PowerShell, service and task persistence, and log clearing to the exact event IDs a defender needs to hunt.</p><p>Key findings:</p><p>- The emulation compresses a full Kimsuky kill chain into just over three minutes on a single domain controller. The chain opens with Event 1102 (Security log cleared at 15:02:41 UTC), then runs a dot-padded LNK lure (vvn.31.Pdf......Lnk), drops DefenderUpdate.Js to C:\Users\Public\Downloads\ for wscript.exe to execute, runs capture.Ps1 with -ExecutionPolicy Bypass -WindowStyle Hidden, launches mshta.exe against %TEMP%\D.21_SEOUL.hta, and places a masquerading binary under Public\Downloads\system32\smss.Exe. Every attacker command line is captured in the 49 Event ID 4688 process creation records, which carry most of the evidential weight here.</p><p>- Persistence lands on two channels. Service OrbitalTestSvc (Event ID 4697) launches hidden PowerShell via COMSPEC. Scheduled task \OrbitalHealthCheck (Event ID 4698) triggers on logon and runs svc_update.ps1 hidden. Account persistence comes via net.exe: local user adminuserz and group admingroupz are created, then Administrator is hidden from the logon screen by writing the Winlogon\SpecialAccounts\UserList registry value. These four mechanisms, service, task, hidden account, and registry suppression, are the persistence layer to verify and remove on any suspect DC.</p><p>- The 2026 campaign context matters for scoping. Operation GitPower (ongoing, with an October 2026 Ukrainian-diplomacy expansion) uses ZIP archives with LNK files posing as embassy correspondence, obfuscated PowerShell, and GitHub for staging and C2. The HTTPSpy wave ran March through April 2026 against South Korean 🇰🇷 military and corporate targets via spoofed installer pages. The groupware supply-chain compromise (2025 to early 2026) breached South Korean 🇰🇷 collaboration software vendors and pivoted to their customers. The dot-padded PDF LNK and logon-triggered task in this sample are consistent fingerprints across those campaigns.</p><p>- Because the target is a domain controller, the blast radius is domain-wide. A confirmed hit on a DC means planning a double krbtgt reset, not just a local remediation. The Security log was cleared before attacker activity ran, so pre-clearance evidence must be recovered from other sources: Sysmon, DNS debug logs, authentication logs on adjacent systems, or memory.</p><p>Practitioner takeaway: start your timeline at the 1102 event. Collect and hash everything under C:\Users\Public\Downloads\ and %TEMP%, confirm OrbitalTestSvc and \OrbitalHealthCheck are gone, revert Winlogon\SpecialAccounts\UserList, and reset the Administrator password before the krbtgt cycle. For proactive hunting, alert on script hosts (wscript.exe, cscript.exe, mshta.exe, powershell.exe) with parent paths in user-writable folders using 4688 command-line data, and treat any 1102 on a DC as an immediate incident trigger. Enable Script Block Logging and AMSI telemetry if they are not already on. The report names the specific event IDs (4688, 4697, 4698, 4699, 4702, 4720-4738, 5136, 1102) and artifact paths to build those detections from native Windows audit logs without additional tooling.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/kimsuky-detection-and-exploitation-analysis/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117724056216834131">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117724056216834131</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2117724056216834131">DFIR Radar</source>
-      <pubDate>Tue, 03 Nov 2026 21:02:15 +0000</pubDate>
-      <guid isPermaLink="false">2117724056216834131</guid>
     </item>
   </channel>
 </rss>
