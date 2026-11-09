@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 08 Nov 2026 17:02:25 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 00:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Home Assistant: the password is not the key: token secrets in cleartext, two token classes never expire, password change revokes none (2026.11.0, live-proven)</title>
+      <link>https://seclists.org/oss-sec/2026/q4/578</link>
+      <description>Home Assistant stores every token secret in cleartext in a single file, and changing your password revokes none of them. Two million smart-home installs are affected across version 2026.11.0, live-proven.
+
+Key findings:
+
+- The file config/.storage/auth holds the secret and per-token JWT signing key for every refresh token for every user, in cleartext. Passwords in the adjacent store are bcrypt-hashed; token secrets are not hashed at all and are validated by direct string comparison. Any read of that file, whether from a backup shared for support, a synced config folder, or a single file-disclosure bug anywhere in the stack, hands an attacker every token secret on the system.
+
+- Two of three token classes carry no expiry. Long-lived and system refresh tokens are created with expire_at = None. Long-lived access tokens, the ones the documentation recommends for scripts, are valid for ten years by default, and the API accepts a caller-supplied lifespan in days with no enforced upper bound.
+
+- Changing the password revokes nothing. All four password-change paths, self-service, administrator, Supervisor reset, and command-line, rehash the password record and make no token call. The researcher confirmed live: a refresh token copied from .storage/auth before a verified password change continued to mint fresh access tokens afterward. A ten-year long-lived token minted before the change still authenticated.
+
+- The automatic-backup password is stored in plaintext in .storage/backup, in the same directory that every backup archives. Every settings backup carries .storage/auth inside it, so restoring a backup resurrects whatever tokens existed at backup time, including ones the user believed were gone.
+
+Takeaway: If you are responding to a Home Assistant compromise or auditing a smart-home environment, examine config/.storage/auth first. Any copy of that file, however old, is a live credential store. Recovery means rotating every token individually, not resetting the password. Identify all long-lived tokens in the file, check their created_at values and stated lifespans, and revoke each one explicitly through the UI or API. Treat any backup that includes .storage/ as a credential exposure incident in its own right and restrict access to it accordingly.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119581421937561953</description>
+      <content:encoded><![CDATA[<p>Home Assistant stores every token secret in cleartext in a single file, and changing your password revokes none of them. Two million smart-home installs are affected across version 2026.11.0, live-proven.</p><p>Key findings:</p><p>- The file config/.storage/auth holds the secret and per-token JWT signing key for every refresh token for every user, in cleartext. Passwords in the adjacent store are bcrypt-hashed; token secrets are not hashed at all and are validated by direct string comparison. Any read of that file, whether from a backup shared for support, a synced config folder, or a single file-disclosure bug anywhere in the stack, hands an attacker every token secret on the system.</p><p>- Two of three token classes carry no expiry. Long-lived and system refresh tokens are created with expire_at = None. Long-lived access tokens, the ones the documentation recommends for scripts, are valid for ten years by default, and the API accepts a caller-supplied lifespan in days with no enforced upper bound.</p><p>- Changing the password revokes nothing. All four password-change paths, self-service, administrator, Supervisor reset, and command-line, rehash the password record and make no token call. The researcher confirmed live: a refresh token copied from .storage/auth before a verified password change continued to mint fresh access tokens afterward. A ten-year long-lived token minted before the change still authenticated.</p><p>- The automatic-backup password is stored in plaintext in .storage/backup, in the same directory that every backup archives. Every settings backup carries .storage/auth inside it, so restoring a backup resurrects whatever tokens existed at backup time, including ones the user believed were gone.</p><p>Takeaway: If you are responding to a Home Assistant compromise or auditing a smart-home environment, examine config/.storage/auth first. Any copy of that file, however old, is a live credential store. Recovery means rotating every token individually, not resetting the password. Identify all long-lived tokens in the file, check their created_at values and stated lifespans, and revoke each one explicitly through the UI or API. Treat any backup that includes .storage/ as a credential exposure incident in its own right and restrict access to it accordingly.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/578">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119581421937561953">View on X</a></p>]]></content:encoded>
+      <dc:creator>OSS-Security Mailing List</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119581421937561953</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2119581421937561953">DFIR Radar</source>
+      <pubDate>Mon, 09 Nov 2026 00:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2119581421937561953</guid>
+    </item>
     <item>
       <title>How to Install SIFT Workstation and REMnux on the Same System</title>
       <link>https://zeltser.com/sift-workstation-and-remnux</link>
@@ -2192,20 +2218,6 @@ Practitioner takeaway: Run the grep command against /opt/cpguard/logs/install_lo
       <source url="https://x.com/DFIR_Radar/status/2117784607026249974">DFIR Radar</source>
       <pubDate>Wed, 04 Nov 2026 01:02:52 +0000</pubDate>
       <guid isPermaLink="false">2117784607026249974</guid>
-    </item>
-    <item>
-      <title>Google: LLMjacking attacks rack up $1 million in cloud AI charges</title>
-      <link>https://www.bleepingcomputer.com/news/security/google-llmjacking-attacks-rack-up-1-million-in-cloud-ai-charges/</link>
-      <description>Google's GTIG and Mandiant linked LLMjacking clusters, including UNC6993 and Jet Night, to stolen API keys costing victims over $1M. Audit cloud audit and inference logs for sudden token-consumption spikes and unauthorized LLM service activation.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117769596040081701</description>
-      <content:encoded><![CDATA[<p>Google&#x27;s GTIG and Mandiant linked LLMjacking clusters, including UNC6993 and Jet Night, to stolen API keys costing victims over $1M. Audit cloud audit and inference logs for sudden token-consumption spikes and unauthorized LLM service activation.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/google-llmjacking-attacks-rack-up-1-million-in-cloud-ai-charges/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117769596040081701">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117769596040081701</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2117769596040081701">DFIR Radar</source>
-      <pubDate>Wed, 04 Nov 2026 00:03:13 +0000</pubDate>
-      <guid isPermaLink="false">2117769596040081701</guid>
     </item>
   </channel>
 </rss>
