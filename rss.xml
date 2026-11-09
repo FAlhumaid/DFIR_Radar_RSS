@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 09 Nov 2026 17:02:20 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 18:02:01 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>On the hunt for ARTEX: understanding agentic attacks in AWS environments</title>
+      <link>https://securitylabs.datadoghq.com/articles/artex-agentic-attacks-aws-environments/</link>
+      <description>ARTEX, an AI-native autonomous penetration framework tied to Chinese 🇨🇳 Storm-0940, was observed attacking live AWS environments in October 2026, hunting for financial data, secrets, and cloud credentials through compromised IAM keys and public Cognito pools.
+
+Key findings:
+
+- ARTEX is a hosted, LLM-orchestrated attack platform published on GitHub in July 2026, reaching 12,000 forks before going closed-source on October 8. Hundreds of internet-exposed consoles were found, most presenting a Chinese-language login page titled "ARTEX - Autonomous Penetration Testing Console," with infrastructure concentrated in Singapore 🇸🇬 and Hong Kong. Microsoft attributed it to Storm-0940. The platform supports OpenAI, Anthropic, DeepSeek, and compatible gateways, rotating across API keys and providers if one is blocked, so a single campaign can span multiple inference providers.
+
+- Two initial access paths were observed in the wild. First: compromised long-term AKIA IAM access keys. Once in, ARTEX's dominant action was FilterLogEvents with a consistent limit of 1000, searching CloudWatch for financial institution names combined with terms like Fund, Invoice, Billing, and LLC, then widening to queries for "s3://", "presigned", ".pdf", ".xlsx", ".csv", AKIA strings, internal IP ranges (172., 10.), passwords, and MongoDB references. Activity on October 20 originated from 103.54.154[.]40, an IP resolving to zeofast[.]cn.
+
+- Second path: public Amazon Cognito user pools with anonymous sign-up enabled. A spike on October 26-27 from 154.64.252[.]77 showed ARTEX iterating through PreSignUp Lambda validation errors (including attempts using api.github[.]com and example[.]com as tenant domains), then completing the full flow: SignUp, InitiateAuth, RespondToAuthChallenge, GetUser, GetTokensFromRefreshToken. It then attempted broad read-only enumeration: ListBuckets, ListSecrets, DescribeParameters, ListFunctions20150331, GetRestApis, and more under the CognitoIdentityCredentials role session name. In this case, the authenticated role lacked permissions and all calls failed.
+
+- Every session reviewed opened with unauthenticated S3 requests appearing in CloudTrail with userIdentity.type of AWSAccount and accountId of anonymous. ARTEX also performed pre-fuzzing baseline requests using placeholder keys like zzz_nonexistent_abc.txt and Notexist-xyz before bursts of S3 enumeration. A request for a clearly nonexistent object name immediately before a guessing burst is a detectable behavioral signal. User agents are inconsistent but include artex-readonly/1.0, artex-pentest/1.0, artex-spawn/1, ARTEX-worker/1.0, and Mozilla/5.0 ARTeX, among others listed in the report's IOC table.
+
+Practitioner takeaway: In CloudTrail, hunt for FilterLogEvents calls with limit=1000 at volume, anonymous S3 access preceding credential use, and CognitoIdentityCredentials session names followed by broad Get*/List* enumeration. Cross-reference against the IP list in the report, which includes 103.54.154[.]40, 154.64.252[.]77, 154.36.136[.]197, 154.36.136[.]23, 82.158.88[.]233, and others. Flag any S3 request for objects matching zzz or notexist patterns immediately before an enumeration burst. The report's IOC table covers 10 IPs and 10 user agent strings. Rotate or remove long-lived AKIA keys: they are ARTEX's preferred foothold.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119853024697078155</description>
+      <content:encoded><![CDATA[<p>ARTEX, an AI-native autonomous penetration framework tied to Chinese 🇨🇳 Storm-0940, was observed attacking live AWS environments in October 2026, hunting for financial data, secrets, and cloud credentials through compromised IAM keys and public Cognito pools.</p><p>Key findings:</p><p>- ARTEX is a hosted, LLM-orchestrated attack platform published on GitHub in July 2026, reaching 12,000 forks before going closed-source on October 8. Hundreds of internet-exposed consoles were found, most presenting a Chinese-language login page titled &quot;ARTEX - Autonomous Penetration Testing Console,&quot; with infrastructure concentrated in Singapore 🇸🇬 and Hong Kong. Microsoft attributed it to Storm-0940. The platform supports OpenAI, Anthropic, DeepSeek, and compatible gateways, rotating across API keys and providers if one is blocked, so a single campaign can span multiple inference providers.</p><p>- Two initial access paths were observed in the wild. First: compromised long-term AKIA IAM access keys. Once in, ARTEX&#x27;s dominant action was FilterLogEvents with a consistent limit of 1000, searching CloudWatch for financial institution names combined with terms like Fund, Invoice, Billing, and LLC, then widening to queries for &quot;s3://&quot;, &quot;presigned&quot;, &quot;.pdf&quot;, &quot;.xlsx&quot;, &quot;.csv&quot;, AKIA strings, internal IP ranges (172., 10.), passwords, and MongoDB references. Activity on October 20 originated from 103.54.154[.]40, an IP resolving to zeofast[.]cn.</p><p>- Second path: public Amazon Cognito user pools with anonymous sign-up enabled. A spike on October 26-27 from 154.64.252[.]77 showed ARTEX iterating through PreSignUp Lambda validation errors (including attempts using api.github[.]com and example[.]com as tenant domains), then completing the full flow: SignUp, InitiateAuth, RespondToAuthChallenge, GetUser, GetTokensFromRefreshToken. It then attempted broad read-only enumeration: ListBuckets, ListSecrets, DescribeParameters, ListFunctions20150331, GetRestApis, and more under the CognitoIdentityCredentials role session name. In this case, the authenticated role lacked permissions and all calls failed.</p><p>- Every session reviewed opened with unauthenticated S3 requests appearing in CloudTrail with userIdentity.type of AWSAccount and accountId of anonymous. ARTEX also performed pre-fuzzing baseline requests using placeholder keys like zzz_nonexistent_abc.txt and Notexist-xyz before bursts of S3 enumeration. A request for a clearly nonexistent object name immediately before a guessing burst is a detectable behavioral signal. User agents are inconsistent but include artex-readonly/1.0, artex-pentest/1.0, artex-spawn/1, ARTEX-worker/1.0, and Mozilla/5.0 ARTeX, among others listed in the report&#x27;s IOC table.</p><p>Practitioner takeaway: In CloudTrail, hunt for FilterLogEvents calls with limit=1000 at volume, anonymous S3 access preceding credential use, and CognitoIdentityCredentials session names followed by broad Get*/List* enumeration. Cross-reference against the IP list in the report, which includes 103.54.154[.]40, 154.64.252[.]77, 154.36.136[.]197, 154.36.136[.]23, 82.158.88[.]233, and others. Flag any S3 request for objects matching zzz or notexist patterns immediately before an enumeration burst. The report&#x27;s IOC table covers 10 IPs and 10 user agent strings. Rotate or remove long-lived AKIA keys: they are ARTEX&#x27;s preferred foothold.</p><p>#DFIR_Radar</p><p><a href="https://securitylabs.datadoghq.com/articles/artex-agentic-attacks-aws-environments/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119853024697078155">View on X</a></p>]]></content:encoded>
+      <dc:creator>Datadog Security Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119853024697078155</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2119853024697078155">DFIR Radar</source>
+      <pubDate>Mon, 09 Nov 2026 18:02:01 +0000</pubDate>
+      <guid isPermaLink="false">2119853024697078155</guid>
+    </item>
     <item>
       <title>Critical Infrastructure Under Siege, From Freezers to Wider OT</title>
       <link>https://socradar.io/blog/critical-infrastructure-freezers-ot/</link>
@@ -2206,20 +2232,6 @@ Practitioner takeaway: Hunt your PaaS deployments and public repos for the 50 pa
       <source url="https://x.com/DFIR_Radar/status/2117924173553246473">DFIR Radar</source>
       <pubDate>Wed, 04 Nov 2026 10:17:27 +0000</pubDate>
       <guid isPermaLink="false">2117924173553246473</guid>
-    </item>
-    <item>
-      <title>Police and Tech Firms Team Up to Dismantle XCPE Botnet</title>
-      <link>https://www.infosecurity-magazine.com/news/police-tech-firms-team-up-to/</link>
-      <description>Google banned Chinese 🇨🇳 ODM Videostrong for embedding the XCPE backdoor in firmware across 1.3 million devices. Hunt x.cpe running at android.uid.system in the /oem/ partition.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117905345678815496</description>
-      <content:encoded><![CDATA[<p>Google banned Chinese 🇨🇳 ODM Videostrong for embedding the XCPE backdoor in firmware across 1.3 million devices. Hunt x.cpe running at android.uid.system in the /oem/ partition.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/police-tech-firms-team-up-to/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117905345678815496">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117905345678815496</comments>
-      <category>LAW ENFORCEMENT</category>
-      <source url="https://x.com/DFIR_Radar/status/2117905345678815496">DFIR Radar</source>
-      <pubDate>Wed, 04 Nov 2026 09:02:38 +0000</pubDate>
-      <guid isPermaLink="false">2117905345678815496</guid>
     </item>
   </channel>
 </rss>
