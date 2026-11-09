@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 09 Nov 2026 11:02:03 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 12:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Default 'admin:admin' Server Password Helps Researchers Hack Two Automakers, Unlock and Start Cars</title>
+      <link>https://thehackernews.com/2026/11/default-adminadmin-server-password.html</link>
+      <description>Researchers unlocked and started cars by exploiting a default admin:admin Apache Felix console on PingIDM servers via WAF path-confusion bypass. Audit /system/console on PingIDM deployments and remove or rotate default credentials.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119762633020907832</description>
+      <content:encoded><![CDATA[<p>Researchers unlocked and started cars by exploiting a default admin:admin Apache Felix console on PingIDM servers via WAF path-confusion bypass. Audit /system/console on PingIDM deployments and remove or rotate default credentials.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/default-adminadmin-server-password.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119762633020907832">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119762633020907832</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2119762633020907832">DFIR Radar</source>
+      <pubDate>Mon, 09 Nov 2026 12:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2119762633020907832</guid>
+    </item>
     <item>
       <title>Corium: A New ClickFix Panel Shows How Malware Delivery Is Becoming a Turnkey Business</title>
       <link>https://www.infostealers.com/article/corium-a-new-clickfix-panel-shows-how-malware-delivery-is-becoming-a-turnkey-business/</link>
@@ -2192,32 +2206,6 @@ Takeaway: Hunt for LNK files written to the Windows Startup folder alongside Pow
       <source url="https://x.com/DFIR_Radar/status/2117829861720863106">DFIR Radar</source>
       <pubDate>Wed, 04 Nov 2026 04:02:41 +0000</pubDate>
       <guid isPermaLink="false">2117829861720863106</guid>
-    </item>
-    <item>
-      <title>cPGuard Update Channel Hijacked to Backdoor Linux Servers and Collect Password Hashes</title>
-      <link>https://thehackernews.com/2026/11/cpguard-update-channel-hijacked-to.html</link>
-      <description>cPGuard's own update channel weaponized on November 2 to backdoor Linux servers and exfiltrate password hashes, database credentials, and SSH keys from an unknown number of hosts running versions 5.88.12 through 5.88.19.
-
-Key details:
-
-- The attacker used compromised credentials to access cPGuard's update infrastructure at 02:06 UTC and pushed a malicious script, cpguard-v58812-i91511[.]sh, inside updates versions 5.88.12 through 5.88.19. The script installed a backdoor shell at /var/tmp/.cpg91511_sh, staged collected files in /var/tmp/.cpg91511/, and packaged them as loot.tgz before uploading to an OPSSHIELD licensing server via a compromised account for later retrieval. OPSSHIELD estimated 32 files, each tied to a distinct customer server, were confirmed taken as of November 2 UTC.
-
-- Files the script targeted: /etc/shadow and /etc/passwd, root's MariaDB or MySQL configuration (my.cnf), root's shell history, and SSH authorized_keys and known_hosts under /root/.ssh. The /etc/shadow hashes are crackable offline for weak or common passwords. Database configs and shell history carry plaintext secrets with no hash protection at all.
-
-- The backdoor shell and staging directory are removed by version 5.88.25, so their absence is not proof the script never ran. The only reliable triage step the report gives is checking the update log: grep 'Successfully updated' /opt/cpguard/logs/install_log. Any entry for 5.88.12 through 5.88.19 means the affected update was installed, and that server must be treated as compromised even if it now runs the clean version. A missing or incomplete log does not clear the server.
-
-- Credential exposure survives the update. Updating to 5.88.25 removes the backdoor but does not invalidate harvested hashes or keys. Any server that may have run the script requires password resets for root and all local accounts from a trusted recovery environment, rotation of database passwords and any secrets in shell history (S3 keys, DigitalOcean tokens), and replacement of SSH private keys under /root/.ssh with removal of the matching public keys from every trusting system. OPSSHIELD is separately pushing an update to remove its own support-access SSH public key from servers where it was added, and has not confirmed whether the matching private key was exposed.
-
-Practitioner takeaway: Run the grep command against /opt/cpguard/logs/install_log on every cPGuard host immediately. Any hit in the 5.88.12-5.88.19 range triggers a full credential rotation scope: Linux account passwords, database credentials, secrets visible in shell history, and SSH keypairs, done from a clean, trusted environment, not the potentially backdoored host. Do not let a successful update to 5.88.25 close the incident; the attacker already has whatever was collected.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117814660955025708</description>
-      <content:encoded><![CDATA[<p>cPGuard&#x27;s own update channel weaponized on November 2 to backdoor Linux servers and exfiltrate password hashes, database credentials, and SSH keys from an unknown number of hosts running versions 5.88.12 through 5.88.19.</p><p>Key details:</p><p>- The attacker used compromised credentials to access cPGuard&#x27;s update infrastructure at 02:06 UTC and pushed a malicious script, cpguard-v58812-i91511[.]sh, inside updates versions 5.88.12 through 5.88.19. The script installed a backdoor shell at /var/tmp/.cpg91511_sh, staged collected files in /var/tmp/.cpg91511/, and packaged them as loot.tgz before uploading to an OPSSHIELD licensing server via a compromised account for later retrieval. OPSSHIELD estimated 32 files, each tied to a distinct customer server, were confirmed taken as of November 2 UTC.</p><p>- Files the script targeted: /etc/shadow and /etc/passwd, root&#x27;s MariaDB or MySQL configuration (my.cnf), root&#x27;s shell history, and SSH authorized_keys and known_hosts under /root/.ssh. The /etc/shadow hashes are crackable offline for weak or common passwords. Database configs and shell history carry plaintext secrets with no hash protection at all.</p><p>- The backdoor shell and staging directory are removed by version 5.88.25, so their absence is not proof the script never ran. The only reliable triage step the report gives is checking the update log: grep &#x27;Successfully updated&#x27; /opt/cpguard/logs/install_log. Any entry for 5.88.12 through 5.88.19 means the affected update was installed, and that server must be treated as compromised even if it now runs the clean version. A missing or incomplete log does not clear the server.</p><p>- Credential exposure survives the update. Updating to 5.88.25 removes the backdoor but does not invalidate harvested hashes or keys. Any server that may have run the script requires password resets for root and all local accounts from a trusted recovery environment, rotation of database passwords and any secrets in shell history (S3 keys, DigitalOcean tokens), and replacement of SSH private keys under /root/.ssh with removal of the matching public keys from every trusting system. OPSSHIELD is separately pushing an update to remove its own support-access SSH public key from servers where it was added, and has not confirmed whether the matching private key was exposed.</p><p>Practitioner takeaway: Run the grep command against /opt/cpguard/logs/install_log on every cPGuard host immediately. Any hit in the 5.88.12-5.88.19 range triggers a full credential rotation scope: Linux account passwords, database credentials, secrets visible in shell history, and SSH keypairs, done from a clean, trusted environment, not the potentially backdoored host. Do not let a successful update to 5.88.25 close the incident; the attacker already has whatever was collected.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/cpguard-update-channel-hijacked-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117814660955025708">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117814660955025708</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2117814660955025708">DFIR Radar</source>
-      <pubDate>Wed, 04 Nov 2026 03:02:17 +0000</pubDate>
-      <guid isPermaLink="false">2117814660955025708</guid>
     </item>
   </channel>
 </rss>
