@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 09 Nov 2026 15:02:22 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 16:02:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Trusted by Default: Qubole Cross-Account Access Abused in the Wild</title>
+      <link>https://www.wiz.io/blog/qubole-cross-account-access-abused-in-the-wild</link>
+      <description>A threat actor abused Qubole's AWS cross-account IAM trust to enumerate resources, harvest secrets, and exfiltrate S3 data across multiple customer environments between October 14-26, 2026.
+
+Key findings:
+
+- The actor used two IAM users from AWS account 805246085872 (the account Qubole uses for legitimate platform activity) to assume integration roles customers had created for Qubole. IAM user AIDA3W7DIFLYOLTK63SFS appears exclusively in threat actor activity. IAM user AIDAJYRRH5Y3A7AAJM2HW also carries legitimate Qubole traffic, so the filter there is source IP: all threat actor calls came from VPN or VPS infrastructure (OVH and Mullvad), never from AWS addresses. Every AssumeRole call supplied a valid External ID and succeeded.
+
+- Once inside victim environments, the actor ran broad discovery: ListBuckets, ListObjects, ListRoles, ListKeys, GetDatabases, ListTables, DescribeClusters, and more. Role session names followed the pattern quiam- with descriptive suffixes like quiam-enum and quiam-scope-full, a consistent artifact across environments. The actor then pulled secrets from Lambda environment variables via GetFunctionConfiguration, Secrets Manager via GetSecretValue, and SSM Parameter Store via GetParameter.
+
+- Credential validation used TruffleHog: AWS keys were tested with GetCallerIdentity (no permissions required, just confirms key validity), Entra ID service principals were authenticated with discovered client secrets, and Okta OAuth tokens were requested with discovered client credentials. All in rapid bursts. Check your identity provider sign-in logs for the TruffleHog user agent paired with the IOC IPs.
+
+- S3 exfiltration followed a consistent sequence: AssumeRole, ListBuckets, ListObjects, HeadObject, GetObject, sometimes pulling entire buckets in a single session. CloudTrail management events capture the role assumption and bucket listing, but S3 data events or S3 server access logs are required to see the GetObject calls. Several affected environments were missing these logs, leaving responders unable to determine which objects were read.
+
+- A separate ISO artifact, sso_agent.iso (SHA-256: 65f061281c9a712e9502793dc4c5035cae490b84da05f7d4223cefa65ad396e4), was hosted on 57.129.54[.]120 during the attack window. It is a bootable Linux image that gathers system info, polls TCP port 23458 on the same IP for shell commands, and hard-reboots after 90 minutes, wiping itself. The ntfs3 driver is loaded at boot, suggesting Windows targets. No confirmed deployments have been observed.
+
+Hunt: Search CloudTrail from October 1, 2026 onward in every account with a Qubole integration role. Query for AssumeRole where userIdentity.accountId is 805246085872 and sourceIPAddress is not an AWS-owned range. Any session from principal AIDA3W7DIFLYOLTK63SFS warrants immediate investigation regardless of source. For AIDAJYRRH5Y3A7AAJM2HW, filter to non-AWS source IPs. For every identified role session, pivot to all subsequent API calls from that session, rotate every secret and parameter the role could read, and revoke active temporary sessions. Rotating a credential does not invalidate temporary credentials already issued. IOCs and full detection guidance are in the Wiz report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119822830023942160</description>
+      <content:encoded><![CDATA[<p>A threat actor abused Qubole&#x27;s AWS cross-account IAM trust to enumerate resources, harvest secrets, and exfiltrate S3 data across multiple customer environments between October 14-26, 2026.</p><p>Key findings:</p><p>- The actor used two IAM users from AWS account 805246085872 (the account Qubole uses for legitimate platform activity) to assume integration roles customers had created for Qubole. IAM user AIDA3W7DIFLYOLTK63SFS appears exclusively in threat actor activity. IAM user AIDAJYRRH5Y3A7AAJM2HW also carries legitimate Qubole traffic, so the filter there is source IP: all threat actor calls came from VPN or VPS infrastructure (OVH and Mullvad), never from AWS addresses. Every AssumeRole call supplied a valid External ID and succeeded.</p><p>- Once inside victim environments, the actor ran broad discovery: ListBuckets, ListObjects, ListRoles, ListKeys, GetDatabases, ListTables, DescribeClusters, and more. Role session names followed the pattern quiam- with descriptive suffixes like quiam-enum and quiam-scope-full, a consistent artifact across environments. The actor then pulled secrets from Lambda environment variables via GetFunctionConfiguration, Secrets Manager via GetSecretValue, and SSM Parameter Store via GetParameter.</p><p>- Credential validation used TruffleHog: AWS keys were tested with GetCallerIdentity (no permissions required, just confirms key validity), Entra ID service principals were authenticated with discovered client secrets, and Okta OAuth tokens were requested with discovered client credentials. All in rapid bursts. Check your identity provider sign-in logs for the TruffleHog user agent paired with the IOC IPs.</p><p>- S3 exfiltration followed a consistent sequence: AssumeRole, ListBuckets, ListObjects, HeadObject, GetObject, sometimes pulling entire buckets in a single session. CloudTrail management events capture the role assumption and bucket listing, but S3 data events or S3 server access logs are required to see the GetObject calls. Several affected environments were missing these logs, leaving responders unable to determine which objects were read.</p><p>- A separate ISO artifact, sso_agent.iso (SHA-256: 65f061281c9a712e9502793dc4c5035cae490b84da05f7d4223cefa65ad396e4), was hosted on 57.129.54[.]120 during the attack window. It is a bootable Linux image that gathers system info, polls TCP port 23458 on the same IP for shell commands, and hard-reboots after 90 minutes, wiping itself. The ntfs3 driver is loaded at boot, suggesting Windows targets. No confirmed deployments have been observed.</p><p>Hunt: Search CloudTrail from October 1, 2026 onward in every account with a Qubole integration role. Query for AssumeRole where userIdentity.accountId is 805246085872 and sourceIPAddress is not an AWS-owned range. Any session from principal AIDA3W7DIFLYOLTK63SFS warrants immediate investigation regardless of source. For AIDAJYRRH5Y3A7AAJM2HW, filter to non-AWS source IPs. For every identified role session, pivot to all subsequent API calls from that session, rotate every secret and parameter the role could read, and revoke active temporary sessions. Rotating a credential does not invalidate temporary credentials already issued. IOCs and full detection guidance are in the Wiz report.</p><p>#DFIR_Radar</p><p><a href="https://www.wiz.io/blog/qubole-cross-account-access-abused-in-the-wild">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119822830023942160">View on X</a></p>]]></content:encoded>
+      <dc:creator>Wiz Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119822830023942160</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2119822830023942160">DFIR Radar</source>
+      <pubDate>Mon, 09 Nov 2026 16:02:02 +0000</pubDate>
+      <guid isPermaLink="false">2119822830023942160</guid>
+    </item>
     <item>
       <title>Inside an AhsayCBS Intrusion: Hidden Webshells, a CryptoMiner, and a C2 Implant</title>
       <link>https://www.huntress.com/blog/ahsaycbs-webshells</link>
@@ -2182,20 +2210,6 @@ Practitioner takeaway: Hunt your PaaS deployments and public repos for the 50 pa
       <source url="https://x.com/DFIR_Radar/status/2117890190026969489">DFIR Radar</source>
       <pubDate>Wed, 04 Nov 2026 08:02:25 +0000</pubDate>
       <guid isPermaLink="false">2117890190026969489</guid>
-    </item>
-    <item>
-      <title>Google Warns LLMjacking Attacks Are Costing Some Enterprises Up to $1 Million in Cloud Charges</title>
-      <link>https://thehackernews.com/2026/11/google-warns-llmjacking-attacks-are.html</link>
-      <description>LLMjacking via stolen IAM keys and GitHub PATs cost enterprises up to $1M; UNC6993 created backdoor service accounts disguised as billing utilities. Audit IAM for unauthorized service accounts and unexpected API key creation events.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2117875122379903435</description>
-      <content:encoded><![CDATA[<p>LLMjacking via stolen IAM keys and GitHub PATs cost enterprises up to $1M; UNC6993 created backdoor service accounts disguised as billing utilities. Audit IAM for unauthorized service accounts and unexpected API key creation events.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/google-warns-llmjacking-attacks-are.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2117875122379903435">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2117875122379903435</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2117875122379903435">DFIR Radar</source>
-      <pubDate>Wed, 04 Nov 2026 07:02:32 +0000</pubDate>
-      <guid isPermaLink="false">2117875122379903435</guid>
     </item>
   </channel>
 </rss>
