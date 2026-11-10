@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 10 Nov 2026 13:02:01 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 14:03:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Turla’s Cereal malware turns victims’ Exchange servers into spy hubs</title>
+      <link>https://www.helpnetsecurity.com/2026/11/10/eset-turla-exchange-malware/</link>
+      <description>Russia-linked Turla planted modular .NET spyware on Exchange servers at two government targets, one in Kazakhstan 🇰🇿 and one in Romania 🇷🇴, intercepting email mid-flight before it ever left the building, with the victim's own server acting as the attacker's command post.
+
+Key findings:
+
+- ESET attributes the toolset, named Cereal, to Turla (also known as Snake) with high confidence, linking it to a previously documented Turla component used alongside it and to similarities with older Turla malware. Turla is widely assessed to be part of Russia's 🇷🇺 FSB. The Kazakh 🇰🇿 victim was identified November 28, 2025, the Romanian 🇷🇴 victim December 23, 2025. In Romania 🇷🇴, the collection module was explicitly scoped to messages involving NATO and EU addresses. Activity in Kazakhstan 🇰🇿 surged January 15, 2026, the day after the Old New Year, suggesting the operators took the Russian 🇷🇺 holiday off.
+
+- The core backdoor, CerealNeuron, listens on paths that mimic legitimate Exchange traffic such as /owa/sdds/ and /autodiscover/proxyservice/. Only requests that pass encryption and integrity checks get executed; everything else receives a valid-looking Exchange error page. Commands arrive as small, purpose-built .NET binaries covering mailbox access, Active Directory queries, LSA secret extraction, and file operations. The near-identical structure of these binaries points to an automated build framework. A second backdoor, CerealHermit, operates entirely offline, reading encrypted command files from disk as a fallback.
+
+- The email interception component, CerealBox, does not register a new Exchange transport agent (which would appear in Exchange configuration). Instead it injects into EdgeTransport.exe at runtime and wraps the handlers of transport agents already loaded in memory, leaving no visible new agent. It filters for messages carrying .doc, .docx, or .pdf attachments that match hardcoded sender, recipient, subject, or attachment-name lists, then compresses, encrypts, and stages copies on disk for later collection. ESET states this in-process transport hooking technique has not been documented for any prior malware family.
+
+- The Cereal loader is the only component written to disk as a recognizable .NET file, but it executes native code before the .NET runtime reaches its normal entry point, so static analysis of the .NET layer sees a program that appears to do nothing. In one deployment it masqueraded as ncobjapi.dll placed in C:\Windows\System32\wbem, loaded automatically by the WMI service. In another it posed as wbemcomn.dll. Operators also placed malicious copies into the .NET native image cache under names such as Microsoft[.]Exchange[.]Search.Mdb[.]ni.dll, causing Exchange to load the malicious file before falling back to the legitimate library.
+
+DFIR takeaway: On any Exchange server in scope, examine C:\Windows\System32\wbem for unexpected DLLs (ncobjapi.dll and wbemcomn.dll), audit the .NET native image cache for files with Exchange-resembling names that do not match known-good hashes, and review EdgeTransport.exe memory for injected modules. The absence of a registered transport agent in Exchange configuration is not evidence of a clean system: look at what is loaded in-process. For the network side, CerealNeuron leaves no attacker-owned C2 to block since it repurposes the victim's own server, so hunting outbound indicators will not find it. Focus on the Exchange IIS logs for unusual request patterns on paths like /owa/sdds/ and /autodiscover/proxyservice/ that return errors rather than valid session activity. The report contains component details and the attack chain diagram.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120155278293561362</description>
+      <content:encoded><![CDATA[<p>Russia-linked Turla planted modular .NET spyware on Exchange servers at two government targets, one in Kazakhstan 🇰🇿 and one in Romania 🇷🇴, intercepting email mid-flight before it ever left the building, with the victim&#x27;s own server acting as the attacker&#x27;s command post.</p><p>Key findings:</p><p>- ESET attributes the toolset, named Cereal, to Turla (also known as Snake) with high confidence, linking it to a previously documented Turla component used alongside it and to similarities with older Turla malware. Turla is widely assessed to be part of Russia&#x27;s 🇷🇺 FSB. The Kazakh 🇰🇿 victim was identified November 28, 2025, the Romanian 🇷🇴 victim December 23, 2025. In Romania 🇷🇴, the collection module was explicitly scoped to messages involving NATO and EU addresses. Activity in Kazakhstan 🇰🇿 surged January 15, 2026, the day after the Old New Year, suggesting the operators took the Russian 🇷🇺 holiday off.</p><p>- The core backdoor, CerealNeuron, listens on paths that mimic legitimate Exchange traffic such as /owa/sdds/ and /autodiscover/proxyservice/. Only requests that pass encryption and integrity checks get executed; everything else receives a valid-looking Exchange error page. Commands arrive as small, purpose-built .NET binaries covering mailbox access, Active Directory queries, LSA secret extraction, and file operations. The near-identical structure of these binaries points to an automated build framework. A second backdoor, CerealHermit, operates entirely offline, reading encrypted command files from disk as a fallback.</p><p>- The email interception component, CerealBox, does not register a new Exchange transport agent (which would appear in Exchange configuration). Instead it injects into EdgeTransport.exe at runtime and wraps the handlers of transport agents already loaded in memory, leaving no visible new agent. It filters for messages carrying .doc, .docx, or .pdf attachments that match hardcoded sender, recipient, subject, or attachment-name lists, then compresses, encrypts, and stages copies on disk for later collection. ESET states this in-process transport hooking technique has not been documented for any prior malware family.</p><p>- The Cereal loader is the only component written to disk as a recognizable .NET file, but it executes native code before the .NET runtime reaches its normal entry point, so static analysis of the .NET layer sees a program that appears to do nothing. In one deployment it masqueraded as ncobjapi.dll placed in C:\Windows\System32\wbem, loaded automatically by the WMI service. In another it posed as wbemcomn.dll. Operators also placed malicious copies into the .NET native image cache under names such as Microsoft[.]Exchange[.]Search.Mdb[.]ni.dll, causing Exchange to load the malicious file before falling back to the legitimate library.</p><p>DFIR takeaway: On any Exchange server in scope, examine C:\Windows\System32\wbem for unexpected DLLs (ncobjapi.dll and wbemcomn.dll), audit the .NET native image cache for files with Exchange-resembling names that do not match known-good hashes, and review EdgeTransport.exe memory for injected modules. The absence of a registered transport agent in Exchange configuration is not evidence of a clean system: look at what is loaded in-process. For the network side, CerealNeuron leaves no attacker-owned C2 to block since it repurposes the victim&#x27;s own server, so hunting outbound indicators will not find it. Focus on the Exchange IIS logs for unusual request patterns on paths like /owa/sdds/ and /autodiscover/proxyservice/ that return errors rather than valid session activity. The report contains component details and the attack chain diagram.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/11/10/eset-turla-exchange-malware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120155278293561362">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120155278293561362</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120155278293561362">DFIR Radar</source>
+      <pubDate>Tue, 10 Nov 2026 14:03:04 +0000</pubDate>
+      <guid isPermaLink="false">2120155278293561362</guid>
+    </item>
     <item>
       <title>Formbook Targets European Manufacturing and Technology Businesses with Localized Order Lures</title>
       <link>https://any.run/cybersecurity-blog/formbook-malware-analysis-november-2026/</link>
@@ -2212,20 +2238,6 @@ Hunt now: on any CWP host, those three commands take under a minute. The initial
       <source url="https://x.com/DFIR_Radar/status/2118222347383476317">DFIR Radar</source>
       <pubDate>Thu, 05 Nov 2026 06:02:17 +0000</pubDate>
       <guid isPermaLink="false">2118222347383476317</guid>
-    </item>
-    <item>
-      <title>Russian hackers target iOS and Android users with n-day exploits</title>
-      <link>https://www.helpnetsecurity.com/2026/11/04/apt29-watering-hole-mobile-devices-n-day-exploits/</link>
-      <description>Russian 🇷🇺 APT29 ran a watering hole campaign using JavaScript injection and n-day exploit chains to steal cookies and credentials from iOS and Android devices.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118207294542373125</description>
-      <content:encoded><![CDATA[<p>Russian 🇷🇺 APT29 ran a watering hole campaign using JavaScript injection and n-day exploit chains to steal cookies and credentials from iOS and Android devices.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/11/04/apt29-watering-hole-mobile-devices-n-day-exploits/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118207294542373125">View on X</a></p>]]></content:encoded>
-      <dc:creator>Help Net Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118207294542373125</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2118207294542373125">DFIR Radar</source>
-      <pubDate>Thu, 05 Nov 2026 05:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2118207294542373125</guid>
     </item>
   </channel>
 </rss>
