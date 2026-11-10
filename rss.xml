@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 10 Nov 2026 09:02:29 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 10:02:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Supply Chain Attack Compromises Tens of Thousands of GitHub Repositories</title>
+      <link>https://www.infosecurity-magazine.com/news/supply-chain-attack-thousands/</link>
+      <description>Accounts 'henrywoo' and 'kitao' pushed .github/workflows/security-audit.yml to tens of thousands of repos, exfiltrating secrets to 193.32.204[.]199. Audit repos for that workflow file and rotate exposed secrets.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120094722182070495</description>
+      <content:encoded><![CDATA[<p>Accounts &#x27;henrywoo&#x27; and &#x27;kitao&#x27; pushed .github/workflows/security-audit.yml to tens of thousands of repos, exfiltrating secrets to 193.32.204[.]199. Audit repos for that workflow file and rotate exposed secrets.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/supply-chain-attack-thousands/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120094722182070495">View on X</a></p>]]></content:encoded>
+      <dc:creator>InfoSecurity Magazine</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120094722182070495</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120094722182070495">DFIR Radar</source>
+      <pubDate>Tue, 10 Nov 2026 10:02:26 +0000</pubDate>
+      <guid isPermaLink="false">2120094722182070495</guid>
+    </item>
     <item>
       <title>Re: Rooting ISPs and Hosting Providers with Hyperglass</title>
       <link>https://seclists.org/oss-sec/2026/q4/626</link>
@@ -2184,34 +2198,6 @@ Practitioner takeaway: Hunt for SGTool.exe spawning unexpected child processes o
       <source url="https://x.com/DFIR_Radar/status/2118162129060556835">DFIR Radar</source>
       <pubDate>Thu, 05 Nov 2026 02:03:00 +0000</pubDate>
       <guid isPermaLink="false">2118162129060556835</guid>
-    </item>
-    <item>
-      <title>Detection Engineering: Implementing Detection-as-Code in an Existing Environment: Part 2: Execution</title>
-      <link>https://blog.nviso.eu/2026/11/04/detection-engineering-implementing-detection-as-code-in-an-existing-environment-part-2-execution/</link>
-      <description>Detection-as-Code migration in practice: NVISO Labs details the execution phase of consolidating scattered detection data into a single Git repository, covering data restructuring, Git history preservation, and automated artifact generation for Splunk and other platforms.
-
-Key findings:
-
-- The core technical challenge was schema quality, not architecture. Many metadata documents stored on file shares had character encoding errors, missing keys, null bytes, and indentation faults that were invisible in the old workflow but broke machine parsing entirely. NVISO built a parsing library using strictyaml and jsonschema to validate every file against a defined schema, then corrected issues in two passes: semi-automated scripts for encoding problems, and manual file-by-file correction for structural errors. Detection teams inheriting legacy rule sets should expect this same debt before any pipeline can be automated reliably.
-
-- Preserving Git history through the restructuring required deliberate commit sequencing. Because Git infers file moves by comparing content similarity rather than recording moves directly, the team split every change into two commits: one that changed file content while keeping paths identical, and a second that moved or renamed files without touching content. This kept git blame intact across the restructured repository. The --allow-unrelated-histories flag was required to merge branches from multiple formerly separate repositories into a single local integration repo before pushing back to GitHub.
-
-- Splunk deployment artifact generation was fully scripted. The script iterated each detection folder, read the target Splunk app from meta.yml, and concatenated the detection's splunk-searches.conf, splunk-transforms.conf, and splunk-macros.conf snippets into the corresponding app-level savedsearches.conf, transforms.conf, and macros.conf files. Lookup files were copied unchanged. This means the detection repository becomes the authoritative input and the Splunk app directory becomes a generated output, not a place engineers edit directly.
-
-- Atomic Red Team test files created duplication that required post-migration cleanup. Because test case naming was inconsistent, the migration script could not reliably match individual test cases to individual detections. The safe fallback was to copy the full test script into every detection folder sharing the same MITRE ATT&amp;CK technique. That duplication was resolved post-migration through partial automation where naming allowed, and manual investigation where it did not. Teams running similar migrations should treat ART test mapping as a separate cleanup workstream, not an inline step.
-
-- Excel reports were the last data silo. Regulatory and internal reporting requirements meant the spreadsheets had to remain, but after migration they became generated outputs. The metadata schema was extended to cover any fields the Excel reports required that meta.yml did not already contain, a script migrated existing metadata to the new schema, and CLI tooling was built to populate and refresh the reports directly from the GitHub repository on demand.
-
-Practitioner takeaway: if your detection repository migration keeps stalling, the NVISO approach of dry-running the full migration against a copy of production data and diffing generated artifacts against pre-migration files is the most reliable way to surface hidden issues before the freeze window opens. Start with schema validation on every metadata file before writing a single migration script, and plan your Git commit strategy around the two-step content-then-move sequence if history preservation matters to your team.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118146957931671695</description>
-      <content:encoded><![CDATA[<p>Detection-as-Code migration in practice: NVISO Labs details the execution phase of consolidating scattered detection data into a single Git repository, covering data restructuring, Git history preservation, and automated artifact generation for Splunk and other platforms.</p><p>Key findings:</p><p>- The core technical challenge was schema quality, not architecture. Many metadata documents stored on file shares had character encoding errors, missing keys, null bytes, and indentation faults that were invisible in the old workflow but broke machine parsing entirely. NVISO built a parsing library using strictyaml and jsonschema to validate every file against a defined schema, then corrected issues in two passes: semi-automated scripts for encoding problems, and manual file-by-file correction for structural errors. Detection teams inheriting legacy rule sets should expect this same debt before any pipeline can be automated reliably.</p><p>- Preserving Git history through the restructuring required deliberate commit sequencing. Because Git infers file moves by comparing content similarity rather than recording moves directly, the team split every change into two commits: one that changed file content while keeping paths identical, and a second that moved or renamed files without touching content. This kept git blame intact across the restructured repository. The --allow-unrelated-histories flag was required to merge branches from multiple formerly separate repositories into a single local integration repo before pushing back to GitHub.</p><p>- Splunk deployment artifact generation was fully scripted. The script iterated each detection folder, read the target Splunk app from meta.yml, and concatenated the detection&#x27;s splunk-searches.conf, splunk-transforms.conf, and splunk-macros.conf snippets into the corresponding app-level savedsearches.conf, transforms.conf, and macros.conf files. Lookup files were copied unchanged. This means the detection repository becomes the authoritative input and the Splunk app directory becomes a generated output, not a place engineers edit directly.</p><p>- Atomic Red Team test files created duplication that required post-migration cleanup. Because test case naming was inconsistent, the migration script could not reliably match individual test cases to individual detections. The safe fallback was to copy the full test script into every detection folder sharing the same MITRE ATT&amp;CK technique. That duplication was resolved post-migration through partial automation where naming allowed, and manual investigation where it did not. Teams running similar migrations should treat ART test mapping as a separate cleanup workstream, not an inline step.</p><p>- Excel reports were the last data silo. Regulatory and internal reporting requirements meant the spreadsheets had to remain, but after migration they became generated outputs. The metadata schema was extended to cover any fields the Excel reports required that meta.yml did not already contain, a script migrated existing metadata to the new schema, and CLI tooling was built to populate and refresh the reports directly from the GitHub repository on demand.</p><p>Practitioner takeaway: if your detection repository migration keeps stalling, the NVISO approach of dry-running the full migration against a copy of production data and diffing generated artifacts against pre-migration files is the most reliable way to surface hidden issues before the freeze window opens. Start with schema validation on every metadata file before writing a single migration script, and plan your Git commit strategy around the two-step content-then-move sequence if history preservation matters to your team.</p><p>#DFIR_Radar</p><p><a href="https://blog.nviso.eu/2026/11/04/detection-engineering-implementing-detection-as-code-in-an-existing-environment-part-2-execution/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118146957931671695">View on X</a></p>]]></content:encoded>
-      <dc:creator>NVISO Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118146957931671695</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2118146957931671695">DFIR Radar</source>
-      <pubDate>Thu, 05 Nov 2026 01:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2118146957931671695</guid>
     </item>
   </channel>
 </rss>
