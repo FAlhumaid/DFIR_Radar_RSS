@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 10 Nov 2026 06:02:41 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 07:02:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ARTEX Fuels Espionage and Financial Cybercrime Campaigns</title>
+      <link>https://blog.polyswarm.io/artex-fuels-espionage-and-financial-cybercrime-campaigns</link>
+      <description>Chinese 🇨🇳 Storm-0940 and VAPOR PANDA used ARTEX, an agentic AI pentest framework, to hit 200+ orgs, deploying BLOODALCHEMY via DLL sideloading with graphics-hook-filter64.dll. IOCs and samples in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120049362067984644</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Storm-0940 and VAPOR PANDA used ARTEX, an agentic AI pentest framework, to hit 200+ orgs, deploying BLOODALCHEMY via DLL sideloading with graphics-hook-filter64.dll. IOCs and samples in the report.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/artex-fuels-espionage-and-financial-cybercrime-campaigns">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120049362067984644">View on X</a></p>]]></content:encoded>
+      <dc:creator>PolySwarm</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120049362067984644</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120049362067984644">DFIR Radar</source>
+      <pubDate>Tue, 10 Nov 2026 07:02:11 +0000</pubDate>
+      <guid isPermaLink="false">2120049362067984644</guid>
+    </item>
     <item>
       <title>ARTEX goes from pentesting tool to attacker staple in three months</title>
       <link>https://www.helpnetsecurity.com/2026/11/09/artex-goes-from-pentesting-tool-to-attacker-staple-in-three-months/</link>
@@ -2210,32 +2224,6 @@ Practitioner takeaway: Pull every device that has authenticated to your identity
       <source url="https://x.com/DFIR_Radar/status/2118116876215632325">DFIR Radar</source>
       <pubDate>Wed, 04 Nov 2026 23:03:11 +0000</pubDate>
       <guid isPermaLink="false">2118116876215632325</guid>
-    </item>
-    <item>
-      <title>Application identity abuse targets MSPs and customer environments</title>
-      <link>https://fieldeffect.com/blog/application-identity-abuse-msps-customer-environments</link>
-      <description>Application identity abuse targets MSPs-linked threat actor authenticates as trusted Azure apps, bypassing MFA entirely, to harvest credentials across multiple customer tenants in an ongoing campaign first observed November 1, 2026.
-
-Key findings:
-
-- The adversary authenticated directly to Microsoft Entra ID and Azure DevOps using valid application credentials, operating as trusted service principals rather than compromised users. Because application sign-ins carry no interactive session, MFA and user-focused Conditional Access policies do not apply, and on-premises firewalls have no visibility. All confirmed malicious activity originated from a single IP: 199.19.77[.]84, hosted in Poland 🇵🇱.
-
-- Once authenticated, the operator retrieved stored secrets from Key Vault and other credential stores, then used MSP multi-tenant applications, Partner Center tokens, and Granular Delegated Admin Privileges (GDAP) applications to pivot across customer tenants. Previously dormant applications began authenticating within minutes of secret retrieval, confirming the operator moved laterally using freshly harvested credentials. Azure DevOps service connections and deployment pipelines were in scope, introducing risk to production infrastructure.
-
-- The operator collected files containing credentials and configuration details for VPNs, RMM tools, backup platforms, and firewalls. Access to those downstream systems is the likely end goal, extending the breach well beyond the Microsoft cloud. Integration applications for security tooling, including Todyl's own MSP integration apps in two tenants, were among the credentials abused, with no evidence of vendor platform compromise.
-
-- After detections fired on November 3, 2026, the adversary adapted: spoofing browser signatures, replaying users' refresh tokens, and retrying disabled and rotated application credentials in fixed 11-second loops. Conditional Access blocked every token replay observed that day, and error codes AADSTS7000215 and AADSTS7000222 appeared in logs alongside failed secret attempts followed by successful sign-ins, a detectable pattern.
-
-Practitioner takeaway: Pull Entra ID service principal sign-in logs and filter for 199.19.77[.]84, then hunt for the sequence of AADSTS7000215 or AADSTS7000222 errors followed by a successful authentication, and for applications authenticating after extended inactivity. For confirmed exposure, remove all secrets, certificates, and federated credentials on affected service principals, check for credentials added without approval, and disable the principal. Already-issued tokens remain valid until expiry, so also revoke Azure DevOps PATs and SSH keys and rotate every downstream credential the application could reach: VPN, RMM, backup, and firewall. Block 199.19.77[.]84 via a Conditional Access named location policy scoped to workload identities and to user sessions covering token replay. IOCs and detailed mitigation steps are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118101747273183543</description>
-      <content:encoded><![CDATA[<p>Application identity abuse targets MSPs-linked threat actor authenticates as trusted Azure apps, bypassing MFA entirely, to harvest credentials across multiple customer tenants in an ongoing campaign first observed November 1, 2026.</p><p>Key findings:</p><p>- The adversary authenticated directly to Microsoft Entra ID and Azure DevOps using valid application credentials, operating as trusted service principals rather than compromised users. Because application sign-ins carry no interactive session, MFA and user-focused Conditional Access policies do not apply, and on-premises firewalls have no visibility. All confirmed malicious activity originated from a single IP: 199.19.77[.]84, hosted in Poland 🇵🇱.</p><p>- Once authenticated, the operator retrieved stored secrets from Key Vault and other credential stores, then used MSP multi-tenant applications, Partner Center tokens, and Granular Delegated Admin Privileges (GDAP) applications to pivot across customer tenants. Previously dormant applications began authenticating within minutes of secret retrieval, confirming the operator moved laterally using freshly harvested credentials. Azure DevOps service connections and deployment pipelines were in scope, introducing risk to production infrastructure.</p><p>- The operator collected files containing credentials and configuration details for VPNs, RMM tools, backup platforms, and firewalls. Access to those downstream systems is the likely end goal, extending the breach well beyond the Microsoft cloud. Integration applications for security tooling, including Todyl&#x27;s own MSP integration apps in two tenants, were among the credentials abused, with no evidence of vendor platform compromise.</p><p>- After detections fired on November 3, 2026, the adversary adapted: spoofing browser signatures, replaying users&#x27; refresh tokens, and retrying disabled and rotated application credentials in fixed 11-second loops. Conditional Access blocked every token replay observed that day, and error codes AADSTS7000215 and AADSTS7000222 appeared in logs alongside failed secret attempts followed by successful sign-ins, a detectable pattern.</p><p>Practitioner takeaway: Pull Entra ID service principal sign-in logs and filter for 199.19.77[.]84, then hunt for the sequence of AADSTS7000215 or AADSTS7000222 errors followed by a successful authentication, and for applications authenticating after extended inactivity. For confirmed exposure, remove all secrets, certificates, and federated credentials on affected service principals, check for credentials added without approval, and disable the principal. Already-issued tokens remain valid until expiry, so also revoke Azure DevOps PATs and SSH keys and rotate every downstream credential the application could reach: VPN, RMM, backup, and firewall. Block 199.19.77[.]84 via a Conditional Access named location policy scoped to workload identities and to user sessions covering token replay. IOCs and detailed mitigation steps are in the report.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/application-identity-abuse-msps-customer-environments">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118101747273183543">View on X</a></p>]]></content:encoded>
-      <dc:creator>Field Effect</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118101747273183543</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2118101747273183543">DFIR Radar</source>
-      <pubDate>Wed, 04 Nov 2026 22:03:04 +0000</pubDate>
-      <guid isPermaLink="false">2118101747273183543</guid>
     </item>
   </channel>
 </rss>
