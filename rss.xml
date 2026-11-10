@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 10 Nov 2026 00:02:25 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 01:01:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Searching for SAP Netweaver Webshells, (Mon, Nov 9th)</title>
+      <link>https://isc.sans.edu/diary/rss/33502</link>
+      <description>Attackers are actively scanning for SAP NetWeaver webshells dropped via CVE-2025-31324, a perfect CVSS 10.0 unauthenticated file upload flaw, while simultaneously probing dozens of other upload endpoints across multiple platforms.
+
+Key findings:
+
+- CVE-2025-31324 carries a CVSS score of 10.0 and allows unauthenticated file upload to SAP NetWeaver. Attackers have been using it to drop webshells, which typically land in /irj/servlet_jsp/irj/root/. The SANS ISC honeypot caught a new probe for /irj/servlet_jsp/irj/root/ant.jsp, confirming active post-exploitation scanning to locate shells that earlier intrusions may have left behind.
+
+- A single source IP, 82.26.72[.]21, is running a broad multi-platform sweep, not just SAP. The URL list includes SharePoint paths (/_layouts/15/start.aspx, /_layouts/15/ToolPane.aspx), Joomla component upload endpoints (com_jce, com_baforms, com_sppagebuilder, com_gridbox), Samsung MagicInfo (/MagicInfo/servlet/SWUpdateFileUploader), WhatsUp Gold (/NmConsole/), and generic API upload routes (/api/upload, /api/v1/upload). The actor is hunting for any exposed file upload surface, not just SAP.
+
+- The webshell naming convention is consistent: ant.jsp, ant.php, ant.aspx appear across multiple subdirectory paths. "Ant" webshells are a known commodity in Chinese 🇨🇳 threat actor toolkits. If your environment was exposed to CVE-2025-31324 at any point, treat any file named ant.jsp in /irj/servlet_jsp/irj/root/ as a confirmed indicator of compromise, not just a scan hit.
+
+- The URL list includes a deliberate or accidental misspelling: /upload.apsx alongside the correct /upload.aspx. This kind of typo in scanner tooling can help fingerprint the specific tool or script being used, and is worth preserving in your log data as a behavioral indicator tied to this actor.
+
+Takeaway: If SAP NetWeaver is or was in your environment, search web server and application logs for requests hitting /irj/servlet_jsp/irj/root/ and any files with the name ant.jsp in that directory. For the broader sweep, block or alert on 82.26.72[.]21 and audit all upload-capable endpoints across SharePoint, Joomla, and network management interfaces for unexpected files. The IOC table and full URL list are in the SANS ISC diary.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119958708939878455</description>
+      <content:encoded><![CDATA[<p>Attackers are actively scanning for SAP NetWeaver webshells dropped via CVE-2025-31324, a perfect CVSS 10.0 unauthenticated file upload flaw, while simultaneously probing dozens of other upload endpoints across multiple platforms.</p><p>Key findings:</p><p>- CVE-2025-31324 carries a CVSS score of 10.0 and allows unauthenticated file upload to SAP NetWeaver. Attackers have been using it to drop webshells, which typically land in /irj/servlet_jsp/irj/root/. The SANS ISC honeypot caught a new probe for /irj/servlet_jsp/irj/root/ant.jsp, confirming active post-exploitation scanning to locate shells that earlier intrusions may have left behind.</p><p>- A single source IP, 82.26.72[.]21, is running a broad multi-platform sweep, not just SAP. The URL list includes SharePoint paths (/_layouts/15/start.aspx, /_layouts/15/ToolPane.aspx), Joomla component upload endpoints (com_jce, com_baforms, com_sppagebuilder, com_gridbox), Samsung MagicInfo (/MagicInfo/servlet/SWUpdateFileUploader), WhatsUp Gold (/NmConsole/), and generic API upload routes (/api/upload, /api/v1/upload). The actor is hunting for any exposed file upload surface, not just SAP.</p><p>- The webshell naming convention is consistent: ant.jsp, ant.php, ant.aspx appear across multiple subdirectory paths. &quot;Ant&quot; webshells are a known commodity in Chinese 🇨🇳 threat actor toolkits. If your environment was exposed to CVE-2025-31324 at any point, treat any file named ant.jsp in /irj/servlet_jsp/irj/root/ as a confirmed indicator of compromise, not just a scan hit.</p><p>- The URL list includes a deliberate or accidental misspelling: /upload.apsx alongside the correct /upload.aspx. This kind of typo in scanner tooling can help fingerprint the specific tool or script being used, and is worth preserving in your log data as a behavioral indicator tied to this actor.</p><p>Takeaway: If SAP NetWeaver is or was in your environment, search web server and application logs for requests hitting /irj/servlet_jsp/irj/root/ and any files with the name ant.jsp in that directory. For the broader sweep, block or alert on 82.26.72[.]21 and audit all upload-capable endpoints across SharePoint, Joomla, and network management interfaces for unexpected files. The IOC table and full URL list are in the SANS ISC diary.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33502">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119958708939878455">View on X</a></p>]]></content:encoded>
+      <dc:creator>SANS ISC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2119958708939878455</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2119958708939878455">DFIR Radar</source>
+      <pubDate>Tue, 10 Nov 2026 01:01:58 +0000</pubDate>
+      <guid isPermaLink="false">2119958708939878455</guid>
+    </item>
     <item>
       <title>The Cold Chain on Fire : Unpatched Danfoss controllers exploited</title>
       <link>https://www.sekoia.com/blog/the-cold-chain-on-fire-unpatched-danfoss-controllers-exploited</link>
@@ -2208,34 +2234,6 @@ Hunt your Terraform build hosts and CI runners: check for session.lock run-once 
       <source url="https://x.com/DFIR_Radar/status/2118026327936618785">DFIR Radar</source>
       <pubDate>Wed, 04 Nov 2026 17:03:23 +0000</pubDate>
       <guid isPermaLink="false">2118026327936618785</guid>
-    </item>
-    <item>
-      <title>3AM Ransomware Used Human-AI Hybrid Tactics in UK School Estate Compromise</title>
-      <link>https://www.infosecurity-magazine.com/news/3am-ransomware-hybrid-ai-uk-school/</link>
-      <description>3AM ransomware affiliate used a human-AI hybrid operation to compromise a UK 🇬🇧 school estate, encrypting 37 machines after building cross-domain trust across the network over nine days in September 2026.
-
-Key findings:
-
-- Bitdefender attributes this to a 3AM ransomware affiliate operating under a RaaS model, with the Rust-based 3AM encryptor first observed in February 2023. Initial access vector was not determined. The first confirmed activity on September 10 was credential theft from backup infrastructure, with decryption performed using the Windows Data Protection API, a native OS feature that made the action blend into normal behavior.
-
-- The hybrid human-AI methodology is visible in the command timing. During lateral movement attempts on September 12-13, PowerShell commands were reissued unchanged 41 seconds after first run, then modified 49 seconds later, then replaced entirely with wmic at the same speed. Bitdefender assesses that the rapid full rewrites, arriving as fast as minor edits, indicate an AI agent handling retries, while the longer 2-16 minute gaps between distinct tasks reflect a human reading output and choosing the next step. SQL Server was the parent process for WMI-based lateral movement using stolen administrator credentials.
-
-- On September 14, the attacker ran Mimikatz for credential dumping, created two backdoor domain administrator accounts via separate routes, and exfiltrated approximately 40 financial files using Windows robocopy before sending them to C2 via HTTP POST. Bitdefender specifically flags the registry-as-transport channel used in exfiltration as an unusual choice and a strong indicator to hunt for.
-
-- On September 19, the attacker joined three separate Active Directory domains using two-way trusts within roughly a three-hour window, expanding access to 50 machines from a single unmanaged host. The trust-building phase, which is mechanical and error-sensitive, is described as the clearest example of the hybrid approach: an AI model handling repetitive configuration steps while a human interpreted errors and directed corrections. The attacker then attempted EDR removal before encrypting 37 of the 50 reachable machines.
-
-- Bitdefender calls this the first documented case of a human-AI hybrid ransomware attack in Europe and assesses the model is economically rational for threat actors, with AI absorbing the repetitive mechanical work at no additional skill cost. The researchers assess hybrid attacks of this type will become more common in 2027.
-
-Takeaway: Hunt for WMI lateral movement with SQL Server as parent process, robocopy usage copying financial files in bulk, creation of new domain administrator accounts via multiple routes on the same day, and cross-domain trust creation activity in a compressed timeframe. Treat backup infrastructure credential stores as primary targets during triage, audit privileged accounts across all domains for unexpected additions, and review whether unmanaged hosts have endpoint agents, the attack pivoted to 50 machines from a single unmanaged endpoint. The full Bitdefender report contains the detailed timeline and defensive recommendations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118011059923493161</description>
-      <content:encoded><![CDATA[<p>3AM ransomware affiliate used a human-AI hybrid operation to compromise a UK 🇬🇧 school estate, encrypting 37 machines after building cross-domain trust across the network over nine days in September 2026.</p><p>Key findings:</p><p>- Bitdefender attributes this to a 3AM ransomware affiliate operating under a RaaS model, with the Rust-based 3AM encryptor first observed in February 2023. Initial access vector was not determined. The first confirmed activity on September 10 was credential theft from backup infrastructure, with decryption performed using the Windows Data Protection API, a native OS feature that made the action blend into normal behavior.</p><p>- The hybrid human-AI methodology is visible in the command timing. During lateral movement attempts on September 12-13, PowerShell commands were reissued unchanged 41 seconds after first run, then modified 49 seconds later, then replaced entirely with wmic at the same speed. Bitdefender assesses that the rapid full rewrites, arriving as fast as minor edits, indicate an AI agent handling retries, while the longer 2-16 minute gaps between distinct tasks reflect a human reading output and choosing the next step. SQL Server was the parent process for WMI-based lateral movement using stolen administrator credentials.</p><p>- On September 14, the attacker ran Mimikatz for credential dumping, created two backdoor domain administrator accounts via separate routes, and exfiltrated approximately 40 financial files using Windows robocopy before sending them to C2 via HTTP POST. Bitdefender specifically flags the registry-as-transport channel used in exfiltration as an unusual choice and a strong indicator to hunt for.</p><p>- On September 19, the attacker joined three separate Active Directory domains using two-way trusts within roughly a three-hour window, expanding access to 50 machines from a single unmanaged host. The trust-building phase, which is mechanical and error-sensitive, is described as the clearest example of the hybrid approach: an AI model handling repetitive configuration steps while a human interpreted errors and directed corrections. The attacker then attempted EDR removal before encrypting 37 of the 50 reachable machines.</p><p>- Bitdefender calls this the first documented case of a human-AI hybrid ransomware attack in Europe and assesses the model is economically rational for threat actors, with AI absorbing the repetitive mechanical work at no additional skill cost. The researchers assess hybrid attacks of this type will become more common in 2027.</p><p>Takeaway: Hunt for WMI lateral movement with SQL Server as parent process, robocopy usage copying financial files in bulk, creation of new domain administrator accounts via multiple routes on the same day, and cross-domain trust creation activity in a compressed timeframe. Treat backup infrastructure credential stores as primary targets during triage, audit privileged accounts across all domains for unexpected additions, and review whether unmanaged hosts have endpoint agents, the attack pivoted to 50 machines from a single unmanaged endpoint. The full Bitdefender report contains the detailed timeline and defensive recommendations.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/3am-ransomware-hybrid-ai-uk-school/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118011059923493161">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118011059923493161</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2118011059923493161">DFIR Radar</source>
-      <pubDate>Wed, 04 Nov 2026 16:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2118011059923493161</guid>
     </item>
   </channel>
 </rss>
