@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 21:03:16 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 22:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Russian Turla group used new toolset to silently pilfer emails from Kazakhstan, Romanian governments</title>
+      <link>https://cyberscoop.com/russian-turla-group-used-new-toolset-to-silently-pilfer-emails-from-kazakhstan-romanian-governments/</link>
+      <description>Russian 🇷🇺 FSB-linked Turla hit Kazakhstan 🇰🇿 and Romanian 🇷🇴 governments via Exchange servers using "Turla's Cereal," a modular .NET toolset with no external C2. Hunt for in-memory .NET loads and passive listeners on Exchange web paths.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120638444795998251</description>
+      <content:encoded><![CDATA[<p>Russian 🇷🇺 FSB-linked Turla hit Kazakhstan 🇰🇿 and Romanian 🇷🇴 governments via Exchange servers using &quot;Turla&#x27;s Cereal,&quot; a modular .NET toolset with no external C2. Hunt for in-memory .NET loads and passive listeners on Exchange web paths.</p><p>#DFIR_Radar</p><p><a href="https://cyberscoop.com/russian-turla-group-used-new-toolset-to-silently-pilfer-emails-from-kazakhstan-romanian-governments/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120638444795998251">View on X</a></p>]]></content:encoded>
+      <dc:creator>CyberScoop</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120638444795998251</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120638444795998251">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 22:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2120638444795998251</guid>
+    </item>
     <item>
       <title>The global socket: how threat actors are weaponizing GSocket for stealthy C2</title>
       <link>https://www.microsoft.com/en-us/security/blog/2026/11/11/global-socket-how-threat-actors-weaponizing-gsocket-stealthy-c2/</link>
@@ -2176,34 +2190,6 @@ Practitioner takeaway: If your organization operates wallets or signing services
       <source url="https://x.com/DFIR_Radar/status/2118720560033366232">DFIR Radar</source>
       <pubDate>Fri, 06 Nov 2026 15:02:00 +0000</pubDate>
       <guid isPermaLink="false">2118720560033366232</guid>
-    </item>
-    <item>
-      <title>Dissecting WerFault</title>
-      <link>https://falconforce.nl/dissecting-werfault/</link>
-      <description>WerFault.exe reverse engineered: six operational modes documented, several offering undiscovered or underappreciated paths to process memory dumping, including potential LSASS access outside the well-known silentprocessexit technique.
-
-Key findings:
-
-- WerFault.exe operates as a dispatcher. Its wmain function reads the first command-line argument to select a mode, then hands off to a dedicated function: UserCrashMainSEH (-s, -p, -ip), ReflectionServerMain (-pr), WerCoreReportingHang (/hc or /h plus /SHARED, /t, /p), SnapshotCaptureMain (-pss), SilentProcessExitMain (-s, -e, -i, -t, -c), and KernelCrashMain (-k with suboperations -c, -q, -l, -lc, -lcq). The lack of public documentation on these modes is exactly why triage is hard: defenders have been pattern-matching on silentprocessexit while other modes remain largely blind spots.
-
-- ReflectionServerMain (-pr) is the most forensically significant underdocumented mode. It opens a named file mapping object and ultimately calls RtlCreateProcessReflection, an undocumented Windows function that clones a process and writes a minidump via MiniDumpWriteDump. The report flags this as a plausible but unconfirmed path to dumping or cloning LSASS without touching the well-monitored silentprocessexit workflow. If abused, the memory artifact lands on disk through a legitimate signed Windows binary with a command line that looks routine.
-
-- SnapshotCaptureMain (-pss) also targets a process by PID and creates a snapshot. It accepts the same -p, -ip, and -s arguments as UserCrashMainSEH and calls into snapshot APIs. The report notes that WerFault performs checks on shared memory validity and system policy before proceeding, so direct abuse requires some setup, but the snapshot output is a memory artifact worth hunting in environments where WerFault activity is unexpected.
-
-- SilentProcessExitMain is a thin proxy into WerUIReportSilentProcessExit inside werui.dll. The actual logic lives in that DLL, not in werfault.exe itself. The command line carries -i (initiating PID), -e (exiting PID), -t (thread ID), and -c (status code). This matters for triage: investigators hunting LSASS dumps via silentprocessexit should inspect werui.dll's execution context and the registry key HKLM\Software\Microsoft\Windows\Windows Error Reporting\SilentProcessExit alongside the WerFault command line.
-
-- WerCoreReportingHang stands out structurally. It uses forward slashes instead of hyphens, accepts /hc and /h as synonyms (every other mode has exactly one switch), strips its own argv[0] before parsing, and checks HKLM\Software\Microsoft\Windows\Windows Error Reporting\Hangs\Debugger to decide whether to attach a debugger. It also resets PATH to System32 and sets several _NT_ environment variables before processing the /SHARED shared-memory object. Any process creation event showing WerFault.exe with /hc or /h where the parent is not a recognized crash reporter is worth a second look.
-
-Hunt tip: build a process creation baseline for WerFault.exe and WerFaultSecure.exe, normalizing on the first argument (the mode flag) and the parent process. Legitimate crash reporting has predictable parents (svchost, the crashing application). Flag any WerFault invocation where the mode is -pr (ReflectionServerMain) or -pss (SnapshotCaptureMain) and the parent is not WerSvc or a known system component, then correlate with handles opened to lsass.exe at the same timestamp in your EDR telemetry. The registry key HKLM\Software\Microsoft\Windows\Windows Error Reporting\Hangs\Debugger is also a persistence or execution opportunity worth including in your registry monitoring baseline.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118705644538667173</description>
-      <content:encoded><![CDATA[<p>WerFault.exe reverse engineered: six operational modes documented, several offering undiscovered or underappreciated paths to process memory dumping, including potential LSASS access outside the well-known silentprocessexit technique.</p><p>Key findings:</p><p>- WerFault.exe operates as a dispatcher. Its wmain function reads the first command-line argument to select a mode, then hands off to a dedicated function: UserCrashMainSEH (-s, -p, -ip), ReflectionServerMain (-pr), WerCoreReportingHang (/hc or /h plus /SHARED, /t, /p), SnapshotCaptureMain (-pss), SilentProcessExitMain (-s, -e, -i, -t, -c), and KernelCrashMain (-k with suboperations -c, -q, -l, -lc, -lcq). The lack of public documentation on these modes is exactly why triage is hard: defenders have been pattern-matching on silentprocessexit while other modes remain largely blind spots.</p><p>- ReflectionServerMain (-pr) is the most forensically significant underdocumented mode. It opens a named file mapping object and ultimately calls RtlCreateProcessReflection, an undocumented Windows function that clones a process and writes a minidump via MiniDumpWriteDump. The report flags this as a plausible but unconfirmed path to dumping or cloning LSASS without touching the well-monitored silentprocessexit workflow. If abused, the memory artifact lands on disk through a legitimate signed Windows binary with a command line that looks routine.</p><p>- SnapshotCaptureMain (-pss) also targets a process by PID and creates a snapshot. It accepts the same -p, -ip, and -s arguments as UserCrashMainSEH and calls into snapshot APIs. The report notes that WerFault performs checks on shared memory validity and system policy before proceeding, so direct abuse requires some setup, but the snapshot output is a memory artifact worth hunting in environments where WerFault activity is unexpected.</p><p>- SilentProcessExitMain is a thin proxy into WerUIReportSilentProcessExit inside werui.dll. The actual logic lives in that DLL, not in werfault.exe itself. The command line carries -i (initiating PID), -e (exiting PID), -t (thread ID), and -c (status code). This matters for triage: investigators hunting LSASS dumps via silentprocessexit should inspect werui.dll&#x27;s execution context and the registry key HKLM\Software\Microsoft\Windows\Windows Error Reporting\SilentProcessExit alongside the WerFault command line.</p><p>- WerCoreReportingHang stands out structurally. It uses forward slashes instead of hyphens, accepts /hc and /h as synonyms (every other mode has exactly one switch), strips its own argv[0] before parsing, and checks HKLM\Software\Microsoft\Windows\Windows Error Reporting\Hangs\Debugger to decide whether to attach a debugger. It also resets PATH to System32 and sets several _NT_ environment variables before processing the /SHARED shared-memory object. Any process creation event showing WerFault.exe with /hc or /h where the parent is not a recognized crash reporter is worth a second look.</p><p>Hunt tip: build a process creation baseline for WerFault.exe and WerFaultSecure.exe, normalizing on the first argument (the mode flag) and the parent process. Legitimate crash reporting has predictable parents (svchost, the crashing application). Flag any WerFault invocation where the mode is -pr (ReflectionServerMain) or -pss (SnapshotCaptureMain) and the parent is not WerSvc or a known system component, then correlate with handles opened to lsass.exe at the same timestamp in your EDR telemetry. The registry key HKLM\Software\Microsoft\Windows\Windows Error Reporting\Hangs\Debugger is also a persistence or execution opportunity worth including in your registry monitoring baseline.</p><p>#DFIR_Radar</p><p><a href="https://falconforce.nl/dissecting-werfault/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118705644538667173">View on X</a></p>]]></content:encoded>
-      <dc:creator>FalconForce</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118705644538667173</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2118705644538667173">DFIR Radar</source>
-      <pubDate>Fri, 06 Nov 2026 14:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2118705644538667173</guid>
     </item>
   </channel>
 </rss>
