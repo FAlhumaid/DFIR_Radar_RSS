@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 00:02:44 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 01:03:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers exploit trusted AWS access to breach multiple cloud environments</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-exploit-trusted-aws-access-to-breach-multiple-cloud-environments/</link>
+      <description>Compromised Qubole IAM credentials gave a threat actor trusted access to tens of companies' AWS environments, exfiltrating millions of files and hundreds of secrets across a 12-day campaign in October.
+
+Key findings:
+
+- The attacker compromised two Qubole IAM users and then abused cross-account trust relationships by calling the AWS STS AssumeRole API to step into dormant IAM roles inside customer environments. Those roles had been configured to trust Qubole's AWS account, so the assumption succeeded without triggering obvious authentication alerts. The attack window ran October 14 through 26.
+
+- Once inside each environment, the sequence was methodical and consistent: assume the role, call ListBuckets to map accessible storage, call ListObjects and HeadObject to enumerate and inspect contents, then call GetObject to bulk-download. The attacker also retrieved secrets from AWS Secrets Manager, SSM Parameter Store, and Lambda environment variables, then used TruffleHog to validate harvested AWS keys, Microsoft Entra ID client secrets, and Okta credentials. That is a full credential-harvesting pass across the cloud control plane in a single access chain.
+
+- The pace was aggressive. Sentra reported the attacker collected 100 passwords and keys in seven minutes. One customer alone lost millions of files. Tens of companies were affected in total. The approach was opportunistic: everything the assumed role could reach was downloaded, not a targeted subset.
+
+- The core forensic signal lives in AWS CloudTrail. Reviewers should look for AssumeRole events originating from Qubole's AWS account, especially on roles that had not been recently used, followed by ListBuckets, ListObjects, HeadObject, and GetObject API calls in rapid succession. GetSecretValue calls against Secrets Manager and GetParameters against SSM Parameter Store in the same session window are further confirmation. The attacker's pattern is high-volume, wide-scope API activity immediately after a cross-account role assumption.
+
+- How Qubole's own IAM users were initially compromised is not stated in the report, and Qubole had not made a public statement as of publication. The downstream impact, however, is a textbook illustration of third-party cloud trust chain risk: a single supplier compromise became a master key to dozens of customer environments.
+
+Practitioner takeaway: Review CloudTrail from October 1 onward, filtering on AssumeRole where the principal account is Qubole's, then chain those session tokens forward to find every subsequent API call. Rotate any credentials that may have been exposed, revoke active role sessions, and strip or restrict any Qubole-associated roles still in your environment. Unused cross-account roles with broad S3 or Secrets Manager permissions are the attack surface here, not a vulnerability, so removal or scope reduction is the lasting fix.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120321404826427563</description>
+      <content:encoded><![CDATA[<p>Compromised Qubole IAM credentials gave a threat actor trusted access to tens of companies&#x27; AWS environments, exfiltrating millions of files and hundreds of secrets across a 12-day campaign in October.</p><p>Key findings:</p><p>- The attacker compromised two Qubole IAM users and then abused cross-account trust relationships by calling the AWS STS AssumeRole API to step into dormant IAM roles inside customer environments. Those roles had been configured to trust Qubole&#x27;s AWS account, so the assumption succeeded without triggering obvious authentication alerts. The attack window ran October 14 through 26.</p><p>- Once inside each environment, the sequence was methodical and consistent: assume the role, call ListBuckets to map accessible storage, call ListObjects and HeadObject to enumerate and inspect contents, then call GetObject to bulk-download. The attacker also retrieved secrets from AWS Secrets Manager, SSM Parameter Store, and Lambda environment variables, then used TruffleHog to validate harvested AWS keys, Microsoft Entra ID client secrets, and Okta credentials. That is a full credential-harvesting pass across the cloud control plane in a single access chain.</p><p>- The pace was aggressive. Sentra reported the attacker collected 100 passwords and keys in seven minutes. One customer alone lost millions of files. Tens of companies were affected in total. The approach was opportunistic: everything the assumed role could reach was downloaded, not a targeted subset.</p><p>- The core forensic signal lives in AWS CloudTrail. Reviewers should look for AssumeRole events originating from Qubole&#x27;s AWS account, especially on roles that had not been recently used, followed by ListBuckets, ListObjects, HeadObject, and GetObject API calls in rapid succession. GetSecretValue calls against Secrets Manager and GetParameters against SSM Parameter Store in the same session window are further confirmation. The attacker&#x27;s pattern is high-volume, wide-scope API activity immediately after a cross-account role assumption.</p><p>- How Qubole&#x27;s own IAM users were initially compromised is not stated in the report, and Qubole had not made a public statement as of publication. The downstream impact, however, is a textbook illustration of third-party cloud trust chain risk: a single supplier compromise became a master key to dozens of customer environments.</p><p>Practitioner takeaway: Review CloudTrail from October 1 onward, filtering on AssumeRole where the principal account is Qubole&#x27;s, then chain those session tokens forward to find every subsequent API call. Rotate any credentials that may have been exposed, revoke active role sessions, and strip or restrict any Qubole-associated roles still in your environment. Unused cross-account roles with broad S3 or Secrets Manager permissions are the attack surface here, not a vulnerability, so removal or scope reduction is the lasting fix.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-trusted-aws-access-to-breach-multiple-cloud-environments/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120321404826427563">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120321404826427563</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2120321404826427563">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 01:03:12 +0000</pubDate>
+      <guid isPermaLink="false">2120321404826427563</guid>
+    </item>
     <item>
       <title>Beyond ValleyRAT: inside a China-nexus Silver Fox operation</title>
       <link>https://www.vmray.com/beyond-valleyrat-inside-a-china-nexus-silver-fox-operation/</link>
@@ -2222,34 +2250,6 @@ Hunt your web server access logs for any GET or POST requests targeting PHP file
       <source url="https://x.com/DFIR_Radar/status/2118388524420403622">DFIR Radar</source>
       <pubDate>Thu, 05 Nov 2026 17:02:37 +0000</pubDate>
       <guid isPermaLink="false">2118388524420403622</guid>
-    </item>
-    <item>
-      <title>| …</title>
-      <link>https://detect.fyi/-add55da050ad?source=rss----d5fd8f494f6a---4</link>
-      <description>Attackers are abusing stolen Entra ID application client secrets to authenticate as legitimate workloads, bypassing user-centric identity controls entirely and potentially accessing Graph, Key Vault, SharePoint, and Azure DevOps.
-
-Key details:
-
-- The attack vector is non-human identity: threat actors using stolen client secrets authenticate as service principals, not users, meaning no password spray, no MFA to bypass, and no user sign-in to alert on. Depending on permissions granted to the compromised app, often years ago and never reviewed, the attacker lands with the same access as the application itself.
-
-- Two Entra ID error codes surface attacker reconnaissance and credential stuffing against application secrets: AADSTS7000215 (invalid client secret) and AADSTS7000222 (expired client secret). These codes appear in both EntraIdSignInEvents and EntraIdSpnSignInEvents in Microsoft Defender XDR, and the hunt query published in the report unions both tables to cover the full identity surface.
-
-- The KQL hunt filters both tables for those two error codes over the last seven days, tags each result with its source table (UserSignIns or ServicePrincipalSignIns), and enriches with Application, IPAddress, Country, and an ErrorDescription field derived via a case statement. The full query is in the report.
-
-- Risk triage is not binary: a single failure from an internal deployment pipeline is noise. The signal is clusters of failures from unusual source IPs, failures followed by successful authentications from the same IP or application, and applications with broad permissions that have never been audited. The report explicitly deprioritizes static IP-based IOCs because they rotate; the focus is indicators of attack behavior.
-
-- Service principals are a persistent blind spot in identity monitoring. Most detection engineering effort targets regular Entra ID users. If your org uses service principals, they are part of the identity attack surface and need coverage in authentication hunting, even if the detection logic differs from user-focused rules.
-
-Practitioner takeaway: Run the union query from the report against EntraIdSignInEvents and EntraIdSpnSignIns, then pivot on any IP with repeated failures that also has a successful authentication event in the same window. From there, pull the application's current API permissions in Entra ID and check audit logs for resource access after the successful auth. That sequence, failure cluster, then success, then permission scope, then downstream access, is the investigation chain that separates a stale config from an active intrusion.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118373274249990259</description>
-      <content:encoded><![CDATA[<p>Attackers are abusing stolen Entra ID application client secrets to authenticate as legitimate workloads, bypassing user-centric identity controls entirely and potentially accessing Graph, Key Vault, SharePoint, and Azure DevOps.</p><p>Key details:</p><p>- The attack vector is non-human identity: threat actors using stolen client secrets authenticate as service principals, not users, meaning no password spray, no MFA to bypass, and no user sign-in to alert on. Depending on permissions granted to the compromised app, often years ago and never reviewed, the attacker lands with the same access as the application itself.</p><p>- Two Entra ID error codes surface attacker reconnaissance and credential stuffing against application secrets: AADSTS7000215 (invalid client secret) and AADSTS7000222 (expired client secret). These codes appear in both EntraIdSignInEvents and EntraIdSpnSignInEvents in Microsoft Defender XDR, and the hunt query published in the report unions both tables to cover the full identity surface.</p><p>- The KQL hunt filters both tables for those two error codes over the last seven days, tags each result with its source table (UserSignIns or ServicePrincipalSignIns), and enriches with Application, IPAddress, Country, and an ErrorDescription field derived via a case statement. The full query is in the report.</p><p>- Risk triage is not binary: a single failure from an internal deployment pipeline is noise. The signal is clusters of failures from unusual source IPs, failures followed by successful authentications from the same IP or application, and applications with broad permissions that have never been audited. The report explicitly deprioritizes static IP-based IOCs because they rotate; the focus is indicators of attack behavior.</p><p>- Service principals are a persistent blind spot in identity monitoring. Most detection engineering effort targets regular Entra ID users. If your org uses service principals, they are part of the identity attack surface and need coverage in authentication hunting, even if the detection logic differs from user-focused rules.</p><p>Practitioner takeaway: Run the union query from the report against EntraIdSignInEvents and EntraIdSpnSignIns, then pivot on any IP with repeated failures that also has a successful authentication event in the same window. From there, pull the application&#x27;s current API permissions in Entra ID and check audit logs for resource access after the successful auth. That sequence, failure cluster, then success, then permission scope, then downstream access, is the investigation chain that separates a stale config from an active intrusion.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/-add55da050ad?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118373274249990259">View on X</a></p>]]></content:encoded>
-      <dc:creator>Detect FYI</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118373274249990259</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2118373274249990259">DFIR Radar</source>
-      <pubDate>Thu, 05 Nov 2026 16:02:01 +0000</pubDate>
-      <guid isPermaLink="false">2118373274249990259</guid>
     </item>
   </channel>
 </rss>
