@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 06:03:26 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 07:03:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>France Pins the Supermarket Refrigeration Cyberattack on Iran’s IRGC</title>
+      <link>https://thecyberexpress.com/supermarket-refrigeration-cyberattack-iran/</link>
+      <description>Iran's 🇮🇷 IRGC unit Shahid Kaveh (CyberAv3ngers) altered defrost settings on 700 French 🇫🇷 refrigeration controllers via exposed web interfaces and weak credentials. Hunt Modbus port 502 and audit internet-facing controller login pages.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120412052296814631</description>
+      <content:encoded><![CDATA[<p>Iran&#x27;s 🇮🇷 IRGC unit Shahid Kaveh (CyberAv3ngers) altered defrost settings on 700 French 🇫🇷 refrigeration controllers via exposed web interfaces and weak credentials. Hunt Modbus port 502 and audit internet-facing controller login pages.</p><p>#DFIR_Radar</p><p><a href="https://thecyberexpress.com/supermarket-refrigeration-cyberattack-iran/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120412052296814631">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Cyber Express</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120412052296814631</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2120412052296814631">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 07:03:23 +0000</pubDate>
+      <guid isPermaLink="false">2120412052296814631</guid>
+    </item>
     <item>
       <title>An Exploit Inside an App Store App: What FomoPeek Means for "App Store Only" Policies</title>
       <link>https://www.iverify.com/blog/fomopeek-app-store-exploit</link>
@@ -2182,34 +2196,6 @@ Hunt: query for ARTEX consoles using the page title pattern and Next.js asset fi
       <source url="https://x.com/DFIR_Radar/status/2118478986317902089">DFIR Radar</source>
       <pubDate>Thu, 05 Nov 2026 23:02:05 +0000</pubDate>
       <guid isPermaLink="false">2118478986317902089</guid>
-    </item>
-    <item>
-      <title>Barracuda Networks is your new best friend (Barracuda Email Security Gateway Pre-Auth Remote Root RCE CVE-2026-116606 / CVE-2026-111560)</title>
-      <link>https://labs.watchtowr.com/barracuda-networks-is-your-new-best-friend-barracuda-email-security-gateway-pre-auth-remote-root-rce-cve-2026-116606-cve-2026-111560/</link>
-      <description>Barracuda ESG pre-auth RCE chain: CVE-2026-116606 (CVSS 9.3) auth bypass plus CVE-2026-111560 (CVSS 8.6) OS command injection combine into unauthenticated root shell on a mail-inspection appliance sitting at the network edge.
-
-Key findings:
-
-- The auth bypass lives in Index[.]pm inside the ESG web interface. A failed forced-password-change request to /cgi-mod/index.cgi returns the caller's low-privilege login-screen role object instead of halting execution, so the response() handler continues processing subsequent parameters as though the request had authenticated. No credentials needed. The trigger is a POST to /cgi-mod/index.cgi with user=admin, new_password, and retype_password fields; the appliance returns HTTP 200 with a JSON error body but keeps running.
-
-- The command injection lives in Backup2[.]pm (finalize_restore) and fix_tz.pl. Both use Perl backtick execution to pass the system_timezone database value into a sed shell command without sanitization. A value shaped like UTC#';&lt;command&gt;;# closes the sed expression, injects an arbitrary shell command, and comments out the remainder. fix_tz.pl is called via sudo, so the injection executes as root.
-
-- The two flaws chain through bayesian_upload.pm, an upload handler reachable in the same unauthenticated request. The handler accepts a tar backup archive, calls restore_all, which calls finalize_restore, which triggers the injection. The backup's integrity checksum is md5(file_bytes + "Barracuda Networks is your new best friend" + "."), a static hardcoded secret, so an attacker can craft a fully valid poisoned backup offline before sending the single multipart POST that delivers both the bypass and the payload.
-
-- Affected products for the auth bypass are ESG versions before 9.4.0.029. The command injection affects a broader set: ESG, Load Balancer ADC, Message Archiver, WAF Control Center, Web Application Firewall, and Web Security Gateway, all fixed in 9.4.0.029. This is the same product line UNC4841 burned as a zero-day in CVE-2023-2868, which required physical appliance replacement for many organizations. Edge appliances that parse untrusted content and run privileged are a recurring pattern here.
-
-- The full exploit is a single multipart/form-data POST to /cgi-mod/index.cgi carrying the user, new_password, retype_password, UPDATE_activation_code, pu_bayesian_upload, and a crafted bayesian tar attachment. No prior session, no credentials, one round trip to root on a device that sees all inbound email.
-
-Hunt now: check ESG web access logs for POST requests to /cgi-mod/index.cgi that include new_password and retype_password parameters alongside a multipart file upload, particularly where the HTTP response is 200 and the body contains "Error: Password Change". Look for unexpected child processes spawned from the ESG web service, especially any touching /home/product/code/config/tz or /etc/sysconfig/clock, and audit /tmp for files created by the web process user. Watchtowr's Detection Artefact Generator for these CVEs is on their GitHub and will tell you whether your appliance is susceptible before you patch to 9.4.0.029.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118463934244253709</description>
-      <content:encoded><![CDATA[<p>Barracuda ESG pre-auth RCE chain: CVE-2026-116606 (CVSS 9.3) auth bypass plus CVE-2026-111560 (CVSS 8.6) OS command injection combine into unauthenticated root shell on a mail-inspection appliance sitting at the network edge.</p><p>Key findings:</p><p>- The auth bypass lives in Index[.]pm inside the ESG web interface. A failed forced-password-change request to /cgi-mod/index.cgi returns the caller&#x27;s low-privilege login-screen role object instead of halting execution, so the response() handler continues processing subsequent parameters as though the request had authenticated. No credentials needed. The trigger is a POST to /cgi-mod/index.cgi with user=admin, new_password, and retype_password fields; the appliance returns HTTP 200 with a JSON error body but keeps running.</p><p>- The command injection lives in Backup2[.]pm (finalize_restore) and fix_tz.pl. Both use Perl backtick execution to pass the system_timezone database value into a sed shell command without sanitization. A value shaped like UTC#&#x27;;&lt;command&gt;;# closes the sed expression, injects an arbitrary shell command, and comments out the remainder. fix_tz.pl is called via sudo, so the injection executes as root.</p><p>- The two flaws chain through bayesian_upload.pm, an upload handler reachable in the same unauthenticated request. The handler accepts a tar backup archive, calls restore_all, which calls finalize_restore, which triggers the injection. The backup&#x27;s integrity checksum is md5(file_bytes + &quot;Barracuda Networks is your new best friend&quot; + &quot;.&quot;), a static hardcoded secret, so an attacker can craft a fully valid poisoned backup offline before sending the single multipart POST that delivers both the bypass and the payload.</p><p>- Affected products for the auth bypass are ESG versions before 9.4.0.029. The command injection affects a broader set: ESG, Load Balancer ADC, Message Archiver, WAF Control Center, Web Application Firewall, and Web Security Gateway, all fixed in 9.4.0.029. This is the same product line UNC4841 burned as a zero-day in CVE-2023-2868, which required physical appliance replacement for many organizations. Edge appliances that parse untrusted content and run privileged are a recurring pattern here.</p><p>- The full exploit is a single multipart/form-data POST to /cgi-mod/index.cgi carrying the user, new_password, retype_password, UPDATE_activation_code, pu_bayesian_upload, and a crafted bayesian tar attachment. No prior session, no credentials, one round trip to root on a device that sees all inbound email.</p><p>Hunt now: check ESG web access logs for POST requests to /cgi-mod/index.cgi that include new_password and retype_password parameters alongside a multipart file upload, particularly where the HTTP response is 200 and the body contains &quot;Error: Password Change&quot;. Look for unexpected child processes spawned from the ESG web service, especially any touching /home/product/code/config/tz or /etc/sysconfig/clock, and audit /tmp for files created by the web process user. Watchtowr&#x27;s Detection Artefact Generator for these CVEs is on their GitHub and will tell you whether your appliance is susceptible before you patch to 9.4.0.029.</p><p>#DFIR_Radar</p><p><a href="https://labs.watchtowr.com/barracuda-networks-is-your-new-best-friend-barracuda-email-security-gateway-pre-auth-remote-root-rce-cve-2026-116606-cve-2026-111560/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118463934244253709">View on X</a></p>]]></content:encoded>
-      <dc:creator>Watchtowr Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118463934244253709</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118463934244253709">DFIR Radar</source>
-      <pubDate>Thu, 05 Nov 2026 22:02:16 +0000</pubDate>
-      <guid isPermaLink="false">2118463934244253709</guid>
     </item>
   </channel>
 </rss>
