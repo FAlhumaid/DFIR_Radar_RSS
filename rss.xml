@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 16:03:43 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 17:02:39 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>MSP Process security incident creates customer tenant risk</title>
+      <link>https://fieldeffect.com/blog/msp-process-incident</link>
+      <description>MSP Process vendor breach exposed OAuth client secrets and GDAP tokens across customer Microsoft 365 tenants, with confirmed malicious activity in at least one environment and authentication attempts logged across 47 others.
+
+Key findings:
+
+- The threat actor accessed MSP Process internal storage between 09:56 and 14:40 UTC on November 7, obtaining application client IDs, client secrets, administrator refresh tokens, and Granular Delegated Admin Privileges relationship data. These credentials support Microsoft Graph application permissions including Application.ReadWrite.All, AppRoleAssignment.ReadWrite.All, UserAuthenticationMethod.ReadWrite.All, and User.ReadWrite.All. Combined, those permissions allow an application to authenticate to Microsoft 365 silently, without a user sign-in or MFA challenge, via the OAuth client credentials flow.
+
+- In at least one confirmed environment the threat actor did not stop at authentication. They granted additional permissions to the MSP Process application, added credentials to dozens of applications, created service accounts, accessed data, and re-enabled accounts that responders had disabled during containment. Administrator refresh token abuse was attempted but reportedly failed. This pattern illustrates the core DFIR risk: removing the original credential does not undo what was created before revocation. Backdoor credentials on other apps, new service principals, new directory roles, and newly registered MFA methods all survive remediation of the initial access path.
+
+- Activity appears in Microsoft Entra ID audit logs under the application's identity, not a user's, which is exactly why it is easy to miss in routine triage. The report recommends starting your log review at November 6, 2026. Priority event types: application role assignments, service principal credential additions, directory role assignments, account creation, account re-enablement, password resets, MFA registration, and Temporary Access Pass creation. Within Microsoft Purview unified audit log, also review mailbox access, file downloads, inbox rule creation, and forwarding changes tied to MSP Process application identifiers.
+
+- MSP Process apps may appear under names including "Identity Management" or "Microsoft Authenticator" rather than the vendor's name, and the owning tenant listed may be the MSP's tenant rather than MSP Process or Microsoft. Verify by application ID and owning organization before revoking, to avoid disabling legitimate services.
+
+- Organizations using Microsoft Entra ID Free have a hard deadline: export audit and sign-in logs before November 14, 2026, when records from the incident window begin to expire.
+
+Practitioner takeaway: this is a supply-chain application identity incident, not a credential phishing case. Containment means deleting MSP Process client secrets from your Entra ID app registrations, revoking consent, revoking sessions for the connecting administrator account, and keeping integrations offline until MSP Process confirms full remediation. Then hunt for persistence independently: enumerate service principals created after November 6, check every app registration for credentials added in that window, review directory role membership changes, and audit non-interactive sign-in logs for the connecting admin account. The report's IOC and artifact guidance is embedded in the analysis above. The clock on Free-tier log retention runs out November 14.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120562862154252451</description>
+      <content:encoded><![CDATA[<p>MSP Process vendor breach exposed OAuth client secrets and GDAP tokens across customer Microsoft 365 tenants, with confirmed malicious activity in at least one environment and authentication attempts logged across 47 others.</p><p>Key findings:</p><p>- The threat actor accessed MSP Process internal storage between 09:56 and 14:40 UTC on November 7, obtaining application client IDs, client secrets, administrator refresh tokens, and Granular Delegated Admin Privileges relationship data. These credentials support Microsoft Graph application permissions including Application.ReadWrite.All, AppRoleAssignment.ReadWrite.All, UserAuthenticationMethod.ReadWrite.All, and User.ReadWrite.All. Combined, those permissions allow an application to authenticate to Microsoft 365 silently, without a user sign-in or MFA challenge, via the OAuth client credentials flow.</p><p>- In at least one confirmed environment the threat actor did not stop at authentication. They granted additional permissions to the MSP Process application, added credentials to dozens of applications, created service accounts, accessed data, and re-enabled accounts that responders had disabled during containment. Administrator refresh token abuse was attempted but reportedly failed. This pattern illustrates the core DFIR risk: removing the original credential does not undo what was created before revocation. Backdoor credentials on other apps, new service principals, new directory roles, and newly registered MFA methods all survive remediation of the initial access path.</p><p>- Activity appears in Microsoft Entra ID audit logs under the application&#x27;s identity, not a user&#x27;s, which is exactly why it is easy to miss in routine triage. The report recommends starting your log review at November 6, 2026. Priority event types: application role assignments, service principal credential additions, directory role assignments, account creation, account re-enablement, password resets, MFA registration, and Temporary Access Pass creation. Within Microsoft Purview unified audit log, also review mailbox access, file downloads, inbox rule creation, and forwarding changes tied to MSP Process application identifiers.</p><p>- MSP Process apps may appear under names including &quot;Identity Management&quot; or &quot;Microsoft Authenticator&quot; rather than the vendor&#x27;s name, and the owning tenant listed may be the MSP&#x27;s tenant rather than MSP Process or Microsoft. Verify by application ID and owning organization before revoking, to avoid disabling legitimate services.</p><p>- Organizations using Microsoft Entra ID Free have a hard deadline: export audit and sign-in logs before November 14, 2026, when records from the incident window begin to expire.</p><p>Practitioner takeaway: this is a supply-chain application identity incident, not a credential phishing case. Containment means deleting MSP Process client secrets from your Entra ID app registrations, revoking consent, revoking sessions for the connecting administrator account, and keeping integrations offline until MSP Process confirms full remediation. Then hunt for persistence independently: enumerate service principals created after November 6, check every app registration for credentials added in that window, review directory role membership changes, and audit non-interactive sign-in logs for the connecting admin account. The report&#x27;s IOC and artifact guidance is embedded in the analysis above. The clock on Free-tier log retention runs out November 14.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/msp-process-incident">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120562862154252451">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120562862154252451</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120562862154252451">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 17:02:39 +0000</pubDate>
+      <guid isPermaLink="false">2120562862154252451</guid>
+    </item>
     <item>
       <title>The XG Files: Falcon C2 Flying Under The (Browser) Radar</title>
       <link>https://unit42.paloaltonetworks.com/falcon-c2-browser-compromise/</link>
@@ -2176,20 +2204,6 @@ Takeaway: Start your hunt in the monitoring platform. Audit which accounts PRTG 
       <source url="https://x.com/DFIR_Radar/status/2118645245135274362">DFIR Radar</source>
       <pubDate>Fri, 06 Nov 2026 10:02:44 +0000</pubDate>
       <guid isPermaLink="false">2118645245135274362</guid>
-    </item>
-    <item>
-      <title>Alpine Linux SSH Flaw Lets Attackers Log In Without a Password</title>
-      <link>https://thecyberexpress.com/alpine-linux-servers-openssh-server/</link>
-      <description>Alpine Linux OpenSSH (no CVE, fixed in 10.6p2) lets attackers authenticate as any asterisk-field account. Check /var/log/messages for "Accepted password" on passwordless accounts, then patch and restart sshd.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118630105530384640</description>
-      <content:encoded><![CDATA[<p>Alpine Linux OpenSSH (no CVE, fixed in 10.6p2) lets attackers authenticate as any asterisk-field account. Check /var/log/messages for &quot;Accepted password&quot; on passwordless accounts, then patch and restart sshd.</p><p>#DFIR_Radar</p><p><a href="https://thecyberexpress.com/alpine-linux-servers-openssh-server/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118630105530384640">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Cyber Express</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118630105530384640</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118630105530384640">DFIR Radar</source>
-      <pubDate>Fri, 06 Nov 2026 09:02:34 +0000</pubDate>
-      <guid isPermaLink="false">2118630105530384640</guid>
     </item>
   </channel>
 </rss>
