@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 03:03:29 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 04:02:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Half-Click Attacks: How Online Ads Now Deliver iPhone Exploits</title>
+      <link>https://www.iverify.com/blog/half-click-attacks-iphone-ads</link>
+      <description>DarkSword malware hit iPhones via Instagram ads from ad-track[.]live and hijacked analytics domain ecomtrack[.]io, requiring no user tap. On-device EDR must capture indicators within 2 hours before they age off.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120366619415437395</description>
+      <content:encoded><![CDATA[<p>DarkSword malware hit iPhones via Instagram ads from ad-track[.]live and hijacked analytics domain ecomtrack[.]io, requiring no user tap. On-device EDR must capture indicators within 2 hours before they age off.</p><p>#DFIR_Radar</p><p><a href="https://www.iverify.com/blog/half-click-attacks-iphone-ads">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120366619415437395">View on X</a></p>]]></content:encoded>
+      <dc:creator>iVerify</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120366619415437395</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120366619415437395">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 04:02:51 +0000</pubDate>
+      <guid isPermaLink="false">2120366619415437395</guid>
+    </item>
     <item>
       <title>October 2026 Detection Highlights: Mirage2FA phishing kit, Defender BTR abuse and 65+ new YARA rules</title>
       <link>https://www.vmray.com/october-2026-detection-highlights-mirage2fa-phishing-kit-defender-btr-abuse-and-65-new-yara-rules/</link>
@@ -2208,34 +2222,6 @@ Practitioner takeaway: build the escalation gate at Step 6 around specifics: unk
       <source url="https://x.com/DFIR_Radar/status/2118433879342166312">DFIR Radar</source>
       <pubDate>Thu, 05 Nov 2026 20:02:51 +0000</pubDate>
       <guid isPermaLink="false">2118433879342166312</guid>
-    </item>
-    <item>
-      <title>Hackers backdoor Linux servers using trojanized CWP web server</title>
-      <link>https://www.bleepingcomputer.com/news/security/hackers-backdoor-linux-servers-using-trojanized-cwp-web-server/</link>
-      <description>CWPdoor, a passive Linux backdoor, is trojanizing the cwpsrv binary on Control Web Panel servers, suppressing its own access log entries and sitting silent until a cryptographically authenticated HTTP header triggers execution.
-
-Key findings:
-
-- The infection chain begins with a script disguised as a CWP updater. It replaces legitimate cwpsrv binaries at versions 1.15.10 and 1.24.0 with the malicious CWPdoor build, then covers its tracks by restoring original file and directory timestamps, deleting temp files, and wiping command history. The swap is designed to look like nothing changed.
-
-- CWPdoor is a passive backdoor: it stays completely dormant until an attacker sends a specially crafted HTTP request carrying three custom headers: X-Ngx-Integrity-Data (the encrypted command), X-Ngx-Integrity-Time (a timestamp), and X-Ngx-Integrity-Sig (an RSA signature). The backdoor validates that the timestamp is within a plus-or-minus 300-second window and verifies the RSA signature before it will decrypt and execute anything. All command traffic uses AES-256-CBC. This replay-protection design means passive scanning of the wire alone will not expose it.
-
-- The malware actively patches the server's logging module so the triggering HTTP request never appears in access logs. Standard web server log review will produce a clean record even on a fully compromised host, making log-based detection unreliable as a sole source of truth.
-
-- XLab spotted the initial infection script on June 29. On September 30, a VirusTotal upload surfaced an archive pairing CWPdoor with the Ebury Linux backdoor and credential-stealing botnet, which ESET documented in May 2024 as having compromised nearly 400,000 servers since 2009. The malicious cwpsrv file in that archive, named cwpsrv.suspeito, had zero detections at time of upload. The relationship between Ebury and CWPdoor is unconfirmed, but co-packaging suggests at minimum shared infrastructure or operators.
-
-- Exposure is significant: XLab observed more than 340,000 CWP instances reachable from the public internet over the past month. Any host running an unverified cwpsrv binary is a candidate for compromise.
-
-Practitioner takeaway: On any CWP host, check for the ngx_http_integrity_helper Unix socket, inspect running processes for suspicious cwpsrv helper children, and grep the cwpsrv binary itself for the string X-Ngx-Integrity. Because the backdoor suppresses its own access log entries, log review is insufficient: compare the on-disk cwpsrv binary hash against a known-good copy from the official package. If compromise is confirmed, replace the binary, upgrade CWP to the latest release, rotate all control panel credentials, and treat the host as fully compromised pending a broader investigation for secondary implants including Ebury.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118418734691877245</description>
-      <content:encoded><![CDATA[<p>CWPdoor, a passive Linux backdoor, is trojanizing the cwpsrv binary on Control Web Panel servers, suppressing its own access log entries and sitting silent until a cryptographically authenticated HTTP header triggers execution.</p><p>Key findings:</p><p>- The infection chain begins with a script disguised as a CWP updater. It replaces legitimate cwpsrv binaries at versions 1.15.10 and 1.24.0 with the malicious CWPdoor build, then covers its tracks by restoring original file and directory timestamps, deleting temp files, and wiping command history. The swap is designed to look like nothing changed.</p><p>- CWPdoor is a passive backdoor: it stays completely dormant until an attacker sends a specially crafted HTTP request carrying three custom headers: X-Ngx-Integrity-Data (the encrypted command), X-Ngx-Integrity-Time (a timestamp), and X-Ngx-Integrity-Sig (an RSA signature). The backdoor validates that the timestamp is within a plus-or-minus 300-second window and verifies the RSA signature before it will decrypt and execute anything. All command traffic uses AES-256-CBC. This replay-protection design means passive scanning of the wire alone will not expose it.</p><p>- The malware actively patches the server&#x27;s logging module so the triggering HTTP request never appears in access logs. Standard web server log review will produce a clean record even on a fully compromised host, making log-based detection unreliable as a sole source of truth.</p><p>- XLab spotted the initial infection script on June 29. On September 30, a VirusTotal upload surfaced an archive pairing CWPdoor with the Ebury Linux backdoor and credential-stealing botnet, which ESET documented in May 2024 as having compromised nearly 400,000 servers since 2009. The malicious cwpsrv file in that archive, named cwpsrv.suspeito, had zero detections at time of upload. The relationship between Ebury and CWPdoor is unconfirmed, but co-packaging suggests at minimum shared infrastructure or operators.</p><p>- Exposure is significant: XLab observed more than 340,000 CWP instances reachable from the public internet over the past month. Any host running an unverified cwpsrv binary is a candidate for compromise.</p><p>Practitioner takeaway: On any CWP host, check for the ngx_http_integrity_helper Unix socket, inspect running processes for suspicious cwpsrv helper children, and grep the cwpsrv binary itself for the string X-Ngx-Integrity. Because the backdoor suppresses its own access log entries, log review is insufficient: compare the on-disk cwpsrv binary hash against a known-good copy from the official package. If compromise is confirmed, replace the binary, upgrade CWP to the latest release, rotate all control panel credentials, and treat the host as fully compromised pending a broader investigation for secondary implants including Ebury.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-backdoor-linux-servers-using-trojanized-cwp-web-server/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118418734691877245">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118418734691877245</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2118418734691877245">DFIR Radar</source>
-      <pubDate>Thu, 05 Nov 2026 19:02:40 +0000</pubDate>
-      <guid isPermaLink="false">2118418734691877245</guid>
     </item>
   </channel>
 </rss>
