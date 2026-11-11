@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 05:02:52 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 06:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>An Exploit Inside an App Store App: What FomoPeek Means for "App Store Only" Policies</title>
+      <link>https://www.iverify.com/blog/fomopeek-app-store-exploit</link>
+      <description>FomoPeek versions 1.1 and 1.2 carried a hidden iOS kernel exploit toolkit, escaping the sandbox to steal Keychain credentials and roughly $580K in crypto. If employees ran either version, rotate every stored credential and revoke active sessions.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120396963220701203</description>
+      <content:encoded><![CDATA[<p>FomoPeek versions 1.1 and 1.2 carried a hidden iOS kernel exploit toolkit, escaping the sandbox to steal Keychain credentials and roughly $580K in crypto. If employees ran either version, rotate every stored credential and revoke active sessions.</p><p>#DFIR_Radar</p><p><a href="https://www.iverify.com/blog/fomopeek-app-store-exploit">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120396963220701203">View on X</a></p>]]></content:encoded>
+      <dc:creator>iVerify</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120396963220701203</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120396963220701203">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 06:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2120396963220701203</guid>
+    </item>
     <item>
       <title>Exchange for breakfast: Turla’s Cereal tricks are not for kids</title>
       <link>https://www.welivesecurity.com/en/eset-research/exchange-for-breakfast-turlas-cereal-tricks-are-not-for-kids/</link>
@@ -2196,32 +2210,6 @@ Hunt now: check ESG web access logs for POST requests to /cgi-mod/index.cgi that
       <source url="https://x.com/DFIR_Radar/status/2118463934244253709">DFIR Radar</source>
       <pubDate>Thu, 05 Nov 2026 22:02:16 +0000</pubDate>
       <guid isPermaLink="false">2118463934244253709</guid>
-    </item>
-    <item>
-      <title>*sshole: OpenSSH Authentication Bypass Gives Attackers Root on Alpine Linux</title>
-      <link>https://orca.security/resources/research/sshole-openssh-authentication-bypass-gives-attackers-root-on-alpine-linux/</link>
-      <description>An unpatched OpenSSH authentication bypass on musl libc lets unauthenticated attackers log in as root using a crafted long password, no CVE assigned yet, affecting Alpine Linux 3.16 through edge and other musl-based systems by default.
-
-Key details:
-
-- The root cause is a musl libc behavior in place since 2012: crypt() returns the string "*" on failure (for passwords over 256 bytes) rather than NULL. Locked accounts and key-only accounts also store "*" in the shadow password field. Without PAM, sshd compares crypt()'s output directly against that field. Send a password between 257 and 1024 bytes, crypt() fails, returns "*", and sshd sees a match, granting access with no valid credential.
-
-- Affected conditions are specific but common in containerized and embedded environments: sshd built without PAM or running with UsePAM no, PasswordAuthentication enabled (the default), at least one account using "*" as its shadow field, and at least one local account with a SHA-256 or SHA-512 hash. Alpine Linux openssh-server on releases 3.16 through 3.24 and edge all meet this. OpenWrt, Buildroot, Yocto builds, and container images running sshd on musl may also be exposed. glibc systems, PAM-enabled sshd, and Dropbear are not affected.
-
-- Exposed accounts include root on Alpine 3.16 and later, key-only service and deploy accounts, directory-sourced accounts via nslcd, winbind, or sssd, and the "alpine" user in tiny-cloud images, which carries passwordless doas and is functionally root. No CVE has been assigned. No exploitation in the wild has been confirmed, but the researcher's write-up gives enough detail to reproduce the technique, and internet-facing Alpine hosts with password login are directly in the crosshairs.
-
-- The DFIR angle is clean: the attack leaves a standard authentication log entry. Search auth logs for "Accepted password for" on any account that holds "*" in its shadow file. Any such entry is a compromise indicator. If you find one, treat the host as fully owned: an attacker landing this way has root and lateral movement potential into the broader environment. Preserve memory and disk before remediation if the host is production.
-
-Patch to openssh 10.6_p2-r0 (edge) or the backported versions listed in the report for Alpine 3.20 through 3.24, then restart sshd explicitly since a package upgrade does not replace the running daemon. If patching is not immediately possible, set PasswordAuthentication no. IOC detail is minimal here, but the detection string "Accepted password for" in auth logs on musl-based hosts is your hunt anchor.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118448860200898805</description>
-      <content:encoded><![CDATA[<p>An unpatched OpenSSH authentication bypass on musl libc lets unauthenticated attackers log in as root using a crafted long password, no CVE assigned yet, affecting Alpine Linux 3.16 through edge and other musl-based systems by default.</p><p>Key details:</p><p>- The root cause is a musl libc behavior in place since 2012: crypt() returns the string &quot;*&quot; on failure (for passwords over 256 bytes) rather than NULL. Locked accounts and key-only accounts also store &quot;*&quot; in the shadow password field. Without PAM, sshd compares crypt()&#x27;s output directly against that field. Send a password between 257 and 1024 bytes, crypt() fails, returns &quot;*&quot;, and sshd sees a match, granting access with no valid credential.</p><p>- Affected conditions are specific but common in containerized and embedded environments: sshd built without PAM or running with UsePAM no, PasswordAuthentication enabled (the default), at least one account using &quot;*&quot; as its shadow field, and at least one local account with a SHA-256 or SHA-512 hash. Alpine Linux openssh-server on releases 3.16 through 3.24 and edge all meet this. OpenWrt, Buildroot, Yocto builds, and container images running sshd on musl may also be exposed. glibc systems, PAM-enabled sshd, and Dropbear are not affected.</p><p>- Exposed accounts include root on Alpine 3.16 and later, key-only service and deploy accounts, directory-sourced accounts via nslcd, winbind, or sssd, and the &quot;alpine&quot; user in tiny-cloud images, which carries passwordless doas and is functionally root. No CVE has been assigned. No exploitation in the wild has been confirmed, but the researcher&#x27;s write-up gives enough detail to reproduce the technique, and internet-facing Alpine hosts with password login are directly in the crosshairs.</p><p>- The DFIR angle is clean: the attack leaves a standard authentication log entry. Search auth logs for &quot;Accepted password for&quot; on any account that holds &quot;*&quot; in its shadow file. Any such entry is a compromise indicator. If you find one, treat the host as fully owned: an attacker landing this way has root and lateral movement potential into the broader environment. Preserve memory and disk before remediation if the host is production.</p><p>Patch to openssh 10.6_p2-r0 (edge) or the backported versions listed in the report for Alpine 3.20 through 3.24, then restart sshd explicitly since a package upgrade does not replace the running daemon. If patching is not immediately possible, set PasswordAuthentication no. IOC detail is minimal here, but the detection string &quot;Accepted password for&quot; in auth logs on musl-based hosts is your hunt anchor.</p><p>#DFIR_Radar</p><p><a href="https://orca.security/resources/research/sshole-openssh-authentication-bypass-gives-attackers-root-on-alpine-linux/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118448860200898805">View on X</a></p>]]></content:encoded>
-      <dc:creator>Orca Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118448860200898805</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118448860200898805">DFIR Radar</source>
-      <pubDate>Thu, 05 Nov 2026 21:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2118448860200898805</guid>
     </item>
   </channel>
 </rss>
