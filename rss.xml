@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 13:02:49 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 14:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Android FCM Push Notification Artifacts: What Can Remain After An App Is Deleted</title>
+      <link>https://www.forensicfocus.com/news/android-fcm-push-notification-artifacts-what-can-remain-after-an-app-is-deleted/</link>
+      <description>FCM artifacts in Google Play Services survive app deletion on Android, leaving push notification records in a shared LevelDB store that many examiners never check.
+
+Key findings:
+
+- The artifact lives under com[.]google[.]android.gms, the Google Play Services data area, in a LevelDB-based key-value store. Because every app routes FCM push messages through this shared system component, records from multiple apps accumulate in one place, independent of whether the receiving app is still installed. Each record identifies the receiving app and the timestamp the message was received.
+
+- Apps examined include LINE, Telegram, KakaoTalk, Signal, WhatsApp, TikTok, and BAND. The payload handling varies by app and falls into one of three patterns: plain text (notification title and body readable after decoding), encrypted (body present but ciphertext only), or metadata only (a delivery event with no message body). The Forensic Focus report covers which app maps to which pattern and what additional fields appear alongside the message body.
+
+- LevelDB's storage behavior matters here. LevelDB does not overwrite records in place; it appends and compacts. That means deleted or updated records can persist in the underlying .ldb and .log files even after the app that sent or received them is gone. What survives depends on whether a compaction has run, so collection timing and acquisition method affect recoverability.
+
+- This is an additional evidence source, not a replacement for app-level analysis. Schemas can change across app versions, and the FCM store will not carry everything the app itself logged. But for a device where the messaging app was wiped before seizure, this layer can establish that a message arrived, when it arrived, and in some cases what it said, without touching the deleted app's own databases.
+
+Practitioner takeaway: When examining an Android device where a messaging app has been deleted, include the com[.]google[.]android.gms data directory in your collection. Parse the LevelDB files there for FCM records and cross-reference delivery timestamps against other timeline artifacts. The full decoding details, field-level breakdown by app, and guidance on what to collect alongside the LevelDB files are in the Forensic Focus Tech Content report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120517649155170544</description>
+      <content:encoded><![CDATA[<p>FCM artifacts in Google Play Services survive app deletion on Android, leaving push notification records in a shared LevelDB store that many examiners never check.</p><p>Key findings:</p><p>- The artifact lives under com[.]google[.]android.gms, the Google Play Services data area, in a LevelDB-based key-value store. Because every app routes FCM push messages through this shared system component, records from multiple apps accumulate in one place, independent of whether the receiving app is still installed. Each record identifies the receiving app and the timestamp the message was received.</p><p>- Apps examined include LINE, Telegram, KakaoTalk, Signal, WhatsApp, TikTok, and BAND. The payload handling varies by app and falls into one of three patterns: plain text (notification title and body readable after decoding), encrypted (body present but ciphertext only), or metadata only (a delivery event with no message body). The Forensic Focus report covers which app maps to which pattern and what additional fields appear alongside the message body.</p><p>- LevelDB&#x27;s storage behavior matters here. LevelDB does not overwrite records in place; it appends and compacts. That means deleted or updated records can persist in the underlying .ldb and .log files even after the app that sent or received them is gone. What survives depends on whether a compaction has run, so collection timing and acquisition method affect recoverability.</p><p>- This is an additional evidence source, not a replacement for app-level analysis. Schemas can change across app versions, and the FCM store will not carry everything the app itself logged. But for a device where the messaging app was wiped before seizure, this layer can establish that a message arrived, when it arrived, and in some cases what it said, without touching the deleted app&#x27;s own databases.</p><p>Practitioner takeaway: When examining an Android device where a messaging app has been deleted, include the com[.]google[.]android.gms data directory in your collection. Parse the LevelDB files there for FCM records and cross-reference delivery timestamps against other timeline artifacts. The full decoding details, field-level breakdown by app, and guidance on what to collect alongside the LevelDB files are in the Forensic Focus Tech Content report.</p><p>#DFIR_Radar</p><p><a href="https://www.forensicfocus.com/news/android-fcm-push-notification-artifacts-what-can-remain-after-an-app-is-deleted/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120517649155170544">View on X</a></p>]]></content:encoded>
+      <dc:creator>Forensic Focus</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120517649155170544</comments>
+      <category>FORENSICS</category>
+      <source url="https://x.com/DFIR_Radar/status/2120517649155170544">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 14:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2120517649155170544</guid>
+    </item>
     <item>
       <title>Blind Eagle Uses Fake Court Notices to Deliver Remote Access Trojan Across Latin America</title>
       <link>https://thehackernews.com/2026/11/blind-eagle-uses-fake-court-notices-to.html</link>
@@ -2156,34 +2182,6 @@ Takeaway: Start with the three shell checks above on any CWP host. Because file 
       <source url="https://x.com/DFIR_Radar/status/2118584704723214574">DFIR Radar</source>
       <pubDate>Fri, 06 Nov 2026 06:02:10 +0000</pubDate>
       <guid isPermaLink="false">2118584704723214574</guid>
-    </item>
-    <item>
-      <title>Open WebUI: the Windows installer mints the master key from the install second: CVE-2025-15603 was rejected; here is the measurement</title>
-      <link>https://seclists.org/oss-sec/2026/q4/538</link>
-      <description>Open WebUI's Windows installer seeds its master signing key from the install timestamp, making every session token forgeable. CVE-2025-15603 was rejected by the vendor; a signed, measured proof-of-concept is now public.
-
-Key findings:
-
-- The root cause is in start_windows.bat. The script generates WEBUI_SECRET_KEY using C's rand(), a linear congruential generator (LCG) seeded once with the current time in seconds. The key's entire entropy is a single second, the moment of installation, not a cryptographically random source.
-
-- Recovery is practical, not theoretical. Starting from any valid token belonging to an ordinary user, an attacker can brute-force the master key blind in roughly 2.1 seconds by iterating over a plus-or-minus one day window of possible install timestamps. No privileged access is needed to begin.
-
-- Once the key is recovered, a full administrator session token can be forged and the application accepts it as legitimate. This means account takeover at the highest privilege level for any Open WebUI instance installed on Windows, with no credentials required beyond one valid low-privilege token.
-
-- Scope is total across the release history. All 178 release tags ship this construction. On tags v0.12.0 and newer a per-account session stamp limits cross-account forgery, but key recovery itself remains complete on every tag. 171 of 178 tags carry no stamp at all, meaning admin token forgery is unrestricted on nearly the entire release catalog.
-
-- The vendor disputed the original report, the CVE was rejected in June 2026, and guidance was "no action required." The researcher has now published a signed and archive.org-timestamped whitepaper (whitepaper-openwebui-FINAL-2026-11-04[.]md, key fingerprint 133883AB9F6EDE5B9BA6B82E27BEDAF0CE152F25) with the measurement replacing that judgment. The mirror is at github[.]com/the-knell/one-second.
-
-Takeaway: If you are responding to or assessing a Windows-based Open WebUI deployment, treat every existing session token as potentially forged and every administrator session as untrustworthy. The artifact to examine is WEBUI_SECRET_KEY itself: check whether the value in the running environment was generated by start_windows.bat. If it was, the key must be rotated to a cryptographically random value and all active sessions invalidated. Log review for unexpected administrator-level actions since the install date is warranted, since privilege escalation via a forged token would be indistinguishable from a legitimate admin login at the application layer. The signed paper and reproduction materials are at the GitHub mirror.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118569739568210092</description>
-      <content:encoded><![CDATA[<p>Open WebUI&#x27;s Windows installer seeds its master signing key from the install timestamp, making every session token forgeable. CVE-2025-15603 was rejected by the vendor; a signed, measured proof-of-concept is now public.</p><p>Key findings:</p><p>- The root cause is in start_windows.bat. The script generates WEBUI_SECRET_KEY using C&#x27;s rand(), a linear congruential generator (LCG) seeded once with the current time in seconds. The key&#x27;s entire entropy is a single second, the moment of installation, not a cryptographically random source.</p><p>- Recovery is practical, not theoretical. Starting from any valid token belonging to an ordinary user, an attacker can brute-force the master key blind in roughly 2.1 seconds by iterating over a plus-or-minus one day window of possible install timestamps. No privileged access is needed to begin.</p><p>- Once the key is recovered, a full administrator session token can be forged and the application accepts it as legitimate. This means account takeover at the highest privilege level for any Open WebUI instance installed on Windows, with no credentials required beyond one valid low-privilege token.</p><p>- Scope is total across the release history. All 178 release tags ship this construction. On tags v0.12.0 and newer a per-account session stamp limits cross-account forgery, but key recovery itself remains complete on every tag. 171 of 178 tags carry no stamp at all, meaning admin token forgery is unrestricted on nearly the entire release catalog.</p><p>- The vendor disputed the original report, the CVE was rejected in June 2026, and guidance was &quot;no action required.&quot; The researcher has now published a signed and archive.org-timestamped whitepaper (whitepaper-openwebui-FINAL-2026-11-04[.]md, key fingerprint 133883AB9F6EDE5B9BA6B82E27BEDAF0CE152F25) with the measurement replacing that judgment. The mirror is at github[.]com/the-knell/one-second.</p><p>Takeaway: If you are responding to or assessing a Windows-based Open WebUI deployment, treat every existing session token as potentially forged and every administrator session as untrustworthy. The artifact to examine is WEBUI_SECRET_KEY itself: check whether the value in the running environment was generated by start_windows.bat. If it was, the key must be rotated to a cryptographically random value and all active sessions invalidated. Log review for unexpected administrator-level actions since the install date is warranted, since privilege escalation via a forged token would be indistinguishable from a legitimate admin login at the application layer. The signed paper and reproduction materials are at the GitHub mirror.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/538">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118569739568210092">View on X</a></p>]]></content:encoded>
-      <dc:creator>OSS-Security Mailing List</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118569739568210092</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118569739568210092">DFIR Radar</source>
-      <pubDate>Fri, 06 Nov 2026 05:02:42 +0000</pubDate>
-      <guid isPermaLink="false">2118569739568210092</guid>
     </item>
   </channel>
 </rss>
