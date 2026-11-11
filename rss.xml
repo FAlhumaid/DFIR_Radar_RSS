@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 11 Nov 2026 20:03:22 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Nov 2026 21:03:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The global socket: how threat actors are weaponizing GSocket for stealthy C2</title>
+      <link>https://www.microsoft.com/en-us/security/blog/2026/11/11/global-socket-how-threat-actors-weaponizing-gsocket-stealthy-c2/</link>
+      <description>Multiple unrelated threat actors are weaponizing GSocket on compromised Linux servers to maintain C2 that survives vulnerability patching, with detections up 356.2% from March to August 2026.
+
+Key findings:
+
+- GSocket (gs-netcat) routes traffic through the Global Socket Relay Network, a shared public relay neither owned nor operated by the threat actor. Both the compromised host and the operator connect outbound to the relay, which brokers an end-to-end encrypted session keyed to a shared secret rather than a fixed IP or domain. This means blocking a threat actor IP or domain does not cut off access. Egress filtering is the relevant control, not inbound rules. Microsoft's report notes 87.1% of attributable incidents involved web applications and hosting, with PHP apps and cPanel representing 63.9% and Apache 24.3%. Education and research was the most affected sector at 30.7%.
+
+- The deployment chain starts with RCE against an internet-facing application (T1190), followed by curl fetching the installer from gsocket[.]io/y or gsocket[.]io/install.sh. The binary (HackTool:Linux/GsNetcat.A!MTB or HackTool:Linux/GsNetcat!rfn) stages into /dev/shm/.gs-0, a memory-backed directory. Persistence layers across cron (T1053.003), systemd units (T1543.002), shell profiles, and watchdog processes. In a subset of intrusions, threat actors attempted local privilege escalation via CVE-2026-43284 (Dirty Frag) to reach root from the web-service account.
+
+- Defense evasion is thorough and deliberate. The report documents gs-netcat renamed to systemd-remount-d (T1036), execution under argument-zero name [kaluad] via exec -a, chmod 700 on /usr/bin/defunct (T1222.002), touch commands to backstamp /usr/bin/defunct and defunct.service with older timestamps (T1070.006), and rm plus rmdir clearing the /dev/shm/.gs-0 staging directory after deployment (T1070.004). Investigators should not assume a clean /dev/shm means no deployment occurred.
+
+- IOCs in the report include four SHA-256 hashes: d94f75a70b5cabaf786ac57177ed841732e62bdcc9a29e06e5b41d9be567bcfa (x86-64 payload), f95c4d029e6784e3849b4d1e2e2ae1a661187236ef7c5d487c71158a290a03b5 (AArch64 payload), 55d141bb2f62c527c3fea3413b8429fed7d52633d0b123b5e611bfa42165229f (systemd-remount-d at /tmp and /usr/bin), and 12450bafc7a4398040e1ad3a16dbf4dbc79b6a8f83ef306c4f0f73f59886f06c (/tmp/.gsn_ora). Distribution domains are gsocket[.]io and gsgg.b-cdn[.]net. The report includes five Advanced Hunting (KQL) queries covering process activity, installer downloads, network connections to distribution hosts, hash matches, and staging/persistence artifact paths.
+
+Patching the vulnerable application does not remove GSocket. On any Linux web server you are investigating, hunt cron, systemd units, and shell profiles for entries referencing defunct, defunct.service, systemd-remount-d, gs-netcat, or gsocket[.]io. Check /dev/shm and /tmp for dot-prefixed directories and hidden files matching .gs-0 or .gsn_ora. Verify outbound connections to gsocket[.]io and gsgg.b-cdn[.]net have stopped after remediation. The report's KQL queries and full IOC table are ready to deploy directly.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120623413383344530</description>
+      <content:encoded><![CDATA[<p>Multiple unrelated threat actors are weaponizing GSocket on compromised Linux servers to maintain C2 that survives vulnerability patching, with detections up 356.2% from March to August 2026.</p><p>Key findings:</p><p>- GSocket (gs-netcat) routes traffic through the Global Socket Relay Network, a shared public relay neither owned nor operated by the threat actor. Both the compromised host and the operator connect outbound to the relay, which brokers an end-to-end encrypted session keyed to a shared secret rather than a fixed IP or domain. This means blocking a threat actor IP or domain does not cut off access. Egress filtering is the relevant control, not inbound rules. Microsoft&#x27;s report notes 87.1% of attributable incidents involved web applications and hosting, with PHP apps and cPanel representing 63.9% and Apache 24.3%. Education and research was the most affected sector at 30.7%.</p><p>- The deployment chain starts with RCE against an internet-facing application (T1190), followed by curl fetching the installer from gsocket[.]io/y or gsocket[.]io/install.sh. The binary (HackTool:Linux/GsNetcat.A!MTB or HackTool:Linux/GsNetcat!rfn) stages into /dev/shm/.gs-0, a memory-backed directory. Persistence layers across cron (T1053.003), systemd units (T1543.002), shell profiles, and watchdog processes. In a subset of intrusions, threat actors attempted local privilege escalation via CVE-2026-43284 (Dirty Frag) to reach root from the web-service account.</p><p>- Defense evasion is thorough and deliberate. The report documents gs-netcat renamed to systemd-remount-d (T1036), execution under argument-zero name [kaluad] via exec -a, chmod 700 on /usr/bin/defunct (T1222.002), touch commands to backstamp /usr/bin/defunct and defunct.service with older timestamps (T1070.006), and rm plus rmdir clearing the /dev/shm/.gs-0 staging directory after deployment (T1070.004). Investigators should not assume a clean /dev/shm means no deployment occurred.</p><p>- IOCs in the report include four SHA-256 hashes: d94f75a70b5cabaf786ac57177ed841732e62bdcc9a29e06e5b41d9be567bcfa (x86-64 payload), f95c4d029e6784e3849b4d1e2e2ae1a661187236ef7c5d487c71158a290a03b5 (AArch64 payload), 55d141bb2f62c527c3fea3413b8429fed7d52633d0b123b5e611bfa42165229f (systemd-remount-d at /tmp and /usr/bin), and 12450bafc7a4398040e1ad3a16dbf4dbc79b6a8f83ef306c4f0f73f59886f06c (/tmp/.gsn_ora). Distribution domains are gsocket[.]io and gsgg.b-cdn[.]net. The report includes five Advanced Hunting (KQL) queries covering process activity, installer downloads, network connections to distribution hosts, hash matches, and staging/persistence artifact paths.</p><p>Patching the vulnerable application does not remove GSocket. On any Linux web server you are investigating, hunt cron, systemd units, and shell profiles for entries referencing defunct, defunct.service, systemd-remount-d, gs-netcat, or gsocket[.]io. Check /dev/shm and /tmp for dot-prefixed directories and hidden files matching .gs-0 or .gsn_ora. Verify outbound connections to gsocket[.]io and gsgg.b-cdn[.]net have stopped after remediation. The report&#x27;s KQL queries and full IOC table are ready to deploy directly.</p><p>#DFIR_Radar</p><p><a href="https://www.microsoft.com/en-us/security/blog/2026/11/11/global-socket-how-threat-actors-weaponizing-gsocket-stealthy-c2/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120623413383344530">View on X</a></p>]]></content:encoded>
+      <dc:creator>Microsoft Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120623413383344530</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120623413383344530">DFIR Radar</source>
+      <pubDate>Wed, 11 Nov 2026 21:03:16 +0000</pubDate>
+      <guid isPermaLink="false">2120623413383344530</guid>
+    </item>
     <item>
       <title>Off the Rails: Inside an Exposed Silent Lynx Server</title>
       <link>https://www.cloudsek.com/blog/off-the-rails-inside-an-exposed-silent-lynx-server</link>
@@ -2178,20 +2204,6 @@ Hunt tip: build a process creation baseline for WerFault.exe and WerFaultSecure.
       <source url="https://x.com/DFIR_Radar/status/2118705644538667173">DFIR Radar</source>
       <pubDate>Fri, 06 Nov 2026 14:02:44 +0000</pubDate>
       <guid isPermaLink="false">2118705644538667173</guid>
-    </item>
-    <item>
-      <title>How to Export Wazuh Logs</title>
-      <link>https://socprime.com/blog/how-to-export-wazuh-logs/</link>
-      <description>Wazuh stores alerts at /var/ossec/logs/alerts/alerts.json and archives everything received when logall_json is enabled in ossec.conf. For host-scoped triage, filter alerts.json by agent[.]name using jq and extract full_log for original log lines.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118690524185997526</description>
-      <content:encoded><![CDATA[<p>Wazuh stores alerts at /var/ossec/logs/alerts/alerts.json and archives everything received when logall_json is enabled in ossec.conf. For host-scoped triage, filter alerts.json by agent[.]name using jq and extract full_log for original log lines.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-wazuh-logs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118690524185997526">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118690524185997526</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2118690524185997526">DFIR Radar</source>
-      <pubDate>Fri, 06 Nov 2026 13:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2118690524185997526</guid>
     </item>
   </channel>
 </rss>
