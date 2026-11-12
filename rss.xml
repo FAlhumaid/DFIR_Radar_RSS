@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 16:02:52 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 17:02:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cyber Unpacked S3:E2 // IR Beyond Malware: Investigating Business Email Compromise And Fraud</title>
+      <link>https://www.forensicfocus.com/webinars/cyber-unpacked-s3e2-ir-beyond-malware-investigating-business-email-compromise-and-fraud/</link>
+      <description>BEC leaves almost no malware, but it leaves a clear trail in Microsoft 365 logs. A Cyber Unpacked walkthrough of a demo $480,000 invoice fraud shows how an auto-forward inbox rule, a first login from Germany 🇩🇪 and short log retention decide whether you can rebuild the case.
+
+- Why BEC is hard: attackers use native mail tools, so there may be no payload at all. The episode cites IC3 estimates of $2.7 billion in losses, likely understated, and an average loss around $129K per incident. One case involved a user hitting "yes" on repeated MFA prompts while the logins came from another country. Another involved attackers launching from a compromised domestic network, so country-based alerting never fired. Dwell time can run days to months, often longer than log retention.
+
+- The demo case: vendor Acme said a Q1 payment never arrived, and the trail led to an email "from the CFO" with changed banking details for invoice 4821. The timeline: phishing lure and first attacker login from a Germany 🇩🇪 IPv6 address on March 6. An inbox rule named "MF Dev alerts" was created March 13 from a Singapore 🇸🇬 IPv6 address. It matched wire, payment, or invoice, forwarded to an external ProtonMail address, then deleted the message. The fraudulent email to AP followed March 17, payment went out March 18, and discovery came April 1 when the vendor complained. Pivoting on the rule's IP showed only March 13 activity. Filtering out HQ and Microsoft IP space across the whole mailbox exposed the earlier March 6 access.
+
+- Where the evidence lives: Azure AD sign-in logs (IP, location, device; 30 days by default, up to 90 by license). The unified audit log covers mail items accessed, new inbox rules, Send As, hard deletes, and app role additions. Mailbox audit logs show which items were touched, which matters for GDPR scoping when a PII spreadsheet was read. Message trace shows delivery and forwarding of the fraudulent mail. Also pull admin audit logs, conditional access logs, and risk detections. Retention varies by license and Microsoft can change it.
+
+- Persistence beyond the Outlook rule: check for OAuth apps with mail read/write, odd names, or consent granted inside the breach window. A granted token can survive a password reset and even MFA, so revoke consent too. Exchange transport rules are server-side and can be flagged hidden, so a user opening Outlook rules sees nothing. Searching for the hidden attribute may surface the only hidden rule, the attacker's.
+
+- Collection: Hawk (Connect-ExchangeOnline with -Device, then Start-HawkTenantInvestigation) flags items like new forwarding rules and mailbox permission changes and writes CSVs. Microsoft Extractor Suite from Invictus pulls the unified audit log, Azure AD logs, and message traces. Collect broad, since you can filter later but cannot recollect expired logs. Record collection timestamps and methods, keep the original exports, and consider a litigation hold after talking to counsel.
+
+Takeaway: scope from the account, not the IP, because the attacker bounced across infrastructure. Hunt unified audit log events for new inbox rules that forward externally, especially with a delete action or wire/payment/invoice keywords. Then look back before the first rule to find recon and the initial login. Read the sent dates as the end of the story, not the start. Containment needs account disable, session revocation, OAuth consent revocation, a transport rule check, and a finance team heads-up. Pull logs the day you suspect BEC, because 30 days disappears fast.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120925110081040505</description>
+      <content:encoded><![CDATA[<p>BEC leaves almost no malware, but it leaves a clear trail in Microsoft 365 logs. A Cyber Unpacked walkthrough of a demo $480,000 invoice fraud shows how an auto-forward inbox rule, a first login from Germany 🇩🇪 and short log retention decide whether you can rebuild the case.</p><p>- Why BEC is hard: attackers use native mail tools, so there may be no payload at all. The episode cites IC3 estimates of $2.7 billion in losses, likely understated, and an average loss around $129K per incident. One case involved a user hitting &quot;yes&quot; on repeated MFA prompts while the logins came from another country. Another involved attackers launching from a compromised domestic network, so country-based alerting never fired. Dwell time can run days to months, often longer than log retention.</p><p>- The demo case: vendor Acme said a Q1 payment never arrived, and the trail led to an email &quot;from the CFO&quot; with changed banking details for invoice 4821. The timeline: phishing lure and first attacker login from a Germany 🇩🇪 IPv6 address on March 6. An inbox rule named &quot;MF Dev alerts&quot; was created March 13 from a Singapore 🇸🇬 IPv6 address. It matched wire, payment, or invoice, forwarded to an external ProtonMail address, then deleted the message. The fraudulent email to AP followed March 17, payment went out March 18, and discovery came April 1 when the vendor complained. Pivoting on the rule&#x27;s IP showed only March 13 activity. Filtering out HQ and Microsoft IP space across the whole mailbox exposed the earlier March 6 access.</p><p>- Where the evidence lives: Azure AD sign-in logs (IP, location, device; 30 days by default, up to 90 by license). The unified audit log covers mail items accessed, new inbox rules, Send As, hard deletes, and app role additions. Mailbox audit logs show which items were touched, which matters for GDPR scoping when a PII spreadsheet was read. Message trace shows delivery and forwarding of the fraudulent mail. Also pull admin audit logs, conditional access logs, and risk detections. Retention varies by license and Microsoft can change it.</p><p>- Persistence beyond the Outlook rule: check for OAuth apps with mail read/write, odd names, or consent granted inside the breach window. A granted token can survive a password reset and even MFA, so revoke consent too. Exchange transport rules are server-side and can be flagged hidden, so a user opening Outlook rules sees nothing. Searching for the hidden attribute may surface the only hidden rule, the attacker&#x27;s.</p><p>- Collection: Hawk (Connect-ExchangeOnline with -Device, then Start-HawkTenantInvestigation) flags items like new forwarding rules and mailbox permission changes and writes CSVs. Microsoft Extractor Suite from Invictus pulls the unified audit log, Azure AD logs, and message traces. Collect broad, since you can filter later but cannot recollect expired logs. Record collection timestamps and methods, keep the original exports, and consider a litigation hold after talking to counsel.</p><p>Takeaway: scope from the account, not the IP, because the attacker bounced across infrastructure. Hunt unified audit log events for new inbox rules that forward externally, especially with a delete action or wire/payment/invoice keywords. Then look back before the first rule to find recon and the initial login. Read the sent dates as the end of the story, not the start. Containment needs account disable, session revocation, OAuth consent revocation, a transport rule check, and a finance team heads-up. Pull logs the day you suspect BEC, because 30 days disappears fast.</p><p>#DFIR_Radar</p><p><a href="https://www.forensicfocus.com/webinars/cyber-unpacked-s3e2-ir-beyond-malware-investigating-business-email-compromise-and-fraud/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120925110081040505">View on X</a></p>]]></content:encoded>
+      <dc:creator>Forensic Focus</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120925110081040505</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120925110081040505">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 17:02:06 +0000</pubDate>
+      <guid isPermaLink="false">2120925110081040505</guid>
+    </item>
     <item>
       <title>T-SQL Being Abused to Deliver Malware on Compromised MS SQL Servers</title>
       <link>https://feeds.fortinet.com/~/972883538/0/fortinet/blog/threat-research~TSQL-Being-Abused-to-Deliver-Malware-on-Compromised-MS-SQL-Servers</link>
@@ -2206,20 +2232,6 @@ Hunt tip: in any AD environment with RODCs, query msDS-RevealedUsers on every RO
       <source url="https://x.com/DFIR_Radar/status/2118977292647211454">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 08:02:10 +0000</pubDate>
       <guid isPermaLink="false">2118977292647211454</guid>
-    </item>
-    <item>
-      <title>Chainalysis Breach Exposes All Users' Credentials, Forces Shutdown of Key Services</title>
-      <link>https://thehackernews.com/2026/11/chainalysis-breach-exposes-all-users.html</link>
-      <description>Chainalysis's agentic AI breach exposed all users' names, password hashes, and live tokens, forcing Reactor, KYT, and Data Solutions offline. Rotate API keys and audit sign-ins from 199.19.77[.]84 and 199.19.77[.]18.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118962263637774413</description>
-      <content:encoded><![CDATA[<p>Chainalysis&#x27;s agentic AI breach exposed all users&#x27; names, password hashes, and live tokens, forcing Reactor, KYT, and Data Solutions offline. Rotate API keys and audit sign-ins from 199.19.77[.]84 and 199.19.77[.]18.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/chainalysis-breach-exposes-all-users.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118962263637774413">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118962263637774413</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2118962263637774413">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 07:02:27 +0000</pubDate>
-      <guid isPermaLink="false">2118962263637774413</guid>
     </item>
   </channel>
 </rss>
