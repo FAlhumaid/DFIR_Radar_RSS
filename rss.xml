@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 01:03:50 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 02:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>France Blames Iran for Sabotage Attack on Refrigeration Controllers at About 700 Retail Sites</title>
+      <link>https://thehackernews.com/2026/11/france-blames-iran-for-sabotage-attack.html</link>
+      <description>Iranian 🇮🇷 IRGC unit Shahid Kaveh sabotaged Danfoss and Dixell refrigeration controllers at 700 French 🇫🇷 retail sites, causing fires. Review defrost configs and disable internet exposure on AK-SM, AK-SC, and Dixell xweb units.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120699034889543713</description>
+      <content:encoded><![CDATA[<p>Iranian 🇮🇷 IRGC unit Shahid Kaveh sabotaged Danfoss and Dixell refrigeration controllers at 700 French 🇫🇷 retail sites, causing fires. Review defrost configs and disable internet exposure on AK-SM, AK-SC, and Dixell xweb units.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/france-blames-iran-for-sabotage-attack.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120699034889543713">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120699034889543713</comments>
+      <category>ICS/OT SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2120699034889543713">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 02:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2120699034889543713</guid>
+    </item>
     <item>
       <title>Malicious ScreenConnect deployments observed</title>
       <link>https://www.sophos.com/en-us/blog/malicious-screenconnect-deployments-observed</link>
@@ -2158,34 +2172,6 @@ Practitioner action: add non-targeted AI agent intrusion to your IR plan and nex
       <source url="https://x.com/DFIR_Radar/status/2118796242981437648">DFIR Radar</source>
       <pubDate>Fri, 06 Nov 2026 20:02:45 +0000</pubDate>
       <guid isPermaLink="false">2118796242981437648</guid>
-    </item>
-    <item>
-      <title>Installing the Fix for an Exploited WordPress Flaw Can Expose Some Sites One Last Time</title>
-      <link>https://thehackernews.com/2026/11/installing-fix-for-exploited-wordpress.html</link>
-      <description>CVE-2026-119977 (CVSS 8.1) in WordPress 4.7 through 7.1.3 is actively exploited and in CISA KEV. Applying the fix via the standard updater can expose a site to the same attack one final time during the update itself.
-
-Key details:
-
-- The core mechanism: WordPress's updater unpacks a new release into a temporary subfolder inside wp-content/upgrade before moving files into place. On unpatched versions running 5.9 or later, that folder is named after the downloaded file, making it predictable. The temporary copy includes the WordPress installer, and the web server can reach it. An unauthenticated attacker who predicts the folder name and hits the window (measured in seconds in lab testing, though Wordfence saw active attempts lasting up to 14.5 hours) can reach that installer, configure a rogue database connection, authenticate to the temporary WordPress instance, and execute PHP under the web server's permissions, then read or write files in the live site.
-
-- The update-time exposure: the fix (shipped in 7.1.4 and backported to all branches back to 4.7) randomizes the folder name. But the updater that installs the fix runs using the old, unpatched code already on disk. Sites on 5.9 or later that receive a complete package, which is always used for cross-branch updates, are exposed one final time during that specific update run. The deciding factor is not partial versus complete package: it is whether the updater code already on the site is the fixed version.
-
-- Active exploitation confirmed: Wordfence recorded attack attempts nine minutes after deploying a firewall rule on release day. Two high-volume sources probed small groups of sites across a 14.5-hour window, consistent with timing attacks designed to catch sites mid-update. Public exploit code appeared on GitHub within days. CISA added the flaw to KEV this week. WordPress 4.6 and earlier receive no fix; the researcher traces the vulnerable behavior to WordPress 2.7 (2008).
-
-- Pre-update mitigation: block web access to wp-content/upgrade at the web server layer before triggering any update. On Nginx: location ^~ /wp-content/upgrade/ { deny all; }. On Apache: Require all denied in a Directory block. If only .htaccess is available, add RedirectMatch 403 ^/wp-content/upgrade/ above the WordPress rewrite rules, in the WordPress root, not inside wp-content/upgrade itself (the old updater wipes that folder before unpacking). Verify the path returns HTTP 403 before proceeding. WP-CLI's wp core update does not avoid the exposure: it runs the same updater.
-
-For sites that updated or stayed on an affected version without blocking the folder first, Wordfence's post-incident checklist maps directly to artifact review: look for unexpected HTTP requests to PHP files under wp-content/upgrade in web server access logs, unrecognized administrator accounts in the WordPress users table, plugins not in the site's install history, and PHP files present under wp-content/upgrade that were not placed there intentionally. Those four categories cover the realistic post-exploitation trail: execution evidence in logs, persistence via admin account creation, backdoor staging as plugins, and webshell drops in the upgrade path.
-
-Takeaway: before updating any site still running 5.9 through 7.1.3, block web access to wp-content/upgrade at the server configuration level and confirm a 403 response. If that is not possible, perform a manual update outside the web root as described in the researcher's write-up. For already-updated or potentially exposed sites, the web server access log is the first stop: filter for GET or POST requests targeting any .php file under /wp-content/upgrade/ during the update window, then audit admin accounts and the wp-content directory tree for artifacts not present in a known-good backup.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118780953510195586</description>
-      <content:encoded><![CDATA[<p>CVE-2026-119977 (CVSS 8.1) in WordPress 4.7 through 7.1.3 is actively exploited and in CISA KEV. Applying the fix via the standard updater can expose a site to the same attack one final time during the update itself.</p><p>Key details:</p><p>- The core mechanism: WordPress&#x27;s updater unpacks a new release into a temporary subfolder inside wp-content/upgrade before moving files into place. On unpatched versions running 5.9 or later, that folder is named after the downloaded file, making it predictable. The temporary copy includes the WordPress installer, and the web server can reach it. An unauthenticated attacker who predicts the folder name and hits the window (measured in seconds in lab testing, though Wordfence saw active attempts lasting up to 14.5 hours) can reach that installer, configure a rogue database connection, authenticate to the temporary WordPress instance, and execute PHP under the web server&#x27;s permissions, then read or write files in the live site.</p><p>- The update-time exposure: the fix (shipped in 7.1.4 and backported to all branches back to 4.7) randomizes the folder name. But the updater that installs the fix runs using the old, unpatched code already on disk. Sites on 5.9 or later that receive a complete package, which is always used for cross-branch updates, are exposed one final time during that specific update run. The deciding factor is not partial versus complete package: it is whether the updater code already on the site is the fixed version.</p><p>- Active exploitation confirmed: Wordfence recorded attack attempts nine minutes after deploying a firewall rule on release day. Two high-volume sources probed small groups of sites across a 14.5-hour window, consistent with timing attacks designed to catch sites mid-update. Public exploit code appeared on GitHub within days. CISA added the flaw to KEV this week. WordPress 4.6 and earlier receive no fix; the researcher traces the vulnerable behavior to WordPress 2.7 (2008).</p><p>- Pre-update mitigation: block web access to wp-content/upgrade at the web server layer before triggering any update. On Nginx: location ^~ /wp-content/upgrade/ { deny all; }. On Apache: Require all denied in a Directory block. If only .htaccess is available, add RedirectMatch 403 ^/wp-content/upgrade/ above the WordPress rewrite rules, in the WordPress root, not inside wp-content/upgrade itself (the old updater wipes that folder before unpacking). Verify the path returns HTTP 403 before proceeding. WP-CLI&#x27;s wp core update does not avoid the exposure: it runs the same updater.</p><p>For sites that updated or stayed on an affected version without blocking the folder first, Wordfence&#x27;s post-incident checklist maps directly to artifact review: look for unexpected HTTP requests to PHP files under wp-content/upgrade in web server access logs, unrecognized administrator accounts in the WordPress users table, plugins not in the site&#x27;s install history, and PHP files present under wp-content/upgrade that were not placed there intentionally. Those four categories cover the realistic post-exploitation trail: execution evidence in logs, persistence via admin account creation, backdoor staging as plugins, and webshell drops in the upgrade path.</p><p>Takeaway: before updating any site still running 5.9 through 7.1.3, block web access to wp-content/upgrade at the server configuration level and confirm a 403 response. If that is not possible, perform a manual update outside the web root as described in the researcher&#x27;s write-up. For already-updated or potentially exposed sites, the web server access log is the first stop: filter for GET or POST requests targeting any .php file under /wp-content/upgrade/ during the update window, then audit admin accounts and the wp-content directory tree for artifacts not present in a known-good backup.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/installing-fix-for-exploited-wordpress.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118780953510195586">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118780953510195586</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118780953510195586">DFIR Radar</source>
-      <pubDate>Fri, 06 Nov 2026 19:01:59 +0000</pubDate>
-      <guid isPermaLink="false">2118780953510195586</guid>
     </item>
   </channel>
 </rss>
