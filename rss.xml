@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 20:02:04 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 21:04:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The $6.3 Billion Binance Signing Compromise and Agentic AI Threat Analysis</title>
+      <link>https://cloudsecurityalliance.org/articles/the-6-3-billion-binance-signing-compromise-and-agentic-ai-threat-analysis</link>
+      <description>A compromised DevOps endpoint let attackers get valid signatures from Binance's HSM-backed signing path, draining about $6.36B across 10 chains in ~20 minutes. Attributed to North Korean 🇰🇵 TraderTraitor.
+
+- Access and staging: Private keys stayed in HSMs. The attacker took a privileged DevOps engineer's endpoint, reached an internal service container, and submitted programmatic signature requests. The signing pipeline had no cross-chain velocity controls, recipient allowlisting, or operation-type inspection, so it signed attacker-specified transactions on all 10 chains. Prep started at least 36 hours earlier: Tornado Cash funding on Oct 28, $2 to $6 rehearsals on self-controlled wallets, and an unverified sweeper contract deployed at 15:59 UTC on Oct 29.
+
+- Execution: The drain began at 20:05 UTC on the XRP Ledger (233.46M XRP). Solana and Optimism followed at 20:10. At 20:20, Bitcoin Block 973,732 carried 11 peel-chain transactions moving 18,270 BTC. Tron lost 612.7M USDT at 20:22. On Ethereum, one Type-4 transaction at 20:20:59 carried 50 EIP-7702 authorizations across consecutive nonces, so one would match the moving nonce on the busy hot wallet Binance 14. That wrote the 0xef0100 delegation designator plus the sweeper address into the account's code slot. Sweeps ran at 20:24:23, 20:41:23 (823M USDC) and 21:44 (200M USDT from new deposits). The delegation persisted for over two hours because the signing path was shut down and no offline pre-signed revocations existed.
+
+- Freeze race: Issuers froze about $3.0B (Tether at 21:01 UTC, Circle at 21:04, Ripple at 22:01), but native ETH and BTC have no freeze function. Three minutes before Tether's blacklist, the attacker deposited $60M USDT into Aave V3 and borrowed 19,762 WETH. Stablecoins were also dumped at a discount for native ETH on intent exchanges. Binance paused withdrawals at 22:30 UTC. Blockaid flagged the signing anomalies and delegation at 20:35, but out-of-band detection had no hook into the signing gate.
+
+- Attribution: TRM Labs, Chainalysis and ZachXBT attribute it to TraderTraitor. Proceeds commingled after THORChain swaps at Ethereum address 0x15104a9ce0f08a8f0075a0869ae80e795fe0feb7 with funds from the September 2026 Bitget theft. The laundering pattern matches Bybit in February 2025. Binance said on Oct 27 it had intercepted Contagious Interview lures aimed at engineers, but has not conclusively tied the compromised laptop to them. The report finds no evidence of autonomous AI use by the attacker.
+
+- Impact: Binance says it has replenished 90% of losses from corporate treasury, the futures insurance fund and SAFU. Ten core assets are back at 100% backing, and withdrawals were due to resume Nov 1.
+
+Takeaway: Preserve the DevOps laptop image and the signing-service request logs, including which container identity requested each signature. Poll hot-wallet code slots every block for the 0xef0100 prefix, and alert on any Type-4 transaction with multiple authorizations or non-consecutive nonces. The report includes Python sketches for a pre-signature EIP-7702 policy gate and a block sentinel that dispatches pre-signed revocations.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120986008804032602</description>
+      <content:encoded><![CDATA[<p>A compromised DevOps endpoint let attackers get valid signatures from Binance&#x27;s HSM-backed signing path, draining about $6.36B across 10 chains in ~20 minutes. Attributed to North Korean 🇰🇵 TraderTraitor.</p><p>- Access and staging: Private keys stayed in HSMs. The attacker took a privileged DevOps engineer&#x27;s endpoint, reached an internal service container, and submitted programmatic signature requests. The signing pipeline had no cross-chain velocity controls, recipient allowlisting, or operation-type inspection, so it signed attacker-specified transactions on all 10 chains. Prep started at least 36 hours earlier: Tornado Cash funding on Oct 28, $2 to $6 rehearsals on self-controlled wallets, and an unverified sweeper contract deployed at 15:59 UTC on Oct 29.</p><p>- Execution: The drain began at 20:05 UTC on the XRP Ledger (233.46M XRP). Solana and Optimism followed at 20:10. At 20:20, Bitcoin Block 973,732 carried 11 peel-chain transactions moving 18,270 BTC. Tron lost 612.7M USDT at 20:22. On Ethereum, one Type-4 transaction at 20:20:59 carried 50 EIP-7702 authorizations across consecutive nonces, so one would match the moving nonce on the busy hot wallet Binance 14. That wrote the 0xef0100 delegation designator plus the sweeper address into the account&#x27;s code slot. Sweeps ran at 20:24:23, 20:41:23 (823M USDC) and 21:44 (200M USDT from new deposits). The delegation persisted for over two hours because the signing path was shut down and no offline pre-signed revocations existed.</p><p>- Freeze race: Issuers froze about $3.0B (Tether at 21:01 UTC, Circle at 21:04, Ripple at 22:01), but native ETH and BTC have no freeze function. Three minutes before Tether&#x27;s blacklist, the attacker deposited $60M USDT into Aave V3 and borrowed 19,762 WETH. Stablecoins were also dumped at a discount for native ETH on intent exchanges. Binance paused withdrawals at 22:30 UTC. Blockaid flagged the signing anomalies and delegation at 20:35, but out-of-band detection had no hook into the signing gate.</p><p>- Attribution: TRM Labs, Chainalysis and ZachXBT attribute it to TraderTraitor. Proceeds commingled after THORChain swaps at Ethereum address 0x15104a9ce0f08a8f0075a0869ae80e795fe0feb7 with funds from the September 2026 Bitget theft. The laundering pattern matches Bybit in February 2025. Binance said on Oct 27 it had intercepted Contagious Interview lures aimed at engineers, but has not conclusively tied the compromised laptop to them. The report finds no evidence of autonomous AI use by the attacker.</p><p>- Impact: Binance says it has replenished 90% of losses from corporate treasury, the futures insurance fund and SAFU. Ten core assets are back at 100% backing, and withdrawals were due to resume Nov 1.</p><p>Takeaway: Preserve the DevOps laptop image and the signing-service request logs, including which container identity requested each signature. Poll hot-wallet code slots every block for the 0xef0100 prefix, and alert on any Type-4 transaction with multiple authorizations or non-consecutive nonces. The report includes Python sketches for a pre-signature EIP-7702 policy gate and a block sentinel that dispatches pre-signed revocations.</p><p>#DFIR_Radar</p><p><a href="https://cloudsecurityalliance.org/articles/the-6-3-billion-binance-signing-compromise-and-agentic-ai-threat-analysis">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120986008804032602">View on X</a></p>]]></content:encoded>
+      <dc:creator>Cloud Security Alliance</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120986008804032602</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120986008804032602">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 21:04:06 +0000</pubDate>
+      <guid isPermaLink="false">2120986008804032602</guid>
+    </item>
     <item>
       <title>New N-able "4EverAble2Shell" zero-day exploited hours after PoC released</title>
       <link>https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/</link>
@@ -2268,20 +2294,6 @@ Hunt tip: in any AD environment with RODCs, query msDS-RevealedUsers on every RO
       <source url="https://x.com/DFIR_Radar/status/2119037756143767962">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 12:02:26 +0000</pubDate>
       <guid isPermaLink="false">2119037756143767962</guid>
-    </item>
-    <item>
-      <title>Refrigeration Cyberattacks Draw FBI and CISA Warning</title>
-      <link>https://socradar.io/blog/refrigeration-cyberattack-fbi-cisa-warning/</link>
-      <description>Five U.S. 🇺🇸 agencies warn of auth bypass and code injection against internet-exposed refrigeration controllers. Review setpoint and defrost change logs for unauthorized source addresses.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119022634469913076</description>
-      <content:encoded><![CDATA[<p>Five U.S. 🇺🇸 agencies warn of auth bypass and code injection against internet-exposed refrigeration controllers. Review setpoint and defrost change logs for unauthorized source addresses.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/refrigeration-cyberattack-fbi-cisa-warning/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119022634469913076">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119022634469913076</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119022634469913076">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 11:02:21 +0000</pubDate>
-      <guid isPermaLink="false">2119022634469913076</guid>
     </item>
   </channel>
 </rss>
