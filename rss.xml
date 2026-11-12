@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 09:02:27 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 10:04:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Check your GitHub repos: A secret stealer hit tens of thousands of them</title>
+      <link>https://www.helpnetsecurity.com/2026/11/12/wfx-loot-github-actions-secret-stealer/</link>
+      <description>wfx-loot: stolen GitHub tokens pushed a roughly 1,500-line secret stealer into tens of thousands of repos since Nov 10. In more than 1,800 it ran and sent Actions secrets and cloud credentials to the attacker.
+
+- Scale: Aikido counted 4,837 compromised accounts opening probe pull requests in 61,764 repositories. 10,431 of those PRs landed in repos the account didn't own, reached through collaborator or org access, so one stolen token exposes every project its owner can write to. 92% of the probe PRs are still open.
+
+- Attack chain: the attacker first opens a PR titled "docs: dependency audit notes" to confirm write access. It then pushes the shell script by injecting it into an existing workflow, hooking it to npm install, or adding a new workflow on a throwaway branch. Within a minute it reverts the change and deletes the workflow run and its logs. Often the only trace is a skipped number in the workflow's run history.
+
+- What it takes and what it does with it: Actions secrets, cloud and SSH credential files, shell histories, and tokens for AI tools including OpenAI, Anthropic, Cursor and Copilot. It uses them to reach AWS, GCP and Azure and creates long-lived AWS access keys. It also forges passing status checks to clear branch protection.
+
+- Persistence that survives rotation: it rewrites an AWS role's trust policy to accept any AWS account and adds federated identity credentials to Azure applications. Those let workflows in the compromised repo sign in to Azure after every token has been rotated. Each change must be found and removed in every cloud account tied to the affected workflows.
+
+- Supply chain spillover: automated publishing triggers carried the payload into Packagist package digitalelvis/neuronai-studio 3.14.3 and Go module github[.]com/onuragtas/docker-env v1.0.278 and v1.0.280. In the Go tags it sits only in a workflow file, which Go builds never run. Aikido says any machine that installed or opened the Packagist package should be treated as compromised. At least 50 compromised users appear to publish to npm, Go, Packagist, PyPI or crates, though Aikido assesses the attacker is focused on CI secrets.
+
+- Context: accounts hit by October's GhostAction campaign were significantly more likely to be hit, and in more than 100 repos wfx-loot was injected into GhostAction's own workflow files. Aikido assesses these are likely different actors.
+
+Takeaway: hunt your repos for a wfx-docs branch, the "docs: dependency audit notes" PR, and commits titled "ci: refresh build cache", "chore: add ci helper" or "chore: add dependency audit workflow". Check workflow run history for gaps in run numbers. Don't rely on missing wfx-loot artifacts, because data went straight to two attacker servers over HTTP. If the payload ran, treat every secret and cloud role those workflows could reach as compromised, then audit AWS role trust policies for any-account trust and Azure app registrations for unexpected federated credentials.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120819945290498507</description>
+      <content:encoded><![CDATA[<p>wfx-loot: stolen GitHub tokens pushed a roughly 1,500-line secret stealer into tens of thousands of repos since Nov 10. In more than 1,800 it ran and sent Actions secrets and cloud credentials to the attacker.</p><p>- Scale: Aikido counted 4,837 compromised accounts opening probe pull requests in 61,764 repositories. 10,431 of those PRs landed in repos the account didn&#x27;t own, reached through collaborator or org access, so one stolen token exposes every project its owner can write to. 92% of the probe PRs are still open.</p><p>- Attack chain: the attacker first opens a PR titled &quot;docs: dependency audit notes&quot; to confirm write access. It then pushes the shell script by injecting it into an existing workflow, hooking it to npm install, or adding a new workflow on a throwaway branch. Within a minute it reverts the change and deletes the workflow run and its logs. Often the only trace is a skipped number in the workflow&#x27;s run history.</p><p>- What it takes and what it does with it: Actions secrets, cloud and SSH credential files, shell histories, and tokens for AI tools including OpenAI, Anthropic, Cursor and Copilot. It uses them to reach AWS, GCP and Azure and creates long-lived AWS access keys. It also forges passing status checks to clear branch protection.</p><p>- Persistence that survives rotation: it rewrites an AWS role&#x27;s trust policy to accept any AWS account and adds federated identity credentials to Azure applications. Those let workflows in the compromised repo sign in to Azure after every token has been rotated. Each change must be found and removed in every cloud account tied to the affected workflows.</p><p>- Supply chain spillover: automated publishing triggers carried the payload into Packagist package digitalelvis/neuronai-studio 3.14.3 and Go module github[.]com/onuragtas/docker-env v1.0.278 and v1.0.280. In the Go tags it sits only in a workflow file, which Go builds never run. Aikido says any machine that installed or opened the Packagist package should be treated as compromised. At least 50 compromised users appear to publish to npm, Go, Packagist, PyPI or crates, though Aikido assesses the attacker is focused on CI secrets.</p><p>- Context: accounts hit by October&#x27;s GhostAction campaign were significantly more likely to be hit, and in more than 100 repos wfx-loot was injected into GhostAction&#x27;s own workflow files. Aikido assesses these are likely different actors.</p><p>Takeaway: hunt your repos for a wfx-docs branch, the &quot;docs: dependency audit notes&quot; PR, and commits titled &quot;ci: refresh build cache&quot;, &quot;chore: add ci helper&quot; or &quot;chore: add dependency audit workflow&quot;. Check workflow run history for gaps in run numbers. Don&#x27;t rely on missing wfx-loot artifacts, because data went straight to two attacker servers over HTTP. If the payload ran, treat every secret and cloud role those workflows could reach as compromised, then audit AWS role trust policies for any-account trust and Azure app registrations for unexpected federated credentials.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/11/12/wfx-loot-github-actions-secret-stealer/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120819945290498507">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120819945290498507</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120819945290498507">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 10:04:13 +0000</pubDate>
+      <guid isPermaLink="false">2120819945290498507</guid>
+    </item>
     <item>
       <title>Attacker Used 4,837 Hijacked GitHub Accounts to Run a CI Secret Stealer in 1,806+ Repositories</title>
       <link>https://thehackernews.com/2026/11/4837-hijacked-github-accounts-ran-ci.html</link>
@@ -2122,20 +2150,6 @@ Practitioner takeaway: Hunt curl-initiated outbound connections using the KQL qu
       <source url="https://x.com/DFIR_Radar/status/2118871539202572455">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 01:01:56 +0000</pubDate>
       <guid isPermaLink="false">2118871539202572455</guid>
-    </item>
-    <item>
-      <title>How to Export Trellix Helix Logs</title>
-      <link>https://socprime.com/blog/how-to-export-trellix-helix-logs/</link>
-      <description>This SOCPrime post describes exporting Trellix Helix logs via a POST to the v1/search API using TQL queries and an x-fireeye-api-key header. Raw log lines surface in the raw message field of the JSON response.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118856520280731755</description>
-      <content:encoded><![CDATA[<p>This SOCPrime post describes exporting Trellix Helix logs via a POST to the v1/search API using TQL queries and an x-fireeye-api-key header. Raw log lines surface in the raw message field of the JSON response.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-trellix-helix-logs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118856520280731755">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118856520280731755</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2118856520280731755">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 00:02:16 +0000</pubDate>
-      <guid isPermaLink="false">2118856520280731755</guid>
     </item>
   </channel>
 </rss>
