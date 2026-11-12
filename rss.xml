@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 21:04:06 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 22:05:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SCKit Malware Turns ScreenConnect Support Sessions Into Potential MSP Attack Paths</title>
+      <link>https://thehackernews.com/2026/11/sckit-malware-targets-screenconnect.html</link>
+      <description>SCKit abuses ScreenConnect Run Command and a RelayTrap component to pivot from a managed endpoint into the technician's workstation and session cookies. The CVE-2026-84869 patch blocks the exploit.
+
+- Vulnerability status: CVE-2026-84869 (CVSS 9.9) is an improper privilege management and missing authorization flaw. It lets an attacker transfer and execute files through an active remote session without authorization or host confirmation. CISA added it to KEV on September 11, 2026, with a September 14 federal deadline. It was already used to push a four-stage VBScript payload that ended in an XMRig miner. Blackpoint Cyber's Adversary Pursuit Group (APG) says a fully patched client stopped the SCKit payload, but the toolkit also hijacks authenticated operator sessions, which patching does not fix.
+
+- Attack chain: the attacker uses ScreenConnect's built-in Run Command to check for an existing install, then pulls an attacker-controlled MSI (sc.msi). That drops the batch dropper sckit-run.bat, which contacts ns.mo7sen[.]dev for a PowerShell decoder (sckit-decoder.ps1) and deploys the toolkit. SilentForceInstall-WithUninstall.ps1 installs two unauthorized ScreenConnect Access clients for persistence. Commands run through existing agents, so software lands under NT AUTHORITY\SYSTEM with no separate execution method per host.
+
+- RelayTrap: scripts and C# code interfere with ScreenConnect Guest sessions. RelayTrap replaces the legitimate Guest client and sends the SCKit payload back to the technician who connects to investigate. If that works, the malware searches local browser data and process memory for .ASPXAUTH cookies. It then tries to reuse that session to push commands to other endpoints the technician can reach, across customer environments, without stealing credentials.
+
+- Initial access is unconfirmed: Blackpoint says it appears linked to malicious ScreenConnect extensions but lacks evidence to confirm it. ConnectWise disabled five third-party extensions in partner environments, though Blackpoint found no technical link to SCKit. Nov 11 is the earliest publicly reported activity, and earlier compromise is not ruled out. There is no evidence yet of successful propagation to a technician workstation or a patch bypass.
+
+- RMM+ flaw from Huntress: versions 1.0.31 and 1.0.32 of RMM+, one of the blocked extensions, default the RMMPlus.AccessKey setting to blank. Unconfigured, the extension accepts a blank key, so commands run outside ScreenConnect's accounts, roles, and MFA. Huntress saw commands reach endpoints across several ScreenConnect instances within minutes, with no matching login activity. The commands appeared linked to RMM+ in the logs reviewed.
+
+DFIR takeaway: scope the management relationship, not just the endpoint. Per Blackpoint, review rogue Access client installs, administrative command history, technician workstations, and browser sessions, especially where support staff already connected to a suspect system. Look for Run Command activity that fetched sc.msi, sckit-run.bat dropped by that MSI, and any contact with ns.mo7sen[.]dev. Check extension settings for a blank RMMPlus.AccessKey, and hunt for commands with no matching login. If a technician touched an affected host, treat their .ASPXAUTH session as exposed. ConnectWise advises on-premises partners to disable the identified extensions now. The report lists the file names and the domain above but no hashes or detection rules.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121001459420479599</description>
+      <content:encoded><![CDATA[<p>SCKit abuses ScreenConnect Run Command and a RelayTrap component to pivot from a managed endpoint into the technician&#x27;s workstation and session cookies. The CVE-2026-84869 patch blocks the exploit.</p><p>- Vulnerability status: CVE-2026-84869 (CVSS 9.9) is an improper privilege management and missing authorization flaw. It lets an attacker transfer and execute files through an active remote session without authorization or host confirmation. CISA added it to KEV on September 11, 2026, with a September 14 federal deadline. It was already used to push a four-stage VBScript payload that ended in an XMRig miner. Blackpoint Cyber&#x27;s Adversary Pursuit Group (APG) says a fully patched client stopped the SCKit payload, but the toolkit also hijacks authenticated operator sessions, which patching does not fix.</p><p>- Attack chain: the attacker uses ScreenConnect&#x27;s built-in Run Command to check for an existing install, then pulls an attacker-controlled MSI (sc.msi). That drops the batch dropper sckit-run.bat, which contacts ns.mo7sen[.]dev for a PowerShell decoder (sckit-decoder.ps1) and deploys the toolkit. SilentForceInstall-WithUninstall.ps1 installs two unauthorized ScreenConnect Access clients for persistence. Commands run through existing agents, so software lands under NT AUTHORITY\SYSTEM with no separate execution method per host.</p><p>- RelayTrap: scripts and C# code interfere with ScreenConnect Guest sessions. RelayTrap replaces the legitimate Guest client and sends the SCKit payload back to the technician who connects to investigate. If that works, the malware searches local browser data and process memory for .ASPXAUTH cookies. It then tries to reuse that session to push commands to other endpoints the technician can reach, across customer environments, without stealing credentials.</p><p>- Initial access is unconfirmed: Blackpoint says it appears linked to malicious ScreenConnect extensions but lacks evidence to confirm it. ConnectWise disabled five third-party extensions in partner environments, though Blackpoint found no technical link to SCKit. Nov 11 is the earliest publicly reported activity, and earlier compromise is not ruled out. There is no evidence yet of successful propagation to a technician workstation or a patch bypass.</p><p>- RMM+ flaw from Huntress: versions 1.0.31 and 1.0.32 of RMM+, one of the blocked extensions, default the RMMPlus.AccessKey setting to blank. Unconfigured, the extension accepts a blank key, so commands run outside ScreenConnect&#x27;s accounts, roles, and MFA. Huntress saw commands reach endpoints across several ScreenConnect instances within minutes, with no matching login activity. The commands appeared linked to RMM+ in the logs reviewed.</p><p>DFIR takeaway: scope the management relationship, not just the endpoint. Per Blackpoint, review rogue Access client installs, administrative command history, technician workstations, and browser sessions, especially where support staff already connected to a suspect system. Look for Run Command activity that fetched sc.msi, sckit-run.bat dropped by that MSI, and any contact with ns.mo7sen[.]dev. Check extension settings for a blank RMMPlus.AccessKey, and hunt for commands with no matching login. If a technician touched an affected host, treat their .ASPXAUTH session as exposed. ConnectWise advises on-premises partners to disable the identified extensions now. The report lists the file names and the domain above but no hashes or detection rules.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/sckit-malware-targets-screenconnect.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121001459420479599">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121001459420479599</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121001459420479599">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 22:05:29 +0000</pubDate>
+      <guid isPermaLink="false">2121001459420479599</guid>
+    </item>
     <item>
       <title>The $6.3 Billion Binance Signing Compromise and Agentic AI Threat Analysis</title>
       <link>https://cloudsecurityalliance.org/articles/the-6-3-billion-binance-signing-compromise-and-agentic-ai-threat-analysis</link>
@@ -2280,20 +2306,6 @@ Hunt tip: in any AD environment with RODCs, query msDS-RevealedUsers on every RO
       <source url="https://x.com/DFIR_Radar/status/2119052855843975273">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 13:02:26 +0000</pubDate>
       <guid isPermaLink="false">2119052855843975273</guid>
-    </item>
-    <item>
-      <title>Malicious Browser Extensions Could Use Claude Dispatch to Run Code on Users' Computers</title>
-      <link>https://thehackernews.com/2026/11/malicious-browser-extensions-could-use.html</link>
-      <description>A malicious extension on claude[.]ai exploited Claude's Dispatch feature to auto-click approval prompts and trigger arbitrary npm installs silently. Audit extensions with claude[.]ai scripting permissions and disable Dispatch.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119037756143767962</description>
-      <content:encoded><![CDATA[<p>A malicious extension on claude[.]ai exploited Claude&#x27;s Dispatch feature to auto-click approval prompts and trigger arbitrary npm installs silently. Audit extensions with claude[.]ai scripting permissions and disable Dispatch.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/malicious-browser-extensions-could-use.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119037756143767962">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119037756143767962</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2119037756143767962">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 12:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2119037756143767962</guid>
     </item>
   </channel>
 </rss>
