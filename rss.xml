@@ -5,8 +5,46 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 19:02:06 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 20:02:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New N-able "4EverAble2Shell" zero-day exploited hours after PoC released</title>
+      <link>https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/</link>
+      <description>N-able N-central zero-day 4EverAble2Shell is being exploited hours after a public PoC. Unauthenticated attackers get root, and XMRig is already running on at least 21 servers, 19 of them on the latest Hotfix 2.
+
+The timeline is the story. Researcher Sean Bales published PoCs for 4EverAble2Shell and Agent2Shell on November 12, two days after N-able shipped emergency fixes (2026.4.1.26 HF2) for his earlier disclosures. Within hours, that "patched" build was being popped in production.
+
+- Exploit chain: 4EverAble2Shell pairs an Apache Axis flaw, CVE-2026-90436, with a separate N-central privilege escalation. The first stage runs commands as the nable service account. The second abuses the privileged setLDFileOwner helper plus a symbolic link to make a root-owned script writable. The attacker edits it, calls N-central's serverControl functionality to run commands as root, then tries to restore the modified files. Previdian tracks the privesc as VULN-2026-0009 in its own KEV catalog. The CVE has no CVSS score in the report. Exploitation requires the Legacy API to be enabled.
+
+- Observed exploitation: Previdian's honeypot saw probing at about 08:30 UTC using the same Java class as the public exploit, then full chain attempts. Huntback saw the same attacker IP at 08:30 UTC and the first full-chain attempts at 09:16 UTC. Previdian saw the payload try to pull a shell script from 157.20.241[.]16 and send diagnostics and command output back to that address. In Huntback's attacks, the downloaded script installed an XMRig Monero miner set to use about half the CPU cores, likely to stay under the radar.
+
+- Scope: At 12:50 UTC, Huntback found 21 active miners in the attacker's pool stats, each with shares submitted in the last five minutes. Worker names start with nc_ followed by the server IP. All 21 were N-central installs, 19 on 2026.4.1.26. Victims sit in the US 🇺🇸, Canada 🇨🇦, South Africa 🇿🇦, the UK 🇬🇧, Germany 🇩🇪, France 🇫🇷, and Sweden 🇸🇪. So far it is cryptojacking, but root on an RMM server that manages customer endpoints is a pivot point into MSP client environments.
+
+- Second exploit: Agent2Shell targets N-central agent functionality and is claimed to give SYSTEM on Windows devices. The report does not describe in-the-wild use of it yet. N-able's November 12 advisory said it saw no compromise from the new flaws, which the researcher reports contradict. N-able disabled the Intune integration, restricted some features and integrations, and says on-prem customers should confirm Legacy API access is off (the default). Continue upgrading Agents and Probes per the Hotfix 2 guidance.
+
+DFIR takeaway: do not treat HF2 as a clean bill of health. Hunt now, and if you hit anything, treat the server as fully compromised, since this is root.
+
+Start with these:
+
+- Web requests to /dms/services/ServerUI, especially those referencing jline.internal.TerminalLineSettings
+
+- An unexpected xvd.service systemd unit
+
+- Files under /tmp/.xvd or /var/tmp/.xvd
+
+- Mining processes, and any traffic to 157.20.241[.]16
+
+Because the attacker tries to restore the files it modified, a clean-looking script does not prove a clean host. Lean on the service, process, network, and request evidence instead. Preserve the unit file, the dropped directories, and the request records before you rebuild, then scope which customer devices that server could reach. The report names the attacker IP and these host artifacts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120970397193564225</description>
+      <content:encoded><![CDATA[<p>N-able N-central zero-day 4EverAble2Shell is being exploited hours after a public PoC. Unauthenticated attackers get root, and XMRig is already running on at least 21 servers, 19 of them on the latest Hotfix 2.</p><p>The timeline is the story. Researcher Sean Bales published PoCs for 4EverAble2Shell and Agent2Shell on November 12, two days after N-able shipped emergency fixes (2026.4.1.26 HF2) for his earlier disclosures. Within hours, that &quot;patched&quot; build was being popped in production.</p><p>- Exploit chain: 4EverAble2Shell pairs an Apache Axis flaw, CVE-2026-90436, with a separate N-central privilege escalation. The first stage runs commands as the nable service account. The second abuses the privileged setLDFileOwner helper plus a symbolic link to make a root-owned script writable. The attacker edits it, calls N-central&#x27;s serverControl functionality to run commands as root, then tries to restore the modified files. Previdian tracks the privesc as VULN-2026-0009 in its own KEV catalog. The CVE has no CVSS score in the report. Exploitation requires the Legacy API to be enabled.</p><p>- Observed exploitation: Previdian&#x27;s honeypot saw probing at about 08:30 UTC using the same Java class as the public exploit, then full chain attempts. Huntback saw the same attacker IP at 08:30 UTC and the first full-chain attempts at 09:16 UTC. Previdian saw the payload try to pull a shell script from 157.20.241[.]16 and send diagnostics and command output back to that address. In Huntback&#x27;s attacks, the downloaded script installed an XMRig Monero miner set to use about half the CPU cores, likely to stay under the radar.</p><p>- Scope: At 12:50 UTC, Huntback found 21 active miners in the attacker&#x27;s pool stats, each with shares submitted in the last five minutes. Worker names start with nc_ followed by the server IP. All 21 were N-central installs, 19 on 2026.4.1.26. Victims sit in the US 🇺🇸, Canada 🇨🇦, South Africa 🇿🇦, the UK 🇬🇧, Germany 🇩🇪, France 🇫🇷, and Sweden 🇸🇪. So far it is cryptojacking, but root on an RMM server that manages customer endpoints is a pivot point into MSP client environments.</p><p>- Second exploit: Agent2Shell targets N-central agent functionality and is claimed to give SYSTEM on Windows devices. The report does not describe in-the-wild use of it yet. N-able&#x27;s November 12 advisory said it saw no compromise from the new flaws, which the researcher reports contradict. N-able disabled the Intune integration, restricted some features and integrations, and says on-prem customers should confirm Legacy API access is off (the default). Continue upgrading Agents and Probes per the Hotfix 2 guidance.</p><p>DFIR takeaway: do not treat HF2 as a clean bill of health. Hunt now, and if you hit anything, treat the server as fully compromised, since this is root.</p><p>Start with these:</p><p>- Web requests to /dms/services/ServerUI, especially those referencing jline.internal.TerminalLineSettings</p><p>- An unexpected xvd.service systemd unit</p><p>- Files under /tmp/.xvd or /var/tmp/.xvd</p><p>- Mining processes, and any traffic to 157.20.241[.]16</p><p>Because the attacker tries to restore the files it modified, a clean-looking script does not prove a clean host. Lean on the service, process, network, and request evidence instead. Preserve the unit file, the dropped directories, and the request records before you rebuild, then scope which customer devices that server could reach. The report names the attacker IP and these host artifacts.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120970397193564225">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120970397193564225</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2120970397193564225">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 20:02:04 +0000</pubDate>
+      <guid isPermaLink="false">2120970397193564225</guid>
+    </item>
     <item>
       <title>SCKit campaign targets MSP ScreenConnect environments</title>
       <link>https://fieldeffect.com/blog/sckit-campaign-targets-msp-screenconnect-environments</link>
@@ -2244,20 +2282,6 @@ Hunt tip: in any AD environment with RODCs, query msDS-RevealedUsers on every RO
       <source url="https://x.com/DFIR_Radar/status/2119022634469913076">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 11:02:21 +0000</pubDate>
       <guid isPermaLink="false">2119022634469913076</guid>
-    </item>
-    <item>
-      <title>Fake OpenAI, SpaceX events used to steal Microsoft, Google accounts</title>
-      <link>https://www.bleepingcomputer.com/news/security/fake-openai-spacex-events-used-to-steal-microsoft-google-accounts/</link>
-      <description>Fake OpenAI and SpaceX event pages chain Kali365 device code phishing with VoidProxy AiTM to steal Microsoft and Google session cookies, bypassing MFA. Hunt for device code auth flows and unexpected OAuth token grants in Entra sign-in logs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119007541766287811</description>
-      <content:encoded><![CDATA[<p>Fake OpenAI and SpaceX event pages chain Kali365 device code phishing with VoidProxy AiTM to steal Microsoft and Google session cookies, bypassing MFA. Hunt for device code auth flows and unexpected OAuth token grants in Entra sign-in logs.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/fake-openai-spacex-events-used-to-steal-microsoft-google-accounts/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119007541766287811">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119007541766287811</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2119007541766287811">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 10:02:22 +0000</pubDate>
-      <guid isPermaLink="false">2119007541766287811</guid>
     </item>
   </channel>
 </rss>
