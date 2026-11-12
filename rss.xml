@@ -5,8 +5,56 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 12:02:43 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 13:02:11 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Dark Web Profile: n0n Ransomware</title>
+      <link>https://socradar.io/blog/dark-web-profile-n0n-ransomware/</link>
+      <description>n0n ransomware listed 93 victims in about five weeks. An exposed operator workspace shows credential-only access, destructive extortion, and an AI coding agent backed by more than $7,216 in LLM spend. SOCRadar ties the workspace to 23 organizations across 14 countries.
+
+- Access came from credentials, not exploits. SOCRadar found no exploit code or CVE references. The operator ran FortiGate SSL-VPN credential stuffing against an index of 305 appliances through residential proxies, with every request carrying the header Cookie: APBSID=n0n (T1110.004). Other routes were RDP/WinRM password sweeps, long-lived AWS IAM keys, hijacked hosting-provider admin browser sessions, and secrets lifted from CI/CD pipelines.
+
+- Persistence and collection leave host artifacts. Hidden admin accounts svc_upd and svc_reg have non-expiring passwords and SpecialAccounts\UserList value 0 (T1136.001, T1564.002). A gost SOCKS5 proxy hides as a scheduled task, and OpenSSH runs on port 2222. SSH keys ending in root@3090-AI were planted on firewall manager appliances. The operator also copied live Chrome profiles, drove them over DevTools, and read MFA codes from staff mailboxes (T1539, T1111).
+
+- The locker is simple, but the wrappers do the damage. The recovered C++ source is an AES-256-CBC encryptor with no network, ransom note, or persistence logic. The Windows wrapper stages in C:\Users\Public\n0n\, stops MSSQL, MySQL and W3SVC, disables Symantec Endpoint Protection, runs vssadmin delete shadows /all /quiet, and wipes free space with cipher /w. It re-runs encryption every 5 minutes as a SYSTEM scheduled task (SvcSync, NetAssist and similar), drops n0n_READ_ME.txt, sets a Run key named n0nNote, then overwrites the toolkit three times. Each build uses one hardcoded 32-byte key, and nenc.cpp shares a key with the FinSoft PowerShell build, so one decryptor would likely unlock the other victim's files.
+
+- Destruction is a lever on its own. At Inter, a Venezuelan ISP, the operator ran inter_lock.py on the Cisco Firepower Management Center and flipped all access-control rules to BLOCK. At Fanatics, a US 🇺🇸 company, an exposed AWS key led to exfiltration from 40 S3 buckets, then deletion of a bank-transaction archive and twelve buckets with no encryptor (T1485). The Dediserve hosting takeover ran through Zabbix scripts and OnApp recipes named "disk usage check" and "maintenance check".
+
+- Infrastructure and scope. The staging server at 185.157.161[.]148:8877 exposed 1,719 files with an operational window of September 10-28, 2026. Loot lands under /root/harvest/&lt;victim&gt;/ on 81.161.239[.]10, and the leak backend and Electrum wallet sit on 188.214.135[.]130. Extortion mail goes out from notice@n0n-cases[.]net, and the clearnet domain n0n[.]to is now inactive. Research linked at least 21 of 38 maritime and logistics listings from October 12 to South Korean 🇰🇷 software provider CyberLogitec customers, but that link is unverified. SOCRadar checked all 55 collected Bitcoin addresses and found zero transactions as of October 16. The operation is human-directed, with AI supporting script writing.
+
+Takeaway: the IOC set is in SOCRadar's threat intelligence repository. Hunt for:
+
+- C:\Users\Public\n0n\
+
+- n0n_READ_ME.txt and the n0nNote Run key
+
+- .n0n renames following MSSQL/W3SVC/MySQL stops
+
+- Local admins svc_upd and svc_reg
+
+- authorized_keys entries ending in root@3090-AI
+
+- Chrome launched with --remote-debugging-port
+
+- JSON POSTs to /x/i containing "ippay-web"
+
+- /remote/logincheck hits with APBSID=n0n on FortiGate
+
+- Snort rule "n0n-lock" (sid 2100001) in firewall logs
+
+- High-volume DeleteObjects calls in CloudTrail
+
+Preserve firewall manager config databases and admin session logs before rebuilding. Offline or immutable backups are the reliable recovery path.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120864733574169019</description>
+      <content:encoded><![CDATA[<p>n0n ransomware listed 93 victims in about five weeks. An exposed operator workspace shows credential-only access, destructive extortion, and an AI coding agent backed by more than $7,216 in LLM spend. SOCRadar ties the workspace to 23 organizations across 14 countries.</p><p>- Access came from credentials, not exploits. SOCRadar found no exploit code or CVE references. The operator ran FortiGate SSL-VPN credential stuffing against an index of 305 appliances through residential proxies, with every request carrying the header Cookie: APBSID=n0n (T1110.004). Other routes were RDP/WinRM password sweeps, long-lived AWS IAM keys, hijacked hosting-provider admin browser sessions, and secrets lifted from CI/CD pipelines.</p><p>- Persistence and collection leave host artifacts. Hidden admin accounts svc_upd and svc_reg have non-expiring passwords and SpecialAccounts\UserList value 0 (T1136.001, T1564.002). A gost SOCKS5 proxy hides as a scheduled task, and OpenSSH runs on port 2222. SSH keys ending in root@3090-AI were planted on firewall manager appliances. The operator also copied live Chrome profiles, drove them over DevTools, and read MFA codes from staff mailboxes (T1539, T1111).</p><p>- The locker is simple, but the wrappers do the damage. The recovered C++ source is an AES-256-CBC encryptor with no network, ransom note, or persistence logic. The Windows wrapper stages in C:\Users\Public\n0n\, stops MSSQL, MySQL and W3SVC, disables Symantec Endpoint Protection, runs vssadmin delete shadows /all /quiet, and wipes free space with cipher /w. It re-runs encryption every 5 minutes as a SYSTEM scheduled task (SvcSync, NetAssist and similar), drops n0n_READ_ME.txt, sets a Run key named n0nNote, then overwrites the toolkit three times. Each build uses one hardcoded 32-byte key, and nenc.cpp shares a key with the FinSoft PowerShell build, so one decryptor would likely unlock the other victim&#x27;s files.</p><p>- Destruction is a lever on its own. At Inter, a Venezuelan ISP, the operator ran inter_lock.py on the Cisco Firepower Management Center and flipped all access-control rules to BLOCK. At Fanatics, a US 🇺🇸 company, an exposed AWS key led to exfiltration from 40 S3 buckets, then deletion of a bank-transaction archive and twelve buckets with no encryptor (T1485). The Dediserve hosting takeover ran through Zabbix scripts and OnApp recipes named &quot;disk usage check&quot; and &quot;maintenance check&quot;.</p><p>- Infrastructure and scope. The staging server at 185.157.161[.]148:8877 exposed 1,719 files with an operational window of September 10-28, 2026. Loot lands under /root/harvest/&lt;victim&gt;/ on 81.161.239[.]10, and the leak backend and Electrum wallet sit on 188.214.135[.]130. Extortion mail goes out from notice@n0n-cases[.]net, and the clearnet domain n0n[.]to is now inactive. Research linked at least 21 of 38 maritime and logistics listings from October 12 to South Korean 🇰🇷 software provider CyberLogitec customers, but that link is unverified. SOCRadar checked all 55 collected Bitcoin addresses and found zero transactions as of October 16. The operation is human-directed, with AI supporting script writing.</p><p>Takeaway: the IOC set is in SOCRadar&#x27;s threat intelligence repository. Hunt for:</p><p>- C:\Users\Public\n0n\</p><p>- n0n_READ_ME.txt and the n0nNote Run key</p><p>- .n0n renames following MSSQL/W3SVC/MySQL stops</p><p>- Local admins svc_upd and svc_reg</p><p>- authorized_keys entries ending in root@3090-AI</p><p>- Chrome launched with --remote-debugging-port</p><p>- JSON POSTs to /x/i containing &quot;ippay-web&quot;</p><p>- /remote/logincheck hits with APBSID=n0n on FortiGate</p><p>- Snort rule &quot;n0n-lock&quot; (sid 2100001) in firewall logs</p><p>- High-volume DeleteObjects calls in CloudTrail</p><p>Preserve firewall manager config databases and admin session logs before rebuilding. Offline or immutable backups are the reliable recovery path.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/dark-web-profile-n0n-ransomware/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120864733574169019">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120864733574169019</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120864733574169019">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 13:02:11 +0000</pubDate>
+      <guid isPermaLink="false">2120864733574169019</guid>
+    </item>
     <item>
       <title>How AI Revived a Stalled Attack on a U.S. Retailer</title>
       <link>https://www.security.com/threat-intelligence/ai-assisted-attack-us-retailer</link>
@@ -2160,20 +2208,6 @@ Practitioner takeaway: Hunt curl-initiated outbound connections using the KQL qu
       <source url="https://x.com/DFIR_Radar/status/2118916772069847280">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 04:01:41 +0000</pubDate>
       <guid isPermaLink="false">2118916772069847280</guid>
-    </item>
-    <item>
-      <title>Experts Demonstrate Barracuda Email Security Gateway Chain Enabling Root Access Without Login</title>
-      <link>https://thehackernews.com/2026/11/experts-demonstrate-barracuda-email.html</link>
-      <description>CVE-2026-116606 (CVSS 9.3) chained with CVE-2026-111560 (CVSS 8.6) enables unauthenticated root on Barracuda Email Security Gateway via a forged backup checksum. Patch to 9.4.0.030; no KEV listing yet but exploitation is straightforward.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118901732654682147</description>
-      <content:encoded><![CDATA[<p>CVE-2026-116606 (CVSS 9.3) chained with CVE-2026-111560 (CVSS 8.6) enables unauthenticated root on Barracuda Email Security Gateway via a forged backup checksum. Patch to 9.4.0.030; no KEV listing yet but exploitation is straightforward.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/experts-demonstrate-barracuda-email.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118901732654682147">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118901732654682147</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118901732654682147">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 03:01:55 +0000</pubDate>
-      <guid isPermaLink="false">2118901732654682147</guid>
     </item>
   </channel>
 </rss>
