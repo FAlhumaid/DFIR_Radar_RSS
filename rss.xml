@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 17:02:06 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 18:02:38 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>ARTEX: 916 Exposed AI Pentest Consoles Mapped in the U.S.</title>
+      <link>https://socradar.io/blog/artex-ai-pentest-consoles-us/</link>
+      <description>ARTEX, a Chinese 🇨🇳 open-source LLM-driven autonomous pentest framework, has 916 confirmed live consoles on U.S. 🇺🇸 hosting, 896 of them over plain HTTP. Trojanized Docker builds add a pre-auth root shell.
+
+SOCRadar merged three scanner feeds into 1,295 de-duplicated U.S. 🇺🇸 candidate IPs and re-validated each with a single GET / probe. The snapshot is from November 11, 2026. ARTEX is a legitimate tool, but it has also appeared in a South Korean 🇰🇷 finance sector intrusion and in Storm-0940 activity in the ConnectWise Cloud Backup supply-chain campaign. From the outside, a sanctioned test and a live intrusion look the same.
+
+- Footprint and concentration: 512 of the 916 consoles (56%) sit in only 19 contiguous /24 blocks, mostly on AS54600 (PEG TECH). One build fingerprint, d284c4c4797bf94e, runs on 661 hosts. The most common reported versions, sco-fix2 and dev, are not semantic releases. That points to a shared, non-official build line rather than clean upstream installs. 451 consoles report initialized: true, so these are configured, not default.
+
+- Operator fleets: one self-signed certificate is reused across 202 hosts in nine /24 blocks (38.11.56, 38.11.63, 38.12.72, 38.12.90, 38.38.166, 38.38.174, 38.38.175, 38.38.190 and 107.149.90). A RedLuff/Yancy cluster on AS138415 shares another certificate across 34 hosts in 103.48.132[.]0/24 and 23.248.203[.]0/24. 231 U.S. 🇺🇸 ARTEX hosts also serve a Sub2API AI API gateway on a second port, a secondary pivot if the console moves behind TLS or to another port.
+
+- Backdoored builds: the trojanized Docker images tomicdd/artex and congdonglinux/artex contain a hidden verifyCaptcha() function in the login handler. If the CAPTCHA field starts with a secret marker, the rest is run via sh -c as root before any credential check. Public reporting counted 62 consoles serving the backdoored build, 26 in the U.S. 🇺🇸 After the takedown, 637 GitHub repositories still pointed at the image. The operator's own host is the victim here, and the report notes the change is not visible in a normal code review.
+
+- Tool stacking and OPSEC failures: 12 U.S. 🇺🇸 hosts pair ARTEX with other attack or LLM-proxy tools such as CyberStrikeAI, LunaFox, ScopeSentry and New API. 192.253.229[.]113 runs ARTEX on 8787, CyberStrikeAI on 8080 and an agent workbench on 8790. Related research found open directories exposing operator tooling, shell history, ARTEX configs and a MITM root CA private key. Operator mistakes are a source of evidence about who is behind the activity.
+
+- Pivots that survive rebrands: the title suffix 自主渗透测试控制台 persists across brand changes such as AntiFox, BoomInner and SHRIKE. The current favicon mmh3 is -576220750 (817 hosts). The older -1898746557 now covers only about 21, so hunting on it alone misses most of the population. Default ports are 8787 and 8790.
+
+Takeaway: if your team runs ARTEX, check the image source first. Treat any instance built from tomicdd/artex or congdonglinux/artex as compromised: look for shells spawned via sh -c by the console process, rotate credentials, LLM API keys and sessions, and rebuild from source. For perimeter hunting, alert on traffic to or from the listed /24 blocks, the title suffix, the favicon hashes and ports 8787 and 8790. Treat any ARTEX console reachable from your network as a potential threat until its owner and purpose are confirmed. Certificate and SSH host-key hashes, plus the full indicator list, are in the report's IOC section and the SOCRadar GitHub repository. Counts are a point-in-time floor, since the population churns.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120940343235354632</description>
+      <content:encoded><![CDATA[<p>ARTEX, a Chinese 🇨🇳 open-source LLM-driven autonomous pentest framework, has 916 confirmed live consoles on U.S. 🇺🇸 hosting, 896 of them over plain HTTP. Trojanized Docker builds add a pre-auth root shell.</p><p>SOCRadar merged three scanner feeds into 1,295 de-duplicated U.S. 🇺🇸 candidate IPs and re-validated each with a single GET / probe. The snapshot is from November 11, 2026. ARTEX is a legitimate tool, but it has also appeared in a South Korean 🇰🇷 finance sector intrusion and in Storm-0940 activity in the ConnectWise Cloud Backup supply-chain campaign. From the outside, a sanctioned test and a live intrusion look the same.</p><p>- Footprint and concentration: 512 of the 916 consoles (56%) sit in only 19 contiguous /24 blocks, mostly on AS54600 (PEG TECH). One build fingerprint, d284c4c4797bf94e, runs on 661 hosts. The most common reported versions, sco-fix2 and dev, are not semantic releases. That points to a shared, non-official build line rather than clean upstream installs. 451 consoles report initialized: true, so these are configured, not default.</p><p>- Operator fleets: one self-signed certificate is reused across 202 hosts in nine /24 blocks (38.11.56, 38.11.63, 38.12.72, 38.12.90, 38.38.166, 38.38.174, 38.38.175, 38.38.190 and 107.149.90). A RedLuff/Yancy cluster on AS138415 shares another certificate across 34 hosts in 103.48.132[.]0/24 and 23.248.203[.]0/24. 231 U.S. 🇺🇸 ARTEX hosts also serve a Sub2API AI API gateway on a second port, a secondary pivot if the console moves behind TLS or to another port.</p><p>- Backdoored builds: the trojanized Docker images tomicdd/artex and congdonglinux/artex contain a hidden verifyCaptcha() function in the login handler. If the CAPTCHA field starts with a secret marker, the rest is run via sh -c as root before any credential check. Public reporting counted 62 consoles serving the backdoored build, 26 in the U.S. 🇺🇸 After the takedown, 637 GitHub repositories still pointed at the image. The operator&#x27;s own host is the victim here, and the report notes the change is not visible in a normal code review.</p><p>- Tool stacking and OPSEC failures: 12 U.S. 🇺🇸 hosts pair ARTEX with other attack or LLM-proxy tools such as CyberStrikeAI, LunaFox, ScopeSentry and New API. 192.253.229[.]113 runs ARTEX on 8787, CyberStrikeAI on 8080 and an agent workbench on 8790. Related research found open directories exposing operator tooling, shell history, ARTEX configs and a MITM root CA private key. Operator mistakes are a source of evidence about who is behind the activity.</p><p>- Pivots that survive rebrands: the title suffix 自主渗透测试控制台 persists across brand changes such as AntiFox, BoomInner and SHRIKE. The current favicon mmh3 is -576220750 (817 hosts). The older -1898746557 now covers only about 21, so hunting on it alone misses most of the population. Default ports are 8787 and 8790.</p><p>Takeaway: if your team runs ARTEX, check the image source first. Treat any instance built from tomicdd/artex or congdonglinux/artex as compromised: look for shells spawned via sh -c by the console process, rotate credentials, LLM API keys and sessions, and rebuild from source. For perimeter hunting, alert on traffic to or from the listed /24 blocks, the title suffix, the favicon hashes and ports 8787 and 8790. Treat any ARTEX console reachable from your network as a potential threat until its owner and purpose are confirmed. Certificate and SSH host-key hashes, plus the full indicator list, are in the report&#x27;s IOC section and the SOCRadar GitHub repository. Counts are a point-in-time floor, since the population churns.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/artex-ai-pentest-consoles-us/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120940343235354632">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120940343235354632</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120940343235354632">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 18:02:38 +0000</pubDate>
+      <guid isPermaLink="false">2120940343235354632</guid>
+    </item>
     <item>
       <title>Cyber Unpacked S3:E2 // IR Beyond Malware: Investigating Business Email Compromise And Fraud</title>
       <link>https://www.forensicfocus.com/webinars/cyber-unpacked-s3e2-ir-beyond-malware-investigating-business-email-compromise-and-fraud/</link>
@@ -2218,20 +2246,6 @@ Hunt tip: in any AD environment with RODCs, query msDS-RevealedUsers on every RO
       <source url="https://x.com/DFIR_Radar/status/2118992535607734316">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 09:02:44 +0000</pubDate>
       <guid isPermaLink="false">2118992535607734316</guid>
-    </item>
-    <item>
-      <title>Claude Code's “Don't Ask Again” File Exposes Passwords and Keys in 1,122 Public Copies on GitHub</title>
-      <link>https://thehackernews.com/2026/11/claude-codes-dont-ask-again-file.html</link>
-      <description>Claude Code's .claude/settings.local.json saves approved shell commands verbatim, exposing secrets in 1,122 public GitHub repos. Search git history for that file, then rotate every credential it held before removing it.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118977292647211454</description>
-      <content:encoded><![CDATA[<p>Claude Code&#x27;s .claude/settings.local.json saves approved shell commands verbatim, exposing secrets in 1,122 public GitHub repos. Search git history for that file, then rotate every credential it held before removing it.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/claude-codes-dont-ask-again-file.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118977292647211454">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118977292647211454</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118977292647211454">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 08:02:10 +0000</pubDate>
-      <guid isPermaLink="false">2118977292647211454</guid>
     </item>
   </channel>
 </rss>
