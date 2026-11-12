@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 11:02:04 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 12:02:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How AI Revived a Stalled Attack on a U.S. Retailer</title>
+      <link>https://www.security.com/threat-intelligence/ai-assisted-attack-us-retailer</link>
+      <description>Stalled attackers at a U.S. 🇺🇸 retailer switched to AI-generated scripts and, 10 minutes after querying SolarWinds Orion, had moved laterally through its bundled RabbitMQ broker.
+
+- Symantec saw the shift on the compromised IIS server. On September 22 the operators typed by hand: 110 actions, typos like systemifo and pwoershell, and the same blocked loader (bdreinit.exe) re-run five times in about 20 minutes. On September 23 they sent around 50 long, error-free PowerShell scripts over roughly two hours. Median length was over 500 characters, with banners like ===FILES MENTIONING CONN STRINGS===, error handling, capped output, and comments that read like model reasoning. Gaps never fell below seven seconds, so Symantec assesses a human relaying output to an AI tool (high confidence for AI use, moderate for operator-in-the-loop). The model is unknown.
+
+- The breakthrough was Orion. The scripts queried Orion's local SQL Server for monitored nodes, read the Zabbix agent pre-shared key, and read RabbitMQ's .erlang.cookie. They then ran Orion's bundled erl.exe with -setcookie and rpc:call to the rabbit@ node on a second web server, using os:cmd. The command was a list of decimal character codes (119,104,111,97,109,105 decodes to whoami), so it never appears as plain text. Follow-up calls queried SAM, SECURITY cached-logon and LSA secrets locations.
+
+- Tooling: bdreinit.exe (legitimate Bitdefender) with log.dll and log.txt, then ask.exe (G DATA signed) with ask.dll and ask.txt, pulled from 204.194.49[.]129:8080 into ProgramData. The bdreinit pairing appears in ShadowPad loader reporting but is also used by other actors, so it does not attribute alone. After repeated terminations they deployed BreakChain (WMI and shell modes) to break the w3wp.exe parent link, and a second build arrived about 75 minutes after the first was blocked. They also copied ask.exe to w3wp.exe in ProgramData. server.ps1, an AES-encrypted reverse shell downloaded from 166.0.25[.]106 and fallback host 154.81.37[.]136, calls back to 166.0.25[.]106:443. Web shells filemanager.asp and qwdajhsd.asp were written to the web app's images folder.
+
+- Earlier and later phases: from September 18, cmd.exe ran directly under sqlservr.exe on three SQL Servers, most likely via xp_cmdshell. On one, EfsPotato was assembled from base64 appended to a ProgramData file, decoded with Certutil, compiled with csc.exe, and used to save the SAM, SYSTEM and SECURITY hives. On September 25 they searched for NTDS.dit, SYSVOL cpassword values and LAPS passwords, tried sa passwords, and fetched sqlrun2.ps1 from 108.165.20[.]205:8080, and Chisel was detected. An egress test hit 155.254.22[.]215:9458, which Gambit Security's public report lists as an AI console and staging server. Symantec thinks the actors are likely financially motivated. No data theft or encryption was observed.
+
+- Scope: Symantec has investigated dozens of AI-assisted intrusions since May 2026, most in September. Cases include a Vietnam 🇻🇳 university, an East African ICT provider, and a south Asian hydroelectric company. None used new techniques. AI sped up tool rebuilds after blocks and made known tradecraft more reliable.
+
+Takeaway: hunt for process lineage and artifacts rather than AI style. Look for cmd.exe under sqlservr.exe or w3wp.exe. Look for erl.exe launched from the Orion directory with -setcookie and rpc:call. Look for csc.exe or certutil activity under ProgramData, registry hive saves to new ProgramData folders, and a w3wp.exe sitting in ProgramData. Check the web app's images folder for stray .asp files. Rebuilt payloads can change hashes within minutes, so rely on behavior as well as file indicators. Hashes, network IOCs and URLs are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120849769765753062</description>
+      <content:encoded><![CDATA[<p>Stalled attackers at a U.S. 🇺🇸 retailer switched to AI-generated scripts and, 10 minutes after querying SolarWinds Orion, had moved laterally through its bundled RabbitMQ broker.</p><p>- Symantec saw the shift on the compromised IIS server. On September 22 the operators typed by hand: 110 actions, typos like systemifo and pwoershell, and the same blocked loader (bdreinit.exe) re-run five times in about 20 minutes. On September 23 they sent around 50 long, error-free PowerShell scripts over roughly two hours. Median length was over 500 characters, with banners like ===FILES MENTIONING CONN STRINGS===, error handling, capped output, and comments that read like model reasoning. Gaps never fell below seven seconds, so Symantec assesses a human relaying output to an AI tool (high confidence for AI use, moderate for operator-in-the-loop). The model is unknown.</p><p>- The breakthrough was Orion. The scripts queried Orion&#x27;s local SQL Server for monitored nodes, read the Zabbix agent pre-shared key, and read RabbitMQ&#x27;s .erlang.cookie. They then ran Orion&#x27;s bundled erl.exe with -setcookie and rpc:call to the rabbit@ node on a second web server, using os:cmd. The command was a list of decimal character codes (119,104,111,97,109,105 decodes to whoami), so it never appears as plain text. Follow-up calls queried SAM, SECURITY cached-logon and LSA secrets locations.</p><p>- Tooling: bdreinit.exe (legitimate Bitdefender) with log.dll and log.txt, then ask.exe (G DATA signed) with ask.dll and ask.txt, pulled from 204.194.49[.]129:8080 into ProgramData. The bdreinit pairing appears in ShadowPad loader reporting but is also used by other actors, so it does not attribute alone. After repeated terminations they deployed BreakChain (WMI and shell modes) to break the w3wp.exe parent link, and a second build arrived about 75 minutes after the first was blocked. They also copied ask.exe to w3wp.exe in ProgramData. server.ps1, an AES-encrypted reverse shell downloaded from 166.0.25[.]106 and fallback host 154.81.37[.]136, calls back to 166.0.25[.]106:443. Web shells filemanager.asp and qwdajhsd.asp were written to the web app&#x27;s images folder.</p><p>- Earlier and later phases: from September 18, cmd.exe ran directly under sqlservr.exe on three SQL Servers, most likely via xp_cmdshell. On one, EfsPotato was assembled from base64 appended to a ProgramData file, decoded with Certutil, compiled with csc.exe, and used to save the SAM, SYSTEM and SECURITY hives. On September 25 they searched for NTDS.dit, SYSVOL cpassword values and LAPS passwords, tried sa passwords, and fetched sqlrun2.ps1 from 108.165.20[.]205:8080, and Chisel was detected. An egress test hit 155.254.22[.]215:9458, which Gambit Security&#x27;s public report lists as an AI console and staging server. Symantec thinks the actors are likely financially motivated. No data theft or encryption was observed.</p><p>- Scope: Symantec has investigated dozens of AI-assisted intrusions since May 2026, most in September. Cases include a Vietnam 🇻🇳 university, an East African ICT provider, and a south Asian hydroelectric company. None used new techniques. AI sped up tool rebuilds after blocks and made known tradecraft more reliable.</p><p>Takeaway: hunt for process lineage and artifacts rather than AI style. Look for cmd.exe under sqlservr.exe or w3wp.exe. Look for erl.exe launched from the Orion directory with -setcookie and rpc:call. Look for csc.exe or certutil activity under ProgramData, registry hive saves to new ProgramData folders, and a w3wp.exe sitting in ProgramData. Check the web app&#x27;s images folder for stray .asp files. Rebuilt payloads can change hashes within minutes, so rely on behavior as well as file indicators. Hashes, network IOCs and URLs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.security.com/threat-intelligence/ai-assisted-attack-us-retailer">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120849769765753062">View on X</a></p>]]></content:encoded>
+      <dc:creator>Symantec Threat Intelligence</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120849769765753062</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120849769765753062">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 12:02:43 +0000</pubDate>
+      <guid isPermaLink="false">2120849769765753062</guid>
+    </item>
     <item>
       <title>Attackers turn NIKKE’s game launcher into malware</title>
       <link>https://www.bitdefender.com/en-us/blog/labs/nikke-game-launcher-malware</link>
@@ -2148,20 +2174,6 @@ Practitioner takeaway: Hunt curl-initiated outbound connections using the KQL qu
       <source url="https://x.com/DFIR_Radar/status/2118901732654682147">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 03:01:55 +0000</pubDate>
       <guid isPermaLink="false">2118901732654682147</guid>
-    </item>
-    <item>
-      <title>Infostealers In Banking Fraud: How Stolen Credentials Lead To Silent Intrusions</title>
-      <link>https://www.group-ib.com/blog/infostealers-banking-fraud-stolen-credentials/</link>
-      <description>Infostealers harvest session cookies that bypass MFA, feeding a resale chain Group-IB ties to banking fraud and ransomware. Audit fraud queues for recipient accounts linked to stealer cash-out operations.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118886816346693758</description>
-      <content:encoded><![CDATA[<p>Infostealers harvest session cookies that bypass MFA, feeding a resale chain Group-IB ties to banking fraud and ransomware. Audit fraud queues for recipient accounts linked to stealer cash-out operations.</p><p>#DFIR_Radar</p><p><a href="https://www.group-ib.com/blog/infostealers-banking-fraud-stolen-credentials/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118886816346693758">View on X</a></p>]]></content:encoded>
-      <dc:creator>Group-IB</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118886816346693758</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2118886816346693758">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 02:02:39 +0000</pubDate>
-      <guid isPermaLink="false">2118886816346693758</guid>
     </item>
   </channel>
 </rss>
