@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 14:02:34 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 15:02:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PHP2Shell Exploitation on Check Point Gateway</title>
+      <link>https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/</link>
+      <description>Attackers chained PHP2Shell against unpatched Check Point Mobile Access portals, escalated to root with CVE-2026-123039, and pivoted to VMware ESXi to run the destroy_v6 wiper against Israeli 🇮🇱 targets. A broader second wave followed with no destructive activity seen.
+
+- Exploitation began October 30, 2026, about a week after a fix shipped. Activity came from 130.94.19[.]204 (a second IP, 130.94.19[.]168, is in the report's IOC list). The PHP2Shell stage is tied to CVE-2026-109618 and CVE-2026-109619. The attacker then went from the portal service account to root via CVE-2026-123039, a local privilege escalation in the DynamicCLI IPC interface. A second wave on November 2 targeted some of the same Israeli 🇮🇱 organizations plus others worldwide. Check Point sees no clear sector preference, which points to opportunistic initial access.
+
+- Early evidence on the gateway: PHP session files under /opt/CPcvpn-R81.20/tmp/ containing the upload_progress_pwn marker, plus hundreds of segfaults in the portal's Apache/PHP workers. Persistence started with webshells written into the portal templates directory as zz*.tpl, first a small shell and then a fuller one gated by the hardcoded key zz2026. It supports OS commands, PHP execution and uploads, and uploads land at /tmp/.up.tpl, which was then copied to challenge_render.tpl.
+
+- Next came the TSGA backdoor, launched from /tmp/CPconfigdaemon with output sent to /tmp/.bd.log. As root it relocates and relaunches as slot_CPconfigdaemon in the boot persistence directory. It also drops TSProxy as /lib/libcpfwcommon.so and injects it into appliance processes to hijack specially marked connections. TSGA offers encrypted access on TCP 11072 and the Unix socket /tmp/.p_sock, config theft, snapshot persistence, and binary firewall-log tampering. Gateway logs alone are therefore not trustworthy.
+
+- Lateral movement and impact: the attacker ran the gogo scanner on the gateway, then used SSH with the vpxuser account to reach an ESXi host. There they staged and ran destroy_v6, a Linux ELF wiper that takes a target directory, zero-overwrites files by default before deleting them (-f skips the overwrite, -w excludes directories), and drops DREAM_ANNEXATION.txt in each processed directory. The note rejects ransom negotiation.
+
+- Attribution is deliberately unsettled. TSGA and TSProxy are modified PhiliKit variants, a framework seen in Ivanti exploitation and linked by ESET to China-nexus UNC5221. TSProxy shares operator credentials, transport secrets, activation-selector digests and the TLS certificate and key with libdssafe[.]so from PhiliKit. The gogo scanner, LightNode VPS hosting and a 00:00 to 09:00 UTC activity window also fit Chinese-nexus activity. But the wiper, the Israel 🇮🇱 focus and the Hebrew note do not fit UNC5221's usual profile. Check Point says the evidence does not support a high-confidence call: full campaign, initial access broker, false flag, or destruction as a smoke screen. The note uses the Dream Security brand, which recently published PHP2Shell research, but no clear motive is established.
+
+Takeaway: On any Mobile Access gateway that was exposed before patching, assume root and triage the filesystem directly. Look for zz*.tpl files in the portal templates directory, challenge_render.tpl, /tmp/.up.tpl, /tmp/CPconfigdaemon, slot_CPconfigdaemon, /lib/libcpfwcommon.so, and listeners or connections on TCP 11072. Check the upload_progress_pwn session files and the Apache/PHP segfault history. On ESXi, review SSH logins by vpxuser from the gateway, and preserve /tmp content and hunt for DREAM_ANNEXATION.txt before remediation. Hashes for the webshell, TSGA, gogo, destroy_v6 and the PhiliKit samples (philistine, libdssafe[.]so) are in the report's IOC table; none is given for libcpfwcommon[.]so.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120894927324508308</description>
+      <content:encoded><![CDATA[<p>Attackers chained PHP2Shell against unpatched Check Point Mobile Access portals, escalated to root with CVE-2026-123039, and pivoted to VMware ESXi to run the destroy_v6 wiper against Israeli 🇮🇱 targets. A broader second wave followed with no destructive activity seen.</p><p>- Exploitation began October 30, 2026, about a week after a fix shipped. Activity came from 130.94.19[.]204 (a second IP, 130.94.19[.]168, is in the report&#x27;s IOC list). The PHP2Shell stage is tied to CVE-2026-109618 and CVE-2026-109619. The attacker then went from the portal service account to root via CVE-2026-123039, a local privilege escalation in the DynamicCLI IPC interface. A second wave on November 2 targeted some of the same Israeli 🇮🇱 organizations plus others worldwide. Check Point sees no clear sector preference, which points to opportunistic initial access.</p><p>- Early evidence on the gateway: PHP session files under /opt/CPcvpn-R81.20/tmp/ containing the upload_progress_pwn marker, plus hundreds of segfaults in the portal&#x27;s Apache/PHP workers. Persistence started with webshells written into the portal templates directory as zz*.tpl, first a small shell and then a fuller one gated by the hardcoded key zz2026. It supports OS commands, PHP execution and uploads, and uploads land at /tmp/.up.tpl, which was then copied to challenge_render.tpl.</p><p>- Next came the TSGA backdoor, launched from /tmp/CPconfigdaemon with output sent to /tmp/.bd.log. As root it relocates and relaunches as slot_CPconfigdaemon in the boot persistence directory. It also drops TSProxy as /lib/libcpfwcommon.so and injects it into appliance processes to hijack specially marked connections. TSGA offers encrypted access on TCP 11072 and the Unix socket /tmp/.p_sock, config theft, snapshot persistence, and binary firewall-log tampering. Gateway logs alone are therefore not trustworthy.</p><p>- Lateral movement and impact: the attacker ran the gogo scanner on the gateway, then used SSH with the vpxuser account to reach an ESXi host. There they staged and ran destroy_v6, a Linux ELF wiper that takes a target directory, zero-overwrites files by default before deleting them (-f skips the overwrite, -w excludes directories), and drops DREAM_ANNEXATION.txt in each processed directory. The note rejects ransom negotiation.</p><p>- Attribution is deliberately unsettled. TSGA and TSProxy are modified PhiliKit variants, a framework seen in Ivanti exploitation and linked by ESET to China-nexus UNC5221. TSProxy shares operator credentials, transport secrets, activation-selector digests and the TLS certificate and key with libdssafe[.]so from PhiliKit. The gogo scanner, LightNode VPS hosting and a 00:00 to 09:00 UTC activity window also fit Chinese-nexus activity. But the wiper, the Israel 🇮🇱 focus and the Hebrew note do not fit UNC5221&#x27;s usual profile. Check Point says the evidence does not support a high-confidence call: full campaign, initial access broker, false flag, or destruction as a smoke screen. The note uses the Dream Security brand, which recently published PHP2Shell research, but no clear motive is established.</p><p>Takeaway: On any Mobile Access gateway that was exposed before patching, assume root and triage the filesystem directly. Look for zz*.tpl files in the portal templates directory, challenge_render.tpl, /tmp/.up.tpl, /tmp/CPconfigdaemon, slot_CPconfigdaemon, /lib/libcpfwcommon.so, and listeners or connections on TCP 11072. Check the upload_progress_pwn session files and the Apache/PHP segfault history. On ESXi, review SSH logins by vpxuser from the gateway, and preserve /tmp content and hunt for DREAM_ANNEXATION.txt before remediation. Hashes for the webshell, TSGA, gogo, destroy_v6 and the PhiliKit samples (philistine, libdssafe[.]so) are in the report&#x27;s IOC table; none is given for libcpfwcommon[.]so.</p><p>#DFIR_Radar</p><p><a href="https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120894927324508308">View on X</a></p>]]></content:encoded>
+      <dc:creator>Check Point Research</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120894927324508308</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120894927324508308">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 15:02:10 +0000</pubDate>
+      <guid isPermaLink="false">2120894927324508308</guid>
+    </item>
     <item>
       <title>0% GPU utilization: How SANSAR hides Linux cryptomining</title>
       <link>https://www.elastic.co/security-labs/threat-command/sansar-linux-cryptomining-malware</link>
@@ -2194,20 +2220,6 @@ Practitioner takeaway: if you run OpenSSH on Alpine Linux or any musl-based syst
       <source url="https://x.com/DFIR_Radar/status/2118947158242013362">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 06:02:26 +0000</pubDate>
       <guid isPermaLink="false">2118947158242013362</guid>
-    </item>
-    <item>
-      <title>Zyxel GS1900 Zero-Day: Patch 3 Fixes Bypassed Bug</title>
-      <link>https://socradar.io/blog/zyxel-gs1900-zero-day-patch-3-fixes-bypassed-bug/</link>
-      <description>CVE-2026-107441 (CVSS 9.8), a zero-day out-of-bounds write in Zyxel GS1900 dispatcher.cgi, saw active exploitation before Patch 3 fixed it; Patch 2 left the flaw open. Upgrade all GS1900 models to 2.90 Patch 3 and rotate root credentials.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118932236745797700</description>
-      <content:encoded><![CDATA[<p>CVE-2026-107441 (CVSS 9.8), a zero-day out-of-bounds write in Zyxel GS1900 dispatcher.cgi, saw active exploitation before Patch 3 fixed it; Patch 2 left the flaw open. Upgrade all GS1900 models to 2.90 Patch 3 and rotate root credentials.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/zyxel-gs1900-zero-day-patch-3-fixes-bypassed-bug/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118932236745797700">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118932236745797700</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118932236745797700">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 05:03:08 +0000</pubDate>
-      <guid isPermaLink="false">2118932236745797700</guid>
     </item>
   </channel>
 </rss>
