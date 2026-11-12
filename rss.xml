@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 18:02:38 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 19:02:06 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SCKit campaign targets MSP ScreenConnect environments</title>
+      <link>https://fieldeffect.com/blog/sckit-campaign-targets-msp-screenconnect-environments</link>
+      <description>ScreenConnect RMM+ extensions appear to have been abused to deploy SCKit on at least 288 endpoints at 48 organizations in about 90 minutes. Commands ran as SYSTEM and were logged to the extension, not to technician logins.
+
+- What happened: ConnectWise's November 11 advisory reports unauthorized access to ScreenConnect partner accounts and rogue remote-access software in customer environments. Activity began around 17:47 UTC. At 22:45 UTC ConnectWise disabled five extensions: Labtech Plus, RMM Plus, RMM+, RMM Plus Password Link, and RMM+ Password Link. About 400 partner environments had at least one installed. ConnectWise reports no compromise of its own infrastructure and no ScreenConnect vulnerability. Initial access and full scope are still under investigation.
+
+- Attack chain: The RMM+ family exposes an API that can execute remote commands, protected by a partner-set passphrase. Researchers saw SCKit run commands via ScreenConnect with SYSTEM privileges. It created Microsoft Defender exclusions, set persistence through a scheduled task named TrapWatch, and stopped the legitimate ScreenConnect client so a rogue client could take its place. Sequential numbering of compromised providers suggests more environments were hit before discovery. Sophos reported similar activity from three ScreenConnect instance identifiers.
+
+- Technician targeting: SCKit also has a second stage that tries to capture an active technician session and push payloads to other systems reachable through that technician. Researchers say these console takeover attempts failed in every recovered incident examined so far. Parts of the code appear LLM-assisted. A batch file uploaded to VirusTotal on July 25, 2026 referenced a rogue client ID later tied to this investigation, but that link is unconfirmed.
+
+- Why it is hard to see: Command execution records pointed to the RMM+ extension rather than a technician account. Many RMM+ installs looked legitimate and had stayed enabled long after their purpose ended. Rogue clients give a second access path that may survive extension removal and credential rotation. Researchers reported hosts being reinfected shortly after returning to service.
+
+- Artifacts to hunt: the TrapWatch scheduled task, the C:\ProgramData\RelayTrap\ directory, RelayTrapLiteAlert registry entries, unauthorized ScreenConnect client installs, and hosts where the ScreenConnect service stopped unexpectedly or a new remote-access service appeared shortly afterward.
+
+Takeaway: disabling extensions and rotating credentials does not evict anyone. On the ScreenConnect side, preserve and review Run Command history, Shared Toolbox activity, extension installation records, admin actions, and authentication logs for activity no authorized technician can claim. On endpoints, triage through EDR live response, WinRM, or another channel separate from ScreenConnect so live technician sessions are not exposed to a compromised host. From a known-clean workstation, terminate sessions, rotate credentials, check browser and identity provider sessions, and validate API passphrases on any remaining extensions. Confirm the rogue clients, scheduled tasks, and registry changes are gone before systems return to service. The full IOC list is in the ScreenConnect advisory.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120955307043979329</description>
+      <content:encoded><![CDATA[<p>ScreenConnect RMM+ extensions appear to have been abused to deploy SCKit on at least 288 endpoints at 48 organizations in about 90 minutes. Commands ran as SYSTEM and were logged to the extension, not to technician logins.</p><p>- What happened: ConnectWise&#x27;s November 11 advisory reports unauthorized access to ScreenConnect partner accounts and rogue remote-access software in customer environments. Activity began around 17:47 UTC. At 22:45 UTC ConnectWise disabled five extensions: Labtech Plus, RMM Plus, RMM+, RMM Plus Password Link, and RMM+ Password Link. About 400 partner environments had at least one installed. ConnectWise reports no compromise of its own infrastructure and no ScreenConnect vulnerability. Initial access and full scope are still under investigation.</p><p>- Attack chain: The RMM+ family exposes an API that can execute remote commands, protected by a partner-set passphrase. Researchers saw SCKit run commands via ScreenConnect with SYSTEM privileges. It created Microsoft Defender exclusions, set persistence through a scheduled task named TrapWatch, and stopped the legitimate ScreenConnect client so a rogue client could take its place. Sequential numbering of compromised providers suggests more environments were hit before discovery. Sophos reported similar activity from three ScreenConnect instance identifiers.</p><p>- Technician targeting: SCKit also has a second stage that tries to capture an active technician session and push payloads to other systems reachable through that technician. Researchers say these console takeover attempts failed in every recovered incident examined so far. Parts of the code appear LLM-assisted. A batch file uploaded to VirusTotal on July 25, 2026 referenced a rogue client ID later tied to this investigation, but that link is unconfirmed.</p><p>- Why it is hard to see: Command execution records pointed to the RMM+ extension rather than a technician account. Many RMM+ installs looked legitimate and had stayed enabled long after their purpose ended. Rogue clients give a second access path that may survive extension removal and credential rotation. Researchers reported hosts being reinfected shortly after returning to service.</p><p>- Artifacts to hunt: the TrapWatch scheduled task, the C:\ProgramData\RelayTrap\ directory, RelayTrapLiteAlert registry entries, unauthorized ScreenConnect client installs, and hosts where the ScreenConnect service stopped unexpectedly or a new remote-access service appeared shortly afterward.</p><p>Takeaway: disabling extensions and rotating credentials does not evict anyone. On the ScreenConnect side, preserve and review Run Command history, Shared Toolbox activity, extension installation records, admin actions, and authentication logs for activity no authorized technician can claim. On endpoints, triage through EDR live response, WinRM, or another channel separate from ScreenConnect so live technician sessions are not exposed to a compromised host. From a known-clean workstation, terminate sessions, rotate credentials, check browser and identity provider sessions, and validate API passphrases on any remaining extensions. Confirm the rogue clients, scheduled tasks, and registry changes are gone before systems return to service. The full IOC list is in the ScreenConnect advisory.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/sckit-campaign-targets-msp-screenconnect-environments">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120955307043979329">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120955307043979329</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2120955307043979329">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 19:02:06 +0000</pubDate>
+      <guid isPermaLink="false">2120955307043979329</guid>
+    </item>
     <item>
       <title>ARTEX: 916 Exposed AI Pentest Consoles Mapped in the U.S.</title>
       <link>https://socradar.io/blog/artex-ai-pentest-consoles-us/</link>
@@ -2232,20 +2258,6 @@ Hunt tip: in any AD environment with RODCs, query msDS-RevealedUsers on every RO
       <source url="https://x.com/DFIR_Radar/status/2119007541766287811">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 10:02:22 +0000</pubDate>
       <guid isPermaLink="false">2119007541766287811</guid>
-    </item>
-    <item>
-      <title>OpenSSH Issues Emergency Fix for Flaw Letting Long Passwords Bypass SSH Auth on Alpine Linux</title>
-      <link>https://thehackernews.com/2026/11/openssh-issues-emergency-fix-for-flaw.html</link>
-      <description>An OpenSSH/musl flaw on Alpine Linux lets any 257-1,024-byte password authenticate into passwordless accounts, including root. Check /var/log/messages for "Accepted password" on key-only users; run apk upgrade and restart sshd.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118992535607734316</description>
-      <content:encoded><![CDATA[<p>An OpenSSH/musl flaw on Alpine Linux lets any 257-1,024-byte password authenticate into passwordless accounts, including root. Check /var/log/messages for &quot;Accepted password&quot; on key-only users; run apk upgrade and restart sshd.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/openssh-issues-emergency-fix-for-flaw.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118992535607734316">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118992535607734316</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2118992535607734316">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 09:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2118992535607734316</guid>
     </item>
   </channel>
 </rss>
