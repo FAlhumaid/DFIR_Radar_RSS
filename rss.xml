@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 10:04:13 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 11:02:04 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers turn NIKKE’s game launcher into malware</title>
+      <link>https://www.bitdefender.com/en-us/blog/labs/nikke-game-launcher-malware</link>
+      <description>Attackers pushed a Lua stealer (k2f-agent) through the NIKKE game launcher's own server-pushed task channel. No binary was patched and no vulnerability was exploited. Credential theft ran inside a signed, trusted process in under 10 minutes.
+
+- Delivery: on login the launcher queries its backend for tasks over its CGI task channel, and its embedded downloader fetched hxxps://analytics.insightjs[.]com/comm/assets/insight.bundle, which resolved to 89.127.233[.]127 in Iceland. The domain was registered Sept 27, 2026, about five weeks earlier, and was named to resemble the insight.js library (Bitdefender sees no sign that library is involved). The 205,135-byte response was saved as Launcher\log\tinyget\tinyget.20261103-030255-271.log, a normal-looking log name that actually held obfuscated LuaJIT 2.1 bytecode (\x1bLJ magic). How the attackers got into the task channel is unknown.
+
+- Execution: the bundle loads in the launcher's Lua VM and registers a service called k2f_chan on the CEF JS-to-native bridge (comm_center reg_service). From there an operator issues JSON ops and the launcher process itself does the file, crypto and registry work. Memory forensics found all k2f strings and code only in the launcher's unbacked heap, none in modules on disk. The payload carries build tag K2F_LUA_BUILD = "722b99d8d0e9", uses a 1790-entry encrypted string table, and has 46 modules and 18 operator commands including browserscan, wallet_files, keyscan, file_chunk, exec, screens and payload_cleanup.
+
+- Theft: BrowserScan sweeps Chrome, Edge and Opera profiles, including recovery, cache and safety list subdirectories, for Login Data, Cookies and Local State. It stages copies as %TEMP%\k2f-bcreds-&lt;unix-time&gt;-&lt;random&gt;.db (plus -wal/-shm/-journal), queries the logins table, and decrypts v10 blobs via the DPAPI-unwrapped OS-Crypt key. It also supports Chrome App-Bound Encryption. wallet_files reads LevelDB vaults for MetaMask, Phantom, Coinbase Wallet, Keplr and TronLink by extension ID. In the captured run, cookie collection was set to false (the operator can flip it remotely), and the NuGet.Config and PowerShell profile were pulled, which points to developer supply-chain interest. keyscan (SSH, GPG, Git, Kubernetes, Credential Manager) was present but not invoked.
+
+- Exfil and cleanup: stolen data rode the launcher's regular telemetry traffic, which Bitdefender has no reason to think the attackers control. payload_cleanup removed the disguised bundle and staged files. Download, collection, exfil and cleanup finished in under 10 minutes, leaving very few disk artifacts. Detections began Oct 30 after a spike of a signed launcher reading browser credential stores. The delivery domain had no history, so reputation blocking missed it. The Icelandic host has since taken the server down. Bitdefender notified the developer and publisher on Nov 10 and had no reply yet.
+
+- Scope: nothing in the bundle is game-specific, so any app with a server-pushed task channel and a JS-to-native bridge could be abused the same way. The report says attribution is unknown.
+
+Takeaway: if a NIKKE launcher ran during the attack window, treat the machine as compromised and rotate browser-stored passwords, wallet seeds and developer secrets. Hunt for a non-browser, signed process reading browser Login Data and Local State, for %TEMP%\k2f-bcreds-* files, and for LuaJIT magic bytes inside files under the launcher's log\tinyget directory. Look in DNS and proxy logs for insightjs[.]com. If the process is still alive, capture launcher memory and look for k2f_chan and K2F_LUA_BUILD in heap regions, since the disk is mostly clean. IOCs, including a SHA-256 hash, are in the report's IOC table.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120834501890674689</description>
+      <content:encoded><![CDATA[<p>Attackers pushed a Lua stealer (k2f-agent) through the NIKKE game launcher&#x27;s own server-pushed task channel. No binary was patched and no vulnerability was exploited. Credential theft ran inside a signed, trusted process in under 10 minutes.</p><p>- Delivery: on login the launcher queries its backend for tasks over its CGI task channel, and its embedded downloader fetched hxxps://analytics.insightjs[.]com/comm/assets/insight.bundle, which resolved to 89.127.233[.]127 in Iceland. The domain was registered Sept 27, 2026, about five weeks earlier, and was named to resemble the insight.js library (Bitdefender sees no sign that library is involved). The 205,135-byte response was saved as Launcher\log\tinyget\tinyget.20261103-030255-271.log, a normal-looking log name that actually held obfuscated LuaJIT 2.1 bytecode (\x1bLJ magic). How the attackers got into the task channel is unknown.</p><p>- Execution: the bundle loads in the launcher&#x27;s Lua VM and registers a service called k2f_chan on the CEF JS-to-native bridge (comm_center reg_service). From there an operator issues JSON ops and the launcher process itself does the file, crypto and registry work. Memory forensics found all k2f strings and code only in the launcher&#x27;s unbacked heap, none in modules on disk. The payload carries build tag K2F_LUA_BUILD = &quot;722b99d8d0e9&quot;, uses a 1790-entry encrypted string table, and has 46 modules and 18 operator commands including browserscan, wallet_files, keyscan, file_chunk, exec, screens and payload_cleanup.</p><p>- Theft: BrowserScan sweeps Chrome, Edge and Opera profiles, including recovery, cache and safety list subdirectories, for Login Data, Cookies and Local State. It stages copies as %TEMP%\k2f-bcreds-&lt;unix-time&gt;-&lt;random&gt;.db (plus -wal/-shm/-journal), queries the logins table, and decrypts v10 blobs via the DPAPI-unwrapped OS-Crypt key. It also supports Chrome App-Bound Encryption. wallet_files reads LevelDB vaults for MetaMask, Phantom, Coinbase Wallet, Keplr and TronLink by extension ID. In the captured run, cookie collection was set to false (the operator can flip it remotely), and the NuGet.Config and PowerShell profile were pulled, which points to developer supply-chain interest. keyscan (SSH, GPG, Git, Kubernetes, Credential Manager) was present but not invoked.</p><p>- Exfil and cleanup: stolen data rode the launcher&#x27;s regular telemetry traffic, which Bitdefender has no reason to think the attackers control. payload_cleanup removed the disguised bundle and staged files. Download, collection, exfil and cleanup finished in under 10 minutes, leaving very few disk artifacts. Detections began Oct 30 after a spike of a signed launcher reading browser credential stores. The delivery domain had no history, so reputation blocking missed it. The Icelandic host has since taken the server down. Bitdefender notified the developer and publisher on Nov 10 and had no reply yet.</p><p>- Scope: nothing in the bundle is game-specific, so any app with a server-pushed task channel and a JS-to-native bridge could be abused the same way. The report says attribution is unknown.</p><p>Takeaway: if a NIKKE launcher ran during the attack window, treat the machine as compromised and rotate browser-stored passwords, wallet seeds and developer secrets. Hunt for a non-browser, signed process reading browser Login Data and Local State, for %TEMP%\k2f-bcreds-* files, and for LuaJIT magic bytes inside files under the launcher&#x27;s log\tinyget directory. Look in DNS and proxy logs for insightjs[.]com. If the process is still alive, capture launcher memory and look for k2f_chan and K2F_LUA_BUILD in heap regions, since the disk is mostly clean. IOCs, including a SHA-256 hash, are in the report&#x27;s IOC table.</p><p>#DFIR_Radar</p><p><a href="https://www.bitdefender.com/en-us/blog/labs/nikke-game-launcher-malware">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120834501890674689">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bitdefender Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2120834501890674689</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2120834501890674689">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 11:02:04 +0000</pubDate>
+      <guid isPermaLink="false">2120834501890674689</guid>
+    </item>
     <item>
       <title>Check your GitHub repos: A secret stealer hit tens of thousands of them</title>
       <link>https://www.helpnetsecurity.com/2026/11/12/wfx-loot-github-actions-secret-stealer/</link>
@@ -2136,20 +2162,6 @@ Practitioner takeaway: Hunt curl-initiated outbound connections using the KQL qu
       <source url="https://x.com/DFIR_Radar/status/2118886816346693758">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 02:02:39 +0000</pubDate>
       <guid isPermaLink="false">2118886816346693758</guid>
-    </item>
-    <item>
-      <title>NIKKE PC launcher compromise put players’ passwords and personal files at risk</title>
-      <link>https://www.malwarebytes.com/blog/news/2026/11/nikke-pc-launcher-compromise-put-players-passwords-and-personal-files-at-risk</link>
-      <description>Level Infinite's CDN was trojanized across four JavaScript files, deploying a remote-control agent stealing browser credentials and crypto wallets. Players who ran the Windows launcher should rotate credentials from a clean device.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2118871539202572455</description>
-      <content:encoded><![CDATA[<p>Level Infinite&#x27;s CDN was trojanized across four JavaScript files, deploying a remote-control agent stealing browser credentials and crypto wallets. Players who ran the Windows launcher should rotate credentials from a clean device.</p><p>#DFIR_Radar</p><p><a href="https://www.malwarebytes.com/blog/news/2026/11/nikke-pc-launcher-compromise-put-players-passwords-and-personal-files-at-risk">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2118871539202572455">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malwarebytes Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2118871539202572455</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2118871539202572455">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 01:01:56 +0000</pubDate>
-      <guid isPermaLink="false">2118871539202572455</guid>
     </item>
   </channel>
 </rss>
