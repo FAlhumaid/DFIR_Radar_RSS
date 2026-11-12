@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 22:05:29 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 23:04:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers compromise 4,800 GitHub accounts to steal cloud credentials</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/</link>
+      <description>The wfx-loot campaign used 4,837 hijacked GitHub accounts to probe 61,764 repos and steal CI secrets and cloud credentials from at least 1,835 targets, then wiped its workflow runs in under a minute.
+
+Aikido's research, via Bleeping Computer, shows a fast, automated CI/CD secrets grab that began around 12:45 UTC on November 10. Compromised accounts included some tied to Fortune 100 organizations, the US 🇺🇸 General Services Administration, the French 🇫🇷 government, Nextcloud, and WebdriverIO. About 50 appear to hold publishing rights on ecosystems like npm, PyPI, Go, crates, and Packagist.
+
+- Access probe: the actor used the stolen credentials to open pull requests titled "docs: dependency audit notes" against repos each account could reach, testing for write access. 92% of those PRs are still open, so owners largely have not noticed.
+
+- Payload delivery: a roughly 1,500-line credential-stealing shell script landed by modifying an existing GitHub Actions workflow, adding a new workflow on a short-lived branch, or planting an npm install hook.
+
+- What it harvests: Actions secrets and variables, the workflow GITHUB_TOKEN, OIDC and Actions runtime tokens, AWS, Azure and Google Cloud credentials (including instance metadata on self-hosted runners), plus Git, SSH, GPG, Docker, Kubernetes, npm, PyPI, Vault and Terraform creds. It also targets AI tool keys for OpenAI, Anthropic, Gemini, Hugging Face, Cursor and GitHub Copilot, along with .env files, private keys, keystores, shell histories, process memory, recent commits and workflow artifacts.
+
+- Cloud escalation and persistence: the script exchanges GitHub OIDC tokens for temporary AWS, Azure and GCP sessions. In AWS it can chain into other IAM roles found in the repo to create long-lived credentials for IAM users, and it uses service-account credentials to impersonate identities in GCP. Where permissions allow, it can modify cloud identity and trust policies.
+
+- Exfil and cleanup: data was tarballed and sent by HTTP POST to one of two attacker-controlled endpoints. The actor then reverted its changes and deleted workflow runs and logs in under a minute. Automated publishing carried the payload into Packagist digitalelvis/neuronai-studio 3.14.3 and Go module github[.]com/onuragtas/docker-env v1.0.278 and v1.0.280. Researchers see the package releases as a byproduct of automated publishing, with CI secrets the main goal, and note overlap with the 2025 GhostAction campaign.
+
+Takeaway: because the actor deleted runs and logs, the residue matters. Check your repos for the wfx-docs branch, the "docs: dependency audit notes" probe PR, and gaps in workflow run numbers. Review workflow files and npm install hooks for unexpected changes. If payload execution is confirmed, treat every secret and cloud role available to those workflows as compromised and rotate immediately, then review cloud IAM and trust policies for new long-lived credentials. The report does not list the two exfil endpoints or detection rules.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121016293273084044</description>
+      <content:encoded><![CDATA[<p>The wfx-loot campaign used 4,837 hijacked GitHub accounts to probe 61,764 repos and steal CI secrets and cloud credentials from at least 1,835 targets, then wiped its workflow runs in under a minute.</p><p>Aikido&#x27;s research, via Bleeping Computer, shows a fast, automated CI/CD secrets grab that began around 12:45 UTC on November 10. Compromised accounts included some tied to Fortune 100 organizations, the US 🇺🇸 General Services Administration, the French 🇫🇷 government, Nextcloud, and WebdriverIO. About 50 appear to hold publishing rights on ecosystems like npm, PyPI, Go, crates, and Packagist.</p><p>- Access probe: the actor used the stolen credentials to open pull requests titled &quot;docs: dependency audit notes&quot; against repos each account could reach, testing for write access. 92% of those PRs are still open, so owners largely have not noticed.</p><p>- Payload delivery: a roughly 1,500-line credential-stealing shell script landed by modifying an existing GitHub Actions workflow, adding a new workflow on a short-lived branch, or planting an npm install hook.</p><p>- What it harvests: Actions secrets and variables, the workflow GITHUB_TOKEN, OIDC and Actions runtime tokens, AWS, Azure and Google Cloud credentials (including instance metadata on self-hosted runners), plus Git, SSH, GPG, Docker, Kubernetes, npm, PyPI, Vault and Terraform creds. It also targets AI tool keys for OpenAI, Anthropic, Gemini, Hugging Face, Cursor and GitHub Copilot, along with .env files, private keys, keystores, shell histories, process memory, recent commits and workflow artifacts.</p><p>- Cloud escalation and persistence: the script exchanges GitHub OIDC tokens for temporary AWS, Azure and GCP sessions. In AWS it can chain into other IAM roles found in the repo to create long-lived credentials for IAM users, and it uses service-account credentials to impersonate identities in GCP. Where permissions allow, it can modify cloud identity and trust policies.</p><p>- Exfil and cleanup: data was tarballed and sent by HTTP POST to one of two attacker-controlled endpoints. The actor then reverted its changes and deleted workflow runs and logs in under a minute. Automated publishing carried the payload into Packagist digitalelvis/neuronai-studio 3.14.3 and Go module github[.]com/onuragtas/docker-env v1.0.278 and v1.0.280. Researchers see the package releases as a byproduct of automated publishing, with CI secrets the main goal, and note overlap with the 2025 GhostAction campaign.</p><p>Takeaway: because the actor deleted runs and logs, the residue matters. Check your repos for the wfx-docs branch, the &quot;docs: dependency audit notes&quot; probe PR, and gaps in workflow run numbers. Review workflow files and npm install hooks for unexpected changes. If payload execution is confirmed, treat every secret and cloud role available to those workflows as compromised and rotate immediately, then review cloud IAM and trust policies for new long-lived credentials. The report does not list the two exfil endpoints or detection rules.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-compromise-4-800-github-accounts-to-steal-cloud-credentials/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121016293273084044">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121016293273084044</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121016293273084044">DFIR Radar</source>
+      <pubDate>Thu, 12 Nov 2026 23:04:26 +0000</pubDate>
+      <guid isPermaLink="false">2121016293273084044</guid>
+    </item>
     <item>
       <title>SCKit Malware Turns ScreenConnect Support Sessions Into Potential MSP Attack Paths</title>
       <link>https://thehackernews.com/2026/11/sckit-malware-targets-screenconnect.html</link>
@@ -2292,20 +2320,6 @@ Hunt tip: in any AD environment with RODCs, query msDS-RevealedUsers on every RO
       <source url="https://x.com/DFIR_Radar/status/2119083017650241743">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 15:02:17 +0000</pubDate>
       <guid isPermaLink="false">2119083017650241743</guid>
-    </item>
-    <item>
-      <title>How Are Hackers Getting Into Fridges? The FBI Has an Answer</title>
-      <link>https://thecyberexpress.com/cold-chain-cyberattacks-fbi-explains/</link>
-      <description>FBI and CISA warn cold chain controllers are targeted via default credentials and authentication bypass, forcing defrost cycles. Review logs for unexpected temperature setpoint changes on internet-exposed refrigeration OT segments.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119052855843975273</description>
-      <content:encoded><![CDATA[<p>FBI and CISA warn cold chain controllers are targeted via default credentials and authentication bypass, forcing defrost cycles. Review logs for unexpected temperature setpoint changes on internet-exposed refrigeration OT segments.</p><p>#DFIR_Radar</p><p><a href="https://thecyberexpress.com/cold-chain-cyberattacks-fbi-explains/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119052855843975273">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Cyber Express</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119052855843975273</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119052855843975273">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 13:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2119052855843975273</guid>
     </item>
   </channel>
 </rss>
