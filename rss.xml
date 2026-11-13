@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 01:02:09 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 02:04:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks</title>
+      <link>https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/</link>
+      <description>SCKit, a worm-like toolkit in the ScreenConnect MSP attacks, tries to hop from infected customer endpoints to technician workstations. Huntress and Blackpoint saw no successful exploitation.
+
+The story: attackers got into cloud-hosted ScreenConnect environments and used the Run Command feature to push rogue ScreenConnect clients onto customer endpoints. Huntress counts at least 288 endpoints across 48 organizations, all hit within 90 minutes, with about a third in the first 10 minutes.
+
+- Initial access: Huntress believes it was RMM+, a third-party ScreenConnect extension. Versions 1.0.31 and 1.0.32 let the shared access key stay blank if an admin never set one, so an empty key passed the authentication check. That allowed remote commands with no ScreenConnect login and no MFA. It matches what Huntress saw: commands across multiple instances with no corresponding user logins, and logs tying them to RMM+.
+
+- Persistence: the attackers first install extra ScreenConnect Access clients pointed at their own servers. They survive even if the original MSP session is killed, so closing the MSP-side session does not evict them.
+
+- SCKit: 16 scripts and components. RelayTrap replaces the legitimate ScreenConnect Guest process and waits for a technician to connect interactively. It is stored as C# source (RelayTrap.cs) and compiled locally on the victim by a PowerShell script, so there is no precompiled binary to hash. TrapWatch monitors the ScreenConnect services and stages the replacement Guest. Both teams note the heavily commented code looks LLM-generated.
+
+- Worm logic: on connect, RelayTrap tries to push a file in reverse, from the customer endpoint to the technician, abusing CVE-2026-84869, a client-side file-transfer flaw patched in ScreenConnect 26.6.5. Other components then try to steal ScreenConnect auth cookies from browsers to hijack the technician's session without credentials or a new MFA challenge. From there they enumerate reachable endpoints and spread commands through legitimate features, including the Shared Toolbox.
+
+- Reality check: Blackpoint reproduced the exploit against a current client and the fix held. In their words, the Guest side queued the transfer but the client never requested or ran the payload. Huntress saw the console takeover fail in every recovered host log. Neither team has seen the worm behavior succeed, and Blackpoint found no evidence of a bypass. ConnectWise also disabled five potentially related third-party extensions across roughly 400 partner environments and says their presence alone does not mean compromise.
+
+Takeaway: scope this as a hosting-side compromise first. Review Run Command and Toolbox history for commands without a matching user login, and check for RMM+ 1.0.31 or 1.0.32 with a blank access key. Inventory ScreenConnect Access clients that point at servers you do not own. On endpoints, look for a swapped Guest process and a locally compiled executable from PowerShell. On technician workstations, treat browser-stored ScreenConnect cookies as exposed if they connected to a suspect host. Update clients to 26.6.5 or later, and investigate suspect endpoints with separate security tooling instead of interactive ScreenConnect sessions.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121061614271267054</description>
+      <content:encoded><![CDATA[<p>SCKit, a worm-like toolkit in the ScreenConnect MSP attacks, tries to hop from infected customer endpoints to technician workstations. Huntress and Blackpoint saw no successful exploitation.</p><p>The story: attackers got into cloud-hosted ScreenConnect environments and used the Run Command feature to push rogue ScreenConnect clients onto customer endpoints. Huntress counts at least 288 endpoints across 48 organizations, all hit within 90 minutes, with about a third in the first 10 minutes.</p><p>- Initial access: Huntress believes it was RMM+, a third-party ScreenConnect extension. Versions 1.0.31 and 1.0.32 let the shared access key stay blank if an admin never set one, so an empty key passed the authentication check. That allowed remote commands with no ScreenConnect login and no MFA. It matches what Huntress saw: commands across multiple instances with no corresponding user logins, and logs tying them to RMM+.</p><p>- Persistence: the attackers first install extra ScreenConnect Access clients pointed at their own servers. They survive even if the original MSP session is killed, so closing the MSP-side session does not evict them.</p><p>- SCKit: 16 scripts and components. RelayTrap replaces the legitimate ScreenConnect Guest process and waits for a technician to connect interactively. It is stored as C# source (RelayTrap.cs) and compiled locally on the victim by a PowerShell script, so there is no precompiled binary to hash. TrapWatch monitors the ScreenConnect services and stages the replacement Guest. Both teams note the heavily commented code looks LLM-generated.</p><p>- Worm logic: on connect, RelayTrap tries to push a file in reverse, from the customer endpoint to the technician, abusing CVE-2026-84869, a client-side file-transfer flaw patched in ScreenConnect 26.6.5. Other components then try to steal ScreenConnect auth cookies from browsers to hijack the technician&#x27;s session without credentials or a new MFA challenge. From there they enumerate reachable endpoints and spread commands through legitimate features, including the Shared Toolbox.</p><p>- Reality check: Blackpoint reproduced the exploit against a current client and the fix held. In their words, the Guest side queued the transfer but the client never requested or ran the payload. Huntress saw the console takeover fail in every recovered host log. Neither team has seen the worm behavior succeed, and Blackpoint found no evidence of a bypass. ConnectWise also disabled five potentially related third-party extensions across roughly 400 partner environments and says their presence alone does not mean compromise.</p><p>Takeaway: scope this as a hosting-side compromise first. Review Run Command and Toolbox history for commands without a matching user login, and check for RMM+ 1.0.31 or 1.0.32 with a blank access key. Inventory ScreenConnect Access clients that point at servers you do not own. On endpoints, look for a swapped Guest process and a locally compiled executable from PowerShell. On technician workstations, treat browser-stored ScreenConnect cookies as exposed if they connected to a suspect host. Update clients to 26.6.5 or later, and investigate suspect endpoints with separate security tooling instead of interactive ScreenConnect sessions.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121061614271267054">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121061614271267054</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121061614271267054">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 02:04:31 +0000</pubDate>
+      <guid isPermaLink="false">2121061614271267054</guid>
+    </item>
     <item>
       <title>2026-11-12: SmartApeSG ClickFix campaign pushes CNCmachineRMS RAT</title>
       <link>https://www.malware-traffic-analysis.net/2026/11/12/index.html</link>
@@ -2318,20 +2346,6 @@ Hunt for ARTEX exposure in your environment by checking for unexpected processes
       <source url="https://x.com/DFIR_Radar/status/2119128307136348639">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 18:02:15 +0000</pubDate>
       <guid isPermaLink="false">2119128307136348639</guid>
-    </item>
-    <item>
-      <title>QNAP says hackers breaching NAS devices in Plex2Shell attacks</title>
-      <link>https://www.bleepingcomputer.com/news/security/qnap-says-hackers-breaching-nas-devices-in-plex2shell-attacks/</link>
-      <description>Plex2Shell (CVE-2026-96652 through CVE-2026-96656, all CISA KEV) is actively compromising internet-exposed QNAP NAS devices running Plex Media Server. Treat exposed NAS as compromised, reinstall QTS clean, then reset credentials.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119113168127431086</description>
-      <content:encoded><![CDATA[<p>Plex2Shell (CVE-2026-96652 through CVE-2026-96656, all CISA KEV) is actively compromising internet-exposed QNAP NAS devices running Plex Media Server. Treat exposed NAS as compromised, reinstall QTS clean, then reset credentials.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/qnap-says-hackers-breaching-nas-devices-in-plex2shell-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119113168127431086">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119113168127431086</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119113168127431086">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 17:02:05 +0000</pubDate>
-      <guid isPermaLink="false">2119113168127431086</guid>
     </item>
   </channel>
 </rss>
