@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 04:04:24 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 05:03:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Exploit Attempts for GPUStack Authentication Bypass (CVE-2026-102895), (Thu, Nov 12th)</title>
+      <link>https://isc.sans.edu/diary/rss/33514</link>
+      <description>Attackers are probing GPUStack for auth bypass CVE-2026-102895 by spoofing X-Gpustack-Real-IP as 127.0.0.1, from 144.91.73[.]103. Hunt for that header in requests, then upgrade to 2.2.0.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121106658650722507</description>
+      <content:encoded><![CDATA[<p>Attackers are probing GPUStack for auth bypass CVE-2026-102895 by spoofing X-Gpustack-Real-IP as 127.0.0.1, from 144.91.73[.]103. Hunt for that header in requests, then upgrade to 2.2.0.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33514">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121106658650722507">View on X</a></p>]]></content:encoded>
+      <dc:creator>SANS ISC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121106658650722507</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121106658650722507">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 05:03:31 +0000</pubDate>
+      <guid isPermaLink="false">2121106658650722507</guid>
+    </item>
     <item>
       <title>Attackers Use Autonomous AI to Target Semiconductor, Defense and Civil Society Sectors</title>
       <link>https://unit42.paloaltonetworks.com/cairn-framework-ai-autonomous-attacks/</link>
@@ -2346,34 +2360,6 @@ Practitioner takeaway: The critical detection window is RMM enrollment, not init
       <source url="https://x.com/DFIR_Radar/status/2119173659525070907">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 21:02:28 +0000</pubDate>
       <guid isPermaLink="false">2119173659525070907</guid>
-    </item>
-    <item>
-      <title>Inside ARTEX: AI Hacking Tools, Exposed Servers and South Korean Bank Breaches</title>
-      <link>https://securityaffairs.com/202607/ai/inside-artex-ai-hacking-tools-exposed-servers-and-south-korean-bank-breaches.html</link>
-      <description>AI-powered autonomous pentesting framework ARTEX, developed in China 🇨🇳, was used in financially motivated breaches hitting seven South Korean 🇰🇷 financial institutions, exposing data on roughly 66,000-67,000 individuals and 2,200 corporations.
-
-Key findings:
-
-- CrowdStrike assessed with moderate confidence that a single Chinese-speaking individual, not an established threat group, ran the campaign for financial gain. ARTEX is an open-source autonomous penetration testing framework licensed under AGPL-3.0, with its GitHub repository and Docker image removed October 11 though forks remain. The primary ARTEX console sat at 38.244.50[.]120 on Cogent's Los Angeles network, with 15 open ports, the login page on 443 and 8090, plus a Gemini2API admin console and Tinyproxy server. The reseller domain xcai[.]pro routed AI model traffic, and a Hong Kong jump server at 23.248.226[.]250 on AS138415 held 42 files across 105 MB, including credentials for DeepSeek, Zhipu AI GLM models, and a rotating proxy pool.
-
-- The AI harness is the most operationally significant detail. Claude Code version 2.1.221 served as the agent frontend, started 510 times since August 4, but it never spoke to Anthropic. A local shim, ds-models-shim[.]py, faked the model discovery endpoint and routed requests through xcai[.]pro to api.deepseek[.]com/anthropic, with DeepSeek v4.1 Flash as primary and GLM 5.3 and Grok 4.6 as backups. A second shim, xcai-effort-shim[.]py, injected a reasoning parameter the backend would otherwise skip. This chain let one operator run multiple large language models across a single campaign without direct API contracts.
-
-- The state file logged 19 custom agent skills with 147 recorded uses covering code audit, reconnaissance, web injection, WAF bypass, authentication testing, JNDI and LDAP exploitation, CAPTCHA bypass, and payment logic testing. Three self-registered test accounts with cash-in deposit API tokens dated September 12 sat next to the payment skill, with a comment labeling them an authorized self-built test. That setup fits insecure direct object reference testing against Korean loan and inquiry services, the technique CrowdStrike and Genians described. A separate directory at 23.248.226[.]250:8001 held a staged JNDI and LDAP exploitation kit retrieved October 5 at 03:42 UTC, confirming command execution through DNS callback.
-
-- ARTEX is not a single-operator tool. Hunting its certificate issuer returned 19 IPs including 38.244.50[.]120. Matching the console page title returned roughly 1,300 IPs across 30 countries, with 21 title string variants in English, Chinese 🇨🇳, Korean, Japanese 🇯🇵, Russian 🇷🇺, Portuguese 🇵🇹, and Vietnamese 🇻🇳. An AttackCapture malware-name search yielded 280 results with open directories, including a Seoul host at 130.94.31[.]86:18888 and 156.251.11[.]39 running an SMB recon toolkit whose test script writes a file named artex_probe_11876.txt. Other recovered hosts carried DedeCMS and FangCMS exploitation kits, RuoYi and Spring admin console exploits, and CAPTCHA-based login automation.
-
-- Other tooling recovered from the open directory included Linux privilege escalation exploits, iOS probe source code, Android kernel and firmware utilities, and scripts targeting a cryptocurrency exchange's admin session and withdrawal functions. Hunt[.]io has not confirmed their connection to the Korean breaches. A FOFA asset search script using a backup API key was also present, with a comment noting the primary membership had expired.
-
-Hunt for ARTEX exposure in your environment by checking for unexpected processes proxying requests to api.deepseek[.]com, outbound DNS callbacks paired with LDAP or JNDI traffic, and reverse SSH tunnels with names like grok2api. Search internet-facing hosts for the ARTEX console page title and audit any exposed directories for credentials files, shim scripts, or tunnel maintenance scripts. The Hunt[.]io report includes IOCs: rotate any API keys, proxy credentials, and SSH passwords that may have appeared in exposed files before anything else.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119158448264970465</description>
-      <content:encoded><![CDATA[<p>AI-powered autonomous pentesting framework ARTEX, developed in China 🇨🇳, was used in financially motivated breaches hitting seven South Korean 🇰🇷 financial institutions, exposing data on roughly 66,000-67,000 individuals and 2,200 corporations.</p><p>Key findings:</p><p>- CrowdStrike assessed with moderate confidence that a single Chinese-speaking individual, not an established threat group, ran the campaign for financial gain. ARTEX is an open-source autonomous penetration testing framework licensed under AGPL-3.0, with its GitHub repository and Docker image removed October 11 though forks remain. The primary ARTEX console sat at 38.244.50[.]120 on Cogent&#x27;s Los Angeles network, with 15 open ports, the login page on 443 and 8090, plus a Gemini2API admin console and Tinyproxy server. The reseller domain xcai[.]pro routed AI model traffic, and a Hong Kong jump server at 23.248.226[.]250 on AS138415 held 42 files across 105 MB, including credentials for DeepSeek, Zhipu AI GLM models, and a rotating proxy pool.</p><p>- The AI harness is the most operationally significant detail. Claude Code version 2.1.221 served as the agent frontend, started 510 times since August 4, but it never spoke to Anthropic. A local shim, ds-models-shim[.]py, faked the model discovery endpoint and routed requests through xcai[.]pro to api.deepseek[.]com/anthropic, with DeepSeek v4.1 Flash as primary and GLM 5.3 and Grok 4.6 as backups. A second shim, xcai-effort-shim[.]py, injected a reasoning parameter the backend would otherwise skip. This chain let one operator run multiple large language models across a single campaign without direct API contracts.</p><p>- The state file logged 19 custom agent skills with 147 recorded uses covering code audit, reconnaissance, web injection, WAF bypass, authentication testing, JNDI and LDAP exploitation, CAPTCHA bypass, and payment logic testing. Three self-registered test accounts with cash-in deposit API tokens dated September 12 sat next to the payment skill, with a comment labeling them an authorized self-built test. That setup fits insecure direct object reference testing against Korean loan and inquiry services, the technique CrowdStrike and Genians described. A separate directory at 23.248.226[.]250:8001 held a staged JNDI and LDAP exploitation kit retrieved October 5 at 03:42 UTC, confirming command execution through DNS callback.</p><p>- ARTEX is not a single-operator tool. Hunting its certificate issuer returned 19 IPs including 38.244.50[.]120. Matching the console page title returned roughly 1,300 IPs across 30 countries, with 21 title string variants in English, Chinese 🇨🇳, Korean, Japanese 🇯🇵, Russian 🇷🇺, Portuguese 🇵🇹, and Vietnamese 🇻🇳. An AttackCapture malware-name search yielded 280 results with open directories, including a Seoul host at 130.94.31[.]86:18888 and 156.251.11[.]39 running an SMB recon toolkit whose test script writes a file named artex_probe_11876.txt. Other recovered hosts carried DedeCMS and FangCMS exploitation kits, RuoYi and Spring admin console exploits, and CAPTCHA-based login automation.</p><p>- Other tooling recovered from the open directory included Linux privilege escalation exploits, iOS probe source code, Android kernel and firmware utilities, and scripts targeting a cryptocurrency exchange&#x27;s admin session and withdrawal functions. Hunt[.]io has not confirmed their connection to the Korean breaches. A FOFA asset search script using a backup API key was also present, with a comment noting the primary membership had expired.</p><p>Hunt for ARTEX exposure in your environment by checking for unexpected processes proxying requests to api.deepseek[.]com, outbound DNS callbacks paired with LDAP or JNDI traffic, and reverse SSH tunnels with names like grok2api. Search internet-facing hosts for the ARTEX console page title and audit any exposed directories for credentials files, shim scripts, or tunnel maintenance scripts. The Hunt[.]io report includes IOCs: rotate any API keys, proxy credentials, and SSH passwords that may have appeared in exposed files before anything else.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/202607/ai/inside-artex-ai-hacking-tools-exposed-servers-and-south-korean-bank-breaches.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119158448264970465">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119158448264970465</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2119158448264970465">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 20:02:01 +0000</pubDate>
-      <guid isPermaLink="false">2119158448264970465</guid>
     </item>
   </channel>
 </rss>
