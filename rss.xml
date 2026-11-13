@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 05:03:31 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 06:04:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>186 Fake AI Domains Redirect Users to ClickFix Lures, Browser Malware, and Search Hijackers</title>
+      <link>https://thehackernews.com/2026/11/186-fake-ai-domains-redirect-users-to.html</link>
+      <description>Island's TypoPrompting research finds 186 lookalike domains for 27 AI brands, including Claude, ChatGPT, Gemini, Copilot and Grok. Mistyped URLs lead to ClickFix lures, the Net Guard browser hijacker, or a family of search-hijack Chrome extensions with 972,000 declared users.
+
+- Scope and lookalikes: the domains imitate Anthropic Claude, OpenAI ChatGPT, Google Gemini and Gemini Notebook, Microsoft Copilot, Grok, DeepSeek, Mistral, Perplexity, Midjourney, ElevenLabs, Lovable and Cursor. Examples: cloude[.]ai, cluade[.]ai, clsude[.]ai, chatlgpt[.]com, geimini[.]com, notebookklm[.]com, griok[.]com, preplexity[.]ai, deepceek[.]com, elevenlebs[.]io, copiot[.]com, midj0urney[.]org. Registration records show cloude[.]ai and cluade[.]ai were registered as early as July 13, 2023.
+
+- Route 1, ClickFix: the parked page starts a redirect chain that fingerprints the browser and collects the public IP, then shows a fake Cloudflare verification page that hands the user a PowerShell command. The same fingerprint gate script covers 211 entry domains, including lookalikes of Scotiabank, Charles Schwab, Blue Cross Blue Shield, Verizon, ServiceNow and Microsoft Azure. Three lure types: a Windows clipboard command, a macOS terminal or security update that runs a shell command, and archive download pages that tell users to extract and run an executable. Infoblox described this kind of parked-domain monetization in December 2025: parked-domain traffic is sold to advertisers and routed through third-party TDSs.
+
+- Route 2, Net Guard: eight typosquats for Claude, DeepSeek, Copilot, ElevenLabs and Voice AI lead to fake "Security Check" pages. The download is Net Guard, which poses as a Wi-Fi and DNS safety scanner, and Island says it is the unmodified Microsoft Store app, byte-for-byte identical with Microsoft's Store signature. The MSIX hash matches the legitimate app, so hash reputation and signature checks will not flag it. The hidden browser control ships in every copy and switches on without asking. It waits until the user is idle, then takes over Chrome's search settings; it can also edit browser profiles, install arbitrary Chrome extensions, and run JavaScript on instructions from the operator's server.
+
+- Route 3, search hijack: preplexity[.]ai redirects to the Quick Search extension in the Chrome Web Store. It is one of 16 live extensions, including GPT for Chrome with 80,000 users, totaling 972,000 declared users as of November 3, 2026. Quick Search needs no executable JavaScript or declared permissions. Its manifest overrides the default search provider with find.flashysearches[.]com, so every query goes to a third party. In a workplace that can leak internal hostnames, customer names and project details.
+
+DFIR angle: the three routes leave different evidence. ClickFix is a user-run command, so look for the PowerShell or shell command, or an extracted executable, that follows a visit to a lookalike or bank-style domain. Net Guard is a signed Store app, so triage by behavior: unexpected default search engine changes in Chrome while the user was idle, modified browser profiles, and extensions nobody approved. For the extension family, review installed extensions for manifests that override the search provider, and search proxy or DNS logs for find.flashysearches[.]com to scope which users and queries were exposed.
+
+Takeaway: pivot DNS and proxy logs for the lookalike domains above, and for near-miss spellings of AI brands generally, then tie hits to the next process or extension install on that host. Check Chrome extension inventories for the search-provider override to find.flashysearches[.]com, and check endpoints for the Net Guard Store app and unexplained search engine changes. Where a host hit a fake Cloudflare check, preserve the clipboard-launched command and its parent process before triage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121122120755523785</description>
+      <content:encoded><![CDATA[<p>Island&#x27;s TypoPrompting research finds 186 lookalike domains for 27 AI brands, including Claude, ChatGPT, Gemini, Copilot and Grok. Mistyped URLs lead to ClickFix lures, the Net Guard browser hijacker, or a family of search-hijack Chrome extensions with 972,000 declared users.</p><p>- Scope and lookalikes: the domains imitate Anthropic Claude, OpenAI ChatGPT, Google Gemini and Gemini Notebook, Microsoft Copilot, Grok, DeepSeek, Mistral, Perplexity, Midjourney, ElevenLabs, Lovable and Cursor. Examples: cloude[.]ai, cluade[.]ai, clsude[.]ai, chatlgpt[.]com, geimini[.]com, notebookklm[.]com, griok[.]com, preplexity[.]ai, deepceek[.]com, elevenlebs[.]io, copiot[.]com, midj0urney[.]org. Registration records show cloude[.]ai and cluade[.]ai were registered as early as July 13, 2023.</p><p>- Route 1, ClickFix: the parked page starts a redirect chain that fingerprints the browser and collects the public IP, then shows a fake Cloudflare verification page that hands the user a PowerShell command. The same fingerprint gate script covers 211 entry domains, including lookalikes of Scotiabank, Charles Schwab, Blue Cross Blue Shield, Verizon, ServiceNow and Microsoft Azure. Three lure types: a Windows clipboard command, a macOS terminal or security update that runs a shell command, and archive download pages that tell users to extract and run an executable. Infoblox described this kind of parked-domain monetization in December 2025: parked-domain traffic is sold to advertisers and routed through third-party TDSs.</p><p>- Route 2, Net Guard: eight typosquats for Claude, DeepSeek, Copilot, ElevenLabs and Voice AI lead to fake &quot;Security Check&quot; pages. The download is Net Guard, which poses as a Wi-Fi and DNS safety scanner, and Island says it is the unmodified Microsoft Store app, byte-for-byte identical with Microsoft&#x27;s Store signature. The MSIX hash matches the legitimate app, so hash reputation and signature checks will not flag it. The hidden browser control ships in every copy and switches on without asking. It waits until the user is idle, then takes over Chrome&#x27;s search settings; it can also edit browser profiles, install arbitrary Chrome extensions, and run JavaScript on instructions from the operator&#x27;s server.</p><p>- Route 3, search hijack: preplexity[.]ai redirects to the Quick Search extension in the Chrome Web Store. It is one of 16 live extensions, including GPT for Chrome with 80,000 users, totaling 972,000 declared users as of November 3, 2026. Quick Search needs no executable JavaScript or declared permissions. Its manifest overrides the default search provider with find.flashysearches[.]com, so every query goes to a third party. In a workplace that can leak internal hostnames, customer names and project details.</p><p>DFIR angle: the three routes leave different evidence. ClickFix is a user-run command, so look for the PowerShell or shell command, or an extracted executable, that follows a visit to a lookalike or bank-style domain. Net Guard is a signed Store app, so triage by behavior: unexpected default search engine changes in Chrome while the user was idle, modified browser profiles, and extensions nobody approved. For the extension family, review installed extensions for manifests that override the search provider, and search proxy or DNS logs for find.flashysearches[.]com to scope which users and queries were exposed.</p><p>Takeaway: pivot DNS and proxy logs for the lookalike domains above, and for near-miss spellings of AI brands generally, then tie hits to the next process or extension install on that host. Check Chrome extension inventories for the search-provider override to find.flashysearches[.]com, and check endpoints for the Net Guard Store app and unexplained search engine changes. Where a host hit a fake Cloudflare check, preserve the clipboard-launched command and its parent process before triage.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/186-fake-ai-domains-redirect-users-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121122120755523785">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121122120755523785</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121122120755523785">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 06:04:57 +0000</pubDate>
+      <guid isPermaLink="false">2121122120755523785</guid>
+    </item>
     <item>
       <title>Exploit Attempts for GPUStack Authentication Bypass (CVE-2026-102895), (Thu, Nov 12th)</title>
       <link>https://isc.sans.edu/diary/rss/33514</link>
@@ -2346,20 +2372,6 @@ Practitioner takeaway: The critical detection window is RMM enrollment, not init
       <source url="https://x.com/DFIR_Radar/status/2119188703813726662">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 22:02:15 +0000</pubDate>
       <guid isPermaLink="false">2119188703813726662</guid>
-    </item>
-    <item>
-      <title>The bluetooth trust problem we carry in our ears</title>
-      <link>https://www.jamf.com/blog/the-bluetooth-trust-problem-we-carry-in-our-ears/</link>
-      <description>CVE-2025-20701 in Beats Studio Buds let a nearby attacker win a case-open pairing race, bond persistently, and extract the Identity Resolving Key. Update to firmware 1B211; treat unexpected audio routing changes as an investigation trigger.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119173659525070907</description>
-      <content:encoded><![CDATA[<p>CVE-2025-20701 in Beats Studio Buds let a nearby attacker win a case-open pairing race, bond persistently, and extract the Identity Resolving Key. Update to firmware 1B211; treat unexpected audio routing changes as an investigation trigger.</p><p>#DFIR_Radar</p><p><a href="https://www.jamf.com/blog/the-bluetooth-trust-problem-we-carry-in-our-ears/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119173659525070907">View on X</a></p>]]></content:encoded>
-      <dc:creator>Jamf Threat Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119173659525070907</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2119173659525070907">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 21:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2119173659525070907</guid>
     </item>
   </channel>
 </rss>
