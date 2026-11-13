@@ -5,8 +5,44 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 13:02:58 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 14:02:44 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>56 AWS API calls in 141 milliseconds: Inside an AI-run intrusion</title>
+      <link>https://www.elastic.co/security-labs/threat-command/cyberstrikeai-aws-cloudtrail-intrusion</link>
+      <description>One CyberStrikeAI server worked stolen credentials from eight AWS identities across four accounts. It read 56 EC2 user data scripts in 141 ms, went quiet for 14 days, then returned. All 78 alerts were medium or low severity.
+
+Elastic Security Labs saw this between Sep 30 and Oct 16, 2026. The source was 43.240.29[.]11, a server running CyberStrikeAI, an open-source platform that pairs LLM agents with offensive tools. Team Cymru previously tied it to Fortinet edge targeting, and this is the first AWS case Elastic has seen. The report calls it AI-assisted based on tool attribution and machine-speed behavior. It cannot prove an LLM made the decisions, and the initial credential theft is unknown.
+
+- Credentials and attribution: five IAM users and three EC2 instance roles were used. The role sessions were named after instance IDs, so the keys were lifted from the instances, for example via SSRF or host compromise, and replayed from outside. Scan data showed 43.240.29[.]11 serving a CyberStrikeAI page on port 8080 with a self-signed cert (serial 3356730520974368630) the day before the first alert. 43.240.29[.]28 and 43.240.29[.]33 share the cert, hosting (AS133199) and FOFA fid but were not in the AWS telemetry. None of the three serves the interface as of November, so use them for retrospective hunting.
+
+- Attack chain: Phase 1 validated keys with GetCallerIdentity, with three calls landing in one second across three accounts, plus GetSessionToken. Phase 2 had app-role call GetSecretValue, then DescribeInstanceAttribute for userData, 56 calls at about 2.5 ms each. User data often holds hardcoded keys, DB credentials and certificates. Phase 3 pulled secrets from a non-production role. On Oct 2, container-role did GetParameter with decryption, then SSM SendCommand 29 seconds later. Phase 4 on Oct 16 revalidated access and touched a fourth account for the first time.
+
+- Evidence gap: CloudTrail shows that SendCommand was issued, not what ran or whether it worked. That Oct 2 sequence is the highest-risk activity in the data. The report maps the activity to T1078.004, T1087.004, T1552.005, T1555.006 and T1651.
+
+- Detection lesson: six rules fired, and each alert looked routine alone: first-time GetCallerIdentity, GetSessionToken usage, SendCommand by a rare user, SecureString decryption, first-time secret access, and user data retrieval, which made up 58 of the 78 alerts. 65 of the 78 came on day one. Only the shared source IP linked them. A fixed correlation window would have split this into unrelated alerts, especially across the 14-day gap. The report adds two high-severity ES|QL rules: EC2 Bulk User Data Enumeration (more than 20 distinct instances read by one principal and source IP in 10 minutes) and STS GetCallerIdentity Bulk Account Enumeration (three or more distinct non-role identities from the same external IP and ASN in 10 minutes).
+
+Takeaway: pivot CloudTrail on source IP across all accounts, with a lookback of weeks, not hours. Hunt for these patterns:
+
+- DescribeInstanceAttribute for userData in bursts from one role session
+
+- First-time GetCallerIdentity from one external IP across several accounts or users in the same minute
+
+- GetSessionToken or GetSecretValue from an instance role session whose source IP is not the instance or your NAT
+
+- GetParameter with decryption followed within a minute by SendCommand from the same role
+
+For any unexpected SendCommand, review SSM command history for that window and check use of AWS-RunShellScript, AWS-RunPowerShellScript or custom documents, since the audit log will not show the command body. Treat every secret in EC2 user data as exposed, rotate instance roles by replacing the instance profile or instance, and check non-production secrets for overlap with production. Then work backward to how the instance credentials were taken: exposed web apps, SSRF, code repos, IMDS. The full IOC set, including the certificate public key, is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121242357068902810</description>
+      <content:encoded><![CDATA[<p>One CyberStrikeAI server worked stolen credentials from eight AWS identities across four accounts. It read 56 EC2 user data scripts in 141 ms, went quiet for 14 days, then returned. All 78 alerts were medium or low severity.</p><p>Elastic Security Labs saw this between Sep 30 and Oct 16, 2026. The source was 43.240.29[.]11, a server running CyberStrikeAI, an open-source platform that pairs LLM agents with offensive tools. Team Cymru previously tied it to Fortinet edge targeting, and this is the first AWS case Elastic has seen. The report calls it AI-assisted based on tool attribution and machine-speed behavior. It cannot prove an LLM made the decisions, and the initial credential theft is unknown.</p><p>- Credentials and attribution: five IAM users and three EC2 instance roles were used. The role sessions were named after instance IDs, so the keys were lifted from the instances, for example via SSRF or host compromise, and replayed from outside. Scan data showed 43.240.29[.]11 serving a CyberStrikeAI page on port 8080 with a self-signed cert (serial 3356730520974368630) the day before the first alert. 43.240.29[.]28 and 43.240.29[.]33 share the cert, hosting (AS133199) and FOFA fid but were not in the AWS telemetry. None of the three serves the interface as of November, so use them for retrospective hunting.</p><p>- Attack chain: Phase 1 validated keys with GetCallerIdentity, with three calls landing in one second across three accounts, plus GetSessionToken. Phase 2 had app-role call GetSecretValue, then DescribeInstanceAttribute for userData, 56 calls at about 2.5 ms each. User data often holds hardcoded keys, DB credentials and certificates. Phase 3 pulled secrets from a non-production role. On Oct 2, container-role did GetParameter with decryption, then SSM SendCommand 29 seconds later. Phase 4 on Oct 16 revalidated access and touched a fourth account for the first time.</p><p>- Evidence gap: CloudTrail shows that SendCommand was issued, not what ran or whether it worked. That Oct 2 sequence is the highest-risk activity in the data. The report maps the activity to T1078.004, T1087.004, T1552.005, T1555.006 and T1651.</p><p>- Detection lesson: six rules fired, and each alert looked routine alone: first-time GetCallerIdentity, GetSessionToken usage, SendCommand by a rare user, SecureString decryption, first-time secret access, and user data retrieval, which made up 58 of the 78 alerts. 65 of the 78 came on day one. Only the shared source IP linked them. A fixed correlation window would have split this into unrelated alerts, especially across the 14-day gap. The report adds two high-severity ES|QL rules: EC2 Bulk User Data Enumeration (more than 20 distinct instances read by one principal and source IP in 10 minutes) and STS GetCallerIdentity Bulk Account Enumeration (three or more distinct non-role identities from the same external IP and ASN in 10 minutes).</p><p>Takeaway: pivot CloudTrail on source IP across all accounts, with a lookback of weeks, not hours. Hunt for these patterns:</p><p>- DescribeInstanceAttribute for userData in bursts from one role session</p><p>- First-time GetCallerIdentity from one external IP across several accounts or users in the same minute</p><p>- GetSessionToken or GetSecretValue from an instance role session whose source IP is not the instance or your NAT</p><p>- GetParameter with decryption followed within a minute by SendCommand from the same role</p><p>For any unexpected SendCommand, review SSM command history for that window and check use of AWS-RunShellScript, AWS-RunPowerShellScript or custom documents, since the audit log will not show the command body. Treat every secret in EC2 user data as exposed, rotate instance roles by replacing the instance profile or instance, and check non-production secrets for overlap with production. Then work backward to how the instance credentials were taken: exposed web apps, SSRF, code repos, IMDS. The full IOC set, including the certificate public key, is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.elastic.co/security-labs/threat-command/cyberstrikeai-aws-cloudtrail-intrusion">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121242357068902810">View on X</a></p>]]></content:encoded>
+      <dc:creator>Elastic Security Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121242357068902810</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121242357068902810">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 14:02:44 +0000</pubDate>
+      <guid isPermaLink="false">2121242357068902810</guid>
+    </item>
     <item>
       <title>4EverAble2Shell At a Glance</title>
       <link>https://socradar.io/blog/4everable2shell-at-a-glance/</link>
@@ -2382,32 +2418,6 @@ Practitioner takeaway: Patching closes the entry point but leaves everything alr
       <source url="https://x.com/DFIR_Radar/status/2119732378121674987">DFIR Radar</source>
       <pubDate>Mon, 09 Nov 2026 10:02:36 +0000</pubDate>
       <guid isPermaLink="false">2119732378121674987</guid>
-    </item>
-    <item>
-      <title>Home Assistant: the password is not the key: token secrets in cleartext, two token classes never expire, password change revokes none (2026.11.0, live-proven)</title>
-      <link>https://seclists.org/oss-sec/2026/q4/578</link>
-      <description>Home Assistant stores every token secret in cleartext in a single file, and changing your password revokes none of them. Two million smart-home installs are affected across version 2026.11.0, live-proven.
-
-Key findings:
-
-- The file config/.storage/auth holds the secret and per-token JWT signing key for every refresh token for every user, in cleartext. Passwords in the adjacent store are bcrypt-hashed; token secrets are not hashed at all and are validated by direct string comparison. Any read of that file, whether from a backup shared for support, a synced config folder, or a single file-disclosure bug anywhere in the stack, hands an attacker every token secret on the system.
-
-- Two of three token classes carry no expiry. Long-lived and system refresh tokens are created with expire_at = None. Long-lived access tokens, the ones the documentation recommends for scripts, are valid for ten years by default, and the API accepts a caller-supplied lifespan in days with no enforced upper bound.
-
-- Changing the password revokes nothing. All four password-change paths, self-service, administrator, Supervisor reset, and command-line, rehash the password record and make no token call. The researcher confirmed live: a refresh token copied from .storage/auth before a verified password change continued to mint fresh access tokens afterward. A ten-year long-lived token minted before the change still authenticated.
-
-- The automatic-backup password is stored in plaintext in .storage/backup, in the same directory that every backup archives. Every settings backup carries .storage/auth inside it, so restoring a backup resurrects whatever tokens existed at backup time, including ones the user believed were gone.
-
-Takeaway: If you are responding to a Home Assistant compromise or auditing a smart-home environment, examine config/.storage/auth first. Any copy of that file, however old, is a live credential store. Recovery means rotating every token individually, not resetting the password. Identify all long-lived tokens in the file, check their created_at values and stated lifespans, and revoke each one explicitly through the UI or API. Treat any backup that includes .storage/ as a credential exposure incident in its own right and restrict access to it accordingly.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119581421937561953</description>
-      <content:encoded><![CDATA[<p>Home Assistant stores every token secret in cleartext in a single file, and changing your password revokes none of them. Two million smart-home installs are affected across version 2026.11.0, live-proven.</p><p>Key findings:</p><p>- The file config/.storage/auth holds the secret and per-token JWT signing key for every refresh token for every user, in cleartext. Passwords in the adjacent store are bcrypt-hashed; token secrets are not hashed at all and are validated by direct string comparison. Any read of that file, whether from a backup shared for support, a synced config folder, or a single file-disclosure bug anywhere in the stack, hands an attacker every token secret on the system.</p><p>- Two of three token classes carry no expiry. Long-lived and system refresh tokens are created with expire_at = None. Long-lived access tokens, the ones the documentation recommends for scripts, are valid for ten years by default, and the API accepts a caller-supplied lifespan in days with no enforced upper bound.</p><p>- Changing the password revokes nothing. All four password-change paths, self-service, administrator, Supervisor reset, and command-line, rehash the password record and make no token call. The researcher confirmed live: a refresh token copied from .storage/auth before a verified password change continued to mint fresh access tokens afterward. A ten-year long-lived token minted before the change still authenticated.</p><p>- The automatic-backup password is stored in plaintext in .storage/backup, in the same directory that every backup archives. Every settings backup carries .storage/auth inside it, so restoring a backup resurrects whatever tokens existed at backup time, including ones the user believed were gone.</p><p>Takeaway: If you are responding to a Home Assistant compromise or auditing a smart-home environment, examine config/.storage/auth first. Any copy of that file, however old, is a live credential store. Recovery means rotating every token individually, not resetting the password. Identify all long-lived tokens in the file, check their created_at values and stated lifespans, and revoke each one explicitly through the UI or API. Treat any backup that includes .storage/ as a credential exposure incident in its own right and restrict access to it accordingly.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/578">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119581421937561953">View on X</a></p>]]></content:encoded>
-      <dc:creator>OSS-Security Mailing List</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119581421937561953</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2119581421937561953">DFIR Radar</source>
-      <pubDate>Mon, 09 Nov 2026 00:02:46 +0000</pubDate>
-      <guid isPermaLink="false">2119581421937561953</guid>
     </item>
   </channel>
 </rss>
