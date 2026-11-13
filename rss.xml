@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 12:05:01 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 13:02:58 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>4EverAble2Shell At a Glance</title>
+      <link>https://socradar.io/blog/4everable2shell-at-a-glance/</link>
+      <description>4EverAble2Shell, a zero-day chain giving unauthenticated root on on-premises N-able N-central, was exploited for XMRig mining within hours of the PoC. Hotfix 2 does not stop it and no fix exists.
+
+- Exposure and timing: Researcher Sean Bales published the PoC early on November 12, 2026. Sensors logged attempts from 08:24 UTC, a honeypot captured a full chain at 09:16 UTC, and by 12:50 UTC a mining pool listed 21 rigs named after N-central servers. 19 of those 21 were on 2026.4 Hotfix 2 (build 2026.4.1.26). The target must have the Legacy API enabled and internet-facing, which is off by default. The chain has no CVE and is not in CISA KEV.
+
+- Attack chain: Stage 1 sends a crafted SOAP fault to the bundled Apache Axis component, which loads an attacker-named Java class and runs commands as the low-privileged nable service account. It is tied to CVE-2026-90436 (CVSS 9.8, CISA ADP), an Axis 1.x flaw disclosed November 6, 2026, found by José Apari-Pantigozo. Stage 2 abuses a weakness in an N-central helper script to reach root and has no CVE. Hunt for POSTs to /dms/services/ServerUI carrying a SOAP fault with an exceptionName field, and the user agent python-requests/2.31.0.
+
+- Host artifacts: The only payload seen is XMRig, pulled via a shell script named jup[.]sh and limited to half the CPU cores. Check /tmp/.xvd and /var/tmp/.xvd, serverchild-* files in /var/opt/n-central/tmp/, and /var/opt/n-central/flag/flag_default.json as a symlink. Persistence sits in /etc/systemd/system/xvd.service and /etc/cron.d/xvd, plus a crontab line ending in # xvkeep. Process command lines contain rig-id nc_ or donate-level 1 arguments. The privilege escalation script SHA-256 is fc4c01fd11bc301cf312830460cfdccc3af9dcfe50c910b86d6a1117bc76c747.
+
+- Network indicators: 157.20.241[.]16 (ports 8080 and 19202 to 19418), 139.99.69[.]109:10128 and 79.76.51[.]56:39100. N-able says it has identified additional indicators, so a clean result does not prove a clean server.
+
+- Blast radius: Root on an RMM server is far more than a miner. The companion Agent2Shell set bundles more than ten zero-days for SYSTEM execution on managed Windows endpoints, though no exploitation of it has been reported. Behind any exposed server, review SYSTEM-level encoded PowerShell launched by the N-able agent, changes to the Windows Software Probe binaries or service, and new admin accounts, tasks and remote sessions since November 11, 2026 (November 8 for servers not on Hotfix 2). Encoded agent PowerShell is common in normal RMM use, so treat it as a lead, not a verdict.
+
+Takeaway: Disable the Legacy API on every on-premises server, keep Hotfix 2 in place, and put the web and SOAP endpoints behind a VPN rather than relying on IP allowlisting. Then hunt the indicators above, which are listed in the report. If anything matches, treat the server as fully compromised: isolate it, preserve logs and disk evidence, rebuild from a known-good install and rotate every credential N-central holds.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121227318048006272</description>
+      <content:encoded><![CDATA[<p>4EverAble2Shell, a zero-day chain giving unauthenticated root on on-premises N-able N-central, was exploited for XMRig mining within hours of the PoC. Hotfix 2 does not stop it and no fix exists.</p><p>- Exposure and timing: Researcher Sean Bales published the PoC early on November 12, 2026. Sensors logged attempts from 08:24 UTC, a honeypot captured a full chain at 09:16 UTC, and by 12:50 UTC a mining pool listed 21 rigs named after N-central servers. 19 of those 21 were on 2026.4 Hotfix 2 (build 2026.4.1.26). The target must have the Legacy API enabled and internet-facing, which is off by default. The chain has no CVE and is not in CISA KEV.</p><p>- Attack chain: Stage 1 sends a crafted SOAP fault to the bundled Apache Axis component, which loads an attacker-named Java class and runs commands as the low-privileged nable service account. It is tied to CVE-2026-90436 (CVSS 9.8, CISA ADP), an Axis 1.x flaw disclosed November 6, 2026, found by José Apari-Pantigozo. Stage 2 abuses a weakness in an N-central helper script to reach root and has no CVE. Hunt for POSTs to /dms/services/ServerUI carrying a SOAP fault with an exceptionName field, and the user agent python-requests/2.31.0.</p><p>- Host artifacts: The only payload seen is XMRig, pulled via a shell script named jup[.]sh and limited to half the CPU cores. Check /tmp/.xvd and /var/tmp/.xvd, serverchild-* files in /var/opt/n-central/tmp/, and /var/opt/n-central/flag/flag_default.json as a symlink. Persistence sits in /etc/systemd/system/xvd.service and /etc/cron.d/xvd, plus a crontab line ending in # xvkeep. Process command lines contain rig-id nc_ or donate-level 1 arguments. The privilege escalation script SHA-256 is fc4c01fd11bc301cf312830460cfdccc3af9dcfe50c910b86d6a1117bc76c747.</p><p>- Network indicators: 157.20.241[.]16 (ports 8080 and 19202 to 19418), 139.99.69[.]109:10128 and 79.76.51[.]56:39100. N-able says it has identified additional indicators, so a clean result does not prove a clean server.</p><p>- Blast radius: Root on an RMM server is far more than a miner. The companion Agent2Shell set bundles more than ten zero-days for SYSTEM execution on managed Windows endpoints, though no exploitation of it has been reported. Behind any exposed server, review SYSTEM-level encoded PowerShell launched by the N-able agent, changes to the Windows Software Probe binaries or service, and new admin accounts, tasks and remote sessions since November 11, 2026 (November 8 for servers not on Hotfix 2). Encoded agent PowerShell is common in normal RMM use, so treat it as a lead, not a verdict.</p><p>Takeaway: Disable the Legacy API on every on-premises server, keep Hotfix 2 in place, and put the web and SOAP endpoints behind a VPN rather than relying on IP allowlisting. Then hunt the indicators above, which are listed in the report. If anything matches, treat the server as fully compromised: isolate it, preserve logs and disk evidence, rebuild from a known-good install and rotate every credential N-central holds.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/4everable2shell-at-a-glance/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121227318048006272">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121227318048006272</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121227318048006272">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 13:02:58 +0000</pubDate>
+      <guid isPermaLink="false">2121227318048006272</guid>
+    </item>
     <item>
       <title>Check Point warns of zero-day flaw exploited for root access</title>
       <link>https://www.bleepingcomputer.com/news/security/check-point-patches-zero-day-that-lets-hackers-get-root-access/</link>
@@ -2382,20 +2408,6 @@ Takeaway: If you are responding to a Home Assistant compromise or auditing a sma
       <source url="https://x.com/DFIR_Radar/status/2119581421937561953">DFIR Radar</source>
       <pubDate>Mon, 09 Nov 2026 00:02:46 +0000</pubDate>
       <guid isPermaLink="false">2119581421937561953</guid>
-    </item>
-    <item>
-      <title>How to Install SIFT Workstation and REMnux on the Same System</title>
-      <link>https://zeltser.com/sift-workstation-and-remnux</link>
-      <description>SIFT Workstation and REMnux can be merged on one Ubuntu 24.04 system using Cast in server mode and the REMnux addon installer. Install the base distro matching your primary work, then layer the second on top.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119475637165400073</description>
-      <content:encoded><![CDATA[<p>SIFT Workstation and REMnux can be merged on one Ubuntu 24.04 system using Cast in server mode and the REMnux addon installer. Install the base distro matching your primary work, then layer the second on top.</p><p>#DFIR_Radar</p><p><a href="https://zeltser.com/sift-workstation-and-remnux">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119475637165400073">View on X</a></p>]]></content:encoded>
-      <dc:creator>Lenny Zeltser</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119475637165400073</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2119475637165400073">DFIR Radar</source>
-      <pubDate>Sun, 08 Nov 2026 17:02:25 +0000</pubDate>
-      <guid isPermaLink="false">2119475637165400073</guid>
     </item>
   </channel>
 </rss>
