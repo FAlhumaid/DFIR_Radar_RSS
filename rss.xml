@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 02:04:31 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 03:02:21 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Beware of phishing emails disguised as purchase order confirmation requests (Xloader)</title>
+      <link>https://asec.ahnlab.com/en/96513/</link>
+      <description>A phishing email posing as a purchase order confirmation request delivers XLoader 8.9 through a DOCX that abuses Word's altChunk import feature to run an embedded RTF. The chain ends in an in-memory loader and registry-resident PowerShell persistence, so most of the evidence sits in %TMP% and HKCU rather than in a dropped executable. ASEC documented the case.
+
+- Delivery: the email body tells the recipient to open an attached DOCX to verify a purchase order. Inside the DOCX, Word's "Import Content from Another Document (altChunk)" feature pulls in a malicious RTF. When Word processes that RTF, an OLE object writes a VBS file to %TMP%\724812.vbs. A second OLE object exploiting CVE-2017-11882, the Equation Editor flaw, then runs it with: CmD.exe/Ccscript %tmp%\724812.vbs. Expect the Equation Editor process (EQNEDT32.EXE), not WINWORD.EXE, as the parent of cmd.exe, with cscript beneath it.
+
+- Staging: the VBS holds Base64-encoded data that it saves as %TMP%\Quisque.Dal, and it launches the first-stage PowerShell script embedded inside it. Once decoded, the data file has three parts: a loader at offsets 0X0 to 0X284, the payload at 0X285 to 0X57A7C, and a secondary PowerShell script at 0X57A7D to 0X5C997. Those offsets are useful if you carve the file from a triage image.
+
+- Registry persistence: the primary PowerShell script writes three values. HKCU\Environment\TORO holds the PowerShell.exe path. HKCU\SOFTWARE\AppDataLow\Laboris holds the primary PowerShell script itself. HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\Cupidatat holds a command that reads Laboris from HKCU:\SOFTWARE\AppDataLow\ and runs it through %TORO% with -w 1, so the script re-executes at each logon. The script body lives in the registry, not on disk.
+
+- Execution and payload: the first script decrypts Quisque.Dal and runs the second PowerShell script, which launches the loader and passes it the encrypted payload as an argument. The loader decrypts it with XOR key 0X6B506102 and executes it in memory. The final payload is XLoader, an infostealer that collects PC details and browser data and can download additional malware. The C2 is hxxp://www.dumbsplash[.]com/ilto/.
+
+- Why it matters: the lure is plain business email, and the exploited flaw is an old, well-known Equation Editor bug. Equation Editor spawning a command shell and script host is the main detection point, and the in-memory loader leaves little on disk beyond the VBS and the data file.
+
+Takeaway: on a suspected host, check %TMP% for 724812.vbs and Quisque.Dal even if they were deleted, and pull the Cupidatat, TORO, and Laboris values from the user's NTUSER.DAT. Hunt for EQNEDT32.EXE spawning cmd.exe or cscript, PowerShell launched with -w 1 from a Run key, and traffic to dumbsplash[.]com. The report lists the file paths, registry entries, XOR key, and C2, and does not include hashes or detection rules. Also review the mail gateway for DOCX attachments carrying an altChunk RTF.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121076167608258691</description>
+      <content:encoded><![CDATA[<p>A phishing email posing as a purchase order confirmation request delivers XLoader 8.9 through a DOCX that abuses Word&#x27;s altChunk import feature to run an embedded RTF. The chain ends in an in-memory loader and registry-resident PowerShell persistence, so most of the evidence sits in %TMP% and HKCU rather than in a dropped executable. ASEC documented the case.</p><p>- Delivery: the email body tells the recipient to open an attached DOCX to verify a purchase order. Inside the DOCX, Word&#x27;s &quot;Import Content from Another Document (altChunk)&quot; feature pulls in a malicious RTF. When Word processes that RTF, an OLE object writes a VBS file to %TMP%\724812.vbs. A second OLE object exploiting CVE-2017-11882, the Equation Editor flaw, then runs it with: CmD.exe/Ccscript %tmp%\724812.vbs. Expect the Equation Editor process (EQNEDT32.EXE), not WINWORD.EXE, as the parent of cmd.exe, with cscript beneath it.</p><p>- Staging: the VBS holds Base64-encoded data that it saves as %TMP%\Quisque.Dal, and it launches the first-stage PowerShell script embedded inside it. Once decoded, the data file has three parts: a loader at offsets 0X0 to 0X284, the payload at 0X285 to 0X57A7C, and a secondary PowerShell script at 0X57A7D to 0X5C997. Those offsets are useful if you carve the file from a triage image.</p><p>- Registry persistence: the primary PowerShell script writes three values. HKCU\Environment\TORO holds the PowerShell.exe path. HKCU\SOFTWARE\AppDataLow\Laboris holds the primary PowerShell script itself. HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\Cupidatat holds a command that reads Laboris from HKCU:\SOFTWARE\AppDataLow\ and runs it through %TORO% with -w 1, so the script re-executes at each logon. The script body lives in the registry, not on disk.</p><p>- Execution and payload: the first script decrypts Quisque.Dal and runs the second PowerShell script, which launches the loader and passes it the encrypted payload as an argument. The loader decrypts it with XOR key 0X6B506102 and executes it in memory. The final payload is XLoader, an infostealer that collects PC details and browser data and can download additional malware. The C2 is hxxp://www.dumbsplash[.]com/ilto/.</p><p>- Why it matters: the lure is plain business email, and the exploited flaw is an old, well-known Equation Editor bug. Equation Editor spawning a command shell and script host is the main detection point, and the in-memory loader leaves little on disk beyond the VBS and the data file.</p><p>Takeaway: on a suspected host, check %TMP% for 724812.vbs and Quisque.Dal even if they were deleted, and pull the Cupidatat, TORO, and Laboris values from the user&#x27;s NTUSER.DAT. Hunt for EQNEDT32.EXE spawning cmd.exe or cscript, PowerShell launched with -w 1 from a Run key, and traffic to dumbsplash[.]com. The report lists the file paths, registry entries, XOR key, and C2, and does not include hashes or detection rules. Also review the mail gateway for DOCX attachments carrying an altChunk RTF.</p><p>#DFIR_Radar</p><p><a href="https://asec.ahnlab.com/en/96513/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121076167608258691">View on X</a></p>]]></content:encoded>
+      <dc:creator>AhnLab ASEC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121076167608258691</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2121076167608258691">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 03:02:21 +0000</pubDate>
+      <guid isPermaLink="false">2121076167608258691</guid>
+    </item>
     <item>
       <title>New worm-like 'SCKit' malware targets MSPs in ScreenConnect attacks</title>
       <link>https://www.bleepingcomputer.com/news/security/new-worm-like-sckit-malware-targets-msps-in-screenconnect-attacks/</link>
@@ -2332,20 +2358,6 @@ Hunt for ARTEX exposure in your environment by checking for unexpected processes
       <source url="https://x.com/DFIR_Radar/status/2119143489917079671">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 19:02:35 +0000</pubDate>
       <guid isPermaLink="false">2119143489917079671</guid>
-    </item>
-    <item>
-      <title>Attacks on supermarket and blood storage systems prompt US warning</title>
-      <link>https://www.malwarebytes.com/blog/news/2026/11/attacks-on-supermarket-and-blood-storage-systems-prompt-us-warning</link>
-      <description>CISA and FBI warned that default passwords and unsecured internet exposure let attackers manipulate European supermarket and blood-storage refrigeration systems. Audit OT cold-chain controllers for public internet exposure and default credentials.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119128307136348639</description>
-      <content:encoded><![CDATA[<p>CISA and FBI warned that default passwords and unsecured internet exposure let attackers manipulate European supermarket and blood-storage refrigeration systems. Audit OT cold-chain controllers for public internet exposure and default credentials.</p><p>#DFIR_Radar</p><p><a href="https://www.malwarebytes.com/blog/news/2026/11/attacks-on-supermarket-and-blood-storage-systems-prompt-us-warning">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119128307136348639">View on X</a></p>]]></content:encoded>
-      <dc:creator>Malwarebytes Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119128307136348639</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119128307136348639">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 18:02:15 +0000</pubDate>
-      <guid isPermaLink="false">2119128307136348639</guid>
     </item>
   </channel>
 </rss>
