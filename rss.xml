@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 17:03:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 18:03:26 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Check Point gateways hacked via PHP2Shell to deploy VMware ESXi wiper</title>
+      <link>https://www.bleepingcomputer.com/news/security/check-point-gateways-hacked-via-php2shell-to-deploy-vmware-esxi-wiper/</link>
+      <description>Check Point Security Gateways with exposed Mobile Access portals were breached via PHP2Shell, escalated to root, and used as a launchpad into VMware ESXi hosts, where a wiper called destroy_v6 deleted data. The first wave hit Israeli 🇮🇱 organizations starting October 30.
+
+- Initial access: PHP2Shell is the name for two critical PHP flaws, CVE-2026-109618 and CVE-2026-109619, that allow unauthenticated RCE. PHP shipped emergency patches on October 21, but Amazon Threat Intelligence saw exploitation attempts four days earlier. CISA added both to KEV on October 26 and warned of chaining with the Fragnesia Linux kernel flaw for root. In these intrusions, the actor came in through the gateway Mobile Access portal and then used a newly disclosed zero-day, CVE-2026-123039, to get root.
+
+- Persistence and tooling: with root, the actor installed PHP webshells and the TSGA backdoor, which embeds a networking component called TSProxy that listens for operator commands hidden inside regular traffic. Check Point tentatively links TSGA and TSProxy to PhiliKit, a framework previously seen in Ivanti appliance attacks and tied by ESET to the Chinese 🇨🇳 cluster UNC5221. Attribution is not confident, and political messages left during the destructive stage raise the possibility of a false flag.
+
+- Lateral movement and impact: in the Israeli 🇮🇱 cases, the actor located ESXi hosts with the open-source gogo scanner, moved from the gateway, and ran destroy_v6. It recursively deletes data in a target directory, first trying a zero fill to hinder recovery, with a fast mode that skips the overwrite. A note named DREAM_ANNEXATION.txt references Dream Security Ltd., carries political messages, and rejects ransom negotiation, which points to damage and disruption as the goal.
+
+- Scope: a second wave on November 2 hit organizations across multiple countries and sectors. Check Point did not see destructive activity there, and what the actors did after access remains unclear. Treat any exposed gateway as potentially compromised even without a wiper event.
+
+- Evidence to check on previously exposed gateways, per Check Point: session files containing upload_progress_pwn, unexpected CPconfigdaemon processes or binaries, and unexplained gaps in firewall logs. Unauthorized SSH from the gateway to internal ESXi hosts is a clear sign of breach.
+
+Takeaway: if a gateway had an internet-facing Mobile Access portal, scope it before you patch. Preserve the session files, process listing, and firewall logs first, since log gaps are themselves an indicator. Then review ESXi authentication records for SSH originating from the gateway's address, and check datastores and directories for DREAM_ANNEXATION.txt. Because the wiper overwrites data, recovery depends on offline or off-host backups, so confirm those are intact. After evidence is captured, install the November Jumbo Hotfix on all Management Servers and Security Gateways, starting with those that have exposed Mobile Access portals. It covers PHP2Shell and the DynamicCLI privilege escalation flaw used in the attacks.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121302934445064247</description>
+      <content:encoded><![CDATA[<p>Check Point Security Gateways with exposed Mobile Access portals were breached via PHP2Shell, escalated to root, and used as a launchpad into VMware ESXi hosts, where a wiper called destroy_v6 deleted data. The first wave hit Israeli 🇮🇱 organizations starting October 30.</p><p>- Initial access: PHP2Shell is the name for two critical PHP flaws, CVE-2026-109618 and CVE-2026-109619, that allow unauthenticated RCE. PHP shipped emergency patches on October 21, but Amazon Threat Intelligence saw exploitation attempts four days earlier. CISA added both to KEV on October 26 and warned of chaining with the Fragnesia Linux kernel flaw for root. In these intrusions, the actor came in through the gateway Mobile Access portal and then used a newly disclosed zero-day, CVE-2026-123039, to get root.</p><p>- Persistence and tooling: with root, the actor installed PHP webshells and the TSGA backdoor, which embeds a networking component called TSProxy that listens for operator commands hidden inside regular traffic. Check Point tentatively links TSGA and TSProxy to PhiliKit, a framework previously seen in Ivanti appliance attacks and tied by ESET to the Chinese 🇨🇳 cluster UNC5221. Attribution is not confident, and political messages left during the destructive stage raise the possibility of a false flag.</p><p>- Lateral movement and impact: in the Israeli 🇮🇱 cases, the actor located ESXi hosts with the open-source gogo scanner, moved from the gateway, and ran destroy_v6. It recursively deletes data in a target directory, first trying a zero fill to hinder recovery, with a fast mode that skips the overwrite. A note named DREAM_ANNEXATION.txt references Dream Security Ltd., carries political messages, and rejects ransom negotiation, which points to damage and disruption as the goal.</p><p>- Scope: a second wave on November 2 hit organizations across multiple countries and sectors. Check Point did not see destructive activity there, and what the actors did after access remains unclear. Treat any exposed gateway as potentially compromised even without a wiper event.</p><p>- Evidence to check on previously exposed gateways, per Check Point: session files containing upload_progress_pwn, unexpected CPconfigdaemon processes or binaries, and unexplained gaps in firewall logs. Unauthorized SSH from the gateway to internal ESXi hosts is a clear sign of breach.</p><p>Takeaway: if a gateway had an internet-facing Mobile Access portal, scope it before you patch. Preserve the session files, process listing, and firewall logs first, since log gaps are themselves an indicator. Then review ESXi authentication records for SSH originating from the gateway&#x27;s address, and check datastores and directories for DREAM_ANNEXATION.txt. Because the wiper overwrites data, recovery depends on offline or off-host backups, so confirm those are intact. After evidence is captured, install the November Jumbo Hotfix on all Management Servers and Security Gateways, starting with those that have exposed Mobile Access portals. It covers PHP2Shell and the DynamicCLI privilege escalation flaw used in the attacks.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/check-point-gateways-hacked-via-php2shell-to-deploy-vmware-esxi-wiper/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121302934445064247">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121302934445064247</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121302934445064247">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 18:03:26 +0000</pubDate>
+      <guid isPermaLink="false">2121302934445064247</guid>
+    </item>
     <item>
       <title>Inside the loop: Five AI attack frameworks that never ask permission</title>
       <link>https://www.elastic.co/security-labs/threat-command/agentic-offensive-frameworks-detection-artex</link>
@@ -2447,20 +2473,6 @@ Practitioner takeaway: Patching closes the entry point but leaves everything alr
       <source url="https://x.com/DFIR_Radar/status/2119792828213772737">DFIR Radar</source>
       <pubDate>Mon, 09 Nov 2026 14:02:49 +0000</pubDate>
       <guid isPermaLink="false">2119792828213772737</guid>
-    </item>
-    <item>
-      <title>CISA and the FBI Warn Of Attacks against Industrial Refrigeration Controllers</title>
-      <link>https://securityaffairs.com/202730/hacking/cisa-and-the-fbi-warn-of-attacks-against-industrial-refrigeration-controllers.html</link>
-      <description>CISA and FBI warn attackers are remotely forcing industrial refrigeration controllers into heating cycles via auth bypass and weak configs. Audit internet-exposed OT panels, review controller logs, and segment refrigeration networks from IT.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119777607118160033</description>
-      <content:encoded><![CDATA[<p>CISA and FBI warn attackers are remotely forcing industrial refrigeration controllers into heating cycles via auth bypass and weak configs. Audit internet-exposed OT panels, review controller logs, and segment refrigeration networks from IT.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/202730/hacking/cisa-and-the-fbi-warn-of-attacks-against-industrial-refrigeration-controllers.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119777607118160033">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119777607118160033</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119777607118160033">DFIR Radar</source>
-      <pubDate>Mon, 09 Nov 2026 13:02:20 +0000</pubDate>
-      <guid isPermaLink="false">2119777607118160033</guid>
     </item>
   </channel>
 </rss>
