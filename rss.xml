@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 07:04:03 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 08:03:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Crafty Microsoft Teams Booking Flow Disguises Device Code Phishing</title>
+      <link>https://www.huntress.com/blog/crafty-microsoft-teams-booking-flow-disguises-device-code-phishing</link>
+      <description>Device code phishing disguised as a Microsoft Teams meeting booking: the device code is shown as a "Booking Reference" on a fake executive scheduler page. Huntress SOC contained it before escalation.
+
+- Lure and delivery: In mid-October, a construction-industry employee got a spear-phishing email from a typosquatted domain impersonating a real senior vice president at another construction company. The link was wrapped by Microsoft Safe Links (nam12.safelinks[.]protection.outlook[.]com), then went to a Google short link (share[.]google/?q=UltJkMsVWI5V9GJM1), then www[.]google[.]com/share.google, then the lure page. The email body only held the Google link, which sidestepped URL reputation checks (T1566.002). The lure domain was set up with Zoho Mail and registered eight days before the incident (T1583.001).
+
+- The disguise: The page mimics a Teams "Introductory call" scheduler with the executive's headshot. Date, time, and name entries are never sent anywhere. On "Continue," the page POSTs to hxxps://gpimmlgration[.]com/static-export/api/device/start, which silently starts a real Microsoft device-code sign-in and returns the user_code. The victim sees it as a "Booking Reference," and "Copy" or "Confirm Meeting" puts it on the clipboard and pops Microsoft's genuine device-login page. After success, the victim lands on a Calendly page so nothing looks wrong.
+
+- Kit tradecraft: The lure page is a small loader holding the real kit as AES-256-GCM ciphertext (T1027.013), with key and IV beside it. The browser decrypts it via WebCrypto, so a crawler that does not run JavaScript sees only a blob. Fallbacks keep the victim moving: a fake "WinHello" verification pop-up if the backend returns a mirror_url, and a token-mode retry on AADSTS50076 or interaction_required that starts a fresh device-code session and says "A new verification code is being prepared."
+
+- Identity evidence: Successful device-code auth showed as a Cmsi:Cmsi login to Microsoft Authentication Broker (T1528, T1539). The attacker's login was routed through a residential callback proxy (CALLBACK_PROXY, MASSIVE_PROXY) based in New Orleans, so it looked like consumer traffic (T1090). The captured session was replayed from attacker infrastructure, with the ASN and region changing inside the same session ID (T1550.004). The compromised account had no MFA enrolled and was used from a non-compliant, unmanaged device (T1078.004).
+
+- Why it matters: Many prior Huntress cases, particularly the Railway-based M365 token replay campaign, used a generic PDF "verification code" lure. This one wraps the authorization in an everyday task, which lowers the victim's guard.
+
+Takeaway: In Entra sign-in logs, hunt for device-code logins to Microsoft Authentication Broker (Cmsi:Cmsi), programmatic user agents such as python-requests and node (often only in non-interactive logs, sometimes in both), and a session ID whose ASN or region changes mid-session. After a confirmed compromise, check for rogue MFA methods, unrecognized registered devices, unauthorized app consents, suspicious mailbox rules, and suspicious outbound mail. Restrict device-code authentication via conditional access where it is not needed and enforce phishing-resistant MFA. IOCs and the full ATT&amp;CK mapping are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121151967451807989</description>
+      <content:encoded><![CDATA[<p>Device code phishing disguised as a Microsoft Teams meeting booking: the device code is shown as a &quot;Booking Reference&quot; on a fake executive scheduler page. Huntress SOC contained it before escalation.</p><p>- Lure and delivery: In mid-October, a construction-industry employee got a spear-phishing email from a typosquatted domain impersonating a real senior vice president at another construction company. The link was wrapped by Microsoft Safe Links (nam12.safelinks[.]protection.outlook[.]com), then went to a Google short link (share[.]google/?q=UltJkMsVWI5V9GJM1), then www[.]google[.]com/share.google, then the lure page. The email body only held the Google link, which sidestepped URL reputation checks (T1566.002). The lure domain was set up with Zoho Mail and registered eight days before the incident (T1583.001).</p><p>- The disguise: The page mimics a Teams &quot;Introductory call&quot; scheduler with the executive&#x27;s headshot. Date, time, and name entries are never sent anywhere. On &quot;Continue,&quot; the page POSTs to hxxps://gpimmlgration[.]com/static-export/api/device/start, which silently starts a real Microsoft device-code sign-in and returns the user_code. The victim sees it as a &quot;Booking Reference,&quot; and &quot;Copy&quot; or &quot;Confirm Meeting&quot; puts it on the clipboard and pops Microsoft&#x27;s genuine device-login page. After success, the victim lands on a Calendly page so nothing looks wrong.</p><p>- Kit tradecraft: The lure page is a small loader holding the real kit as AES-256-GCM ciphertext (T1027.013), with key and IV beside it. The browser decrypts it via WebCrypto, so a crawler that does not run JavaScript sees only a blob. Fallbacks keep the victim moving: a fake &quot;WinHello&quot; verification pop-up if the backend returns a mirror_url, and a token-mode retry on AADSTS50076 or interaction_required that starts a fresh device-code session and says &quot;A new verification code is being prepared.&quot;</p><p>- Identity evidence: Successful device-code auth showed as a Cmsi:Cmsi login to Microsoft Authentication Broker (T1528, T1539). The attacker&#x27;s login was routed through a residential callback proxy (CALLBACK_PROXY, MASSIVE_PROXY) based in New Orleans, so it looked like consumer traffic (T1090). The captured session was replayed from attacker infrastructure, with the ASN and region changing inside the same session ID (T1550.004). The compromised account had no MFA enrolled and was used from a non-compliant, unmanaged device (T1078.004).</p><p>- Why it matters: Many prior Huntress cases, particularly the Railway-based M365 token replay campaign, used a generic PDF &quot;verification code&quot; lure. This one wraps the authorization in an everyday task, which lowers the victim&#x27;s guard.</p><p>Takeaway: In Entra sign-in logs, hunt for device-code logins to Microsoft Authentication Broker (Cmsi:Cmsi), programmatic user agents such as python-requests and node (often only in non-interactive logs, sometimes in both), and a session ID whose ASN or region changes mid-session. After a confirmed compromise, check for rogue MFA methods, unrecognized registered devices, unauthorized app consents, suspicious mailbox rules, and suspicious outbound mail. Restrict device-code authentication via conditional access where it is not needed and enforce phishing-resistant MFA. IOCs and the full ATT&amp;CK mapping are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/crafty-microsoft-teams-booking-flow-disguises-device-code-phishing">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121151967451807989">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121151967451807989</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121151967451807989">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 08:03:33 +0000</pubDate>
+      <guid isPermaLink="false">2121151967451807989</guid>
+    </item>
     <item>
       <title>How attackers turned a Teams meeting booking into a device code phishing trap</title>
       <link>https://www.helpnetsecurity.com/2026/11/13/microsoft-teams-device-code-phishing/</link>
@@ -2358,20 +2384,6 @@ Practitioner takeaway: The critical detection window is RMM enrollment, not init
       <source url="https://x.com/DFIR_Radar/status/2119218950953226410">DFIR Radar</source>
       <pubDate>Sun, 08 Nov 2026 00:02:26 +0000</pubDate>
       <guid isPermaLink="false">2119218950953226410</guid>
-    </item>
-    <item>
-      <title>Hackers Target OpenSSH SSHole Flaw Within Hours of Disclosure, Gain Root on Honeypot</title>
-      <link>https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html</link>
-      <description>CVE-2026-123158 (CVSS 8.1) in OpenSSH on musl-based Alpine Linux exploitation observed within 9 hours. Hunt /var/log/messages for "Accepted password" on asterisk-hash accounts, then patch to 10.6p2.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119203828491071748</description>
-      <content:encoded><![CDATA[<p>CVE-2026-123158 (CVSS 8.1) in OpenSSH on musl-based Alpine Linux exploitation observed within 9 hours. Hunt /var/log/messages for &quot;Accepted password&quot; on asterisk-hash accounts, then patch to 10.6p2.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119203828491071748">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119203828491071748</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119203828491071748">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 23:02:20 +0000</pubDate>
-      <guid isPermaLink="false">2119203828491071748</guid>
     </item>
   </channel>
 </rss>
