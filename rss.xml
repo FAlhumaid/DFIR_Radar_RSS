@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 00:04:58 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 01:02:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026-11-12: SmartApeSG ClickFix campaign pushes CNCmachineRMS RAT</title>
+      <link>https://www.malware-traffic-analysis.net/2026/11/12/index.html</link>
+      <description>SmartApeSG ClickFix traffic from Nov 12, 2026 walks victims through a fake CAPTCHA, an HTA download, and a roughly 74 MB zip that side-loads a DLL to install CNCmachineRMS RAT. LevelBlue Spider Labs tracks the same chain as BabaDeda.
+
+- The lure: SmartApeSG traffic from cashewminaret[.]org serves a fake CAPTCHA/verification page. The requests are hxxps://cashewminaret[.]org/identity/reset-layout.js, hxxps://cashewminaret[.]org/identity/middleware-build?oSGDPy5P and hxxps://cashewminaret[.]org/identity/gateway-dom.js?18e76625db12fb1d. The page injects ClickFix text that the victim is told to paste into a Windows Run window. The user launches the first stage themselves, so there is no exploit and no attachment to catch.
+
+- Stage 1: the pasted command pulls an HTML-text file from hxxps://orchardandbarite[.]com/spa (40,301 bytes, SHA-256 2eb387df728fc6f5dd2dcffaf1883cbf8c5e0c489f6cb38021d67f856ee669d0). It lands as C:\Users\[username]\AppData\Local\NHEWS.hta. The report describes it as an HTA that retrieves and installs the zip archive for the RAT.
+
+- Stage 2: the HTA fetches hxxps://orchardandbarite[.]com/gross, a zip of 73,912,559 bytes (SHA-256 101e9ac653ccd341e36fae84a5c6920dff47a41822e87db4c72e36da4830d707). It is saved as C:\Users\[username]\AppData\Local\Microsoft\Windows\packwindata\packwindata.pdf. That is a zip archive with a .pdf extension, so an extension/content mismatch is a quick triage cue. The package is built for DLL side-loading of CNCmachineRMS RAT.
+
+- Post-infection: the infected host talks to 87.199.205[.]61 on port 443. The report labels the traffic as encoded C2 for CNCmachineRMS RAT over TCP, not as plain web traffic. The report's references also point to LevelBlue's write-up of CNCmachineRMS as an undocumented RAT at the end of a BabaDeda chain, plus a Netresec post on the CNCMachineRMS C2 protocol.
+
+- Evidence on offer: the report publishes an IOC text file, a full pcap of the infection (about 103 MB) and the malware files (about 74 MB). The zips are password-protected, and the site has a new password scheme explained on its about page. The pcap is useful for building network detections against the encoded C2 and the staged downloads.
+
+Practitioner takeaway: if a host touched the fake CAPTCHA infrastructure, check C:\Users\[username]\AppData\Local for NHEWS.hta and the Microsoft\Windows\packwindata folder for a large file named packwindata.pdf that is really a zip. Preserve both before cleanup, and review what executed alongside them to find the side-loaded DLL host. On the network side, hunt for connections to orchardandbarite[.]com, cashewminaret[.]org and 87.199.205[.]61:443, then scope the user session that pasted the command into Run. IOCs are in the report's text file, and the pcap and sample zips are there for detection testing.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121045918501757041</description>
+      <content:encoded><![CDATA[<p>SmartApeSG ClickFix traffic from Nov 12, 2026 walks victims through a fake CAPTCHA, an HTA download, and a roughly 74 MB zip that side-loads a DLL to install CNCmachineRMS RAT. LevelBlue Spider Labs tracks the same chain as BabaDeda.</p><p>- The lure: SmartApeSG traffic from cashewminaret[.]org serves a fake CAPTCHA/verification page. The requests are hxxps://cashewminaret[.]org/identity/reset-layout.js, hxxps://cashewminaret[.]org/identity/middleware-build?oSGDPy5P and hxxps://cashewminaret[.]org/identity/gateway-dom.js?18e76625db12fb1d. The page injects ClickFix text that the victim is told to paste into a Windows Run window. The user launches the first stage themselves, so there is no exploit and no attachment to catch.</p><p>- Stage 1: the pasted command pulls an HTML-text file from hxxps://orchardandbarite[.]com/spa (40,301 bytes, SHA-256 2eb387df728fc6f5dd2dcffaf1883cbf8c5e0c489f6cb38021d67f856ee669d0). It lands as C:\Users\[username]\AppData\Local\NHEWS.hta. The report describes it as an HTA that retrieves and installs the zip archive for the RAT.</p><p>- Stage 2: the HTA fetches hxxps://orchardandbarite[.]com/gross, a zip of 73,912,559 bytes (SHA-256 101e9ac653ccd341e36fae84a5c6920dff47a41822e87db4c72e36da4830d707). It is saved as C:\Users\[username]\AppData\Local\Microsoft\Windows\packwindata\packwindata.pdf. That is a zip archive with a .pdf extension, so an extension/content mismatch is a quick triage cue. The package is built for DLL side-loading of CNCmachineRMS RAT.</p><p>- Post-infection: the infected host talks to 87.199.205[.]61 on port 443. The report labels the traffic as encoded C2 for CNCmachineRMS RAT over TCP, not as plain web traffic. The report&#x27;s references also point to LevelBlue&#x27;s write-up of CNCmachineRMS as an undocumented RAT at the end of a BabaDeda chain, plus a Netresec post on the CNCMachineRMS C2 protocol.</p><p>- Evidence on offer: the report publishes an IOC text file, a full pcap of the infection (about 103 MB) and the malware files (about 74 MB). The zips are password-protected, and the site has a new password scheme explained on its about page. The pcap is useful for building network detections against the encoded C2 and the staged downloads.</p><p>Practitioner takeaway: if a host touched the fake CAPTCHA infrastructure, check C:\Users\[username]\AppData\Local for NHEWS.hta and the Microsoft\Windows\packwindata folder for a large file named packwindata.pdf that is really a zip. Preserve both before cleanup, and review what executed alongside them to find the side-loaded DLL host. On the network side, hunt for connections to orchardandbarite[.]com, cashewminaret[.]org and 87.199.205[.]61:443, then scope the user session that pasted the command into Run. IOCs are in the report&#x27;s text file, and the pcap and sample zips are there for detection testing.</p><p>#DFIR_Radar</p><p><a href="https://www.malware-traffic-analysis.net/2026/11/12/index.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121045918501757041">View on X</a></p>]]></content:encoded>
+      <dc:creator>Malware Traffic Analysis</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121045918501757041</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2121045918501757041">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 01:02:09 +0000</pubDate>
+      <guid isPermaLink="false">2121045918501757041</guid>
+    </item>
     <item>
       <title>Fake Zillow pages use ClickFix NetSupport RAT to target apartment hunters</title>
       <link>https://www.helpnetsecurity.com/2026/11/13/fake-zillow-clickfix-netsupport-rat/</link>
@@ -2306,20 +2332,6 @@ Hunt for ARTEX exposure in your environment by checking for unexpected processes
       <source url="https://x.com/DFIR_Radar/status/2119113168127431086">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 17:02:05 +0000</pubDate>
       <guid isPermaLink="false">2119113168127431086</guid>
-    </item>
-    <item>
-      <title>Microsoft Paint RCE CVE-2026-83844 Raises Store Update Questions</title>
-      <link>https://socradar.io/blog/microsoft-paint-cve-2026-83844-store-update/</link>
-      <description>CVE-2026-83844, a CVSS 8.1 out-of-bounds read in Microsoft Store Paint, enables network RCE with no privileges or user interaction needed. Run Get-AppxPackage -AllUsers to confirm build 11.2609.401.0 on managed endpoints.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119098176032354520</description>
-      <content:encoded><![CDATA[<p>CVE-2026-83844, a CVSS 8.1 out-of-bounds read in Microsoft Store Paint, enables network RCE with no privileges or user interaction needed. Run Get-AppxPackage -AllUsers to confirm build 11.2609.401.0 on managed endpoints.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/microsoft-paint-cve-2026-83844-store-update/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119098176032354520">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119098176032354520</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119098176032354520">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 16:02:31 +0000</pubDate>
-      <guid isPermaLink="false">2119098176032354520</guid>
     </item>
   </channel>
 </rss>
