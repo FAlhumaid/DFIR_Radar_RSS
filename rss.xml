@@ -5,8 +5,39 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 16:03:47 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 17:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside the loop: Five AI attack frameworks that never ask permission</title>
+      <link>https://www.elastic.co/security-labs/threat-command/agentic-offensive-frameworks-detection-artex</link>
+      <description>ARTEX, CyberStrikeAI, Cairn, PentAGI and HexStrike are LLM-driven attack frameworks already seen in real intrusions. None enforces authorization in code by default, and ARTEX acts in 2 to 25 second bursts.
+
+- Who and where: Together the five have drawn more than 60,000 GitHub stars. GTIG and Mandiant observed ARTEX, Cairn, HexStrike and PentAGI in incident response engagements, and Microsoft attributed ARTEX use to Storm-0940. Elastic Security Labs traced an AI-assisted AWS intrusion to a CyberStrikeAI server. The tools are familiar scanners, curl, shells and cloud CLIs. What is new is a model planning each step and splitting work across agents.
+
+- No guardrails: CyberStrikeAI ships with approval mode off, PentAGI's Compose file sets ASK_USER to false, and ARTEX runs agents in a bypass permission mode. Three frameworks tell the model it is already authorized. Cairn's dispatcher sidelines a refusing worker for five seconds and hands the task to another. The only default target restrictions are blocklists for government domains (ARTEX, CyberStrikeAI) and education domains (ARTEX).
+
+- Blocking is not containment: ARTEX and CyberStrikeAI change route when blocked. GTIG, relaying Wiz Research on UNC7228, reports a fallback to open proxies. CyberStrikeAI skills swap proxies, User-Agents and forwarding headers, then try free proxies in the target's own country, then Tor. Revocation also lags. Entra tokens issued before a disable typically live 60 to 90 minutes without continuous access evaluation. AWS role-session revocation leaves IAM users' long-term keys alone.
+
+- Hunt defaults, which can change per release:
+ARTEX: nuclei, httpx, katana, ffuf and sqlmap traffic, User-Agents artex-enrich/1.0 or norma/0.4, and new app accounts followed by multi-session sign-ins.
+CyberStrikeAI: User-Agent Mozilla/5.0 (compatible; CyberStrikeAI-WebShell/1.0) with a pass form field, a web server process running echo :OSPROBE_%OS%:END, persistence named SystemUpdate or com[.]apple.systemupdate, a .bashrc line ending in # cs, and an [@]reboot cron entry.
+PentAGI: connections to TCP 28000 to 29999 on the PentAGI host, pages requested twice at once, and, from a PentAGI installation on your network, check-ins to update.pentagi[.]com every three hours.
+HexStrike: User-Agents HexStrike-HTTP-Framework/1.0 and HexStrike-BrowserAgent/1.0, the marker &lt;hexstrikeXSSTest123&gt;, and a Python server on port 8888 parenting security tools.
+Cairn: reverse shells and callbacks to the operator host's own address.
+
+- Why IOCs rot: ARTEX logged about 390 commits in ten and a half weeks, and forks carried it on after the original repository came down in October 2026. Several frameworks write or install tools mid-task. Behaviors such as credential access, remote execution and offensive tools started by a service stay stable.
+
+Takeaway: Detect tempo and sequence per identity. Count distinct sensitive actions per identity and issuing role in short windows, then join discovery, secret access and remote execution under one role or source address across sessions, with a long lookback because operations can run for hours. The report includes an ES|QL hunt that flags one-minute windows with three or more client families (curl, Python, browser, AWS client) and a request burst. Its thresholds are three families and 20 requests per minute, so baseline build systems, admin AWS CLI use and shared NAT first. After any source block, revoke the identity's sessions and tokens, then confirm the next request fails.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121287724430774519</description>
+      <content:encoded><![CDATA[<p>ARTEX, CyberStrikeAI, Cairn, PentAGI and HexStrike are LLM-driven attack frameworks already seen in real intrusions. None enforces authorization in code by default, and ARTEX acts in 2 to 25 second bursts.</p><p>- Who and where: Together the five have drawn more than 60,000 GitHub stars. GTIG and Mandiant observed ARTEX, Cairn, HexStrike and PentAGI in incident response engagements, and Microsoft attributed ARTEX use to Storm-0940. Elastic Security Labs traced an AI-assisted AWS intrusion to a CyberStrikeAI server. The tools are familiar scanners, curl, shells and cloud CLIs. What is new is a model planning each step and splitting work across agents.</p><p>- No guardrails: CyberStrikeAI ships with approval mode off, PentAGI&#x27;s Compose file sets ASK_USER to false, and ARTEX runs agents in a bypass permission mode. Three frameworks tell the model it is already authorized. Cairn&#x27;s dispatcher sidelines a refusing worker for five seconds and hands the task to another. The only default target restrictions are blocklists for government domains (ARTEX, CyberStrikeAI) and education domains (ARTEX).</p><p>- Blocking is not containment: ARTEX and CyberStrikeAI change route when blocked. GTIG, relaying Wiz Research on UNC7228, reports a fallback to open proxies. CyberStrikeAI skills swap proxies, User-Agents and forwarding headers, then try free proxies in the target&#x27;s own country, then Tor. Revocation also lags. Entra tokens issued before a disable typically live 60 to 90 minutes without continuous access evaluation. AWS role-session revocation leaves IAM users&#x27; long-term keys alone.</p><p>- Hunt defaults, which can change per release:<br>ARTEX: nuclei, httpx, katana, ffuf and sqlmap traffic, User-Agents artex-enrich/1.0 or norma/0.4, and new app accounts followed by multi-session sign-ins.<br>CyberStrikeAI: User-Agent Mozilla/5.0 (compatible; CyberStrikeAI-WebShell/1.0) with a pass form field, a web server process running echo :OSPROBE_%OS%:END, persistence named SystemUpdate or com[.]apple.systemupdate, a .bashrc line ending in # cs, and an [@]reboot cron entry.<br>PentAGI: connections to TCP 28000 to 29999 on the PentAGI host, pages requested twice at once, and, from a PentAGI installation on your network, check-ins to update.pentagi[.]com every three hours.<br>HexStrike: User-Agents HexStrike-HTTP-Framework/1.0 and HexStrike-BrowserAgent/1.0, the marker &lt;hexstrikeXSSTest123&gt;, and a Python server on port 8888 parenting security tools.<br>Cairn: reverse shells and callbacks to the operator host&#x27;s own address.</p><p>- Why IOCs rot: ARTEX logged about 390 commits in ten and a half weeks, and forks carried it on after the original repository came down in October 2026. Several frameworks write or install tools mid-task. Behaviors such as credential access, remote execution and offensive tools started by a service stay stable.</p><p>Takeaway: Detect tempo and sequence per identity. Count distinct sensitive actions per identity and issuing role in short windows, then join discovery, secret access and remote execution under one role or source address across sessions, with a long lookback because operations can run for hours. The report includes an ES|QL hunt that flags one-minute windows with three or more client families (curl, Python, browser, AWS client) and a request burst. Its thresholds are three families and 20 requests per minute, so baseline build systems, admin AWS CLI use and shared NAT first. After any source block, revoke the identity&#x27;s sessions and tokens, then confirm the next request fails.</p><p>#DFIR_Radar</p><p><a href="https://www.elastic.co/security-labs/threat-command/agentic-offensive-frameworks-detection-artex">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121287724430774519">View on X</a></p>]]></content:encoded>
+      <dc:creator>Elastic Security Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121287724430774519</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121287724430774519">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 17:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2121287724430774519</guid>
+    </item>
     <item>
       <title>PapRAT Campaign Exposes BITTER's Expanding Espionage Toolkit</title>
       <link>https://blog.polyswarm.io/paprat-campaign-exposes-bitters-expanding-espionage-toolkit</link>
@@ -2430,20 +2461,6 @@ Practitioner takeaway: Patching closes the entry point but leaves everything alr
       <source url="https://x.com/DFIR_Radar/status/2119777607118160033">DFIR Radar</source>
       <pubDate>Mon, 09 Nov 2026 13:02:20 +0000</pubDate>
       <guid isPermaLink="false">2119777607118160033</guid>
-    </item>
-    <item>
-      <title>Default 'admin:admin' Server Password Helps Researchers Hack Two Automakers, Unlock and Start Cars</title>
-      <link>https://thehackernews.com/2026/11/default-adminadmin-server-password.html</link>
-      <description>Researchers unlocked and started cars by exploiting a default admin:admin Apache Felix console on PingIDM servers via WAF path-confusion bypass. Audit /system/console on PingIDM deployments and remove or rotate default credentials.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119762633020907832</description>
-      <content:encoded><![CDATA[<p>Researchers unlocked and started cars by exploiting a default admin:admin Apache Felix console on PingIDM servers via WAF path-confusion bypass. Audit /system/console on PingIDM deployments and remove or rotate default credentials.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/default-adminadmin-server-password.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119762633020907832">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119762633020907832</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119762633020907832">DFIR Radar</source>
-      <pubDate>Mon, 09 Nov 2026 12:02:50 +0000</pubDate>
-      <guid isPermaLink="false">2119762633020907832</guid>
     </item>
   </channel>
 </rss>
