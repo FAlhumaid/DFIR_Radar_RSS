@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 15:03:22 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 16:03:47 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>PapRAT Campaign Exposes BITTER's Expanding Espionage Toolkit</title>
+      <link>https://blog.polyswarm.io/paprat-campaign-exposes-bitters-expanding-espionage-toolkit</link>
+      <description>BITTER, a suspected South Asian espionage group, is running three infection chains that deliver PapRAT, a RAT now in both C++ and Rust. One chain abuses ftp.exe, curl, cmd.exe and scheduled tasks to get recon and persistence without dropping a conventional malware binary.
+
+PolySwarm's write-up of FortiGuard Labs research attributes the campaign to BITTER with high confidence, based on lure filenames, C2 patterns, file metadata, malware traits and a link to the earlier WmRAT implant. Targeting is concentrated in South Asia. No national sponsor or full victim list is established.
+
+- Chain 1 (no PE up front): LNK files posing as military program and diplomatic meeting documents call the native ftp.exe and abuse its "!" prefix to run local shell commands. The commands live in files disguised as icons. Scripts create scheduled tasks and use curl to pull more instructions into files such as err.log, which cmd.exe then executes. Recon covers running processes, directories, mounted drives, installed antivirus products and common user folders. Output is staged in abc.pdf before exfiltration.
+
+- Chain 2 (VHDX to MSI): A VHDX disguised as diplomatic correspondence about the 11th Belt and Road Summit exposes a visible LNK plus a hidden spreadsheet and MSI. Opening the shortcut launches the installer and shows the decoy spreadsheet. The MSI drops PapRAT as bruzsvc.exe, posing as a Microsoft component. The C++ build supports eight commands, beacons over plaintext HTTP roughly every ten seconds to a hardcoded C2, and XOR-encodes its C2 config with key 0x50.
+
+- Chain 3 (WebDAV to WmRAT): A RAR posing as a 2026 gala dinner invitation holds a URL shortcut pointing to an attacker WebDAV location. A malicious LNK then runs commands, sets scheduled-task persistence and silently installs PapRAT through an MSI. PapRAT fetches a second executable, vnces.exe, identified as WmRAT, a C++ RAT previously tied to BITTER that does system info collection, screenshots, directory enumeration and remote command execution.
+
+- Rust PapRAT: The newer build moves C2 to HTTPS, waits about 42 seconds, then polls every five seconds. Config strings are hidden with reversed strings and ROT-3 instead of XOR. The command set grows from eight to eleven: MS2 (PowerShell execution), SLP (suspend, then resume polling) and BYE (terminate the process). The report does not say BITTER has dropped the C++ version. Static signatures and plaintext-HTTP network rules will miss the Rust build.
+
+- Why it matters: Operators can change instructions server-side without redeploying malware, and the ftp.exe, curl and cmd.exe chain blends into normal admin activity. Detections keyed to a binary or a script interpreter see little here.
+
+Takeaway: Hunt the chain, not the payload. Look for ftp.exe launched from a shortcut and running script content from a file that looks like an icon, then cmd.exe and curl children. Check for new scheduled tasks created in the same window, and for err.log and abc.pdf appearing in unexpected locations. For the VHDX chain, look for a mounted disk image followed by an MSI install and a bruzsvc.exe masquerading as a Microsoft component. On the network side, watch for beacons at a steady ten-second cadence over HTTP, or the 42-second delay then five-second HTTPS polling of the Rust build. Look for vnces.exe as a follow-on drop. Pivot on the two hashes in the report: the LNK at e3992f8c945b0761242377cba32d91b0a390c7cecd79478439843d93e6d2b76b and PapRAT at 569a21b519aaac8c92f653d708ab6ef34e3f38ea967f47e041d1e2425f6a4b33.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121272820164354063</description>
+      <content:encoded><![CDATA[<p>BITTER, a suspected South Asian espionage group, is running three infection chains that deliver PapRAT, a RAT now in both C++ and Rust. One chain abuses ftp.exe, curl, cmd.exe and scheduled tasks to get recon and persistence without dropping a conventional malware binary.</p><p>PolySwarm&#x27;s write-up of FortiGuard Labs research attributes the campaign to BITTER with high confidence, based on lure filenames, C2 patterns, file metadata, malware traits and a link to the earlier WmRAT implant. Targeting is concentrated in South Asia. No national sponsor or full victim list is established.</p><p>- Chain 1 (no PE up front): LNK files posing as military program and diplomatic meeting documents call the native ftp.exe and abuse its &quot;!&quot; prefix to run local shell commands. The commands live in files disguised as icons. Scripts create scheduled tasks and use curl to pull more instructions into files such as err.log, which cmd.exe then executes. Recon covers running processes, directories, mounted drives, installed antivirus products and common user folders. Output is staged in abc.pdf before exfiltration.</p><p>- Chain 2 (VHDX to MSI): A VHDX disguised as diplomatic correspondence about the 11th Belt and Road Summit exposes a visible LNK plus a hidden spreadsheet and MSI. Opening the shortcut launches the installer and shows the decoy spreadsheet. The MSI drops PapRAT as bruzsvc.exe, posing as a Microsoft component. The C++ build supports eight commands, beacons over plaintext HTTP roughly every ten seconds to a hardcoded C2, and XOR-encodes its C2 config with key 0x50.</p><p>- Chain 3 (WebDAV to WmRAT): A RAR posing as a 2026 gala dinner invitation holds a URL shortcut pointing to an attacker WebDAV location. A malicious LNK then runs commands, sets scheduled-task persistence and silently installs PapRAT through an MSI. PapRAT fetches a second executable, vnces.exe, identified as WmRAT, a C++ RAT previously tied to BITTER that does system info collection, screenshots, directory enumeration and remote command execution.</p><p>- Rust PapRAT: The newer build moves C2 to HTTPS, waits about 42 seconds, then polls every five seconds. Config strings are hidden with reversed strings and ROT-3 instead of XOR. The command set grows from eight to eleven: MS2 (PowerShell execution), SLP (suspend, then resume polling) and BYE (terminate the process). The report does not say BITTER has dropped the C++ version. Static signatures and plaintext-HTTP network rules will miss the Rust build.</p><p>- Why it matters: Operators can change instructions server-side without redeploying malware, and the ftp.exe, curl and cmd.exe chain blends into normal admin activity. Detections keyed to a binary or a script interpreter see little here.</p><p>Takeaway: Hunt the chain, not the payload. Look for ftp.exe launched from a shortcut and running script content from a file that looks like an icon, then cmd.exe and curl children. Check for new scheduled tasks created in the same window, and for err.log and abc.pdf appearing in unexpected locations. For the VHDX chain, look for a mounted disk image followed by an MSI install and a bruzsvc.exe masquerading as a Microsoft component. On the network side, watch for beacons at a steady ten-second cadence over HTTP, or the 42-second delay then five-second HTTPS polling of the Rust build. Look for vnces.exe as a follow-on drop. Pivot on the two hashes in the report: the LNK at e3992f8c945b0761242377cba32d91b0a390c7cecd79478439843d93e6d2b76b and PapRAT at 569a21b519aaac8c92f653d708ab6ef34e3f38ea967f47e041d1e2425f6a4b33.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/paprat-campaign-exposes-bitters-expanding-espionage-toolkit">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121272820164354063">View on X</a></p>]]></content:encoded>
+      <dc:creator>PolySwarm</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121272820164354063</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121272820164354063">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 16:03:47 +0000</pubDate>
+      <guid isPermaLink="false">2121272820164354063</guid>
+    </item>
     <item>
       <title>Unpatched Check Point Gateways Are Being Wiped exploiting PHP2Shell</title>
       <link>https://securityaffairs.com/202982/hacking/unpatched-check-point-gateways-are-being-wiped-exploiting-php2shell.html</link>
@@ -2416,20 +2444,6 @@ Practitioner takeaway: Patching closes the entry point but leaves everything alr
       <source url="https://x.com/DFIR_Radar/status/2119762633020907832">DFIR Radar</source>
       <pubDate>Mon, 09 Nov 2026 12:02:50 +0000</pubDate>
       <guid isPermaLink="false">2119762633020907832</guid>
-    </item>
-    <item>
-      <title>Corium: A New ClickFix Panel Shows How Malware Delivery Is Becoming a Turnkey Business</title>
-      <link>https://www.infostealers.com/article/corium-a-new-clickfix-panel-shows-how-malware-delivery-is-becoming-a-turnkey-business/</link>
-      <description>"Cassiopeia" advertised Corium, a ClickFix campaign panel on Exploit[.]IN, bundling Win+R, search-ms, FileFix, and 14 DLL-hijack variants. Hunt browser-spawned PowerShell and audit CMS logs for injected scripts.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119747337958392089</description>
-      <content:encoded><![CDATA[<p>&quot;Cassiopeia&quot; advertised Corium, a ClickFix campaign panel on Exploit[.]IN, bundling Win+R, search-ms, FileFix, and 14 DLL-hijack variants. Hunt browser-spawned PowerShell and audit CMS logs for injected scripts.</p><p>#DFIR_Radar</p><p><a href="https://www.infostealers.com/article/corium-a-new-clickfix-panel-shows-how-malware-delivery-is-becoming-a-turnkey-business/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119747337958392089">View on X</a></p>]]></content:encoded>
-      <dc:creator>Hudson Rock (InfoStealers)</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119747337958392089</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2119747337958392089">DFIR Radar</source>
-      <pubDate>Mon, 09 Nov 2026 11:02:03 +0000</pubDate>
-      <guid isPermaLink="false">2119747337958392089</guid>
     </item>
   </channel>
 </rss>
