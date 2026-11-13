@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 08:03:33 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 09:05:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers Exploit PHP2Shell Flaws in Check Point Gateways to Deploy TSGA Backdoor and Wipe ESXi Files</title>
+      <link>https://thehackernews.com/2026/11/hackers-exploit-php2shell-flaws-in.html</link>
+      <description>Unpatched Check Point gateways were chained from PHP2Shell web access to root via a new Gaia OS flaw, then used to drop the TSGA backdoor and pivot to ESXi, where the destroy_v6 wiper ran. Attribution is still unresolved.
+
+An unknown actor began hitting Check Point Security Gateways on October 30, 2026, targeting Israeli 🇮🇱 organizations. A broader wave followed on November 2 across multiple countries and sectors, with no clear geographic or sector preference. Check Point says some first-wave victims also suffered destructive activity.
+
+- Initial access: activity from 130.94.19[.]204 hit vulnerable Mobile Access portals about a week after a security fix shipped. Exploitation matched PHP2Shell, tied to CVE-2026-109618 and CVE-2026-109619. The actor then escalated from the portal service account to root using CVE-2026-123039 (CVSS 7.8), a missing authorization flaw in the DynamicCLI process. Any authenticated local user can run arbitrary commands by writing a single request to its socket. It needs local code execution first, and Check Point has seen active exploitation against a couple of dozen customers.
+
+- Affected: R82.20, R82.10, R82, R81.20, R81.10 and R81 of Force Firewalls, Management and Log Servers, Multi-Domain Security Management and Multi-Domain Log Server, and Maestro Orchestrator.
+
+- Persistence: PHP web shells with command execution and file upload, then TSGA, a standalone passive Linux backdoor deployed as slot_CPconfigdaemon. It offers encrypted remote access, configuration theft, backup and snapshot persistence, process injection, and binary firewall-log tampering. Its TSProxy component is injected into selected appliance processes and intercepts networking functions to handle specially marked attacker connections while normal traffic flows on.
+
+- Post-exploitation: the gogo scanner ran on the gateway to map internal assets and services. The actor then moved over SSH to a VMware ESXi host using the vpxuser service account, staged the Linux ELF wiper destroy_v6, and ran it. It recursively deletes all files regardless of extension, after trying to overwrite them with zeros. A DREAM_ANNEXATION.txt note was left in each processed directory.
+
+- Attribution: TSGA and TSProxy are assessed as Check Point-specific components of PhiliKit, first documented by ESET in June 2026 and attributed to China-nexus group Armory Castle (formerly UNC5221). LightNode VPS infrastructure and scanning concentrated between 12 and 9 a.m. UTC also point that way. But the wiper, the Israel 🇮🇱 focus, and the Israeli-Palestine conflict references in the note keep Check Point from linking it with confidence. Plausible scenarios: one actor ran everything, an initial access broker, a false flag, or the destruction was a smoke screen.
+
+Takeaway: treat any unpatched gateway in the affected versions as potentially compromised, not just vulnerable. Check for slot_CPconfigdaemon, PHP web shells anywhere on the gateway, root activity that follows the portal service account, and traffic from 130.94.19[.]204. Because TSGA tampers with binary firewall logs, rely on off-box copies of logs rather than on-box evidence alone. Review ESXi hosts for vpxuser SSH logins that originate from the gateway, and look for DREAM_ANNEXATION.txt and destroy_v6. The wiper overwrites with zeros before deleting, so plan recovery from backups, not carving. Then apply the Check Point fix.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121167571265130634</description>
+      <content:encoded><![CDATA[<p>Unpatched Check Point gateways were chained from PHP2Shell web access to root via a new Gaia OS flaw, then used to drop the TSGA backdoor and pivot to ESXi, where the destroy_v6 wiper ran. Attribution is still unresolved.</p><p>An unknown actor began hitting Check Point Security Gateways on October 30, 2026, targeting Israeli 🇮🇱 organizations. A broader wave followed on November 2 across multiple countries and sectors, with no clear geographic or sector preference. Check Point says some first-wave victims also suffered destructive activity.</p><p>- Initial access: activity from 130.94.19[.]204 hit vulnerable Mobile Access portals about a week after a security fix shipped. Exploitation matched PHP2Shell, tied to CVE-2026-109618 and CVE-2026-109619. The actor then escalated from the portal service account to root using CVE-2026-123039 (CVSS 7.8), a missing authorization flaw in the DynamicCLI process. Any authenticated local user can run arbitrary commands by writing a single request to its socket. It needs local code execution first, and Check Point has seen active exploitation against a couple of dozen customers.</p><p>- Affected: R82.20, R82.10, R82, R81.20, R81.10 and R81 of Force Firewalls, Management and Log Servers, Multi-Domain Security Management and Multi-Domain Log Server, and Maestro Orchestrator.</p><p>- Persistence: PHP web shells with command execution and file upload, then TSGA, a standalone passive Linux backdoor deployed as slot_CPconfigdaemon. It offers encrypted remote access, configuration theft, backup and snapshot persistence, process injection, and binary firewall-log tampering. Its TSProxy component is injected into selected appliance processes and intercepts networking functions to handle specially marked attacker connections while normal traffic flows on.</p><p>- Post-exploitation: the gogo scanner ran on the gateway to map internal assets and services. The actor then moved over SSH to a VMware ESXi host using the vpxuser service account, staged the Linux ELF wiper destroy_v6, and ran it. It recursively deletes all files regardless of extension, after trying to overwrite them with zeros. A DREAM_ANNEXATION.txt note was left in each processed directory.</p><p>- Attribution: TSGA and TSProxy are assessed as Check Point-specific components of PhiliKit, first documented by ESET in June 2026 and attributed to China-nexus group Armory Castle (formerly UNC5221). LightNode VPS infrastructure and scanning concentrated between 12 and 9 a.m. UTC also point that way. But the wiper, the Israel 🇮🇱 focus, and the Israeli-Palestine conflict references in the note keep Check Point from linking it with confidence. Plausible scenarios: one actor ran everything, an initial access broker, a false flag, or the destruction was a smoke screen.</p><p>Takeaway: treat any unpatched gateway in the affected versions as potentially compromised, not just vulnerable. Check for slot_CPconfigdaemon, PHP web shells anywhere on the gateway, root activity that follows the portal service account, and traffic from 130.94.19[.]204. Because TSGA tampers with binary firewall logs, rely on off-box copies of logs rather than on-box evidence alone. Review ESXi hosts for vpxuser SSH logins that originate from the gateway, and look for DREAM_ANNEXATION.txt and destroy_v6. The wiper overwrites with zeros before deleting, so plan recovery from backups, not carving. Then apply the Check Point fix.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/hackers-exploit-php2shell-flaws-in.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121167571265130634">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121167571265130634</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121167571265130634">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 09:05:33 +0000</pubDate>
+      <guid isPermaLink="false">2121167571265130634</guid>
+    </item>
     <item>
       <title>Crafty Microsoft Teams Booking Flow Disguises Device Code Phishing</title>
       <link>https://www.huntress.com/blog/crafty-microsoft-teams-booking-flow-disguises-device-code-phishing</link>
@@ -2370,20 +2398,6 @@ Practitioner takeaway: The critical detection window is RMM enrollment, not init
       <source url="https://x.com/DFIR_Radar/status/2119445324469240159">DFIR Radar</source>
       <pubDate>Sun, 08 Nov 2026 15:01:58 +0000</pubDate>
       <guid isPermaLink="false">2119445324469240159</guid>
-    </item>
-    <item>
-      <title>OpenSSH flaw exploited in the wild just hours after disclosure (CVE-2026-123158)</title>
-      <link>https://www.helpnetsecurity.com/2026/11/06/openssh-sshole-cve-2026-123158-exploitation/</link>
-      <description>CVE-2026-123158 in OpenSSH on musl-based systems is actively exploited, with confirmed root access on a honeypot. Search /var/log/messages for "Accepted password for" on accounts lacking a password hash, then patch and restart sshd.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119218950953226410</description>
-      <content:encoded><![CDATA[<p>CVE-2026-123158 in OpenSSH on musl-based systems is actively exploited, with confirmed root access on a honeypot. Search /var/log/messages for &quot;Accepted password for&quot; on accounts lacking a password hash, then patch and restart sshd.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/11/06/openssh-sshole-cve-2026-123158-exploitation/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119218950953226410">View on X</a></p>]]></content:encoded>
-      <dc:creator>Help Net Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119218950953226410</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119218950953226410">DFIR Radar</source>
-      <pubDate>Sun, 08 Nov 2026 00:02:26 +0000</pubDate>
-      <guid isPermaLink="false">2119218950953226410</guid>
     </item>
   </channel>
 </rss>
