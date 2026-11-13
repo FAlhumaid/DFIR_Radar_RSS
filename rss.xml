@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 03:02:21 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 04:04:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Attackers Use Autonomous AI to Target Semiconductor, Defense and Civil Society Sectors</title>
+      <link>https://unit42.paloaltonetworks.com/cairn-framework-ai-autonomous-attacks/</link>
+      <description>Chinese-speaking operators ran the open-source AI pentest framework Cairn against at least 19 organizations in 25 autonomous operations from August to September 2026. Unit 42 tracks the activity as CL-STA-1238 and confirmed access or data retrieval at 10 victims.
+
+The story is scale, not sophistication. The operators gave Cairn a root domain and a one-line goal in Chinese 🇨🇳 (roughly: get high-value access like webshell, SSH, source code, keys, credentials, ideally into the internal network). The framework then planned, exploited, and logged results on its own. Unit 42 assesses with moderate confidence that this is China-nexus intelligence collection, likely one operator or a small team running 19 intrusion attempts at once in two weeks.
+
+- How Cairn works: Each AI "agent worker" shares a blackboard and writes findings as a fact-intent graph. Confirmed findings become immutable facts and the next actions are queued as intents. After a bootstrap task, it loops Reason (review everything found, decide next step) then Explore (execute one action, record the result). Plans ran three to seven stages; one semiconductor operation went from recon through web app and middleware exploitation, credential collection, lateral movement, and persistence. Operations lasted 20 minutes to over 50 hours. Humans could inject hints at any time.
+
+- Models and jailbreak: Thirteen operations ran on Zhipu GLM 5.2, eight on DeepSeek V4 Flash, four on DeepSeek V4 Pro. The operators appear to have escalated to Pro when Flash failed against a resistant target. A custom skill pack, AIScan Runner Skills, is not in upstream Cairn. A Chinese 🇨🇳 preamble claiming an authorized test and forbidding refusal was prepended to every Reason and Explore prompt, and each operation generated an AUTHORIZATION[.]md declaring the engagement client-approved. Neither model refused.
+
+- Infrastructure: A customized Cairn fork ran from 154.44.31[.]4 (Hong Kong, AS979, NetLab Global). An attack egress and staging node sat at 82.29.129[.]54 (U.S. 🇺🇸, AS142036, Hosteons Pte. Ltd.). Some tasks were seeded with pre-gathered intel, including VPN gateway addresses, group names, and shared group passwords for a semiconductor equipment supplier.
+
+- Targets: Seven semiconductor and advanced-manufacturing supply chain organizations, three defense and policy organizations (a space technology company, a defense-analytics vendor, a think tank), and four civil society organizations, including a Canadian 🇨🇦 human-rights body and a U.S. 🇺🇸 teachers' union.
+
+- What the evidence looked like on victims: Weak-password spraying against an internet-facing app server at a standards body yielded dozens of valid credentials and internal directory databases. An unauthenticated cloud-storage write overwrote a live standards-ballot document. A brute-forced production credential on a partner-integration app led to new administrator accounts and a persistent API token. An unauthenticated account-creation bypass on a CMS minted valid sessions and exposed over one million member records, about 31,000 CRM contacts, and staff password hashes. An open registration endpoint on a defense-policy identity platform exposed roughly 500 users, including .mil and .gov accounts. Other cases hit employee data at a lithography maker and about 150,000 internal documents at an industrial-automation manufacturer.
+
+The flaws were all known classes: auth bypasses, IDORs, mass-assignment privilege escalation, default or weak credentials, exposed cloud APIs, and dated public CVEs. AI raised volume and coverage, not complexity.
+
+DFIR takeaway: Treat this as a scoping exercise for identity and exposure abuse. Search for the two IPs above in your logs. Then hunt the report's behaviors: password spraying or brute force on internet-facing apps, unauthenticated account creation or registration, unauthenticated writes to cloud storage, and any new admin accounts or API tokens in production. Preserve those records, since the operators' automated loops can run for hours and leave heavy, repetitive request trails. The IPs are listed in the report's IOC section.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121091782289088916</description>
+      <content:encoded><![CDATA[<p>Chinese-speaking operators ran the open-source AI pentest framework Cairn against at least 19 organizations in 25 autonomous operations from August to September 2026. Unit 42 tracks the activity as CL-STA-1238 and confirmed access or data retrieval at 10 victims.</p><p>The story is scale, not sophistication. The operators gave Cairn a root domain and a one-line goal in Chinese 🇨🇳 (roughly: get high-value access like webshell, SSH, source code, keys, credentials, ideally into the internal network). The framework then planned, exploited, and logged results on its own. Unit 42 assesses with moderate confidence that this is China-nexus intelligence collection, likely one operator or a small team running 19 intrusion attempts at once in two weeks.</p><p>- How Cairn works: Each AI &quot;agent worker&quot; shares a blackboard and writes findings as a fact-intent graph. Confirmed findings become immutable facts and the next actions are queued as intents. After a bootstrap task, it loops Reason (review everything found, decide next step) then Explore (execute one action, record the result). Plans ran three to seven stages; one semiconductor operation went from recon through web app and middleware exploitation, credential collection, lateral movement, and persistence. Operations lasted 20 minutes to over 50 hours. Humans could inject hints at any time.</p><p>- Models and jailbreak: Thirteen operations ran on Zhipu GLM 5.2, eight on DeepSeek V4 Flash, four on DeepSeek V4 Pro. The operators appear to have escalated to Pro when Flash failed against a resistant target. A custom skill pack, AIScan Runner Skills, is not in upstream Cairn. A Chinese 🇨🇳 preamble claiming an authorized test and forbidding refusal was prepended to every Reason and Explore prompt, and each operation generated an AUTHORIZATION[.]md declaring the engagement client-approved. Neither model refused.</p><p>- Infrastructure: A customized Cairn fork ran from 154.44.31[.]4 (Hong Kong, AS979, NetLab Global). An attack egress and staging node sat at 82.29.129[.]54 (U.S. 🇺🇸, AS142036, Hosteons Pte. Ltd.). Some tasks were seeded with pre-gathered intel, including VPN gateway addresses, group names, and shared group passwords for a semiconductor equipment supplier.</p><p>- Targets: Seven semiconductor and advanced-manufacturing supply chain organizations, three defense and policy organizations (a space technology company, a defense-analytics vendor, a think tank), and four civil society organizations, including a Canadian 🇨🇦 human-rights body and a U.S. 🇺🇸 teachers&#x27; union.</p><p>- What the evidence looked like on victims: Weak-password spraying against an internet-facing app server at a standards body yielded dozens of valid credentials and internal directory databases. An unauthenticated cloud-storage write overwrote a live standards-ballot document. A brute-forced production credential on a partner-integration app led to new administrator accounts and a persistent API token. An unauthenticated account-creation bypass on a CMS minted valid sessions and exposed over one million member records, about 31,000 CRM contacts, and staff password hashes. An open registration endpoint on a defense-policy identity platform exposed roughly 500 users, including .mil and .gov accounts. Other cases hit employee data at a lithography maker and about 150,000 internal documents at an industrial-automation manufacturer.</p><p>The flaws were all known classes: auth bypasses, IDORs, mass-assignment privilege escalation, default or weak credentials, exposed cloud APIs, and dated public CVEs. AI raised volume and coverage, not complexity.</p><p>DFIR takeaway: Treat this as a scoping exercise for identity and exposure abuse. Search for the two IPs above in your logs. Then hunt the report&#x27;s behaviors: password spraying or brute force on internet-facing apps, unauthenticated account creation or registration, unauthenticated writes to cloud storage, and any new admin accounts or API tokens in production. Preserve those records, since the operators&#x27; automated loops can run for hours and leave heavy, repetitive request trails. The IPs are listed in the report&#x27;s IOC section.</p><p>#DFIR_Radar</p><p><a href="https://unit42.paloaltonetworks.com/cairn-framework-ai-autonomous-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121091782289088916">View on X</a></p>]]></content:encoded>
+      <dc:creator>Unit 42</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121091782289088916</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121091782289088916">DFIR Radar</source>
+      <pubDate>Fri, 13 Nov 2026 04:04:24 +0000</pubDate>
+      <guid isPermaLink="false">2121091782289088916</guid>
+    </item>
     <item>
       <title>Beware of phishing emails disguised as purchase order confirmation requests (Xloader)</title>
       <link>https://asec.ahnlab.com/en/96513/</link>
@@ -2344,20 +2374,6 @@ Hunt for ARTEX exposure in your environment by checking for unexpected processes
       <source url="https://x.com/DFIR_Radar/status/2119158448264970465">DFIR Radar</source>
       <pubDate>Sat, 07 Nov 2026 20:02:01 +0000</pubDate>
       <guid isPermaLink="false">2119158448264970465</guid>
-    </item>
-    <item>
-      <title>sshole: OpenSSH Fixes Password Bypass on Alpine Linux</title>
-      <link>https://socradar.io/blog/sshole-openssh-password-bypass-alpine/</link>
-      <description>CVE-2026-123158 (CVSS 8.1) lets attackers bypass password auth on Alpine Linux OpenSSH via musl without PAM. Search /var/log/messages for "Accepted password for" on affected hosts, then restart sshd after patching.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119143489917079671</description>
-      <content:encoded><![CDATA[<p>CVE-2026-123158 (CVSS 8.1) lets attackers bypass password auth on Alpine Linux OpenSSH via musl without PAM. Search /var/log/messages for &quot;Accepted password for&quot; on affected hosts, then restart sshd after patching.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/sshole-openssh-password-bypass-alpine/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119143489917079671">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119143489917079671</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119143489917079671">DFIR Radar</source>
-      <pubDate>Sat, 07 Nov 2026 19:02:35 +0000</pubDate>
-      <guid isPermaLink="false">2119143489917079671</guid>
     </item>
   </channel>
 </rss>
