@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 19:04:18 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 20:04:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Adapting to AI penetration testing orchestrators: The Modern Security Model</title>
+      <link>https://blog.cloudflare.com/adapting-to-ai-penetration-testing-orchestrators/</link>
+      <description>ARTEX-derived LLM pentest frameworks are chaining stolen static CI/CD API tokens to pivot from a hyperscaler into Cloudflare tenants. Hunt for new Worker scripts named artex-*, artex-pgrecon-*, and artex-pgw-*.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121695851676410334</description>
+      <content:encoded><![CDATA[<p>ARTEX-derived LLM pentest frameworks are chaining stolen static CI/CD API tokens to pivot from a hyperscaler into Cloudflare tenants. Hunt for new Worker scripts named artex-*, artex-pgrecon-*, and artex-pgw-*.</p><p>#DFIR_Radar</p><p><a href="https://blog.cloudflare.com/adapting-to-ai-penetration-testing-orchestrators/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121695851676410334">View on X</a></p>]]></content:encoded>
+      <dc:creator>Cloudflare Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121695851676410334</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2121695851676410334">DFIR Radar</source>
+      <pubDate>Sat, 14 Nov 2026 20:04:45 +0000</pubDate>
+      <guid isPermaLink="false">2121695851676410334</guid>
+    </item>
     <item>
       <title>Can Agentic AI Investigate a Phishing Campaign? Evidence Walkthrough</title>
       <link>https://cyble.com/blog/can-agentic-ai-investigate-phishing-campaign/</link>
@@ -2337,32 +2351,6 @@ DFIR takeaway: On any Exchange server in scope, examine C:\Windows\System32\wbem
       <source url="https://x.com/DFIR_Radar/status/2120155278293561362">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 14:03:04 +0000</pubDate>
       <guid isPermaLink="false">2120155278293561362</guid>
-    </item>
-    <item>
-      <title>Formbook Targets European Manufacturing and Technology Businesses with Localized Order Lures</title>
-      <link>https://any.run/cybersecurity-blog/formbook-malware-analysis-november-2026/</link>
-      <description>Formbook/XLoader campaign hits UK 🇬🇧 and Italian 🇮🇹 manufacturing and technology firms with localized procurement lures, using a four-stage chain of obfuscated JavaScript, AES-encrypted PowerShell, and process hollowing to steal browser credentials.
-
-- The infection begins with a ZIP archive containing a heavily obfuscated JavaScript file, Nova narudžba 0148-712.js (SHA-256: a970e997093fcd10d108354423c8fa420a6887ed97cbf7c7dbe3551faa4d9b95), whose Croatian/Bosnian title means "New Order". The JS decodes a Base64-embedded PowerShell payload, writes a randomly named ps_[random]_[timestamp].ps1 script to C:\Temp\ (falling back to %TEMP%), establishes persistence, and launches PowerShell with -ExecutionPolicy Bypass -NoProfile -WindowStyle Hidden -NonInteractive. A WMI watchdog kills the process if it runs beyond 50 seconds. For responders, wscript.exe spawning hidden PowerShell writing randomized scripts to C:\Temp\ is the first pivot point.
-
-- Stage 2 is an AES-256-CBC PowerShell loader (b0ee22dee7a8a9710992294f73069f047d31506b50dc1150ef6013fcd6225ed1) that stores the payload, key, and IV as three Base64 resources, decrypts the next stage in memory via ScriptBlock::Create(), then clears its resource map. The infection is not fully fileless: the original JS and intermediate PS1 remain on disk and are recoverable as forensic evidence.
-
-- Stage 3 delivers GHOST.dll (SHA-256: 2974a808e24e76c1a9fecdaaecebefe27e841204bc1aa20536c32c1f0b309f47), a ConfuserEx-protected .NET injector that hollows Formbook into aspnet_compiler.exe. A watchdog named Operate-Beacon polls every five seconds and reinjects if the process dies, producing 15 aspnet_compiler.exe launches in the sandbox session. Formbook then migrates into rekeywiz.exe, launches Firefox, and drops a randomly named file in %TEMP% to collect browser databases. The same GHOST.dll previously appeared as cloked_data.exe in a separate analysis on October 9, 2026, suggesting loader reuse across builds.
-
-- Persistence uses the naming pattern SystemUpdate_ps_* across three mechanisms: a Run key under HKCU\Software\Microsoft\Windows\CurrentVersion\Run, an attempted Run key under HKLM\Software\Microsoft\Windows\CurrentVersion\Run, and a startup shortcut SystemUpdate_ps_*.lnk in the Windows Startup folder with the description "System Update Service". C2 runs over HTTP port 80 to www.hlushkova[.]top/ef5f/ and www.stanbicfinanceug[.]com/9wgi/ (IPs: 91.234.194[.]113, 2.58.67[.]83, 5.9.115[.]199). A Windows host sending HTTP traffic with an Android 4.1.1 User-Agent is a reliable proxy-log detection signal. The first domain changed resolved IPs during observation, so domain-based blocking is preferable to IP-only controls.
-
-- Threat intelligence correlation shows the C:\Temp\ps_*.ps1 file path pattern appeared in 78 sandbox analyses over 90 days, linked to AgentTesla, DarkCloud, Remcos, XWorm, and Snake. The SystemUpdate_ps_*.lnk persistence artifact appeared in 42 analyses and the registry value in 24, overlapping with AsyncRAT and Snake Keylogger as well. This points to a shared loader or distribution mechanism broader than this single Formbook campaign.
-
-Hunt the execution chain: wscript.exe spawning powershell.exe with hidden parameters, writing ps_*.ps1 to C:\Temp\, followed by repeated aspnet_compiler.exe launches and rekeywiz.exe with an unexpected parent. Correlate with SystemUpdate_ps_*.lnk in the Startup folder and the matching Run key values. The full IOC table, including six file hashes, two domains, two URLs, and three IPs, is in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120139915186876745</description>
-      <content:encoded><![CDATA[<p>Formbook/XLoader campaign hits UK 🇬🇧 and Italian 🇮🇹 manufacturing and technology firms with localized procurement lures, using a four-stage chain of obfuscated JavaScript, AES-encrypted PowerShell, and process hollowing to steal browser credentials.</p><p>- The infection begins with a ZIP archive containing a heavily obfuscated JavaScript file, Nova narudžba 0148-712.js (SHA-256: a970e997093fcd10d108354423c8fa420a6887ed97cbf7c7dbe3551faa4d9b95), whose Croatian/Bosnian title means &quot;New Order&quot;. The JS decodes a Base64-embedded PowerShell payload, writes a randomly named ps_[random]_[timestamp].ps1 script to C:\Temp\ (falling back to %TEMP%), establishes persistence, and launches PowerShell with -ExecutionPolicy Bypass -NoProfile -WindowStyle Hidden -NonInteractive. A WMI watchdog kills the process if it runs beyond 50 seconds. For responders, wscript.exe spawning hidden PowerShell writing randomized scripts to C:\Temp\ is the first pivot point.</p><p>- Stage 2 is an AES-256-CBC PowerShell loader (b0ee22dee7a8a9710992294f73069f047d31506b50dc1150ef6013fcd6225ed1) that stores the payload, key, and IV as three Base64 resources, decrypts the next stage in memory via ScriptBlock::Create(), then clears its resource map. The infection is not fully fileless: the original JS and intermediate PS1 remain on disk and are recoverable as forensic evidence.</p><p>- Stage 3 delivers GHOST.dll (SHA-256: 2974a808e24e76c1a9fecdaaecebefe27e841204bc1aa20536c32c1f0b309f47), a ConfuserEx-protected .NET injector that hollows Formbook into aspnet_compiler.exe. A watchdog named Operate-Beacon polls every five seconds and reinjects if the process dies, producing 15 aspnet_compiler.exe launches in the sandbox session. Formbook then migrates into rekeywiz.exe, launches Firefox, and drops a randomly named file in %TEMP% to collect browser databases. The same GHOST.dll previously appeared as cloked_data.exe in a separate analysis on October 9, 2026, suggesting loader reuse across builds.</p><p>- Persistence uses the naming pattern SystemUpdate_ps_* across three mechanisms: a Run key under HKCU\Software\Microsoft\Windows\CurrentVersion\Run, an attempted Run key under HKLM\Software\Microsoft\Windows\CurrentVersion\Run, and a startup shortcut SystemUpdate_ps_*.lnk in the Windows Startup folder with the description &quot;System Update Service&quot;. C2 runs over HTTP port 80 to www.hlushkova[.]top/ef5f/ and www.stanbicfinanceug[.]com/9wgi/ (IPs: 91.234.194[.]113, 2.58.67[.]83, 5.9.115[.]199). A Windows host sending HTTP traffic with an Android 4.1.1 User-Agent is a reliable proxy-log detection signal. The first domain changed resolved IPs during observation, so domain-based blocking is preferable to IP-only controls.</p><p>- Threat intelligence correlation shows the C:\Temp\ps_*.ps1 file path pattern appeared in 78 sandbox analyses over 90 days, linked to AgentTesla, DarkCloud, Remcos, XWorm, and Snake. The SystemUpdate_ps_*.lnk persistence artifact appeared in 42 analyses and the registry value in 24, overlapping with AsyncRAT and Snake Keylogger as well. This points to a shared loader or distribution mechanism broader than this single Formbook campaign.</p><p>Hunt the execution chain: wscript.exe spawning powershell.exe with hidden parameters, writing ps_*.ps1 to C:\Temp\, followed by repeated aspnet_compiler.exe launches and rekeywiz.exe with an unexpected parent. Correlate with SystemUpdate_ps_*.lnk in the Startup folder and the matching Run key values. The full IOC table, including six file hashes, two domains, two URLs, and three IPs, is in the report.</p><p>#DFIR_Radar</p><p><a href="https://any.run/cybersecurity-blog/formbook-malware-analysis-november-2026/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120139915186876745">View on X</a></p>]]></content:encoded>
-      <dc:creator>ANY.RUN Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120139915186876745</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2120139915186876745">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 13:02:01 +0000</pubDate>
-      <guid isPermaLink="false">2120139915186876745</guid>
     </item>
   </channel>
 </rss>
