@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 22:04:22 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 23:03:49 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-124194: Microsoft Outlook Zero-Day Exploited to Steal NTLM Hashes</title>
+      <link>https://socprime.com/blog/cve-2026-124194-microsoft-outlook-zero-day-exploited-to-steal-ntlm-hashes/</link>
+      <description>Exploited Outlook zero-day CVE-2026-124194 (CVSS 6.5, CISA KEV) leaks NTLMv2 hashes when a crafted message file is opened. Hunt OUTLOOK.EXE making outbound SMB on port 445 to external hosts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121740915911823794</description>
+      <content:encoded><![CDATA[<p>Exploited Outlook zero-day CVE-2026-124194 (CVSS 6.5, CISA KEV) leaks NTLMv2 hashes when a crafted message file is opened. Hunt OUTLOOK.EXE making outbound SMB on port 445 to external hosts.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/cve-2026-124194-microsoft-outlook-zero-day-exploited-to-steal-ntlm-hashes/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121740915911823794">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121740915911823794</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121740915911823794">DFIR Radar</source>
+      <pubDate>Sat, 14 Nov 2026 23:03:49 +0000</pubDate>
+      <guid isPermaLink="false">2121740915911823794</guid>
+    </item>
     <item>
       <title>Calendar Invites and Live Proxies: Inside a Google Session Hijacking Campaign</title>
       <link>https://thehackernews.com/2026/11/calendar-invites-and-live-proxies.html</link>
@@ -2301,32 +2315,6 @@ Practitioners on AhsayCBS: patch CVE-2026-105133 and CVE-2026-105134 immediately
       <source url="https://x.com/DFIR_Radar/status/2120200355195781573">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 17:02:11 +0000</pubDate>
       <guid isPermaLink="false">2120200355195781573</guid>
-    </item>
-    <item>
-      <title>GhostFrame: A new ESXi Implant Linked to Settra Ransomware</title>
-      <link>https://www.recordedfuture.com/blog/ghostframe-esxi-implant-settra-ransomware</link>
-      <description>GhostFrame, a previously undocumented ESXi post-exploitation framework, gives TAG-218 root-to-hypervisor control over VMware environments and has been directly linked to Settra ransomware intrusions targeting US 🇺🇸 and European organizations.
-
-Key findings:
-
-- TAG-218 used GhostFrame alongside MeshCentral RMM after gaining initial access through VPN appliances, predominantly SonicWall, Palo Alto Networks, and Fortinet devices, between late August and October 2026. Activity aligns with CVE-2026-0257, an authentication bypass in Palo Alto Networks GlobalProtect that lets attackers establish VPN sessions without valid credentials or MFA. Four targeted organizations subsequently appeared on the Settra ransomware leak site. On October 12, 2026, a victim Fortinet VPN appliance was observed beaconing to both GhostFrame and MeshCentral simultaneously, placing GhostFrame squarely in the intrusion chain.
-
-- The implant, named vmhostd-core, persists by copying itself to /opt/vmhostd-core and modifying /etc/rc.local.d/local.sh to execute at boot. Every five seconds the boot script re-disables the ESXi firewall and sets execInstalledOnly to 0, so simply re-enabling those controls without removing the persistence mechanism accomplishes nothing. The implant then calls /sbin/auto-backup.sh to survive reboots and masquerades as vmhostd, mimicking VMware's legitimate vmware-hostd daemon at the process level.
-
-- C2 communication is behaviorally distinctive: the implant fires near-simultaneous TCP SYN packets to the same destination IP across six ports, 53, 2222, 3389, 4444, 8443, and 9443, using whichever connects first and dropping the rest. That six-way SYN burst from an ESXi host to a single external IP is a high-fidelity network detection opportunity. Once connected, the implant operates as an in-memory shellcode loader, receiving and executing payloads without writing them to disk.
-
-- From the hypervisor layer GhostFrame reaches every hosted VM without touching them individually. The sdkmon credential interceptor modifies ESXi service configuration to capture authentication traffic from subsequent logins. VMkatz, an integrated open-source tool, extracts NTLM hashes, WDigest credentials, Kerberos tickets, SAM and LSA secrets, and NTDS.dit data via VM memory snapshots or virtual disk images. A SOCKS5 proxy component named gfsox routes traffic through the hypervisor into otherwise unreachable internal segments.
-
-Takeaway: Hunt your ESXi hosts now. Check /etc/rc.local.d/local.sh for added lines calling vmhostd-core or disabling the firewall and execInstalledOnly. Look for a process named vmhostd spawned from an unusual parent path, especially /opt/vmhostd-core. On the network side, write a detection for six near-simultaneous TCP SYN packets from a single ESXi host to the same external IP across the port set above, that pattern is framework-level behavior that survives C2 rotation. IOCs are in the full Insikt Group report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120185327679680724</description>
-      <content:encoded><![CDATA[<p>GhostFrame, a previously undocumented ESXi post-exploitation framework, gives TAG-218 root-to-hypervisor control over VMware environments and has been directly linked to Settra ransomware intrusions targeting US 🇺🇸 and European organizations.</p><p>Key findings:</p><p>- TAG-218 used GhostFrame alongside MeshCentral RMM after gaining initial access through VPN appliances, predominantly SonicWall, Palo Alto Networks, and Fortinet devices, between late August and October 2026. Activity aligns with CVE-2026-0257, an authentication bypass in Palo Alto Networks GlobalProtect that lets attackers establish VPN sessions without valid credentials or MFA. Four targeted organizations subsequently appeared on the Settra ransomware leak site. On October 12, 2026, a victim Fortinet VPN appliance was observed beaconing to both GhostFrame and MeshCentral simultaneously, placing GhostFrame squarely in the intrusion chain.</p><p>- The implant, named vmhostd-core, persists by copying itself to /opt/vmhostd-core and modifying /etc/rc.local.d/local.sh to execute at boot. Every five seconds the boot script re-disables the ESXi firewall and sets execInstalledOnly to 0, so simply re-enabling those controls without removing the persistence mechanism accomplishes nothing. The implant then calls /sbin/auto-backup.sh to survive reboots and masquerades as vmhostd, mimicking VMware&#x27;s legitimate vmware-hostd daemon at the process level.</p><p>- C2 communication is behaviorally distinctive: the implant fires near-simultaneous TCP SYN packets to the same destination IP across six ports, 53, 2222, 3389, 4444, 8443, and 9443, using whichever connects first and dropping the rest. That six-way SYN burst from an ESXi host to a single external IP is a high-fidelity network detection opportunity. Once connected, the implant operates as an in-memory shellcode loader, receiving and executing payloads without writing them to disk.</p><p>- From the hypervisor layer GhostFrame reaches every hosted VM without touching them individually. The sdkmon credential interceptor modifies ESXi service configuration to capture authentication traffic from subsequent logins. VMkatz, an integrated open-source tool, extracts NTLM hashes, WDigest credentials, Kerberos tickets, SAM and LSA secrets, and NTDS.dit data via VM memory snapshots or virtual disk images. A SOCKS5 proxy component named gfsox routes traffic through the hypervisor into otherwise unreachable internal segments.</p><p>Takeaway: Hunt your ESXi hosts now. Check /etc/rc.local.d/local.sh for added lines calling vmhostd-core or disabling the firewall and execInstalledOnly. Look for a process named vmhostd spawned from an unusual parent path, especially /opt/vmhostd-core. On the network side, write a detection for six near-simultaneous TCP SYN packets from a single ESXi host to the same external IP across the port set above, that pattern is framework-level behavior that survives C2 rotation. IOCs are in the full Insikt Group report.</p><p>#DFIR_Radar</p><p><a href="https://www.recordedfuture.com/blog/ghostframe-esxi-implant-settra-ransomware">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120185327679680724">View on X</a></p>]]></content:encoded>
-      <dc:creator>Recorded Future</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120185327679680724</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2120185327679680724">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 16:02:28 +0000</pubDate>
-      <guid isPermaLink="false">2120185327679680724</guid>
     </item>
   </channel>
 </rss>
