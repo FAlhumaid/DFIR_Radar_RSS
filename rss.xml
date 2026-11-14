@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 09:05:19 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 10:04:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>FBI Says North Korean Hackers Stole Over $400 Million in Crypto Using Deepfake Video Calls</title>
+      <link>https://thehackernews.com/2026/11/fbi-says-north-korean-hackers-stole.html</link>
+      <description>FBI ties North Korean 🇰🇵 BlueNoroff's FaceStealer scheme to over $400 million in crypto theft via deepfake Zoom lures. Review Telegram histories for uu01webzoom[.]us links and ClickFix-style fix prompts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121544859337302105</description>
+      <content:encoded><![CDATA[<p>FBI ties North Korean 🇰🇵 BlueNoroff&#x27;s FaceStealer scheme to over $400 million in crypto theft via deepfake Zoom lures. Review Telegram histories for uu01webzoom[.]us links and ClickFix-style fix prompts.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/fbi-says-north-korean-hackers-stole.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121544859337302105">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121544859337302105</comments>
+      <category>LAW ENFORCEMENT</category>
+      <source url="https://x.com/DFIR_Radar/status/2121544859337302105">DFIR Radar</source>
+      <pubDate>Sat, 14 Nov 2026 10:04:46 +0000</pubDate>
+      <guid isPermaLink="false">2121544859337302105</guid>
+    </item>
     <item>
       <title>HTTPd (CVE-2026-119618): Detecting heap corruption and RCE in Apache HTTP Server mod_http2</title>
       <link>https://webflow.sysdig.com/blog/httpd-cve-2026-119618-detecting-heap-corruption-and-rce-in-apache-http-server-mod-http2</link>
@@ -2403,34 +2417,6 @@ Practitioner takeaway: Treat every secret ever exposed in a public repo as compr
       <source url="https://x.com/DFIR_Radar/status/2120034386414555457">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 06:02:41 +0000</pubDate>
       <guid isPermaLink="false">2120034386414555457</guid>
-    </item>
-    <item>
-      <title>Hunting for Suspicious Windows Services: Mind Map</title>
-      <link>https://www.socinvestigation.com/hunting-for-suspicious-windows-services-mind-map/</link>
-      <description>Windows services are a top-tier attacker hiding spot, and most blue teams lack the detection depth to catch malicious service abuse across all six key patterns.
-
-Key findings:
-
-- Remote service creation leaves a correlated evidence chain across two hosts. On the source machine, sc.exe network connections use dynamic RPC ports (TCP 49152-65535). On the destination, Event ID 7045 or 4697 records the new service install within seconds, and Sysmon Event ID 13 captures the registry write to HKLM\System\CurrentControlSet\services\. Correlating 5156 (or Sysmon ID 3) on services.exe with 7045/4697 within one minute on the same ComputerName is the core detection logic. For lateral movement via psexec or paexec, Event ID 5145 fires twice: once for ADMIN$ or C$ share access with WriteData, then again for IPC$ with RelativeTargetName pointing to svcctl.
-
-- Privilege escalation via services has two reliable tells. First, Event ID 4688 or Sysmon ID 1 showing a child process of services.exe whose path falls under C:\Users\ or C:\ProgramData\ rather than a trusted system directory. Second, Event ID 7045, 4697, or Sysmon ID 13 where the event message contains \\.\pipe or %COMSPEC%. COMSPEC is a known evasion because most analyst-written rules omit it, making it a low-noise, high-fidelity hunt term.
-
-- sc.exe renamed and relocated is a standard evasion. The two-part detection: first, process_name equals sc.exe with command_line containing "create"; second, original_file_name equals sc.exe but process_name or process_path does not match the canonical sc.exe locations in System32 or SysWOW64. The second query catches renamed copies running from arbitrary paths, which the first query alone misses entirely.
-
-- Temp service abuse (install-run-disable) is detectable via two sequential Sysmon ID 13 events against the same TargetObject key path under HKLM\System\CurrentControlSet\services\*\start, the first with Details 0x00000003 (demand start) followed by Details 0x00000004 (disabled) within one minute. This pattern matches short-lived services used to execute a payload once and then self-disable to reduce footprint.
-
-- ServiceDll hijacking leaves a Sysmon ID 13 write to HKLM\System\CurrentControlSet\Services\*\parameters\ServiceDll where the writing process is not services.exe. Legitimate DLL registrations come from services.exe; anything else writing that key is worth triaging immediately.
-
-Hunt priority: build correlation rules pairing network events (5156, Sysmon ID 3) with service install events (7045, 4697, Sysmon ID 13) across host pairs within a one-minute window. Add a separate rule for services.exe spawning child processes outside the trusted path exclusions listed in the report (System32, SysWOW64, Program Files, Windows Defender, CCM, .NET Framework paths). These two rules alone will surface most of the attack chains described. IOC-level indicators are not the story here: the registry keys, event ID sequences, and process relationships are the detection surface.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120019346999136486</description>
-      <content:encoded><![CDATA[<p>Windows services are a top-tier attacker hiding spot, and most blue teams lack the detection depth to catch malicious service abuse across all six key patterns.</p><p>Key findings:</p><p>- Remote service creation leaves a correlated evidence chain across two hosts. On the source machine, sc.exe network connections use dynamic RPC ports (TCP 49152-65535). On the destination, Event ID 7045 or 4697 records the new service install within seconds, and Sysmon Event ID 13 captures the registry write to HKLM\System\CurrentControlSet\services\. Correlating 5156 (or Sysmon ID 3) on services.exe with 7045/4697 within one minute on the same ComputerName is the core detection logic. For lateral movement via psexec or paexec, Event ID 5145 fires twice: once for ADMIN$ or C$ share access with WriteData, then again for IPC$ with RelativeTargetName pointing to svcctl.</p><p>- Privilege escalation via services has two reliable tells. First, Event ID 4688 or Sysmon ID 1 showing a child process of services.exe whose path falls under C:\Users\ or C:\ProgramData\ rather than a trusted system directory. Second, Event ID 7045, 4697, or Sysmon ID 13 where the event message contains \\.\pipe or %COMSPEC%. COMSPEC is a known evasion because most analyst-written rules omit it, making it a low-noise, high-fidelity hunt term.</p><p>- sc.exe renamed and relocated is a standard evasion. The two-part detection: first, process_name equals sc.exe with command_line containing &quot;create&quot;; second, original_file_name equals sc.exe but process_name or process_path does not match the canonical sc.exe locations in System32 or SysWOW64. The second query catches renamed copies running from arbitrary paths, which the first query alone misses entirely.</p><p>- Temp service abuse (install-run-disable) is detectable via two sequential Sysmon ID 13 events against the same TargetObject key path under HKLM\System\CurrentControlSet\services\*\start, the first with Details 0x00000003 (demand start) followed by Details 0x00000004 (disabled) within one minute. This pattern matches short-lived services used to execute a payload once and then self-disable to reduce footprint.</p><p>- ServiceDll hijacking leaves a Sysmon ID 13 write to HKLM\System\CurrentControlSet\Services\*\parameters\ServiceDll where the writing process is not services.exe. Legitimate DLL registrations come from services.exe; anything else writing that key is worth triaging immediately.</p><p>Hunt priority: build correlation rules pairing network events (5156, Sysmon ID 3) with service install events (7045, 4697, Sysmon ID 13) across host pairs within a one-minute window. Add a separate rule for services.exe spawning child processes outside the trusted path exclusions listed in the report (System32, SysWOW64, Program Files, Windows Defender, CCM, .NET Framework paths). These two rules alone will surface most of the attack chains described. IOC-level indicators are not the story here: the registry keys, event ID sequences, and process relationships are the detection surface.</p><p>#DFIR_Radar</p><p><a href="https://www.socinvestigation.com/hunting-for-suspicious-windows-services-mind-map/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120019346999136486">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOC Investigation</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120019346999136486</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2120019346999136486">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 05:02:56 +0000</pubDate>
-      <guid isPermaLink="false">2120019346999136486</guid>
     </item>
   </channel>
 </rss>
