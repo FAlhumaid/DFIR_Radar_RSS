@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 08:04:45 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 09:05:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>HTTPd (CVE-2026-119618): Detecting heap corruption and RCE in Apache HTTP Server mod_http2</title>
+      <link>https://webflow.sysdig.com/blog/httpd-cve-2026-119618-detecting-heap-corruption-and-rce-in-apache-http-server-mod-http2</link>
+      <description>CVE-2026-119618 in Apache httpd mod_http2 has a public heap-corruption PoC but no confirmed exploitation or KEV listing. Hunt repeated httpd child segfaults and worker-spawned shells since November 11 disclosure.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121529900075303213</description>
+      <content:encoded><![CDATA[<p>CVE-2026-119618 in Apache httpd mod_http2 has a public heap-corruption PoC but no confirmed exploitation or KEV listing. Hunt repeated httpd child segfaults and worker-spawned shells since November 11 disclosure.</p><p>#DFIR_Radar</p><p><a href="https://webflow.sysdig.com/blog/httpd-cve-2026-119618-detecting-heap-corruption-and-rce-in-apache-http-server-mod-http2">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121529900075303213">View on X</a></p>]]></content:encoded>
+      <dc:creator>Sysdig</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121529900075303213</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121529900075303213">DFIR Radar</source>
+      <pubDate>Sat, 14 Nov 2026 09:05:19 +0000</pubDate>
+      <guid isPermaLink="false">2121529900075303213</guid>
+    </item>
     <item>
       <title>Beware of phishing emails disguised as quote requests (SnakeKeylogger)</title>
       <link>https://asec.ahnlab.com/en/96495/</link>
@@ -2417,34 +2431,6 @@ Hunt priority: build correlation rules pairing network events (5156, Sysmon ID 3
       <source url="https://x.com/DFIR_Radar/status/2120019346999136486">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 05:02:56 +0000</pubDate>
       <guid isPermaLink="false">2120019346999136486</guid>
-    </item>
-    <item>
-      <title>Unveiling AI Infrastructure Vulnerabilities - BTS #85</title>
-      <link>https://eclypsium.com/podcasts/unveiling-ai-infrastructure-vulnerabilities-bts-85/</link>
-      <description>AI model weights can be silently replaced in memory via DMA from a compromised NVIDIA BlueField-3 DPU, leaving disk hashes, signatures, and audit logs completely clean, with no host-side evidence of tampering.
-
-Key findings:
-
-- The attack chain starts at the BMC. IPMI's architectural key-exchange flaw (documented since 2013, still unpatched on roughly 70,000-plus internet-exposed devices by HD Moore's 2026 research) combined with two OpenBMC vulnerabilities, an authentication bypass chained with a privilege escalation, lets an unauthenticated remote attacker reach administrator on the BlueField-3 BMC. From there, Redfish functionality or SSH into the unrestricted BMC shell gives code execution inside the DPU, the independent Linux environment running in the PCIe slot.
-
-- IOMMU pass-through is the pivot. NVIDIA's own DOCA SDK AppShield instructions explicitly direct operators to set the IOMMU to pass-through mode for memory inspection performance. That setting removes the hardware gate on DMA, giving the DPU read and write access to all host CPU memory and GPU HBM. Using an internal DOCA library call, researchers extended the DMA range from zero to top-of-memory, bypassing the negotiated buffer limits AppShield intended.
-
-- Model weights located and replaced at roughly 3 GB per second. The attack walks the Linux kernel task list from DPU DMA to find the Llama server process, follows page tables into both CPU and GPU memory regions, and identifies GGML tensor structures by heuristic. Researchers then performed targeted tensor replacement with weights prepared offline using Heretic (model obliteration to strip refusals) and Unsloth (supervised fine-tuning). In one demonstration, the model's geopolitical risk assessment flipped from low probability to 80 percent likelihood. In another, a developer-facing model began recommending deprecated cryptographic algorithms such as MD5. The entire behavioral change left no modified files on disk, no syslog entry, and no audit event on the host.
-
-- Linux page cache creates a stealth file-write primitive. A naive search-and-replace across all host memory, including kernel filesystem buffers, causes the Linux kernel to write altered cache contents back to disk silently. No file-open event, no audit log entry. The researchers confirmed this by pulling a file into the buffer with read-only access, writing to it via DMA, dropping caches, and reading back the changed content from disk. This extends the attack beyond model weights to any file cached by the kernel, including local audit logs not forwarded to a remote syslog.
-
-- Disk-based integrity checks and boot attestation do not detect this. UEFI Secure Boot and SPDM attest that the system booted the code it was supposed to boot, not that the code is free of vulnerabilities or that model weights remain unchanged at runtime. The researchers built an experimental DPU-side attestation tool that walks Llama server page tables and compares live tensor contents against a baseline, but enabling it requires IOMMU pass-through, the same setting that enables the attack.
-
-Practitioner takeaway: audit every AI server's IOMMU configuration now. Pass-through mode is frequently set by default or by documentation guidance and is not a safe operating posture. If DPU-based memory inspection is required, scope the IOMMU group to restrict DMA to the specific host-DPU pair rather than all devices. Isolate BMC and IPMI management interfaces from production networks, block IPMI where it is not required, and patch OpenBMC deployments against the authentication bypass and privilege escalation disclosed in 2026. For agentic deployments where the model can invoke tools, access credentials, or make network calls, treat an unattested model the same way you would treat an unsigned binary: do not trust its outputs or the tool calls it initiates. The report describes the runtime tensor attestation approach and the full attack chain.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120004268891795745</description>
-      <content:encoded><![CDATA[<p>AI model weights can be silently replaced in memory via DMA from a compromised NVIDIA BlueField-3 DPU, leaving disk hashes, signatures, and audit logs completely clean, with no host-side evidence of tampering.</p><p>Key findings:</p><p>- The attack chain starts at the BMC. IPMI&#x27;s architectural key-exchange flaw (documented since 2013, still unpatched on roughly 70,000-plus internet-exposed devices by HD Moore&#x27;s 2026 research) combined with two OpenBMC vulnerabilities, an authentication bypass chained with a privilege escalation, lets an unauthenticated remote attacker reach administrator on the BlueField-3 BMC. From there, Redfish functionality or SSH into the unrestricted BMC shell gives code execution inside the DPU, the independent Linux environment running in the PCIe slot.</p><p>- IOMMU pass-through is the pivot. NVIDIA&#x27;s own DOCA SDK AppShield instructions explicitly direct operators to set the IOMMU to pass-through mode for memory inspection performance. That setting removes the hardware gate on DMA, giving the DPU read and write access to all host CPU memory and GPU HBM. Using an internal DOCA library call, researchers extended the DMA range from zero to top-of-memory, bypassing the negotiated buffer limits AppShield intended.</p><p>- Model weights located and replaced at roughly 3 GB per second. The attack walks the Linux kernel task list from DPU DMA to find the Llama server process, follows page tables into both CPU and GPU memory regions, and identifies GGML tensor structures by heuristic. Researchers then performed targeted tensor replacement with weights prepared offline using Heretic (model obliteration to strip refusals) and Unsloth (supervised fine-tuning). In one demonstration, the model&#x27;s geopolitical risk assessment flipped from low probability to 80 percent likelihood. In another, a developer-facing model began recommending deprecated cryptographic algorithms such as MD5. The entire behavioral change left no modified files on disk, no syslog entry, and no audit event on the host.</p><p>- Linux page cache creates a stealth file-write primitive. A naive search-and-replace across all host memory, including kernel filesystem buffers, causes the Linux kernel to write altered cache contents back to disk silently. No file-open event, no audit log entry. The researchers confirmed this by pulling a file into the buffer with read-only access, writing to it via DMA, dropping caches, and reading back the changed content from disk. This extends the attack beyond model weights to any file cached by the kernel, including local audit logs not forwarded to a remote syslog.</p><p>- Disk-based integrity checks and boot attestation do not detect this. UEFI Secure Boot and SPDM attest that the system booted the code it was supposed to boot, not that the code is free of vulnerabilities or that model weights remain unchanged at runtime. The researchers built an experimental DPU-side attestation tool that walks Llama server page tables and compares live tensor contents against a baseline, but enabling it requires IOMMU pass-through, the same setting that enables the attack.</p><p>Practitioner takeaway: audit every AI server&#x27;s IOMMU configuration now. Pass-through mode is frequently set by default or by documentation guidance and is not a safe operating posture. If DPU-based memory inspection is required, scope the IOMMU group to restrict DMA to the specific host-DPU pair rather than all devices. Isolate BMC and IPMI management interfaces from production networks, block IPMI where it is not required, and patch OpenBMC deployments against the authentication bypass and privilege escalation disclosed in 2026. For agentic deployments where the model can invoke tools, access credentials, or make network calls, treat an unattested model the same way you would treat an unsigned binary: do not trust its outputs or the tool calls it initiates. The report describes the runtime tensor attestation approach and the full attack chain.</p><p>#DFIR_Radar</p><p><a href="https://eclypsium.com/podcasts/unveiling-ai-infrastructure-vulnerabilities-bts-85/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120004268891795745">View on X</a></p>]]></content:encoded>
-      <dc:creator>Eclypsium</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120004268891795745</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2120004268891795745">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 04:03:00 +0000</pubDate>
-      <guid isPermaLink="false">2120004268891795745</guid>
     </item>
   </channel>
 </rss>
