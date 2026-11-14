@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 13:05:33 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 16:04:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New N-central Exploits Work Against Patched Servers, Enable Root RCE and Windows SYSTEM Access</title>
+      <link>https://thehackernews.com/2026/11/new-n-central-exploits-work-against.html</link>
+      <description>Attackers probe N-central 4EverAble2Shell root RCE via Legacy API, chaining Apache Axis CVE-2026-90436, with no confirmed compromise. Hunt for curl fetching scripts from 157.20.241[.]16 and disable Legacy API.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121635443724726303</description>
+      <content:encoded><![CDATA[<p>Attackers probe N-central 4EverAble2Shell root RCE via Legacy API, chaining Apache Axis CVE-2026-90436, with no confirmed compromise. Hunt for curl fetching scripts from 157.20.241[.]16 and disable Legacy API.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/new-n-central-exploits-work-against.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121635443724726303">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121635443724726303</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121635443724726303">DFIR Radar</source>
+      <pubDate>Sat, 14 Nov 2026 16:04:43 +0000</pubDate>
+      <guid isPermaLink="false">2121635443724726303</guid>
+    </item>
     <item>
       <title>Hackers Exploit N-central Flaws to Infect 21 Servers, Including 19 Running Hotfix 2</title>
       <link>https://thehackernews.com/2026/11/hackers-exploit-n-central-flaws-to.html</link>
@@ -2377,32 +2391,6 @@ Practitioners defending Exchange environments should prioritize process injectio
       <source url="https://x.com/DFIR_Radar/status/2120094722182070495">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 10:02:26 +0000</pubDate>
       <guid isPermaLink="false">2120094722182070495</guid>
-    </item>
-    <item>
-      <title>Re: Rooting ISPs and Hosting Providers with Hyperglass</title>
-      <link>https://seclists.org/oss-sec/2026/q4/626</link>
-      <description>Pre-auth RCE in hyperglass looking-glass software exposes ISP and hosting infrastructure to route injection, host compromise, and credential theft. Eleven root-level shells confirmed across 20 ASNs, all reachable via a single unauthenticated POST.
-
-Key details:
-
-- The root cause is a bare str.format() call in hyperglass/execution/drivers/_construct.py at line 113: command.format(target=self[.]target, mask=mask, **attrs). The default condition="*" directive rule compiles to re.compile(".+").match(), which accepts any non-empty string, so no shell metacharacter is filtered. On FRR, BIRD, OpenBGPD, and TNSR backends mapped to linux_ssh, Netmiko delivers the constructed command to a host bash shell. Affected versions are v2.0.0 through v2.0.4 (current main). The issue is tracked as GitHub issue #383 with fix proposed in PR #382, open for four months before today's public disclosure.
-
-- Three confirmed injection paths: (1) FRR AS-path injection using a quote to close the vtysh argument and $() or ; to execute arbitrary commands, returning the hyperglass service UID unauthenticated. (2) BIRD IPv6 scope-ID injection where Python's ipaddress module accepts arbitrary text after the % in an IPv6 address, so fe80::1%;id passes validation and bash reads the semicolon as a command separator. (3) Cisco IOS newline injection where an embedded newline survives netmiko's rstrip-only normalization and is executed as a second CLI line inside the already-authenticated SSH session, demonstrated against an emulator with 1.1.1.1\nclear ip bgp *.
-
-- Scan scope: 3,693 PeeringDB looking-glass URLs plus Shodan queries produced 388 live hyperglass instances. Of those, 36 confirmed command execution across 20 ASNs, 11 root or root-equivalent. Named compromised infrastructure includes a Proxmox node at lg.biztelecom[.]ro with 42 guests, Ceph admin access, and PBS backups; a core route reflector with 27 iBGP peers and 2.04 million routes; and hosts with paths toward K-root/AS25152. What is reachable in scope: route injection, withdrawal, and blackholing across 20 ASNs; BGP session resets and route-reflector state poisoning propagating over iBGP; reading and cloning guest disks and backups; SSH key and credential reuse across hosts; full table and MRT dump from three Tier-1 collectors.
-
-- Access is persistent and credential-based. Footholds survive reboots and stay quiet until credentials are actively rotated or the service is rebuilt. The unauthenticated entry point is POST /api/query, which is exposed by default. The research was performed autonomously by an AI agent swarm running DeepSeek V4.1 Flash, which independently identified and validated the vulnerabilities.
-
-Practitioner takeaway: If you operate or monitor ISP or hosting infrastructure, check immediately whether a hyperglass instance is internet-exposed. The entry point is POST /api/query with no authentication required. Look for unexpected child processes spawned from the hyperglass service UID, the presence of files like /tmp/pwned_hg, and anomalous SSH sessions originating from the hyperglass host to other internal infrastructure. Audit BGP route tables on affected ASNs for injected, withdrawn, or blackholed prefixes and check route-reflector state for unexpected changes. Rotate SSH keys and service credentials on any host running an exposed instance before assuming the access window is closed. The fix in PR #382 shell-quotes the target at construction and rejects ASCII control characters at the query model. The 388 live instances found represent a floor: the same three input paths exist on every unpatched deployment.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120079634268082611</description>
-      <content:encoded><![CDATA[<p>Pre-auth RCE in hyperglass looking-glass software exposes ISP and hosting infrastructure to route injection, host compromise, and credential theft. Eleven root-level shells confirmed across 20 ASNs, all reachable via a single unauthenticated POST.</p><p>Key details:</p><p>- The root cause is a bare str.format() call in hyperglass/execution/drivers/_construct.py at line 113: command.format(target=self[.]target, mask=mask, **attrs). The default condition=&quot;*&quot; directive rule compiles to re.compile(&quot;.+&quot;).match(), which accepts any non-empty string, so no shell metacharacter is filtered. On FRR, BIRD, OpenBGPD, and TNSR backends mapped to linux_ssh, Netmiko delivers the constructed command to a host bash shell. Affected versions are v2.0.0 through v2.0.4 (current main). The issue is tracked as GitHub issue #383 with fix proposed in PR #382, open for four months before today&#x27;s public disclosure.</p><p>- Three confirmed injection paths: (1) FRR AS-path injection using a quote to close the vtysh argument and $() or ; to execute arbitrary commands, returning the hyperglass service UID unauthenticated. (2) BIRD IPv6 scope-ID injection where Python&#x27;s ipaddress module accepts arbitrary text after the % in an IPv6 address, so fe80::1%;id passes validation and bash reads the semicolon as a command separator. (3) Cisco IOS newline injection where an embedded newline survives netmiko&#x27;s rstrip-only normalization and is executed as a second CLI line inside the already-authenticated SSH session, demonstrated against an emulator with 1.1.1.1\nclear ip bgp *.</p><p>- Scan scope: 3,693 PeeringDB looking-glass URLs plus Shodan queries produced 388 live hyperglass instances. Of those, 36 confirmed command execution across 20 ASNs, 11 root or root-equivalent. Named compromised infrastructure includes a Proxmox node at lg.biztelecom[.]ro with 42 guests, Ceph admin access, and PBS backups; a core route reflector with 27 iBGP peers and 2.04 million routes; and hosts with paths toward K-root/AS25152. What is reachable in scope: route injection, withdrawal, and blackholing across 20 ASNs; BGP session resets and route-reflector state poisoning propagating over iBGP; reading and cloning guest disks and backups; SSH key and credential reuse across hosts; full table and MRT dump from three Tier-1 collectors.</p><p>- Access is persistent and credential-based. Footholds survive reboots and stay quiet until credentials are actively rotated or the service is rebuilt. The unauthenticated entry point is POST /api/query, which is exposed by default. The research was performed autonomously by an AI agent swarm running DeepSeek V4.1 Flash, which independently identified and validated the vulnerabilities.</p><p>Practitioner takeaway: If you operate or monitor ISP or hosting infrastructure, check immediately whether a hyperglass instance is internet-exposed. The entry point is POST /api/query with no authentication required. Look for unexpected child processes spawned from the hyperglass service UID, the presence of files like /tmp/pwned_hg, and anomalous SSH sessions originating from the hyperglass host to other internal infrastructure. Audit BGP route tables on affected ASNs for injected, withdrawn, or blackholed prefixes and check route-reflector state for unexpected changes. Rotate SSH keys and service credentials on any host running an exposed instance before assuming the access window is closed. The fix in PR #382 shell-quotes the target at construction and rejects ASCII control characters at the query model. The 388 live instances found represent a floor: the same three input paths exist on every unpatched deployment.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/626">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120079634268082611">View on X</a></p>]]></content:encoded>
-      <dc:creator>OSS-Security Mailing List</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120079634268082611</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2120079634268082611">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 09:02:29 +0000</pubDate>
-      <guid isPermaLink="false">2120079634268082611</guid>
     </item>
   </channel>
 </rss>
