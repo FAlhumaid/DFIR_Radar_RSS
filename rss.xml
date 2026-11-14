@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 07:05:51 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 08:04:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Beware of phishing emails disguised as quote requests (SnakeKeylogger)</title>
+      <link>https://asec.ahnlab.com/en/96495/</link>
+      <description>Quote-request phishing drops JavaScript that runs in-memory PowerShell and hollows aspnet_compiler.exe to run SnakeKeylogger. Hunt for aspnet_compiler.exe launched by PowerShell and SMTP to hosting2[.]ro.hostsailor[.]com.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121514655097208899</description>
+      <content:encoded><![CDATA[<p>Quote-request phishing drops JavaScript that runs in-memory PowerShell and hollows aspnet_compiler.exe to run SnakeKeylogger. Hunt for aspnet_compiler.exe launched by PowerShell and SMTP to hosting2[.]ro.hostsailor[.]com.</p><p>#DFIR_Radar</p><p><a href="https://asec.ahnlab.com/en/96495/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121514655097208899">View on X</a></p>]]></content:encoded>
+      <dc:creator>AhnLab ASEC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121514655097208899</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2121514655097208899">DFIR Radar</source>
+      <pubDate>Sat, 14 Nov 2026 08:04:45 +0000</pubDate>
+      <guid isPermaLink="false">2121514655097208899</guid>
+    </item>
     <item>
       <title>School Bomb Threats: Hudson Rock Finds Reported Sender Accounts in Infostealer Data</title>
       <link>https://www.infostealers.com/article/school-bomb-threats-hudson-rock-finds-reported-sender-accounts-in-infostealer-data/</link>
@@ -2431,32 +2445,6 @@ Practitioner takeaway: audit every AI server's IOMMU configuration now. Pass-thr
       <source url="https://x.com/DFIR_Radar/status/2120004268891795745">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 04:03:00 +0000</pubDate>
       <guid isPermaLink="false">2120004268891795745</guid>
-    </item>
-    <item>
-      <title>Dokploy: the validator allows the backtick: a member's database password change is host RCE, 9.9 on the vendor's own vector (v0.31.0, live-proven)</title>
-      <link>https://seclists.org/oss-sec/2026/q4/620</link>
-      <description>Dokploy v0.31.0 carries a live-proven, vendor-scored 9.9 RCE flaw: an organization member who can deploy a database can own the host and every co-tenant's secrets through a backtick in a password field.
-
-Key findings:
-
-- The root cause is an incomplete denylist in DATABASE_PASSWORD_REGEX (packages/server/src/db/schema/utils.ts, lines 51-52, introduced in v0.29.0). The validator bans $, !, both quote types, backslash, slash, and space, but permits the backtick and leaves ; | &amp; ( ) &gt; reachable alongside it. The Postgres and MySQL changePassword procedures embed the new password inside single quotes nested in a double-quoted shell argument, so bash still performs command substitution. A backtick payload with no banned character clears the validator with a 200 and runs as uid=0(root) inside the container that holds the host's Docker socket.
-
-- A second, independent injection path exists in databaseUser, which carries no validator at all (z.string().min(1)) and reaches Postgres unquoted. A semicolon in the username is a complete command sequence without any substitution trick, and the field is settable at creation and through update on a deployed service. Both paths were live-fired against the researcher's own rig running the official v0.31.0 image with a canary file confirming uid=0(root) gid=0(root) execution.
-
-- The attack requires an authenticated organization member who holds the service: ["create"] permission and access to the deployed database. It is not unauthenticated and does not cross organization boundaries by itself, but the vendor's own CVSS scoring assigned CVE-2026-72868 a 9.9 because the precondition is exactly the role Dokploy hands to any member who deploys a database. In a single-admin install there is no additional boundary at all. Dokploy manages root on every server in the fleet and the Docker socket, so host compromise means every co-tenant's credentials and containers are reachable.
-
-- The MariaDB and Mongo changePassword sinks are source-identical in shape to the fired Postgres and MySQL pair and are claimed at source-level confidence. Redis does not fire: its password sits in top-level single quotes, which is precisely what proves the mechanism and shows the fix path. As of 2026-11-09 the vendor rebuilt all five changePassword commands on a canary branch using shell-quote argv arrays. No release contains that rewrite; v0.31.0 is the current release and the entire installed base remains vulnerable. The validator is unchanged on every branch.
-
-Takeaway: Until a patched release ships, treat any Dokploy instance running v0.31.0 or earlier as a host-level exposure if more than one member holds deploy rights. Audit which accounts carry the service: ["create"] permission and restrict it to the minimum necessary. On the host side, check the Docker socket for unexpected container spawns and look for files written by uid=0 inside the Dokploy server container that you did not place there. The researcher's signed paper is at the archive[.]org link in the disclosure for reproduction details.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2119989159741861995</description>
-      <content:encoded><![CDATA[<p>Dokploy v0.31.0 carries a live-proven, vendor-scored 9.9 RCE flaw: an organization member who can deploy a database can own the host and every co-tenant&#x27;s secrets through a backtick in a password field.</p><p>Key findings:</p><p>- The root cause is an incomplete denylist in DATABASE_PASSWORD_REGEX (packages/server/src/db/schema/utils.ts, lines 51-52, introduced in v0.29.0). The validator bans $, !, both quote types, backslash, slash, and space, but permits the backtick and leaves ; | &amp; ( ) &gt; reachable alongside it. The Postgres and MySQL changePassword procedures embed the new password inside single quotes nested in a double-quoted shell argument, so bash still performs command substitution. A backtick payload with no banned character clears the validator with a 200 and runs as uid=0(root) inside the container that holds the host&#x27;s Docker socket.</p><p>- A second, independent injection path exists in databaseUser, which carries no validator at all (z.string().min(1)) and reaches Postgres unquoted. A semicolon in the username is a complete command sequence without any substitution trick, and the field is settable at creation and through update on a deployed service. Both paths were live-fired against the researcher&#x27;s own rig running the official v0.31.0 image with a canary file confirming uid=0(root) gid=0(root) execution.</p><p>- The attack requires an authenticated organization member who holds the service: [&quot;create&quot;] permission and access to the deployed database. It is not unauthenticated and does not cross organization boundaries by itself, but the vendor&#x27;s own CVSS scoring assigned CVE-2026-72868 a 9.9 because the precondition is exactly the role Dokploy hands to any member who deploys a database. In a single-admin install there is no additional boundary at all. Dokploy manages root on every server in the fleet and the Docker socket, so host compromise means every co-tenant&#x27;s credentials and containers are reachable.</p><p>- The MariaDB and Mongo changePassword sinks are source-identical in shape to the fired Postgres and MySQL pair and are claimed at source-level confidence. Redis does not fire: its password sits in top-level single quotes, which is precisely what proves the mechanism and shows the fix path. As of 2026-11-09 the vendor rebuilt all five changePassword commands on a canary branch using shell-quote argv arrays. No release contains that rewrite; v0.31.0 is the current release and the entire installed base remains vulnerable. The validator is unchanged on every branch.</p><p>Takeaway: Until a patched release ships, treat any Dokploy instance running v0.31.0 or earlier as a host-level exposure if more than one member holds deploy rights. Audit which accounts carry the service: [&quot;create&quot;] permission and restrict it to the minimum necessary. On the host side, check the Docker socket for unexpected container spawns and look for files written by uid=0 inside the Dokploy server container that you did not place there. The researcher&#x27;s signed paper is at the archive[.]org link in the disclosure for reproduction details.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/620">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2119989159741861995">View on X</a></p>]]></content:encoded>
-      <dc:creator>OSS-Security Mailing List</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2119989159741861995</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2119989159741861995">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 03:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2119989159741861995</guid>
     </item>
   </channel>
 </rss>
