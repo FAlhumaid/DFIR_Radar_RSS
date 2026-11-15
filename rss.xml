@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 23:03:49 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2026 00:05:29 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>N-able N-central Vulnerabilities Expose a Bigger Risk</title>
+      <link>https://www.action1.com/blog/n-able-n-central-vulnerabilities-expose-a-bigger-risk/</link>
+      <description>N-central's Able2Shell disclosure, 33 alleged zero-days with exploit code, shows probing but no confirmed exploitation. Hunt logs since early November for XXE probes on /dms/services/ServerUI and 5.231.45[.]175 traffic.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121756432546832706</description>
+      <content:encoded><![CDATA[<p>N-central&#x27;s Able2Shell disclosure, 33 alleged zero-days with exploit code, shows probing but no confirmed exploitation. Hunt logs since early November for XXE probes on /dms/services/ServerUI and 5.231.45[.]175 traffic.</p><p>#DFIR_Radar</p><p><a href="https://www.action1.com/blog/n-able-n-central-vulnerabilities-expose-a-bigger-risk/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121756432546832706">View on X</a></p>]]></content:encoded>
+      <dc:creator>Action1 Patch Tuesday</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121756432546832706</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121756432546832706">DFIR Radar</source>
+      <pubDate>Sun, 15 Nov 2026 00:05:29 +0000</pubDate>
+      <guid isPermaLink="false">2121756432546832706</guid>
+    </item>
     <item>
       <title>CVE-2026-124194: Microsoft Outlook Zero-Day Exploited to Steal NTLM Hashes</title>
       <link>https://socprime.com/blog/cve-2026-124194-microsoft-outlook-zero-day-exploited-to-steal-ntlm-hashes/</link>
@@ -2287,34 +2301,6 @@ Practitioner takeaway: start your threat hunt from September 2026. On hosts, gre
       <source url="https://x.com/DFIR_Radar/status/2120231071769837597">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 19:04:14 +0000</pubDate>
       <guid isPermaLink="false">2120231071769837597</guid>
-    </item>
-    <item>
-      <title>Attackers Exploit AhsayCBS Flaws to Deploy Sandbox-Evading Python Backdoor</title>
-      <link>https://thehackernews.com/2026/11/attackers-exploit-ahsaycbs-flaws-to.html</link>
-      <description>Zero-day exploit chain in AhsayCBS drops a host-locked Python backdoor, five JSP web shell families, dual XMRig miners, and tunneling tools, with credential theft from a connected Veeam server hinting at deliberate backup infrastructure targeting.
-
-Key findings:
-
-- CVE-2026-105133 and CVE-2026-105134 were chained as zero-days to bypass authentication and execute arbitrary commands on AhsayCBS. Ahsay Backup released patches in mid-October 2026. The actor moved fast initially with a smash-and-grab miner drop, then slowed down and built deep persistence, a pattern that suggests the operator reused an opportunistic entry point for a more deliberate intrusion.
-
-- Five JSP web shell families were planted across the server. AhsayCBS.jsp is the most notable: it hides encrypted payloads inside PNG pixel data and executes them from memory, disguising itself as an internal image preview service. The status_ and st_ variants name themselves with six random letters (e.g., st_jgaejj.jsp), execute commands, recursively delete paths on demand, and self-delete. nsmind.jsp exposes exec, cd, upload, and download parameters. Because AhsayCBS.jsp uses only JSP implicit objects and fully qualified class names, it compiles on any servlet container from JDK 6 onward, maximising portability.
-
-- The Python implant (main[.]py) is built to resist sandbox analysis. It computes the SHA-256 hash of the host's MachineGuid and looks for a marker file of the same name in its own directory before proceeding. Only if that marker exists does it load an embedded x64 DLL into memory and beacon to creepexplosiondarknight[.]com. No MachineGuid match means no execution, so dynamic analysis on a generic sandbox image produces nothing. Microsoft Defender exclusions were configured to reduce on-host visibility.
-
-- Two separate XMRig miners ran simultaneously using different wallets and mining pools. One masqueraded as Microsoft Edge. The second, kvm-agent.exe, was kept alive by a SYSTEM-level scheduled task set to restart every minute. GOST, Chisel, AnyDesk, Atera, and Splashtop were all deployed for tunneling and persistent remote access.
-
-- On a Veeam server in the same environment, a PowerShell script launched remotely through WMI queried the VeeamBackup PostgreSQL database and decrypted stored credentials using DPAPI. The Huntress report frames this as intentional: backup software holds hypervisor, repository, and domain account credentials, and the pairing of an Ahsay foothold with a Veeam credential query points to an operator who targeted backup infrastructure on purpose.
-
-Practitioners on AhsayCBS: patch CVE-2026-105133 and CVE-2026-105134 immediately, then hunt your AhsayCBS web root for JSP files matching st_[a-z]{6}.jsp or status_[a-z]{6}.jsp, and inspect PNG files in servlet-accessible paths for appended or steganographic payload data. For the Python implant, look for a marker file whose name matches the SHA-256 of the host MachineGuid sitting alongside any .py file. Check Defender exclusion logs for recent additions and review scheduled tasks running as SYSTEM that reference kvm-agent.exe. On adjacent Veeam servers, examine WMI execution history and PowerShell logs for queries against the VeeamBackup PostgreSQL database paired with DPAPI decryption calls, and treat any credentials stored in that database as potentially compromised.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120200355195781573</description>
-      <content:encoded><![CDATA[<p>Zero-day exploit chain in AhsayCBS drops a host-locked Python backdoor, five JSP web shell families, dual XMRig miners, and tunneling tools, with credential theft from a connected Veeam server hinting at deliberate backup infrastructure targeting.</p><p>Key findings:</p><p>- CVE-2026-105133 and CVE-2026-105134 were chained as zero-days to bypass authentication and execute arbitrary commands on AhsayCBS. Ahsay Backup released patches in mid-October 2026. The actor moved fast initially with a smash-and-grab miner drop, then slowed down and built deep persistence, a pattern that suggests the operator reused an opportunistic entry point for a more deliberate intrusion.</p><p>- Five JSP web shell families were planted across the server. AhsayCBS.jsp is the most notable: it hides encrypted payloads inside PNG pixel data and executes them from memory, disguising itself as an internal image preview service. The status_ and st_ variants name themselves with six random letters (e.g., st_jgaejj.jsp), execute commands, recursively delete paths on demand, and self-delete. nsmind.jsp exposes exec, cd, upload, and download parameters. Because AhsayCBS.jsp uses only JSP implicit objects and fully qualified class names, it compiles on any servlet container from JDK 6 onward, maximising portability.</p><p>- The Python implant (main[.]py) is built to resist sandbox analysis. It computes the SHA-256 hash of the host&#x27;s MachineGuid and looks for a marker file of the same name in its own directory before proceeding. Only if that marker exists does it load an embedded x64 DLL into memory and beacon to creepexplosiondarknight[.]com. No MachineGuid match means no execution, so dynamic analysis on a generic sandbox image produces nothing. Microsoft Defender exclusions were configured to reduce on-host visibility.</p><p>- Two separate XMRig miners ran simultaneously using different wallets and mining pools. One masqueraded as Microsoft Edge. The second, kvm-agent.exe, was kept alive by a SYSTEM-level scheduled task set to restart every minute. GOST, Chisel, AnyDesk, Atera, and Splashtop were all deployed for tunneling and persistent remote access.</p><p>- On a Veeam server in the same environment, a PowerShell script launched remotely through WMI queried the VeeamBackup PostgreSQL database and decrypted stored credentials using DPAPI. The Huntress report frames this as intentional: backup software holds hypervisor, repository, and domain account credentials, and the pairing of an Ahsay foothold with a Veeam credential query points to an operator who targeted backup infrastructure on purpose.</p><p>Practitioners on AhsayCBS: patch CVE-2026-105133 and CVE-2026-105134 immediately, then hunt your AhsayCBS web root for JSP files matching st_[a-z]{6}.jsp or status_[a-z]{6}.jsp, and inspect PNG files in servlet-accessible paths for appended or steganographic payload data. For the Python implant, look for a marker file whose name matches the SHA-256 of the host MachineGuid sitting alongside any .py file. Check Defender exclusion logs for recent additions and review scheduled tasks running as SYSTEM that reference kvm-agent.exe. On adjacent Veeam servers, examine WMI execution history and PowerShell logs for queries against the VeeamBackup PostgreSQL database paired with DPAPI decryption calls, and treat any credentials stored in that database as potentially compromised.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/attackers-exploit-ahsaycbs-flaws-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120200355195781573">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120200355195781573</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2120200355195781573">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 17:02:11 +0000</pubDate>
-      <guid isPermaLink="false">2120200355195781573</guid>
     </item>
   </channel>
 </rss>
