@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Nov 2026 01:04:24 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2026 02:04:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Breaking the Semantic Cache: A LiteLLM Case Study (CVE-2026-89032)</title>
+      <link>https://blog.nviso.eu/2026/11/12/breaking-the-semantic-cache-a-litellm-case-study-cve-2026-89032/</link>
+      <description>NVISO found CVE-2026-89032, a LiteLLM flaw letting different API keys share semantic cache buckets, enabling PII leaks and poisoned tool calls. Patch to v1.101.0-rc.1 and never cache tool calls.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121786374319968592</description>
+      <content:encoded><![CDATA[<p>NVISO found CVE-2026-89032, a LiteLLM flaw letting different API keys share semantic cache buckets, enabling PII leaks and poisoned tool calls. Patch to v1.101.0-rc.1 and never cache tool calls.</p><p>#DFIR_Radar</p><p><a href="https://blog.nviso.eu/2026/11/12/breaking-the-semantic-cache-a-litellm-case-study-cve-2026-89032/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121786374319968592">View on X</a></p>]]></content:encoded>
+      <dc:creator>NVISO Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121786374319968592</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2121786374319968592">DFIR Radar</source>
+      <pubDate>Sun, 15 Nov 2026 02:04:27 +0000</pubDate>
+      <guid isPermaLink="false">2121786374319968592</guid>
+    </item>
     <item>
       <title>Able2Shell: Frequently asked questions for reported N-able N-central zero-day vulnerabilities</title>
       <link>https://www.tenable.com/blog/able2shell-frequently-asked-questions-for-reported-n-able-n-central-zero-day-vulnerabilities</link>
@@ -2259,34 +2273,6 @@ Takeaway for responders: a clean Exchange transport agent list does not rule out
       <source url="https://x.com/DFIR_Radar/status/2120261114810573207">DFIR Radar</source>
       <pubDate>Tue, 10 Nov 2026 21:03:37 +0000</pubDate>
       <guid isPermaLink="false">2120261114810573207</guid>
-    </item>
-    <item>
-      <title>Php2shell: A Network Edge Risk Playbook</title>
-      <link>https://eclypsium.com/blog/php2shell-network-appliances-status/</link>
-      <description>CVE-2026-109618 and CVE-2026-109619 (CVSS 9.2) are actively exploited PHP RCE flaws hitting network appliance management interfaces. CISA KEV-listed, with confirmed PAN-OS exploitation and 25 servers rooted including US 🇺🇸 government systems.
-
-Key findings:
-
-- Both CVEs were fixed by the PHP project on October 21, 2026, but appliance owners cannot patch PHP themselves. Each vendor compiled PHP into firmware, so every vendor must ship its own fixed build. Of 55 vendors tracked, only 15 have fully fixed every affected product line. Netgear has at least one supported product with no fix and no date. Seven vendors (A10 Networks, Array Networks, Imperva, Lenovo, NVIDIA networking, Radware, TP-Link) have issued no public statement at all. Treat silence as unknown, not safe.
-
-- Palo Alto Networks is the only vendor confirming active exploitation. PAN-OS management interfaces exposed to the internet were targeted before October 26, when CISA added both CVEs to KEV. Dream Research documented post-exploitation artifacts on rooted devices: a 103-byte PHP web shell at /unauth/php/change_password.php (PAN-OS ships a legitimate file under that name, so check size and contents), tunnel scripts under /usr/local/lib/.panops/ started by a systemd service and an rc.local hook, /etc/pam.d/su overwritten to use pam_permit.so (allowing local privilege escalation without a password), a reverse SSH tunnel across eight ports, and a SAML configuration with validate-idp-certificate set to no. The attacker also decrypted an LDAP service account credential from the rooted firewall.
-
-- For IR triage on PAN-OS: any management interface or GlobalProtect portal reachable from untrusted networks after October 17 should be treated as a candidate for compromise review. Unit 42's hunt query targets Threat ID 543004 in next-generation firewall threat logs, but only where Threat Prevention content was installed and logging. The SAML configuration flag and roughly 900 MB of multipart POST traffic with oversized filenames are checkable in firewall config and network or proxy logs without appliance filesystem access. File-system indicators require working with Palo Alto support, as PAN-OS does not expose the filesystem through normal admin interfaces.
-
-- Several product lines will never receive a fix. NetScaler ADC and Gateway 13.0 (Eclypsium's lab confirmed PHP 7.3.7 on the management interface), Check Point firewalls R80 through R81 and Spark R77.20.x and R80.20.x (all end of support), Ivanti Endpoint Security (reaching end of life December 31, 2026), Siemens Energy Engage V2.0SP9 (no fix planned), and legacy PHP packages on ASUSTOR ADM 3.5 and 4.0 have no fix path. For these, management interface isolation to trusted administrator hosts is the only interim control until replacement is funded and scheduled.
-
-- F5 backported both fixes, so fixed BIG-IP builds (21.1.0.4, 17.5.1.11, 17.1.3.7) still report PHP 5.4.45 to scanners. Do not use the PHP version string or internet-wide scan counts to determine patch state. Use the appliance version and the vendor advisory (K000163821 for F5) to confirm fix status. Censys counts over 4 million PHP-reporting hosts but cannot distinguish patched appliances from vulnerable ones.
-
-Takeaway: If you have PAN-OS with an internet-facing management interface or GlobalProtect portal that was unpatched after October 17, begin compromise review now. Patching does not evict an attacker already present, and it does not remove the web shell, tunnel scripts, or altered PAM configuration Dream Research documented. Rotate every credential stored on any firewall that shows those indicators, and work device recovery with Palo Alto support. For every other appliance in your environment, map which ones have PHP-backed management interfaces, confirm their fix status against the vendor advisory (not the PHP version string), and restrict management access to trusted hosts immediately. IOCs and post-exploitation indicators are detailed in the Dream Research write-up and the Eclypsium report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120245823972032703</description>
-      <content:encoded><![CDATA[<p>CVE-2026-109618 and CVE-2026-109619 (CVSS 9.2) are actively exploited PHP RCE flaws hitting network appliance management interfaces. CISA KEV-listed, with confirmed PAN-OS exploitation and 25 servers rooted including US 🇺🇸 government systems.</p><p>Key findings:</p><p>- Both CVEs were fixed by the PHP project on October 21, 2026, but appliance owners cannot patch PHP themselves. Each vendor compiled PHP into firmware, so every vendor must ship its own fixed build. Of 55 vendors tracked, only 15 have fully fixed every affected product line. Netgear has at least one supported product with no fix and no date. Seven vendors (A10 Networks, Array Networks, Imperva, Lenovo, NVIDIA networking, Radware, TP-Link) have issued no public statement at all. Treat silence as unknown, not safe.</p><p>- Palo Alto Networks is the only vendor confirming active exploitation. PAN-OS management interfaces exposed to the internet were targeted before October 26, when CISA added both CVEs to KEV. Dream Research documented post-exploitation artifacts on rooted devices: a 103-byte PHP web shell at /unauth/php/change_password.php (PAN-OS ships a legitimate file under that name, so check size and contents), tunnel scripts under /usr/local/lib/.panops/ started by a systemd service and an rc.local hook, /etc/pam.d/su overwritten to use pam_permit.so (allowing local privilege escalation without a password), a reverse SSH tunnel across eight ports, and a SAML configuration with validate-idp-certificate set to no. The attacker also decrypted an LDAP service account credential from the rooted firewall.</p><p>- For IR triage on PAN-OS: any management interface or GlobalProtect portal reachable from untrusted networks after October 17 should be treated as a candidate for compromise review. Unit 42&#x27;s hunt query targets Threat ID 543004 in next-generation firewall threat logs, but only where Threat Prevention content was installed and logging. The SAML configuration flag and roughly 900 MB of multipart POST traffic with oversized filenames are checkable in firewall config and network or proxy logs without appliance filesystem access. File-system indicators require working with Palo Alto support, as PAN-OS does not expose the filesystem through normal admin interfaces.</p><p>- Several product lines will never receive a fix. NetScaler ADC and Gateway 13.0 (Eclypsium&#x27;s lab confirmed PHP 7.3.7 on the management interface), Check Point firewalls R80 through R81 and Spark R77.20.x and R80.20.x (all end of support), Ivanti Endpoint Security (reaching end of life December 31, 2026), Siemens Energy Engage V2.0SP9 (no fix planned), and legacy PHP packages on ASUSTOR ADM 3.5 and 4.0 have no fix path. For these, management interface isolation to trusted administrator hosts is the only interim control until replacement is funded and scheduled.</p><p>- F5 backported both fixes, so fixed BIG-IP builds (21.1.0.4, 17.5.1.11, 17.1.3.7) still report PHP 5.4.45 to scanners. Do not use the PHP version string or internet-wide scan counts to determine patch state. Use the appliance version and the vendor advisory (K000163821 for F5) to confirm fix status. Censys counts over 4 million PHP-reporting hosts but cannot distinguish patched appliances from vulnerable ones.</p><p>Takeaway: If you have PAN-OS with an internet-facing management interface or GlobalProtect portal that was unpatched after October 17, begin compromise review now. Patching does not evict an attacker already present, and it does not remove the web shell, tunnel scripts, or altered PAM configuration Dream Research documented. Rotate every credential stored on any firewall that shows those indicators, and work device recovery with Palo Alto support. For every other appliance in your environment, map which ones have PHP-backed management interfaces, confirm their fix status against the vendor advisory (not the PHP version string), and restrict management access to trusted hosts immediately. IOCs and post-exploitation indicators are detailed in the Dream Research write-up and the Eclypsium report.</p><p>#DFIR_Radar</p><p><a href="https://eclypsium.com/blog/php2shell-network-appliances-status/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120245823972032703">View on X</a></p>]]></content:encoded>
-      <dc:creator>Eclypsium</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120245823972032703</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2120245823972032703">DFIR Radar</source>
-      <pubDate>Tue, 10 Nov 2026 20:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2120245823972032703</guid>
     </item>
   </channel>
 </rss>
