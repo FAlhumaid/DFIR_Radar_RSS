@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Nov 2026 05:04:53 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2026 06:04:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BinQL: a CodeQL extension for binary formats</title>
+      <link>https://blog.thalium.re/posts/binql-a-codeql-extension-for-binary-formats/</link>
+      <description>Thalium's BinQL brings CodeQL to stripped binaries via IDA Pro's decompiler ctree. Match a patch's compiled artifact to find CVE-2018-25032 zlib copies bundled in shipped apps.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121846873984000281</description>
+      <content:encoded><![CDATA[<p>Thalium&#x27;s BinQL brings CodeQL to stripped binaries via IDA Pro&#x27;s decompiler ctree. Match a patch&#x27;s compiled artifact to find CVE-2018-25032 zlib copies bundled in shipped apps.</p><p>#DFIR_Radar</p><p><a href="https://blog.thalium.re/posts/binql-a-codeql-extension-for-binary-formats/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121846873984000281">View on X</a></p>]]></content:encoded>
+      <dc:creator>Thalium</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2121846873984000281</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2121846873984000281">DFIR Radar</source>
+      <pubDate>Sun, 15 Nov 2026 06:04:52 +0000</pubDate>
+      <guid isPermaLink="false">2121846873984000281</guid>
+    </item>
     <item>
       <title>How To Investigate with Automated DFIR Tools</title>
       <link>https://www.cybertriage.com/blog/how-to-investigate-with-automated-dfir-tools/</link>
@@ -2207,34 +2221,6 @@ Practitioner takeaway: Review CloudTrail from October 1 onward, filtering on Ass
       <source url="https://x.com/DFIR_Radar/status/2120321404826427563">DFIR Radar</source>
       <pubDate>Wed, 11 Nov 2026 01:03:12 +0000</pubDate>
       <guid isPermaLink="false">2120321404826427563</guid>
-    </item>
-    <item>
-      <title>Beyond ValleyRAT: inside a China-nexus Silver Fox operation</title>
-      <link>https://www.vmray.com/beyond-valleyrat-inside-a-china-nexus-silver-fox-operation/</link>
-      <description>Chinese-nexus Silver Fox spreads ValleyRAT via tax-lure packages, DLL side-loading, and a shared registrar account, in an operation running August to October 2026 across 25 loader builds and five C2 servers.
-
-Key findings:
-
-- The HDP loader kit powers all 44 builds VMRay Labs analysed. Delivery follows a consistent chain: a genuine signed program (renamed as a tax document, e.g. INT-Number.20260820113657.EXE or CERT-In5605112305.EXE) is dropped inside a disk image (VHDX, ISO, or VHD) inside a ZIP, side-loads an unsigned DLL loader (typically hdp.dll), which then pulls the ValleyRAT core from one of five C2 servers: taku788[.]club, fuoe333[.]club, moik77a[.]club, usdt888[.]club, and 192.252.183[.]157. The core is stored fileless in the registry under HKCU\Console\0 (registry value name 389126097FFFEF316D35ACD0610E5F31 across all six runs where a C2 answered), and persistence arrives via a scheduled task. August builds also embed two kernel drivers.
-
-- Each build carries its own RC4-encrypted configuration. The group ID, a 19-character string stored in clear text at the start of the config, is the RC4 key written backwards. This means any analyst holding an unpacked build can decrypt its configuration and C2 settings offline without infrastructure access. Captured C2 traffic also decrypts: each session key comes from a token in message headers. Three of the four C2 domains (taku788[.]club, fuoe333[.]club, moik77a[.]club) share registrant organisation KANGYINGJIE and the hashed value ab376f4f34801a68 at Chinese 🇨🇳 registrar 22net.
-
-- Attribution to Silver Fox rests on two independent evidence types. First, operator choices not imposed by the public ValleyRAT builder: 27 of 33 package timestamps fall in UTC+8 weekday office hours (10:00 to 17:00), signed programs come from Chinese 🇨🇳 companies (Hithink RoyalFlush, Tencent, Guangzhou Ningjinghai, Hangzhou Fencha), and registrant names at 22net are romanised Chinese 🇨🇳. Second, Gname account 574849-1923 registered two domains in Sekoia's and JUMPSEC's Silver Fox reporting, registered Indian 🇮🇳 tax lure pages, and ties to the delivery host kaiwyrey[.]eu[.]cc through a shared IP (103.23.172[.]117 on 2026-06-30) and a lure page link (kcsueaw[.]xin to the delivery host on 2026-07-31). VMRay assesses the operation very likely belongs to Silver Fox, with moderate confidence.
-
-- Twelve builds carry the U.S. 🇺🇸 Department of Homeland Security seal as their main icon. This is the icon of the Spanish-language Visual Studio starter program the kit uses as a cover application. The loader never loads or displays it; VMRay run logs recorded no icon resource lookups across nine runs of these builds. The seal is almost certainly an artifact of the cover application template, not a lure element.
-
-- The delivery host kaiwyrey[.]eu[.]cc served loaders for three C2 servers in sequence: auk218[.]club (outside the operation, 2026-08-03 to 08-13), then 192.252.183[.]157 (the operation's IP, 08-17 to 08-31), then fddlbh2[.]club (09-02 to 09-06). fddlbh2[.]club was registered roughly 13.5 hours after B4's package was last recorded on the delivery host, and was pointed to 192.252.183[.]157 within about 15 hours of registration.
-
-Practitioner takeaway: Hunt HKCU\Console\0 for the registry value 389126097FFFEF316D35ACD0610E5F31 (packed ValleyRAT core). Look for mutexes beginning with a pipe character followed by a 19-character group ID. Flag unsigned DLLs sitting beside renamed signed executables loaded from mounted disk images. Flag delivery archives whose names end in a 14-digit timestamp and 12 hex characters (e.g. 20260902110114-0AFC3F174BAD[.]zip): those hex characters are the start of the build's RC4 config key. Rebuild any host carrying the registry value or the scheduled task; the core grants full remote control and August builds drop kernel drivers. The full 1,391-indicator set (network, file, config, and host artifacts), plus a machine-readable CSV and the technical annex with offline decryption methods, are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120306190441664592</description>
-      <content:encoded><![CDATA[<p>Chinese-nexus Silver Fox spreads ValleyRAT via tax-lure packages, DLL side-loading, and a shared registrar account, in an operation running August to October 2026 across 25 loader builds and five C2 servers.</p><p>Key findings:</p><p>- The HDP loader kit powers all 44 builds VMRay Labs analysed. Delivery follows a consistent chain: a genuine signed program (renamed as a tax document, e.g. INT-Number.20260820113657.EXE or CERT-In5605112305.EXE) is dropped inside a disk image (VHDX, ISO, or VHD) inside a ZIP, side-loads an unsigned DLL loader (typically hdp.dll), which then pulls the ValleyRAT core from one of five C2 servers: taku788[.]club, fuoe333[.]club, moik77a[.]club, usdt888[.]club, and 192.252.183[.]157. The core is stored fileless in the registry under HKCU\Console\0 (registry value name 389126097FFFEF316D35ACD0610E5F31 across all six runs where a C2 answered), and persistence arrives via a scheduled task. August builds also embed two kernel drivers.</p><p>- Each build carries its own RC4-encrypted configuration. The group ID, a 19-character string stored in clear text at the start of the config, is the RC4 key written backwards. This means any analyst holding an unpacked build can decrypt its configuration and C2 settings offline without infrastructure access. Captured C2 traffic also decrypts: each session key comes from a token in message headers. Three of the four C2 domains (taku788[.]club, fuoe333[.]club, moik77a[.]club) share registrant organisation KANGYINGJIE and the hashed value ab376f4f34801a68 at Chinese 🇨🇳 registrar 22net.</p><p>- Attribution to Silver Fox rests on two independent evidence types. First, operator choices not imposed by the public ValleyRAT builder: 27 of 33 package timestamps fall in UTC+8 weekday office hours (10:00 to 17:00), signed programs come from Chinese 🇨🇳 companies (Hithink RoyalFlush, Tencent, Guangzhou Ningjinghai, Hangzhou Fencha), and registrant names at 22net are romanised Chinese 🇨🇳. Second, Gname account 574849-1923 registered two domains in Sekoia&#x27;s and JUMPSEC&#x27;s Silver Fox reporting, registered Indian 🇮🇳 tax lure pages, and ties to the delivery host kaiwyrey[.]eu[.]cc through a shared IP (103.23.172[.]117 on 2026-06-30) and a lure page link (kcsueaw[.]xin to the delivery host on 2026-07-31). VMRay assesses the operation very likely belongs to Silver Fox, with moderate confidence.</p><p>- Twelve builds carry the U.S. 🇺🇸 Department of Homeland Security seal as their main icon. This is the icon of the Spanish-language Visual Studio starter program the kit uses as a cover application. The loader never loads or displays it; VMRay run logs recorded no icon resource lookups across nine runs of these builds. The seal is almost certainly an artifact of the cover application template, not a lure element.</p><p>- The delivery host kaiwyrey[.]eu[.]cc served loaders for three C2 servers in sequence: auk218[.]club (outside the operation, 2026-08-03 to 08-13), then 192.252.183[.]157 (the operation&#x27;s IP, 08-17 to 08-31), then fddlbh2[.]club (09-02 to 09-06). fddlbh2[.]club was registered roughly 13.5 hours after B4&#x27;s package was last recorded on the delivery host, and was pointed to 192.252.183[.]157 within about 15 hours of registration.</p><p>Practitioner takeaway: Hunt HKCU\Console\0 for the registry value 389126097FFFEF316D35ACD0610E5F31 (packed ValleyRAT core). Look for mutexes beginning with a pipe character followed by a 19-character group ID. Flag unsigned DLLs sitting beside renamed signed executables loaded from mounted disk images. Flag delivery archives whose names end in a 14-digit timestamp and 12 hex characters (e.g. 20260902110114-0AFC3F174BAD[.]zip): those hex characters are the start of the build&#x27;s RC4 config key. Rebuild any host carrying the registry value or the scheduled task; the core grants full remote control and August builds drop kernel drivers. The full 1,391-indicator set (network, file, config, and host artifacts), plus a machine-readable CSV and the technical annex with offline decryption methods, are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.vmray.com/beyond-valleyrat-inside-a-china-nexus-silver-fox-operation/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120306190441664592">View on X</a></p>]]></content:encoded>
-      <dc:creator>VMRay</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120306190441664592</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2120306190441664592">DFIR Radar</source>
-      <pubDate>Wed, 11 Nov 2026 00:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2120306190441664592</guid>
     </item>
   </channel>
 </rss>
