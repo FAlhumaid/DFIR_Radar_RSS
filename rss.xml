@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Nov 2026 18:05:46 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2026 08:03:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BO Team Exploits Log4Shell in VMware vCenter, Compromises Russian Firm's Code-Signing Server</title>
+      <link>https://thehackernews.com/2026/11/bo-team-exploits-log4shell-in-vmware.html</link>
+      <description>BO Team exploited Log4Shell (CVE-2021-44228) on VMware vCenter 7.0.3 to reach a Russian 🇷🇺 developer's CI/CD and code-signing server, per Kaspersky. Backdoors, LotL tooling and log deletion hid a likely supply chain play.
+
+- Entry and pivot: BO Team (aka Black Owl, Hoody Hyena, Lifting Zmiy), assessed to be of Ukrainian 🇺🇦 origin, got in through an exposed SSH service on a Linux terminal server and scanned internal SMB, Kerberos, SSH, WinRM, LDAP and more. Direct vCenter logins failed, but the unpatched vCenter 7.0.3 fell to Log4Shell, giving a root command line and SSH access to the hypervisor. Kaspersky ICS CERT was called in June 2025.
+
+- Hypervisor persistence: a shell script named pgcache, dressed up as a PostgreSQL component, was dropped in /etc/cron.hourly/ and runs every hour. It pulls a second script from lo1yaizaeghaevarooD1ahtaichootae.nofrillsdns[.]com, which fetches the GSocket utility for remote control. Some variants point to lo1yaizaeghaevarood1ahtaichootaz.nofrillsdns[.]com for a hostname-specific payload. The operators keep the DNS record at 127.0.0.1 while idle and flip it to activate the backdoor. The hypervisor's certificate was then abused to plant a similar backdoor on a second virtualization cluster.
+
+- Credential and lateral movement: secrets found on VMs led to the GitLab VM, some of its source repositories and its private key, which opened the Ansible orchestration system. On Windows, they dumped lsass.exe through comsvcs.dll after Nanodump was blocked, dumped the registry with regedit.exe to decrypt ntds.dit, and moved data to the terminal server with scp.exe. Reused admin passwords across domains and a Kerberos ticket gave full domain control. They also modified /usr/bin/nxnode-login to write captured credentials to /dev/shm/pulse-shm-3088612174, and brute-forced the terminal server admin password after about 2,500 failed attempts.
+
+- Anti-forensics: timestomping, obfuscated bash that decrypts and runs an ELF SSH remote-control binary, systematic event log deletion, malware named like legitimate software, and heavy use of RDP, SSH, SCP, tasklist.exe, findstr.exe and ipconfig.exe. The attackers also changed security attributes on a user's Windows Downloads directory.
+
+- Why it matters: of the Windows servers they touched, malware was used on only one, the server that signs builds of the victim's commercial software. A WMI script and a backdoor in the temp directory were likely attempted there. Kaspersky sees either build tampering before signing or theft of the signing identity. No destruction or public claim followed. After losing access, the actors sent a late-July phishing mail ("Account disconnected from the mail server") that passed SPF and DKIM, suggesting a stolen mail server private key. Activity came from 193.3.23[.]236 and 80.76.42[.]139, both at a Ukrainian 🇺🇦 provider.
+
+Takeaway: treat the hypervisor as a crime scene, not just the guests. Check cron.hourly for pgcache, look for DNS lookups of nofrillsdns[.]com (including 127.0.0.1 answers), inspect nxnode-login and /dev/shm for the credential file, and review comsvcs.dll lsass access and registry dumps on Windows. If a build or signing host was reachable, audit recent signed builds and consider the signing key exposed. Since logs were wiped, rely on off-host copies. The report lists the domains and IPs above.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122239127684894813</description>
+      <content:encoded><![CDATA[<p>BO Team exploited Log4Shell (CVE-2021-44228) on VMware vCenter 7.0.3 to reach a Russian 🇷🇺 developer&#x27;s CI/CD and code-signing server, per Kaspersky. Backdoors, LotL tooling and log deletion hid a likely supply chain play.</p><p>- Entry and pivot: BO Team (aka Black Owl, Hoody Hyena, Lifting Zmiy), assessed to be of Ukrainian 🇺🇦 origin, got in through an exposed SSH service on a Linux terminal server and scanned internal SMB, Kerberos, SSH, WinRM, LDAP and more. Direct vCenter logins failed, but the unpatched vCenter 7.0.3 fell to Log4Shell, giving a root command line and SSH access to the hypervisor. Kaspersky ICS CERT was called in June 2025.</p><p>- Hypervisor persistence: a shell script named pgcache, dressed up as a PostgreSQL component, was dropped in /etc/cron.hourly/ and runs every hour. It pulls a second script from lo1yaizaeghaevarooD1ahtaichootae.nofrillsdns[.]com, which fetches the GSocket utility for remote control. Some variants point to lo1yaizaeghaevarood1ahtaichootaz.nofrillsdns[.]com for a hostname-specific payload. The operators keep the DNS record at 127.0.0.1 while idle and flip it to activate the backdoor. The hypervisor&#x27;s certificate was then abused to plant a similar backdoor on a second virtualization cluster.</p><p>- Credential and lateral movement: secrets found on VMs led to the GitLab VM, some of its source repositories and its private key, which opened the Ansible orchestration system. On Windows, they dumped lsass.exe through comsvcs.dll after Nanodump was blocked, dumped the registry with regedit.exe to decrypt ntds.dit, and moved data to the terminal server with scp.exe. Reused admin passwords across domains and a Kerberos ticket gave full domain control. They also modified /usr/bin/nxnode-login to write captured credentials to /dev/shm/pulse-shm-3088612174, and brute-forced the terminal server admin password after about 2,500 failed attempts.</p><p>- Anti-forensics: timestomping, obfuscated bash that decrypts and runs an ELF SSH remote-control binary, systematic event log deletion, malware named like legitimate software, and heavy use of RDP, SSH, SCP, tasklist.exe, findstr.exe and ipconfig.exe. The attackers also changed security attributes on a user&#x27;s Windows Downloads directory.</p><p>- Why it matters: of the Windows servers they touched, malware was used on only one, the server that signs builds of the victim&#x27;s commercial software. A WMI script and a backdoor in the temp directory were likely attempted there. Kaspersky sees either build tampering before signing or theft of the signing identity. No destruction or public claim followed. After losing access, the actors sent a late-July phishing mail (&quot;Account disconnected from the mail server&quot;) that passed SPF and DKIM, suggesting a stolen mail server private key. Activity came from 193.3.23[.]236 and 80.76.42[.]139, both at a Ukrainian 🇺🇦 provider.</p><p>Takeaway: treat the hypervisor as a crime scene, not just the guests. Check cron.hourly for pgcache, look for DNS lookups of nofrillsdns[.]com (including 127.0.0.1 answers), inspect nxnode-login and /dev/shm for the credential file, and review comsvcs.dll lsass access and registry dumps on Windows. If a build or signing host was reachable, audit recent signed builds and consider the signing key exposed. Since logs were wiped, rely on off-host copies. The report lists the domains and IPs above.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/bo-team-exploits-log4shell-in-vmware.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122239127684894813">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2122239127684894813</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2122239127684894813">DFIR Radar</source>
+      <pubDate>Mon, 16 Nov 2026 08:03:32 +0000</pubDate>
+      <guid isPermaLink="false">2122239127684894813</guid>
+    </item>
     <item>
       <title>ARTEX: Inside an Agentic Attack Framework</title>
       <link>https://www.extrahop.com/blog/artext-inside-an-agentic-attack-framework</link>
@@ -2203,20 +2229,6 @@ Practitioners hunting this should audit the .NET native image cache (the NativeI
       <source url="https://x.com/DFIR_Radar/status/2120366619415437395">DFIR Radar</source>
       <pubDate>Wed, 11 Nov 2026 04:02:51 +0000</pubDate>
       <guid isPermaLink="false">2120366619415437395</guid>
-    </item>
-    <item>
-      <title>October 2026 Detection Highlights: Mirage2FA phishing kit, Defender BTR abuse and 65+ new YARA rules</title>
-      <link>https://www.vmray.com/october-2026-detection-highlights-mirage2fa-phishing-kit-defender-btr-abuse-and-65-new-yara-rules/</link>
-      <description>VMRay's October 2026 roundup adds VTIs for Mirage2FA phishing, BTR driver abuse via NTFS ADS (T1564_004), and 65+ new YARA rules. Hunt csc.exe compiling .NET payloads and ADS on BTR driver paths.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120351675840152044</description>
-      <content:encoded><![CDATA[<p>VMRay&#x27;s October 2026 roundup adds VTIs for Mirage2FA phishing, BTR driver abuse via NTFS ADS (T1564_004), and 65+ new YARA rules. Hunt csc.exe compiling .NET payloads and ADS on BTR driver paths.</p><p>#DFIR_Radar</p><p><a href="https://www.vmray.com/october-2026-detection-highlights-mirage2fa-phishing-kit-defender-btr-abuse-and-65-new-yara-rules/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120351675840152044">View on X</a></p>]]></content:encoded>
-      <dc:creator>VMRay</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120351675840152044</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2120351675840152044">DFIR Radar</source>
-      <pubDate>Wed, 11 Nov 2026 03:03:29 +0000</pubDate>
-      <guid isPermaLink="false">2120351675840152044</guid>
     </item>
   </channel>
 </rss>
