@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Nov 2026 08:03:32 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2026 09:02:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>A USB worm’s second life: Retadup spreading CoffeeLoader</title>
+      <link>https://securelist.com/retadup-delivers-coffeeloader/121908/</link>
+      <description>Retadup, the USB worm French 🇫🇷 police wiped from 850,000 machines in 2019, is back as a CoffeeLoader delivery channel. Re-registered Retadup C2 domains now push a new Armoury-packed CoffeeLoader variant that Kaspersky spotted in August 2026.
+
+- Chain: an NSIS installer drops 7z.dll, a patched 7-Zip library whose code was replaced with self-decrypting shellcode, and runs it through rundll32.exe. The shellcode is a new Armoury packer that decrypts on the GPU via an OpenGL compute shader XOR, where the old one used OpenCL. It then delivers a new intermediate CoffeeLoader downloader that carries the dropper and stager logic plus the download function.
+
+- Persistence artifacts: 7z.dll is copied to a subfolder of %PROGRAMDATA% or %LOCALAPPDATA%, with folder, DLL, and Run value named from eight hex digits derived from system volume information. Example: C:\ProgramData\b79faace\b79faace.dll, launched by the Run key as rundll32.exe with export SetCodecs. It also writes a StartupApproved\Run value of 080000000000000000000000 so the user cannot disable autorun in Task Manager.
+
+- Download and C2: the downloader launches one of dllhost.exe, WerFault.exe, svchost.exe, OpenWith.exe, or AtBroker.exe and injects itself into it. It then pulls the main body over HTTPS from api.internet-speed-check[.]com using GET /payload?md5=, with zeros on the first request and the previous payload hash afterward. The request uses a Firefox 152.0 user agent and the server sits behind Cloudflare. The response is XOR-encrypted with its first 16 bytes as key. X-Signature is checked against an embedded public key and X-Content-MD5 against the decrypted body before control moves to executable memory.
+
+- Main module: functionally unchanged. It has new C2 encryption keys (A21251838432306F2CD2540593656B9E and 2026F751079659CF71C7BA64B345C12A), and signature checks replace certificate validation. The magic constant 0xC0FFEE42 is now 0xD1D57871. It keeps the same three commands: inject a payload, save it as an EXE and run it, or save it as a DLL and run it via rundll32.exe.
+
+- Retadup revival: this AutoIt/AutoHotkey worm spreads through hidden files and LNK shortcuts on USB and external drives. Someone began re-registering its C2 domains in 2024, first serving SmokeLoader and then CoffeeLoader in early 2025. The protocol is just Base64 converted to hex, so anyone could revive it. A 2017 variant still gets commands in 2026, such as a download-hxxp://rurjfvn[.]rs/update.exe instruction. Kaspersky blocked Retadup infection attempts on about 15,000 systems, mostly in Peru 🇵🇪, Angola, Russia 🇷🇺, and Bolivia.
+
+Takeaway: hunt for rundll32.exe loading a DLL with export SetCodecs from an eight-hex-digit folder under %PROGRAMDATA% or %LOCALAPPDATA%. Check Run key values pointing at it and a matching StartupApproved\Run entry. A 7z.dll outside a real 7-Zip install is a red flag. On the network, look for GET /payload?md5=00000000000000000000000000000000 and DNS to the Retadup domains, such as alphanoob[.]com and newblackage[.]com. Image USB media for hidden files and LNK shortcuts to find patient zero, and inspect memory of the injected system processes. The report lists the Retadup and CoffeeLoader C2s, the hosting URLs, and MD5s for the DLLs and NSIS installers.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122254033004138879</description>
+      <content:encoded><![CDATA[<p>Retadup, the USB worm French 🇫🇷 police wiped from 850,000 machines in 2019, is back as a CoffeeLoader delivery channel. Re-registered Retadup C2 domains now push a new Armoury-packed CoffeeLoader variant that Kaspersky spotted in August 2026.</p><p>- Chain: an NSIS installer drops 7z.dll, a patched 7-Zip library whose code was replaced with self-decrypting shellcode, and runs it through rundll32.exe. The shellcode is a new Armoury packer that decrypts on the GPU via an OpenGL compute shader XOR, where the old one used OpenCL. It then delivers a new intermediate CoffeeLoader downloader that carries the dropper and stager logic plus the download function.</p><p>- Persistence artifacts: 7z.dll is copied to a subfolder of %PROGRAMDATA% or %LOCALAPPDATA%, with folder, DLL, and Run value named from eight hex digits derived from system volume information. Example: C:\ProgramData\b79faace\b79faace.dll, launched by the Run key as rundll32.exe with export SetCodecs. It also writes a StartupApproved\Run value of 080000000000000000000000 so the user cannot disable autorun in Task Manager.</p><p>- Download and C2: the downloader launches one of dllhost.exe, WerFault.exe, svchost.exe, OpenWith.exe, or AtBroker.exe and injects itself into it. It then pulls the main body over HTTPS from api.internet-speed-check[.]com using GET /payload?md5=, with zeros on the first request and the previous payload hash afterward. The request uses a Firefox 152.0 user agent and the server sits behind Cloudflare. The response is XOR-encrypted with its first 16 bytes as key. X-Signature is checked against an embedded public key and X-Content-MD5 against the decrypted body before control moves to executable memory.</p><p>- Main module: functionally unchanged. It has new C2 encryption keys (A21251838432306F2CD2540593656B9E and 2026F751079659CF71C7BA64B345C12A), and signature checks replace certificate validation. The magic constant 0xC0FFEE42 is now 0xD1D57871. It keeps the same three commands: inject a payload, save it as an EXE and run it, or save it as a DLL and run it via rundll32.exe.</p><p>- Retadup revival: this AutoIt/AutoHotkey worm spreads through hidden files and LNK shortcuts on USB and external drives. Someone began re-registering its C2 domains in 2024, first serving SmokeLoader and then CoffeeLoader in early 2025. The protocol is just Base64 converted to hex, so anyone could revive it. A 2017 variant still gets commands in 2026, such as a download-hxxp://rurjfvn[.]rs/update.exe instruction. Kaspersky blocked Retadup infection attempts on about 15,000 systems, mostly in Peru 🇵🇪, Angola, Russia 🇷🇺, and Bolivia.</p><p>Takeaway: hunt for rundll32.exe loading a DLL with export SetCodecs from an eight-hex-digit folder under %PROGRAMDATA% or %LOCALAPPDATA%. Check Run key values pointing at it and a matching StartupApproved\Run entry. A 7z.dll outside a real 7-Zip install is a red flag. On the network, look for GET /payload?md5=00000000000000000000000000000000 and DNS to the Retadup domains, such as alphanoob[.]com and newblackage[.]com. Image USB media for hidden files and LNK shortcuts to find patient zero, and inspect memory of the injected system processes. The report lists the Retadup and CoffeeLoader C2s, the hosting URLs, and MD5s for the DLLs and NSIS installers.</p><p>#DFIR_Radar</p><p><a href="https://securelist.com/retadup-delivers-coffeeloader/121908/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122254033004138879">View on X</a></p>]]></content:encoded>
+      <dc:creator>Kaspersky SecureList</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2122254033004138879</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2122254033004138879">DFIR Radar</source>
+      <pubDate>Mon, 16 Nov 2026 09:02:46 +0000</pubDate>
+      <guid isPermaLink="false">2122254033004138879</guid>
+    </item>
     <item>
       <title>BO Team Exploits Log4Shell in VMware vCenter, Compromises Russian Firm's Code-Signing Server</title>
       <link>https://thehackernews.com/2026/11/bo-team-exploits-log4shell-in-vmware.html</link>
@@ -2215,20 +2241,6 @@ Practitioners hunting this should audit the .NET native image cache (the NativeI
       <source url="https://x.com/DFIR_Radar/status/2120381722303041910">DFIR Radar</source>
       <pubDate>Wed, 11 Nov 2026 05:02:52 +0000</pubDate>
       <guid isPermaLink="false">2120381722303041910</guid>
-    </item>
-    <item>
-      <title>Half-Click Attacks: How Online Ads Now Deliver iPhone Exploits</title>
-      <link>https://www.iverify.com/blog/half-click-attacks-iphone-ads</link>
-      <description>DarkSword malware hit iPhones via Instagram ads from ad-track[.]live and hijacked analytics domain ecomtrack[.]io, requiring no user tap. On-device EDR must capture indicators within 2 hours before they age off.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120366619415437395</description>
-      <content:encoded><![CDATA[<p>DarkSword malware hit iPhones via Instagram ads from ad-track[.]live and hijacked analytics domain ecomtrack[.]io, requiring no user tap. On-device EDR must capture indicators within 2 hours before they age off.</p><p>#DFIR_Radar</p><p><a href="https://www.iverify.com/blog/half-click-attacks-iphone-ads">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120366619415437395">View on X</a></p>]]></content:encoded>
-      <dc:creator>iVerify</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120366619415437395</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2120366619415437395">DFIR Radar</source>
-      <pubDate>Wed, 11 Nov 2026 04:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2120366619415437395</guid>
     </item>
   </channel>
 </rss>
