@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Nov 2026 10:03:03 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2026 11:04:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SANSAR Linux Cryptomining Malware Uses Modified NVIDIA Library to Hide GPU Activity</title>
+      <link>https://thehackernews.com/2026/11/sansar-linux-cryptomining-malware-uses.html</link>
+      <description>REF3364 is running a Linux cryptomining operation that lies to GPU monitoring. Its SANSAR toolkit pairs a ftrace rootkit with a modified NVML wrapper so nvidia-smi shows 0% utilization while miners run. Elastic Security Labs observed it in late October 2026.
+
+- Entry and persistence: initial access came through an exposed Ray job agent. The actor ran jobs that executed nvidia-smi and sent the GPU inventory to an external server, then submitted a Python reverse shell job to a remote listener. An SSH key was added to that account's authorized_keys for persistent access. After obtaining root, the toolkit was staged under /opt/vadi_.
+
+- Rootkit and boot persistence: the acpi_thermal_mgr kernel module was built through DKMS, and an initramfs loader was added. Because the module and loader sit in the boot image on disk, the rootkit loads again whenever the host boots with that image. It uses ftrace to intercept system calls for directory listings, file access, and process termination signals. It strips matching process, file, and socket entries and returns "No such file or directory" or "No such process" for hidden items.
+
+- Telemetry falsification: the modified NVML wrapper hooks calls used by tools like nvidia-smi. It reports GPU utilization as 0%, and replaces temperature and power with random values between 36 and 46 degrees Celsius and 100 to 200 watts. It also filters process information.
+
+- Payloads: sansar is a Rust orchestrator that talks to an onion C2 via Arti (efxisnqldelyr5ra25oqfrsut54b34g26e7zrsiuupsoekjof2gho2id[.]onion). It starts and stops miners, updates configs, spawns interactive shells, launches an IPv4 TCP SYN traffic task against a given address and port, and maintains the NVML hook. It reads TracerPid first and exits if a tracer is attached. Its CPU branch launches kurt (XMRig 6.25.0) and its GPU branch launches tilki (SRBMiner-MULTI 3.6.9). lyrebird is a legitimate Tor pluggable transport proxy.
+
+- Second backdoor: netns runs as a systemd service. It queries an embedded Ethereum smart contract (0x43eb291f56688c63c93e8a93c4591fc997cf6349) for a controller IPv4 address, then opens a plain TCP connection to that address on port 8080 and starts a reverse shell to the host and port in the response. Attribution is unclear, but the rootkit source contains Turkish 🇹🇷 language comments.
+
+Why it matters: GPU hosts for AI and LLM workloads are expensive, and a tampered NVML makes the usual "is the GPU busy" check worthless. Cryptojacking diverts compute and raises costs.
+
+Takeaway: do not trust on-host tooling on a suspect GPU node. Image the disk and inspect from outside the running system: the initramfs, the DKMS build for acpi_thermal_mgr, /opt/vadi_, authorized_keys, and systemd units for netns. Verify the NVML library has not been modified, and review who can submit jobs to Ray and whether the job agent is exposed. Also check for anomalies like a "0%" GPU on a node with high out-of-band (BMC/PDU) power or heat, since NVML temperature and power are faked too, and hunt at the network level for outbound Tor (incl. lyrebird bridges) and port 8080 connections from GPU hosts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122284578643628339</description>
+      <content:encoded><![CDATA[<p>REF3364 is running a Linux cryptomining operation that lies to GPU monitoring. Its SANSAR toolkit pairs a ftrace rootkit with a modified NVML wrapper so nvidia-smi shows 0% utilization while miners run. Elastic Security Labs observed it in late October 2026.</p><p>- Entry and persistence: initial access came through an exposed Ray job agent. The actor ran jobs that executed nvidia-smi and sent the GPU inventory to an external server, then submitted a Python reverse shell job to a remote listener. An SSH key was added to that account&#x27;s authorized_keys for persistent access. After obtaining root, the toolkit was staged under /opt/vadi_.</p><p>- Rootkit and boot persistence: the acpi_thermal_mgr kernel module was built through DKMS, and an initramfs loader was added. Because the module and loader sit in the boot image on disk, the rootkit loads again whenever the host boots with that image. It uses ftrace to intercept system calls for directory listings, file access, and process termination signals. It strips matching process, file, and socket entries and returns &quot;No such file or directory&quot; or &quot;No such process&quot; for hidden items.</p><p>- Telemetry falsification: the modified NVML wrapper hooks calls used by tools like nvidia-smi. It reports GPU utilization as 0%, and replaces temperature and power with random values between 36 and 46 degrees Celsius and 100 to 200 watts. It also filters process information.</p><p>- Payloads: sansar is a Rust orchestrator that talks to an onion C2 via Arti (efxisnqldelyr5ra25oqfrsut54b34g26e7zrsiuupsoekjof2gho2id[.]onion). It starts and stops miners, updates configs, spawns interactive shells, launches an IPv4 TCP SYN traffic task against a given address and port, and maintains the NVML hook. It reads TracerPid first and exits if a tracer is attached. Its CPU branch launches kurt (XMRig 6.25.0) and its GPU branch launches tilki (SRBMiner-MULTI 3.6.9). lyrebird is a legitimate Tor pluggable transport proxy.</p><p>- Second backdoor: netns runs as a systemd service. It queries an embedded Ethereum smart contract (0x43eb291f56688c63c93e8a93c4591fc997cf6349) for a controller IPv4 address, then opens a plain TCP connection to that address on port 8080 and starts a reverse shell to the host and port in the response. Attribution is unclear, but the rootkit source contains Turkish 🇹🇷 language comments.</p><p>Why it matters: GPU hosts for AI and LLM workloads are expensive, and a tampered NVML makes the usual &quot;is the GPU busy&quot; check worthless. Cryptojacking diverts compute and raises costs.</p><p>Takeaway: do not trust on-host tooling on a suspect GPU node. Image the disk and inspect from outside the running system: the initramfs, the DKMS build for acpi_thermal_mgr, /opt/vadi_, authorized_keys, and systemd units for netns. Verify the NVML library has not been modified, and review who can submit jobs to Ray and whether the job agent is exposed. Also check for anomalies like a &quot;0%&quot; GPU on a node with high out-of-band (BMC/PDU) power or heat, since NVML temperature and power are faked too, and hunt at the network level for outbound Tor (incl. lyrebird bridges) and port 8080 connections from GPU hosts.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/sansar-linux-cryptomining-malware-uses.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122284578643628339">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2122284578643628339</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2122284578643628339">DFIR Radar</source>
+      <pubDate>Mon, 16 Nov 2026 11:04:09 +0000</pubDate>
+      <guid isPermaLink="false">2122284578643628339</guid>
+    </item>
     <item>
       <title>Amazon Uncovers AI Agent Campaign Targeting LiteLLM, Dify, and Other Apps for API Keys</title>
       <link>https://thehackernews.com/2026/11/amazon-uncovers-ai-agent-campaign.html</link>
@@ -2225,20 +2253,6 @@ Hunt priority: Any organization running FortiGate should audit for a local admin
       <source url="https://x.com/DFIR_Radar/status/2120412052296814631">DFIR Radar</source>
       <pubDate>Wed, 11 Nov 2026 07:03:23 +0000</pubDate>
       <guid isPermaLink="false">2120412052296814631</guid>
-    </item>
-    <item>
-      <title>An Exploit Inside an App Store App: What FomoPeek Means for "App Store Only" Policies</title>
-      <link>https://www.iverify.com/blog/fomopeek-app-store-exploit</link>
-      <description>FomoPeek versions 1.1 and 1.2 carried a hidden iOS kernel exploit toolkit, escaping the sandbox to steal Keychain credentials and roughly $580K in crypto. If employees ran either version, rotate every stored credential and revoke active sessions.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120396963220701203</description>
-      <content:encoded><![CDATA[<p>FomoPeek versions 1.1 and 1.2 carried a hidden iOS kernel exploit toolkit, escaping the sandbox to steal Keychain credentials and roughly $580K in crypto. If employees ran either version, rotate every stored credential and revoke active sessions.</p><p>#DFIR_Radar</p><p><a href="https://www.iverify.com/blog/fomopeek-app-store-exploit">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120396963220701203">View on X</a></p>]]></content:encoded>
-      <dc:creator>iVerify</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120396963220701203</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2120396963220701203">DFIR Radar</source>
-      <pubDate>Wed, 11 Nov 2026 06:03:26 +0000</pubDate>
-      <guid isPermaLink="false">2120396963220701203</guid>
     </item>
   </channel>
 </rss>
