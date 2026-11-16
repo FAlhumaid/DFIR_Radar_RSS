@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Nov 2026 21:04:47 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2026 22:02:56 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Poisoned Scripts on BBC, Zoom and Other Major Websites Linked to iPhone Exploit Loaders</title>
+      <link>https://www.infostealers.com/article/poisoned-scripts-on-bbc-zoom-and-other-major-websites-linked-to-iphone-exploit-loaders/</link>
+      <description>Poisoned third-party JavaScript on BBC, Zoom, GitLab and HSBC UAE 🇦🇪 swaps crypto addresses, skims cards, and routes iPhones to Coruna and DarkSword exploit-kit infrastructure.
+
+- Delivery: the report confirms malicious code in responses served by four providers' own endpoints: Optimizely projectJS, Kissmetrics (a 213-byte shared i.js loader), StorifyMe widgets and a 561-byte minute-ly loader. Kirk from Ohey supplied 15 archived website captures covering 16 vendor responses, and Hudson Rock matched the hashes. Together the evidence names 21 web properties, including CNN, Fox News, Salesforce, Mutual of Omaha, FAZ and the Sydney Morning Herald. Initial access to each provider is unknown, and the report does not show the sites' own backends were compromised.
+
+- Browser payload: the Optimizely injections load 1688360[.]cc/track.js (29,882 bytes, SHA-256 f7b84b9a94f749f8ced3f0112d0a66894e8bbc3b4aa5592021d1b8976a9bad40). It swaps wallet addresses for EVM, Bitcoin, TRON, TON, Solana, Litecoin, Bitcoin Cash and Dogecoin. It hooks forms, fetch and XHR for Luhn-valid card data, sent to 1688360[.]cc/card.php with fields n, e, c and u. A conditional hit.php POST carries up to 8,000 characters of readable cookies plus an html2canvas JPEG. HttpOnly cookies stay out of reach. No victim counts or successful thefts are established.
+
+- Mobile branch: Kissmetrics, StorifyMe, minute-ly and an earlier BBC response load webshell[.]lol/get.js with channel marker 02111110. It leads to boot.js routers on 5vobauua3ojpklx[.]icu and eil786npto9u5bq[.]icu, with A8 entries tied to Coruna and D11 labelled DarkSword. The C10 route for iOS 26 is configured but untested. urlscan captures with iOS user-agent strings got HTTP 200 on entry stages, but urlscan runs headless Chrome. This is delivery evidence only: no successful iPhone exploitation and no zero-day is shown.
+
+- Containment trap: the BBC and HSBC UAE 🇦🇪 scripts embed the full 24,392-byte payload in Base64 (SHA-256 c2a34c579e4c2e8802752c93b3a9cca0230610f3e4dd6688f4272459c7c7c162). It runs if the remote fetch errors or exceeds 2.5 seconds, so blocking 1688360[.]cc does not stop local address substitution. The minute-ly loader removes its own script elements after three seconds, so DOM-only inspection can be incomplete. Later clean copies of some assets do not invalidate the earlier archive hashes.
+
+Takeaway: before restoring anything, preserve the actual response bytes, headers, hashes, timestamps and project revisions. Then review project changes, publication history, account activity, API credentials and integrations with each affected provider. Hunt card.php and hit.php POSTs, boot and entry-stage requests, and /api/gs_state or /api/pe_ok calls as separate events, since pe_ok alone does not prove privilege escalation. Combine markers such as ds_vk, __DAILI_CFG, chainFrame and window._k7 with origin and path, never alone. Seek device-level forensics if iPhone exposure is suspected. IOCs, hashes and wallet destinations are in Hudson Rock's report. Handle evidence carefully, since the card-deduplication keys can contain card details.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122450367048745035</description>
+      <content:encoded><![CDATA[<p>Poisoned third-party JavaScript on BBC, Zoom, GitLab and HSBC UAE 🇦🇪 swaps crypto addresses, skims cards, and routes iPhones to Coruna and DarkSword exploit-kit infrastructure.</p><p>- Delivery: the report confirms malicious code in responses served by four providers&#x27; own endpoints: Optimizely projectJS, Kissmetrics (a 213-byte shared i.js loader), StorifyMe widgets and a 561-byte minute-ly loader. Kirk from Ohey supplied 15 archived website captures covering 16 vendor responses, and Hudson Rock matched the hashes. Together the evidence names 21 web properties, including CNN, Fox News, Salesforce, Mutual of Omaha, FAZ and the Sydney Morning Herald. Initial access to each provider is unknown, and the report does not show the sites&#x27; own backends were compromised.</p><p>- Browser payload: the Optimizely injections load 1688360[.]cc/track.js (29,882 bytes, SHA-256 f7b84b9a94f749f8ced3f0112d0a66894e8bbc3b4aa5592021d1b8976a9bad40). It swaps wallet addresses for EVM, Bitcoin, TRON, TON, Solana, Litecoin, Bitcoin Cash and Dogecoin. It hooks forms, fetch and XHR for Luhn-valid card data, sent to 1688360[.]cc/card.php with fields n, e, c and u. A conditional hit.php POST carries up to 8,000 characters of readable cookies plus an html2canvas JPEG. HttpOnly cookies stay out of reach. No victim counts or successful thefts are established.</p><p>- Mobile branch: Kissmetrics, StorifyMe, minute-ly and an earlier BBC response load webshell[.]lol/get.js with channel marker 02111110. It leads to boot.js routers on 5vobauua3ojpklx[.]icu and eil786npto9u5bq[.]icu, with A8 entries tied to Coruna and D11 labelled DarkSword. The C10 route for iOS 26 is configured but untested. urlscan captures with iOS user-agent strings got HTTP 200 on entry stages, but urlscan runs headless Chrome. This is delivery evidence only: no successful iPhone exploitation and no zero-day is shown.</p><p>- Containment trap: the BBC and HSBC UAE 🇦🇪 scripts embed the full 24,392-byte payload in Base64 (SHA-256 c2a34c579e4c2e8802752c93b3a9cca0230610f3e4dd6688f4272459c7c7c162). It runs if the remote fetch errors or exceeds 2.5 seconds, so blocking 1688360[.]cc does not stop local address substitution. The minute-ly loader removes its own script elements after three seconds, so DOM-only inspection can be incomplete. Later clean copies of some assets do not invalidate the earlier archive hashes.</p><p>Takeaway: before restoring anything, preserve the actual response bytes, headers, hashes, timestamps and project revisions. Then review project changes, publication history, account activity, API credentials and integrations with each affected provider. Hunt card.php and hit.php POSTs, boot and entry-stage requests, and /api/gs_state or /api/pe_ok calls as separate events, since pe_ok alone does not prove privilege escalation. Combine markers such as ds_vk, __DAILI_CFG, chainFrame and window._k7 with origin and path, never alone. Seek device-level forensics if iPhone exposure is suspected. IOCs, hashes and wallet destinations are in Hudson Rock&#x27;s report. Handle evidence carefully, since the card-deduplication keys can contain card details.</p><p>#DFIR_Radar</p><p><a href="https://www.infostealers.com/article/poisoned-scripts-on-bbc-zoom-and-other-major-websites-linked-to-iphone-exploit-loaders/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122450367048745035">View on X</a></p>]]></content:encoded>
+      <dc:creator>Hudson Rock (InfoStealers)</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2122450367048745035</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2122450367048745035">DFIR Radar</source>
+      <pubDate>Mon, 16 Nov 2026 22:02:56 +0000</pubDate>
+      <guid isPermaLink="false">2122450367048745035</guid>
+    </item>
     <item>
       <title>Detections Digest #20261116</title>
       <link>https://detections-digest.rulecheck.io/p/detections-digest-20261116</link>
@@ -2257,20 +2281,6 @@ Practitioner takeaway: forward kernel and systemd-coredump logs alongside EDR pr
       <source url="https://x.com/DFIR_Radar/status/2120593053044122107">DFIR Radar</source>
       <pubDate>Wed, 11 Nov 2026 19:02:38 +0000</pubDate>
       <guid isPermaLink="false">2120593053044122107</guid>
-    </item>
-    <item>
-      <title>Inside the Supermarket Refrigeration Attacks</title>
-      <link>https://industrialcyber.co/expert/inside-the-supermarket-refrigeration-attacks/</link>
-      <description>Attackers forced ~700 French 🇫🇷 supermarket Danfoss AK-SM/AK-SC controllers into defrost mode via internet-exposed interfaces, per CERT-FR alert CERTFR-2026-ALE-012. Audit OT for Shodan-visible controllers and patch AK-SM 800A below firmware 4.2.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120578351802859747</description>
-      <content:encoded><![CDATA[<p>Attackers forced ~700 French 🇫🇷 supermarket Danfoss AK-SM/AK-SC controllers into defrost mode via internet-exposed interfaces, per CERT-FR alert CERTFR-2026-ALE-012. Audit OT for Shodan-visible controllers and patch AK-SM 800A below firmware 4.2.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/expert/inside-the-supermarket-refrigeration-attacks/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120578351802859747">View on X</a></p>]]></content:encoded>
-      <dc:creator>Industrial Cyber</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120578351802859747</comments>
-      <category>ICS/OT SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2120578351802859747">DFIR Radar</source>
-      <pubDate>Wed, 11 Nov 2026 18:04:13 +0000</pubDate>
-      <guid isPermaLink="false">2120578351802859747</guid>
     </item>
   </channel>
 </rss>
