@@ -5,8 +5,40 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Nov 2026 18:03:14 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2026 19:04:17 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Check Point Gateway Vulnerabilities Chained in Destructive Attacks</title>
+      <link>https://fieldeffect.com/blog/check-point-gateway-vulnerabilities-chained-in-attacks</link>
+      <description>Check Point Security Gateways are being chained from unauthenticated PHP2Shell remote code execution to root, then used to reach VMware ESXi and deploy the destroy_v6 wiper. Exploitation began October 30 against Israeli 🇮🇱 organizations and widened on November 2.
+
+Check Point disclosed the active exploitation on November 12 after investigating multiple intrusions. The gateway was the platform, not the goal: the actors moved from the perimeter into virtualization infrastructure.
+
+- Initial access: PHP2Shell is the name for two PHP flaws, CVE-2026-109618 and CVE-2026-109619, both CVSS v4.0 9.2. They let a remote unauthenticated attacker run code through an exposed web interface, including the Mobile Access Portal. Affected are Security Gateways on R80 through R82.20 and Spark Firewall R81.10.x, R82.00.x, R77.20.x and R80.20.x with vulnerable web-facing services enabled. Exposure also covers Remote Access VPN with SNX or SAML, Identity Awareness Captive Portal, UserCheck Portal, and Zero Phishing.
+
+- Root: PHP2Shell only gives execution in the portal service context. Attackers then used CVE-2026-123039 (CVSS v3.1 7.8), a local privilege escalation in the DynamicCLI service of Gaia OS, to reach root. It affects Gaia R81.20, R82, R82.10 and R82.20.
+
+- Post-exploitation: actors dropped PHP web shells, installed the TSGA backdoor and TSProxy component for persistence, ran internal reconnaissance, and moved laterally. In the intrusion Check Point detailed, they reached an ESXi environment and deployed the destroy_v6 wiper on a host. Destructive activity hit a limited number of first-wave victims.
+
+- Attribution is open. TSGA and TSProxy resemble the PhiliKit framework previously linked to UNC5221, but Check Point says the evidence does not support high-confidence attribution. It floated several scenarios: a full operation by one actor, an initial access broker, a false flag, or destruction as a smoke screen.
+
+- Gateway artifacts to check: PHP session files containing upload_progress_pwn, unexpected template files such as zz*.tpl and challenge_render.tpl, TSGA and TSProxy artifacts, unexpected CPconfigdaemon processes, /lib/libcpfwcommon.so, listeners on TCP port 11072, anomalous outbound connections, and gaps in logging.
+
+Timeline matters here. PHP fixed the flaws October 21 and Check Point shipped a standalone gateway hotfix October 23, so the first wave on October 30 came after fixes existed. The Gaia privilege escalation fix arrived in the November 12 Jumbo Hotfix. Patching closes the path but does not remove access gained earlier.
+
+Takeaway: if a gateway ran an exposed vulnerable service at any point since October 30, treat it as a compromise assessment, not a patch ticket. Sweep it for the artifacts above, then pivot downstream. On ESXi hosts and other reachable systems, look for SSH activity originating from gateway addresses, use of the vpxuser account on ESXi, unexpected administrative actions, and signs of destructive activity. Extend the review to vCenter, management networks, identity services, and backup systems reachable from the gateway. Preserve gateway logs first, since log gaps are themselves an indicator.
+
+Minimum fixed Jumbo Hotfix releases are R82.20 Take 14, R82.10 Take 52, R82 Take 132, and R81.20 Take 174. R81.10 and older need an upgrade to a supported release. IPS protections CPAI-2026-15172 and CPAI-2026-15184 cover PHP2Shell as a stopgap. The report lists artifact types, not a hash or IP IOC list.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122405410485207353</description>
+      <content:encoded><![CDATA[<p>Check Point Security Gateways are being chained from unauthenticated PHP2Shell remote code execution to root, then used to reach VMware ESXi and deploy the destroy_v6 wiper. Exploitation began October 30 against Israeli 🇮🇱 organizations and widened on November 2.</p><p>Check Point disclosed the active exploitation on November 12 after investigating multiple intrusions. The gateway was the platform, not the goal: the actors moved from the perimeter into virtualization infrastructure.</p><p>- Initial access: PHP2Shell is the name for two PHP flaws, CVE-2026-109618 and CVE-2026-109619, both CVSS v4.0 9.2. They let a remote unauthenticated attacker run code through an exposed web interface, including the Mobile Access Portal. Affected are Security Gateways on R80 through R82.20 and Spark Firewall R81.10.x, R82.00.x, R77.20.x and R80.20.x with vulnerable web-facing services enabled. Exposure also covers Remote Access VPN with SNX or SAML, Identity Awareness Captive Portal, UserCheck Portal, and Zero Phishing.</p><p>- Root: PHP2Shell only gives execution in the portal service context. Attackers then used CVE-2026-123039 (CVSS v3.1 7.8), a local privilege escalation in the DynamicCLI service of Gaia OS, to reach root. It affects Gaia R81.20, R82, R82.10 and R82.20.</p><p>- Post-exploitation: actors dropped PHP web shells, installed the TSGA backdoor and TSProxy component for persistence, ran internal reconnaissance, and moved laterally. In the intrusion Check Point detailed, they reached an ESXi environment and deployed the destroy_v6 wiper on a host. Destructive activity hit a limited number of first-wave victims.</p><p>- Attribution is open. TSGA and TSProxy resemble the PhiliKit framework previously linked to UNC5221, but Check Point says the evidence does not support high-confidence attribution. It floated several scenarios: a full operation by one actor, an initial access broker, a false flag, or destruction as a smoke screen.</p><p>- Gateway artifacts to check: PHP session files containing upload_progress_pwn, unexpected template files such as zz*.tpl and challenge_render.tpl, TSGA and TSProxy artifacts, unexpected CPconfigdaemon processes, /lib/libcpfwcommon.so, listeners on TCP port 11072, anomalous outbound connections, and gaps in logging.</p><p>Timeline matters here. PHP fixed the flaws October 21 and Check Point shipped a standalone gateway hotfix October 23, so the first wave on October 30 came after fixes existed. The Gaia privilege escalation fix arrived in the November 12 Jumbo Hotfix. Patching closes the path but does not remove access gained earlier.</p><p>Takeaway: if a gateway ran an exposed vulnerable service at any point since October 30, treat it as a compromise assessment, not a patch ticket. Sweep it for the artifacts above, then pivot downstream. On ESXi hosts and other reachable systems, look for SSH activity originating from gateway addresses, use of the vpxuser account on ESXi, unexpected administrative actions, and signs of destructive activity. Extend the review to vCenter, management networks, identity services, and backup systems reachable from the gateway. Preserve gateway logs first, since log gaps are themselves an indicator.</p><p>Minimum fixed Jumbo Hotfix releases are R82.20 Take 14, R82.10 Take 52, R82 Take 132, and R81.20 Take 174. R81.10 and older need an upgrade to a supported release. IPS protections CPAI-2026-15172 and CPAI-2026-15184 cover PHP2Shell as a stopgap. The report lists artifact types, not a hash or IP IOC list.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/check-point-gateway-vulnerabilities-chained-in-attacks">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122405410485207353">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2122405410485207353</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2122405410485207353">DFIR Radar</source>
+      <pubDate>Mon, 16 Nov 2026 19:04:17 +0000</pubDate>
+      <guid isPermaLink="false">2122405410485207353</guid>
+    </item>
     <item>
       <title>Europe's fridge attacks, up close: 110 °C typed into Copeland XWEB from an iPhone</title>
       <link>https://huntback.io/blog/copeland-xweb-set-point-110-typed-on-a-phone</link>
@@ -2239,20 +2271,6 @@ Hunt: Query your proxy or DNS logs for the three Falcon C2 domains above, then p
       <source url="https://x.com/DFIR_Radar/status/2120548030625788054">DFIR Radar</source>
       <pubDate>Wed, 11 Nov 2026 16:03:43 +0000</pubDate>
       <guid isPermaLink="false">2120548030625788054</guid>
-    </item>
-    <item>
-      <title>Russia-Linked Turla Hijacks Exchange Servers to Spy on NATO and EU Emails</title>
-      <link>https://www.infosecurity-magazine.com/news/turla-cereal-exchange-email/</link>
-      <description>Russian 🇷🇺 Turla deployed the Cereal toolset on government Exchange servers in Kazakhstan 🇰🇿 and Romania 🇷🇴, filtering NATO and EU emails with no external C2. IOCs are in ESET's white paper and GitHub repository.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120532812214292790</description>
-      <content:encoded><![CDATA[<p>Russian 🇷🇺 Turla deployed the Cereal toolset on government Exchange servers in Kazakhstan 🇰🇿 and Romania 🇷🇴, filtering NATO and EU emails with no external C2. IOCs are in ESET&#x27;s white paper and GitHub repository.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/turla-cereal-exchange-email/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120532812214292790">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120532812214292790</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2120532812214292790">DFIR Radar</source>
-      <pubDate>Wed, 11 Nov 2026 15:03:15 +0000</pubDate>
-      <guid isPermaLink="false">2120532812214292790</guid>
     </item>
   </channel>
 </rss>
