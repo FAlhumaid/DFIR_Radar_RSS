@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 17 Nov 2026 11:02:44 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2026 12:02:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New GitDoor and GraphDoor Backdoors Turn GitHub and SharePoint Into Covert C2 Channels</title>
+      <link>https://thehackernews.com/2026/11/new-gitdoor-and-graphdoor-backdoors.html</link>
+      <description>Kaspersky's Operation ShadowCloud hits government sectors in Asia and Africa with two new modular backdoors, GitDoor and GraphDoor. They hide C2 in GitHub, Microsoft SharePoint via the Graph API, and Ably, so the traffic looks like normal enterprise cloud usage.
+
+The chain starts with a legitimate MeshCentral Agent (MeshAgent), a remote access tool, on a victim host. Kaspersky saw it at a Taiwanese 🇹🇼 organization and does not know how it was installed. Signs point to reuse of a prior infection already on the network. The agent beacons to a hard-coded server, wss://27.102.66[.]162:443/agent.ashx, and pulls down three staged items.
+
+- Staging and loading: a legitimate binary for DLL sideloading (start.exe, pythonw.exe, or zoomit.exe), a rogue loader DLL (jli.dll, SbieDll.dll, python39.dll, WINMM.dll, or libcef.dll), and an encrypted file holding the core payload. Two loader types are known. Type 1 runs RC4 and then an XOR mask, Type 2 uses XOR alone. Both inject the decoded backdoor into the current process's memory. The backdoors use control flow flattening and nested helper functions to slow analysis.
+
+- GitDoor: C2 runs over two GitHub repositories, /repos/LatonyCharnleyaW/Havo (public, for command payloads) and /repos/LatonyCharnleyaW/Trix (private, for results). Repo creation dates suggest preparation since at least the end of 2024. It supports 26 commands, including file management, keylogging, proxying (including via Ably), and shellcode loading from Base64 COFF binaries.
+
+- GraphDoor: it opens a named pipe, creates a folder named Intel_Log under the Application Data directory, and authenticates to login.microsoftonline[.]com with a malicious application. It then uses the access token to talk to the Microsoft Graph API and stage data on a SharePoint drive. It pulls three plugins and runs them in parallel: kl.ts (keylogger), pr.ts (process list), scr.ts (screenshots). Other plugins are moveDir.ts, channel.ts, abchannel.ts, and ab2channel.ts, a SOCKS5 proxy tunneled through Ably's Pusher-compatible WebSocket service. Its shellcode capability adds cmd.exe and MZ executable execution on top of GitDoor's.
+
+- Post-exploitation modules via shellcode: APC injection, service, registry, and scheduled task management, firewall rule changes, process memory dumping, and local user creation or group changes. Credential theft includes Mimikatz against LSASS, CookieKatz to pull Chrome and Edge cookies from process memory, the WhatsApp database decryption key, and forced NTLM authentication to an attacker-controlled destination. Both implants write keystrokes to %APPDATA%\Microsoft\SystemCertificates\Cache\logs.dat.
+
+- Attribution: unknown. Kaspersky sees overlap with China-nexus activity Sophos tracks as Bronze Sandcastle, plus tactical similarities to FamousSparrow and CopperTurtle (aka BlackTech). On several victims those groups used the same staging directories as GitDoor, with implants deployed within a day of GitDoor. Kaspersky says this does not prove a link, but suggests a Chinese-speaking group may be developing or using the backdoors.
+
+Takeaway: network telemetry will not separate this C2 from normal Graph, GitHub, or Ably calls, so pivot to the host. Find unexpected MeshAgent installs and connections to 27.102.66[.]162. Look for the sideloading pairs above, where a legitimate binary such as zoomit.exe or pythonw.exe sits next to a DLL like jli.dll or WINMM.dll in a non-standard path, and for those processes making outbound calls to GitHub API or Graph endpoints. Check for logs.dat under SystemCertificates\Cache and an Intel_Log folder under Application Data. Review LSASS access, new local accounts or group changes, and new scheduled tasks. In Microsoft Entra, audit sign-ins and consent grants for unfamiliar applications tied to SharePoint access.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122661773576995027</description>
+      <content:encoded><![CDATA[<p>Kaspersky&#x27;s Operation ShadowCloud hits government sectors in Asia and Africa with two new modular backdoors, GitDoor and GraphDoor. They hide C2 in GitHub, Microsoft SharePoint via the Graph API, and Ably, so the traffic looks like normal enterprise cloud usage.</p><p>The chain starts with a legitimate MeshCentral Agent (MeshAgent), a remote access tool, on a victim host. Kaspersky saw it at a Taiwanese 🇹🇼 organization and does not know how it was installed. Signs point to reuse of a prior infection already on the network. The agent beacons to a hard-coded server, wss://27.102.66[.]162:443/agent.ashx, and pulls down three staged items.</p><p>- Staging and loading: a legitimate binary for DLL sideloading (start.exe, pythonw.exe, or zoomit.exe), a rogue loader DLL (jli.dll, SbieDll.dll, python39.dll, WINMM.dll, or libcef.dll), and an encrypted file holding the core payload. Two loader types are known. Type 1 runs RC4 and then an XOR mask, Type 2 uses XOR alone. Both inject the decoded backdoor into the current process&#x27;s memory. The backdoors use control flow flattening and nested helper functions to slow analysis.</p><p>- GitDoor: C2 runs over two GitHub repositories, /repos/LatonyCharnleyaW/Havo (public, for command payloads) and /repos/LatonyCharnleyaW/Trix (private, for results). Repo creation dates suggest preparation since at least the end of 2024. It supports 26 commands, including file management, keylogging, proxying (including via Ably), and shellcode loading from Base64 COFF binaries.</p><p>- GraphDoor: it opens a named pipe, creates a folder named Intel_Log under the Application Data directory, and authenticates to login.microsoftonline[.]com with a malicious application. It then uses the access token to talk to the Microsoft Graph API and stage data on a SharePoint drive. It pulls three plugins and runs them in parallel: kl.ts (keylogger), pr.ts (process list), scr.ts (screenshots). Other plugins are moveDir.ts, channel.ts, abchannel.ts, and ab2channel.ts, a SOCKS5 proxy tunneled through Ably&#x27;s Pusher-compatible WebSocket service. Its shellcode capability adds cmd.exe and MZ executable execution on top of GitDoor&#x27;s.</p><p>- Post-exploitation modules via shellcode: APC injection, service, registry, and scheduled task management, firewall rule changes, process memory dumping, and local user creation or group changes. Credential theft includes Mimikatz against LSASS, CookieKatz to pull Chrome and Edge cookies from process memory, the WhatsApp database decryption key, and forced NTLM authentication to an attacker-controlled destination. Both implants write keystrokes to %APPDATA%\Microsoft\SystemCertificates\Cache\logs.dat.</p><p>- Attribution: unknown. Kaspersky sees overlap with China-nexus activity Sophos tracks as Bronze Sandcastle, plus tactical similarities to FamousSparrow and CopperTurtle (aka BlackTech). On several victims those groups used the same staging directories as GitDoor, with implants deployed within a day of GitDoor. Kaspersky says this does not prove a link, but suggests a Chinese-speaking group may be developing or using the backdoors.</p><p>Takeaway: network telemetry will not separate this C2 from normal Graph, GitHub, or Ably calls, so pivot to the host. Find unexpected MeshAgent installs and connections to 27.102.66[.]162. Look for the sideloading pairs above, where a legitimate binary such as zoomit.exe or pythonw.exe sits next to a DLL like jli.dll or WINMM.dll in a non-standard path, and for those processes making outbound calls to GitHub API or Graph endpoints. Check for logs.dat under SystemCertificates\Cache and an Intel_Log folder under Application Data. Review LSASS access, new local accounts or group changes, and new scheduled tasks. In Microsoft Entra, audit sign-ins and consent grants for unfamiliar applications tied to SharePoint access.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/new-gitdoor-and-graphdoor-backdoors.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122661773576995027">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2122661773576995027</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2122661773576995027">DFIR Radar</source>
+      <pubDate>Tue, 17 Nov 2026 12:02:59 +0000</pubDate>
+      <guid isPermaLink="false">2122661773576995027</guid>
+    </item>
     <item>
       <title>Optimizely Attack Hits Zoom, BBC, CNN With Skimmer, iOS Kits</title>
       <link>https://socradar.io/blog/optimizely-attack-hits-zoom-bbc-cnn-with-skimmer-ios-kits/</link>
@@ -2339,20 +2367,6 @@ The full IOC table with file hashes is in Huntress's report.
       <source url="https://x.com/DFIR_Radar/status/2120789331438604691">DFIR Radar</source>
       <pubDate>Thu, 12 Nov 2026 08:02:34 +0000</pubDate>
       <guid isPermaLink="false">2120789331438604691</guid>
-    </item>
-    <item>
-      <title>How to Export Cortex XDR Logs</title>
-      <link>https://socprime.com/blog/how-to-export-cortex-xdr-logs/</link>
-      <description>A SOC Prime guide shows exporting Cortex XDR telemetry through XQL APIs: start_xql_query, then get_query_results. Inline results cap at 1,000, so pull larger sets with get_query_results_stream.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2120774824016678988</description>
-      <content:encoded><![CDATA[<p>A SOC Prime guide shows exporting Cortex XDR telemetry through XQL APIs: start_xql_query, then get_query_results. Inline results cap at 1,000, so pull larger sets with get_query_results_stream.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/how-to-export-cortex-xdr-logs/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2120774824016678988">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2120774824016678988</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2120774824016678988">DFIR Radar</source>
-      <pubDate>Thu, 12 Nov 2026 07:04:55 +0000</pubDate>
-      <guid isPermaLink="false">2120774824016678988</guid>
     </item>
   </channel>
 </rss>
