@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 18 Nov 2026 16:03:02 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2026 17:02:50 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Test</title>
+      <link>https://www.todyl.com/blog/test</link>
+      <description>ARTEX, an open-source AI-agent pen-testing framework, became an attacker staple in about three months. Storm-0940, assessed by Microsoft as China 🇨🇳 state aligned, used it to hit a vendor's Microsoft 365 apps, then tried sign-ins against more than 2,250 customer tenants.
+
+- Storm-0940 chain (Microsoft's Oct 21 report): a password spray from 144.172.64[.]99 ran Oct 10 to 14, with hundreds of thousands of failed attempts peaking at thousands per minute on Oct 11. After taking over the vendor's app identities, the actor signed in as service principals and ran Microsoft Graph recon. It added credentials to existing OAuth apps, read secrets across multiple Key Vaults, and in one tenant used a management app to assign itself Global Administrator. No Microsoft vulnerability was involved, only valid credentials. Attribution is Microsoft's assessment. Google tracks overlapping activity as UNC7228, dating back to at least August 2026, hitting US 🇺🇸 and European entities in enterprise software, industrial automation, semiconductors and telecom. Wiz reports the actor now targets IT and software vendors, focusing on identity providers such as Okta and Entra and on Microsoft 365 integrations.
+
+- Machine speed shapes the evidence. Microsoft saw one agent go from searching GitHub to exfiltrating Azure Key Vault data in five minutes. Google saw bursts of 2 to 25 seconds, including 27 events in 23 seconds. Failed calls get fixed fast: a wrong Key Vault API version was retried correctly about 28 seconds later, Azure SQL firewall rules after about 60 seconds, Application Insights after about 80. Agents rotate fingerprints once blocked, and Wiz saw more than 15 user-agent strings from Storm-0940-linked activity.
+
+- Storm-3358 shows the non-cloud side: anonymous file upload and SSRF flaws on internet-facing systems, then agents pulled WISP, vshell and AdaptixC2 with netcat and curl. Reported ARTEX servers: 91.92.240[.]238, 85.11.168[.]45, 178.16.54[.]129, 31.77.229[.]35, with C2 at 85.11.167[.]52 and WISP nodes at 199.19.95[.]66, 199.19.95[.]67 and 199.19.95[.]68.
+
+- Tool-level artifacts: files named artex-probe-* with roughly incrementing five-digit numbers, and created accounts with ArtexProbe in the name and plaintext passwords. Short-lived JSP webshells include cl1217.jsp, f1219a.jsp and z1219.jsp; Google saw one written through MySQL general log poisoning. C2 includes rotating webhook[.]site URLs, 491 of them in one intrusion Google observed. Client strings include curl/7.88.1, python-requests/2.34.2, Python-urllib/3.12, norma/0.4 and ReconProbe/1.0, though Wiz cautions many are not unique to ARTEX. Cloud behavior to look for: one source authenticating as multiple service principals, or one app requesting tokens for several Azure services in a short window.
+
+- Entry often starts with leaked secrets. Apiiro found 2,539 sensitive secrets across 1,994 public GitHub repos in AI coding agent settings files, covering database passwords, API tokens and root logins. Microsoft says agents repeatedly focus on credentials that reach AI services. With more than 12,000 forks, shared defaults will not tell you which group is behind an intrusion, and Google forecasts fully autonomous, stealthier attacks within 3 to 6 months.
+
+Takeaway: these sign-ins do not show up in user sign-in logs. Collect service-principal and non-interactive sign-in logs for every tenant and hunt weeks back. Inventory third-party multi-tenant apps across tenants, check for credentials added to existing OAuth apps, and alert on any app assigning itself Global Administrator. Treat any publicly exposed credential as compromised. Network IOCs are short-lived, so build detections on behavior: a failed secret followed by a success, one app requesting many token types in minutes, retries corrected within a minute, and dozens of events in seconds. The IOC lists from Microsoft, Google and Wiz are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123099620469612892</description>
+      <content:encoded><![CDATA[<p>ARTEX, an open-source AI-agent pen-testing framework, became an attacker staple in about three months. Storm-0940, assessed by Microsoft as China 🇨🇳 state aligned, used it to hit a vendor&#x27;s Microsoft 365 apps, then tried sign-ins against more than 2,250 customer tenants.</p><p>- Storm-0940 chain (Microsoft&#x27;s Oct 21 report): a password spray from 144.172.64[.]99 ran Oct 10 to 14, with hundreds of thousands of failed attempts peaking at thousands per minute on Oct 11. After taking over the vendor&#x27;s app identities, the actor signed in as service principals and ran Microsoft Graph recon. It added credentials to existing OAuth apps, read secrets across multiple Key Vaults, and in one tenant used a management app to assign itself Global Administrator. No Microsoft vulnerability was involved, only valid credentials. Attribution is Microsoft&#x27;s assessment. Google tracks overlapping activity as UNC7228, dating back to at least August 2026, hitting US 🇺🇸 and European entities in enterprise software, industrial automation, semiconductors and telecom. Wiz reports the actor now targets IT and software vendors, focusing on identity providers such as Okta and Entra and on Microsoft 365 integrations.</p><p>- Machine speed shapes the evidence. Microsoft saw one agent go from searching GitHub to exfiltrating Azure Key Vault data in five minutes. Google saw bursts of 2 to 25 seconds, including 27 events in 23 seconds. Failed calls get fixed fast: a wrong Key Vault API version was retried correctly about 28 seconds later, Azure SQL firewall rules after about 60 seconds, Application Insights after about 80. Agents rotate fingerprints once blocked, and Wiz saw more than 15 user-agent strings from Storm-0940-linked activity.</p><p>- Storm-3358 shows the non-cloud side: anonymous file upload and SSRF flaws on internet-facing systems, then agents pulled WISP, vshell and AdaptixC2 with netcat and curl. Reported ARTEX servers: 91.92.240[.]238, 85.11.168[.]45, 178.16.54[.]129, 31.77.229[.]35, with C2 at 85.11.167[.]52 and WISP nodes at 199.19.95[.]66, 199.19.95[.]67 and 199.19.95[.]68.</p><p>- Tool-level artifacts: files named artex-probe-* with roughly incrementing five-digit numbers, and created accounts with ArtexProbe in the name and plaintext passwords. Short-lived JSP webshells include cl1217.jsp, f1219a.jsp and z1219.jsp; Google saw one written through MySQL general log poisoning. C2 includes rotating webhook[.]site URLs, 491 of them in one intrusion Google observed. Client strings include curl/7.88.1, python-requests/2.34.2, Python-urllib/3.12, norma/0.4 and ReconProbe/1.0, though Wiz cautions many are not unique to ARTEX. Cloud behavior to look for: one source authenticating as multiple service principals, or one app requesting tokens for several Azure services in a short window.</p><p>- Entry often starts with leaked secrets. Apiiro found 2,539 sensitive secrets across 1,994 public GitHub repos in AI coding agent settings files, covering database passwords, API tokens and root logins. Microsoft says agents repeatedly focus on credentials that reach AI services. With more than 12,000 forks, shared defaults will not tell you which group is behind an intrusion, and Google forecasts fully autonomous, stealthier attacks within 3 to 6 months.</p><p>Takeaway: these sign-ins do not show up in user sign-in logs. Collect service-principal and non-interactive sign-in logs for every tenant and hunt weeks back. Inventory third-party multi-tenant apps across tenants, check for credentials added to existing OAuth apps, and alert on any app assigning itself Global Administrator. Treat any publicly exposed credential as compromised. Network IOCs are short-lived, so build detections on behavior: a failed secret followed by a success, one app requesting many token types in minutes, retries corrected within a minute, and dozens of events in seconds. The IOC lists from Microsoft, Google and Wiz are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.todyl.com/blog/test">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123099620469612892">View on X</a></p>]]></content:encoded>
+      <dc:creator>Todyl</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123099620469612892</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2123099620469612892">DFIR Radar</source>
+      <pubDate>Wed, 18 Nov 2026 17:02:50 +0000</pubDate>
+      <guid isPermaLink="false">2123099620469612892</guid>
+    </item>
     <item>
       <title>Bazuka: The Fraud Framework That Can Do It All</title>
       <link>https://www.threatfabric.com/blogs/bazuka-the-fraud-framework-that-can-do-it-all</link>
@@ -2341,20 +2367,6 @@ For any unexpected SendCommand, review SSM command history for that window and c
       <source url="https://x.com/DFIR_Radar/status/2121242357068902810">DFIR Radar</source>
       <pubDate>Fri, 13 Nov 2026 14:02:44 +0000</pubDate>
       <guid isPermaLink="false">2121242357068902810</guid>
-    </item>
-    <item>
-      <title>Check Point warns of zero-day flaw exploited for root access</title>
-      <link>https://www.bleepingcomputer.com/news/security/check-point-patches-zero-day-that-lets-hackers-get-root-access/</link>
-      <description>Check Point zero-day CVE-2026-123039 is exploited for root via the DynamicCLI socket after PHP2Shell access. Hunt for commands bypassing the Clish wrapper and system() sink use; IOCs in report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121212733635080638</description>
-      <content:encoded><![CDATA[<p>Check Point zero-day CVE-2026-123039 is exploited for root via the DynamicCLI socket after PHP2Shell access. Hunt for commands bypassing the Clish wrapper and system() sink use; IOCs in report.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/check-point-patches-zero-day-that-lets-hackers-get-root-access/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121212733635080638">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121212733635080638</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2121212733635080638">DFIR Radar</source>
-      <pubDate>Fri, 13 Nov 2026 12:05:01 +0000</pubDate>
-      <guid isPermaLink="false">2121212733635080638</guid>
     </item>
   </channel>
 </rss>
