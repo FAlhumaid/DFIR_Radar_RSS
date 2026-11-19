@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Nov 2026 22:05:53 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 23:06:02 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NGINX2Root: What NGINX Admins Should Know</title>
+      <link>https://socradar.io/blog/nginx2root-nginx-cve-2026-123007/</link>
+      <description>NGINX2Root: five NGINX flaws led by CVE-2026-123007 can give an unauthenticated attacker code execution via HTTP/2, HTTP/3, the DNS resolver or the mail proxy. Public PoC exists, no in-the-wild exploitation reported yet.
+
+- Scope: Xint (Theori) reported all five on October 16, 2026, and F5 shipped fixes on November 18, 2026, the day of disclosure. F5 scores each 9.2 Critical under CVSS v4.0 and 8.1 High under CVSS v3.1. Affected: NGINX Open Source before 1.30.7 and 1.31.9, and NGINX Plus before 37.0.8.1 and 37.3.0.1. Plus R33 through R36 have no patch, so those customers must move to a 37.x build.
+
+- Config decides exposure: CVE-2026-123007 is the broadest, a send-window miscount in HTTP/2 flow control that corrupts memory and needs only HTTP/2 on a reachable listener. CVE-2026-123633 (HTTP/2) and CVE-2026-121810 (HTTP/3) are use-after-free bugs in connection draining with proxying to a backend. CVE-2026-123634 is a resolver use-after-free needing a request-derived proxy_pass target plus SSI or mirror subrequests. CVE-2026-113425 hits the mail proxy when proxy and auth_http are combined.
+
+- Root chain: code execution lands as the NGINX worker, then a separate Linux kernel SCTP use-after-free or double free (code introduced in Linux 4.15) escalates to root. The researchers say the chain also crossed a Docker container boundary. That kernel bug has no CVE and no fix yet. ATT&amp;CK per the report: T1190, T1068, T1611.
+
+- Exploit reality: the public PoC for CVE-2026-123007 (GitHub, November 18) gets code execution against NGINX 1.31.8 with HTTP/2 over TLS in a Docker lab. It needs x86-64 with AVX-512 and a particular glibc memory-copy routine, has to defeat ASLR, and pushes roughly 128 GB of HTTP/2 traffic down a single connection. A proxy terminating HTTP/2 in front of NGINX will most likely stop it. The discoverers and another team hold working exploits but withheld the final steps. Fake exploit repos are circulating, so vet anything you pull.
+
+- Evidence to look for: worker crashes and core dumps (grep 'exited on signal' /var/log/nginx/error.log), an HTTP/2 connection open for minutes ingesting large volumes while the access log shows few requests, a worker spawning a shell or other program, and outbound connections or DNS lookups the host does not normally make. The warning signs come from CIRCL's advisory; the grep is from the report's checks.
+
+Takeaway: scope first, then fix. Run nginx -v and match against your distro advisory, since backports keep old version numbers (Ubuntu shipped fixes November 19). Run nginx -T 2&gt;/dev/null | grep -nE 'http2|http3|quic|resolver|proxy_pass|mirror|ssi on|auth_http' to see which flaws apply. Check bundled NGINX in container images, appliances and load balancers. Community ingress-nginx is retired with no fix planned. After upgrading, do a full restart, because a reload keeps the old binary running.
+
+If patching waits, disable the feature behind each flaw. Turning off HTTP/2 covers only CVE-2026-123007 and CVE-2026-123633, and disabling mirror alone leaves CVE-2026-123634 open. On hosts that do not need SCTP, add install sctp /bin/false under /etc/modprobe.d/ and confirm with lsmod, since an already-loaded module stays active until reboot or removal. Check sysctl kernel.randomize_va_space (2 is full) and look for services launched with setarch -R. Preserve error logs and worker core dumps before restarting.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123553413103231404</description>
+      <content:encoded><![CDATA[<p>NGINX2Root: five NGINX flaws led by CVE-2026-123007 can give an unauthenticated attacker code execution via HTTP/2, HTTP/3, the DNS resolver or the mail proxy. Public PoC exists, no in-the-wild exploitation reported yet.</p><p>- Scope: Xint (Theori) reported all five on October 16, 2026, and F5 shipped fixes on November 18, 2026, the day of disclosure. F5 scores each 9.2 Critical under CVSS v4.0 and 8.1 High under CVSS v3.1. Affected: NGINX Open Source before 1.30.7 and 1.31.9, and NGINX Plus before 37.0.8.1 and 37.3.0.1. Plus R33 through R36 have no patch, so those customers must move to a 37.x build.</p><p>- Config decides exposure: CVE-2026-123007 is the broadest, a send-window miscount in HTTP/2 flow control that corrupts memory and needs only HTTP/2 on a reachable listener. CVE-2026-123633 (HTTP/2) and CVE-2026-121810 (HTTP/3) are use-after-free bugs in connection draining with proxying to a backend. CVE-2026-123634 is a resolver use-after-free needing a request-derived proxy_pass target plus SSI or mirror subrequests. CVE-2026-113425 hits the mail proxy when proxy and auth_http are combined.</p><p>- Root chain: code execution lands as the NGINX worker, then a separate Linux kernel SCTP use-after-free or double free (code introduced in Linux 4.15) escalates to root. The researchers say the chain also crossed a Docker container boundary. That kernel bug has no CVE and no fix yet. ATT&amp;CK per the report: T1190, T1068, T1611.</p><p>- Exploit reality: the public PoC for CVE-2026-123007 (GitHub, November 18) gets code execution against NGINX 1.31.8 with HTTP/2 over TLS in a Docker lab. It needs x86-64 with AVX-512 and a particular glibc memory-copy routine, has to defeat ASLR, and pushes roughly 128 GB of HTTP/2 traffic down a single connection. A proxy terminating HTTP/2 in front of NGINX will most likely stop it. The discoverers and another team hold working exploits but withheld the final steps. Fake exploit repos are circulating, so vet anything you pull.</p><p>- Evidence to look for: worker crashes and core dumps (grep &#x27;exited on signal&#x27; /var/log/nginx/error.log), an HTTP/2 connection open for minutes ingesting large volumes while the access log shows few requests, a worker spawning a shell or other program, and outbound connections or DNS lookups the host does not normally make. The warning signs come from CIRCL&#x27;s advisory; the grep is from the report&#x27;s checks.</p><p>Takeaway: scope first, then fix. Run nginx -v and match against your distro advisory, since backports keep old version numbers (Ubuntu shipped fixes November 19). Run nginx -T 2&gt;/dev/null | grep -nE &#x27;http2|http3|quic|resolver|proxy_pass|mirror|ssi on|auth_http&#x27; to see which flaws apply. Check bundled NGINX in container images, appliances and load balancers. Community ingress-nginx is retired with no fix planned. After upgrading, do a full restart, because a reload keeps the old binary running.</p><p>If patching waits, disable the feature behind each flaw. Turning off HTTP/2 covers only CVE-2026-123007 and CVE-2026-123633, and disabling mirror alone leaves CVE-2026-123634 open. On hosts that do not need SCTP, add install sctp /bin/false under /etc/modprobe.d/ and confirm with lsmod, since an already-loaded module stays active until reboot or removal. Check sysctl kernel.randomize_va_space (2 is full) and look for services launched with setarch -R. Preserve error logs and worker core dumps before restarting.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/nginx2root-nginx-cve-2026-123007/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123553413103231404">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123553413103231404</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2123553413103231404">DFIR Radar</source>
+      <pubDate>Thu, 19 Nov 2026 23:06:02 +0000</pubDate>
+      <guid isPermaLink="false">2123553413103231404</guid>
+    </item>
     <item>
       <title>Accuracy Through Volume of Fire</title>
       <link>https://trustedsec.com/blog/accuracy-through-volume-of-fire</link>
@@ -2440,20 +2468,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121711013171249623">DFIR Radar</source>
       <pubDate>Sat, 14 Nov 2026 21:05:00 +0000</pubDate>
       <guid isPermaLink="false">2121711013171249623</guid>
-    </item>
-    <item>
-      <title>Adapting to AI penetration testing orchestrators: The Modern Security Model</title>
-      <link>https://blog.cloudflare.com/adapting-to-ai-penetration-testing-orchestrators/</link>
-      <description>ARTEX-derived LLM pentest frameworks are chaining stolen static CI/CD API tokens to pivot from a hyperscaler into Cloudflare tenants. Hunt for new Worker scripts named artex-*, artex-pgrecon-*, and artex-pgw-*.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121695851676410334</description>
-      <content:encoded><![CDATA[<p>ARTEX-derived LLM pentest frameworks are chaining stolen static CI/CD API tokens to pivot from a hyperscaler into Cloudflare tenants. Hunt for new Worker scripts named artex-*, artex-pgrecon-*, and artex-pgw-*.</p><p>#DFIR_Radar</p><p><a href="https://blog.cloudflare.com/adapting-to-ai-penetration-testing-orchestrators/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121695851676410334">View on X</a></p>]]></content:encoded>
-      <dc:creator>Cloudflare Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121695851676410334</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2121695851676410334">DFIR Radar</source>
-      <pubDate>Sat, 14 Nov 2026 20:04:45 +0000</pubDate>
-      <guid isPermaLink="false">2121695851676410334</guid>
     </item>
   </channel>
 </rss>
