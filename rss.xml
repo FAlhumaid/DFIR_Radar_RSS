@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 18 Nov 2026 23:03:07 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 00:06:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Apache Axis exploitation highlights legacy component risks</title>
+      <link>https://fieldeffect.com/blog/apache-axis-legacy-risks</link>
+      <description>CVE-2026-90436 is a critical unauthenticated RCE in end-of-life Apache Axis 1.x, exploited within hours of a public PoC on November 12, 2026. Confluence Data Center and N-able N-central are confirmed targets, and many other Axis copies are likely hiding inside Java apps.
+
+- Exploitation is active. Researchers reported it on November 16, 2026. CISA scored it CVSS v3.1 9.8 and Atlassian scored affected Confluence deployments CVSS v4 9.3. The flaw sits in SOAP fault handling: Axis can instantiate a Java class named in a crafted request before checking that it is safe to load. If a suitable class exists on the target, code runs with no authentication or user interaction. Some intrusions were chained with other vulnerabilities to gain elevated privileges.
+
+- Axis is a library, not a product, so most inventories miss it. The CVE record lists the Maven packages axis:axis and org.apache.axis:axis through 1.4 as affected, and Ubuntu and Debian track their Axis packages as affected with no fixed version. Standalone deployments are exposed whenever a SOAP endpoint is reachable. There is no legacy API setting to turn off, and service-level authentication does not help because the malicious fault message is processed before application handlers run. Internet-facing SOAP services are the top priority.
+
+- Observed impact depends on the host. On Confluence, activity centered on credential discovery and use of stored application secrets to reach identity and cloud services. On an RMM platform like N-central, root access would let an attacker push scripts and software to every managed endpoint.
+
+- Scoping the exposure: search servers, application directories, and container images for axis.jar and axis-1.4.jar. Check SBOM records and Java dependencies for the two Maven packages, and review vendor advisories. In web server logs and application deployments, look for /axis/services/ paths and the default happyaxis.jsp page.
+
+Takeaway: Treat any system that had a vulnerable SOAP interface reachable after November 6, 2026 as in scope for review. In web logs, examine requests to SOAP endpoints, especially unusual POSTs and repeated server errors tied to SOAP services. In endpoint telemetry, hunt for Java service processes executing commands, cryptocurrency miners, web shells, new scheduled tasks or system services, and unexpected outbound connections. If you find compromise, rebuild the host, rotate application credentials and service account secrets, and review authentication activity across connected identity, cloud, and management platforms. Fixes: Confluence Data Center 9.2.28 or later, N-central 2026.4 HF3 (2026.4.1.39) or later. Until you can upgrade, disable the SOAP interfaces or restrict network access to them. For custom apps, move to Axis2 or build Apache's published source patch into a maintained build. The report does not publish IOCs or detection rules, so the hunt content above is your starting point.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123206148136611929</description>
+      <content:encoded><![CDATA[<p>CVE-2026-90436 is a critical unauthenticated RCE in end-of-life Apache Axis 1.x, exploited within hours of a public PoC on November 12, 2026. Confluence Data Center and N-able N-central are confirmed targets, and many other Axis copies are likely hiding inside Java apps.</p><p>- Exploitation is active. Researchers reported it on November 16, 2026. CISA scored it CVSS v3.1 9.8 and Atlassian scored affected Confluence deployments CVSS v4 9.3. The flaw sits in SOAP fault handling: Axis can instantiate a Java class named in a crafted request before checking that it is safe to load. If a suitable class exists on the target, code runs with no authentication or user interaction. Some intrusions were chained with other vulnerabilities to gain elevated privileges.</p><p>- Axis is a library, not a product, so most inventories miss it. The CVE record lists the Maven packages axis:axis and org.apache.axis:axis through 1.4 as affected, and Ubuntu and Debian track their Axis packages as affected with no fixed version. Standalone deployments are exposed whenever a SOAP endpoint is reachable. There is no legacy API setting to turn off, and service-level authentication does not help because the malicious fault message is processed before application handlers run. Internet-facing SOAP services are the top priority.</p><p>- Observed impact depends on the host. On Confluence, activity centered on credential discovery and use of stored application secrets to reach identity and cloud services. On an RMM platform like N-central, root access would let an attacker push scripts and software to every managed endpoint.</p><p>- Scoping the exposure: search servers, application directories, and container images for axis.jar and axis-1.4.jar. Check SBOM records and Java dependencies for the two Maven packages, and review vendor advisories. In web server logs and application deployments, look for /axis/services/ paths and the default happyaxis.jsp page.</p><p>Takeaway: Treat any system that had a vulnerable SOAP interface reachable after November 6, 2026 as in scope for review. In web logs, examine requests to SOAP endpoints, especially unusual POSTs and repeated server errors tied to SOAP services. In endpoint telemetry, hunt for Java service processes executing commands, cryptocurrency miners, web shells, new scheduled tasks or system services, and unexpected outbound connections. If you find compromise, rebuild the host, rotate application credentials and service account secrets, and review authentication activity across connected identity, cloud, and management platforms. Fixes: Confluence Data Center 9.2.28 or later, N-central 2026.4 HF3 (2026.4.1.39) or later. Until you can upgrade, disable the SOAP interfaces or restrict network access to them. For custom apps, move to Axis2 or build Apache&#x27;s published source patch into a maintained build. The report does not publish IOCs or detection rules, so the hunt content above is your starting point.</p><p>#DFIR_Radar</p><p><a href="https://fieldeffect.com/blog/apache-axis-legacy-risks">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123206148136611929">View on X</a></p>]]></content:encoded>
+      <dc:creator>Field Effect</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123206148136611929</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2123206148136611929">DFIR Radar</source>
+      <pubDate>Thu, 19 Nov 2026 00:06:08 +0000</pubDate>
+      <guid isPermaLink="false">2123206148136611929</guid>
+    </item>
     <item>
       <title>What the Optimizely incident reveals about third-party website scripts</title>
       <link>https://fieldeffect.com/blog/optimizely-incident-third-party-website-scripts</link>
@@ -2352,20 +2376,6 @@ Takeaway: treat any hit as full compromise of an RMM server, not a miner cleanup
       <source url="https://x.com/DFIR_Radar/status/2121337150100885926">DFIR Radar</source>
       <pubDate>Fri, 13 Nov 2026 20:19:24 +0000</pubDate>
       <guid isPermaLink="false">2121337150100885926</guid>
-    </item>
-    <item>
-      <title>ARTEX and the Arrival of AI-Orchestrated Attacks: What the Network Sees</title>
-      <link>https://www.extrahop.com/blog/artex-and-the-arrival-of-ai-orchestrated-attacks-what-the-network-sees</link>
-      <description>VAPOR PANDA used the open-source LLM pentest framework ARTEX against more than 200 organizations in 11 days. Hunt SMB paths with ProgramData\artx5v and WinRM commands containing artx or artex.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121333309292601615</description>
-      <content:encoded><![CDATA[<p>VAPOR PANDA used the open-source LLM pentest framework ARTEX against more than 200 organizations in 11 days. Hunt SMB paths with ProgramData\artx5v and WinRM commands containing artx or artex.</p><p>#DFIR_Radar</p><p><a href="https://www.extrahop.com/blog/artex-and-the-arrival-of-ai-orchestrated-attacks-what-the-network-sees">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121333309292601615">View on X</a></p>]]></content:encoded>
-      <dc:creator>ExtraHop</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121333309292601615</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2121333309292601615">DFIR Radar</source>
-      <pubDate>Fri, 13 Nov 2026 20:04:08 +0000</pubDate>
-      <guid isPermaLink="false">2121333309292601615</guid>
     </item>
   </channel>
 </rss>
