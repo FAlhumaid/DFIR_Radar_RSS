@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Nov 2026 20:03:31 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 21:06:54 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-124749: pam-mysql: inverted PAM_DISALLOW_NULL_AUTHTOK gives a pre-auth authentication bypass</title>
+      <link>https://seclists.org/oss-sec/2026/q4/788</link>
+      <description>CVE-2026-124749 (CVSS 9.8): pam-mysql inverts PAM_DISALLOW_NULL_AUTHTOK at both authenticate call sites. On a stock sshd, an unauthenticated client can log in as any account whose stored password is SQL NULL, using any password.
+
+- The defect, against v0.8.2: pam_mysql.c passes !(flags &amp; PAM_DISALLOW_NULL_AUTHTOK) at :4708 and :4799, which is 0 exactly when the application set the flag. On the null branch (:3874 sets vresult = null_inhibited, :3877 returns success when vresult is 0), the password comparison is nested inside if (row[0] != NULL) at :3689 and never runs. The two pam_sm_chauthtok call sites pass a literal 0 and are correct. The report does not address in-the-wild exploitation; it describes an end-to-end reproduction over a real sshd on Debian trixie.
+
+- Why a default sshd is the vector: OpenSSH sets the flag precisely when PermitEmptyPasswords is no, which is the default. The safe config reaches the permissive path. Setting PermitEmptyPasswords yes suppresses the bug but disables OpenSSH's own guard at auth-passwd.c:93-94, which opens the empty-stored-password case. It trades one bypass for another.
+
+- Scope: every released version, including the newest upstream commit from 2024-03-14. The 0.8.x line covers Debian 11/12/13/14/sid, Ubuntu 18.04/20.04/22.04, Devuan, Kali, FreeBSD, Gentoo and others. The 1.0 betas cover Fedora 39-44 and rawhide, Nix, Mageia 10, Rosa and ALT. On 0.8.x the exploitable schema is a nullable password column. On the 1.0 line an empty stored password is also exploitable (src/authenticate.c:104 and :127), so NOT NULL DEFAULT '' schemas flip from protective to exploitable. The report cites PostfixAdmin (mailbox.password, admin.password) and Froxlor (ftp_users.password) as shipped schemas.
+
+- Did it happen to you? OpenSSH cannot tell a bypass from a real login. "Accepted password for nullpw" and "Accepted password for normalpw" look identical. The discriminator is the database: any accepted password login for an account whose stored password was NULL or empty is necessarily a bypass. Run SELECT username FROM users WHERE password IS NULL OR password=''; and correlate those names against "Accepted password for" lines in the auth log. Current table state proves nothing about the past, so use the binary log or a backup from the period.
+
+- pam_mysql's own audit table is a trap. log.enabled defaults to 0 (pam_mysql.c:2897, gated at :4331), so default deployments recorded nothing. When enabled, the failure string is misspelled AUTHENTICATION FALURE, so grepping FAILURE returns nothing. A weak secondary signal: the bypass leaves one SUCCESS (FIRST_PASS) row with no preceding failure.
+
+- Fix status: upstream master has commits 6e2c52eb (the !! polarity correction) and 46175520 (a nullok option, default off, giving vresult = !ctx-&gt;nullok || null_inhibited). Debian trixie's security upload went to security-master on 2026-11-17. Bookworm goes through LTS and is not uploaded yet, so it is still exposed. The upstream v0.8.x branch is not updated, and the 1.0 line has no fixed tag (newest is 1.0.0-beta3). The reporter did not check the other distributions.
+
+Takeaway: apply the shipping fix, but the real remediation is the rows, not the flag. Purge credential-less rows from every table used for authentication, then add NOT NULL with no empty-string default. Then run the credential-less-rows query against historical data and your sshd auth logs to look for past bypass logins. Preserve binary logs and backups from before any cleanup.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123523432231194772</description>
+      <content:encoded><![CDATA[<p>CVE-2026-124749 (CVSS 9.8): pam-mysql inverts PAM_DISALLOW_NULL_AUTHTOK at both authenticate call sites. On a stock sshd, an unauthenticated client can log in as any account whose stored password is SQL NULL, using any password.</p><p>- The defect, against v0.8.2: pam_mysql.c passes !(flags &amp; PAM_DISALLOW_NULL_AUTHTOK) at :4708 and :4799, which is 0 exactly when the application set the flag. On the null branch (:3874 sets vresult = null_inhibited, :3877 returns success when vresult is 0), the password comparison is nested inside if (row[0] != NULL) at :3689 and never runs. The two pam_sm_chauthtok call sites pass a literal 0 and are correct. The report does not address in-the-wild exploitation; it describes an end-to-end reproduction over a real sshd on Debian trixie.</p><p>- Why a default sshd is the vector: OpenSSH sets the flag precisely when PermitEmptyPasswords is no, which is the default. The safe config reaches the permissive path. Setting PermitEmptyPasswords yes suppresses the bug but disables OpenSSH&#x27;s own guard at auth-passwd.c:93-94, which opens the empty-stored-password case. It trades one bypass for another.</p><p>- Scope: every released version, including the newest upstream commit from 2024-03-14. The 0.8.x line covers Debian 11/12/13/14/sid, Ubuntu 18.04/20.04/22.04, Devuan, Kali, FreeBSD, Gentoo and others. The 1.0 betas cover Fedora 39-44 and rawhide, Nix, Mageia 10, Rosa and ALT. On 0.8.x the exploitable schema is a nullable password column. On the 1.0 line an empty stored password is also exploitable (src/authenticate.c:104 and :127), so NOT NULL DEFAULT &#x27;&#x27; schemas flip from protective to exploitable. The report cites PostfixAdmin (mailbox.password, admin.password) and Froxlor (ftp_users.password) as shipped schemas.</p><p>- Did it happen to you? OpenSSH cannot tell a bypass from a real login. &quot;Accepted password for nullpw&quot; and &quot;Accepted password for normalpw&quot; look identical. The discriminator is the database: any accepted password login for an account whose stored password was NULL or empty is necessarily a bypass. Run SELECT username FROM users WHERE password IS NULL OR password=&#x27;&#x27;; and correlate those names against &quot;Accepted password for&quot; lines in the auth log. Current table state proves nothing about the past, so use the binary log or a backup from the period.</p><p>- pam_mysql&#x27;s own audit table is a trap. log.enabled defaults to 0 (pam_mysql.c:2897, gated at :4331), so default deployments recorded nothing. When enabled, the failure string is misspelled AUTHENTICATION FALURE, so grepping FAILURE returns nothing. A weak secondary signal: the bypass leaves one SUCCESS (FIRST_PASS) row with no preceding failure.</p><p>- Fix status: upstream master has commits 6e2c52eb (the !! polarity correction) and 46175520 (a nullok option, default off, giving vresult = !ctx-&gt;nullok || null_inhibited). Debian trixie&#x27;s security upload went to security-master on 2026-11-17. Bookworm goes through LTS and is not uploaded yet, so it is still exposed. The upstream v0.8.x branch is not updated, and the 1.0 line has no fixed tag (newest is 1.0.0-beta3). The reporter did not check the other distributions.</p><p>Takeaway: apply the shipping fix, but the real remediation is the rows, not the flag. Purge credential-less rows from every table used for authentication, then add NOT NULL with no empty-string default. Then run the credential-less-rows query against historical data and your sshd auth logs to look for past bypass logins. Preserve binary logs and backups from before any cleanup.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/oss-sec/2026/q4/788">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123523432231194772">View on X</a></p>]]></content:encoded>
+      <dc:creator>OSS-Security Mailing List</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123523432231194772</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2123523432231194772">DFIR Radar</source>
+      <pubDate>Thu, 19 Nov 2026 21:06:54 +0000</pubDate>
+      <guid isPermaLink="false">2123523432231194772</guid>
+    </item>
     <item>
       <title>BYOD Ransomware: An Identity-First Extortion Campaign Moving Into Hospitals and Universities</title>
       <link>https://www.trendaisecurity.com/en-us/resources-insights/trendai-security-blog/byod-ransomware-hospitals-universities</link>
@@ -2426,20 +2454,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121680638403031116">DFIR Radar</source>
       <pubDate>Sat, 14 Nov 2026 19:04:18 +0000</pubDate>
       <guid isPermaLink="false">2121680638403031116</guid>
-    </item>
-    <item>
-      <title>New SignDrop Exploit Claims SYSTEM Access on Windows Through CLFS</title>
-      <link>https://thecyberexpress.com/signdrop-zero-day-exploit-clfs-authentication/</link>
-      <description>MSNightmare's SignDrop PoC claims unpatched Windows SYSTEM escalation via CLFS, with no CVE and no reported attacks. Check the CLFS Authentication Mode registry value; 0 or 1 is in scope.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121665602431365130</description>
-      <content:encoded><![CDATA[<p>MSNightmare&#x27;s SignDrop PoC claims unpatched Windows SYSTEM escalation via CLFS, with no CVE and no reported attacks. Check the CLFS Authentication Mode registry value; 0 or 1 is in scope.</p><p>#DFIR_Radar</p><p><a href="https://thecyberexpress.com/signdrop-zero-day-exploit-clfs-authentication/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121665602431365130">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Cyber Express</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121665602431365130</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2121665602431365130">DFIR Radar</source>
-      <pubDate>Sat, 14 Nov 2026 18:04:33 +0000</pubDate>
-      <guid isPermaLink="false">2121665602431365130</guid>
     </item>
   </channel>
 </rss>
