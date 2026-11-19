@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Nov 2026 13:03:41 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 14:02:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Inside Turla’s Cereal: 12 Exchange loaders, older traces and new ways to hunt</title>
+      <link>https://www.reversinglabs.com/blog/inside-turlas-cereal-12-exchange-loaders-older-traces-and-new-ways-to-hunt</link>
+      <description>Turla's Cereal toolset lives inside Exchange. ESET disclosed it on Nov 10, 2026. ReversingLabs then correlated file evidence, finding 12 related loader files, one sample in its corpus since 2022, and detection gaps from naming and sandboxing.
+
+Russia-aligned Turla used Cereal against Exchange servers at two government organizations. ESET detected it in Kazakhstan 🇰🇿 on Nov 28, 2025. In Romania 🇷🇴, ESET found a compromise dating to Dec 23, 2025, with selective collection of email involving NATO and EU institutions. ESET attributed it to Turla with high confidence.
+
+- How it hides: CerealLoader is the .NET component written to disk. It decrypts and runs other assemblies. CerealNeuron passively listens for encrypted requests to web paths resembling Outlook Web Access, Autodiscover and ActiveSync, so there is no outbound beacon to hunt. CerealBox works inside the Exchange transport pipeline through injected code and wraps handlers of already registered transport agents. Mail keeps flowing and no new agent appears in configuration. ESET assesses CerealNeuron as a separate family that may have drawn on Neuron, and CerealBox avoids the agent registration that exposed LightNeuron.
+
+- Loader count and naming: ReversingLabs found 12 related files. That is six of ESET's 11 listed CerealLoader samples, two extra WTSAPI32.dll candidates, and four byte-different copies of known builds. BlankPage, CerealMood and CerealLoader can label the same files. Microsoft Defender uses Backdoor:MSIL/BlankPage.C, .E and .F variants, and Malwarebytes uses Trojan.Turla. A hunt on "CerealLoader" alone misses samples.
+
+- Proxy DLL construction: The Microsoft.Ceres.dll loader presents as SensApi.dll, "SENS Connectivity API DLL", version 10.0.20348.1. All three exports forward to the genuine C:\Windows\System32\SensApi.dll, a side-loading proxy. Other loaders borrow names like version.dll, WTSAPI32.dll and Microsoft[.]Search.Platform.dll. Two version.dll loaders share import hash 6585e33ab016ca2c68ba7eec691fbeb5. A pivot returned eight files: five malicious, three goodware, so it is a lead, not a verdict.
+
+- Timeline caution: One ESET-listed loader reached the corpus on May 11, 2022, matching ESET's earliest sample, compiled Apr 27, 2022 and uploaded from Kazakhstan 🇰🇿. A second WTSAPI32.dll candidate (SHA-256 beginning 2751ae95) was first seen Nov 18, 2025, ten days before ESET's first detection. Both are file visibility, not proof of deployment or earlier victims. The report adds no new victims or initial access method.
+
+- Detection blind spots: Loaders awaiting their Exchange or Windows host context scored low in sandboxes, despite sleeps and unusual process creation. In older Turla tooling, two NetBootstrapper DLLs extracted from NetInjector containers had zero scanner detections standalone, yet a sandbox flagged both with a Turla signature. Embedded-file analysis tied them back to the malicious parent.
+
+- Hash-only gaps: The four byte-different copies share the original's .NET MVID, compile timestamp, import hash and structural hash but differ cryptographically. One copy appended two .dnmd sections of 23,552 bytes, which points to post-processing by analysis tooling. A hash list built from ESET's SHA-1 values would not cover them.
+
+Takeaway: Run a targeted hunt on Exchange hosts, not an assumption of compromise. Look for unsigned .NET DLLs with a native entry point whose module names borrow Windows or Exchange components (version, wtsapi32, sensapi, Microsoft.Ceres, Microsoft[.]Search.Platform). Check for proxy DLLs forwarding exports to System32. Inspect web logs for requests to OWA, Autodiscover and ActiveSync paths, normalizing case. Map each hit to its parent process. Treat import hash matches as leads only: the first native-entry rule matched 60 legitimate signed Exchange assemblies until an unsigned-file condition was added. The report includes the SHA-256 values and two YARA rules in its appendix. ESET publishes only SHA-1.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123416644470903222</description>
+      <content:encoded><![CDATA[<p>Turla&#x27;s Cereal toolset lives inside Exchange. ESET disclosed it on Nov 10, 2026. ReversingLabs then correlated file evidence, finding 12 related loader files, one sample in its corpus since 2022, and detection gaps from naming and sandboxing.</p><p>Russia-aligned Turla used Cereal against Exchange servers at two government organizations. ESET detected it in Kazakhstan 🇰🇿 on Nov 28, 2025. In Romania 🇷🇴, ESET found a compromise dating to Dec 23, 2025, with selective collection of email involving NATO and EU institutions. ESET attributed it to Turla with high confidence.</p><p>- How it hides: CerealLoader is the .NET component written to disk. It decrypts and runs other assemblies. CerealNeuron passively listens for encrypted requests to web paths resembling Outlook Web Access, Autodiscover and ActiveSync, so there is no outbound beacon to hunt. CerealBox works inside the Exchange transport pipeline through injected code and wraps handlers of already registered transport agents. Mail keeps flowing and no new agent appears in configuration. ESET assesses CerealNeuron as a separate family that may have drawn on Neuron, and CerealBox avoids the agent registration that exposed LightNeuron.</p><p>- Loader count and naming: ReversingLabs found 12 related files. That is six of ESET&#x27;s 11 listed CerealLoader samples, two extra WTSAPI32.dll candidates, and four byte-different copies of known builds. BlankPage, CerealMood and CerealLoader can label the same files. Microsoft Defender uses Backdoor:MSIL/BlankPage.C, .E and .F variants, and Malwarebytes uses Trojan.Turla. A hunt on &quot;CerealLoader&quot; alone misses samples.</p><p>- Proxy DLL construction: The Microsoft.Ceres.dll loader presents as SensApi.dll, &quot;SENS Connectivity API DLL&quot;, version 10.0.20348.1. All three exports forward to the genuine C:\Windows\System32\SensApi.dll, a side-loading proxy. Other loaders borrow names like version.dll, WTSAPI32.dll and Microsoft[.]Search.Platform.dll. Two version.dll loaders share import hash 6585e33ab016ca2c68ba7eec691fbeb5. A pivot returned eight files: five malicious, three goodware, so it is a lead, not a verdict.</p><p>- Timeline caution: One ESET-listed loader reached the corpus on May 11, 2022, matching ESET&#x27;s earliest sample, compiled Apr 27, 2022 and uploaded from Kazakhstan 🇰🇿. A second WTSAPI32.dll candidate (SHA-256 beginning 2751ae95) was first seen Nov 18, 2025, ten days before ESET&#x27;s first detection. Both are file visibility, not proof of deployment or earlier victims. The report adds no new victims or initial access method.</p><p>- Detection blind spots: Loaders awaiting their Exchange or Windows host context scored low in sandboxes, despite sleeps and unusual process creation. In older Turla tooling, two NetBootstrapper DLLs extracted from NetInjector containers had zero scanner detections standalone, yet a sandbox flagged both with a Turla signature. Embedded-file analysis tied them back to the malicious parent.</p><p>- Hash-only gaps: The four byte-different copies share the original&#x27;s .NET MVID, compile timestamp, import hash and structural hash but differ cryptographically. One copy appended two .dnmd sections of 23,552 bytes, which points to post-processing by analysis tooling. A hash list built from ESET&#x27;s SHA-1 values would not cover them.</p><p>Takeaway: Run a targeted hunt on Exchange hosts, not an assumption of compromise. Look for unsigned .NET DLLs with a native entry point whose module names borrow Windows or Exchange components (version, wtsapi32, sensapi, Microsoft.Ceres, Microsoft[.]Search.Platform). Check for proxy DLLs forwarding exports to System32. Inspect web logs for requests to OWA, Autodiscover and ActiveSync paths, normalizing case. Map each hit to its parent process. Treat import hash matches as leads only: the first native-entry rule matched 60 legitimate signed Exchange assemblies until an unsigned-file condition was added. The report includes the SHA-256 values and two YARA rules in its appendix. ESET publishes only SHA-1.</p><p>#DFIR_Radar</p><p><a href="https://www.reversinglabs.com/blog/inside-turlas-cereal-12-exchange-loaders-older-traces-and-new-ways-to-hunt">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123416644470903222">View on X</a></p>]]></content:encoded>
+      <dc:creator>ReversingLabs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123416644470903222</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2123416644470903222">DFIR Radar</source>
+      <pubDate>Thu, 19 Nov 2026 14:02:34 +0000</pubDate>
+      <guid isPermaLink="false">2123416644470903222</guid>
+    </item>
     <item>
       <title>BankWeaver Campaign Abuses Digital Banking Middleware to Deploy Web Shells</title>
       <link>https://www.forescout.com/blog/bankweaver-campaign-abuses-digital-banking-middleware-to-deploy-web-shells/</link>
@@ -2326,20 +2356,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121544859337302105">DFIR Radar</source>
       <pubDate>Sat, 14 Nov 2026 10:04:46 +0000</pubDate>
       <guid isPermaLink="false">2121544859337302105</guid>
-    </item>
-    <item>
-      <title>HTTPd (CVE-2026-119618): Detecting heap corruption and RCE in Apache HTTP Server mod_http2</title>
-      <link>https://webflow.sysdig.com/blog/httpd-cve-2026-119618-detecting-heap-corruption-and-rce-in-apache-http-server-mod-http2</link>
-      <description>CVE-2026-119618 in Apache httpd mod_http2 has a public heap-corruption PoC but no confirmed exploitation or KEV listing. Hunt repeated httpd child segfaults and worker-spawned shells since November 11 disclosure.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121529900075303213</description>
-      <content:encoded><![CDATA[<p>CVE-2026-119618 in Apache httpd mod_http2 has a public heap-corruption PoC but no confirmed exploitation or KEV listing. Hunt repeated httpd child segfaults and worker-spawned shells since November 11 disclosure.</p><p>#DFIR_Radar</p><p><a href="https://webflow.sysdig.com/blog/httpd-cve-2026-119618-detecting-heap-corruption-and-rce-in-apache-http-server-mod-http2">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121529900075303213">View on X</a></p>]]></content:encoded>
-      <dc:creator>Sysdig</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121529900075303213</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2121529900075303213">DFIR Radar</source>
-      <pubDate>Sat, 14 Nov 2026 09:05:19 +0000</pubDate>
-      <guid isPermaLink="false">2121529900075303213</guid>
     </item>
   </channel>
 </rss>
