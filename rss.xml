@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Nov 2026 12:07:04 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 13:03:41 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BankWeaver Campaign Abuses Digital Banking Middleware to Deploy Web Shells</title>
+      <link>https://www.forescout.com/blog/bankweaver-campaign-abuses-digital-banking-middleware-to-deploy-web-shells/</link>
+      <description>BankWeaver: attackers traded an anonymous token for an admin token on an exposed Temenos Quantum Fabric auth service, then uploaded Java webshell FabricShell and recon tool FabricShadow to a financial institution.
+
+- Entry: Forescout found it during a breach investigation at a financial services institution in early September. Opening the Spotlight app (usually /apps/spotlight/) returns an X-Kony-Authorization JWT for an anonymous user. One Fabric authentication service was set to anonymous app-user access instead of private, so it exchanged that token for a privileged Fabric token with no credentials (T1190, T1078). Temenos traced this to configuration, released updates and guidance, and advised restricting internet access to Spotlight and the Fabric admin and auth services.
+
+- Persistence: with the admin token, the actor sent a POST to /workspace with zipimport?isAsync=true carrying a zip with Endpoints/java.xml, Operations/recon.xml and Operations/dbxdb_CustomQuery.xml under Apps/_Integration. That built a service that allowed OS command injection via {"cmd":"&lt;command&gt;"}. They tested with ls and pwd, spawned a netcat reverse shell, and pulled shell.sh-style scripts from sendit[.]sh, plainraw[.]com and temp[.]sh. Typos and repeated commands point to hands-on-keyboard activity.
+
+- Payloads: FabricShell is a webshell registered through Kony's JavaService2. It checks each request for cmd, sql, user, pass and db. With cmd it runs /bin/sh -c and returns output plus exit code. Without it, it opens a JDBC connection and returns up to 50 rows (T1505.003, T1059.004). FabricShadow hooks DataPreProcessor2, which fires before every data request. It collects hostname, interface addresses, env var names, Java version, service account, id output and listings of /tmp and the working directory. It wraps output in RECON_PREPROCESSOR, RECON_DONE, RECON_ERR and RECON_FROM_FABRIC markers, POSTs it to C2 with header X-A: k1, and leaves a local copy in /tmp.
+
+- Infrastructure: the actor used victims as staging points. FabricShell held fallback PostgreSQL credentials for another victim, and FabricShadow pointed to that victim's Red Hat Process Automation Manager, which acted as an exfil webshell. Over 30 IPs rotated as sources, mostly compromised UK 🇬🇧 NAS devices and home routers with exposed CWMP, plus a few VPS nodes. One residential proxy IP was seen downloading an ELF that fingerprints the host, persists via BitTorrent DHT and enrolls it in a botnet. Forescout has not tied that to BankWeaver. Payload hosting also includes 37.187.78[.]41.
+
+- Scope: one confirmed compromise. Six more banks across Asia, the Middle East, Europe and the Americas appeared to share the configuration and exposure, but compromise there is unconfirmed.
+
+Takeaway: the report has an IOC table (hosting, service and class names, host artifacts, content markers) and an ATT&amp;CK mapping. On Fabric servers, hunt for ReconJavaService, recon_svc.jar, ReconPreProcessor, /tmp/.recon_out and the RECON_* markers. Alert on Java or Tomcat parents spawning sh, bash, curl, wget, nc or tar, and on outbound connections to ports 5005, 5006 and 25565. Treat ZIP imports, JAR registration and service publication as privileged changes and compare them to a signed inventory. Preserve disk, memory, logs, JARs and /tmp artifacts before cleanup. Then revoke Kony, JWT and JSESSIONID sessions and rotate credentials, including any found in WAF or app logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123401824786894879</description>
+      <content:encoded><![CDATA[<p>BankWeaver: attackers traded an anonymous token for an admin token on an exposed Temenos Quantum Fabric auth service, then uploaded Java webshell FabricShell and recon tool FabricShadow to a financial institution.</p><p>- Entry: Forescout found it during a breach investigation at a financial services institution in early September. Opening the Spotlight app (usually /apps/spotlight/) returns an X-Kony-Authorization JWT for an anonymous user. One Fabric authentication service was set to anonymous app-user access instead of private, so it exchanged that token for a privileged Fabric token with no credentials (T1190, T1078). Temenos traced this to configuration, released updates and guidance, and advised restricting internet access to Spotlight and the Fabric admin and auth services.</p><p>- Persistence: with the admin token, the actor sent a POST to /workspace with zipimport?isAsync=true carrying a zip with Endpoints/java.xml, Operations/recon.xml and Operations/dbxdb_CustomQuery.xml under Apps/_Integration. That built a service that allowed OS command injection via {&quot;cmd&quot;:&quot;&lt;command&gt;&quot;}. They tested with ls and pwd, spawned a netcat reverse shell, and pulled shell.sh-style scripts from sendit[.]sh, plainraw[.]com and temp[.]sh. Typos and repeated commands point to hands-on-keyboard activity.</p><p>- Payloads: FabricShell is a webshell registered through Kony&#x27;s JavaService2. It checks each request for cmd, sql, user, pass and db. With cmd it runs /bin/sh -c and returns output plus exit code. Without it, it opens a JDBC connection and returns up to 50 rows (T1505.003, T1059.004). FabricShadow hooks DataPreProcessor2, which fires before every data request. It collects hostname, interface addresses, env var names, Java version, service account, id output and listings of /tmp and the working directory. It wraps output in RECON_PREPROCESSOR, RECON_DONE, RECON_ERR and RECON_FROM_FABRIC markers, POSTs it to C2 with header X-A: k1, and leaves a local copy in /tmp.</p><p>- Infrastructure: the actor used victims as staging points. FabricShell held fallback PostgreSQL credentials for another victim, and FabricShadow pointed to that victim&#x27;s Red Hat Process Automation Manager, which acted as an exfil webshell. Over 30 IPs rotated as sources, mostly compromised UK 🇬🇧 NAS devices and home routers with exposed CWMP, plus a few VPS nodes. One residential proxy IP was seen downloading an ELF that fingerprints the host, persists via BitTorrent DHT and enrolls it in a botnet. Forescout has not tied that to BankWeaver. Payload hosting also includes 37.187.78[.]41.</p><p>- Scope: one confirmed compromise. Six more banks across Asia, the Middle East, Europe and the Americas appeared to share the configuration and exposure, but compromise there is unconfirmed.</p><p>Takeaway: the report has an IOC table (hosting, service and class names, host artifacts, content markers) and an ATT&amp;CK mapping. On Fabric servers, hunt for ReconJavaService, recon_svc.jar, ReconPreProcessor, /tmp/.recon_out and the RECON_* markers. Alert on Java or Tomcat parents spawning sh, bash, curl, wget, nc or tar, and on outbound connections to ports 5005, 5006 and 25565. Treat ZIP imports, JAR registration and service publication as privileged changes and compare them to a signed inventory. Preserve disk, memory, logs, JARs and /tmp artifacts before cleanup. Then revoke Kony, JWT and JSESSIONID sessions and rotate credentials, including any found in WAF or app logs.</p><p>#DFIR_Radar</p><p><a href="https://www.forescout.com/blog/bankweaver-campaign-abuses-digital-banking-middleware-to-deploy-web-shells/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123401824786894879">View on X</a></p>]]></content:encoded>
+      <dc:creator>Forescout</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123401824786894879</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2123401824786894879">DFIR Radar</source>
+      <pubDate>Thu, 19 Nov 2026 13:03:41 +0000</pubDate>
+      <guid isPermaLink="false">2123401824786894879</guid>
+    </item>
     <item>
       <title>Google exposes Russian Cold Relic’s attack on government officials, defense contractors across Europe, North America</title>
       <link>https://industrialcyber.co/ransomware/google-exposes-russian-cold-relics-attack-on-government-officials-defense-contractors-across-europe-north-america/</link>
@@ -2314,20 +2340,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121529900075303213">DFIR Radar</source>
       <pubDate>Sat, 14 Nov 2026 09:05:19 +0000</pubDate>
       <guid isPermaLink="false">2121529900075303213</guid>
-    </item>
-    <item>
-      <title>Beware of phishing emails disguised as quote requests (SnakeKeylogger)</title>
-      <link>https://asec.ahnlab.com/en/96495/</link>
-      <description>Quote-request phishing drops JavaScript that runs in-memory PowerShell and hollows aspnet_compiler.exe to run SnakeKeylogger. Hunt for aspnet_compiler.exe launched by PowerShell and SMTP to hosting2[.]ro.hostsailor[.]com.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121514655097208899</description>
-      <content:encoded><![CDATA[<p>Quote-request phishing drops JavaScript that runs in-memory PowerShell and hollows aspnet_compiler.exe to run SnakeKeylogger. Hunt for aspnet_compiler.exe launched by PowerShell and SMTP to hosting2[.]ro.hostsailor[.]com.</p><p>#DFIR_Radar</p><p><a href="https://asec.ahnlab.com/en/96495/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121514655097208899">View on X</a></p>]]></content:encoded>
-      <dc:creator>AhnLab ASEC</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121514655097208899</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2121514655097208899">DFIR Radar</source>
-      <pubDate>Sat, 14 Nov 2026 08:04:45 +0000</pubDate>
-      <guid isPermaLink="false">2121514655097208899</guid>
     </item>
   </channel>
 </rss>
