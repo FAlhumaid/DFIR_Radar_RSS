@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Nov 2026 17:03:53 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 18:03:00 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Major African Stock Exchange Targeted in AI-Assisted Attack</title>
+      <link>https://www.security.com/threat-intelligence/african-stock-exchange-ai-assisted-attack</link>
+      <description>A likely AI-written toolkit ran 41 PowerShell modules under an IIS web shell at an African stock exchange in about three minutes, hunting credentials and exfiltrating via hex-encoded DNS to oast[.]pro.
+
+- Symantec's Threat Hunter Team saw the modules run between 08:44 and 08:47 UTC (3m12s) on September 20, 2026, a new one every few seconds, from a web shell under the IIS worker process. They harvested secrets and tested them against the exchange's investment API and a securities depository gateway. Earliest malicious activity on the server dates to April 2026, possibly longer.
+
+- Module coverage: GPP cpassword theft, AWS keys and database connection strings in SYSVOL, web roots and C:\Deployer, cloud and DevOps tool hunting, IIS site and app pool mapping, SharePoint keyword search, TFS and SCCM queries, and an AWS RDS PostgreSQL probe on port 5432. Four modules hit the investment API with a guessed login and a reused bearer token, and tested several API keys, including a blank one, against the depository gateway, connecting by IP with a manual Host header and certificate validation disabled. The report does not say whether any credential worked.
+
+- Exfil is the standout. Each module hex-encoded its output, split it into 50-character chunks and resolved one DNS name per chunk under a single token on the public out-of-band testing service oast[.]pro (token danoam334iqjo0ap2scg6ofosjxfgqhsa). Pattern: index.hexchunk.modulelabel.token. Module labels include spid1, awslocal1, wmi1. Empty output sends the hex sentinel 454d505459. The collector is invisible to Symantec, so data loss is unconfirmed.
+
+- Why AI is suspected: every module shared the same scaffold, error handling, hex routine and sentinel, and the DNS loop was copied byte for byte into all 41 scripts instead of written once. Generic variable names, one script with a unique progress variable and a deliberate invalid-credential test also fit iterative prompting. Symantec says none of this is conclusive alone, and it could not identify a model.
+
+- Attribution is split. Six persistence implants (one first seen in 2020) are tied to China-linked Witchetty (aka LookingFrog) with high confidence. The toolkit is not attributed to any group. It could be Witchetty with new tooling, a more capable second operator, or an unrelated actor on the same compromise. Symantec found no evidence of privilege escalation or data theft. Motive is unclear: financial targeting, but a specific investor's number was checked, so espionage is not ruled out.
+
+Takeaway: hunt DNS resolver logs for queries to oast[.]pro, especially labels with a numeric first label, a hex chunk up to 50 characters, then a short module label. Look for bursts of PowerShell launched under the IIS worker process, and treat any IIS web shell as a lead to initial access, which Symantec suggests may have been an exploited vulnerability. Treat every secret reachable from that server (GPP passwords, SYSVOL, config files, API keys, bearer tokens) as exposed and rotate it. File hashes and the network IOC are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123477150040994078</description>
+      <content:encoded><![CDATA[<p>A likely AI-written toolkit ran 41 PowerShell modules under an IIS web shell at an African stock exchange in about three minutes, hunting credentials and exfiltrating via hex-encoded DNS to oast[.]pro.</p><p>- Symantec&#x27;s Threat Hunter Team saw the modules run between 08:44 and 08:47 UTC (3m12s) on September 20, 2026, a new one every few seconds, from a web shell under the IIS worker process. They harvested secrets and tested them against the exchange&#x27;s investment API and a securities depository gateway. Earliest malicious activity on the server dates to April 2026, possibly longer.</p><p>- Module coverage: GPP cpassword theft, AWS keys and database connection strings in SYSVOL, web roots and C:\Deployer, cloud and DevOps tool hunting, IIS site and app pool mapping, SharePoint keyword search, TFS and SCCM queries, and an AWS RDS PostgreSQL probe on port 5432. Four modules hit the investment API with a guessed login and a reused bearer token, and tested several API keys, including a blank one, against the depository gateway, connecting by IP with a manual Host header and certificate validation disabled. The report does not say whether any credential worked.</p><p>- Exfil is the standout. Each module hex-encoded its output, split it into 50-character chunks and resolved one DNS name per chunk under a single token on the public out-of-band testing service oast[.]pro (token danoam334iqjo0ap2scg6ofosjxfgqhsa). Pattern: index.hexchunk.modulelabel.token. Module labels include spid1, awslocal1, wmi1. Empty output sends the hex sentinel 454d505459. The collector is invisible to Symantec, so data loss is unconfirmed.</p><p>- Why AI is suspected: every module shared the same scaffold, error handling, hex routine and sentinel, and the DNS loop was copied byte for byte into all 41 scripts instead of written once. Generic variable names, one script with a unique progress variable and a deliberate invalid-credential test also fit iterative prompting. Symantec says none of this is conclusive alone, and it could not identify a model.</p><p>- Attribution is split. Six persistence implants (one first seen in 2020) are tied to China-linked Witchetty (aka LookingFrog) with high confidence. The toolkit is not attributed to any group. It could be Witchetty with new tooling, a more capable second operator, or an unrelated actor on the same compromise. Symantec found no evidence of privilege escalation or data theft. Motive is unclear: financial targeting, but a specific investor&#x27;s number was checked, so espionage is not ruled out.</p><p>Takeaway: hunt DNS resolver logs for queries to oast[.]pro, especially labels with a numeric first label, a hex chunk up to 50 characters, then a short module label. Look for bursts of PowerShell launched under the IIS worker process, and treat any IIS web shell as a lead to initial access, which Symantec suggests may have been an exploited vulnerability. Treat every secret reachable from that server (GPP passwords, SYSVOL, config files, API keys, bearer tokens) as exposed and rotate it. File hashes and the network IOC are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.security.com/threat-intelligence/african-stock-exchange-ai-assisted-attack">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123477150040994078">View on X</a></p>]]></content:encoded>
+      <dc:creator>Symantec Threat Intelligence</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123477150040994078</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2123477150040994078">DFIR Radar</source>
+      <pubDate>Thu, 19 Nov 2026 18:03:00 +0000</pubDate>
+      <guid isPermaLink="false">2123477150040994078</guid>
+    </item>
     <item>
       <title>Spying on Governments with Zero Lines of Malware: A Custom SoftEther Bridge in Webworm’s Toolkit</title>
       <link>https://www.rapid7.com/blog/post/tr-spying-on-governments-no-malware-custom-webworms-toolkit-softether-bridge</link>
@@ -2380,20 +2406,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121635443724726303">DFIR Radar</source>
       <pubDate>Sat, 14 Nov 2026 16:04:43 +0000</pubDate>
       <guid isPermaLink="false">2121635443724726303</guid>
-    </item>
-    <item>
-      <title>Hackers Exploit N-central Flaws to Infect 21 Servers, Including 19 Running Hotfix 2</title>
-      <link>https://thehackernews.com/2026/11/hackers-exploit-n-central-flaws-to.html</link>
-      <description>Attackers exploited 4EverAble2Shell (CVE-2026-90436, CVSS 9.8) to drop XMRig from 157.20.241[.]16 on 21 N-central servers, 19 already on Hotfix 2. Treat hits as full compromise and check N-able's IOC list.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121590354910540144</description>
-      <content:encoded><![CDATA[<p>Attackers exploited 4EverAble2Shell (CVE-2026-90436, CVSS 9.8) to drop XMRig from 157.20.241[.]16 on 21 N-central servers, 19 already on Hotfix 2. Treat hits as full compromise and check N-able&#x27;s IOC list.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/hackers-exploit-n-central-flaws-to.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121590354910540144">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121590354910540144</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2121590354910540144">DFIR Radar</source>
-      <pubDate>Sat, 14 Nov 2026 13:05:33 +0000</pubDate>
-      <guid isPermaLink="false">2121590354910540144</guid>
     </item>
   </channel>
 </rss>
