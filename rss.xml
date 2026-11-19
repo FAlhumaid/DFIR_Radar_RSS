@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Nov 2026 16:04:21 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 17:03:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Spying on Governments with Zero Lines of Malware: A Custom SoftEther Bridge in Webworm’s Toolkit</title>
+      <link>https://www.rapid7.com/blog/post/tr-spying-on-governments-no-malware-custom-webworms-toolkit-softether-bridge</link>
+      <description>Rapid7 found a custom SoftEther VPN Bridge build that Webworm, a China-aligned APT, likely uses against governments. It is rebuilt from source with the detection fingerprint stripped, and has no added backdoor. Rapid7 attributes it with moderate confidence.
+
+The actor's earlier use of stock SoftEther was publicly documented, so it appears to have gone back and removed the easy detection points. Only one AV vendor flagged the sample on VirusTotal, even though it has been public since January.
+
+- Build and identity: the sample is a Windows x64 PE, a modified SoftEther VPN Bridge 4.44 build 9807. The PDB path still reads C:\Users\Administrator\Desktop\SoftEtherVPN_Stable\...\x64_Release\vpnbridge.pdb. PE metadata is changed to OriginalFileName netcapa.exe, "Network Monitor Software", published by "Network Systems Solutions Inc." (T1036.005). The Version field is unchanged at 4, 44, 0, 9807. Rapid7 found no additional malware functionality beyond the changes below.
+
+- Sloppy rebranding: "SoftEther VPN" becomes "NtMonitor VPN" in debug banners, service names, registry keys, the HTTP 401 page, and firewall rule names. It is inconsistent. The entry-point service name is still SEVPNBRIDGE, and many registry paths still reference "SoftEther Project". That gives you pivots on a host. The firewall rules come from stock SoftEther behavior (T1686.003).
+
+- Network stealth: the stock endpoints /vpnsvc/vpn.cgi and /vpnsvc/connect.cgi become /update/alive.cgi and /update/picture.cgi. The upstream GIF handshake watermark is replaced with a truncated PNG of the Windows logo, so stock clients and servers can't handshake with this build, and its peers can't be matched on the well-known GIF pattern. C2 rides HTTP(S) and SoftEther's protocol (T1071), and the host acts as an internal proxy and network bridge (T1090.001, T1599).
+
+- Disk artifacts removed: hamcore.se2 normally sits beside the executable and is an easy installation tell. Here it is trimmed to a minimum and embedded as a PE resource with a custom resource directory walk, adding about 1.5 MB to the binary. The config moves from vpn_bridge.config to setting.conf, encrypted with a custom RC4-like cipher. Encrypted files start with the ASCII magic bytes RCEN and contain the key (T1027.013, T1140, T1027.005).
+
+- Attribution and scope: this fits ESET's reporting on Webworm shifting from custom malware to dual-use tools. In the decrypted configs Rapid7 Intelligence has, the VPN cascades a remote network into the local one. In cases that don't look like tests, the remote IP sits in AS 20473 (The Constant Company, LLC, including Vultr), which has been tied to Webworm before. Webworm focuses on governments, especially in Europe. Rapid7 calls this a hybrid: stock SoftEther rebuilt from source, not trojanized, with its fingerprint erased.
+
+Takeaway: with TLS inspection, hunt for POST requests to /update/picture.cgi with Content-Type image/jpeg and a body starting with 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52, the custom PNG watermark. On hosts, look for a SEVPNBRIDGE service, a setting.conf starting with RCEN, registry keys under "SoftEther Project", and internal "NtMonitor VPN" strings, which all samples seen share (PE metadata such as netcapa.exe differs across samples). The report links IoCs and a YARA ruleset on Rapid7's public GitHub, and a Python script on the Rapid7 Intelligence GitHub decrypts the RCEN configs to recover the remote peer. The endpoints, watermark, and branding are trivial for the actor to change next, so government defenders should learn baseline SoftEther behavior rather than rely on these strings alone.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123462274119520434</description>
+      <content:encoded><![CDATA[<p>Rapid7 found a custom SoftEther VPN Bridge build that Webworm, a China-aligned APT, likely uses against governments. It is rebuilt from source with the detection fingerprint stripped, and has no added backdoor. Rapid7 attributes it with moderate confidence.</p><p>The actor&#x27;s earlier use of stock SoftEther was publicly documented, so it appears to have gone back and removed the easy detection points. Only one AV vendor flagged the sample on VirusTotal, even though it has been public since January.</p><p>- Build and identity: the sample is a Windows x64 PE, a modified SoftEther VPN Bridge 4.44 build 9807. The PDB path still reads C:\Users\Administrator\Desktop\SoftEtherVPN_Stable\...\x64_Release\vpnbridge.pdb. PE metadata is changed to OriginalFileName netcapa.exe, &quot;Network Monitor Software&quot;, published by &quot;Network Systems Solutions Inc.&quot; (T1036.005). The Version field is unchanged at 4, 44, 0, 9807. Rapid7 found no additional malware functionality beyond the changes below.</p><p>- Sloppy rebranding: &quot;SoftEther VPN&quot; becomes &quot;NtMonitor VPN&quot; in debug banners, service names, registry keys, the HTTP 401 page, and firewall rule names. It is inconsistent. The entry-point service name is still SEVPNBRIDGE, and many registry paths still reference &quot;SoftEther Project&quot;. That gives you pivots on a host. The firewall rules come from stock SoftEther behavior (T1686.003).</p><p>- Network stealth: the stock endpoints /vpnsvc/vpn.cgi and /vpnsvc/connect.cgi become /update/alive.cgi and /update/picture.cgi. The upstream GIF handshake watermark is replaced with a truncated PNG of the Windows logo, so stock clients and servers can&#x27;t handshake with this build, and its peers can&#x27;t be matched on the well-known GIF pattern. C2 rides HTTP(S) and SoftEther&#x27;s protocol (T1071), and the host acts as an internal proxy and network bridge (T1090.001, T1599).</p><p>- Disk artifacts removed: hamcore.se2 normally sits beside the executable and is an easy installation tell. Here it is trimmed to a minimum and embedded as a PE resource with a custom resource directory walk, adding about 1.5 MB to the binary. The config moves from vpn_bridge.config to setting.conf, encrypted with a custom RC4-like cipher. Encrypted files start with the ASCII magic bytes RCEN and contain the key (T1027.013, T1140, T1027.005).</p><p>- Attribution and scope: this fits ESET&#x27;s reporting on Webworm shifting from custom malware to dual-use tools. In the decrypted configs Rapid7 Intelligence has, the VPN cascades a remote network into the local one. In cases that don&#x27;t look like tests, the remote IP sits in AS 20473 (The Constant Company, LLC, including Vultr), which has been tied to Webworm before. Webworm focuses on governments, especially in Europe. Rapid7 calls this a hybrid: stock SoftEther rebuilt from source, not trojanized, with its fingerprint erased.</p><p>Takeaway: with TLS inspection, hunt for POST requests to /update/picture.cgi with Content-Type image/jpeg and a body starting with 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52, the custom PNG watermark. On hosts, look for a SEVPNBRIDGE service, a setting.conf starting with RCEN, registry keys under &quot;SoftEther Project&quot;, and internal &quot;NtMonitor VPN&quot; strings, which all samples seen share (PE metadata such as netcapa.exe differs across samples). The report links IoCs and a YARA ruleset on Rapid7&#x27;s public GitHub, and a Python script on the Rapid7 Intelligence GitHub decrypts the RCEN configs to recover the remote peer. The endpoints, watermark, and branding are trivial for the actor to change next, so government defenders should learn baseline SoftEther behavior rather than rely on these strings alone.</p><p>#DFIR_Radar</p><p><a href="https://www.rapid7.com/blog/post/tr-spying-on-governments-no-malware-custom-webworms-toolkit-softether-bridge">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123462274119520434">View on X</a></p>]]></content:encoded>
+      <dc:creator>Rapid7 Blog</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123462274119520434</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2123462274119520434">DFIR Radar</source>
+      <pubDate>Thu, 19 Nov 2026 17:03:53 +0000</pubDate>
+      <guid isPermaLink="false">2123462274119520434</guid>
+    </item>
     <item>
       <title>Detecting Timeroasting the Hard Way</title>
       <link>https://www.huntress.com/blog/detecting-timeroasting</link>
@@ -2366,20 +2394,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121590354910540144">DFIR Radar</source>
       <pubDate>Sat, 14 Nov 2026 13:05:33 +0000</pubDate>
       <guid isPermaLink="false">2121590354910540144</guid>
-    </item>
-    <item>
-      <title>Who Runs the Ransomware Group Qilin?</title>
-      <link>https://krebsonsecurity.com/2026/11/who-runs-the-ransomware-group-qilin/</link>
-      <description>Krebs points to a St. Petersburg, Russia 🇷🇺 man as Qilin ransomware admin Haise, via old handles Rjun and Alexbigboss44. Pivot on retired handles, Telegram IDs, and reused emails.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121574999806955749</description>
-      <content:encoded><![CDATA[<p>Krebs points to a St. Petersburg, Russia 🇷🇺 man as Qilin ransomware admin Haise, via old handles Rjun and Alexbigboss44. Pivot on retired handles, Telegram IDs, and reused emails.</p><p>#DFIR_Radar</p><p><a href="https://krebsonsecurity.com/2026/11/who-runs-the-ransomware-group-qilin/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121574999806955749">View on X</a></p>]]></content:encoded>
-      <dc:creator>Krebs on Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121574999806955749</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2121574999806955749">DFIR Radar</source>
-      <pubDate>Sat, 14 Nov 2026 12:04:32 +0000</pubDate>
-      <guid isPermaLink="false">2121574999806955749</guid>
     </item>
   </channel>
 </rss>
