@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 20 Nov 2026 16:02:50 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Nov 2026 17:02:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-123890: Critical VMware vCenter Zero-Day Exploited by China-Linked Hackers</title>
+      <link>https://socprime.com/blog/cve-2026-123890-critical-vmware-vcenter-zero-day-exploited-by-china-linked-hackers/</link>
+      <description>CVE-2026-123890 (CVSS 3.1 9.8), a VMware vCenter auth bypass, was exploited as a zero-day from early September 2026 by suspected China-linked ARMORY CASTLE. Broadcom patched it November 19, over two months later.
+
+- The flaw is an unauthenticated SRP-6a session-key disclosure in the vCenter Directory Service (vmdird), reached through DCE/RPC on TCP 2012 via rpc_srp_verifier. It yields an authenticated session as administrator[@]vsphere.local with no password. It affects vCenter 7.0, 8.0, 9.0.x and 9.1.x, plus VMware Cloud Foundation, vSphere Foundation and Telco Cloud. Broadcom says there is no workaround. It is distinct from CVE-2026-59309: Mandiant saw the exploit run against a vCenter already patched for that bug.
+
+- The intrusion began with a separate zero-day, CVE-2026-102764 in BeyondTrust Remote Support. The actor then moved to internal Linux appliances with no EDR and scanned for ports 443, 2012, 5480 and 9080. It then ran BONESAW, a custom Golang tool, against vCenter. BONESAW creates a rogue SSO admin, pulls the LMDB, steals the STS private SAML signing key, adds a backdoor machine account via vmdir, forges SAML 2.0 admin assertions and grants Global Administrator through the vSphere SOAP API. Other tooling in the intrusion: SLIMSAVAGE and CAGEMATCH webshells, BEARBONES and LAZYBONES backdoors, and the SAWSNAKE SAML utility.
+
+- The actor turned SSH on through the appliance management API, took the vCenter master symmetric key and PostgreSQL credentials, then turned SSH off again. A disabled SSH service today proves nothing, so you need historical configuration changes. On the ESXi host it added an SSH public key to root and used VMware filesystem tooling to read virtual-disk contents, extracting Windows guest files including registry hive material.
+
+- Artifacts to hunt: access to /storage/db/vmware-vmdir/data.mdb, unexpected SSO admin accounts or machine accounts, unusual VAMI API use, and new entries in ESXi root authorized_keys. Reported file IOCs are BONESAW at /tmp/123, SAWSNAKE at /tmp/sss, BEARBONES at /tmp/dbr and LAZYBONES at /usr/bin/vmtoolscs. GTIG also published suspected obfuscation-network IPs including 103.147.251[.]5, 103.190.38[.]3, 176.9.89[.]66 and 185.71.15[.]109. Use these for retrospective hunting; their absence does not rule out exploitation.
+
+- Exploit status: Mandiant recovered BONESAW from real attacks, but GTIG has not released it and Censys found no public exploit code for this CVE. BONESAW's Go build timestamp is July 13, 16 days before CVE-2026-59309 was disclosed. Go build metadata can be altered, so treat that as supporting evidence only.
+
+Takeaway: patch to the fixed builds (8.0 U3m, 9.0.2.0200, 9.1.1.0200, VCF 5.2.5; 7.0 needs extended support, Telco Cloud follows KB463116). Then treat any vCenter that was reachable from compromised internal hosts as a possible incident. Review SSO and vmdir for unexplained accounts, pull VAMI and management-API history for SSH toggles, check ESXi root authorized_keys, and rotate STS signing keys and identity-provider certificates if compromise is suspected, since password resets will not invalidate forged SAML. Restrict TCP 2012, 5480 and 22 to authorized management hosts, and get EDR and logging onto Linux appliances.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123824426546581820</description>
+      <content:encoded><![CDATA[<p>CVE-2026-123890 (CVSS 3.1 9.8), a VMware vCenter auth bypass, was exploited as a zero-day from early September 2026 by suspected China-linked ARMORY CASTLE. Broadcom patched it November 19, over two months later.</p><p>- The flaw is an unauthenticated SRP-6a session-key disclosure in the vCenter Directory Service (vmdird), reached through DCE/RPC on TCP 2012 via rpc_srp_verifier. It yields an authenticated session as administrator[@]vsphere.local with no password. It affects vCenter 7.0, 8.0, 9.0.x and 9.1.x, plus VMware Cloud Foundation, vSphere Foundation and Telco Cloud. Broadcom says there is no workaround. It is distinct from CVE-2026-59309: Mandiant saw the exploit run against a vCenter already patched for that bug.</p><p>- The intrusion began with a separate zero-day, CVE-2026-102764 in BeyondTrust Remote Support. The actor then moved to internal Linux appliances with no EDR and scanned for ports 443, 2012, 5480 and 9080. It then ran BONESAW, a custom Golang tool, against vCenter. BONESAW creates a rogue SSO admin, pulls the LMDB, steals the STS private SAML signing key, adds a backdoor machine account via vmdir, forges SAML 2.0 admin assertions and grants Global Administrator through the vSphere SOAP API. Other tooling in the intrusion: SLIMSAVAGE and CAGEMATCH webshells, BEARBONES and LAZYBONES backdoors, and the SAWSNAKE SAML utility.</p><p>- The actor turned SSH on through the appliance management API, took the vCenter master symmetric key and PostgreSQL credentials, then turned SSH off again. A disabled SSH service today proves nothing, so you need historical configuration changes. On the ESXi host it added an SSH public key to root and used VMware filesystem tooling to read virtual-disk contents, extracting Windows guest files including registry hive material.</p><p>- Artifacts to hunt: access to /storage/db/vmware-vmdir/data.mdb, unexpected SSO admin accounts or machine accounts, unusual VAMI API use, and new entries in ESXi root authorized_keys. Reported file IOCs are BONESAW at /tmp/123, SAWSNAKE at /tmp/sss, BEARBONES at /tmp/dbr and LAZYBONES at /usr/bin/vmtoolscs. GTIG also published suspected obfuscation-network IPs including 103.147.251[.]5, 103.190.38[.]3, 176.9.89[.]66 and 185.71.15[.]109. Use these for retrospective hunting; their absence does not rule out exploitation.</p><p>- Exploit status: Mandiant recovered BONESAW from real attacks, but GTIG has not released it and Censys found no public exploit code for this CVE. BONESAW&#x27;s Go build timestamp is July 13, 16 days before CVE-2026-59309 was disclosed. Go build metadata can be altered, so treat that as supporting evidence only.</p><p>Takeaway: patch to the fixed builds (8.0 U3m, 9.0.2.0200, 9.1.1.0200, VCF 5.2.5; 7.0 needs extended support, Telco Cloud follows KB463116). Then treat any vCenter that was reachable from compromised internal hosts as a possible incident. Review SSO and vmdir for unexplained accounts, pull VAMI and management-API history for SSH toggles, check ESXi root authorized_keys, and rotate STS signing keys and identity-provider certificates if compromise is suspected, since password resets will not invalidate forged SAML. Restrict TCP 2012, 5480 and 22 to authorized management hosts, and get EDR and logging onto Linux appliances.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/cve-2026-123890-critical-vmware-vcenter-zero-day-exploited-by-china-linked-hackers/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123824426546581820">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123824426546581820</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2123824426546581820">DFIR Radar</source>
+      <pubDate>Fri, 20 Nov 2026 17:02:57 +0000</pubDate>
+      <guid isPermaLink="false">2123824426546581820</guid>
+    </item>
     <item>
       <title>CA-26-052: Microsoft Agent Framework PyPI Supply Chain Compromise</title>
       <link>https://www.deepwatch.com/labs/ca-26-052-microsoft-agent-framework-pypi-supply-chain-compromise/</link>
@@ -2550,20 +2576,6 @@ Practitioner takeaway: for anyone who may have entered details, the evidence is 
       <source url="https://x.com/DFIR_Radar/status/2122330061667717167">DFIR Radar</source>
       <pubDate>Mon, 16 Nov 2026 14:04:53 +0000</pubDate>
       <guid isPermaLink="false">2122330061667717167</guid>
-    </item>
-    <item>
-      <title>Typosquatters Copy Big Brands’ New Domains Within a Day of Registration</title>
-      <link>https://www.security.com/threat-intelligence/typosquatting-new-brand-domains</link>
-      <description>Typosquatters registered one-letter lookalikes, like carmaxclaim[.]com, within a day of CSC and MarkMonitor brand registrations. Check RDAP for one-letter variants of new domains; IOCs are in Symantec's report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122314758175027224</description>
-      <content:encoded><![CDATA[<p>Typosquatters registered one-letter lookalikes, like carmaxclaim[.]com, within a day of CSC and MarkMonitor brand registrations. Check RDAP for one-letter variants of new domains; IOCs are in Symantec&#x27;s report.</p><p>#DFIR_Radar</p><p><a href="https://www.security.com/threat-intelligence/typosquatting-new-brand-domains">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122314758175027224">View on X</a></p>]]></content:encoded>
-      <dc:creator>Symantec Threat Intelligence</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122314758175027224</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2122314758175027224">DFIR Radar</source>
-      <pubDate>Mon, 16 Nov 2026 13:04:04 +0000</pubDate>
-      <guid isPermaLink="false">2122314758175027224</guid>
     </item>
   </channel>
 </rss>
