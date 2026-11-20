@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 20 Nov 2026 05:06:47 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Nov 2026 06:06:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NGINX2Root: Five RCE bugs in NGINX, a Linux kernel path to root, and how to detect exploitation</title>
+      <link>https://webflow.sysdig.com/blog/nginx2root</link>
+      <description>Five unauthenticated NGINX memory-corruption bugs (CVSS 4.0 9.2) are patched, but an unpatched Linux SCTP kernel bug turns worker RCE into host root, even from inside a Docker container.
+
+Sysdig's report covers "NGINX2Root," disclosed Nov 18, 2026. No public PoC and no in-the-wild exploitation yet, but Xint and Wiz say they have working ASLR-bypass exploits.
+
+- NGINX side: CVE-2026-123007 is the one to prioritize. It needs only HTTP/2, reaches the flaw by serving static files, dates to NGINX 1.9.5, and was found independently by four teams. Researchers confirmed RCE on official 1.31.7 and 1.31.8 builds. The others are narrower: CVE-2026-123633 (HTTP/2 plus upstream proxying), CVE-2026-123634 (proxy_pass built from request variables, resolver, subrequest via mirror or SSI), CVE-2026-121810 (HTTP/3), CVE-2026-113425 (mail proxy with auth_http). All score 8.1 on CVSS 3.1. Fixed in 1.31.9 and 1.30.7.
+
+- Kernel side: a use-after-free and double-free in Linux SCTP, introduced in 4.15, leaks kernel memory and allows an arbitrary kernel function call. It has no CVE and no patch. The sctp module loads on demand, so an unprivileged NGINX worker opening one SCTP socket loads sctp.ko, which stays until reboot. Containers share the kernel, so the chain gave root on the host from the official nginx:1.31.8 image.
+
+- Patch gap: distro packages keep their version string after backports, so nginx -v can mislead. Debian and Ubuntu listed every supported release as vulnerable to CVE-2026-123007 with no fixed package yet. Container images stay vulnerable until rebuilt and redeployed. Kubernetes ingress-nginx was archived Mar 24, 2026 and will not get these fixes.
+
+- Evidence to look for: Falco sees syscalls, not the HTTP request, so watch what the worker does afterward: a shell or reverse shell spawned by an NGINX worker, a binary dropped and executed (for example from /tmp). Also check error.log and coredumpctl for worker crashes and segfaults, commands run as the worker's user, and long-lived HTTP/2 connections receiving a lot of data and sending little back. The report calls these general warning signs, not confirmed indicators.
+
+- Patch-day noise: Sysdig's lab saw setuid and run-as-root alerts from an in-place live binary upgrade, but not from a config reload. Scope tuning to the maintenance window.
+
+Takeaway: restart NGINX after upgrading, because a reload leaves old workers serving existing connections. Confirm every old worker exited. Until patched, disable HTTP/2 (blocks both HTTP/2 bugs), use a fixed proxy_pass upstream, and turn off HTTP/3, mirror, and SSI where unused. On hosts and nodes that don't need SCTP, add install sctp /bin/false under /etc/modprobe.d/ and run lsmod | grep sctp. That block does not unload a module already loaded, and a loaded module needs a reboot. If sctp.ko is already present on an NGINX host, treat it as a lead and review worker child processes. The report has no IOC list.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123659149141479812</description>
+      <content:encoded><![CDATA[<p>Five unauthenticated NGINX memory-corruption bugs (CVSS 4.0 9.2) are patched, but an unpatched Linux SCTP kernel bug turns worker RCE into host root, even from inside a Docker container.</p><p>Sysdig&#x27;s report covers &quot;NGINX2Root,&quot; disclosed Nov 18, 2026. No public PoC and no in-the-wild exploitation yet, but Xint and Wiz say they have working ASLR-bypass exploits.</p><p>- NGINX side: CVE-2026-123007 is the one to prioritize. It needs only HTTP/2, reaches the flaw by serving static files, dates to NGINX 1.9.5, and was found independently by four teams. Researchers confirmed RCE on official 1.31.7 and 1.31.8 builds. The others are narrower: CVE-2026-123633 (HTTP/2 plus upstream proxying), CVE-2026-123634 (proxy_pass built from request variables, resolver, subrequest via mirror or SSI), CVE-2026-121810 (HTTP/3), CVE-2026-113425 (mail proxy with auth_http). All score 8.1 on CVSS 3.1. Fixed in 1.31.9 and 1.30.7.</p><p>- Kernel side: a use-after-free and double-free in Linux SCTP, introduced in 4.15, leaks kernel memory and allows an arbitrary kernel function call. It has no CVE and no patch. The sctp module loads on demand, so an unprivileged NGINX worker opening one SCTP socket loads sctp.ko, which stays until reboot. Containers share the kernel, so the chain gave root on the host from the official nginx:1.31.8 image.</p><p>- Patch gap: distro packages keep their version string after backports, so nginx -v can mislead. Debian and Ubuntu listed every supported release as vulnerable to CVE-2026-123007 with no fixed package yet. Container images stay vulnerable until rebuilt and redeployed. Kubernetes ingress-nginx was archived Mar 24, 2026 and will not get these fixes.</p><p>- Evidence to look for: Falco sees syscalls, not the HTTP request, so watch what the worker does afterward: a shell or reverse shell spawned by an NGINX worker, a binary dropped and executed (for example from /tmp). Also check error.log and coredumpctl for worker crashes and segfaults, commands run as the worker&#x27;s user, and long-lived HTTP/2 connections receiving a lot of data and sending little back. The report calls these general warning signs, not confirmed indicators.</p><p>- Patch-day noise: Sysdig&#x27;s lab saw setuid and run-as-root alerts from an in-place live binary upgrade, but not from a config reload. Scope tuning to the maintenance window.</p><p>Takeaway: restart NGINX after upgrading, because a reload leaves old workers serving existing connections. Confirm every old worker exited. Until patched, disable HTTP/2 (blocks both HTTP/2 bugs), use a fixed proxy_pass upstream, and turn off HTTP/3, mirror, and SSI where unused. On hosts and nodes that don&#x27;t need SCTP, add install sctp /bin/false under /etc/modprobe.d/ and run lsmod | grep sctp. That block does not unload a module already loaded, and a loaded module needs a reboot. If sctp.ko is already present on an NGINX host, treat it as a lead and review worker child processes. The report has no IOC list.</p><p>#DFIR_Radar</p><p><a href="https://webflow.sysdig.com/blog/nginx2root">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123659149141479812">View on X</a></p>]]></content:encoded>
+      <dc:creator>Sysdig</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123659149141479812</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2123659149141479812">DFIR Radar</source>
+      <pubDate>Fri, 20 Nov 2026 06:06:12 +0000</pubDate>
+      <guid isPermaLink="false">2123659149141479812</guid>
+    </item>
     <item>
       <title>The Rise and Rise of DarkSword attacks</title>
       <link>https://www.iverify.com/blog/the-rise-and-rise-of-darksword-attacks</link>
@@ -2504,20 +2532,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121816703206097179">DFIR Radar</source>
       <pubDate>Sun, 15 Nov 2026 04:04:58 +0000</pubDate>
       <guid isPermaLink="false">2121816703206097179</guid>
-    </item>
-    <item>
-      <title>Weak Passwords Expose SQL Servers to Cryptominer and Gh0st RAT</title>
-      <link>https://www.infosecurity-magazine.com/news/fortinet-sql-server-cryptominer/</link>
-      <description>FortiGuard Labs found attackers brute-forcing weak passwords on exposed SQL Servers to deploy an XMRig miner and Gh0st RAT. Check for enabled xp_cmdshell and Edge-update-lookalike scheduled tasks.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121801674272768029</description>
-      <content:encoded><![CDATA[<p>FortiGuard Labs found attackers brute-forcing weak passwords on exposed SQL Servers to deploy an XMRig miner and Gh0st RAT. Check for enabled xp_cmdshell and Edge-update-lookalike scheduled tasks.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/fortinet-sql-server-cryptominer/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121801674272768029">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121801674272768029</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2121801674272768029">DFIR Radar</source>
-      <pubDate>Sun, 15 Nov 2026 03:05:15 +0000</pubDate>
-      <guid isPermaLink="false">2121801674272768029</guid>
     </item>
   </channel>
 </rss>
