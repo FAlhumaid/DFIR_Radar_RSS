@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 20 Nov 2026 03:05:59 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Nov 2026 04:05:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers Exploit Cisco Expressway Vulnerability Soon After PoC Release</title>
+      <link>https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/</link>
+      <description>Cisco Expressway CVE-2026-76466 (CVSS 9.8) was exploited against a Russian 🇷🇺 organization soon after a public PoC appeared. Unauthenticated root command execution, but only on clustered Expressway Core and Edge.
+
+- The flaw: Cisco disclosed it on October 21. It sits in the Expressway database service and stems from persistent cookies. An attacker holding them can reach the database service and issue certain RPC commands, which run root-level commands on the underlying OS. It affects virtual and appliance builds of Expressway Core and Edge when clustered. X15.5.20 fixes it, there are no workarounds, and X14 or earlier must move to a fixed release.
+
+- Exploitation status: Cisco's advisory has not been revised and still says it knows of no public announcements or malicious use. But a PoC is on GitHub, and F6 says the attack it investigated came shortly after. F6 did not name the victim or attribute the activity to a known actor.
+
+- Attack chain: the attackers first breached two internet-exposed Expressway X15.5.3 devices. From one of them they pivoted to two other cluster nodes on the internal network. Because the exploited service is a cluster feature, internal nodes are part of the blast radius, not just the edge box.
+
+- Post-exploitation tooling: with root, the attackers staged custom Python scripts to scan the network, locate SMB resources, interact with SQL Server and WinRM, and search GitLab repositories, aiming to exfiltrate credentials and other sensitive data. F6 found the scripts were modified on the fly during the intrusion, and the source contained characteristic comments and fix descriptions pointing to an AI assistant. Expect fast iteration, not a fixed toolkit.
+
+- Detection angle: F6 points to the Erlang system log on Expressway devices as the place to look for exploitation. It also published IP addresses and file paths tied to the attack in a Russian-language press release.
+
+Takeaway: if you run clustered Expressway, pull and preserve the Erlang system log from every node, internal ones included, before patching or rebuilding. Then check for unexpected Python scripts on the devices and for scanning, SMB, SQL Server, WinRM, or GitLab access originating from Expressway hosts. Compare cluster node IPs, file paths, and connections against the indicators in F6's press release.
+
+If you cannot patch right away, F6 recommends blocking TCP ports 4371-4372 at the firewall except from trusted cluster node IPs. Then move to X15.5.20.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123628866010837434</description>
+      <content:encoded><![CDATA[<p>Cisco Expressway CVE-2026-76466 (CVSS 9.8) was exploited against a Russian 🇷🇺 organization soon after a public PoC appeared. Unauthenticated root command execution, but only on clustered Expressway Core and Edge.</p><p>- The flaw: Cisco disclosed it on October 21. It sits in the Expressway database service and stems from persistent cookies. An attacker holding them can reach the database service and issue certain RPC commands, which run root-level commands on the underlying OS. It affects virtual and appliance builds of Expressway Core and Edge when clustered. X15.5.20 fixes it, there are no workarounds, and X14 or earlier must move to a fixed release.</p><p>- Exploitation status: Cisco&#x27;s advisory has not been revised and still says it knows of no public announcements or malicious use. But a PoC is on GitHub, and F6 says the attack it investigated came shortly after. F6 did not name the victim or attribute the activity to a known actor.</p><p>- Attack chain: the attackers first breached two internet-exposed Expressway X15.5.3 devices. From one of them they pivoted to two other cluster nodes on the internal network. Because the exploited service is a cluster feature, internal nodes are part of the blast radius, not just the edge box.</p><p>- Post-exploitation tooling: with root, the attackers staged custom Python scripts to scan the network, locate SMB resources, interact with SQL Server and WinRM, and search GitLab repositories, aiming to exfiltrate credentials and other sensitive data. F6 found the scripts were modified on the fly during the intrusion, and the source contained characteristic comments and fix descriptions pointing to an AI assistant. Expect fast iteration, not a fixed toolkit.</p><p>- Detection angle: F6 points to the Erlang system log on Expressway devices as the place to look for exploitation. It also published IP addresses and file paths tied to the attack in a Russian-language press release.</p><p>Takeaway: if you run clustered Expressway, pull and preserve the Erlang system log from every node, internal ones included, before patching or rebuilding. Then check for unexpected Python scripts on the devices and for scanning, SMB, SQL Server, WinRM, or GitLab access originating from Expressway hosts. Compare cluster node IPs, file paths, and connections against the indicators in F6&#x27;s press release.</p><p>If you cannot patch right away, F6 recommends blocking TCP ports 4371-4372 at the firewall except from trusted cluster node IPs. Then move to X15.5.20.</p><p>#DFIR_Radar</p><p><a href="https://www.securityweek.com/hackers-exploit-cisco-expressway-vulnerability-soon-after-poc-release/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123628866010837434">View on X</a></p>]]></content:encoded>
+      <dc:creator>SecurityWeek</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123628866010837434</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2123628866010837434">DFIR Radar</source>
+      <pubDate>Fri, 20 Nov 2026 04:05:52 +0000</pubDate>
+      <guid isPermaLink="false">2123628866010837434</guid>
+    </item>
     <item>
       <title>Fake FMCSA, DAT, and TIMOCOM Portals: 3 Cyberattacks Targeting US Logistics</title>
       <link>https://any.run/cybersecurity-blog/us-logistics-cyber-threats-3-campaigns/</link>
@@ -2478,20 +2506,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121786374319968592">DFIR Radar</source>
       <pubDate>Sun, 15 Nov 2026 02:04:27 +0000</pubDate>
       <guid isPermaLink="false">2121786374319968592</guid>
-    </item>
-    <item>
-      <title>Able2Shell: Frequently asked questions for reported N-able N-central zero-day vulnerabilities</title>
-      <link>https://www.tenable.com/blog/able2shell-frequently-asked-questions-for-reported-n-able-n-central-zero-day-vulnerabilities</link>
-      <description>Huntback reports N-able N-central chain 4EverAble2Shell installed XMRig miners on 21 live servers. Hunt for new admin accounts and logins since November 8, and confirm Legacy API is off.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121771262611710272</description>
-      <content:encoded><![CDATA[<p>Huntback reports N-able N-central chain 4EverAble2Shell installed XMRig miners on 21 live servers. Hunt for new admin accounts and logins since November 8, and confirm Legacy API is off.</p><p>#DFIR_Radar</p><p><a href="https://www.tenable.com/blog/able2shell-frequently-asked-questions-for-reported-n-able-n-central-zero-day-vulnerabilities">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121771262611710272">View on X</a></p>]]></content:encoded>
-      <dc:creator>Tenable</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121771262611710272</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2121771262611710272">DFIR Radar</source>
-      <pubDate>Sun, 15 Nov 2026 01:04:24 +0000</pubDate>
-      <guid isPermaLink="false">2121771262611710272</guid>
     </item>
   </channel>
 </rss>
