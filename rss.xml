@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 19 Nov 2026 23:06:02 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Nov 2026 00:06:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>InfoSec News Nuggets: 11/19/2026</title>
+      <link>https://aboutdfir.com/infosec-news-nuggets-11-19-2026/</link>
+      <description>A hijacked Optimizely script field reached visitors of 178 organizations, and trojanized PyPI agent-framework releases stole Azure and CI tokens through .pth files. CISA also added four exploited CVEs to KEV.
+
+- Optimizely: on November 16 an attacker abused a flaw in the account signup flow of Web Experimentation to plant code in the optional Project JavaScript field. Optimizely's own CDN served it to visitors of BBC, CNN, Zoom, GitLab, IKEA, HSBC and others. The payload was a clipper that swapped Bitcoin, Ethereum and Tron addresses in page text and on copy, plus an iOS-only loader. Later variants reportedly added a card skimmer. None of the sites were breached directly. Optimizely says it patched, removed the code and revoked tokens.
+
+- agent-framework on PyPI: versions 1.26.1 and 1.26.2 were published 33 minutes apart on November 17. Each drops a .pth file into site-packages, so the stealer runs on every Python start, including pip, even if the framework is never imported. It harvests environment variables, other processes and credential files. It mints Azure managed identity tokens for 12 resources, grabs Azure DevOps OIDC tokens and, in the second release, GitHub Actions OIDC tokens. Everything goes to a webhook[.]site URL. The second release moved the payload into a new module, so a diff against clean 1.26.0 would miss it.
+
+- CISA KEV, November 18: four actively exploited CVEs, three of them CVSS 9.8 RCEs. CVE-2024-10441 hits Synology DiskStation Manager and BeeStation OS and is tied to C3RB3R ransomware on NAS devices. CVE-2026-90436 is unsafe reflection in unsupported Apache Axis 1.x, exploited via Atlassian Confluence Data Center and N-able N-central. CVE-2026-90817 is unauthenticated code injection in REDCap. CVE-2026-40217 allows code execution through LiteLLM proxy's guardrail testing feature. Federal deadline is November 21 for the first three and December 2 for LiteLLM. CISA advises preserving evidence before patching exposed systems.
+
+- Java4Shell, CVE-2026-114938: a memory corruption bug in the assembly fast path of Java's Base64 decoder writes 62 bytes past a buffer. It affects OpenJDK 17.0.6 and later on x86-64 CPUs with AVX-512 VBMI. Oracle scores it 8.1 and Calif 9.2. Calif demonstrated unauthenticated RCE against default Keycloak, Jira, Confluence, Artifactory, Jenkins and PingFederate. No in-the-wild attacks are confirmed yet. Fixes shipped November 17.
+
+- Cold Relic (ColdRiver): Mandiant ties this FSB-linked Russian 🇷🇺 group to a chain of reuse. In late 2025 it hijacked an admin account at a U.S. 🇺🇸 organization, copied the cloud drive and employee directories, and kept reading mail through third-party apps, even after password and session resets. This year it used that material to impersonate an employee to a contact at a second U.S. 🇺🇸 organization over an encrypted messaging app. It then sent links to relevant documents that harvested Microsoft credentials and tokens and led to bulk cloud file theft. Compromised websites screen and redirect targets, and new operations were seen this month.
+
+Takeaway: for agent-framework, check lockfiles, install and build logs (without running pip) for 1.26.1 or 1.26.2 since November 17. Look for unexpected .pth files in site-packages, and avoid running Python in affected environments until rebuilt from 1.26.0. Treat every reachable credential, including Azure, Azure DevOps and GitHub Actions tokens, as exposed and rotate it. For Optimizely, review your Project JavaScript field for code you did not write. For Cold Relic, a password and session reset is not enough: audit third-party app access to mailboxes and cloud drives. On exposed Synology, Axis, REDCap or LiteLLM hosts, preserve evidence first, then patch.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123568703329419375</description>
+      <content:encoded><![CDATA[<p>A hijacked Optimizely script field reached visitors of 178 organizations, and trojanized PyPI agent-framework releases stole Azure and CI tokens through .pth files. CISA also added four exploited CVEs to KEV.</p><p>- Optimizely: on November 16 an attacker abused a flaw in the account signup flow of Web Experimentation to plant code in the optional Project JavaScript field. Optimizely&#x27;s own CDN served it to visitors of BBC, CNN, Zoom, GitLab, IKEA, HSBC and others. The payload was a clipper that swapped Bitcoin, Ethereum and Tron addresses in page text and on copy, plus an iOS-only loader. Later variants reportedly added a card skimmer. None of the sites were breached directly. Optimizely says it patched, removed the code and revoked tokens.</p><p>- agent-framework on PyPI: versions 1.26.1 and 1.26.2 were published 33 minutes apart on November 17. Each drops a .pth file into site-packages, so the stealer runs on every Python start, including pip, even if the framework is never imported. It harvests environment variables, other processes and credential files. It mints Azure managed identity tokens for 12 resources, grabs Azure DevOps OIDC tokens and, in the second release, GitHub Actions OIDC tokens. Everything goes to a webhook[.]site URL. The second release moved the payload into a new module, so a diff against clean 1.26.0 would miss it.</p><p>- CISA KEV, November 18: four actively exploited CVEs, three of them CVSS 9.8 RCEs. CVE-2024-10441 hits Synology DiskStation Manager and BeeStation OS and is tied to C3RB3R ransomware on NAS devices. CVE-2026-90436 is unsafe reflection in unsupported Apache Axis 1.x, exploited via Atlassian Confluence Data Center and N-able N-central. CVE-2026-90817 is unauthenticated code injection in REDCap. CVE-2026-40217 allows code execution through LiteLLM proxy&#x27;s guardrail testing feature. Federal deadline is November 21 for the first three and December 2 for LiteLLM. CISA advises preserving evidence before patching exposed systems.</p><p>- Java4Shell, CVE-2026-114938: a memory corruption bug in the assembly fast path of Java&#x27;s Base64 decoder writes 62 bytes past a buffer. It affects OpenJDK 17.0.6 and later on x86-64 CPUs with AVX-512 VBMI. Oracle scores it 8.1 and Calif 9.2. Calif demonstrated unauthenticated RCE against default Keycloak, Jira, Confluence, Artifactory, Jenkins and PingFederate. No in-the-wild attacks are confirmed yet. Fixes shipped November 17.</p><p>- Cold Relic (ColdRiver): Mandiant ties this FSB-linked Russian 🇷🇺 group to a chain of reuse. In late 2025 it hijacked an admin account at a U.S. 🇺🇸 organization, copied the cloud drive and employee directories, and kept reading mail through third-party apps, even after password and session resets. This year it used that material to impersonate an employee to a contact at a second U.S. 🇺🇸 organization over an encrypted messaging app. It then sent links to relevant documents that harvested Microsoft credentials and tokens and led to bulk cloud file theft. Compromised websites screen and redirect targets, and new operations were seen this month.</p><p>Takeaway: for agent-framework, check lockfiles, install and build logs (without running pip) for 1.26.1 or 1.26.2 since November 17. Look for unexpected .pth files in site-packages, and avoid running Python in affected environments until rebuilt from 1.26.0. Treat every reachable credential, including Azure, Azure DevOps and GitHub Actions tokens, as exposed and rotate it. For Optimizely, review your Project JavaScript field for code you did not write. For Cold Relic, a password and session reset is not enough: audit third-party app access to mailboxes and cloud drives. On exposed Synology, Axis, REDCap or LiteLLM hosts, preserve evidence first, then patch.</p><p>#DFIR_Radar</p><p><a href="https://aboutdfir.com/infosec-news-nuggets-11-19-2026/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123568703329419375">View on X</a></p>]]></content:encoded>
+      <dc:creator>AboutDFIR</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2123568703329419375</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2123568703329419375">DFIR Radar</source>
+      <pubDate>Fri, 20 Nov 2026 00:06:48 +0000</pubDate>
+      <guid isPermaLink="false">2123568703329419375</guid>
+    </item>
     <item>
       <title>NGINX2Root: What NGINX Admins Should Know</title>
       <link>https://socradar.io/blog/nginx2root-nginx-cve-2026-123007/</link>
@@ -2454,20 +2480,6 @@ Takeaway: on macOS 27 triage, collect the AgentSessionKit folder from the Daemon
       <source url="https://x.com/DFIR_Radar/status/2121725952505868557">DFIR Radar</source>
       <pubDate>Sat, 14 Nov 2026 22:04:22 +0000</pubDate>
       <guid isPermaLink="false">2121725952505868557</guid>
-    </item>
-    <item>
-      <title>Inside the Enterprise Access Market: What Nine Underground Listings Reveal About Initial Access Sales</title>
-      <link>https://threatmon.io/inside-the-enterprise-access-market-what-nine-underground-listings-reveal-about-initial-access-sales/</link>
-      <description>ThreatMon observed nine unverified access listings on DarkForums, Exploitin and PwnForums, spanning VPN, CI/CD, cloud keys and SaaS sessions. Revoke sessions and rotate keys, since password resets leave access usable.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2121711013171249623</description>
-      <content:encoded><![CDATA[<p>ThreatMon observed nine unverified access listings on DarkForums, Exploitin and PwnForums, spanning VPN, CI/CD, cloud keys and SaaS sessions. Revoke sessions and rotate keys, since password resets leave access usable.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/inside-the-enterprise-access-market-what-nine-underground-listings-reveal-about-initial-access-sales/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2121711013171249623">View on X</a></p>]]></content:encoded>
-      <dc:creator>ThreatMon</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2121711013171249623</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2121711013171249623">DFIR Radar</source>
-      <pubDate>Sat, 14 Nov 2026 21:05:00 +0000</pubDate>
-      <guid isPermaLink="false">2121711013171249623</guid>
     </item>
   </channel>
 </rss>
