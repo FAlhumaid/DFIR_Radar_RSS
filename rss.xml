@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2026 20:05:11 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2026 21:05:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>How Cloudflare WAF helps protect against phpAfterShell and other critical PHP flaws</title>
+      <link>https://blog.cloudflare.com/phpaftershell-waf-protection/</link>
+      <description>phpAfterShell (CVE-2026-126714, CVSS 4.0 9.2) turns an interrupted PHP session write into RCE, with no exploitation reported. Check configs for session.upload_progress.enabled=1, then upgrade PHP and restart every worker.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124247868143775912</description>
+      <content:encoded><![CDATA[<p>phpAfterShell (CVE-2026-126714, CVSS 4.0 9.2) turns an interrupted PHP session write into RCE, with no exploitation reported. Check configs for session.upload_progress.enabled=1, then upgrade PHP and restart every worker.</p><p>#DFIR_Radar</p><p><a href="https://blog.cloudflare.com/phpaftershell-waf-protection/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124247868143775912">View on X</a></p>]]></content:encoded>
+      <dc:creator>Cloudflare Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124247868143775912</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124247868143775912">DFIR Radar</source>
+      <pubDate>Sat, 21 Nov 2026 21:05:33 +0000</pubDate>
+      <guid isPermaLink="false">2124247868143775912</guid>
+    </item>
     <item>
       <title>Russian Espionage Actor Star Blizzard Focuses on Cloud Identities for Mass Data Theft</title>
       <link>https://www.infosecurity-magazine.com/news/russian-star-blizzard-cloud-data/</link>
@@ -2399,32 +2413,6 @@ Practitioner takeaway: if a developer opened a cloned repo with an AI assistant,
       <source url="https://x.com/DFIR_Radar/status/2122722058287067590">DFIR Radar</source>
       <pubDate>Tue, 17 Nov 2026 16:02:32 +0000</pubDate>
       <guid isPermaLink="false">2122722058287067590</guid>
-    </item>
-    <item>
-      <title>Threat Researcher’s Notebook: BubbleLoader</title>
-      <link>https://www.reversinglabs.com/blog/threat-researchers-notebook-bubbleloader</link>
-      <description>BubbleLoader patches the entry point of legitimate PEs like WinRAR, hides its next stage in a fake PNG, and randomizes compiler padding so the payload hash changes on every run.
-
-- Stage 1 is a small entry point patch with an obfuscated prologue. It uses a GetPC call to recover the image base (0x400000 in the analyzed sample) even under ASLR. It then builds fake function calls to GetModuleHandleW and GetProcAddress from a pointer load, a fabricated return address, and a jump into the host's own import table. It tries an ASCII "kernel32" first and falls back to a wide string, so one template fits hosts importing either the A or W variant. The patch ends with VirtualAlloc, copies the two PNGs into that memory, and jumps into the second one.
-
-- The two PNGs are the staging container. The first is a valid red-to-blue gradient image that serves as a rolling XOR key. The second has correct PNG magic bytes and a truncated IHDR, with encrypted shellcode starting where the width field belongs. That field should begin with 0x00 but starts with 0x55 in the fake. That is a cheap static check for an invalid embedded PNG. The gradient key is sparse and full of null bytes, so stretches of the third stage are left unencrypted, including loader strings. Opaque predicates and an in instruction (privileged, raises an exception in user mode) pad the decryption loop to hinder analysis.
-
-- The third-stage loader is built to serve multiple contexts. It has a reentry guard for DLL payloads even though this sample's payload is an EXE. It takes the host image base from the PEB (gs:0x60) and reuses the host's imports. A generic resolver, bootstrapped by overwriting 0xfafafafafafafafa placeholders with LoadLibraryA and GetProcAddress, resolves ExitProcess, RtlAddFunctionTable, RtlPcToFileHeader, VirtualAlloc, and VirtualProtect.
-
-- The anti-forensics feature matters for IR. While loading, the shellcode finds 0xcc compiler padding between functions and overwrites each byte except the leftmost with randomness from rdtsc. The unpacked payload hash is therefore different on every execution. Patching out that loop restores the original hash. The loader then reflectively maps the PE (headers, sections, relocations, TLS callbacks, imports, protections). It also registers the payload's .pdata through RtlAddFunctionTable and writes an inline hook stub over RtlPcToFileHeader in ntdll via VirtualProtect and memcpy, giving the payload working SEH. It finally calls the entry point with DLL_PROCESS_ATTACH, then ExitProcess.
-
-- Detection opportunities the report calls out: executable memory allocated through VirtualAlloc, runtime VirtualProtect changes aimed at ntdll's RtlPcToFileHeader, tampered entry points in common third-party utilities such as WinRAR, and invalid PNGs with truncated IHDR chunks.
-
-Takeaway: do not depend on payload hashes here, since the post-unpacking hash is randomized per run. Pivot to behavior and integrity. Check entry points of signed utilities for patching, hunt memory for the RtlPcToFileHeader inline hook and RWX allocations, and flag PNG resources with a truncated IHDR whose width field's first byte is non-zero (0x55 in this sample). When detonating a sample, patch out the rdtsc padding loop beforehand to get the payload's original hash. The analyzed sample SHA256 is 4987af027009d572c26f6d009c5e53e237cb2e3ab9d52094c14dc0b8b6f40b14, and the report lists further sample hashes.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122707039331680508</description>
-      <content:encoded><![CDATA[<p>BubbleLoader patches the entry point of legitimate PEs like WinRAR, hides its next stage in a fake PNG, and randomizes compiler padding so the payload hash changes on every run.</p><p>- Stage 1 is a small entry point patch with an obfuscated prologue. It uses a GetPC call to recover the image base (0x400000 in the analyzed sample) even under ASLR. It then builds fake function calls to GetModuleHandleW and GetProcAddress from a pointer load, a fabricated return address, and a jump into the host&#x27;s own import table. It tries an ASCII &quot;kernel32&quot; first and falls back to a wide string, so one template fits hosts importing either the A or W variant. The patch ends with VirtualAlloc, copies the two PNGs into that memory, and jumps into the second one.</p><p>- The two PNGs are the staging container. The first is a valid red-to-blue gradient image that serves as a rolling XOR key. The second has correct PNG magic bytes and a truncated IHDR, with encrypted shellcode starting where the width field belongs. That field should begin with 0x00 but starts with 0x55 in the fake. That is a cheap static check for an invalid embedded PNG. The gradient key is sparse and full of null bytes, so stretches of the third stage are left unencrypted, including loader strings. Opaque predicates and an in instruction (privileged, raises an exception in user mode) pad the decryption loop to hinder analysis.</p><p>- The third-stage loader is built to serve multiple contexts. It has a reentry guard for DLL payloads even though this sample&#x27;s payload is an EXE. It takes the host image base from the PEB (gs:0x60) and reuses the host&#x27;s imports. A generic resolver, bootstrapped by overwriting 0xfafafafafafafafa placeholders with LoadLibraryA and GetProcAddress, resolves ExitProcess, RtlAddFunctionTable, RtlPcToFileHeader, VirtualAlloc, and VirtualProtect.</p><p>- The anti-forensics feature matters for IR. While loading, the shellcode finds 0xcc compiler padding between functions and overwrites each byte except the leftmost with randomness from rdtsc. The unpacked payload hash is therefore different on every execution. Patching out that loop restores the original hash. The loader then reflectively maps the PE (headers, sections, relocations, TLS callbacks, imports, protections). It also registers the payload&#x27;s .pdata through RtlAddFunctionTable and writes an inline hook stub over RtlPcToFileHeader in ntdll via VirtualProtect and memcpy, giving the payload working SEH. It finally calls the entry point with DLL_PROCESS_ATTACH, then ExitProcess.</p><p>- Detection opportunities the report calls out: executable memory allocated through VirtualAlloc, runtime VirtualProtect changes aimed at ntdll&#x27;s RtlPcToFileHeader, tampered entry points in common third-party utilities such as WinRAR, and invalid PNGs with truncated IHDR chunks.</p><p>Takeaway: do not depend on payload hashes here, since the post-unpacking hash is randomized per run. Pivot to behavior and integrity. Check entry points of signed utilities for patching, hunt memory for the RtlPcToFileHeader inline hook and RWX allocations, and flag PNG resources with a truncated IHDR whose width field&#x27;s first byte is non-zero (0x55 in this sample). When detonating a sample, patch out the rdtsc padding loop beforehand to get the payload&#x27;s original hash. The analyzed sample SHA256 is 4987af027009d572c26f6d009c5e53e237cb2e3ab9d52094c14dc0b8b6f40b14, and the report lists further sample hashes.</p><p>#DFIR_Radar</p><p><a href="https://www.reversinglabs.com/blog/threat-researchers-notebook-bubbleloader">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122707039331680508">View on X</a></p>]]></content:encoded>
-      <dc:creator>ReversingLabs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122707039331680508</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2122707039331680508">DFIR Radar</source>
-      <pubDate>Tue, 17 Nov 2026 15:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2122707039331680508</guid>
     </item>
   </channel>
 </rss>
