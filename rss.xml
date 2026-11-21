@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2026 12:06:36 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2026 13:05:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New EggStreme Malware Variant Goes Silent to Evade Security Tools in Government Attacks</title>
+      <link>https://thehackernews.com/2026/11/eggstreme-hackers-rebuild-malware-with.html</link>
+      <description>Suspected Chinese 🇨🇳 APT retooled EggStreme with a new protocol and passive variant against Philippines 🇵🇭 government. Hunt sideloaded DLLs under system library names and VBScript launched over SMB.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124127061467910411</description>
+      <content:encoded><![CDATA[<p>Suspected Chinese 🇨🇳 APT retooled EggStreme with a new protocol and passive variant against Philippines 🇵🇭 government. Hunt sideloaded DLLs under system library names and VBScript launched over SMB.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/eggstreme-hackers-rebuild-malware-with.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124127061467910411">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124127061467910411</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2124127061467910411">DFIR Radar</source>
+      <pubDate>Sat, 21 Nov 2026 13:05:31 +0000</pubDate>
+      <guid isPermaLink="false">2124127061467910411</guid>
+    </item>
     <item>
       <title>Attackers' AI Agents Found a Zero-Day in Medical-Imaging Software and Gained Root Access</title>
       <link>https://thehackernews.com/2026/11/attackers-ai-agents-found-zero-day-in.html</link>
@@ -2473,30 +2487,6 @@ Takeaway: the cloud traffic itself looks legitimate, so hunt the host. Look for 
       <source url="https://x.com/DFIR_Radar/status/2122631586067722527">DFIR Radar</source>
       <pubDate>Tue, 17 Nov 2026 10:03:02 +0000</pubDate>
       <guid isPermaLink="false">2122631586067722527</guid>
-    </item>
-    <item>
-      <title>Operation ShadowCloud: cloud service-based backdoors targeting government networks in Asia and Africa. Part 1</title>
-      <link>https://securelist.com/operation-shadowcloud-gitdoor/122004/</link>
-      <description>Operation ShadowCloud: a MeshCentral agent drops two new backdoors, GitDoor and GraphDoor, that hide C2 inside GitHub, SharePoint and Ably traffic. Kaspersky found victims, mostly government, in Asia and Africa.
-
-- Initial access: the entry point is unknown, but the evidence points to reuse of an earlier infection. The MeshCentral Agent was found inside a Taiwanese 🇹🇼 organization, hard-coded to wss://27.102.66[.]162:443/agent.ashx. Through that session the operator dropped a legitimate binary, a malicious loader DLL and an encrypted config.ini. One instance paired Sandboxie's start.exe with sbiedll.dll in system32. Another paired dtsapo4service.exe with python39.dll under system32\dts\pc\apo4x. Other loader names are jli.dll, WINMM.dll and libcef.dll. Other host binaries were javaw.exe, pythonw.exe and zoomit.exe, which was started as a Windows service.
-
-- Loaders: Type 1 reads config.ini with NtCreateFile/NtReadFile, decodes it with a custom-alphabet Base64, then RC4 and XOR. It then abuses RtlEthernetAddressToStringA and RtlEthernetStringToAddressA to convert the bytes through a MAC-address string, an unusual way to hide the payload. It flips memory to PAGE_EXECUTE_READWRITE and jumps to the MZ header. Type 2 (SbieDll_st.dll) hunts a byte pattern in KERNEL32 and KernelBase, installs a vectored exception handler that zeroes DR7, checks the process name, and does Base64 plus XOR. The GraphDoor loader creates a file mapping named Local\sm%lu, where %lu is the PID.
-
-- GitDoor C2: it uses two GitHub repos, one for commands (Havo) and a private one for results (Trix), plus Ably. Each host opens a GitHub issue titled "problem [GUID]" with body "code [victim code]". It uploads encrypted host data as main.&lt;code&gt;.js.map via PUT with commit message "commit from INSOMNIA", and mirrors it to rest.ably[.]io. API calls carry a Chrome/122.0.6261.96 User-Agent and a random X-CSRF-TOKEN. It then loops, toggling the "bug" label on the issue and listing the repo contents for files matching its victim code. Command files end in .js, .kmap, .pmap, .apmap, .swp or .tmp. Plug-ins scr.ts and pr.ts are pulled from the repo and loaded in memory. Creation dates on the actor's GitHub accounts suggest preparation since at least the end of 2024.
-
-- Shellcode toolkit (mostly COFF modules with a go entry point): four injection variants, service create/start/stop/delete and scheduled-task create/run, registry edits, AddUser, Procdump, WipeFileContent, PetitPotam via EFSRPC, and Mimikatz (sekurlsa::logonpasswords full, lsadump::sam). It also has CookieKatz for browser cookies, a WhatsApp key extractor, and uploads to upload.gofile[.]io. A WinPTY shell drops winpty.dll and winpty-agent.exe into %TEMP% and listens on the named pipe MyInputPipe. The keylogger writes %APPDATA%\Microsoft\SystemCertificates\Cache\logs.dat, and %APPDATA%\log.lock marks keylogger autostart.
-
-Takeaway: hunt for sideload triplets, meaning a trusted binary plus an unexpected DLL plus config.ini in the same folder, especially in system32, and for zoomit.exe running as a service. Look for the artifacts above: log.lock, logs.dat, winpty files in %TEMP%, and the MyInputPipe pipe. Proxy logs may show hosts calling api.github[.]com repo contents endpoints or rest.ably[.]io with that Chrome User-Agent, which is unusual for servers. Memory captures can expose the Local\sm, Local\pc and Local\pcs shared-memory names. Hashes, GitHub accounts and the C2 IP are in the report's IOC section. Part 2 covers GraphDoor and the plug-ins.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122616487223361817</description>
-      <content:encoded><![CDATA[<p>Operation ShadowCloud: a MeshCentral agent drops two new backdoors, GitDoor and GraphDoor, that hide C2 inside GitHub, SharePoint and Ably traffic. Kaspersky found victims, mostly government, in Asia and Africa.</p><p>- Initial access: the entry point is unknown, but the evidence points to reuse of an earlier infection. The MeshCentral Agent was found inside a Taiwanese 🇹🇼 organization, hard-coded to wss://27.102.66[.]162:443/agent.ashx. Through that session the operator dropped a legitimate binary, a malicious loader DLL and an encrypted config.ini. One instance paired Sandboxie&#x27;s start.exe with sbiedll.dll in system32. Another paired dtsapo4service.exe with python39.dll under system32\dts\pc\apo4x. Other loader names are jli.dll, WINMM.dll and libcef.dll. Other host binaries were javaw.exe, pythonw.exe and zoomit.exe, which was started as a Windows service.</p><p>- Loaders: Type 1 reads config.ini with NtCreateFile/NtReadFile, decodes it with a custom-alphabet Base64, then RC4 and XOR. It then abuses RtlEthernetAddressToStringA and RtlEthernetStringToAddressA to convert the bytes through a MAC-address string, an unusual way to hide the payload. It flips memory to PAGE_EXECUTE_READWRITE and jumps to the MZ header. Type 2 (SbieDll_st.dll) hunts a byte pattern in KERNEL32 and KernelBase, installs a vectored exception handler that zeroes DR7, checks the process name, and does Base64 plus XOR. The GraphDoor loader creates a file mapping named Local\sm%lu, where %lu is the PID.</p><p>- GitDoor C2: it uses two GitHub repos, one for commands (Havo) and a private one for results (Trix), plus Ably. Each host opens a GitHub issue titled &quot;problem [GUID]&quot; with body &quot;code [victim code]&quot;. It uploads encrypted host data as main.&lt;code&gt;.js.map via PUT with commit message &quot;commit from INSOMNIA&quot;, and mirrors it to rest.ably[.]io. API calls carry a Chrome/122.0.6261.96 User-Agent and a random X-CSRF-TOKEN. It then loops, toggling the &quot;bug&quot; label on the issue and listing the repo contents for files matching its victim code. Command files end in .js, .kmap, .pmap, .apmap, .swp or .tmp. Plug-ins scr.ts and pr.ts are pulled from the repo and loaded in memory. Creation dates on the actor&#x27;s GitHub accounts suggest preparation since at least the end of 2024.</p><p>- Shellcode toolkit (mostly COFF modules with a go entry point): four injection variants, service create/start/stop/delete and scheduled-task create/run, registry edits, AddUser, Procdump, WipeFileContent, PetitPotam via EFSRPC, and Mimikatz (sekurlsa::logonpasswords full, lsadump::sam). It also has CookieKatz for browser cookies, a WhatsApp key extractor, and uploads to upload.gofile[.]io. A WinPTY shell drops winpty.dll and winpty-agent.exe into %TEMP% and listens on the named pipe MyInputPipe. The keylogger writes %APPDATA%\Microsoft\SystemCertificates\Cache\logs.dat, and %APPDATA%\log.lock marks keylogger autostart.</p><p>Takeaway: hunt for sideload triplets, meaning a trusted binary plus an unexpected DLL plus config.ini in the same folder, especially in system32, and for zoomit.exe running as a service. Look for the artifacts above: log.lock, logs.dat, winpty files in %TEMP%, and the MyInputPipe pipe. Proxy logs may show hosts calling api.github[.]com repo contents endpoints or rest.ably[.]io with that Chrome User-Agent, which is unusual for servers. Memory captures can expose the Local\sm, Local\pc and Local\pcs shared-memory names. Hashes, GitHub accounts and the C2 IP are in the report&#x27;s IOC section. Part 2 covers GraphDoor and the plug-ins.</p><p>#DFIR_Radar</p><p><a href="https://securelist.com/operation-shadowcloud-gitdoor/122004/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122616487223361817">View on X</a></p>]]></content:encoded>
-      <dc:creator>Kaspersky SecureList</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122616487223361817</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2122616487223361817">DFIR Radar</source>
-      <pubDate>Tue, 17 Nov 2026 09:03:02 +0000</pubDate>
-      <guid isPermaLink="false">2122616487223361817</guid>
     </item>
   </channel>
 </rss>
