@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2026 16:05:56 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2026 17:06:10 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>October 2026 Threat Trend Report on APT Attacks (South Korea)</title>
+      <link>https://asec.ahnlab.com/en/96684/</link>
+      <description>LNK-based spear phishing dominated October APT attacks on South Korea 🇰🇷, dropping XenoRAT and Xctdoor. Hunt LNK-launched PowerShell, new scheduled tasks and Run values; IOCs are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124187625682870302</description>
+      <content:encoded><![CDATA[<p>LNK-based spear phishing dominated October APT attacks on South Korea 🇰🇷, dropping XenoRAT and Xctdoor. Hunt LNK-launched PowerShell, new scheduled tasks and Run values; IOCs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://asec.ahnlab.com/en/96684/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124187625682870302">View on X</a></p>]]></content:encoded>
+      <dc:creator>AhnLab ASEC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124187625682870302</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2124187625682870302">DFIR Radar</source>
+      <pubDate>Sat, 21 Nov 2026 17:06:10 +0000</pubDate>
+      <guid isPermaLink="false">2124187625682870302</guid>
+    </item>
     <item>
       <title>Attackers Compromise Microsoft's Agent Framework PyPI Package to Steal Cloud Credentials</title>
       <link>https://thehackernews.com/2026/11/attackers-compromise-microsofts-agent.html</link>
@@ -2449,32 +2463,6 @@ Takeaway: network telemetry will not separate this C2 from normal Graph, GitHub,
       <source url="https://x.com/DFIR_Radar/status/2122661773576995027">DFIR Radar</source>
       <pubDate>Tue, 17 Nov 2026 12:02:59 +0000</pubDate>
       <guid isPermaLink="false">2122661773576995027</guid>
-    </item>
-    <item>
-      <title>Optimizely Attack Hits Zoom, BBC, CNN With Skimmer, iOS Kits</title>
-      <link>https://socradar.io/blog/optimizely-attack-hits-zoom-bbc-cnn-with-skimmer-ios-kits/</link>
-      <description>The Optimizely supply chain attack on Nov 16, 2026 turned a trusted A/B testing script into a delivery channel for a crypto clipper, a card skimmer and iOS exploit kits. Report URI found 188 infected snippets at 178 organizations, including Zoom, BBC, CNN, IKEA and HSBC.
-
-- Entry point: Optimizely confirmed an unauthorized party exploited a vulnerability in its Experimentation product to add JavaScript to customer projects. The attacker planted a small loader in the optional Project JavaScript setting. Browsers still got a normal snippet from cdn.optimizely[.]com under Optimizely's own TLS certificate. The researchers rule out CDN cache poisoning, and self-hosted copies (Scheels, Vodafone Australia 🇦🇺) were infected too. Three loader variants: a plain script tag fetching hxxps://1688360[.]cc/track.js, a Base64 variant decoded with atob() (seen in Smartsheet after an earlier cleanup, suggesting retained write access), and an inline eval fallback that works even if the C2 is blocked.
-
-- Payload: track.js was rebuilt 26 times in a day. It swaps wallet addresses across BTC, EVM chains, TRON, SOL, TON, LTC, BCH and DOGE. A card skimmer was added at 13:43 UTC and beacons Luhn-valid card data, expiry and CVV to card.php. Address swaps near payment wording also upload the page URL, non-HttpOnly cookies and an html2canvas screenshot to hit.php. Hosted payment iframes kept cards out of reach, while first-party card fields did not. Wallets received about $7,150 in total, and one cash-out TRON address was also used in March 2026 and on Nov 3, 2026.
-
-- iOS stage: the boot.js router sent iOS 13 to 17 to the Coruna kit, iOS 18 to DarkSword, and iOS 26 to a chain that only fingerprints the device. Delivery of exploit pages is confirmed. No successful iPhone compromise has been publicly confirmed. On iOS 18.6 or earlier, infected pages refreshed once a minute while the kit retried. The kit's code comments treat 18.7.3 and 26.3 or later as patched.
-
-- Timeline (UTC): first injection on the BBC snippet at 04:21 on Nov 16, loading the earlier injector from webshell[.]lol. 1688360[.]cc was registered at 05:23. Researchers found 186 infected snippets in a scan of 1,611 at 19:24 to 19:59, and mass cleanup ran 20:40 to 21:10. All files were clean by 23:11. The C2 went to clientHold at 00:37 on Nov 17. The same injector appeared in Kissmetrics, StorifyMe and Minute Media scripts Nov 13 to 16, and first surfaced Sept 17 via a linkforge[.]cc SEO panel script. Card, cookie and iOS impact is unknown.
-
-- CSP decided the outcome: of 256 hosts tested, only 24 organizations blocked the payload and 68 had no CSP. Allowlisting cdn.optimizely[.]com did nothing. strict-dynamic and unsafe-eval undid tighter policies, and Optimizely's documentation tells customers to allow unsafe-eval. HSBC's policy stopped track.js and the theft, but the embedded copy still executed. On 17 sites a restrictive connect-src stopped exfiltration, yet address swapping continued because it runs in the page.
-
-Hunt takeaway: Optimizely has already removed the injected code, so a clean snippet today proves nothing. Search proxy, DNS and web logs from Nov 13 to 17 for 1688360[.]cc, webshell[.]lol, linkforge[.]cc, 5vobauua3ojpklx[.]icu, eil786npto9u5bq[.]icu, l7bcsnwc7nzr3uo[.]icu, 136.113.106[.]136, 34.96.213[.]201 and 34.87.36[.]58. Look for POSTs to card.php, hit.php and /api/iptj. Review Project JavaScript and every experiment's custom code for atob() calls, window._k7, window.__k7b, data-channel-code 02111110 and any script your team did not add. Optimizely's change history shows whether edits came via the API or the web interface. Treat first-party card entries and non-HttpOnly cookie secrets from Nov 16 as exposed, and rotate Optimizely users and API tokens. The full IOC list, including track.js SHA-256 hashes and attacker wallets, is in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122646612614726049</description>
-      <content:encoded><![CDATA[<p>The Optimizely supply chain attack on Nov 16, 2026 turned a trusted A/B testing script into a delivery channel for a crypto clipper, a card skimmer and iOS exploit kits. Report URI found 188 infected snippets at 178 organizations, including Zoom, BBC, CNN, IKEA and HSBC.</p><p>- Entry point: Optimizely confirmed an unauthorized party exploited a vulnerability in its Experimentation product to add JavaScript to customer projects. The attacker planted a small loader in the optional Project JavaScript setting. Browsers still got a normal snippet from cdn.optimizely[.]com under Optimizely&#x27;s own TLS certificate. The researchers rule out CDN cache poisoning, and self-hosted copies (Scheels, Vodafone Australia 🇦🇺) were infected too. Three loader variants: a plain script tag fetching hxxps://1688360[.]cc/track.js, a Base64 variant decoded with atob() (seen in Smartsheet after an earlier cleanup, suggesting retained write access), and an inline eval fallback that works even if the C2 is blocked.</p><p>- Payload: track.js was rebuilt 26 times in a day. It swaps wallet addresses across BTC, EVM chains, TRON, SOL, TON, LTC, BCH and DOGE. A card skimmer was added at 13:43 UTC and beacons Luhn-valid card data, expiry and CVV to card.php. Address swaps near payment wording also upload the page URL, non-HttpOnly cookies and an html2canvas screenshot to hit.php. Hosted payment iframes kept cards out of reach, while first-party card fields did not. Wallets received about $7,150 in total, and one cash-out TRON address was also used in March 2026 and on Nov 3, 2026.</p><p>- iOS stage: the boot.js router sent iOS 13 to 17 to the Coruna kit, iOS 18 to DarkSword, and iOS 26 to a chain that only fingerprints the device. Delivery of exploit pages is confirmed. No successful iPhone compromise has been publicly confirmed. On iOS 18.6 or earlier, infected pages refreshed once a minute while the kit retried. The kit&#x27;s code comments treat 18.7.3 and 26.3 or later as patched.</p><p>- Timeline (UTC): first injection on the BBC snippet at 04:21 on Nov 16, loading the earlier injector from webshell[.]lol. 1688360[.]cc was registered at 05:23. Researchers found 186 infected snippets in a scan of 1,611 at 19:24 to 19:59, and mass cleanup ran 20:40 to 21:10. All files were clean by 23:11. The C2 went to clientHold at 00:37 on Nov 17. The same injector appeared in Kissmetrics, StorifyMe and Minute Media scripts Nov 13 to 16, and first surfaced Sept 17 via a linkforge[.]cc SEO panel script. Card, cookie and iOS impact is unknown.</p><p>- CSP decided the outcome: of 256 hosts tested, only 24 organizations blocked the payload and 68 had no CSP. Allowlisting cdn.optimizely[.]com did nothing. strict-dynamic and unsafe-eval undid tighter policies, and Optimizely&#x27;s documentation tells customers to allow unsafe-eval. HSBC&#x27;s policy stopped track.js and the theft, but the embedded copy still executed. On 17 sites a restrictive connect-src stopped exfiltration, yet address swapping continued because it runs in the page.</p><p>Hunt takeaway: Optimizely has already removed the injected code, so a clean snippet today proves nothing. Search proxy, DNS and web logs from Nov 13 to 17 for 1688360[.]cc, webshell[.]lol, linkforge[.]cc, 5vobauua3ojpklx[.]icu, eil786npto9u5bq[.]icu, l7bcsnwc7nzr3uo[.]icu, 136.113.106[.]136, 34.96.213[.]201 and 34.87.36[.]58. Look for POSTs to card.php, hit.php and /api/iptj. Review Project JavaScript and every experiment&#x27;s custom code for atob() calls, window._k7, window.__k7b, data-channel-code 02111110 and any script your team did not add. Optimizely&#x27;s change history shows whether edits came via the API or the web interface. Treat first-party card entries and non-HttpOnly cookie secrets from Nov 16 as exposed, and rotate Optimizely users and API tokens. The full IOC list, including track.js SHA-256 hashes and attacker wallets, is in the report.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/optimizely-attack-hits-zoom-bbc-cnn-with-skimmer-ios-kits/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122646612614726049">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122646612614726049</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2122646612614726049">DFIR Radar</source>
-      <pubDate>Tue, 17 Nov 2026 11:02:44 +0000</pubDate>
-      <guid isPermaLink="false">2122646612614726049</guid>
     </item>
   </channel>
 </rss>
