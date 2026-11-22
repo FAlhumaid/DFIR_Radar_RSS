@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 05:06:34 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 06:05:35 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>China-Linked Hackers Exploit Critical VMware vCenter Zero-Day to Gain Admin Access and Steal Data</title>
+      <link>https://thehackernews.com/2026/11/china-linked-hackers-exploit-critical.html</link>
+      <description>Chinese 🇨🇳 Armory Castle exploited vCenter zero-day CVE-2026-123890 (CVSS 9.8) with BONESAW for admin access. Hunt vCenter for PUT requests to /rest/appliance/access/ssh and new local administrator accounts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124383769566061052</description>
+      <content:encoded><![CDATA[<p>Chinese 🇨🇳 Armory Castle exploited vCenter zero-day CVE-2026-123890 (CVSS 9.8) with BONESAW for admin access. Hunt vCenter for PUT requests to /rest/appliance/access/ssh and new local administrator accounts.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/china-linked-hackers-exploit-critical.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124383769566061052">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124383769566061052</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124383769566061052">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 06:05:35 +0000</pubDate>
+      <guid isPermaLink="false">2124383769566061052</guid>
+    </item>
     <item>
       <title>Java4Shell (CVE-2026-114938): What You Need to Know</title>
       <link>https://socradar.io/blog/java4shell-cve-2026-114938-openjdk-rce/</link>
@@ -2287,32 +2301,6 @@ Takeaway: scope exposure from November 9 onward. Search web and network logs for
       <source url="https://x.com/DFIR_Radar/status/2122858093834830035">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 01:03:05 +0000</pubDate>
       <guid isPermaLink="false">2122858093834830035</guid>
-    </item>
-    <item>
-      <title>HDGfx Infector</title>
-      <link>https://research.openanalysis.net/hdgfx/fileinfector/worm/usb/polymorphic/config/2026/11/17/hdgfx-infector.html</link>
-      <description>HDGfx Infector, a file infector and USB worm with no public reporting, is still spreading through trusted Adobe, Java, Firefox and Google Update EXEs. Each infection gets new keys and junk code.
-
-- Mechanics: the report's working name for a small MinGW-w64 (GCC 8.1.0) DLL whose exports include InfectFile, DisinfectFile and MetamorphicStub. It infects non-.NET PE32 EXEs in place. A junk-filled stub overwrites the entry point, and a layer decryptor plus an encrypted loader are appended to the last section. The loader RC4-decrypts a UPX-packed core and maps it in memory; the core restores the original entry bytes and control returns to the host. Every infected host in the report decrypts to the same v1 core, SHA256 ec55c4ba2ab0b530c4d613e9c0214611c734fc0d17e2fabec68ade33b980075c.
-
-- Static artifacts on infected files: the entry and last sections are set to RWX (0xE0000020 on the entry section), DYNAMIC_BASE and NX_COMPAT are cleared, and RELOCS_STRIPPED is set. The checksum is zeroed, and the Security directory is zeroed too, but the old certificate bytes stay behind as overlay, so signed files look unsigned. The last 0x28 bytes of the decrypted layer hold a metadata box ending in a version marker, 0x20260715 for v1 and 0x20260823 for v2. The report lists byte patterns for the v1 entry stub decoder, the layer decryptor head and the junk blocks (68 ?? F7 F4 FF 5?).
-
-- Spread: five worker threads. ScanFile infects EXEs on every fixed and removable drive from C: to Z:, and RegScanThread infects whatever the HKCU Run key points to. The registry is only read, never written. CreateAutoRun runs every 5 seconds per drive. It drops a read-only, hidden, system 4-6 letter .exe or .pif in the drive root plus a randomized, exclusively locked autorun.inf. Windows 7 and later ignore autorun.inf on USB flash drives, so the copy needs a click, but infected EXEs on removable media still spread it. v1 uses the mutex [@]0826. Infected programs also play beeps at startup, which users may remember.
-
-- Update channel: DownloadAndUpdate speaks plain TCP on port 8000. It sends DOWNLOAD, then Intel(R) HD Graphics Manager.exe, then READY, and writes the reply to %TEMP% as a six-letter .exe launched with CreateProcessW. There is no encryption or validation. On 2026-11-17 updatewin.ddns[.]net resolved to private address 192.168.1[.]100, and updatewinold.ddns[.]net had no A record. The researchers did not connect, so the payload is unknown. The name can be repointed at any time.
-
-- Scope and evolution: the report covers 25 infected hosts from 16 programs, first seen 2026-10-22 and still appearing 2026-11-17. The v2 core, with banner 23/08/2026, adds a second update host, drops the mutex and swaps RC4 for a custom Feistel cipher. Code that targets file names containing bitdef or kasp is from decompilation only. Vietnamese 🇻🇳 log strings point to a Vietnamese-speaking author, and a D:\debug.log file suggests a development build. The report says the language is an observation, not attribution.
-
-Takeaway: hunt for EXEs with RWX entry sections, a zeroed Security directory with leftover certificate bytes, and the byte patterns above. Check removable and fixed drive roots for hidden .exe or .pif files beside a locked autorun.inf, and for six-letter .exe files in %TEMP%. Look for outbound TCP 8000 to ddns[.]net names. Process-memory dumps of infected programs already hold the decrypted layer. The report includes IOC tables and a Python decoder for the layer and core.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122843125320478948</description>
-      <content:encoded><![CDATA[<p>HDGfx Infector, a file infector and USB worm with no public reporting, is still spreading through trusted Adobe, Java, Firefox and Google Update EXEs. Each infection gets new keys and junk code.</p><p>- Mechanics: the report&#x27;s working name for a small MinGW-w64 (GCC 8.1.0) DLL whose exports include InfectFile, DisinfectFile and MetamorphicStub. It infects non-.NET PE32 EXEs in place. A junk-filled stub overwrites the entry point, and a layer decryptor plus an encrypted loader are appended to the last section. The loader RC4-decrypts a UPX-packed core and maps it in memory; the core restores the original entry bytes and control returns to the host. Every infected host in the report decrypts to the same v1 core, SHA256 ec55c4ba2ab0b530c4d613e9c0214611c734fc0d17e2fabec68ade33b980075c.</p><p>- Static artifacts on infected files: the entry and last sections are set to RWX (0xE0000020 on the entry section), DYNAMIC_BASE and NX_COMPAT are cleared, and RELOCS_STRIPPED is set. The checksum is zeroed, and the Security directory is zeroed too, but the old certificate bytes stay behind as overlay, so signed files look unsigned. The last 0x28 bytes of the decrypted layer hold a metadata box ending in a version marker, 0x20260715 for v1 and 0x20260823 for v2. The report lists byte patterns for the v1 entry stub decoder, the layer decryptor head and the junk blocks (68 ?? F7 F4 FF 5?).</p><p>- Spread: five worker threads. ScanFile infects EXEs on every fixed and removable drive from C: to Z:, and RegScanThread infects whatever the HKCU Run key points to. The registry is only read, never written. CreateAutoRun runs every 5 seconds per drive. It drops a read-only, hidden, system 4-6 letter .exe or .pif in the drive root plus a randomized, exclusively locked autorun.inf. Windows 7 and later ignore autorun.inf on USB flash drives, so the copy needs a click, but infected EXEs on removable media still spread it. v1 uses the mutex [@]0826. Infected programs also play beeps at startup, which users may remember.</p><p>- Update channel: DownloadAndUpdate speaks plain TCP on port 8000. It sends DOWNLOAD, then Intel(R) HD Graphics Manager.exe, then READY, and writes the reply to %TEMP% as a six-letter .exe launched with CreateProcessW. There is no encryption or validation. On 2026-11-17 updatewin.ddns[.]net resolved to private address 192.168.1[.]100, and updatewinold.ddns[.]net had no A record. The researchers did not connect, so the payload is unknown. The name can be repointed at any time.</p><p>- Scope and evolution: the report covers 25 infected hosts from 16 programs, first seen 2026-10-22 and still appearing 2026-11-17. The v2 core, with banner 23/08/2026, adds a second update host, drops the mutex and swaps RC4 for a custom Feistel cipher. Code that targets file names containing bitdef or kasp is from decompilation only. Vietnamese 🇻🇳 log strings point to a Vietnamese-speaking author, and a D:\debug.log file suggests a development build. The report says the language is an observation, not attribution.</p><p>Takeaway: hunt for EXEs with RWX entry sections, a zeroed Security directory with leftover certificate bytes, and the byte patterns above. Check removable and fixed drive roots for hidden .exe or .pif files beside a locked autorun.inf, and for six-letter .exe files in %TEMP%. Look for outbound TCP 8000 to ddns[.]net names. Process-memory dumps of infected programs already hold the decrypted layer. The report includes IOC tables and a Python decoder for the layer and core.</p><p>#DFIR_Radar</p><p><a href="https://research.openanalysis.net/hdgfx/fileinfector/worm/usb/polymorphic/config/2026/11/17/hdgfx-infector.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122843125320478948">View on X</a></p>]]></content:encoded>
-      <dc:creator>OALabs Research</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122843125320478948</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2122843125320478948">DFIR Radar</source>
-      <pubDate>Wed, 18 Nov 2026 00:03:36 +0000</pubDate>
-      <guid isPermaLink="false">2122843125320478948</guid>
     </item>
   </channel>
 </rss>
