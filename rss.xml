@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 04:05:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 05:06:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Java4Shell (CVE-2026-114938): What You Need to Know</title>
+      <link>https://socradar.io/blog/java4shell-cve-2026-114938-openjdk-rce/</link>
+      <description>Java4Shell (CVE-2026-114938, CVSS 8.1) is an OpenJDK Base64 heap overflow on AVX-512 VBMI hosts, with no confirmed exploitation yet. Hunt hs_err_pid crash logs and suspicious Java child processes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124368918227898800</description>
+      <content:encoded><![CDATA[<p>Java4Shell (CVE-2026-114938, CVSS 8.1) is an OpenJDK Base64 heap overflow on AVX-512 VBMI hosts, with no confirmed exploitation yet. Hunt hs_err_pid crash logs and suspicious Java child processes.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/java4shell-cve-2026-114938-openjdk-rce/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124368918227898800">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124368918227898800</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124368918227898800">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 05:06:34 +0000</pubDate>
+      <guid isPermaLink="false">2124368918227898800</guid>
+    </item>
     <item>
       <title>Bazuka Android Malware Uses Fake Screen Overlays to Hide Credential Theft and Device Control</title>
       <link>https://thehackernews.com/2026/11/bazuka-android-malware-uses-fake-screen.html</link>
@@ -2299,32 +2313,6 @@ Takeaway: hunt for EXEs with RWX entry sections, a zeroed Security directory wit
       <source url="https://x.com/DFIR_Radar/status/2122843125320478948">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 00:03:36 +0000</pubDate>
       <guid isPermaLink="false">2122843125320478948</guid>
-    </item>
-    <item>
-      <title>Microsoft agent-framework Compromised: Credential Stealer Targets Azure and CI Pipelines</title>
-      <link>https://www.wiz.io/blog/malicious-version-of-microsofts-agent-framework-published-to-pypi</link>
-      <description>Malicious agent-framework 1.26.1 and 1.26.2 hit PyPI on Nov 17, dropping a .pth credential stealer aimed at Azure, Azure DevOps and CI runners. It fires on every Python start, no import needed.
-
-- Timeline (UTC): 1.26.1 went up at 20:35 and 1.26.2 at about 21:08, and both were gone from PyPI by about 21:30. The package sees roughly 41,000 weekly downloads. 1.26.0, published Nov 12, is the last safe version. Root cause is unconfirmed. There is no python-1.26.1 tag in microsoft/agent-framework and main is clean. 1.26.1 was wheel-only and still pins agent-framework-core[all]==1.26.0, which suggests it was built outside the normal release process. Wiz has not linked this to the earlier durabletask compromise.
-
-- Execution: the wheel drops a .pth file into the site-packages root, agent_framework_meta.pth in 1.26.1 and af_runtime_diag.pth in 1.26.2. Python processes .pth files on every interpreter start. The stealer forks into a detached session via os.setsid(), or uses a daemon thread, and sets _AF_TEL=1 to avoid re-running in children. Names like _telemetry and the user-agent af-runtime-diagnostics/1 mimic SDK telemetry.
-
-- Collection: environment variables matching TOKEN, SECRET, PASSWORD, KEY, AZURE, AWS, GITHUB, OPENAI and more. It also reads secret-looking values from up to 300 /proc/*/environ files and up to 60 credential files: ~/.azure/, .npmrc, pip.conf, .netrc, .git-credentials, .docker/config.json, Hugging Face tokens, ADO agent .credentials, and .env/JSON under /app and /workspace. It requests Azure DevOps OIDC tokens when SYSTEM_ACCESSTOKEN and SYSTEM_OIDCREQUESTURI are set. It also pulls managed-identity tokens from IMDS or the App Service endpoint for 12 resources, including ARM, Graph, Key Vault and Storage.
-
-- 1.26.2 changes: the trigger moved to a new top-level af_runtime_diag.pth and af_runtime_diag.py, with __init__.py restored to clean, so searching only for 1.26.1 filenames misses it. It adds GitHub Actions OIDC theft for workflows with id-token: write, requesting tokens for api://AzureADTokenExchange and hxxps://management[.]azure[.]com/. Where an Entra ID federated credential trusts the workflow, those tokens can be exchanged for Azure access with no stored secret. It also adds ACTIONS, OIDC, RUNNER and ARM_ variable matching, GitHub runner paths, an 80-file cap, and the user-agent runtime-diagnostics/1.
-
-- Exfil and scope: everything goes as one zlib-compressed, base64 JSON blob in a single HTTPS POST to hxxps://webhook[.]site/d381fd80-ec62-42ad-8f5c-d1b15103c9bb (?t=telemetry), with no fallback and no retry. Wiz confirmed the attacker's token was on the free tier and a maximum of 50 requests were captured. Those requests can still hold working cloud, CI and registry credentials.
-
-Takeaway: search lockfiles, CI logs, virtualenvs and container images for agent-framework 1.26.1 or 1.26.2, then check site-packages for both .pth/.py pairs. Any Python process started there ran the payload. Hunt proxy and DNS logs for the webhook[.]site URL: a 200 means the data was accepted, 410/429 suggests rejection. Rotate everything in the environment and audit managed identities, federated credentials and app registrations, since stolen managed-identity and OIDC-exchanged tokens stay valid up to 24 hours. Hashes and filenames are in the report's IOC tables.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122827862814360047</description>
-      <content:encoded><![CDATA[<p>Malicious agent-framework 1.26.1 and 1.26.2 hit PyPI on Nov 17, dropping a .pth credential stealer aimed at Azure, Azure DevOps and CI runners. It fires on every Python start, no import needed.</p><p>- Timeline (UTC): 1.26.1 went up at 20:35 and 1.26.2 at about 21:08, and both were gone from PyPI by about 21:30. The package sees roughly 41,000 weekly downloads. 1.26.0, published Nov 12, is the last safe version. Root cause is unconfirmed. There is no python-1.26.1 tag in microsoft/agent-framework and main is clean. 1.26.1 was wheel-only and still pins agent-framework-core[all]==1.26.0, which suggests it was built outside the normal release process. Wiz has not linked this to the earlier durabletask compromise.</p><p>- Execution: the wheel drops a .pth file into the site-packages root, agent_framework_meta.pth in 1.26.1 and af_runtime_diag.pth in 1.26.2. Python processes .pth files on every interpreter start. The stealer forks into a detached session via os.setsid(), or uses a daemon thread, and sets _AF_TEL=1 to avoid re-running in children. Names like _telemetry and the user-agent af-runtime-diagnostics/1 mimic SDK telemetry.</p><p>- Collection: environment variables matching TOKEN, SECRET, PASSWORD, KEY, AZURE, AWS, GITHUB, OPENAI and more. It also reads secret-looking values from up to 300 /proc/*/environ files and up to 60 credential files: ~/.azure/, .npmrc, pip.conf, .netrc, .git-credentials, .docker/config.json, Hugging Face tokens, ADO agent .credentials, and .env/JSON under /app and /workspace. It requests Azure DevOps OIDC tokens when SYSTEM_ACCESSTOKEN and SYSTEM_OIDCREQUESTURI are set. It also pulls managed-identity tokens from IMDS or the App Service endpoint for 12 resources, including ARM, Graph, Key Vault and Storage.</p><p>- 1.26.2 changes: the trigger moved to a new top-level af_runtime_diag.pth and af_runtime_diag.py, with __init__.py restored to clean, so searching only for 1.26.1 filenames misses it. It adds GitHub Actions OIDC theft for workflows with id-token: write, requesting tokens for api://AzureADTokenExchange and hxxps://management[.]azure[.]com/. Where an Entra ID federated credential trusts the workflow, those tokens can be exchanged for Azure access with no stored secret. It also adds ACTIONS, OIDC, RUNNER and ARM_ variable matching, GitHub runner paths, an 80-file cap, and the user-agent runtime-diagnostics/1.</p><p>- Exfil and scope: everything goes as one zlib-compressed, base64 JSON blob in a single HTTPS POST to hxxps://webhook[.]site/d381fd80-ec62-42ad-8f5c-d1b15103c9bb (?t=telemetry), with no fallback and no retry. Wiz confirmed the attacker&#x27;s token was on the free tier and a maximum of 50 requests were captured. Those requests can still hold working cloud, CI and registry credentials.</p><p>Takeaway: search lockfiles, CI logs, virtualenvs and container images for agent-framework 1.26.1 or 1.26.2, then check site-packages for both .pth/.py pairs. Any Python process started there ran the payload. Hunt proxy and DNS logs for the webhook[.]site URL: a 200 means the data was accepted, 410/429 suggests rejection. Rotate everything in the environment and audit managed identities, federated credentials and app registrations, since stolen managed-identity and OIDC-exchanged tokens stay valid up to 24 hours. Hashes and filenames are in the report&#x27;s IOC tables.</p><p>#DFIR_Radar</p><p><a href="https://www.wiz.io/blog/malicious-version-of-microsofts-agent-framework-published-to-pypi">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122827862814360047">View on X</a></p>]]></content:encoded>
-      <dc:creator>Wiz Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122827862814360047</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2122827862814360047">DFIR Radar</source>
-      <pubDate>Tue, 17 Nov 2026 23:02:58 +0000</pubDate>
-      <guid isPermaLink="false">2122827862814360047</guid>
     </item>
   </channel>
 </rss>
