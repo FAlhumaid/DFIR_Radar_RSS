@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 12:05:16 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 13:05:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Critical Vulnerability in Java: Java4Shell (CVE-2026-114938)</title>
+      <link>https://www.levelblue.com/blogs/spiderlabs-blog/critical-vulnerability-in-java-java4shell-cve-2026-114938</link>
+      <description>Java4Shell (CVE-2026-114938, CVSS 4.0 9.2) is an OpenJDK Base64 decoder memory corruption bug; no in-the-wild exploitation yet, not in KEV. Hunt for IllegalArgumentException bursts from java.util.Base64$Decoder and hs_err_pid logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124489498973061593</description>
+      <content:encoded><![CDATA[<p>Java4Shell (CVE-2026-114938, CVSS 4.0 9.2) is an OpenJDK Base64 decoder memory corruption bug; no in-the-wild exploitation yet, not in KEV. Hunt for IllegalArgumentException bursts from java.util.Base64$Decoder and hs_err_pid logs.</p><p>#DFIR_Radar</p><p><a href="https://www.levelblue.com/blogs/spiderlabs-blog/critical-vulnerability-in-java-java4shell-cve-2026-114938">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124489498973061593">View on X</a></p>]]></content:encoded>
+      <dc:creator>LevelBlue SpiderLabs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124489498973061593</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124489498973061593">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 13:05:43 +0000</pubDate>
+      <guid isPermaLink="false">2124489498973061593</guid>
+    </item>
     <item>
       <title>NGINX2Root: Path to code execution and root compromise</title>
       <link>https://fieldeffect.com/blog/nginx2root</link>
@@ -2207,30 +2221,6 @@ Takeaway: hunt for kvcore.sys loading from the drivers folder, kv_dbg.log in C:\
       <source url="https://x.com/DFIR_Radar/status/2122963733312151856">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 08:02:52 +0000</pubDate>
       <guid isPermaLink="false">2122963733312151856</guid>
-    </item>
-    <item>
-      <title>Java4Shell (CVE-2026-114938): Pre-auth RCE in OpenJDK, and the challenge of image and feature bloat</title>
-      <link>https://webflow.sysdig.com/blog/java4shell-cve-2026-114938-pre-auth-rce-in-openjdk</link>
-      <description>Java4Shell (CVE-2026-114938) is a pre-auth heap overwrite in OpenJDK's AVX-512 Base64 decoder. Calif reports RCE in Keycloak, Jira, Confluence, Jenkins and more. Fixes shipped Nov 17.
-
-- The bug: HotSpot's C2 compiler uses an AVX-512 intrinsic for Base64 decoding. Hand-written assembly for the padded tail miscalculates the output length as -1, which opens the write mask fully. 64 bytes are written where two were expected, and 62 land past the array. The exception fires after the write. The trigger is 64 A characters plus =, or 128 A plus = on Java 17, and the decoder must be JIT-compiled first, so expect warm-up traffic. The bytes are fixed, so Calif overwrites a neighboring array's length to get a read/write primitive, then a heap leak and code execution. Calif rates it CVSS 4.0 9.2, OpenJDK's advisory says CVSS 3.1 8.1.
-
-- Scope: OpenJDK 17.0.6 and later (17, 21, 25, 27) on x86-64 CPUs with AVX-512 VBMI. ARM, Java 11 and standard Java 8 are not affected, but Oracle lists the Java 8 performance build 8u511b33-perf as vulnerable. Every downstream distribution inherits the code, and Temurin, Corretto and Zulu fixes were still pending at 20:00 UTC. Check hosts with: grep -m1 '^flags' /proc/cpuinfo | tr ' ' '\n' | grep -E '^(avx512f|avx512bw|avx512vbmi|bmi2)$'. All four flags must appear. Then run java -version inside the container, because the container's JDK is the one that matters.
-
-- Reachability and status: Spring Security, Tomcat and Jetty 12 pass the raw Basic auth token to Base64.getDecoder() before validating it, and Auth0's java-jwt decodes JWT headers before checking the signature. Calif reports pre-auth RCE in Keycloak, Jira, Confluence, Artifactory, Jenkins and PingFederate, and post-auth RCE in Kafka Broker, Solr, Elasticsearch, Gerrit and Spinnaker. Theori and others independently reproduced the overflow. The weaponized chains are withheld, and only a bounded-array repro is public. Each target needs its own profile, and bad heap placement can crash the JVM. The report does not describe in-the-wild exploitation. It warns that fake exploit repos are likely, so sandbox anything claiming a shell.
-
-- What it leaves behind: the server just answers 401. Look for Base64-alphabet tokens of 32 or more characters ending in = whose length is not a multiple of 4, starting with Authorization headers. Application logs showed IllegalArgumentException: Input byte array has wrong 4-byte ending unit on every attempt in researchers' tests. Failed placements mean SIGSEGV, hs_err_pid*.log files and bursts of worker restarts. Post-exploitation looks like any Java compromise: the JVM spawning a shell, dropping and executing a binary, or opening new connections.
-
-Takeaway: hunt backward from before Nov 17. Search Authorization headers and app logs for the shapes above, and check for hs_err_pid files and unexplained restarts. Oracle fixes are 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1 and 8u513 for the performance build. Containers and vendor JDKs need a rebuild and redeploy. If you can't patch, -XX:-UseBASE64Intrinsics stopped the overflow on every affected version Upwind tested and needs a restart. -XX:DisableIntrinsic=_base64_decodeBlock fails without -XX:+UnlockDiagnosticVMOptions, so don't push it fleet-wide through JAVA_TOOL_OPTIONS. The report describes detection shapes, not IOC lists or rules.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122949234635006426</description>
-      <content:encoded><![CDATA[<p>Java4Shell (CVE-2026-114938) is a pre-auth heap overwrite in OpenJDK&#x27;s AVX-512 Base64 decoder. Calif reports RCE in Keycloak, Jira, Confluence, Jenkins and more. Fixes shipped Nov 17.</p><p>- The bug: HotSpot&#x27;s C2 compiler uses an AVX-512 intrinsic for Base64 decoding. Hand-written assembly for the padded tail miscalculates the output length as -1, which opens the write mask fully. 64 bytes are written where two were expected, and 62 land past the array. The exception fires after the write. The trigger is 64 A characters plus =, or 128 A plus = on Java 17, and the decoder must be JIT-compiled first, so expect warm-up traffic. The bytes are fixed, so Calif overwrites a neighboring array&#x27;s length to get a read/write primitive, then a heap leak and code execution. Calif rates it CVSS 4.0 9.2, OpenJDK&#x27;s advisory says CVSS 3.1 8.1.</p><p>- Scope: OpenJDK 17.0.6 and later (17, 21, 25, 27) on x86-64 CPUs with AVX-512 VBMI. ARM, Java 11 and standard Java 8 are not affected, but Oracle lists the Java 8 performance build 8u511b33-perf as vulnerable. Every downstream distribution inherits the code, and Temurin, Corretto and Zulu fixes were still pending at 20:00 UTC. Check hosts with: grep -m1 &#x27;^flags&#x27; /proc/cpuinfo | tr &#x27; &#x27; &#x27;\n&#x27; | grep -E &#x27;^(avx512f|avx512bw|avx512vbmi|bmi2)$&#x27;. All four flags must appear. Then run java -version inside the container, because the container&#x27;s JDK is the one that matters.</p><p>- Reachability and status: Spring Security, Tomcat and Jetty 12 pass the raw Basic auth token to Base64.getDecoder() before validating it, and Auth0&#x27;s java-jwt decodes JWT headers before checking the signature. Calif reports pre-auth RCE in Keycloak, Jira, Confluence, Artifactory, Jenkins and PingFederate, and post-auth RCE in Kafka Broker, Solr, Elasticsearch, Gerrit and Spinnaker. Theori and others independently reproduced the overflow. The weaponized chains are withheld, and only a bounded-array repro is public. Each target needs its own profile, and bad heap placement can crash the JVM. The report does not describe in-the-wild exploitation. It warns that fake exploit repos are likely, so sandbox anything claiming a shell.</p><p>- What it leaves behind: the server just answers 401. Look for Base64-alphabet tokens of 32 or more characters ending in = whose length is not a multiple of 4, starting with Authorization headers. Application logs showed IllegalArgumentException: Input byte array has wrong 4-byte ending unit on every attempt in researchers&#x27; tests. Failed placements mean SIGSEGV, hs_err_pid*.log files and bursts of worker restarts. Post-exploitation looks like any Java compromise: the JVM spawning a shell, dropping and executing a binary, or opening new connections.</p><p>Takeaway: hunt backward from before Nov 17. Search Authorization headers and app logs for the shapes above, and check for hs_err_pid files and unexplained restarts. Oracle fixes are 17.0.21.1, 21.0.13.1, 25.0.5.1, 27.0.1.1 and 8u513 for the performance build. Containers and vendor JDKs need a rebuild and redeploy. If you can&#x27;t patch, -XX:-UseBASE64Intrinsics stopped the overflow on every affected version Upwind tested and needs a restart. -XX:DisableIntrinsic=_base64_decodeBlock fails without -XX:+UnlockDiagnosticVMOptions, so don&#x27;t push it fleet-wide through JAVA_TOOL_OPTIONS. The report describes detection shapes, not IOC lists or rules.</p><p>#DFIR_Radar</p><p><a href="https://webflow.sysdig.com/blog/java4shell-cve-2026-114938-pre-auth-rce-in-openjdk">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122949234635006426">View on X</a></p>]]></content:encoded>
-      <dc:creator>Sysdig</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122949234635006426</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2122949234635006426">DFIR Radar</source>
-      <pubDate>Wed, 18 Nov 2026 07:05:15 +0000</pubDate>
-      <guid isPermaLink="false">2122949234635006426</guid>
     </item>
   </channel>
 </rss>
