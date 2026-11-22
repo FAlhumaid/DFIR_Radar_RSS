@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2026 23:06:18 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 00:05:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hostile Inference: Exploiting Docker Model Runner for Container Escapes</title>
+      <link>https://www.thezdi.com/blog/2026/11/17/hostile-inference-exploiting-docker-model-runner-for-container-escapes</link>
+      <description>ZDI research: CVE-2026-28400 in Docker Model Runner lets a default container write host files via llama-server, chaining to code execution through Docker Extensions. Check extension index.html files for tampering.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124293140920029650</description>
+      <content:encoded><![CDATA[<p>ZDI research: CVE-2026-28400 in Docker Model Runner lets a default container write host files via llama-server, chaining to code execution through Docker Extensions. Check extension index.html files for tampering.</p><p>#DFIR_Radar</p><p><a href="https://www.thezdi.com/blog/2026/11/17/hostile-inference-exploiting-docker-model-runner-for-container-escapes">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124293140920029650">View on X</a></p>]]></content:encoded>
+      <dc:creator>Zero Day Initiative</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124293140920029650</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124293140920029650">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 00:05:27 +0000</pubDate>
+      <guid isPermaLink="false">2124293140920029650</guid>
+    </item>
     <item>
       <title>Rackspace Spot breach let hackers access customer Kubernetes secrets</title>
       <link>https://www.bleepingcomputer.com/news/security/rackspace-spot-breach-let-hackers-access-customer-kubernetes-secrets/</link>
@@ -2367,34 +2381,6 @@ The database passes SQLite quick_check, which shows structural readability only,
       <source url="https://x.com/DFIR_Radar/status/2122767463188234412">DFIR Radar</source>
       <pubDate>Tue, 17 Nov 2026 19:02:57 +0000</pubDate>
       <guid isPermaLink="false">2122767463188234412</guid>
-    </item>
-    <item>
-      <title>Cron Is A Sneaky Way Malware Persists on Your Network Appliances</title>
-      <link>https://eclypsium.com/blog/cron-persistence-network-appliances/</link>
-      <description>Killing the bot process and deleting the binary does not clean a compromised switch or firewall if a scheduled job reinstalls it. Eclypsium's report ties this to Evooo1Bot and SSHStalker: inventory and clear cron before you call an appliance clean.
-
-- Evooo1Bot (FortiGuard Labs, August 13, 2026) targets internet-facing routers, firewalls, IP cameras, PBX phone systems, and NAS devices. One bot command, !persist, installs several persistence mechanisms at once. The cron entry runs every five minutes, pulls the malware with wget or curl, and pipes it into a shell. SSHStalker (Flare, February 2026) uses a cron job that runs every minute and relaunches the kit if its process is gone. MITRE tracks this as Scheduled Task/Job: Cron (T1053.003).
-
-- Cron is not the only foothold. !persist also writes a systemd unit described as "Apache HTTPD Cache Manager," an /etc/init.d script, an /etc/rc.local entry, and a login script under /etc/profile.d/. Removing only the cron entry leaves all of those in place.
-
-- Why appliances get missed: Arista EOS, Cisco NX-OS, F5 BIG-IP, and many other network operating systems are Linux-based. Admins work in the vendor CLI, config management tracks the vendor configuration, EDR agents generally are not on the device, and the Linux crontab is rarely read. The upside is that an appliance crontab is small and legitimate jobs are vendor housekeeping such as log rotation, cleanup, and health checks.
-
-- Hand check from the device's Linux shell. On Arista EOS, run bash from privileged mode. On NX-OS, run bash requires the feature bash-shell configuration, which is off by default on many deployments. If you cannot enable it, record "cron not inspected," not "clean." Read /etc/crontab, /etc/cron.d/, and /var/spool/cron/ directly instead of relying on crontab -l. A root attacker can write straight into the spool and never touch the crontab command, so no crontab command shows up in shell history. The spool path is /var/spool/cron/crontabs/ on Debian-based systems and /var/spool/cron/ on Red Hat-based ones. Grep the whole cron surface for curl, wget, tftp, nc, ncat, /dev/tcp, base64, and pipes to sh or bash. A fetcher piped to a shell matches Evooo1Bot, /dev/tcp or nc suggests a reverse shell, and a long base64 string is a hidden command.
-
-- Frequent schedules and [@]reboot entries are worth listing but are not proof, because some vendors run their own jobs every minute. Then timeline the cron files with find -printf and compare against last -Faiwx. BusyBox-based appliances may not support -printf. A cron file modified shortly after an unexplained admin login is strong evidence and points to the account to investigate.
-
-- Beyond cron, check vendor schedulers that live in the device configuration, not the Linux crontab: the NX-OS scheduler feature, EEM applets, and the Arista EOS schedule command and event handlers. Also check boot hooks on persistent flash such as /mnt/flash/rc.eos on Arista EOS. Whether a cron entry survives a reboot or upgrade depends on how the platform stores its root filesystem, and Eclypsium says it has not tested every platform. Patching the entry vector does not remove a job the attacker already wrote.
-
-Takeaway: treat a fetch-and-execute cron entry, a reverse-shell command, or a job running from /tmp, /var/tmp, or /dev/shm as evidence of compromise, and hand it to IR. Preserve a copy of the file and its timestamps first, remove the scheduler entry before terminating processes, then check the other persistence locations above before the device returns to service. Build a per-device list of what was inspected and what could not be, and confirm whether cron content from network devices is monitored at all. The report has the full grep and find commands.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122752279011065984</description>
-      <content:encoded><![CDATA[<p>Killing the bot process and deleting the binary does not clean a compromised switch or firewall if a scheduled job reinstalls it. Eclypsium&#x27;s report ties this to Evooo1Bot and SSHStalker: inventory and clear cron before you call an appliance clean.</p><p>- Evooo1Bot (FortiGuard Labs, August 13, 2026) targets internet-facing routers, firewalls, IP cameras, PBX phone systems, and NAS devices. One bot command, !persist, installs several persistence mechanisms at once. The cron entry runs every five minutes, pulls the malware with wget or curl, and pipes it into a shell. SSHStalker (Flare, February 2026) uses a cron job that runs every minute and relaunches the kit if its process is gone. MITRE tracks this as Scheduled Task/Job: Cron (T1053.003).</p><p>- Cron is not the only foothold. !persist also writes a systemd unit described as &quot;Apache HTTPD Cache Manager,&quot; an /etc/init.d script, an /etc/rc.local entry, and a login script under /etc/profile.d/. Removing only the cron entry leaves all of those in place.</p><p>- Why appliances get missed: Arista EOS, Cisco NX-OS, F5 BIG-IP, and many other network operating systems are Linux-based. Admins work in the vendor CLI, config management tracks the vendor configuration, EDR agents generally are not on the device, and the Linux crontab is rarely read. The upside is that an appliance crontab is small and legitimate jobs are vendor housekeeping such as log rotation, cleanup, and health checks.</p><p>- Hand check from the device&#x27;s Linux shell. On Arista EOS, run bash from privileged mode. On NX-OS, run bash requires the feature bash-shell configuration, which is off by default on many deployments. If you cannot enable it, record &quot;cron not inspected,&quot; not &quot;clean.&quot; Read /etc/crontab, /etc/cron.d/, and /var/spool/cron/ directly instead of relying on crontab -l. A root attacker can write straight into the spool and never touch the crontab command, so no crontab command shows up in shell history. The spool path is /var/spool/cron/crontabs/ on Debian-based systems and /var/spool/cron/ on Red Hat-based ones. Grep the whole cron surface for curl, wget, tftp, nc, ncat, /dev/tcp, base64, and pipes to sh or bash. A fetcher piped to a shell matches Evooo1Bot, /dev/tcp or nc suggests a reverse shell, and a long base64 string is a hidden command.</p><p>- Frequent schedules and [@]reboot entries are worth listing but are not proof, because some vendors run their own jobs every minute. Then timeline the cron files with find -printf and compare against last -Faiwx. BusyBox-based appliances may not support -printf. A cron file modified shortly after an unexplained admin login is strong evidence and points to the account to investigate.</p><p>- Beyond cron, check vendor schedulers that live in the device configuration, not the Linux crontab: the NX-OS scheduler feature, EEM applets, and the Arista EOS schedule command and event handlers. Also check boot hooks on persistent flash such as /mnt/flash/rc.eos on Arista EOS. Whether a cron entry survives a reboot or upgrade depends on how the platform stores its root filesystem, and Eclypsium says it has not tested every platform. Patching the entry vector does not remove a job the attacker already wrote.</p><p>Takeaway: treat a fetch-and-execute cron entry, a reverse-shell command, or a job running from /tmp, /var/tmp, or /dev/shm as evidence of compromise, and hand it to IR. Preserve a copy of the file and its timestamps first, remove the scheduler entry before terminating processes, then check the other persistence locations above before the device returns to service. Build a per-device list of what was inspected and what could not be, and confirm whether cron content from network devices is monitored at all. The report has the full grep and find commands.</p><p>#DFIR_Radar</p><p><a href="https://eclypsium.com/blog/cron-persistence-network-appliances/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122752279011065984">View on X</a></p>]]></content:encoded>
-      <dc:creator>Eclypsium</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122752279011065984</comments>
-      <category>INCIDENT RESPONSE</category>
-      <source url="https://x.com/DFIR_Radar/status/2122752279011065984">DFIR Radar</source>
-      <pubDate>Tue, 17 Nov 2026 18:02:37 +0000</pubDate>
-      <guid isPermaLink="false">2122752279011065984</guid>
     </item>
   </channel>
 </rss>
