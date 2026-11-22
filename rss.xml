@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 02:05:13 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 03:05:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>New Attack Bypasses TPM Lockout to Crack Windows Hello and BitLocker PINs in Days, Not Years</title>
+      <link>https://thehackernews.com/2026/11/flash-chip-attack-bypasses-tpm-lockout.html</link>
+      <description>Researchers used a flash-chip interposer to bypass TPM lockout and guess Hello and BitLocker PINs in lab tests; AMD tracks CVE-2026-43613 (CVSS 5.1). Check devices for tampering; lengthen PINs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124338421460332745</description>
+      <content:encoded><![CDATA[<p>Researchers used a flash-chip interposer to bypass TPM lockout and guess Hello and BitLocker PINs in lab tests; AMD tracks CVE-2026-43613 (CVSS 5.1). Check devices for tampering; lengthen PINs.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/flash-chip-attack-bypasses-tpm-lockout.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124338421460332745">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124338421460332745</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124338421460332745">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 03:05:23 +0000</pubDate>
+      <guid isPermaLink="false">2124338421460332745</guid>
+    </item>
     <item>
       <title>CVE-2026-126714: phpAfterShell PHP Session Flaw Can Lead to Remote Code Execution</title>
       <link>https://socprime.com/blog/cve-2026-126714-phpaftershell-php-session-flaw-can-lead-to-remote-code-execution/</link>
@@ -2323,34 +2337,6 @@ Takeaway: Hunt the sequence, not the name. Correlate by account, session, or API
       <source url="https://x.com/DFIR_Radar/status/2122812846429896811">DFIR Radar</source>
       <pubDate>Tue, 17 Nov 2026 22:03:18 +0000</pubDate>
       <guid isPermaLink="false">2122812846429896811</guid>
-    </item>
-    <item>
-      <title>OPTIMJACK: BBC, CNN and Zoom Among Targets of Optimizely Script Hijacking</title>
-      <link>https://securityaffairs.com/203289/malware/optimjack-bbc-cnn-and-zoom-among-targets-of-optimizely-script-hijacking.html</link>
-      <description>OPTIMJACK: Attackers exploited a flaw in Optimizely Web Experimentation to inject JavaScript into customer projects, reaching 178 organizations including Zoom, the BBC, CNN and Equifax. The kit swapped crypto addresses, skimmed cards and served iOS exploit kits.
-
-- How it worked: Optimizely sites load a snippet from the vendor CDN that includes a Project JavaScript section for customer code. The attacker wrote their own code there and left the rest of each snippet untouched. The file still came from cdn.optimizely[.]com with Optimizely's certificate, so browsers trusted it. Sites that self-hosted the snippet were hit too, because the code lived in the same project. Report URI says this was not cache poisoning. How the attacker got permission to modify so many customers' projects is still unknown.
-
-- Three loader variants: a plain script tag pointing to 1688360[.]cc/track.js, a Base64-hidden version of the same address that evades a simple text search, and a fully inline version that runs even if the domain is blocked. The first injection appeared at 04:21 UTC in the BBC snippet, loading webshell[.]lol. Report URI ties that injector to the same actor, seen earlier via Kissmetrics, StorifyMe and Minute Media scripts, and on Turkish 🇹🇷 sites since 17 September. The payload was rebuilt 26 times that day.
-
-- What track.js did: it replaced wallet addresses (Bitcoin, Ethereum, TRON, Solana, TON, Litecoin, Bitcoin Cash, Dogecoin) in page text, forms, links, clipboard and outgoing requests, validating addresses first. A card skimmer was added at 13:43 UTC and grabs number, expiry and CVV from a site's own form fields, but cannot read Stripe or Adyen hosted frames. After a swap it also sends cookies without HttpOnly and a page screenshot.
-
-- iOS angle: on iPhones and iPads, the code loaded a script from two .icu domains that chose a chain by iOS version. Coruna covered iOS 13 to 17, DarkSword covered iOS 18, and a separate chain for iOS 26 only collected device details. Visitors on iOS 18.6 or earlier saw the page reload every 60 seconds as the kit retried. The kit's comments mark iOS 18.7.3 and later, and 26.3 and later, as patched. No real device takeover is reported; Cynet saw conditional delivery using an emulated iPhone browser.
-
-- Scope and attacker access: Report URI found the code in 188 of 1,611 snippets checked, including Optimizely's own main site and login page. It counted about $7,040 in attacker wallets within roughly nine hours. StepSecurity puts it near $6,600 and notes two addresses were in use before the injections. Smartsheet was cleaned, then reinfected with the hidden variant, which suggests the attacker kept access. Cleanup began around 20:40 UTC, and by 21:52 only TalkTalk still carried the code. Optimizely says it fixed the flaw and removed the code, but has not explained the flaw, the number of projects, or the timing of the fix.
-
-- CSP reality check: of 256 affected hosts, 68 had no policy and 50 let both payload and exfiltration through. 17 blocked theft with connect-src while swapping still worked, and only 24 (15%) blocked the payload. Allowlisting cdn.optimizely[.]com does not help, and strict-dynamic and unsafe-eval can let the code run. HSBC's policy stopped track.js and the exfiltration, but the inline backup still ran.
-
-Takeaway: audit the Project JavaScript of every Optimizely project and the custom code in each experiment. Search for 1688360, atob( and any script you do not recognize, and pull history, since a clean snippet today may have served the code Monday. Review who can modify your account and rotate credentials. Ask Optimizely which project IDs were modified and check logs from 08:00 UTC Monday. Treat cards entered on 16 November as exposed, and rotate session tokens held in cookies without HttpOnly. Report URI keeps copies of infected snippets with hashes and timestamps and will share them with affected organizations and CERTs on request.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122797637132853276</description>
-      <content:encoded><![CDATA[<p>OPTIMJACK: Attackers exploited a flaw in Optimizely Web Experimentation to inject JavaScript into customer projects, reaching 178 organizations including Zoom, the BBC, CNN and Equifax. The kit swapped crypto addresses, skimmed cards and served iOS exploit kits.</p><p>- How it worked: Optimizely sites load a snippet from the vendor CDN that includes a Project JavaScript section for customer code. The attacker wrote their own code there and left the rest of each snippet untouched. The file still came from cdn.optimizely[.]com with Optimizely&#x27;s certificate, so browsers trusted it. Sites that self-hosted the snippet were hit too, because the code lived in the same project. Report URI says this was not cache poisoning. How the attacker got permission to modify so many customers&#x27; projects is still unknown.</p><p>- Three loader variants: a plain script tag pointing to 1688360[.]cc/track.js, a Base64-hidden version of the same address that evades a simple text search, and a fully inline version that runs even if the domain is blocked. The first injection appeared at 04:21 UTC in the BBC snippet, loading webshell[.]lol. Report URI ties that injector to the same actor, seen earlier via Kissmetrics, StorifyMe and Minute Media scripts, and on Turkish 🇹🇷 sites since 17 September. The payload was rebuilt 26 times that day.</p><p>- What track.js did: it replaced wallet addresses (Bitcoin, Ethereum, TRON, Solana, TON, Litecoin, Bitcoin Cash, Dogecoin) in page text, forms, links, clipboard and outgoing requests, validating addresses first. A card skimmer was added at 13:43 UTC and grabs number, expiry and CVV from a site&#x27;s own form fields, but cannot read Stripe or Adyen hosted frames. After a swap it also sends cookies without HttpOnly and a page screenshot.</p><p>- iOS angle: on iPhones and iPads, the code loaded a script from two .icu domains that chose a chain by iOS version. Coruna covered iOS 13 to 17, DarkSword covered iOS 18, and a separate chain for iOS 26 only collected device details. Visitors on iOS 18.6 or earlier saw the page reload every 60 seconds as the kit retried. The kit&#x27;s comments mark iOS 18.7.3 and later, and 26.3 and later, as patched. No real device takeover is reported; Cynet saw conditional delivery using an emulated iPhone browser.</p><p>- Scope and attacker access: Report URI found the code in 188 of 1,611 snippets checked, including Optimizely&#x27;s own main site and login page. It counted about $7,040 in attacker wallets within roughly nine hours. StepSecurity puts it near $6,600 and notes two addresses were in use before the injections. Smartsheet was cleaned, then reinfected with the hidden variant, which suggests the attacker kept access. Cleanup began around 20:40 UTC, and by 21:52 only TalkTalk still carried the code. Optimizely says it fixed the flaw and removed the code, but has not explained the flaw, the number of projects, or the timing of the fix.</p><p>- CSP reality check: of 256 affected hosts, 68 had no policy and 50 let both payload and exfiltration through. 17 blocked theft with connect-src while swapping still worked, and only 24 (15%) blocked the payload. Allowlisting cdn.optimizely[.]com does not help, and strict-dynamic and unsafe-eval can let the code run. HSBC&#x27;s policy stopped track.js and the exfiltration, but the inline backup still ran.</p><p>Takeaway: audit the Project JavaScript of every Optimizely project and the custom code in each experiment. Search for 1688360, atob( and any script you do not recognize, and pull history, since a clean snippet today may have served the code Monday. Review who can modify your account and rotate credentials. Ask Optimizely which project IDs were modified and check logs from 08:00 UTC Monday. Treat cards entered on 16 November as exposed, and rotate session tokens held in cookies without HttpOnly. Report URI keeps copies of infected snippets with hashes and timestamps and will share them with affected organizations and CERTs on request.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/203289/malware/optimjack-bbc-cnn-and-zoom-among-targets-of-optimizely-script-hijacking.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122797637132853276">View on X</a></p>]]></content:encoded>
-      <dc:creator>Security Affairs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122797637132853276</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2122797637132853276">DFIR Radar</source>
-      <pubDate>Tue, 17 Nov 2026 21:02:51 +0000</pubDate>
-      <guid isPermaLink="false">2122797637132853276</guid>
     </item>
   </channel>
 </rss>
