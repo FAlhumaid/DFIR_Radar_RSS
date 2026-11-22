@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 13:05:43 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 14:05:12 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Java4Shell: RCE, one application at a time</title>
+      <link>https://pentera.io/blog/java4shell-rce-one-application-at-a-time/</link>
+      <description>Java4Shell, CVE-2026-114938 in the JDK Base64 decoder, has no reported exploitation and is not in KEV. Check running JVMs with jcmd VM.flags, and investigate GC-time crashes on AVX-512 hosts.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124504468251202003</description>
+      <content:encoded><![CDATA[<p>Java4Shell, CVE-2026-114938 in the JDK Base64 decoder, has no reported exploitation and is not in KEV. Check running JVMs with jcmd VM.flags, and investigate GC-time crashes on AVX-512 hosts.</p><p>#DFIR_Radar</p><p><a href="https://pentera.io/blog/java4shell-rce-one-application-at-a-time/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124504468251202003">View on X</a></p>]]></content:encoded>
+      <dc:creator>Pentera</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124504468251202003</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124504468251202003">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 14:05:12 +0000</pubDate>
+      <guid isPermaLink="false">2124504468251202003</guid>
+    </item>
     <item>
       <title>Critical Vulnerability in Java: Java4Shell (CVE-2026-114938)</title>
       <link>https://www.levelblue.com/blogs/spiderlabs-blog/critical-vulnerability-in-java-java4shell-cve-2026-114938</link>
@@ -2193,34 +2207,6 @@ Takeaway: the full KQL for the Summary Rule and Analytic Rule is in the report. 
       <source url="https://x.com/DFIR_Radar/status/2122979500275147181">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 09:05:31 +0000</pubDate>
       <guid isPermaLink="false">2122979500275147181</guid>
-    </item>
-    <item>
-      <title>The forced audit: how AuditTeam’s OpsAgent framework masks ransomware as consulting</title>
-      <link>https://securelist.com/auditteam-opsagent-forced-audit/122031/</link>
-      <description>AuditTeam sells extortion as a paid security audit: its "Audit &amp; Consulting fee" supposedly buys a vulnerability report instead of a data leak. The report says the group runs a custom implant framework, OpsAgent, that was rewritten from C++ to Rust during the campaign.
-
-- Scope: the campaign started January 2026 and ran through at least October 2026. Victims were found in Russia 🇷🇺, Italy 🇮🇹, the Philippines 🇵🇭, Senegal, Finland 🇫🇮, China 🇨🇳 and Hong Kong. The leak site claims victims in seven more countries. Researchers first saw OpsAgent in Hong Kong on March 10, 2026. The ransom note never mentions encryption, but the cryptor module drops it, so if a victim sees the note, files are already encrypted.
-
-- Loaders and injection: the C loader (April) injects shellcode into msiexec.exe with CreateProcessA, VirtualAllocEx, WriteProcessMemory and CreateRemoteThread. The .NET loader (June) uses NtQueueApcThread. The Rust loader (September) pulls an encrypted payload from C2 and runs the Execute export inside its own process, with no remote injection. Implant version 5.2.8 pushes mimikatz_spawn, execute_assembly, pth_spawn and runpe as shellcode over a named pipe, XOR-encrypted, into msiexec.exe by default. The monitor command uses notepad.exe instead. A DbgInjector mode starts a process in a debug state, sets a hardware breakpoint on FileTimeToSystemTime and redirects RIP without creating a thread.
-
-- C2 discovery: the implant can read a public GitHub repo, hxxps://github[.]com/RonaldCMalcolm1983/staticPage, for an AES-encrypted C2 address wrapped in GetConfig and EndConfig markers. C2 sits on CloudFront subdomains such as d19v1tntmz2i98.cloudfront[.]net and d35htktbyt7nxc.cloudfront[.]net, so IP blocking is impractical. One standalone IP is 157.20.104[.]111 (AS 136557). The Rust build starts with HTTP POST, then upgrades to WebSocket over TLS. The repo was removed in November 2026, but the latest Rust implants ship with the GitHub feature disabled, so removal does not mean the campaign is over.
-
-- EDR killer: a driver disguised as Beijing Jiangmin Antivirus (KV series) with a valid signature talks over the \KvCorePortX0 filter port. Command 0x1D plus a filename kills that process. The kill list has about 220 entries, covering Defender, Sysmon, splunkd, wazuh-agent, TeamViewer, Veeam, Acronis and major databases.
-
-- Cryptor and anti-recovery: AES-CBC or ChaCha20 per file, with the file key protected by X25519. It kills SQL Server, Oracle, MySQL, PostgreSQL, MongoDB and Redis and stops Veeam. It also deletes shadow copies, empties the recycle bin and wipes temp folders. Deleted files are overwritten with random data first, so expect little carving success.
-
-- Artifacts: the report lists syscache.dat under C:\ProgramData\Microsoft\Windows\Caches, user AppData Local Microsoft\Windows\Caches and Local Microsoft\CLR_v4.0, the implant's module directory and %TEMP%, plus C:\Users\Public\kv_dbg.log and kvcore.sys in System32\drivers and Sysnative\drivers. The driver hash (listed as a legitimate AV driver) is 109cdc24ccd4872a3e4bf6f2d4f3c3d4.
-
-Takeaway: hunt for kvcore.sys loading from the drivers folder, kv_dbg.log in C:\Users\Public, and syscache.dat in those Caches, CLR, module and temp paths. Look for msiexec.exe or notepad.exe holding injected memory or named pipes with no matching install or user activity. Check for non-browser processes reaching the GitHub repo or CloudFront subdomains. Capture memory and a triage image before the cryptor runs, because shadow copies and deleted files will not help afterward. Hashes, paths and domains are in the report's IOC section.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122963733312151856</description>
-      <content:encoded><![CDATA[<p>AuditTeam sells extortion as a paid security audit: its &quot;Audit &amp; Consulting fee&quot; supposedly buys a vulnerability report instead of a data leak. The report says the group runs a custom implant framework, OpsAgent, that was rewritten from C++ to Rust during the campaign.</p><p>- Scope: the campaign started January 2026 and ran through at least October 2026. Victims were found in Russia 🇷🇺, Italy 🇮🇹, the Philippines 🇵🇭, Senegal, Finland 🇫🇮, China 🇨🇳 and Hong Kong. The leak site claims victims in seven more countries. Researchers first saw OpsAgent in Hong Kong on March 10, 2026. The ransom note never mentions encryption, but the cryptor module drops it, so if a victim sees the note, files are already encrypted.</p><p>- Loaders and injection: the C loader (April) injects shellcode into msiexec.exe with CreateProcessA, VirtualAllocEx, WriteProcessMemory and CreateRemoteThread. The .NET loader (June) uses NtQueueApcThread. The Rust loader (September) pulls an encrypted payload from C2 and runs the Execute export inside its own process, with no remote injection. Implant version 5.2.8 pushes mimikatz_spawn, execute_assembly, pth_spawn and runpe as shellcode over a named pipe, XOR-encrypted, into msiexec.exe by default. The monitor command uses notepad.exe instead. A DbgInjector mode starts a process in a debug state, sets a hardware breakpoint on FileTimeToSystemTime and redirects RIP without creating a thread.</p><p>- C2 discovery: the implant can read a public GitHub repo, hxxps://github[.]com/RonaldCMalcolm1983/staticPage, for an AES-encrypted C2 address wrapped in GetConfig and EndConfig markers. C2 sits on CloudFront subdomains such as d19v1tntmz2i98.cloudfront[.]net and d35htktbyt7nxc.cloudfront[.]net, so IP blocking is impractical. One standalone IP is 157.20.104[.]111 (AS 136557). The Rust build starts with HTTP POST, then upgrades to WebSocket over TLS. The repo was removed in November 2026, but the latest Rust implants ship with the GitHub feature disabled, so removal does not mean the campaign is over.</p><p>- EDR killer: a driver disguised as Beijing Jiangmin Antivirus (KV series) with a valid signature talks over the \KvCorePortX0 filter port. Command 0x1D plus a filename kills that process. The kill list has about 220 entries, covering Defender, Sysmon, splunkd, wazuh-agent, TeamViewer, Veeam, Acronis and major databases.</p><p>- Cryptor and anti-recovery: AES-CBC or ChaCha20 per file, with the file key protected by X25519. It kills SQL Server, Oracle, MySQL, PostgreSQL, MongoDB and Redis and stops Veeam. It also deletes shadow copies, empties the recycle bin and wipes temp folders. Deleted files are overwritten with random data first, so expect little carving success.</p><p>- Artifacts: the report lists syscache.dat under C:\ProgramData\Microsoft\Windows\Caches, user AppData Local Microsoft\Windows\Caches and Local Microsoft\CLR_v4.0, the implant&#x27;s module directory and %TEMP%, plus C:\Users\Public\kv_dbg.log and kvcore.sys in System32\drivers and Sysnative\drivers. The driver hash (listed as a legitimate AV driver) is 109cdc24ccd4872a3e4bf6f2d4f3c3d4.</p><p>Takeaway: hunt for kvcore.sys loading from the drivers folder, kv_dbg.log in C:\Users\Public, and syscache.dat in those Caches, CLR, module and temp paths. Look for msiexec.exe or notepad.exe holding injected memory or named pipes with no matching install or user activity. Check for non-browser processes reaching the GitHub repo or CloudFront subdomains. Capture memory and a triage image before the cryptor runs, because shadow copies and deleted files will not help afterward. Hashes, paths and domains are in the report&#x27;s IOC section.</p><p>#DFIR_Radar</p><p><a href="https://securelist.com/auditteam-opsagent-forced-audit/122031/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122963733312151856">View on X</a></p>]]></content:encoded>
-      <dc:creator>Kaspersky SecureList</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122963733312151856</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2122963733312151856">DFIR Radar</source>
-      <pubDate>Wed, 18 Nov 2026 08:02:52 +0000</pubDate>
-      <guid isPermaLink="false">2122963733312151856</guid>
     </item>
   </channel>
 </rss>
