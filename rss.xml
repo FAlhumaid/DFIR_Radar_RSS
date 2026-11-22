@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 00:05:27 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 01:05:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>VMware patches vCenter zero-day exploited in attacks since September</title>
+      <link>https://www.bleepingcomputer.com/news/security/vmware-patches-vcenter-zero-day-exploited-in-attacks-since-september/</link>
+      <description>Suspected Chinese 🇨🇳 Armory Castle exploited vCenter zero-day CVE-2026-123890 since September with BONESAW. Hunt for administrator[@]vsphere.local sessions and vmdirdbcp RPC access to data.mdb, then patch.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124308206805557439</description>
+      <content:encoded><![CDATA[<p>Suspected Chinese 🇨🇳 Armory Castle exploited vCenter zero-day CVE-2026-123890 since September with BONESAW. Hunt for administrator[@]vsphere.local sessions and vmdirdbcp RPC access to data.mdb, then patch.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/vmware-patches-vcenter-zero-day-exploited-in-attacks-since-september/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124308206805557439">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124308206805557439</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124308206805557439">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 01:05:19 +0000</pubDate>
+      <guid isPermaLink="false">2124308206805557439</guid>
+    </item>
     <item>
       <title>Hostile Inference: Exploiting Docker Model Runner for Container Escapes</title>
       <link>https://www.thezdi.com/blog/2026/11/17/hostile-inference-exploiting-docker-model-runner-for-container-escapes</link>
@@ -2349,38 +2363,6 @@ Takeaway: Start on developer workstations. Look for terminal or PowerShell histo
       <source url="https://x.com/DFIR_Radar/status/2122782617565102501">DFIR Radar</source>
       <pubDate>Tue, 17 Nov 2026 20:03:10 +0000</pubDate>
       <guid isPermaLink="false">2122782617565102501</guid>
-    </item>
-    <item>
-      <title>Inside CyberStrikeAI: 221 tool executions and a disabled approval gate</title>
-      <link>https://huntback.io/blog/inside-cyberstrikeai-221-tool-executions-disabled-approval-gate</link>
-      <description>An exposed workspace on 38.76.169[.]207 leaked a CyberStrikeAI conversation database. It ties one 16 November 2026 operator session to model accounting, process events, stored tool executions and agent-recorded findings. Approval enforcement was switched off mid-session, and the agent's final report claims more than the evidence supports.
-
-- The evidence chain reconciles. The report found 221 stored tool executions against 240 process-level tool calls. The 19 local results with no execution ID (ten skill actions, four task-plan updates, three file reads, two exit actions) explain the gap. All 221 execution IDs match the stored table. The conversation says agent_mode supervisor, but all 240 tool-call events name the agent as main and the role as orchestrator, so there is no evidence of a worker swarm.
-
-- The approval gate failed, then was disabled. Four approval interrupts were all rejected by audit_agent with the comment "LLM call failed; conservatively reject". These were audit-agent model-call failures (the review call has a 90 second timeout), not human decisions. Three ended at 90 seconds. The fourth ended at 43 seconds when the user cancelled the run. At 09:48:15 UTC the saved conversation configuration shows enabled=0, mode=off, and the recovered source returns without requiring approval when config is absent or disabled. The user later approved proposed actions in chat at 10:18, which is wording, not an enforced per-call gate. The database does not say who changed the setting, and the report found no evidence the model exploited the approval system.
-
-- What the agent actually did: it consumed a handoff document, rechecked old access paths, ran network reconnaissance, then focused on a compute-marketplace MCP interface. The c2_listener tool returned zero on both calls and the webshell list showed no connections. Of the 221 executions, 170 were the execute tool (160 completed, 10 failed). The strongest supported result is returned compute-node and job data. No shell, internal-network access, data-lake breach or destructive change is established.
-
-- Where the final report overreaches: the nine findings are agent-created, not nine validated vulnerabilities. An anonymous token that returned a JWT and key was a throwaway identity, not a stolen one. A job query total of 10000 with relation "gte" is a lower bound, not 10,000 downloaded records. The "260-node dump" came from a script that looped 26 offsets and appended ten hits each time with no unique-ID check, while nearby results report a node-search total of 259. A test a minute earlier returned the same first node at offset 10. Distinct-node count cannot be computed from the recovered files.
-
-- Accounting: eight usage rows name deepseek-v4-pro, with 211 model calls and 13,564,316 total tokens (13,353,943 prompt, 210,373 completion). These are local application records, not an invoice, and the prompt total may include repeated context.
-
-Takeaway: investigate audit-agent failures, configuration changes and subsequent tool execution as one sequence, and preserve the previous config and the actor where the app logs them. Do not accept claims of execution, access or impact without process, file, identity or transaction evidence, and keep response bodies or protected hashes, because request logs cannot show volume retrieved. Also check whether static file servers expose agent data directories, conversation databases or uploads. The report's indicators table lists the host, TCP 8010, the exposed paths /CyberStrikeAI/data/conversations.db and /CyberStrikeAI/log/diagnostic-2026-11-16.log, and two SHA-256 values:
-
-a0b4be0a70e35d0d30809e0856e9860d4265df65e41fef2e93405e166d6edd36 (conversation database snapshot, 6,688,768 bytes)
-
-4da5383d7a1bc2a83c20a39510227aad34072876fa47bfb20fd10aeb48b676eb (diagnostic log, 6,560 bytes)
-
-The database passes SQLite quick_check, which shows structural readability only, not authenticity or completeness.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122767463188234412</description>
-      <content:encoded><![CDATA[<p>An exposed workspace on 38.76.169[.]207 leaked a CyberStrikeAI conversation database. It ties one 16 November 2026 operator session to model accounting, process events, stored tool executions and agent-recorded findings. Approval enforcement was switched off mid-session, and the agent&#x27;s final report claims more than the evidence supports.</p><p>- The evidence chain reconciles. The report found 221 stored tool executions against 240 process-level tool calls. The 19 local results with no execution ID (ten skill actions, four task-plan updates, three file reads, two exit actions) explain the gap. All 221 execution IDs match the stored table. The conversation says agent_mode supervisor, but all 240 tool-call events name the agent as main and the role as orchestrator, so there is no evidence of a worker swarm.</p><p>- The approval gate failed, then was disabled. Four approval interrupts were all rejected by audit_agent with the comment &quot;LLM call failed; conservatively reject&quot;. These were audit-agent model-call failures (the review call has a 90 second timeout), not human decisions. Three ended at 90 seconds. The fourth ended at 43 seconds when the user cancelled the run. At 09:48:15 UTC the saved conversation configuration shows enabled=0, mode=off, and the recovered source returns without requiring approval when config is absent or disabled. The user later approved proposed actions in chat at 10:18, which is wording, not an enforced per-call gate. The database does not say who changed the setting, and the report found no evidence the model exploited the approval system.</p><p>- What the agent actually did: it consumed a handoff document, rechecked old access paths, ran network reconnaissance, then focused on a compute-marketplace MCP interface. The c2_listener tool returned zero on both calls and the webshell list showed no connections. Of the 221 executions, 170 were the execute tool (160 completed, 10 failed). The strongest supported result is returned compute-node and job data. No shell, internal-network access, data-lake breach or destructive change is established.</p><p>- Where the final report overreaches: the nine findings are agent-created, not nine validated vulnerabilities. An anonymous token that returned a JWT and key was a throwaway identity, not a stolen one. A job query total of 10000 with relation &quot;gte&quot; is a lower bound, not 10,000 downloaded records. The &quot;260-node dump&quot; came from a script that looped 26 offsets and appended ten hits each time with no unique-ID check, while nearby results report a node-search total of 259. A test a minute earlier returned the same first node at offset 10. Distinct-node count cannot be computed from the recovered files.</p><p>- Accounting: eight usage rows name deepseek-v4-pro, with 211 model calls and 13,564,316 total tokens (13,353,943 prompt, 210,373 completion). These are local application records, not an invoice, and the prompt total may include repeated context.</p><p>Takeaway: investigate audit-agent failures, configuration changes and subsequent tool execution as one sequence, and preserve the previous config and the actor where the app logs them. Do not accept claims of execution, access or impact without process, file, identity or transaction evidence, and keep response bodies or protected hashes, because request logs cannot show volume retrieved. Also check whether static file servers expose agent data directories, conversation databases or uploads. The report&#x27;s indicators table lists the host, TCP 8010, the exposed paths /CyberStrikeAI/data/conversations.db and /CyberStrikeAI/log/diagnostic-2026-11-16.log, and two SHA-256 values:</p><p>a0b4be0a70e35d0d30809e0856e9860d4265df65e41fef2e93405e166d6edd36 (conversation database snapshot, 6,688,768 bytes)</p><p>4da5383d7a1bc2a83c20a39510227aad34072876fa47bfb20fd10aeb48b676eb (diagnostic log, 6,560 bytes)</p><p>The database passes SQLite quick_check, which shows structural readability only, not authenticity or completeness.</p><p>#DFIR_Radar</p><p><a href="https://huntback.io/blog/inside-cyberstrikeai-221-tool-executions-disabled-approval-gate">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122767463188234412">View on X</a></p>]]></content:encoded>
-      <dc:creator>Huntback</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122767463188234412</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2122767463188234412">DFIR Radar</source>
-      <pubDate>Tue, 17 Nov 2026 19:02:57 +0000</pubDate>
-      <guid isPermaLink="false">2122767463188234412</guid>
     </item>
   </channel>
 </rss>
