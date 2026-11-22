@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 08:05:23 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 09:06:20 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers Exploit Cisco Expressway Flaw CVE-2026-76466 to Breach Russian Organization</title>
+      <link>https://securityaffairs.com/203598/hacking/hackers-exploit-cisco-expressway-flaw-cve-2026-76466-to-breach-russian-organization.html</link>
+      <description>Cisco Expressway CVE-2026-76466 (CVSS 9.8) is exploited in the wild, giving root and a path into a Russian 🇷🇺 organization's network. Check erlang.log for a nodeup wombat@127.0.0.1 entry.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124429256075755617</description>
+      <content:encoded><![CDATA[<p>Cisco Expressway CVE-2026-76466 (CVSS 9.8) is exploited in the wild, giving root and a path into a Russian 🇷🇺 organization&#x27;s network. Check erlang.log for a nodeup wombat@127.0.0.1 entry.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/203598/hacking/hackers-exploit-cisco-expressway-flaw-cve-2026-76466-to-breach-russian-organization.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124429256075755617">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124429256075755617</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124429256075755617">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 09:06:20 +0000</pubDate>
+      <guid isPermaLink="false">2124429256075755617</guid>
+    </item>
     <item>
       <title>InfoSec News Nuggets: 11/18/2026</title>
       <link>https://aboutdfir.com/infosec-news-nuggets-11-18-2026/</link>
@@ -2251,32 +2265,6 @@ Takeaway: patching closes the door but does not evict anyone. On every on-prem S
       <source url="https://x.com/DFIR_Radar/status/2122904200732393639">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 04:06:18 +0000</pubDate>
       <guid isPermaLink="false">2122904200732393639</guid>
-    </item>
-    <item>
-      <title>iOS Forensic Toolkit 10.13: app data extraction for the full iOS 26 range</title>
-      <link>https://blog.elcomsoft.com/2026/11/ios-forensic-toolkit-10-13-app-data-extraction-for-the-full-ios-26-range/</link>
-      <description>iOS app data can now be pulled from iPhones with Stolen Device Protection on, across iOS and iPadOS 26.0 through 26.7.3, using a sandbox escape instead of a kernel exploit. The catch: some analysis tools silently skip the App Group containers where Telegram keeps its data.
-
-ElcomSoft's report describes a partial file system extraction. An agent is sideloaded over the air, which needs no pairing, so Stolen Device Protection's Face ID or Touch ID prompt for pairing away from familiar locations never blocks it. It returns mostly third-party app data. System data stays out of reach.
-
-- Method and scope: the agent escapes its own sandbox and reads /var/mobile/Containers/Data/Application/*, Shared/AppGroup/*, Data/InternalDaemon/* and Data/PluginKitPlugin/*. The first two hold most of the evidence. Sandbox escapes are lighter than kernel exploits, so coverage arrives faster for new builds. It covers all devices that can run iOS/iPadOS 26, including the iPhone 17 lineup and M5-based iPads. Support for 27.0 through 27.2.1 is described as in development.
-
-- What you get: messengers (Telegram, WhatsApp, Threema), social apps (X, Instagram, Threads, TikTok), third-party mail clients (Outlook, Gmail), and financial, navigation and location apps. Apple Notes is also returned and may contain saved passwords. What you don't get: system databases, SMS and iMessage, call log, contacts, the stock Mail app, camera roll, Maps, and the keychain. Where the device can be paired, the report says to pair it and also run extended logical acquisition, which fills many of those gaps. Order does not matter.
-
-- The parsing trap: containers are UUID-named folders, and many analysis tools identify the owning app from .com.apple.mobile_container_manager.metadata.plist. The agent can read that file in Data/Application containers but lacks permission to read it in Shared/AppGroup containers. The data is extracted in full, only the metadata file is missing. Telegram keeps chats, contacts and calls in its App Group container. In the vendor's tests, one popular tool did not see Telegram data at all, and an older version of another failed the same way, while its current version parses the extraction without the file. In one case, adding the missing files took Telegram records from a few hundred to over a hundred thousand, and device-wide message, contact and call totals grew too.
-
-- The workaround and its chain of custody cost: a utility recreates the missing plists, writing a file only after two independent confirmations of the owning app. Confirmation sources are the LaunchServices cache (com[.]apple.LaunchServices-*.csstore) linking the App Group identifier to the app, the app's own logs referencing the container path, or the genuine metadata file in its Data/Application container. Containers without enough confirmation are marked unconfirmed. The generated files carry no mark distinguishing them from originals, so the extraction then contains files the agent never pulled from the device.
-
-Practitioner takeaway: before trusting any result from this extraction, check whether your parser shows data from Shared/AppGroup containers. If Telegram looks nearly empty, suspect container identification before suspecting the app. If you generate metadata files, keep the original .tar and its hash, run the utility on an unpacked copy, save its log (it records size and SHA-256 of each created file), and state in the report which containers received generated files and which confirmations were found. A command-line Python version is promised on GitHub.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122888609258684919</description>
-      <content:encoded><![CDATA[<p>iOS app data can now be pulled from iPhones with Stolen Device Protection on, across iOS and iPadOS 26.0 through 26.7.3, using a sandbox escape instead of a kernel exploit. The catch: some analysis tools silently skip the App Group containers where Telegram keeps its data.</p><p>ElcomSoft&#x27;s report describes a partial file system extraction. An agent is sideloaded over the air, which needs no pairing, so Stolen Device Protection&#x27;s Face ID or Touch ID prompt for pairing away from familiar locations never blocks it. It returns mostly third-party app data. System data stays out of reach.</p><p>- Method and scope: the agent escapes its own sandbox and reads /var/mobile/Containers/Data/Application/*, Shared/AppGroup/*, Data/InternalDaemon/* and Data/PluginKitPlugin/*. The first two hold most of the evidence. Sandbox escapes are lighter than kernel exploits, so coverage arrives faster for new builds. It covers all devices that can run iOS/iPadOS 26, including the iPhone 17 lineup and M5-based iPads. Support for 27.0 through 27.2.1 is described as in development.</p><p>- What you get: messengers (Telegram, WhatsApp, Threema), social apps (X, Instagram, Threads, TikTok), third-party mail clients (Outlook, Gmail), and financial, navigation and location apps. Apple Notes is also returned and may contain saved passwords. What you don&#x27;t get: system databases, SMS and iMessage, call log, contacts, the stock Mail app, camera roll, Maps, and the keychain. Where the device can be paired, the report says to pair it and also run extended logical acquisition, which fills many of those gaps. Order does not matter.</p><p>- The parsing trap: containers are UUID-named folders, and many analysis tools identify the owning app from .com.apple.mobile_container_manager.metadata.plist. The agent can read that file in Data/Application containers but lacks permission to read it in Shared/AppGroup containers. The data is extracted in full, only the metadata file is missing. Telegram keeps chats, contacts and calls in its App Group container. In the vendor&#x27;s tests, one popular tool did not see Telegram data at all, and an older version of another failed the same way, while its current version parses the extraction without the file. In one case, adding the missing files took Telegram records from a few hundred to over a hundred thousand, and device-wide message, contact and call totals grew too.</p><p>- The workaround and its chain of custody cost: a utility recreates the missing plists, writing a file only after two independent confirmations of the owning app. Confirmation sources are the LaunchServices cache (com[.]apple.LaunchServices-*.csstore) linking the App Group identifier to the app, the app&#x27;s own logs referencing the container path, or the genuine metadata file in its Data/Application container. Containers without enough confirmation are marked unconfirmed. The generated files carry no mark distinguishing them from originals, so the extraction then contains files the agent never pulled from the device.</p><p>Practitioner takeaway: before trusting any result from this extraction, check whether your parser shows data from Shared/AppGroup containers. If Telegram looks nearly empty, suspect container identification before suspecting the app. If you generate metadata files, keep the original .tar and its hash, run the utility on an unpacked copy, save its log (it records size and SHA-256 of each created file), and state in the report which containers received generated files and which confirmations were found. A command-line Python version is promised on GitHub.</p><p>#DFIR_Radar</p><p><a href="https://blog.elcomsoft.com/2026/11/ios-forensic-toolkit-10-13-app-data-extraction-for-the-full-ios-26-range/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122888609258684919">View on X</a></p>]]></content:encoded>
-      <dc:creator>ElcomSoft Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122888609258684919</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2122888609258684919">DFIR Radar</source>
-      <pubDate>Wed, 18 Nov 2026 03:04:21 +0000</pubDate>
-      <guid isPermaLink="false">2122888609258684919</guid>
     </item>
   </channel>
 </rss>
