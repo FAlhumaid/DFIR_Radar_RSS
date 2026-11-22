@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 14:05:12 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 15:05:53 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers use autonomous AI tool Cairn to find zero-day, take over server</title>
+      <link>https://www.bleepingcomputer.com/news/security/hackers-use-autonomous-ai-tool-cairn-to-find-zero-day-take-over-server/</link>
+      <description>Suspected Chinese 🇨🇳 actors used Cairn AI agents to find a MONAI Label path traversal zero-day and gain root. Check Python sitecustomize[.]py for unexpected changes and hunt 142.4.98[.]145.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124519740487999603</description>
+      <content:encoded><![CDATA[<p>Suspected Chinese 🇨🇳 actors used Cairn AI agents to find a MONAI Label path traversal zero-day and gain root. Check Python sitecustomize[.]py for unexpected changes and hunt 142.4.98[.]145.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/hackers-use-autonomous-ai-tool-cairn-to-find-zero-day-take-over-server/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124519740487999603">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124519740487999603</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2124519740487999603">DFIR Radar</source>
+      <pubDate>Sun, 22 Nov 2026 15:05:53 +0000</pubDate>
+      <guid isPermaLink="false">2124519740487999603</guid>
+    </item>
     <item>
       <title>Java4Shell: RCE, one application at a time</title>
       <link>https://pentera.io/blog/java4shell-rce-one-application-at-a-time/</link>
@@ -2181,32 +2195,6 @@ Takeaway: do not kill a suspected Overlord process on a live host. Isolate it an
       <source url="https://x.com/DFIR_Radar/status/2122994413018185763">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 10:04:46 +0000</pubDate>
       <guid isPermaLink="false">2122994413018185763</guid>
-    </item>
-    <item>
-      <title>Reducing Microsoft Sentinel Costs Without Compromising Detection: Part 3: The DNS Quest</title>
-      <link>https://blog.nviso.eu/2026/11/17/reducing-microsoft-sentinel-costs-without-compromising-detection-part-3-the-dns-quest/</link>
-      <description>NVISO shows how to catch base32 DNS tunneling with Sentinel Summary Rules on Microsoft DNS Analytical events, cutting DNS ingestion cost by roughly 95% while keeping alerting intact.
-
-- The design: all Microsoft DNS Analytical events go to the Data Lake. A Summary Rule runs the detection logic against that table and writes only the hits to an Analytic Tier table (dns_sr_alerts_CL). Unlike the firewall part of the series, which aggregated records, this stores alerts rather than DNS records. That is why savings beat the previous post. Each Summary Rule run also adds a query cost, which NVISO describes as relatively low.
-
-- The technique: DNS tunneling encodes host data (credentials, files, host or network info) into subdomains of an attacker-controlled domain, with base32 as one example encoding. The same channel carries commands back. Sliver C2 is named as a tool that uses base32 for DNS C2. NVISO's lab emulation is a PowerShell loop that calls Resolve-DnsName for TXT records on random 45-character base32 labels under a non-existent domain, so every response is NXDOMAIN.
-
-- The KQL logic: it reads ASimDnsActivityLogs where EventProduct is DNS Server, EventSubType is request or response, and SrcIpAddr is private. It regex-matches DnsQuery for a base32 label of at least 24 characters (a-z2-7 or A-Z2-7) followed by two or more further labels. Results group by SrcIpAddr and second-level domain. It fires when Count is at least 50 and distinct subdomains are at least 10, so many unique subdomains under one domain from one host is the signal.
-
-- Alert plumbing: the query sets alert_title, alert_description, alert_severity (Medium) and alert_notification (dns_sr_alert). One Analytic Rule filters dns_sr_alerts_CL on isnotempty(alert_title) and alert_notification == "dns_sr_alert". That lets you add more Summary Rules later without building a new Analytic Rule each time. In the lab, the output showed the test host 192.168.20[.]105 talking to the internal DNS server 192.168.20[.]101.
-
-- Scheduling and scope: the report recommends a 1-hour run interval so threshold rules have enough records to trip. Thresholds need a per-environment baseline, and lowering them makes the rule more sensitive. The query is written for Microsoft DNS Analytical events. Other DNS products need field names and schema adapted.
-
-Takeaway: the full KQL for the Summary Rule and Analytic Rule is in the report. Copy it, then tune the 50 request and 10 subdomain thresholds against your own baseline. Because the alert table keeps only the hits, your raw DNS evidence for scoping and timelines stays in the Data Lake. When an alert fires, pivot there on SrcIpAddr and the second-level domain to rebuild the full query history for that host.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2122979500275147181</description>
-      <content:encoded><![CDATA[<p>NVISO shows how to catch base32 DNS tunneling with Sentinel Summary Rules on Microsoft DNS Analytical events, cutting DNS ingestion cost by roughly 95% while keeping alerting intact.</p><p>- The design: all Microsoft DNS Analytical events go to the Data Lake. A Summary Rule runs the detection logic against that table and writes only the hits to an Analytic Tier table (dns_sr_alerts_CL). Unlike the firewall part of the series, which aggregated records, this stores alerts rather than DNS records. That is why savings beat the previous post. Each Summary Rule run also adds a query cost, which NVISO describes as relatively low.</p><p>- The technique: DNS tunneling encodes host data (credentials, files, host or network info) into subdomains of an attacker-controlled domain, with base32 as one example encoding. The same channel carries commands back. Sliver C2 is named as a tool that uses base32 for DNS C2. NVISO&#x27;s lab emulation is a PowerShell loop that calls Resolve-DnsName for TXT records on random 45-character base32 labels under a non-existent domain, so every response is NXDOMAIN.</p><p>- The KQL logic: it reads ASimDnsActivityLogs where EventProduct is DNS Server, EventSubType is request or response, and SrcIpAddr is private. It regex-matches DnsQuery for a base32 label of at least 24 characters (a-z2-7 or A-Z2-7) followed by two or more further labels. Results group by SrcIpAddr and second-level domain. It fires when Count is at least 50 and distinct subdomains are at least 10, so many unique subdomains under one domain from one host is the signal.</p><p>- Alert plumbing: the query sets alert_title, alert_description, alert_severity (Medium) and alert_notification (dns_sr_alert). One Analytic Rule filters dns_sr_alerts_CL on isnotempty(alert_title) and alert_notification == &quot;dns_sr_alert&quot;. That lets you add more Summary Rules later without building a new Analytic Rule each time. In the lab, the output showed the test host 192.168.20[.]105 talking to the internal DNS server 192.168.20[.]101.</p><p>- Scheduling and scope: the report recommends a 1-hour run interval so threshold rules have enough records to trip. Thresholds need a per-environment baseline, and lowering them makes the rule more sensitive. The query is written for Microsoft DNS Analytical events. Other DNS products need field names and schema adapted.</p><p>Takeaway: the full KQL for the Summary Rule and Analytic Rule is in the report. Copy it, then tune the 50 request and 10 subdomain thresholds against your own baseline. Because the alert table keeps only the hits, your raw DNS evidence for scoping and timelines stays in the Data Lake. When an alert fires, pivot there on SrcIpAddr and the second-level domain to rebuild the full query history for that host.</p><p>#DFIR_Radar</p><p><a href="https://blog.nviso.eu/2026/11/17/reducing-microsoft-sentinel-costs-without-compromising-detection-part-3-the-dns-quest/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2122979500275147181">View on X</a></p>]]></content:encoded>
-      <dc:creator>NVISO Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2122979500275147181</comments>
-      <category>DETECTION</category>
-      <source url="https://x.com/DFIR_Radar/status/2122979500275147181">DFIR Radar</source>
-      <pubDate>Wed, 18 Nov 2026 09:05:31 +0000</pubDate>
-      <guid isPermaLink="false">2122979500275147181</guid>
     </item>
   </channel>
 </rss>
