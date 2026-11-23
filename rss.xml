@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 23 Nov 2026 13:02:33 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Nov 2026 14:04:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cisco Expressway vulnerability exploited to breach internal networks (CVE-2026-76466)</title>
+      <link>https://www.helpnetsecurity.com/2026/11/23/cisco-expressway-vulnerability-exploited-cve-2026-76466/</link>
+      <description>Exploited in the wild and in CISA KEV, CVE-2026-76466 gives unauthenticated root on clustered Cisco Expressway. Hunt the Erlang log for nodeup 'wombat@127.0.0.1' and Python scripts under /mnt/harddisk.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124866776228061220</description>
+      <content:encoded><![CDATA[<p>Exploited in the wild and in CISA KEV, CVE-2026-76466 gives unauthenticated root on clustered Cisco Expressway. Hunt the Erlang log for nodeup &#x27;wombat@127.0.0.1&#x27; and Python scripts under /mnt/harddisk.</p><p>#DFIR_Radar</p><p><a href="https://www.helpnetsecurity.com/2026/11/23/cisco-expressway-vulnerability-exploited-cve-2026-76466/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124866776228061220">View on X</a></p>]]></content:encoded>
+      <dc:creator>Help Net Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124866776228061220</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2124866776228061220">DFIR Radar</source>
+      <pubDate>Mon, 23 Nov 2026 14:04:52 +0000</pubDate>
+      <guid isPermaLink="false">2124866776228061220</guid>
+    </item>
     <item>
       <title>Hackers Exploit Critical ScreenConnect Flaw to Hijack MSP Technician PCs Without Warning</title>
       <link>https://thehackernews.com/2026/11/hackers-exploit-critical-screenconnect.html</link>
@@ -2149,40 +2163,6 @@ DFIR takeaway: treat any host or runner that installed 1.26.1 or 1.26.2 as crede
       <source url="https://x.com/DFIR_Radar/status/2123129886021751129">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 19:03:06 +0000</pubDate>
       <guid isPermaLink="false">2123129886021751129</guid>
-    </item>
-    <item>
-      <title>The folder your browser keeps after you clear your history</title>
-      <link>https://andreafortuna.org/2026/11/18/chromium-file-system-android-forensics/</link>
-      <description>Clearing browsing history on Chromium for Android leaves the File System store untouched. Alexis Brignoni's known-data test shows folder names, file names and file contents surviving the cleanup, and two new ALEAPP artifacts now parse them.
-
-- Why it survives: the Clear browsing data dialog splits history from site data, and the File System store follows the cookies and site data checkbox, not the history one. A user who ticks only history loses the visible record of where they went while the record of what sites stored on the device stays. Brignoni ran the test on Chrome 124 in an Android 15 emulator. A page wrote one file via the legacy webkitRequestFileSystem call and one via the Origin Private File System (OPFS), and both landed in the same store. It sits in any Chromium profile, so Edge, Samsung Internet, DuckDuckGo and WebView-based apps are in scope.
-
-- Anatomy: the profile's File System folder holds numbered directories (000 onwards), an Origins folder and a Paths store. Each numbered directory has p and t branches (persistent and temporary), with eight-digit extensionless files holding the raw bytes. Two LevelDB databases give them meaning: one maps directories to origins, the other maps the site's folder structure to the eight-digit files. For Chrome the path is data/data/com.android.chrome/app_chrome/Default. Embedded third-party sites go to a separate bucket folder, WebStorage/&lt;bucket&gt;/FileSystem. ALEAPP's Bucket Storage artifact reads it and names both the embedded site and the top-level host, and the embedded address never appears in History.
-
-- Deleted records can still lead: after clearing site data the files are removed, but a deleted LevelDB entry is superseded rather than wiped, so it can still name an origin until compaction rewrites the tables. That mechanism is the report author's working theory; the pull request describes only the outcome. Hindsight (Storage tab) parses the store on desktop profiles, and ccl_chromium_reader covers it for scripted work.
-
-- Reality check from the corpus: across 22 images, the first artifact found 33 site rows on 16 images, two folder rows and no saved files. The bucket artifact added 29 rows on 6 images. Expect origin leads often, folders rarely and usable content rarer still.
-
-- Limits to state in a report: bucket times come from the QuotaManager and cover the whole bucket, so they show scope, not when a file was written. A bucket record proves something stored data for an origin, not that the user visited it. ALEAPP's parsers cite Chromium source at version 130 while the test ran on 124, and the format is an internal detail, so validate on the build in front of you. On 1 November the author added an Android user column and a Bucket ID to separate first-party from bucketed storage, so keep your ALEAPP current.
-
-First look on a phone image:
-
-cd data/data/com.android.chrome/app_chrome/Default
-find "File System" -type f | sort
-strings -n 8 "File System/Origins/"*.log | sort -u
-
-The LevelDB .log is uncompressed, so strings works for a first pass. The .ldb tables are Snappy-compressed and need a LevelDB-aware parser.
-
-Takeaway: in exfiltration or file-sharing cases, look for orphaned eight-digit files under a file-hosting origin. Ryan Benson found Mega staged downloads here, with leftovers lingering for months after the final file was deleted. The report author's untested idea is to run grep -rl "SQLite format 3" "File System" to find whole OPFS-hosted SQLite databases that no browser-aware tool parses yet. When a subject says they cleared everything, find out which checkbox they ticked, then corroborate any origin with History or network artifacts before attributing intent.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123114691140481536</description>
-      <content:encoded><![CDATA[<p>Clearing browsing history on Chromium for Android leaves the File System store untouched. Alexis Brignoni&#x27;s known-data test shows folder names, file names and file contents surviving the cleanup, and two new ALEAPP artifacts now parse them.</p><p>- Why it survives: the Clear browsing data dialog splits history from site data, and the File System store follows the cookies and site data checkbox, not the history one. A user who ticks only history loses the visible record of where they went while the record of what sites stored on the device stays. Brignoni ran the test on Chrome 124 in an Android 15 emulator. A page wrote one file via the legacy webkitRequestFileSystem call and one via the Origin Private File System (OPFS), and both landed in the same store. It sits in any Chromium profile, so Edge, Samsung Internet, DuckDuckGo and WebView-based apps are in scope.</p><p>- Anatomy: the profile&#x27;s File System folder holds numbered directories (000 onwards), an Origins folder and a Paths store. Each numbered directory has p and t branches (persistent and temporary), with eight-digit extensionless files holding the raw bytes. Two LevelDB databases give them meaning: one maps directories to origins, the other maps the site&#x27;s folder structure to the eight-digit files. For Chrome the path is data/data/com.android.chrome/app_chrome/Default. Embedded third-party sites go to a separate bucket folder, WebStorage/&lt;bucket&gt;/FileSystem. ALEAPP&#x27;s Bucket Storage artifact reads it and names both the embedded site and the top-level host, and the embedded address never appears in History.</p><p>- Deleted records can still lead: after clearing site data the files are removed, but a deleted LevelDB entry is superseded rather than wiped, so it can still name an origin until compaction rewrites the tables. That mechanism is the report author&#x27;s working theory; the pull request describes only the outcome. Hindsight (Storage tab) parses the store on desktop profiles, and ccl_chromium_reader covers it for scripted work.</p><p>- Reality check from the corpus: across 22 images, the first artifact found 33 site rows on 16 images, two folder rows and no saved files. The bucket artifact added 29 rows on 6 images. Expect origin leads often, folders rarely and usable content rarer still.</p><p>- Limits to state in a report: bucket times come from the QuotaManager and cover the whole bucket, so they show scope, not when a file was written. A bucket record proves something stored data for an origin, not that the user visited it. ALEAPP&#x27;s parsers cite Chromium source at version 130 while the test ran on 124, and the format is an internal detail, so validate on the build in front of you. On 1 November the author added an Android user column and a Bucket ID to separate first-party from bucketed storage, so keep your ALEAPP current.</p><p>First look on a phone image:</p><p>cd data/data/com.android.chrome/app_chrome/Default<br>find &quot;File System&quot; -type f | sort<br>strings -n 8 &quot;File System/Origins/&quot;*.log | sort -u</p><p>The LevelDB .log is uncompressed, so strings works for a first pass. The .ldb tables are Snappy-compressed and need a LevelDB-aware parser.</p><p>Takeaway: in exfiltration or file-sharing cases, look for orphaned eight-digit files under a file-hosting origin. Ryan Benson found Mega staged downloads here, with leftovers lingering for months after the final file was deleted. The report author&#x27;s untested idea is to run grep -rl &quot;SQLite format 3&quot; &quot;File System&quot; to find whole OPFS-hosted SQLite databases that no browser-aware tool parses yet. When a subject says they cleared everything, find out which checkbox they ticked, then corroborate any origin with History or network artifacts before attributing intent.</p><p>#DFIR_Radar</p><p><a href="https://andreafortuna.org/2026/11/18/chromium-file-system-android-forensics/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123114691140481536">View on X</a></p>]]></content:encoded>
-      <dc:creator>Andrea Fortuna</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123114691140481536</comments>
-      <category>FORENSICS</category>
-      <source url="https://x.com/DFIR_Radar/status/2123114691140481536">DFIR Radar</source>
-      <pubDate>Wed, 18 Nov 2026 18:02:43 +0000</pubDate>
-      <guid isPermaLink="false">2123114691140481536</guid>
     </item>
   </channel>
 </rss>
