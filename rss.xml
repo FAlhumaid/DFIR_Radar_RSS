@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 22 Nov 2026 19:02:49 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Nov 2026 08:05:37 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Rotating Storefronts: Inside a Fake-Shop Network Gearing Up for Black Friday 2026</title>
+      <link>https://www.cloudsek.com/blog/black-friday-2026-fake-shopping-websites-scam-network</link>
+      <description>CloudSEK tracks an oemcart fake-shop network rotating 3,415 domains for Black Friday. Pivot on order_runtime.js and store IDs like 183272, not domains; IOCs are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124776364427596167</description>
+      <content:encoded><![CDATA[<p>CloudSEK tracks an oemcart fake-shop network rotating 3,415 domains for Black Friday. Pivot on order_runtime.js and store IDs like 183272, not domains; IOCs are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.cloudsek.com/blog/black-friday-2026-fake-shopping-websites-scam-network">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124776364427596167">View on X</a></p>]]></content:encoded>
+      <dc:creator>CloudSEK</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2124776364427596167</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2124776364427596167">DFIR Radar</source>
+      <pubDate>Mon, 23 Nov 2026 08:05:37 +0000</pubDate>
+      <guid isPermaLink="false">2124776364427596167</guid>
+    </item>
     <item>
       <title>Hackers exploit GL.iNet cloud flaw to infect routers, KVM devices</title>
       <link>https://www.bleepingcomputer.com/news/security/hackers-exploit-glinet-cloud-flaw-to-infect-routers-kvm-devices/</link>
@@ -2165,34 +2179,6 @@ Takeaway: treat the queries as starting points, not production detections. Run t
       <source url="https://x.com/DFIR_Radar/status/2123039411415720016">DFIR Radar</source>
       <pubDate>Wed, 18 Nov 2026 13:03:35 +0000</pubDate>
       <guid isPermaLink="false">2123039411415720016</guid>
-    </item>
-    <item>
-      <title>Behind the Power Outage: Unmasking a New Intrusion Vector in Enterprise Infrastructure Tools</title>
-      <link>https://www.security.com/threat-intelligence/power-management-software-attack-vector</link>
-      <description>Attackers abused CyberPower PowerPanel Business, a UPS management tool, to run SYSTEM commands on a domain controller and collect ntds.dit. Every command traced back to ppbed.exe, not a new service or scheduled task.
-
-- Why it works: PPB can run a .cmd file from its extcmd folder when a power event fires. The attacker used the web console (embedded Tomcat, TCP 3052) to push their own scripts, and the PowerPanel service, ppbed.exe, ran them as SYSTEM. No memory-corruption exploit was needed. In process telemetry it looks like a power product launching cmd.exe, which is easy to dismiss.
-
-- Entry point: requests hit /local/rest/v1/file/upload on port 3052. Uploads land as upload_[RANDOM].tmp in web-server\work\tomcat\localhost\local, then show up in ...\CyberPower PowerPanel Business\temp\profile\extcmd\ and run from ...\extcmd\. Script names follow pp?????.cmd, so they blend in. The report says public advisories cover hard-coded credentials, a default admin password and a file-upload path-traversal flaw in PPB. Any of those, or stolen admin credentials, could provide console access. It does not say which was used here.
-
-- Hands-on-keyboard tradecraft: ppbed.exe → cmd.exe ran certutil to test reachability and decode base64 staged files, plus curl and a PowerShell reflective .NET load. Staging server was 84.200.205[.]145, with dt.exe, wupd.exe and hello.exe pulled from hxxp://84.200.205[.]145:55556/. wupd.exe is detected as MSIL.Killav!gen1, a .NET antivirus killer. hello.exe only prints a greeting and served as a test of the reflective-load path.
-
-- AD collection by trial and error: the operator iterated scripts (ppskbcx.cmd, ifm.cmd through ifm4.cmd, ppotuff.cmd, ppinthw.cmd), first using ntdsutil ifm, then adding logging and done-marker files. They finally pivoted to esentutl /vss to copy the locked ntds.dit from a shadow copy, and saved the SYSTEM hive with reg save. Some revisions reused a name (ifm.cmd has three hashes), so the extcmd folder is only a partial development log.
-
-- Implant and scope: PowerShell launched upnpcont.exe from C:\Windows\System32\config\systemprofile\AppData\Local\50679f292a1\, which side-loads an unknown atl.dll. Later vssadmin and robocopy activity kept the lineage vssadmin.exe ← powershell.exe ← upnpcont.exe ← powershell.exe ← cmd.exe ← ppbed.exe ← services.exe. Symantec did not attribute the activity and saw no exfiltration or ransomware, so intent is unclear.
-
-DFIR takeaway: hunt on parent process, not tool name. Look for ppbed.exe as an ancestor of cmd.exe, powershell.exe, certutil, ntdsutil, esentutl, vssadmin or robocopy. Audit extcmd and temp\profile\extcmd on every PPB host against product defaults, and treat unknown scripts as hostile. Preserve those scripts, the Tomcat work directory temp files, and the upnpcont.exe/atl.dll pair. Review the console's event-to-command assignments, and check who reached port 3052.
-
-If you find this, assume AD credentials are exposed and plan a krbtgt reset and wider credential rotation. Restrict 3052 to named admin hosts and change the default admin password. File hashes for the scripts, tools, implant and DLL are in the report's IOC section.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123024186880971144</description>
-      <content:encoded><![CDATA[<p>Attackers abused CyberPower PowerPanel Business, a UPS management tool, to run SYSTEM commands on a domain controller and collect ntds.dit. Every command traced back to ppbed.exe, not a new service or scheduled task.</p><p>- Why it works: PPB can run a .cmd file from its extcmd folder when a power event fires. The attacker used the web console (embedded Tomcat, TCP 3052) to push their own scripts, and the PowerPanel service, ppbed.exe, ran them as SYSTEM. No memory-corruption exploit was needed. In process telemetry it looks like a power product launching cmd.exe, which is easy to dismiss.</p><p>- Entry point: requests hit /local/rest/v1/file/upload on port 3052. Uploads land as upload_[RANDOM].tmp in web-server\work\tomcat\localhost\local, then show up in ...\CyberPower PowerPanel Business\temp\profile\extcmd\ and run from ...\extcmd\. Script names follow pp?????.cmd, so they blend in. The report says public advisories cover hard-coded credentials, a default admin password and a file-upload path-traversal flaw in PPB. Any of those, or stolen admin credentials, could provide console access. It does not say which was used here.</p><p>- Hands-on-keyboard tradecraft: ppbed.exe → cmd.exe ran certutil to test reachability and decode base64 staged files, plus curl and a PowerShell reflective .NET load. Staging server was 84.200.205[.]145, with dt.exe, wupd.exe and hello.exe pulled from hxxp://84.200.205[.]145:55556/. wupd.exe is detected as MSIL.Killav!gen1, a .NET antivirus killer. hello.exe only prints a greeting and served as a test of the reflective-load path.</p><p>- AD collection by trial and error: the operator iterated scripts (ppskbcx.cmd, ifm.cmd through ifm4.cmd, ppotuff.cmd, ppinthw.cmd), first using ntdsutil ifm, then adding logging and done-marker files. They finally pivoted to esentutl /vss to copy the locked ntds.dit from a shadow copy, and saved the SYSTEM hive with reg save. Some revisions reused a name (ifm.cmd has three hashes), so the extcmd folder is only a partial development log.</p><p>- Implant and scope: PowerShell launched upnpcont.exe from C:\Windows\System32\config\systemprofile\AppData\Local\50679f292a1\, which side-loads an unknown atl.dll. Later vssadmin and robocopy activity kept the lineage vssadmin.exe ← powershell.exe ← upnpcont.exe ← powershell.exe ← cmd.exe ← ppbed.exe ← services.exe. Symantec did not attribute the activity and saw no exfiltration or ransomware, so intent is unclear.</p><p>DFIR takeaway: hunt on parent process, not tool name. Look for ppbed.exe as an ancestor of cmd.exe, powershell.exe, certutil, ntdsutil, esentutl, vssadmin or robocopy. Audit extcmd and temp\profile\extcmd on every PPB host against product defaults, and treat unknown scripts as hostile. Preserve those scripts, the Tomcat work directory temp files, and the upnpcont.exe/atl.dll pair. Review the console&#x27;s event-to-command assignments, and check who reached port 3052.</p><p>If you find this, assume AD credentials are exposed and plan a krbtgt reset and wider credential rotation. Restrict 3052 to named admin hosts and change the default admin password. File hashes for the scripts, tools, implant and DLL are in the report&#x27;s IOC section.</p><p>#DFIR_Radar</p><p><a href="https://www.security.com/threat-intelligence/power-management-software-attack-vector">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123024186880971144">View on X</a></p>]]></content:encoded>
-      <dc:creator>Symantec Threat Intelligence</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123024186880971144</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2123024186880971144">DFIR Radar</source>
-      <pubDate>Wed, 18 Nov 2026 12:03:05 +0000</pubDate>
-      <guid isPermaLink="false">2123024186880971144</guid>
     </item>
   </channel>
 </rss>
