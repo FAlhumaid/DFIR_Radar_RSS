@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Nov 2026 18:03:33 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 19:03:45 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Cisco Expressway RCE (CVE-2026-76466) Exploited for Root Access</title>
+      <link>https://socradar.io/blog/cisco-expressway-rce-cve-2026-76466-exploited/</link>
+      <description>Cisco Expressway CVE-2026-76466 (CVSS 9.8) gives unauthenticated root RCE on clustered nodes. It is exploited in the wild, listed in CISA KEV, and one intrusion pivoted from edge nodes into a Russian 🇷🇺 network.
+
+- The flaw: CVE-2026-76466 is mapped to CWE-798 (hard-coded credentials), CVSS v3.1 9.8. The cluster database service relies on persistent cookies, and client certificates are not validated properly when TLS Verify Mode is enabled for clustering. An attacker with network access who holds those cookies can connect to the database service, invoke specific RPC commands and run commands as root. No credentials or user interaction are needed. Cisco does not publish the cookie values or the RPC sequence.
+
+- Scope: Expressway-C and Expressway-E, virtual and appliance, only when clustered. X15.5.3 and earlier are vulnerable, X15.5.20 fixes it, and X14 and earlier have no fix in that train, so those devices need migration. Cisco offers no workaround. Public exploit code with a detection script is on GitHub. Its author tested only a two-node Expressway-C X15.3.2 cluster. The repo describes the vulnerable TLS mode differently from Cisco, so do not clear a clustered node on its TLS setting alone.
+
+- Exploitation status: CISA added it to KEV on November 20, 2026, with a federal remediation deadline of November 23. Cisco's advisory still says PSIRT was not aware of malicious use, which now lags the evidence. F6 documented what it calls possibly the first in-the-wild case: an unnamed Russian 🇷🇺 organization running X15.5.3. Attackers exploited two internet-facing Expressway devices, ran commands as root, then reached two more cluster nodes on the internal network. No actor attribution. KEV confirms exploitation, not scale, and no exposed-device count has been published.
+
+- Post-exploitation: custom Python scripts scanned the network, enumerated SMB resources, talked to SQL Server and WinRM, and reached GitLab repositories to collect credentials and sensitive data. F6 assesses from code comments and fix notes that the scripts were possibly written with AI help.
+
+- Researcher-observed indicators, not Cisco-published: IPs 66.179.31[.]32 and 18.130.47[.]116, the log artifact wombat@127.0.0[.]1 in erlang.log, and Python scripts under /mnt/harddisk/i{0-9}{4}[a-zA-Z]?/*.py.
+
+Takeaway: inventory which Expressway-C and Expressway-E nodes are clustered, then hunt the edge nodes first. Check erlang.log for the wombat artifact and the file system for scripts matching that path pattern. Look for connections to the cluster database service from addresses that are not cluster peers. Expressway nodes rarely need outbound SMB, SQL Server, WinRM or GitLab traffic, so any of it is a strong signal. Root access lets an attacker alter local logs, so a clean result is not proof the device was never touched. Lean on network and internal telemetry. Check GitLab and internal logins for credentials that were reachable from these nodes.
+
+If compromise is suspected, treat the whole cluster as untrusted, rebuild from known-good images, and rotate reachable credentials, tokens and repository secrets. Upgrade to X15.5.20. If you must wait, F6's stopgap is to allow TCP 4371 and 4372 only from trusted cluster node IPs. That is not a Cisco workaround and does not replace the patch.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125304378202726809</description>
+      <content:encoded><![CDATA[<p>Cisco Expressway CVE-2026-76466 (CVSS 9.8) gives unauthenticated root RCE on clustered nodes. It is exploited in the wild, listed in CISA KEV, and one intrusion pivoted from edge nodes into a Russian 🇷🇺 network.</p><p>- The flaw: CVE-2026-76466 is mapped to CWE-798 (hard-coded credentials), CVSS v3.1 9.8. The cluster database service relies on persistent cookies, and client certificates are not validated properly when TLS Verify Mode is enabled for clustering. An attacker with network access who holds those cookies can connect to the database service, invoke specific RPC commands and run commands as root. No credentials or user interaction are needed. Cisco does not publish the cookie values or the RPC sequence.</p><p>- Scope: Expressway-C and Expressway-E, virtual and appliance, only when clustered. X15.5.3 and earlier are vulnerable, X15.5.20 fixes it, and X14 and earlier have no fix in that train, so those devices need migration. Cisco offers no workaround. Public exploit code with a detection script is on GitHub. Its author tested only a two-node Expressway-C X15.3.2 cluster. The repo describes the vulnerable TLS mode differently from Cisco, so do not clear a clustered node on its TLS setting alone.</p><p>- Exploitation status: CISA added it to KEV on November 20, 2026, with a federal remediation deadline of November 23. Cisco&#x27;s advisory still says PSIRT was not aware of malicious use, which now lags the evidence. F6 documented what it calls possibly the first in-the-wild case: an unnamed Russian 🇷🇺 organization running X15.5.3. Attackers exploited two internet-facing Expressway devices, ran commands as root, then reached two more cluster nodes on the internal network. No actor attribution. KEV confirms exploitation, not scale, and no exposed-device count has been published.</p><p>- Post-exploitation: custom Python scripts scanned the network, enumerated SMB resources, talked to SQL Server and WinRM, and reached GitLab repositories to collect credentials and sensitive data. F6 assesses from code comments and fix notes that the scripts were possibly written with AI help.</p><p>- Researcher-observed indicators, not Cisco-published: IPs 66.179.31[.]32 and 18.130.47[.]116, the log artifact wombat@127.0.0[.]1 in erlang.log, and Python scripts under /mnt/harddisk/i{0-9}{4}[a-zA-Z]?/*.py.</p><p>Takeaway: inventory which Expressway-C and Expressway-E nodes are clustered, then hunt the edge nodes first. Check erlang.log for the wombat artifact and the file system for scripts matching that path pattern. Look for connections to the cluster database service from addresses that are not cluster peers. Expressway nodes rarely need outbound SMB, SQL Server, WinRM or GitLab traffic, so any of it is a strong signal. Root access lets an attacker alter local logs, so a clean result is not proof the device was never touched. Lean on network and internal telemetry. Check GitLab and internal logins for credentials that were reachable from these nodes.</p><p>If compromise is suspected, treat the whole cluster as untrusted, rebuild from known-good images, and rotate reachable credentials, tokens and repository secrets. Upgrade to X15.5.20. If you must wait, F6&#x27;s stopgap is to allow TCP 4371 and 4372 only from trusted cluster node IPs. That is not a Cisco workaround and does not replace the patch.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/cisco-expressway-rce-cve-2026-76466-exploited/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125304378202726809">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125304378202726809</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2125304378202726809">DFIR Radar</source>
+      <pubDate>Tue, 24 Nov 2026 19:03:45 +0000</pubDate>
+      <guid isPermaLink="false">2125304378202726809</guid>
+    </item>
     <item>
       <title>Machine-Generated Fake Plugin Turns WordPress Sites Into JavaScript Delivery Points</title>
       <link>https://www.wordfence.com/blog/2026/11/machine-generated-fake-plugin-turns-wordpress-sites-into-javascript-delivery-points/</link>
@@ -2149,20 +2177,6 @@ If patching waits, disable the feature behind each flaw. Turning off HTTP/2 cove
       <source url="https://x.com/DFIR_Radar/status/2123553413103231404">DFIR Radar</source>
       <pubDate>Thu, 19 Nov 2026 23:06:02 +0000</pubDate>
       <guid isPermaLink="false">2123553413103231404</guid>
-    </item>
-    <item>
-      <title>Accuracy Through Volume of Fire</title>
-      <link>https://trustedsec.com/blog/accuracy-through-volume-of-fire</link>
-      <description>Storm-3358 paired the LLM-driven ARTEX framework with conventional scanners against exposed systems. Hunt for path enumeration, bulk record retrieval, and the default ArtEx/1.0 user agent.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123538273834295412</description>
-      <content:encoded><![CDATA[<p>Storm-3358 paired the LLM-driven ARTEX framework with conventional scanners against exposed systems. Hunt for path enumeration, bulk record retrieval, and the default ArtEx/1.0 user agent.</p><p>#DFIR_Radar</p><p><a href="https://trustedsec.com/blog/accuracy-through-volume-of-fire">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123538273834295412">View on X</a></p>]]></content:encoded>
-      <dc:creator>TrustedSec</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123538273834295412</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2123538273834295412">DFIR Radar</source>
-      <pubDate>Thu, 19 Nov 2026 22:05:53 +0000</pubDate>
-      <guid isPermaLink="false">2123538273834295412</guid>
     </item>
   </channel>
 </rss>
