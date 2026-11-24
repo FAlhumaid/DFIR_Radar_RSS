@@ -5,8 +5,32 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Nov 2026 07:06:18 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 08:03:09 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>From a CMS exploit to Global Administrator: an AI pentest console inside a South Korean university, with 91 tables exported and 1,331 passwords cracked</title>
+      <link>https://huntback.io/blog/ai-pentest-console-south-korean-university-global-admin</link>
+      <description>An open ARTEX working directory documents an autonomous pentest agent's takeover of a South Korean 🇰🇷 university, from a 2019 CMS flaw to Microsoft 365 Global Administrator and 20 fabricated student accounts.
+
+- Researchers pulled 6,035 files (1.16 GB) from 38.60.157[.]51 on 20 Nov. Entry was pre-auth code execution in XpressEngine, fixed in 1.11.6 in October 2019 (T1190). Look for module_srl or selected_widget containing ../ or ${, then act=dispWidgetInfo with query parameters named 0 and 1. A _cfg_ plus four hex web shell followed. Per the operator's report, SYSTEM came from rewriting a privileged app's log4net.config twice within seconds. Defender was disabled, LSASS was dumped (70.9 MB), and SAM, SYSTEM and SECURITY were saved with reg save.
+
+- Pivot: chisel reverse SOCKS tunnels, persisted as scheduled task X9137Chisel (SYSTEM, onstart); a separate task, nc673, ran commands as the interactive user for DPAPI unwrap. A modified MS17-010 exploit added a local admin named after the ARTEX intent number. Plaintext connection strings in a classic ASP include opened the academic database. A VBScript run on the campus web server exported 91 tables (297 MB). Separately, a library/e-book web app member table has 60 columns including both halves of the national resident registration number.
+
+- Cracking: 13 hashcat runs on CPU recovered 1,331 of 10,155 hashes. Unsalted SHA-256 student SSO hashes and MySQL web app hashes fell to digit masks, and an eight-digit mask took 352 accounts in two seconds. Worse, the SSO accepted the stored 44-character hash as the password, so the staff table was a list of working logins.
+
+- Cloud: a staff session reached an M365 bridge whose reset form never asks for the old password. The operator then used the ROPC password grant with the Office client ID d3590ed6-52b3-4102-aeff-aad2292ab01c for a Global Administrator token valid from 18:47 UTC on 16 Nov, and exported the full directory within two hours. From 17 to 18 Nov, 20 licensed student-style accounts were created, and a new account whose display name translates as "M365 operations management" was made Global Administrator (T1098.003). The bulk script's header says "authorised assessments only"; no scope or contract exists in the files.
+
+Takeaway: ARTEX leaks its task numbering onto victims, so hunt for local accounts, folders, files or tasks named i plus three or four digits, such as C:\i3811 or C:\i1027_add.txt. In Entra, search sign-ins with AuthenticationProtocol ropc and a success result, Global Administrator added to an account created in the prior 48 hours, and any one identity creating 10 or more users in an hour. Preserve web server access logs, the Entra sign-in and audit logs, and the hosts' scheduled tasks. Also check for certutil -decode of .b64 files built by repeated echo appends from a web worker process. The report includes the KQL queries, host and web log hunt patterns, and an IOC table with tool hashes.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125138131363959233</description>
+      <content:encoded><![CDATA[<p>An open ARTEX working directory documents an autonomous pentest agent&#x27;s takeover of a South Korean 🇰🇷 university, from a 2019 CMS flaw to Microsoft 365 Global Administrator and 20 fabricated student accounts.</p><p>- Researchers pulled 6,035 files (1.16 GB) from 38.60.157[.]51 on 20 Nov. Entry was pre-auth code execution in XpressEngine, fixed in 1.11.6 in October 2019 (T1190). Look for module_srl or selected_widget containing ../ or ${, then act=dispWidgetInfo with query parameters named 0 and 1. A _cfg_ plus four hex web shell followed. Per the operator&#x27;s report, SYSTEM came from rewriting a privileged app&#x27;s log4net.config twice within seconds. Defender was disabled, LSASS was dumped (70.9 MB), and SAM, SYSTEM and SECURITY were saved with reg save.</p><p>- Pivot: chisel reverse SOCKS tunnels, persisted as scheduled task X9137Chisel (SYSTEM, onstart); a separate task, nc673, ran commands as the interactive user for DPAPI unwrap. A modified MS17-010 exploit added a local admin named after the ARTEX intent number. Plaintext connection strings in a classic ASP include opened the academic database. A VBScript run on the campus web server exported 91 tables (297 MB). Separately, a library/e-book web app member table has 60 columns including both halves of the national resident registration number.</p><p>- Cracking: 13 hashcat runs on CPU recovered 1,331 of 10,155 hashes. Unsalted SHA-256 student SSO hashes and MySQL web app hashes fell to digit masks, and an eight-digit mask took 352 accounts in two seconds. Worse, the SSO accepted the stored 44-character hash as the password, so the staff table was a list of working logins.</p><p>- Cloud: a staff session reached an M365 bridge whose reset form never asks for the old password. The operator then used the ROPC password grant with the Office client ID d3590ed6-52b3-4102-aeff-aad2292ab01c for a Global Administrator token valid from 18:47 UTC on 16 Nov, and exported the full directory within two hours. From 17 to 18 Nov, 20 licensed student-style accounts were created, and a new account whose display name translates as &quot;M365 operations management&quot; was made Global Administrator (T1098.003). The bulk script&#x27;s header says &quot;authorised assessments only&quot;; no scope or contract exists in the files.</p><p>Takeaway: ARTEX leaks its task numbering onto victims, so hunt for local accounts, folders, files or tasks named i plus three or four digits, such as C:\i3811 or C:\i1027_add.txt. In Entra, search sign-ins with AuthenticationProtocol ropc and a success result, Global Administrator added to an account created in the prior 48 hours, and any one identity creating 10 or more users in an hour. Preserve web server access logs, the Entra sign-in and audit logs, and the hosts&#x27; scheduled tasks. Also check for certutil -decode of .b64 files built by repeated echo appends from a web worker process. The report includes the KQL queries, host and web log hunt patterns, and an IOC table with tool hashes.</p><p>#DFIR_Radar</p><p><a href="https://huntback.io/blog/ai-pentest-console-south-korean-university-global-admin">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125138131363959233">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntback</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125138131363959233</comments>
+      <category>INCIDENT RESPONSE</category>
+      <source url="https://x.com/DFIR_Radar/status/2125138131363959233">DFIR Radar</source>
+      <pubDate>Tue, 24 Nov 2026 08:03:09 +0000</pubDate>
+      <guid isPermaLink="false">2125138131363959233</guid>
+    </item>
     <item>
       <title>Webworm Suspected of Modifying SoftEther VPN to Evade Detection and Hide Remote Access</title>
       <link>https://thehackernews.com/2026/11/webworm-suspected-of-modifying.html</link>
@@ -2149,20 +2173,6 @@ Takeaway: the report has an IOC table (hosting, service and class names, host ar
       <source url="https://x.com/DFIR_Radar/status/2123401824786894879">DFIR Radar</source>
       <pubDate>Thu, 19 Nov 2026 13:03:41 +0000</pubDate>
       <guid isPermaLink="false">2123401824786894879</guid>
-    </item>
-    <item>
-      <title>Google exposes Russian Cold Relic’s attack on government officials, defense contractors across Europe, North America</title>
-      <link>https://industrialcyber.co/ransomware/google-exposes-russian-cold-relics-attack-on-government-officials-defense-contractors-across-europe-north-america/</link>
-      <description>Russian 🇷🇺 Cold Relic chains cloud breaches, using MFA fatigue and rogue passkeys to persist. Audit new passkey, MFA device and OAuth grants; revoke sessions after password resets.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123387579706032589</description>
-      <content:encoded><![CDATA[<p>Russian 🇷🇺 Cold Relic chains cloud breaches, using MFA fatigue and rogue passkeys to persist. Audit new passkey, MFA device and OAuth grants; revoke sessions after password resets.</p><p>#DFIR_Radar</p><p><a href="https://industrialcyber.co/ransomware/google-exposes-russian-cold-relics-attack-on-government-officials-defense-contractors-across-europe-north-america/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123387579706032589">View on X</a></p>]]></content:encoded>
-      <dc:creator>Industrial Cyber</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123387579706032589</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2123387579706032589">DFIR Radar</source>
-      <pubDate>Thu, 19 Nov 2026 12:07:04 +0000</pubDate>
-      <guid isPermaLink="false">2123387579706032589</guid>
     </item>
   </channel>
 </rss>
