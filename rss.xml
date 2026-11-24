@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Nov 2026 01:06:46 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 02:05:24 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Elastic ships 143 detection rules for AI agents and LLM platforms</title>
+      <link>https://www.elastic.co/security-labs/blog/ai-security-detection-rules-coding-agents-mcp</link>
+      <description>Elastic 9.6 will ship 143 AI detection rules for hijacked coding agents, malicious MCP servers, and LLMjacking. Hunt agents launched with --dangerously-skip-permissions and unexpected writes to .cursor/mcp.json.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125048101769548244</description>
+      <content:encoded><![CDATA[<p>Elastic 9.6 will ship 143 AI detection rules for hijacked coding agents, malicious MCP servers, and LLMjacking. Hunt agents launched with --dangerously-skip-permissions and unexpected writes to .cursor/mcp.json.</p><p>#DFIR_Radar</p><p><a href="https://www.elastic.co/security-labs/blog/ai-security-detection-rules-coding-agents-mcp">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125048101769548244">View on X</a></p>]]></content:encoded>
+      <dc:creator>Elastic Security Labs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125048101769548244</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2125048101769548244">DFIR Radar</source>
+      <pubDate>Tue, 24 Nov 2026 02:05:24 +0000</pubDate>
+      <guid isPermaLink="false">2125048101769548244</guid>
+    </item>
     <item>
       <title>Detections Digest #20261123</title>
       <link>https://detections-digest.rulecheck.io/p/detections-digest-20261123</link>
@@ -2151,34 +2165,6 @@ Fix: patched builds from November 17, 2026 onward (the report cites Oracle Java 
       <source url="https://x.com/DFIR_Radar/status/2123312084486152682">DFIR Radar</source>
       <pubDate>Thu, 19 Nov 2026 07:07:05 +0000</pubDate>
       <guid isPermaLink="false">2123312084486152682</guid>
-    </item>
-    <item>
-      <title>CA-26-049: Qubole Cross-Account AWS Trust Abuse Campaign</title>
-      <link>https://dwstag.wpengine.com/labs/ca-26-049-qubole-cross-account-aws-trust-abuse-campaign/</link>
-      <description>A threat actor used credentials tied to a Qubole-associated AWS account to assume trusted integration roles in dozens of customer environments in October. No CVE was involved. Valid External IDs did not stop it, and dormant roles were especially exposed.
-
-- The access path: Qubole Data Service integrations rely on cross-account IAM roles whose trust policy lets a Qubole AWS account call STS AssumeRole, usually with an External ID. Every role assumption attributed to the actor carried a valid External ID and succeeded. The External ID is not a secret and does not protect you once the vendor identity itself is compromised. The report notes that public sources do not explain how the credentials were obtained, and no Qubole incident statement had been found at publication.
-
-- Post-access behavior: broad List and Describe activity across S3, EC2, RDS, IAM, KMS, and data services. Then retrieval of Lambda environment variables, Secrets Manager values, and SSM Parameter Store entries. The actor validated discovered AWS, Microsoft Entra ID, and Okta credentials with TruffleHog, and collected S3 data with ListBuckets, ListObjects, HeadObject, and GetObject. Mapped to T1078.004, T1580, T1555.006, and T1530. Stolen secrets can open doors well beyond the original role.
-
-- Attacker fingerprints: session names often began with quiam-, including quiam-enum and quiam-scope-full. Traffic came from Mullvad VPN and OVH infrastructure, not the AWS ranges used for legitimate platform traffic. One principal ID appeared only in malicious activity. A second principal carried both malicious and legitimate Qubole traffic, so it needs network and behavioral context before you call it bad. The specific principal IDs are not in the public text; the report points to its Guardian Platform for detections and technical artifacts.
-
-- Scope and caveats: dormant Qubole roles were especially significant because trust policies still allowed access with little or no legitimate vendor activity. The report also saw customer-owned access keys believed to support Qubole integrations abused in a separate cluster, not linked to this campaign, and worth its own investigation. Attribution is unestablished. A public claim by an actor calling themselves "n0n" is unverified. Researchers also found sso_agent.iso on attacker infrastructure but did not confirm deployment in victim environments.
-
-DFIR angle: this is a CloudTrail story. Look for STS AssumeRole into Qubole integration roles where the source address is outside AWS, the role was dormant, or the session name starts with quiam-. Then correlate with rapid multi-service enumeration, GetFunctionConfiguration, GetSecretValue, GetParameter and GetParameters, and S3 ListObjects, HeadObject, and GetObject. TruffleHog user agents and bursts of GetCallerIdentity from newly discovered keys are useful corroboration, but they also show up in legitimate security testing, so do not alert on them alone.
-
-Preserve logs first. Management events show the role assumption and many enumeration actions, but S3 object reads only appear if S3 data events or server access logs were enabled. Without those, you cannot confirm what was pulled.
-
-Takeaway: inventory every current and legacy Qubole role and access key, then pull AssumeRole history for each. Treat any secret in Secrets Manager, SSM, or Lambda environment variables reachable by those roles as read, and rotate it, including downstream Entra ID and Okta credentials. Coordinate trust-policy changes with the vendor, and revoke dormant integrations rather than watching them. Even if you never used Qubole, review third-party roles and keys the same way.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123296680137330730</description>
-      <content:encoded><![CDATA[<p>A threat actor used credentials tied to a Qubole-associated AWS account to assume trusted integration roles in dozens of customer environments in October. No CVE was involved. Valid External IDs did not stop it, and dormant roles were especially exposed.</p><p>- The access path: Qubole Data Service integrations rely on cross-account IAM roles whose trust policy lets a Qubole AWS account call STS AssumeRole, usually with an External ID. Every role assumption attributed to the actor carried a valid External ID and succeeded. The External ID is not a secret and does not protect you once the vendor identity itself is compromised. The report notes that public sources do not explain how the credentials were obtained, and no Qubole incident statement had been found at publication.</p><p>- Post-access behavior: broad List and Describe activity across S3, EC2, RDS, IAM, KMS, and data services. Then retrieval of Lambda environment variables, Secrets Manager values, and SSM Parameter Store entries. The actor validated discovered AWS, Microsoft Entra ID, and Okta credentials with TruffleHog, and collected S3 data with ListBuckets, ListObjects, HeadObject, and GetObject. Mapped to T1078.004, T1580, T1555.006, and T1530. Stolen secrets can open doors well beyond the original role.</p><p>- Attacker fingerprints: session names often began with quiam-, including quiam-enum and quiam-scope-full. Traffic came from Mullvad VPN and OVH infrastructure, not the AWS ranges used for legitimate platform traffic. One principal ID appeared only in malicious activity. A second principal carried both malicious and legitimate Qubole traffic, so it needs network and behavioral context before you call it bad. The specific principal IDs are not in the public text; the report points to its Guardian Platform for detections and technical artifacts.</p><p>- Scope and caveats: dormant Qubole roles were especially significant because trust policies still allowed access with little or no legitimate vendor activity. The report also saw customer-owned access keys believed to support Qubole integrations abused in a separate cluster, not linked to this campaign, and worth its own investigation. Attribution is unestablished. A public claim by an actor calling themselves &quot;n0n&quot; is unverified. Researchers also found sso_agent.iso on attacker infrastructure but did not confirm deployment in victim environments.</p><p>DFIR angle: this is a CloudTrail story. Look for STS AssumeRole into Qubole integration roles where the source address is outside AWS, the role was dormant, or the session name starts with quiam-. Then correlate with rapid multi-service enumeration, GetFunctionConfiguration, GetSecretValue, GetParameter and GetParameters, and S3 ListObjects, HeadObject, and GetObject. TruffleHog user agents and bursts of GetCallerIdentity from newly discovered keys are useful corroboration, but they also show up in legitimate security testing, so do not alert on them alone.</p><p>Preserve logs first. Management events show the role assumption and many enumeration actions, but S3 object reads only appear if S3 data events or server access logs were enabled. Without those, you cannot confirm what was pulled.</p><p>Takeaway: inventory every current and legacy Qubole role and access key, then pull AssumeRole history for each. Treat any secret in Secrets Manager, SSM, or Lambda environment variables reachable by those roles as read, and rotate it, including downstream Entra ID and Okta credentials. Coordinate trust-policy changes with the vendor, and revoke dormant integrations rather than watching them. Even if you never used Qubole, review third-party roles and keys the same way.</p><p>#DFIR_Radar</p><p><a href="https://dwstag.wpengine.com/labs/ca-26-049-qubole-cross-account-aws-trust-abuse-campaign/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123296680137330730">View on X</a></p>]]></content:encoded>
-      <dc:creator>Deepwatch</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123296680137330730</comments>
-      <category>CLOUD SECURITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2123296680137330730">DFIR Radar</source>
-      <pubDate>Thu, 19 Nov 2026 06:05:52 +0000</pubDate>
-      <guid isPermaLink="false">2123296680137330730</guid>
     </item>
   </channel>
 </rss>
