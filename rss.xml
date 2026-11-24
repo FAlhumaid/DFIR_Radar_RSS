@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Nov 2026 21:05:48 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 22:06:13 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Iran-Aligned Volant Manticore Uses IPFS-Based KuboShell Backdoor in Espionage Campaigns</title>
+      <link>https://thehackernews.com/2026/11/iran-aligned-volant-manticore-uses-ipfs.html</link>
+      <description>Iran-aligned Volant Manticore, likely ex-MuddyWater operators, is targeting Cyprus telecoms, airlines and critical infrastructure with KuboShell, a backdoor that uses IPFS for C2, and the Homa framework.
+
+- Check Point says the cluster has been active since late August 2025. Lures include bogus CVs built on AI-generated personas, with a link to "download the full resume" that deploys KuboShell. One target was a Cyprus-based airline flying Cyprus to Israel 🇮🇱. Credential-harvesting campaigns also collect email and corporate logins from impersonated organizations.
+
+- KuboShell is a Windows backdoor using Pinata to move files over IPFS. It checks for admin rights and tries to relaunch itself elevated, triggering a UAC prompt, if it lacks them. It takes the MAC address of the first network adapter as the victim ID, then registers by uploading a file containing "hi", saved as C:\Users\Public\&lt;MAC&gt;.log, using a hard-coded Pinata access token.
+
+- Tasking is file-based. KuboShell polls Pinata every 60 seconds for &lt;MAC&gt;.txt, resolves the IPFS identifier, pulls the content through Pinata's public gateway and runs it in a hidden PowerShell window. The backdoor does not capture output. Results come back only if the command writes them to C:\Users\Public\&lt;MAC&gt;re.txt, which is then uploaded. It is used mainly for recon before a stronger payload lands.
+
+- That payload is Homa, a JavaScript reimplementation of the MuddyC2Go client, which lets the operators keep the older server-side component. Stage 1 is a PowerShell stager contacting 185.205.187[.]109:8000 to fetch a loader in memory. Stage 2 decodes and launches a JavaScript backdoor. Stage 3 loops C2 and runs PowerShell, SSH and cmd.exe commands. The report does not identify the follow-on modules. Homa was also delivered via a macro-enabled Word file, MilitaryHeritageProposal.doc, aimed at a Cypriot defense-related government entity. Its VBA backdoor runs follow-up payloads through cmd.exe.
+
+- RMM tooling travels alongside: MeshCentral, NetLock RMM and N-able RMM. In September 2026 a phishing wave hit Saudi 🇸🇦 healthcare targets with AI_Healthcare_Seminar.zip (backdoor) and Ai_Healthcare_Seminar_Online.zip (N-able RMM). Some emails came from a compromised account at a private Saudi 🇸🇦 hospital. Check Point ties the Saudi 🇸🇦 pivot to rising Saudi-Houthi hostilities and notes MOIS has a record of targeting healthcare during conflicts.
+
+- Attribution: both Volant Manticore and MuddyWater are assessed as MOIS-affiliated. Check Point believes Volant Manticore is former MuddyWater operators who split off, possibly around 2023 when MuddyWater moved from MuddyC2Go to DarkBeatC2.
+
+Takeaway: hunt Public folders for &lt;MAC&gt;.log and &lt;MAC&gt;re.txt pairs, hidden-window PowerShell spawned by an unfamiliar process, and roughly 60-second polling to Pinata for &lt;MAC&gt;.txt, with downloads via its public IPFS gateway when tasked. Also search proxy and firewall logs for 185.205.187[.]109:8000, and inventory unexpected MeshCentral, NetLock or N-able agents. For the macro lure, review Office child processes running cmd.exe. Preserve any hard-coded Pinata token you recover from a sample, since it ties victims to the operator's storage.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125350296863793219</description>
+      <content:encoded><![CDATA[<p>Iran-aligned Volant Manticore, likely ex-MuddyWater operators, is targeting Cyprus telecoms, airlines and critical infrastructure with KuboShell, a backdoor that uses IPFS for C2, and the Homa framework.</p><p>- Check Point says the cluster has been active since late August 2025. Lures include bogus CVs built on AI-generated personas, with a link to &quot;download the full resume&quot; that deploys KuboShell. One target was a Cyprus-based airline flying Cyprus to Israel 🇮🇱. Credential-harvesting campaigns also collect email and corporate logins from impersonated organizations.</p><p>- KuboShell is a Windows backdoor using Pinata to move files over IPFS. It checks for admin rights and tries to relaunch itself elevated, triggering a UAC prompt, if it lacks them. It takes the MAC address of the first network adapter as the victim ID, then registers by uploading a file containing &quot;hi&quot;, saved as C:\Users\Public\&lt;MAC&gt;.log, using a hard-coded Pinata access token.</p><p>- Tasking is file-based. KuboShell polls Pinata every 60 seconds for &lt;MAC&gt;.txt, resolves the IPFS identifier, pulls the content through Pinata&#x27;s public gateway and runs it in a hidden PowerShell window. The backdoor does not capture output. Results come back only if the command writes them to C:\Users\Public\&lt;MAC&gt;re.txt, which is then uploaded. It is used mainly for recon before a stronger payload lands.</p><p>- That payload is Homa, a JavaScript reimplementation of the MuddyC2Go client, which lets the operators keep the older server-side component. Stage 1 is a PowerShell stager contacting 185.205.187[.]109:8000 to fetch a loader in memory. Stage 2 decodes and launches a JavaScript backdoor. Stage 3 loops C2 and runs PowerShell, SSH and cmd.exe commands. The report does not identify the follow-on modules. Homa was also delivered via a macro-enabled Word file, MilitaryHeritageProposal.doc, aimed at a Cypriot defense-related government entity. Its VBA backdoor runs follow-up payloads through cmd.exe.</p><p>- RMM tooling travels alongside: MeshCentral, NetLock RMM and N-able RMM. In September 2026 a phishing wave hit Saudi 🇸🇦 healthcare targets with AI_Healthcare_Seminar.zip (backdoor) and Ai_Healthcare_Seminar_Online.zip (N-able RMM). Some emails came from a compromised account at a private Saudi 🇸🇦 hospital. Check Point ties the Saudi 🇸🇦 pivot to rising Saudi-Houthi hostilities and notes MOIS has a record of targeting healthcare during conflicts.</p><p>- Attribution: both Volant Manticore and MuddyWater are assessed as MOIS-affiliated. Check Point believes Volant Manticore is former MuddyWater operators who split off, possibly around 2023 when MuddyWater moved from MuddyC2Go to DarkBeatC2.</p><p>Takeaway: hunt Public folders for &lt;MAC&gt;.log and &lt;MAC&gt;re.txt pairs, hidden-window PowerShell spawned by an unfamiliar process, and roughly 60-second polling to Pinata for &lt;MAC&gt;.txt, with downloads via its public IPFS gateway when tasked. Also search proxy and firewall logs for 185.205.187[.]109:8000, and inventory unexpected MeshCentral, NetLock or N-able agents. For the macro lure, review Office child processes running cmd.exe. Preserve any hard-coded Pinata token you recover from a sample, since it ties victims to the operator&#x27;s storage.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/iran-aligned-volant-manticore-uses-ipfs.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125350296863793219">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125350296863793219</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2125350296863793219">DFIR Radar</source>
+      <pubDate>Tue, 24 Nov 2026 22:06:13 +0000</pubDate>
+      <guid isPermaLink="false">2125350296863793219</guid>
+    </item>
     <item>
       <title>The first hour after an impossible-travel alert</title>
       <link>https://www.todyl.com/blog/first-hour-after-an-impossible-travel-alert</link>
@@ -2165,20 +2193,6 @@ Takeaway: patch to nginx 1.30.7 or 1.31.9 (Plus 37.0.8.1 or 37.3.0.1, or your di
       <source url="https://x.com/DFIR_Radar/status/2123598312288739477">DFIR Radar</source>
       <pubDate>Fri, 20 Nov 2026 02:04:27 +0000</pubDate>
       <guid isPermaLink="false">2123598312288739477</guid>
-    </item>
-    <item>
-      <title>Scans for LiteLLM/Starlette (CVE-2026-42271, CVE-2026-48710), (Mon, Nov 16th)</title>
-      <link>https://isc.sans.edu/diary/rss/33522</link>
-      <description>SANS honeypots see exploitation attempts of LiteLLM CVE-2026-42271 and Starlette CVE-2026-48710 via POST /mcp-rest/test/tools/list with Host headers like localhost]. Hunt requests for that path and bracketed Host headers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123583579833975253</description>
-      <content:encoded><![CDATA[<p>SANS honeypots see exploitation attempts of LiteLLM CVE-2026-42271 and Starlette CVE-2026-48710 via POST /mcp-rest/test/tools/list with Host headers like localhost]. Hunt requests for that path and bracketed Host headers.</p><p>#DFIR_Radar</p><p><a href="https://isc.sans.edu/diary/rss/33522">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123583579833975253">View on X</a></p>]]></content:encoded>
-      <dc:creator>SANS ISC</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123583579833975253</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2123583579833975253">DFIR Radar</source>
-      <pubDate>Fri, 20 Nov 2026 01:05:55 +0000</pubDate>
-      <guid isPermaLink="false">2123583579833975253</guid>
     </item>
   </channel>
 </rss>
