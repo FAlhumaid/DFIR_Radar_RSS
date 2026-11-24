@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Nov 2026 00:04:26 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 01:06:46 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Detections Digest #20261123</title>
+      <link>https://detections-digest.rulecheck.io/p/detections-digest-20261123</link>
+      <description>Java4Shell (CVE-2026-114938) coverage landed across Splunk, CrowdStrike and delta-tradecraft repos, alongside ClickFix evasion and nginx webshell rules. 40 new and 27 updated rules, Nov 16 to 23, 2026.
+
+- Java4Shell (CVE-2026-114938) got layered coverage. Splunk added four rules: Zeek HTTP traffic with malformed Base64 padding, JVM HotSpot Base64 argument exceptions, HTTP Base64 activity paired with JVM errors, and decoder crashes correlated with Sysmon for Linux child process creation and file writes. Query-Hub's CrowdStrike Falcon queries find hosts running Java with x86-64 AVX-512 VBMI support and inbound connections. delta-tradecraft covers vulnerable HotSpot and Azul Prime builds with the AVX-512 Base64 path enabled, container exit codes and crash signals, and fatal error logs (hs_err_pid*.log). It also flags Java server processes spawning shells or script engines.
+
+- ClickFix tradecraft is covered at both execution and persistence. Splunk added rules for cmd.exe obfuscation with superscript characters and call/set routines, plus self-deletion, and for binaries in user-writable paths writing CurrentVersion Run keys. A KQL rule from benscha catches ClickFix, FileFix and TerminalFix command lines from Explorer Run prompts, Windows Terminal and browser file dialogs. Browser-side rules use PowerShell Script Block Logging (EventCode 4104) and Security EventCode 4663 for non-browser access to Chrome, Edge, Firefox and Brave cache paths (cache smuggling). Others flag NativeMessagingHosts registry persistence and native messaging hosts spawning children from user-writable paths.
+
+- Web server intrusion on Linux: new KQL queries watch nginx, OpenResty, PHP-FPM and uWSGI workers spawning shells, scripting interpreters or network binaries. They walk process ancestry up to three levels and correlate drops in /tmp, /var/tmp and /dev/shm with later execution. Neo23x0/signature-base broadened PHP webshell YARA, pairing $_GET, $_POST or php://input with eval, exec, system or assert, and adding base64_decode and openssl_decrypt payload patterns plus loop-based decoders.
+
+- Linux privilege abuse and tunneling: three Splunk rules tied to CVE-2026-123158 cover auditd shells with a TTY under system UIDs, a failed then successful SSH login for service accounts, and an accepted SSH login followed by root execution via doas within 10 minutes. Splunk also added a multi-platform ngrok rule (authtoken configs, TCP tunnels to RDP and SMB, Invoke-Ngrok) and expanded Cloudflared detections. Separately, Linux macros moved from sysmon to sysmon_linux, which fixes silent data gaps in compile-after-delivery and unshare privilege escalation rules.
+
+- Other adds: a Neo23x0 YARA rule for public Ghostscript Upload2Shell PoCs (CVE-2026-125396) that matches font loading sequences meant to escape -dSAFER. A KQL query for Defender for Endpoint flags connections tied to the Optimizely supply-chain compromise. CAPEv2 got YARA for StormKitty, WorldWind, Prynt and AsyncRAT. Sublime added PDF lure rules for fake invoices, W9 forms and Teams Planner.
+
+Takeaway: the digest lists the rules by repo and rule name; the rules and queries themselves are in those repos. For Java4Shell, the digest gives no confirmed exploitation, so treat crashes as a possible attempt, not proof. Preserve hs_err_pid*.log files and container exit codes before restarts overwrite them, and check whether the crashing JVM later spawned a child process. If you adapted Linux Sysmon rules, confirm they point at sysmon_linux.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125033349261746179</description>
+      <content:encoded><![CDATA[<p>Java4Shell (CVE-2026-114938) coverage landed across Splunk, CrowdStrike and delta-tradecraft repos, alongside ClickFix evasion and nginx webshell rules. 40 new and 27 updated rules, Nov 16 to 23, 2026.</p><p>- Java4Shell (CVE-2026-114938) got layered coverage. Splunk added four rules: Zeek HTTP traffic with malformed Base64 padding, JVM HotSpot Base64 argument exceptions, HTTP Base64 activity paired with JVM errors, and decoder crashes correlated with Sysmon for Linux child process creation and file writes. Query-Hub&#x27;s CrowdStrike Falcon queries find hosts running Java with x86-64 AVX-512 VBMI support and inbound connections. delta-tradecraft covers vulnerable HotSpot and Azul Prime builds with the AVX-512 Base64 path enabled, container exit codes and crash signals, and fatal error logs (hs_err_pid*.log). It also flags Java server processes spawning shells or script engines.</p><p>- ClickFix tradecraft is covered at both execution and persistence. Splunk added rules for cmd.exe obfuscation with superscript characters and call/set routines, plus self-deletion, and for binaries in user-writable paths writing CurrentVersion Run keys. A KQL rule from benscha catches ClickFix, FileFix and TerminalFix command lines from Explorer Run prompts, Windows Terminal and browser file dialogs. Browser-side rules use PowerShell Script Block Logging (EventCode 4104) and Security EventCode 4663 for non-browser access to Chrome, Edge, Firefox and Brave cache paths (cache smuggling). Others flag NativeMessagingHosts registry persistence and native messaging hosts spawning children from user-writable paths.</p><p>- Web server intrusion on Linux: new KQL queries watch nginx, OpenResty, PHP-FPM and uWSGI workers spawning shells, scripting interpreters or network binaries. They walk process ancestry up to three levels and correlate drops in /tmp, /var/tmp and /dev/shm with later execution. Neo23x0/signature-base broadened PHP webshell YARA, pairing $_GET, $_POST or php://input with eval, exec, system or assert, and adding base64_decode and openssl_decrypt payload patterns plus loop-based decoders.</p><p>- Linux privilege abuse and tunneling: three Splunk rules tied to CVE-2026-123158 cover auditd shells with a TTY under system UIDs, a failed then successful SSH login for service accounts, and an accepted SSH login followed by root execution via doas within 10 minutes. Splunk also added a multi-platform ngrok rule (authtoken configs, TCP tunnels to RDP and SMB, Invoke-Ngrok) and expanded Cloudflared detections. Separately, Linux macros moved from sysmon to sysmon_linux, which fixes silent data gaps in compile-after-delivery and unshare privilege escalation rules.</p><p>- Other adds: a Neo23x0 YARA rule for public Ghostscript Upload2Shell PoCs (CVE-2026-125396) that matches font loading sequences meant to escape -dSAFER. A KQL query for Defender for Endpoint flags connections tied to the Optimizely supply-chain compromise. CAPEv2 got YARA for StormKitty, WorldWind, Prynt and AsyncRAT. Sublime added PDF lure rules for fake invoices, W9 forms and Teams Planner.</p><p>Takeaway: the digest lists the rules by repo and rule name; the rules and queries themselves are in those repos. For Java4Shell, the digest gives no confirmed exploitation, so treat crashes as a possible attempt, not proof. Preserve hs_err_pid*.log files and container exit codes before restarts overwrite them, and check whether the crashing JVM later spawned a child process. If you adapted Linux Sysmon rules, confirm they point at sysmon_linux.</p><p>#DFIR_Radar</p><p><a href="https://detections-digest.rulecheck.io/p/detections-digest-20261123">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125033349261746179">View on X</a></p>]]></content:encoded>
+      <dc:creator>Detections Digest</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125033349261746179</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2125033349261746179">DFIR Radar</source>
+      <pubDate>Tue, 24 Nov 2026 01:06:46 +0000</pubDate>
+      <guid isPermaLink="false">2125033349261746179</guid>
+    </item>
     <item>
       <title>LiteLLM 1.107.0 Supply Chain Attack: How to Secure AI Gateways Beyond Code Signatures</title>
       <link>https://blog.qualys.com/?p=44139</link>
@@ -2153,20 +2179,6 @@ Takeaway: inventory every current and legacy Qubole role and access key, then pu
       <source url="https://x.com/DFIR_Radar/status/2123296680137330730">DFIR Radar</source>
       <pubDate>Thu, 19 Nov 2026 06:05:52 +0000</pubDate>
       <guid isPermaLink="false">2123296680137330730</guid>
-    </item>
-    <item>
-      <title>Fastly Next-Gen WAF (Signal Sciences) agent fails open before rules load in Kubernetes sidecar deployments (vendor disputes; CVE pending)</title>
-      <link>https://seclists.org/fulldisclosure/2026/Nov/40</link>
-      <description>Fastly Next-Gen WAF Kubernetes sidecar agent passes traffic uninspected until rules load (CVSS 4.0 6.3, CVE pending, vendor disputes). Hunt backend logs for X-SigSci-Agent: disabled; verify a startupProbe exists.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123281583310623129</description>
-      <content:encoded><![CDATA[<p>Fastly Next-Gen WAF Kubernetes sidecar agent passes traffic uninspected until rules load (CVSS 4.0 6.3, CVE pending, vendor disputes). Hunt backend logs for X-SigSci-Agent: disabled; verify a startupProbe exists.</p><p>#DFIR_Radar</p><p><a href="https://seclists.org/fulldisclosure/2026/Nov/40">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123281583310623129">View on X</a></p>]]></content:encoded>
-      <dc:creator>Full Disclosure</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123281583310623129</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2123281583310623129">DFIR Radar</source>
-      <pubDate>Thu, 19 Nov 2026 05:05:53 +0000</pubDate>
-      <guid isPermaLink="false">2123281583310623129</guid>
     </item>
   </channel>
 </rss>
