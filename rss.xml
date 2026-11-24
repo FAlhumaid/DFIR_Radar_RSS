@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Nov 2026 04:07:08 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 05:05:43 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Implementing an Alert Suppression Function in Microsoft Sentinel</title>
+      <link>https://detect.fyi/implementing-an-alert-suppression-function-in-microsoft-sentinel-3fc7c9a2a401?source=rss----d5fd8f494f6a---4</link>
+      <description>Detect FYI details a Sentinel KQL function that decodes SecurityAlert ExtendedProperties.Query (Base64, zlib) to suppress repeat alerts per entity. Align rule lookback with the suppression window.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125093479034614106</description>
+      <content:encoded><![CDATA[<p>Detect FYI details a Sentinel KQL function that decodes SecurityAlert ExtendedProperties.Query (Base64, zlib) to suppress repeat alerts per entity. Align rule lookback with the suppression window.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/implementing-an-alert-suppression-function-in-microsoft-sentinel-3fc7c9a2a401?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125093479034614106">View on X</a></p>]]></content:encoded>
+      <dc:creator>Detect FYI</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125093479034614106</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2125093479034614106">DFIR Radar</source>
+      <pubDate>Tue, 24 Nov 2026 05:05:43 +0000</pubDate>
+      <guid isPermaLink="false">2125093479034614106</guid>
+    </item>
     <item>
       <title>PolySwarm Special Report: The Expanding Healthcare Threat Surface</title>
       <link>https://blog.polyswarm.io/polyswarm-special-report-the-expanding-healthcare-threat-surface</link>
@@ -2149,32 +2163,6 @@ Takeaway: the report has an IOC table (hosting, service and class names, host ar
       <source url="https://x.com/DFIR_Radar/status/2123356895410860219">DFIR Radar</source>
       <pubDate>Thu, 19 Nov 2026 10:05:09 +0000</pubDate>
       <guid isPermaLink="false">2123356895410860219</guid>
-    </item>
-    <item>
-      <title>Device Code Phishing Resurges in November Through Fake SharePoint Payment Documents</title>
-      <link>https://www.hornetsecurity.com/en/blog/microsoft-365-device-code-phishing/</link>
-      <description>Device-code phishing against Microsoft 365 resurged in November. Payment-advice ZIPs with SVG redirectors lead to fake SharePoint pages that push recipients into the genuine Microsoft device login.
-
-- Delivery: Hornetsecurity saw a sparse first email whose subject was a single period, with a recipient-personalized ZIP filename supplying the payment-advice pretext. The "HTML" inside was actually an SVG/XML document with a transparent full-canvas rectangle, so clicking the "security check" ran JavaScript. The script split an encoded string into fragments, reversed alternating ones, restored a substituted Base64 alphabet, decoded Base64, then applied a repeating-key XOR to recover the URL and assign it to window.location.href. A second campaign (SpwcinBillPaymentReports[.]zip) swapped the loader: 475 obfuscated string fragments, a checksum check, a derived XOR keystream, then document.write to inject the recovered page.
-
-- Gate and lure: the first destination, 9l2v3vupv5.synerghylnksloads[.]cfd, ran a gate that scored browser-window properties and mouse or touch interaction. Its code includes a branch that redirects low-scoring visits to a benign site, which diverts some automated analysis. Passing visits reached a keyed page impersonating a SharePoint workspace of remittance reports with check images, showing a verification code and a copy control. Recipients were told to open a sign-in window, enter the code, authenticate and return to the document tab.
-
-- The abuse: the sign-in lands on login.microsoftonline[.]com/common/oauth2/deviceauth, a genuine Microsoft page. The attacker's client holds the device_code and polls for tokens, while the victim gets the short user_code. The victim completes real authentication, including any MFA, and the attacker's client receives the tokens. The question that matters is who initiated the request, not whether the page was real.
-
-- Campaign plumbing: while the lure stays open, the browser calls /api/status/28475 and /api/heartbeat/28475 on the campaign host. In the second sample, the code sends an immediate heartbeat, then one every ten seconds, with session-status polling every three seconds. A captured-status handler hides the lure and shows an access-granted message or a configured exit page. That per-session polling of the status/heartbeat paths is a pattern you can hunt in proxy logs.
-
-- Related infrastructure: tgg5rqrdcb.synerghylnksloads[.]cfd (joint-check variant, same parent domain as the first case), ngjedt0xrv.promtateusachorloadscorp[.]sbs (second sample), and 5txpm30dqe.krointechbillpaycheckingusalexingto[.]sbs (ElectronicFundsTransferRemittanceAdvice.html variant). One SVG variant routed through hxxps://base-hub-yw7q.p-xxorevv8.workers[.]dev/l/taaeR_gygko, adding a Cloudflare Workers hop. The first sample's HTML/SVG redirector SHA256 is bbf9f563371d6afc449c69546a4ec39e831ca18d3bf3764b7b4c27f525426140.
-
-Takeaway: in Microsoft Entra sign-in logs, filter Authentication Protocol for Device code and review successful sign-ins with no business reason, checking application, account, source and timing. Correlate those with proxy hits to the hosts above and the status/heartbeat paths to rebuild the victim's workflow. Original transfer method helps trace sessions that began as device code even after a later renewal uses another flow. If a user completed such a flow, review the resulting authorizations and sessions promptly. Audit legitimate device-code use, then test the Conditional Access policy (Authentication flows, Device code flow, Block access) in report-only mode before enforcing. The full IOC table with hashes and domains is in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123341325219045494</description>
-      <content:encoded><![CDATA[<p>Device-code phishing against Microsoft 365 resurged in November. Payment-advice ZIPs with SVG redirectors lead to fake SharePoint pages that push recipients into the genuine Microsoft device login.</p><p>- Delivery: Hornetsecurity saw a sparse first email whose subject was a single period, with a recipient-personalized ZIP filename supplying the payment-advice pretext. The &quot;HTML&quot; inside was actually an SVG/XML document with a transparent full-canvas rectangle, so clicking the &quot;security check&quot; ran JavaScript. The script split an encoded string into fragments, reversed alternating ones, restored a substituted Base64 alphabet, decoded Base64, then applied a repeating-key XOR to recover the URL and assign it to window.location.href. A second campaign (SpwcinBillPaymentReports[.]zip) swapped the loader: 475 obfuscated string fragments, a checksum check, a derived XOR keystream, then document.write to inject the recovered page.</p><p>- Gate and lure: the first destination, 9l2v3vupv5.synerghylnksloads[.]cfd, ran a gate that scored browser-window properties and mouse or touch interaction. Its code includes a branch that redirects low-scoring visits to a benign site, which diverts some automated analysis. Passing visits reached a keyed page impersonating a SharePoint workspace of remittance reports with check images, showing a verification code and a copy control. Recipients were told to open a sign-in window, enter the code, authenticate and return to the document tab.</p><p>- The abuse: the sign-in lands on login.microsoftonline[.]com/common/oauth2/deviceauth, a genuine Microsoft page. The attacker&#x27;s client holds the device_code and polls for tokens, while the victim gets the short user_code. The victim completes real authentication, including any MFA, and the attacker&#x27;s client receives the tokens. The question that matters is who initiated the request, not whether the page was real.</p><p>- Campaign plumbing: while the lure stays open, the browser calls /api/status/28475 and /api/heartbeat/28475 on the campaign host. In the second sample, the code sends an immediate heartbeat, then one every ten seconds, with session-status polling every three seconds. A captured-status handler hides the lure and shows an access-granted message or a configured exit page. That per-session polling of the status/heartbeat paths is a pattern you can hunt in proxy logs.</p><p>- Related infrastructure: tgg5rqrdcb.synerghylnksloads[.]cfd (joint-check variant, same parent domain as the first case), ngjedt0xrv.promtateusachorloadscorp[.]sbs (second sample), and 5txpm30dqe.krointechbillpaycheckingusalexingto[.]sbs (ElectronicFundsTransferRemittanceAdvice.html variant). One SVG variant routed through hxxps://base-hub-yw7q.p-xxorevv8.workers[.]dev/l/taaeR_gygko, adding a Cloudflare Workers hop. The first sample&#x27;s HTML/SVG redirector SHA256 is bbf9f563371d6afc449c69546a4ec39e831ca18d3bf3764b7b4c27f525426140.</p><p>Takeaway: in Microsoft Entra sign-in logs, filter Authentication Protocol for Device code and review successful sign-ins with no business reason, checking application, account, source and timing. Correlate those with proxy hits to the hosts above and the status/heartbeat paths to rebuild the victim&#x27;s workflow. Original transfer method helps trace sessions that began as device code even after a later renewal uses another flow. If a user completed such a flow, review the resulting authorizations and sessions promptly. Audit legitimate device-code use, then test the Conditional Access policy (Authentication flows, Device code flow, Block access) in report-only mode before enforcing. The full IOC table with hashes and domains is in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.hornetsecurity.com/en/blog/microsoft-365-device-code-phishing/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123341325219045494">View on X</a></p>]]></content:encoded>
-      <dc:creator>Hornetsecurity</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123341325219045494</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2123341325219045494">DFIR Radar</source>
-      <pubDate>Thu, 19 Nov 2026 09:03:17 +0000</pubDate>
-      <guid isPermaLink="false">2123341325219045494</guid>
     </item>
   </channel>
 </rss>
