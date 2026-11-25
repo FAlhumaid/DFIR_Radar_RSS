@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 25 Nov 2026 17:09:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 18:09:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>What Are LLM Supply Chain Attacks (OWASP LLM04): Techniques, Examples, and Defenses</title>
+      <link>https://www.picussecurity.com/resource/blog/what-are-llm-supply-chain-attacks-owasp-llm04-techniques-examples-and-defenses</link>
+      <description>Fake Hugging Face repo Open-OSS/privacy-filter impersonated OpenAI's model, hit about 244,000 downloads, and its loader[.]py ran a Windows infostealer. Check which hosts pulled it and review loader[.]py execution.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125653020125843895</description>
+      <content:encoded><![CDATA[<p>Fake Hugging Face repo Open-OSS/privacy-filter impersonated OpenAI&#x27;s model, hit about 244,000 downloads, and its loader[.]py ran a Windows infostealer. Check which hosts pulled it and review loader[.]py execution.</p><p>#DFIR_Radar</p><p><a href="https://www.picussecurity.com/resource/blog/what-are-llm-supply-chain-attacks-owasp-llm04-techniques-examples-and-defenses">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125653020125843895">View on X</a></p>]]></content:encoded>
+      <dc:creator>Picus Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125653020125843895</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2125653020125843895">DFIR Radar</source>
+      <pubDate>Wed, 25 Nov 2026 18:09:08 +0000</pubDate>
+      <guid isPermaLink="false">2125653020125843895</guid>
+    </item>
     <item>
       <title>How “don’t ask again” in Claude Code leaks secrets on GitHub: The click that keeps on giving</title>
       <link>https://webflow.sysdig.com/blog/how-dont-ask-again-in-claude-code-leaks-secrets-on-github-the-click-that-keeps-on-giving</link>
@@ -2103,32 +2117,6 @@ Practitioner takeaway: The report's host-level artifacts are in the text, not in
       <source url="https://x.com/DFIR_Radar/status/2123869771875696670">DFIR Radar</source>
       <pubDate>Fri, 20 Nov 2026 20:03:08 +0000</pubDate>
       <guid isPermaLink="false">2123869771875696670</guid>
-    </item>
-    <item>
-      <title>Fake GTA VI PC client spreads malware through a ClickFix attack</title>
-      <link>https://www.bitdefender.com/en-us/blog/labs/fake-gta-vi-pc-client-malware-clickfix</link>
-      <description>A fake GTA VI cloud-streaming client for Windows uses ClickFix to get victims to paste a PowerShell command, ending in DLL side-loading and a Rust infostealer injected into waitfor.exe.
-
-- Lure and execution: Bitdefender Labs found a site pitching a client that streams GTA VI from a console, since no official PC version exists. The site offers a ZIP with GTA6Cloud.exe, or a Win+R command that runs PowerShell with ExecutionPolicy Bypass, pulls a script with irm and pipes it to iex. The script fetches hxxps://gta6cloud[.]nexus/downloads/GTA6Cloud.zip to %TEMP%, expands it into %LOCALAPPDATA%\GTA6Cloud and starts GTA6Cloud.exe.
-
-- Stage two: GTA6Cloud.exe is a Tauri bundler showing a decoy GTA6 page with the trailer. In the background it downloads loadperf.dll and unlodctr.exe from the newly registered hxxps://velmontriq[.]net into %LOCALAPPDATA%\Microsoft\Windows\Explorer\IconCacheToDelete\0a3f2c91, then calls attrib.exe to hide the folder.
-
-- Side-loading and injection: unlodctr.exe is a legitimate Windows PerfMon tool. The malicious loadperf.dll proxies the real exports and runs its payload from UnloadPerfCounterTextStringsW. It checks that the host process is unlodctr.exe as a sandbox check and resolves XOR-encrypted API names at runtime. An embedded PE named PhotoCache.exe in the DLL overlay is never written to disk. It is injected into waitfor.exe, or randomly into where.exe, dllhost.exe, RuntimeBroker.exe, sihost.exe or aitstatic.exe, and the DLL tries to reach 192.30.240[.]26 on port 7777.
-
-- The payload: a Rust information stealer whose config is encrypted with CHACHA20_POLY1305, with the key derived from the string ox-seal-v1. C2 goes through a bootstrap API using POST requests with the User-Agent PhotoCache/1.6. It writes logs to %LOCALAPPDATA%\Temp\ls_trace.txt and creates a hidden folder named ls_work.
-
-- Scope: the report describes the full chain as a ClickFix infection with no vulnerability exploited. It notes Darktrace saw a similar-looking site that delivered a different malware.
-
-Takeaway: scope by the user-writable trail. Look for unlodctr.exe running out of the IconCacheToDelete path with a sideloaded loadperf.dll, hidden folders there, and GTA6Cloud[.]zip in Temp. Also look for unlodctr.exe connecting to 192.30.240[.]26 on port 7777, and for waitfor.exe or the other listed hosts making outbound POSTs with the PhotoCache/1.6 User-Agent. Because PhotoCache.exe never touches disk, use memory acquisition on injected processes. If the command was run, treat the host as compromised: rotate credentials from a clean device, revoke sessions, and check for new mail forwarding rules and wallet activity. Indicators are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123854593079849410</description>
-      <content:encoded><![CDATA[<p>A fake GTA VI cloud-streaming client for Windows uses ClickFix to get victims to paste a PowerShell command, ending in DLL side-loading and a Rust infostealer injected into waitfor.exe.</p><p>- Lure and execution: Bitdefender Labs found a site pitching a client that streams GTA VI from a console, since no official PC version exists. The site offers a ZIP with GTA6Cloud.exe, or a Win+R command that runs PowerShell with ExecutionPolicy Bypass, pulls a script with irm and pipes it to iex. The script fetches hxxps://gta6cloud[.]nexus/downloads/GTA6Cloud.zip to %TEMP%, expands it into %LOCALAPPDATA%\GTA6Cloud and starts GTA6Cloud.exe.</p><p>- Stage two: GTA6Cloud.exe is a Tauri bundler showing a decoy GTA6 page with the trailer. In the background it downloads loadperf.dll and unlodctr.exe from the newly registered hxxps://velmontriq[.]net into %LOCALAPPDATA%\Microsoft\Windows\Explorer\IconCacheToDelete\0a3f2c91, then calls attrib.exe to hide the folder.</p><p>- Side-loading and injection: unlodctr.exe is a legitimate Windows PerfMon tool. The malicious loadperf.dll proxies the real exports and runs its payload from UnloadPerfCounterTextStringsW. It checks that the host process is unlodctr.exe as a sandbox check and resolves XOR-encrypted API names at runtime. An embedded PE named PhotoCache.exe in the DLL overlay is never written to disk. It is injected into waitfor.exe, or randomly into where.exe, dllhost.exe, RuntimeBroker.exe, sihost.exe or aitstatic.exe, and the DLL tries to reach 192.30.240[.]26 on port 7777.</p><p>- The payload: a Rust information stealer whose config is encrypted with CHACHA20_POLY1305, with the key derived from the string ox-seal-v1. C2 goes through a bootstrap API using POST requests with the User-Agent PhotoCache/1.6. It writes logs to %LOCALAPPDATA%\Temp\ls_trace.txt and creates a hidden folder named ls_work.</p><p>- Scope: the report describes the full chain as a ClickFix infection with no vulnerability exploited. It notes Darktrace saw a similar-looking site that delivered a different malware.</p><p>Takeaway: scope by the user-writable trail. Look for unlodctr.exe running out of the IconCacheToDelete path with a sideloaded loadperf.dll, hidden folders there, and GTA6Cloud[.]zip in Temp. Also look for unlodctr.exe connecting to 192.30.240[.]26 on port 7777, and for waitfor.exe or the other listed hosts making outbound POSTs with the PhotoCache/1.6 User-Agent. Because PhotoCache.exe never touches disk, use memory acquisition on injected processes. If the command was run, treat the host as compromised: rotate credentials from a clean device, revoke sessions, and check for new mail forwarding rules and wallet activity. Indicators are in the report.</p><p>#DFIR_Radar</p><p><a href="https://www.bitdefender.com/en-us/blog/labs/fake-gta-vi-pc-client-malware-clickfix">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123854593079849410">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bitdefender Labs</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123854593079849410</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2123854593079849410">DFIR Radar</source>
-      <pubDate>Fri, 20 Nov 2026 19:02:49 +0000</pubDate>
-      <guid isPermaLink="false">2123854593079849410</guid>
     </item>
   </channel>
 </rss>
