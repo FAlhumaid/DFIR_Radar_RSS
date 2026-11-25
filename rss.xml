@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Nov 2026 23:08:43 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 00:08:57 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>NGINX HTTP/2 Use-After-Free: CVE-2026-123633</title>
+      <link>https://unit42.paloaltonetworks.com/cve-2026-123633-nginx-http2-vulnerability/</link>
+      <description>CVE-2026-123633: an NGINX HTTP/2 use-after-free (CVSS 4.0 9.2) lets an unauthenticated client crash workers under connection pressure. Unit 42 chained it to pre-auth RCE as the worker in a lab.
+
+- Root cause: when a client sends only part of an HTTP/2 HEADERS frame header, ngx_http_v2_handle_connection() marks the connection reusable and returns. When the rest arrives, ngx_http_v2_create_stream() builds a live stream but leaves the reusable mark set. NGINX then holds an active request on a connection its cleanup logic can reclaim. The fixes in 1.30.7 and 1.31.9 clear the mark at stream creation.
+
+- Trigger in the reproduced path: once free slots fall to one sixteenth of worker_connections or below, ngx_get_connection() calls ngx_drain_connections(), which closes reusable connections. A variable proxy_pass hostname forces a request-time DNS lookup that needs a new resolver UDP socket. With the client reset (zero linger), the GOAWAY write fails, the request is finalized, and ngx_resolve_name_done() frees the resolver context. ngx_resolver_set_timeout() then reads freed memory. ASan caught it on 1.31.7 and 1.31.8. Splitting the 9-byte frame header after 5 bytes triggered it; sending all 9 first left NGINX running.
+
+- Scope and severity: F5's CVE record gives 9.2 Critical (CVSS 4.0) and 8.1 High (CVSS 3.1), while the NGINX advisories page says Medium. Affected: 1.19.7 through 1.30.6 and 1.31.0 through 1.31.8. Fixed: 1.30.7 and 1.31.9. The researcher tested only proxy_pass, but F5's description covers HTTP/2 reverse proxies more broadly. Review variable targets in grpc_pass, fastcgi_pass, uwsgi_pass and scgi_pass, plus static upstream routes, since upstream connection setup also goes through ngx_get_connection(). Source builds include HTTP/2 only with --with-http_v2_module, and distribution packages commonly enable it.
+
+- Exploitation: the report describes no in-the-wild activity. F5 says DoS is the main impact and code execution may be possible if ASLR is disabled or bypassed. In the lab, Unit 42 chained this with a separate memory disclosure (a leaked libc pointer, no CVE, details withheld) for pre-auth RCE as the non-root www-data worker. It needed a non-default configuration and some attempts failed. CVE-2026-123634 is a separate DNS resolver bug fixed in the same release.
+
+- Evidence: the report lists no confirmed IOCs, only leads. Look for unexpected worker exits near HTTP/2 traffic and connection pressure, shell processes running as the NGINX worker account, and the warn-level error log line "worker_connections are not enough, reusing connections". That warning is logged at most once per second per worker and also appears under ordinary load. A release build may keep running after reading freed memory, so no crash does not mean clean.
+
+Takeaway: NGINX's default error_log level omits warnings, so set error_log to warn or more verbose to capture the drain message, then correlate it with resolver traffic, worker exits and shells running as the worker account. Check the running config, not just the packaged path: a master process can be started with -c, and nginx -T shows only the on-disk file. After upgrading to 1.30.7 or 1.31.9 (or a vendor backport), do a full restart or live binary upgrade, because nginx -s reload keeps the old binary in memory. If you must wait, disabling HTTP/2 on exposed listeners reduces exposure but can break gRPC clients. Raising worker_connections only adds headroom.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125381183567438296</description>
+      <content:encoded><![CDATA[<p>CVE-2026-123633: an NGINX HTTP/2 use-after-free (CVSS 4.0 9.2) lets an unauthenticated client crash workers under connection pressure. Unit 42 chained it to pre-auth RCE as the worker in a lab.</p><p>- Root cause: when a client sends only part of an HTTP/2 HEADERS frame header, ngx_http_v2_handle_connection() marks the connection reusable and returns. When the rest arrives, ngx_http_v2_create_stream() builds a live stream but leaves the reusable mark set. NGINX then holds an active request on a connection its cleanup logic can reclaim. The fixes in 1.30.7 and 1.31.9 clear the mark at stream creation.</p><p>- Trigger in the reproduced path: once free slots fall to one sixteenth of worker_connections or below, ngx_get_connection() calls ngx_drain_connections(), which closes reusable connections. A variable proxy_pass hostname forces a request-time DNS lookup that needs a new resolver UDP socket. With the client reset (zero linger), the GOAWAY write fails, the request is finalized, and ngx_resolve_name_done() frees the resolver context. ngx_resolver_set_timeout() then reads freed memory. ASan caught it on 1.31.7 and 1.31.8. Splitting the 9-byte frame header after 5 bytes triggered it; sending all 9 first left NGINX running.</p><p>- Scope and severity: F5&#x27;s CVE record gives 9.2 Critical (CVSS 4.0) and 8.1 High (CVSS 3.1), while the NGINX advisories page says Medium. Affected: 1.19.7 through 1.30.6 and 1.31.0 through 1.31.8. Fixed: 1.30.7 and 1.31.9. The researcher tested only proxy_pass, but F5&#x27;s description covers HTTP/2 reverse proxies more broadly. Review variable targets in grpc_pass, fastcgi_pass, uwsgi_pass and scgi_pass, plus static upstream routes, since upstream connection setup also goes through ngx_get_connection(). Source builds include HTTP/2 only with --with-http_v2_module, and distribution packages commonly enable it.</p><p>- Exploitation: the report describes no in-the-wild activity. F5 says DoS is the main impact and code execution may be possible if ASLR is disabled or bypassed. In the lab, Unit 42 chained this with a separate memory disclosure (a leaked libc pointer, no CVE, details withheld) for pre-auth RCE as the non-root www-data worker. It needed a non-default configuration and some attempts failed. CVE-2026-123634 is a separate DNS resolver bug fixed in the same release.</p><p>- Evidence: the report lists no confirmed IOCs, only leads. Look for unexpected worker exits near HTTP/2 traffic and connection pressure, shell processes running as the NGINX worker account, and the warn-level error log line &quot;worker_connections are not enough, reusing connections&quot;. That warning is logged at most once per second per worker and also appears under ordinary load. A release build may keep running after reading freed memory, so no crash does not mean clean.</p><p>Takeaway: NGINX&#x27;s default error_log level omits warnings, so set error_log to warn or more verbose to capture the drain message, then correlate it with resolver traffic, worker exits and shells running as the worker account. Check the running config, not just the packaged path: a master process can be started with -c, and nginx -T shows only the on-disk file. After upgrading to 1.30.7 or 1.31.9 (or a vendor backport), do a full restart or live binary upgrade, because nginx -s reload keeps the old binary in memory. If you must wait, disabling HTTP/2 on exposed listeners reduces exposure but can break gRPC clients. Raising worker_connections only adds headroom.</p><p>#DFIR_Radar</p><p><a href="https://unit42.paloaltonetworks.com/cve-2026-123633-nginx-http2-vulnerability/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125381183567438296">View on X</a></p>]]></content:encoded>
+      <dc:creator>Unit 42</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125381183567438296</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2125381183567438296">DFIR Radar</source>
+      <pubDate>Wed, 25 Nov 2026 00:08:57 +0000</pubDate>
+      <guid isPermaLink="false">2125381183567438296</guid>
+    </item>
     <item>
       <title>Okta Links ShinyHunters-Associated Vishing Group to New INCEPTION Data Leak Site</title>
       <link>https://thehackernews.com/2026/11/okta-links-shinyhunters-associated.html</link>
@@ -2179,20 +2205,6 @@ If you cannot patch right away, F6 recommends blocking TCP ports 4371-4372 at th
       <source url="https://x.com/DFIR_Radar/status/2123628866010837434">DFIR Radar</source>
       <pubDate>Fri, 20 Nov 2026 04:05:52 +0000</pubDate>
       <guid isPermaLink="false">2123628866010837434</guid>
-    </item>
-    <item>
-      <title>Fake FMCSA, DAT, and TIMOCOM Portals: 3 Cyberattacks Targeting US Logistics</title>
-      <link>https://any.run/cybersecurity-blog/us-logistics-cyber-threats-3-campaigns/</link>
-      <description>ANY.RUN details US 🇺🇸 logistics campaigns HelloFriends, NodeRemote, and fake DAT portals dropping MeshCentral and CastleRAT. Hunt rundll32 davclnt.dll WebDAV launches and NodeRemote scheduled tasks, with IOCs in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123613797428629918</description>
-      <content:encoded><![CDATA[<p>ANY.RUN details US 🇺🇸 logistics campaigns HelloFriends, NodeRemote, and fake DAT portals dropping MeshCentral and CastleRAT. Hunt rundll32 davclnt.dll WebDAV launches and NodeRemote scheduled tasks, with IOCs in the report.</p><p>#DFIR_Radar</p><p><a href="https://any.run/cybersecurity-blog/us-logistics-cyber-threats-3-campaigns/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123613797428629918">View on X</a></p>]]></content:encoded>
-      <dc:creator>ANY.RUN Blog</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123613797428629918</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2123613797428629918">DFIR Radar</source>
-      <pubDate>Fri, 20 Nov 2026 03:05:59 +0000</pubDate>
-      <guid isPermaLink="false">2123613797428629918</guid>
     </item>
   </channel>
 </rss>
