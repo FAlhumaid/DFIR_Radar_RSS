@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 25 Nov 2026 08:08:34 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 09:10:08 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Hackers Compromise 24 Check Point Management Servers in Suspected AI-Driven Attack Campaign</title>
+      <link>https://thehackernews.com/2026/11/hackers-compromise-24-check-point.html</link>
+      <description>GreyNoise tracks GT13, a suspected AI-driven actor abusing patched CVE-2026-16232 against Check Point Security Management servers to steal firewall databases. Hunt for rogue certificates and unloaded policies.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125517375927677096</description>
+      <content:encoded><![CDATA[<p>GreyNoise tracks GT13, a suspected AI-driven actor abusing patched CVE-2026-16232 against Check Point Security Management servers to steal firewall databases. Hunt for rogue certificates and unloaded policies.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/hackers-compromise-24-check-point.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125517375927677096">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125517375927677096</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2125517375927677096">DFIR Radar</source>
+      <pubDate>Wed, 25 Nov 2026 09:10:08 +0000</pubDate>
+      <guid isPermaLink="false">2125517375927677096</guid>
+    </item>
     <item>
       <title>Com-Affiliated Hackers Hijack Cloud Accounts via Vishing for Data Theft and Extortion</title>
       <link>https://thehackernews.com/2026/11/com-affiliated-hackers-hijack-cloud.html</link>
@@ -2129,30 +2143,6 @@ Takeaway: patching does not remove minted tokens. Fixed releases per the CVE rec
       <source url="https://x.com/DFIR_Radar/status/2123764055340974416">DFIR Radar</source>
       <pubDate>Fri, 20 Nov 2026 13:03:03 +0000</pubDate>
       <guid isPermaLink="false">2123764055340974416</guid>
-    </item>
-    <item>
-      <title>Your open admin panel is on this list: 443,706 targets queued by a single exploitation factory</title>
-      <link>https://huntback.io/blog/dadian1000-mass-exploitation-quota-honeypot-filter</link>
-      <description>An open working directory on 130.94.37[.]220 exposed a Chinese-language exploitation factory: 85 exploit kits, 443,706 queued targets and a Rust implant, td-agent. Huntback's Node-RED decoy was caught in it and re-fired every 30 minutes for a day.
-
-- The project is dadian1000 (dadian is red-team slang for a first foothold), initialised with a goal of 1,000 hosts running the implant. Targets come from 65 Shodan and 12 FOFA queries. Most of the 85 kits abuse management interfaces that need no credentials: Node-RED, go2rtc, Flowise, Langflow, Ray, Jupyter, ttyd, the Docker API on 2375, Hadoop YARN, Apache Doris. A second set tracks edge-product CVEs as they publish. Kits marked 8,531 targets as hit, but the stager logs show 2,280 addresses fetching a stager, 578 reporting success and 516 reporting failure. A hit is not a host.
-
-- Honeypot filtering works on pools, not hosts. A canary test showed callbacks from 28 addresses and none from the attacked ones, so the operator wrote fire_gated.sh. It fires a 150-host sample, waits 150 seconds and asks the panel how many registered. PowerJob had 63 hits and 0 registrations, so the pool was written off as a "honeypot farm". The decoy sat in a real pool (486 hits from 62,447 Node-RED targets), so it appeared in 47 target and hit lists and was never skipped.
-
-- On the decoy, the delivery command changed five times in 51 minutes on 18 November while the operator debugged hit-to-implant conversion. Changes: arch-aware download with TD_PROJ=dadian1000 and --bypass, fallback to /dev/shm and the home directory, setsid to detach from Node-RED, then a stg[.]sh pipe-to-shell with a wget fallback. After that came a timer: GET /flows, POST /flows, and POST /inject/injpwn plus six hex characters, every half hour until 06:00 the next day. The decoy's flow file also held a second operator's nodes (ids starting xi, tab x) fetching a dropper from 147.182.248[.]124:38181 every 600 seconds. Each operator re-posted the other's nodes.
-
-- The implant td-agent is a statically linked Rust binary (about 1.6 MB) for x64, x86, arm64, armv7 and armv6, with PHP and Windows stager variants. It has TLS, WebSocket, TCP and UDP transports, shell, upload, download and tunnel functions, and control host cdn.876553[.]xyz compiled in. TD_PROJ tags hosts on the panel (dadian1000, quanliang2026). Persistence is a crontab watchdog that restarts the binary when no process has --bypass on its command line, plus an [@]reboot entry. The Windows stager saves the implant as %TEMP%\svchost.exe. The server also has Claude Code installed, configured to use DeepSeek's API, and the task board is built for multiple agents.
-
-Hunt: on Linux hosts, check /var/tmp/.td-agent, /var/tmp/.tda, /var/tmp/.sx, /tmp/.cache_* and /tmp/.td-agent.lock, any process started with --bypass, and crontab entries that scan /proc/[0-9]*/cmdline for it. In Node-RED, look for tabs named pwn or x, exec nodes running sh, and inject nodes with ids beginning injpwn or xi. Rotate every credential stored in the flows. Review egress for cdn.876553[.]xyz, 130.94.37[.]220 and curl downloads presenting the user agent Wget/1.21.4. If one set of planted nodes is there, read the whole flow file, because a second operator may be in it. Enable authentication on the editor (adminAuth) and take admin interfaces off the internet. IOCs are in the report's indicator table, including hashes for the td-agent builds, the PHP implant and the stagers.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123748862976549277</description>
-      <content:encoded><![CDATA[<p>An open working directory on 130.94.37[.]220 exposed a Chinese-language exploitation factory: 85 exploit kits, 443,706 queued targets and a Rust implant, td-agent. Huntback&#x27;s Node-RED decoy was caught in it and re-fired every 30 minutes for a day.</p><p>- The project is dadian1000 (dadian is red-team slang for a first foothold), initialised with a goal of 1,000 hosts running the implant. Targets come from 65 Shodan and 12 FOFA queries. Most of the 85 kits abuse management interfaces that need no credentials: Node-RED, go2rtc, Flowise, Langflow, Ray, Jupyter, ttyd, the Docker API on 2375, Hadoop YARN, Apache Doris. A second set tracks edge-product CVEs as they publish. Kits marked 8,531 targets as hit, but the stager logs show 2,280 addresses fetching a stager, 578 reporting success and 516 reporting failure. A hit is not a host.</p><p>- Honeypot filtering works on pools, not hosts. A canary test showed callbacks from 28 addresses and none from the attacked ones, so the operator wrote fire_gated.sh. It fires a 150-host sample, waits 150 seconds and asks the panel how many registered. PowerJob had 63 hits and 0 registrations, so the pool was written off as a &quot;honeypot farm&quot;. The decoy sat in a real pool (486 hits from 62,447 Node-RED targets), so it appeared in 47 target and hit lists and was never skipped.</p><p>- On the decoy, the delivery command changed five times in 51 minutes on 18 November while the operator debugged hit-to-implant conversion. Changes: arch-aware download with TD_PROJ=dadian1000 and --bypass, fallback to /dev/shm and the home directory, setsid to detach from Node-RED, then a stg[.]sh pipe-to-shell with a wget fallback. After that came a timer: GET /flows, POST /flows, and POST /inject/injpwn plus six hex characters, every half hour until 06:00 the next day. The decoy&#x27;s flow file also held a second operator&#x27;s nodes (ids starting xi, tab x) fetching a dropper from 147.182.248[.]124:38181 every 600 seconds. Each operator re-posted the other&#x27;s nodes.</p><p>- The implant td-agent is a statically linked Rust binary (about 1.6 MB) for x64, x86, arm64, armv7 and armv6, with PHP and Windows stager variants. It has TLS, WebSocket, TCP and UDP transports, shell, upload, download and tunnel functions, and control host cdn.876553[.]xyz compiled in. TD_PROJ tags hosts on the panel (dadian1000, quanliang2026). Persistence is a crontab watchdog that restarts the binary when no process has --bypass on its command line, plus an [@]reboot entry. The Windows stager saves the implant as %TEMP%\svchost.exe. The server also has Claude Code installed, configured to use DeepSeek&#x27;s API, and the task board is built for multiple agents.</p><p>Hunt: on Linux hosts, check /var/tmp/.td-agent, /var/tmp/.tda, /var/tmp/.sx, /tmp/.cache_* and /tmp/.td-agent.lock, any process started with --bypass, and crontab entries that scan /proc/[0-9]*/cmdline for it. In Node-RED, look for tabs named pwn or x, exec nodes running sh, and inject nodes with ids beginning injpwn or xi. Rotate every credential stored in the flows. Review egress for cdn.876553[.]xyz, 130.94.37[.]220 and curl downloads presenting the user agent Wget/1.21.4. If one set of planted nodes is there, read the whole flow file, because a second operator may be in it. Enable authentication on the editor (adminAuth) and take admin interfaces off the internet. IOCs are in the report&#x27;s indicator table, including hashes for the td-agent builds, the PHP implant and the stagers.</p><p>#DFIR_Radar</p><p><a href="https://huntback.io/blog/dadian1000-mass-exploitation-quota-honeypot-filter">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123748862976549277">View on X</a></p>]]></content:encoded>
-      <dc:creator>Huntback</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123748862976549277</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2123748862976549277">DFIR Radar</source>
-      <pubDate>Fri, 20 Nov 2026 12:02:41 +0000</pubDate>
-      <guid isPermaLink="false">2123748862976549277</guid>
     </item>
   </channel>
 </rss>
