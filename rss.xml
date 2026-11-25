@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 25 Nov 2026 05:10:25 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 06:09:52 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Fail2Install: Turning System Limits into Pre-Auth RCE in Drupal</title>
+      <link>https://www.slcyber.io/research/fail2install-system-limits-pre-auth-rce-drupal</link>
+      <description>Searchlight Labs showed Drupal 8.9 to 11 pre-auth RCE: exhausting database connections reopens /core/install.php, writing a PHP SQLite file. Hunt web logs for install.php hits and URIs like /modules/x.php/core/x.php.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125472011451355413</description>
+      <content:encoded><![CDATA[<p>Searchlight Labs showed Drupal 8.9 to 11 pre-auth RCE: exhausting database connections reopens /core/install.php, writing a PHP SQLite file. Hunt web logs for install.php hits and URIs like /modules/x.php/core/x.php.</p><p>#DFIR_Radar</p><p><a href="https://www.slcyber.io/research/fail2install-system-limits-pre-auth-rce-drupal">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125472011451355413">View on X</a></p>]]></content:encoded>
+      <dc:creator>Searchlight Labs (Assetnote)</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125472011451355413</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2125472011451355413">DFIR Radar</source>
+      <pubDate>Wed, 25 Nov 2026 06:09:52 +0000</pubDate>
+      <guid isPermaLink="false">2125472011451355413</guid>
+    </item>
     <item>
       <title>Rackspace shuts down Spot cloud platform after security breach</title>
       <link>https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/</link>
@@ -2153,32 +2167,6 @@ Takeaway: Hunt Nov 5 to Nov 17, 2026 across web, proxy, identity and application
       <source url="https://x.com/DFIR_Radar/status/2123718702549877225">DFIR Radar</source>
       <pubDate>Fri, 20 Nov 2026 10:02:50 +0000</pubDate>
       <guid isPermaLink="false">2123718702549877225</guid>
-    </item>
-    <item>
-      <title>ARMORY CASTLE Chains Second Zero-Day Vulnerability to Seize VMware vCenter</title>
-      <link>https://thecyberexpress.com/armory-castle-unc5221/</link>
-      <description>Suspected China-nexus ARMORY CASTLE (ex UNC5221) used a second zero-day, vCenter CVE-2026-123890, after breaching BeyondTrust Remote Support. Exploited in early September, before the November 19 disclosure.
-
-- The flaw: CVE-2026-123890 lets an unauthenticated attacker get an SRP-6a session key over DCE/RPC on port 2012 by abusing predictable UUIDv1 timestamps. The result is an authenticated session as administrator[@]vsphere.local, with command execution and file pulls such as the .mdb database via vmdirdbcp. It affects vCenter 7.x and 8.x. It resembles CVE-2026-59309 (vmdir LDAP bypass, disclosed July 29, 2026), but the tool's July 13 Go build timestamp ran against a server already patched for that CVE. Go build metadata can be altered.
-
-- Entry and pivot: after the CVE-2026-102764 Remote Support breach (patched in BT26-05, per the October 15 report), the group ran Nmap for VMware ports 9080, 5480, and 2012, then moved to internal Linux appliances without EDR. It dropped the SLIMSAVAGE webshell (ActiveSer.jsp, password 123), then about four hours later the CAGEMATCH webshell (u.jsp) for uploads to /tmp. Root came from using gdb to set SUID on /bin/env.
-
-- Tooling on disk: BONESAW (/tmp/123, Go, named vcenter-db-teamcheck-go) exploits the flaw, steals the LMDB database, extracts the SAML signing key, and creates an SSO admin account. SAWSNAKE (/tmp/sss) is a Go port of vcenter_saml_login.py that forges SAML tokens for Golden SAML, bypassing MFA. BEARBONES (/tmp/dbr) is a backdoored Dropbear with banner SSH-2.0-pulsesecure_23345, listening on TCP 33992 after an attempt on port 53. LAZYBONES (/usr/bin/vmtoolscs), a Slack-based backdoor, gave persistence on another appliance.
-
-- Inside vCenter and ESXi: as Administrator, the group created a local account, briefly enabled SSH through the VAMI API, and took vCenter's master crypto key and PostgreSQL password file. It then reached ESXi as vpxuser and root and used vmfs_browser.py to pull NTDS data plus the SYSTEM and SECURITY hives straight from guest VM disks, staging the archive out through the Remote Support appliance. Reading VMDKs from the hypervisor means guest EDR and guest logs never see it.
-
-- Why it matters: GTIG ties this to ARMORY CASTLE through overlapping tools, including LAZYBONES, used in early 2025 after CVE-2025-22457. The group has hit edge appliances since 2023, but burning a zero-day after initial access is an expansion. BONESAW's build date, over a month before this intrusion, suggests it was built for broader use. Defenders also get little help from the default VCSA firewall: no port-level control, can be disabled through VAMI, no logging of denied connections, and no outbound filtering.
-
-Takeaway: patch vCenter per Broadcom's fix, but assume prior compromise if exposed since early September. Triage appliances for /tmp/123, /tmp/sss, /tmp/dbr, /usr/bin/vmtoolscs, ActiveSer.jsp, u.jsp, an unexpected SUID bit on /bin/env, and listeners on 33992. In vCenter, review new local and SSO admin accounts, VAMI SSH enablement, and SAML logins that lack a matching password auth. If any hit, treat the SAML signing key and vCenter master key as stolen and rotate them. Add default-deny egress and forward logs off the appliance. The 11 suspected obfuscation-network IPs and YARA rules are in the GTI Collection referenced in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123704216367825011</description>
-      <content:encoded><![CDATA[<p>Suspected China-nexus ARMORY CASTLE (ex UNC5221) used a second zero-day, vCenter CVE-2026-123890, after breaching BeyondTrust Remote Support. Exploited in early September, before the November 19 disclosure.</p><p>- The flaw: CVE-2026-123890 lets an unauthenticated attacker get an SRP-6a session key over DCE/RPC on port 2012 by abusing predictable UUIDv1 timestamps. The result is an authenticated session as administrator[@]vsphere.local, with command execution and file pulls such as the .mdb database via vmdirdbcp. It affects vCenter 7.x and 8.x. It resembles CVE-2026-59309 (vmdir LDAP bypass, disclosed July 29, 2026), but the tool&#x27;s July 13 Go build timestamp ran against a server already patched for that CVE. Go build metadata can be altered.</p><p>- Entry and pivot: after the CVE-2026-102764 Remote Support breach (patched in BT26-05, per the October 15 report), the group ran Nmap for VMware ports 9080, 5480, and 2012, then moved to internal Linux appliances without EDR. It dropped the SLIMSAVAGE webshell (ActiveSer.jsp, password 123), then about four hours later the CAGEMATCH webshell (u.jsp) for uploads to /tmp. Root came from using gdb to set SUID on /bin/env.</p><p>- Tooling on disk: BONESAW (/tmp/123, Go, named vcenter-db-teamcheck-go) exploits the flaw, steals the LMDB database, extracts the SAML signing key, and creates an SSO admin account. SAWSNAKE (/tmp/sss) is a Go port of vcenter_saml_login.py that forges SAML tokens for Golden SAML, bypassing MFA. BEARBONES (/tmp/dbr) is a backdoored Dropbear with banner SSH-2.0-pulsesecure_23345, listening on TCP 33992 after an attempt on port 53. LAZYBONES (/usr/bin/vmtoolscs), a Slack-based backdoor, gave persistence on another appliance.</p><p>- Inside vCenter and ESXi: as Administrator, the group created a local account, briefly enabled SSH through the VAMI API, and took vCenter&#x27;s master crypto key and PostgreSQL password file. It then reached ESXi as vpxuser and root and used vmfs_browser.py to pull NTDS data plus the SYSTEM and SECURITY hives straight from guest VM disks, staging the archive out through the Remote Support appliance. Reading VMDKs from the hypervisor means guest EDR and guest logs never see it.</p><p>- Why it matters: GTIG ties this to ARMORY CASTLE through overlapping tools, including LAZYBONES, used in early 2025 after CVE-2025-22457. The group has hit edge appliances since 2023, but burning a zero-day after initial access is an expansion. BONESAW&#x27;s build date, over a month before this intrusion, suggests it was built for broader use. Defenders also get little help from the default VCSA firewall: no port-level control, can be disabled through VAMI, no logging of denied connections, and no outbound filtering.</p><p>Takeaway: patch vCenter per Broadcom&#x27;s fix, but assume prior compromise if exposed since early September. Triage appliances for /tmp/123, /tmp/sss, /tmp/dbr, /usr/bin/vmtoolscs, ActiveSer.jsp, u.jsp, an unexpected SUID bit on /bin/env, and listeners on 33992. In vCenter, review new local and SSO admin accounts, VAMI SSH enablement, and SAML logins that lack a matching password auth. If any hit, treat the SAML signing key and vCenter master key as stolen and rotate them. Add default-deny egress and forward logs off the appliance. The 11 suspected obfuscation-network IPs and YARA rules are in the GTI Collection referenced in the report.</p><p>#DFIR_Radar</p><p><a href="https://thecyberexpress.com/armory-castle-unc5221/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123704216367825011">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Cyber Express</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123704216367825011</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2123704216367825011">DFIR Radar</source>
-      <pubDate>Fri, 20 Nov 2026 09:05:16 +0000</pubDate>
-      <guid isPermaLink="false">2123704216367825011</guid>
     </item>
   </channel>
 </rss>
