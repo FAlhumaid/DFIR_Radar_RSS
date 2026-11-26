@@ -5,8 +5,38 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 26 Nov 2026 17:04:59 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 18:08:23 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Linux/EasyShell: MalwareMustDie Identifies One of the Earliest Publicly Documented RATs Built for LoongArch Linux</title>
+      <link>https://securityaffairs.com/204067/malware/linux-easyshell-malwaremustdie-identifies-one-of-the-earliest-publicly-documented-rats-built-for-loongarch-linux.html</link>
+      <description>Linux/EasyShell is a Rust HTTPS beacon implant with Linux, macOS and LoongArch builds. It renames itself like a kernel thread, and killing that process first destroys the live config, session keys and tunnel table.
+
+- Delivery: MalwareMustDie's report starts from a shell script found on a victim node (credited to 0xrb), first read as another miner-style downloader. It is a stager hosted at hxxps://192.3.31[.]148:8443 on ColoCrossing (AS36352) in the United States 🇺🇸, which also receives beacons on TCP 8443. It drops a payload called polkitd to /usr/bin/polkitd on Linux or ~/Library/Caches/polkitd on macOS, using one of eight possible file names. The server offers seven builds: l32, l64, l128, a32, a64, darwin_amd64 and darwin_arm64.
+
+- Implant: The l32 build is a statically linked Rust HTTPS beacon. Build paths contain easyshell-http-beacon-implant and impl-core, hence the name. It beacons with an HTTPS POST to /api/v2/sync with an X-Client-Id header and a Windows Chrome 131 user agent. Capabilities include remote shell, plugins and scripts, file upload and download, folder zipping, SOCKS5 and relay tunnels, an outbound proxy, screenshots, and process listing, killing and self-deletion. Credential dumping, token elevation and browser password theft come from a separate Extensions plugin set, not the core.
+
+- Evasion: It checks for sandboxes (DMI data, hypervisor names, mouse activity, system resources), then renames itself like a kernel thread, for example [kworker/0:0]. A third-party Joe Sandbox run of another l32 copy on Ubuntu 20.04 scored 2 out of 100 with no YARA or Suricata match. That copy had the same size, 3,769,372 bytes, but a different hash, with three TCP connections to the C2 and a forked child calling prctl and uname. The server writes random bytes into one slot of every payload, so hashes do not transfer between victims.
+
+- LoongArch caveat: The l128 build targets LoongArch and was compiled with rustc 1.96.0 versus 1.95.0 for the others. The author calls it one of the earliest publicly documented LoongArch64 RATs he could find as of 2026-11-21, meaning only that no earlier public analysis turned up. It is a framework default offered by every EasyShell stager, not this operator's choice, and may never have been tested on real hardware. The author ran no sample.
+
+- Attribution: EasyShell is a Chinese 🇨🇳 red team C2 framework sold through trial and member programs. It is not VShell, though the stager is based on a VShell template, and it has no Kinsing or SystemTen link. No operator is named. A shell-history line on a hacked Chinese 🇨🇳 mobile-malware hosting server re-ran the stager from the same C2; the author rates the link between the two operators as medium confidence. A December 2025 incident with the same stager template is marked unverified.
+
+Hunt on Linux for processes named like kernel threads, such as [kworker/0:0] or [rcu_sched], that have a real executable behind /proc/pid/exe. In proxy or network logs, look for HTTPS POSTs to /api/v2/sync with an X-Client-Id header. On macOS, look for executables in user Caches folders with no quarantine attribute, code signatures with no Team ID, and TCC prompts mentioning polkitd. The l32 build has no persistence of its own, though plugins may add it.
+
+YARA, Sigma and osquery rules are in the report, including the YARA family rule MMD_Linux_EasyShell_Rust_Implant for memory dumps and new binaries. They were checked against known strings, not retro-hunted against legitimate software, so start in detect-only mode and do not rely on hashes.
+
+Response order matters. Isolate the host, collect process state and memory, freeze it, cut the network, then clean.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126015221542040013</description>
+      <content:encoded><![CDATA[<p>Linux/EasyShell is a Rust HTTPS beacon implant with Linux, macOS and LoongArch builds. It renames itself like a kernel thread, and killing that process first destroys the live config, session keys and tunnel table.</p><p>- Delivery: MalwareMustDie&#x27;s report starts from a shell script found on a victim node (credited to 0xrb), first read as another miner-style downloader. It is a stager hosted at hxxps://192.3.31[.]148:8443 on ColoCrossing (AS36352) in the United States 🇺🇸, which also receives beacons on TCP 8443. It drops a payload called polkitd to /usr/bin/polkitd on Linux or ~/Library/Caches/polkitd on macOS, using one of eight possible file names. The server offers seven builds: l32, l64, l128, a32, a64, darwin_amd64 and darwin_arm64.</p><p>- Implant: The l32 build is a statically linked Rust HTTPS beacon. Build paths contain easyshell-http-beacon-implant and impl-core, hence the name. It beacons with an HTTPS POST to /api/v2/sync with an X-Client-Id header and a Windows Chrome 131 user agent. Capabilities include remote shell, plugins and scripts, file upload and download, folder zipping, SOCKS5 and relay tunnels, an outbound proxy, screenshots, and process listing, killing and self-deletion. Credential dumping, token elevation and browser password theft come from a separate Extensions plugin set, not the core.</p><p>- Evasion: It checks for sandboxes (DMI data, hypervisor names, mouse activity, system resources), then renames itself like a kernel thread, for example [kworker/0:0]. A third-party Joe Sandbox run of another l32 copy on Ubuntu 20.04 scored 2 out of 100 with no YARA or Suricata match. That copy had the same size, 3,769,372 bytes, but a different hash, with three TCP connections to the C2 and a forked child calling prctl and uname. The server writes random bytes into one slot of every payload, so hashes do not transfer between victims.</p><p>- LoongArch caveat: The l128 build targets LoongArch and was compiled with rustc 1.96.0 versus 1.95.0 for the others. The author calls it one of the earliest publicly documented LoongArch64 RATs he could find as of 2026-11-21, meaning only that no earlier public analysis turned up. It is a framework default offered by every EasyShell stager, not this operator&#x27;s choice, and may never have been tested on real hardware. The author ran no sample.</p><p>- Attribution: EasyShell is a Chinese 🇨🇳 red team C2 framework sold through trial and member programs. It is not VShell, though the stager is based on a VShell template, and it has no Kinsing or SystemTen link. No operator is named. A shell-history line on a hacked Chinese 🇨🇳 mobile-malware hosting server re-ran the stager from the same C2; the author rates the link between the two operators as medium confidence. A December 2025 incident with the same stager template is marked unverified.</p><p>Hunt on Linux for processes named like kernel threads, such as [kworker/0:0] or [rcu_sched], that have a real executable behind /proc/pid/exe. In proxy or network logs, look for HTTPS POSTs to /api/v2/sync with an X-Client-Id header. On macOS, look for executables in user Caches folders with no quarantine attribute, code signatures with no Team ID, and TCC prompts mentioning polkitd. The l32 build has no persistence of its own, though plugins may add it.</p><p>YARA, Sigma and osquery rules are in the report, including the YARA family rule MMD_Linux_EasyShell_Rust_Implant for memory dumps and new binaries. They were checked against known strings, not retro-hunted against legitimate software, so start in detect-only mode and do not rely on hashes.</p><p>Response order matters. Isolate the host, collect process state and memory, freeze it, cut the network, then clean.</p><p>#DFIR_Radar</p><p><a href="https://securityaffairs.com/204067/malware/linux-easyshell-malwaremustdie-identifies-one-of-the-earliest-publicly-documented-rats-built-for-loongarch-linux.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126015221542040013">View on X</a></p>]]></content:encoded>
+      <dc:creator>Security Affairs</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126015221542040013</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2126015221542040013">DFIR Radar</source>
+      <pubDate>Thu, 26 Nov 2026 18:08:23 +0000</pubDate>
+      <guid isPermaLink="false">2126015221542040013</guid>
+    </item>
     <item>
       <title>North Korea-Linked PolinRider Poisons Over 7,600 GitHub Repositories to Spread Malware</title>
       <link>https://thehackernews.com/2026/11/north-korea-linked-polinrider-poisons.html</link>
@@ -2086,20 +2116,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124112237375721635">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 12:06:36 +0000</pubDate>
       <guid isPermaLink="false">2124112237375721635</guid>
-    </item>
-    <item>
-      <title>How Cloudflare WAF helps protect against Java4Shell (CVE-2026-114938)</title>
-      <link>https://blog.cloudflare.com/java4shell-waf-protection/</link>
-      <description>Java4Shell (CVE-2026-114938, CVSS 9.2) is an OpenJDK Base64 decoder overflow enabling RCE; exploitation is expected. Hunt logs for Base64 values with misplaced = padding, and restart services after patching.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124097012605809021</description>
-      <content:encoded><![CDATA[<p>Java4Shell (CVE-2026-114938, CVSS 9.2) is an OpenJDK Base64 decoder overflow enabling RCE; exploitation is expected. Hunt logs for Base64 values with misplaced = padding, and restart services after patching.</p><p>#DFIR_Radar</p><p><a href="https://blog.cloudflare.com/java4shell-waf-protection/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124097012605809021">View on X</a></p>]]></content:encoded>
-      <dc:creator>Cloudflare Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124097012605809021</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2124097012605809021">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 11:06:07 +0000</pubDate>
-      <guid isPermaLink="false">2124097012605809021</guid>
     </item>
   </channel>
 </rss>
