@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 26 Nov 2026 16:03:42 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 17:04:59 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>North Korea-Linked PolinRider Poisons Over 7,600 GitHub Repositories to Spread Malware</title>
+      <link>https://thehackernews.com/2026/11/north-korea-linked-polinrider-poisons.html</link>
+      <description>North Korean 🇰🇵 PolinRider has poisoned at least 7,609 GitHub repos across 2,330 accounts, per Apiiro. The loader pulls its C2 from Ethereum wallets, so a server takedown changes nothing. New evidence dates the activity to February 2025.
+
+- SafeDep found a 58-line Python loader in 375 public repos belonging to 260 accounts. It hides in a small utils package or conftest[.]py. On import, it reads the newest transaction that wallet 0x3b1574417524c11a7403c4b232CAcBb320CceBC6 sent to itself, decodes the input data as JavaScript and runs it with Node.js. That script reads a second wallet, 0x1eEf0849EDa15d87f64e51C73C8442Cf3c8bCEF3, and takes the destination of its latest transaction, 0x5F87b5545F87b55468656C6C6f6970626f742121. The C2 is parsed from it: 95.135.181[.]84. The next stage goes to a detached node -i process. SafeDep saw no evidence of PyPI or npm distribution for this loader.
+
+- The technique is called NullReceiver. The C2 IP is encoded in the first eight bytes of a made-up destination wallet. The marker 68656c6C6f6970626f742121 decodes to "helloipbot!!". StepSecurity's fake-job "driver" payload read wallet 0xa322E5f3D311D3080e6f0121063e9aDC2490Ef1a, got the destination 0x67B38e9b67B38E9b68656c6C6f6970626f742121 and extracted 103.179.142[.]155 from 67B38e9b and 67B38E9b. It then fetched 0x/cls and 0x/ls over port 443. /0x/cls runs twice (eval in the current process, then in a new one). /0x/ls runs only in a new process. The payloads are unknown, but prior waves dropped a stealer for environment secrets, browser passwords, cookies and wallet data.
+
+- The spread is worm-like. Apiiro says stolen GitHub access is used to rewrite commits the developer already made, keeping author, message and date, and to add a loader hidden after hundreds of spaces in a build config. Building the project runs it, and in the newest wave opening the folder in VS Code is enough. 2,040 repos were hit between October 27 and November 6, 2026. The account Eternity0207 opened over 200 pull requests against projects like AsyncAPI Generator, CircuitVerse and Open Food Facts. Its payload sat on the branch for 30-40 minutes, then was force-pushed away so the final diff looked clean.
+
+- Entry comes through Contagious Interview, with PolinRider assessed as a parallel sub-cluster. Lures include fake hiring portals (BlockNovas, accurasofthire[.]com, huntrole[.]org), a VS Code extension named huntrole.assessment-tool, a sideloaded Chrome extension, ClickFix-style terminal commands and curl "driver" installs. The second stage scans for GitHub Desktop, Cursor, VS Code and Google Antigravity and tampers with the most-used one to run attacker code and deliver an infostealer.
+
+- The timeline moves back. OpenSourceMalware found a May 2025 attack that pushed nine poisoned itsa-* packages (for example itsa-utils@1.4.2 and itsa-cli@16.5.3) within 90 minutes via a hijacked maintainer account. They used EtherHiding to fetch the JADESNOW downloader, which delivered InvisibleFerret, a Socket.IO RAT and a Python stealer. Blockchain records date the actor to February 2025. The 2026 pushes likely ran from the same infected maintainer machine.
+
+Takeaway: Treat any developer who ran a take-home assessment, a "driver" curl command or a sideloaded extension as a compromised workstation. Rotate their GitHub tokens, then review repos they can push to for rewritten history. Hunt build configs for code after long runs of whitespace. Look for node -i or detached Node.js spawned from a Python import, npm run build or a VS Code folder open. Check for connections to the IPs above, and preserve branch state fast because payloads vanish after 30-40 minutes. The wallets, IPs, domains and package names are listed in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125999265621369296</description>
+      <content:encoded><![CDATA[<p>North Korean 🇰🇵 PolinRider has poisoned at least 7,609 GitHub repos across 2,330 accounts, per Apiiro. The loader pulls its C2 from Ethereum wallets, so a server takedown changes nothing. New evidence dates the activity to February 2025.</p><p>- SafeDep found a 58-line Python loader in 375 public repos belonging to 260 accounts. It hides in a small utils package or conftest[.]py. On import, it reads the newest transaction that wallet 0x3b1574417524c11a7403c4b232CAcBb320CceBC6 sent to itself, decodes the input data as JavaScript and runs it with Node.js. That script reads a second wallet, 0x1eEf0849EDa15d87f64e51C73C8442Cf3c8bCEF3, and takes the destination of its latest transaction, 0x5F87b5545F87b55468656C6C6f6970626f742121. The C2 is parsed from it: 95.135.181[.]84. The next stage goes to a detached node -i process. SafeDep saw no evidence of PyPI or npm distribution for this loader.</p><p>- The technique is called NullReceiver. The C2 IP is encoded in the first eight bytes of a made-up destination wallet. The marker 68656c6C6f6970626f742121 decodes to &quot;helloipbot!!&quot;. StepSecurity&#x27;s fake-job &quot;driver&quot; payload read wallet 0xa322E5f3D311D3080e6f0121063e9aDC2490Ef1a, got the destination 0x67B38e9b67B38E9b68656c6C6f6970626f742121 and extracted 103.179.142[.]155 from 67B38e9b and 67B38E9b. It then fetched 0x/cls and 0x/ls over port 443. /0x/cls runs twice (eval in the current process, then in a new one). /0x/ls runs only in a new process. The payloads are unknown, but prior waves dropped a stealer for environment secrets, browser passwords, cookies and wallet data.</p><p>- The spread is worm-like. Apiiro says stolen GitHub access is used to rewrite commits the developer already made, keeping author, message and date, and to add a loader hidden after hundreds of spaces in a build config. Building the project runs it, and in the newest wave opening the folder in VS Code is enough. 2,040 repos were hit between October 27 and November 6, 2026. The account Eternity0207 opened over 200 pull requests against projects like AsyncAPI Generator, CircuitVerse and Open Food Facts. Its payload sat on the branch for 30-40 minutes, then was force-pushed away so the final diff looked clean.</p><p>- Entry comes through Contagious Interview, with PolinRider assessed as a parallel sub-cluster. Lures include fake hiring portals (BlockNovas, accurasofthire[.]com, huntrole[.]org), a VS Code extension named huntrole.assessment-tool, a sideloaded Chrome extension, ClickFix-style terminal commands and curl &quot;driver&quot; installs. The second stage scans for GitHub Desktop, Cursor, VS Code and Google Antigravity and tampers with the most-used one to run attacker code and deliver an infostealer.</p><p>- The timeline moves back. OpenSourceMalware found a May 2025 attack that pushed nine poisoned itsa-* packages (for example itsa-utils@1.4.2 and itsa-cli@16.5.3) within 90 minutes via a hijacked maintainer account. They used EtherHiding to fetch the JADESNOW downloader, which delivered InvisibleFerret, a Socket.IO RAT and a Python stealer. Blockchain records date the actor to February 2025. The 2026 pushes likely ran from the same infected maintainer machine.</p><p>Takeaway: Treat any developer who ran a take-home assessment, a &quot;driver&quot; curl command or a sideloaded extension as a compromised workstation. Rotate their GitHub tokens, then review repos they can push to for rewritten history. Hunt build configs for code after long runs of whitespace. Look for node -i or detached Node.js spawned from a Python import, npm run build or a VS Code folder open. Check for connections to the IPs above, and preserve branch state fast because payloads vanish after 30-40 minutes. The wallets, IPs, domains and package names are listed in the report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/north-korea-linked-polinrider-poisons.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125999265621369296">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125999265621369296</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2125999265621369296">DFIR Radar</source>
+      <pubDate>Thu, 26 Nov 2026 17:04:59 +0000</pubDate>
+      <guid isPermaLink="false">2125999265621369296</guid>
+    </item>
     <item>
       <title>182 Banks, 38 Crypto Platforms, One Toolkit: The Godfather Tech Android Fraud Arsenal</title>
       <link>https://www.cloudsek.com/blog/182-banks-38-crypto-platforms-one-toolkit-the-godfather-tech-android-fraud-arsenal</link>
@@ -2074,20 +2100,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124097012605809021">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 11:06:07 +0000</pubDate>
       <guid isPermaLink="false">2124097012605809021</guid>
-    </item>
-    <item>
-      <title>45.38.60.254: the Scanner Behind the November 2026 Rise in Attacks on .tw Websites</title>
-      <link>https://www.wordfence.com/blog/2026/11/45-38-60-254-the-scanner-behind-the-november-2026-rise-in-attacks-on-tw-websites/</link>
-      <description>Scanner 45.38.60[.]254 tripled attacks on Taiwanese 🇹🇼 websites from October 26, probing known CVEs. Check logs for its PHP uploads that only echo an md5 hash, a success check.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124081878718095540</description>
-      <content:encoded><![CDATA[<p>Scanner 45.38.60[.]254 tripled attacks on Taiwanese 🇹🇼 websites from October 26, probing known CVEs. Check logs for its PHP uploads that only echo an md5 hash, a success check.</p><p>#DFIR_Radar</p><p><a href="https://www.wordfence.com/blog/2026/11/45-38-60-254-the-scanner-behind-the-november-2026-rise-in-attacks-on-tw-websites/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124081878718095540">View on X</a></p>]]></content:encoded>
-      <dc:creator>Wordfence</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124081878718095540</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2124081878718095540">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 10:05:58 +0000</pubDate>
-      <guid isPermaLink="false">2124081878718095540</guid>
     </item>
   </channel>
 </rss>
