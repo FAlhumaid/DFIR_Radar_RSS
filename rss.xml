@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 26 Nov 2026 11:09:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 12:09:51 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SYS010 malware abuses browser management to spy on Gmail, Outlook</title>
+      <link>https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/</link>
+      <description>SYS010 infostealer, spread by fake wallpaper Meta ads, enrolls browsers in attacker-run management to force-install mail-stealing extensions. Check browsers for unexpected management enrollment and forced-extension policies.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125924992667824193</description>
+      <content:encoded><![CDATA[<p>SYS010 infostealer, spread by fake wallpaper Meta ads, enrolls browsers in attacker-run management to force-install mail-stealing extensions. Check browsers for unexpected management enrollment and forced-extension policies.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125924992667824193">View on X</a></p>]]></content:encoded>
+      <dc:creator>Bleeping Computer</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125924992667824193</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2125924992667824193">DFIR Radar</source>
+      <pubDate>Thu, 26 Nov 2026 12:09:51 +0000</pubDate>
+      <guid isPermaLink="false">2125924992667824193</guid>
+    </item>
     <item>
       <title>Athar: a standard for service fingerprints</title>
       <link>https://cyb3rops.medium.com/athar-a-standard-for-service-fingerprints-448abd5d5b2a?source=rss-2fdc032a69b3------2</link>
@@ -2052,30 +2066,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124051714449748249">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 08:06:07 +0000</pubDate>
       <guid isPermaLink="false">2124051714449748249</guid>
-    </item>
-    <item>
-      <title>CA-26-050: Public PoC Available for CVE-2026-114938 (Java4Shell)</title>
-      <link>https://www.deepwatch.com/labs/ca-26-050-public-poc-available-for-cve-2026-114938-java4shell/</link>
-      <description>Java4Shell (CVE-2026-114938) is a heap overflow in the AVX-512 Base64 decoder in OpenJDK-derived runtimes, and a public PoC now reproduces it reliably. No in-the-wild exploitation is confirmed yet, but expect scanning and JVM crash probing.
-
-- The flaw: an integer underflow (CWE-191) in the HotSpot AVX-512 Base64 decoding intrinsic causes a 62 to 63 byte heap overflow (CWE-122). After the C2 JIT warms up and picks the vectorized stub, a short padded Base64 string makes the tail-length calculation go negative and writes past the destination array. The decoder still throws a normal IllegalArgumentException, but adjacent heap objects are already corrupted. Oracle scores it CVSS 3.1 8.1 (High), while several Linux vendors rate it 8.8 to 9.8.
-
-- Exposure: it needs an affected build on x86-64 with AVX-512 VBMI, the intrinsic enabled, and attacker-controlled Base64 reaching java.util.Base64. That covers auth headers, tokens, SAML, cookies, API data, uploads, and client-side TLS to a malicious server. Affected lines are unpatched OpenJDK 17.x (from 17.0.6), 21.x, 25.x, and 27.x, plus Oracle Java SE 8u511b33-perf, GraalVM, and downstream builds like Corretto, Temurin, Zulu, Red Hat, and Microsoft OpenJDK. Standard Java 8 and 11 and ARM64 are not affected. Bundled JREs in appliances and containers will not be fixed by updating the host java package.
-
-- Impact: researchers show a JVM crash, memory leaks of tokens and private keys (JavaBleed), or code execution as the Java service account. They demonstrated pre-auth RCE on default Keycloak, Jira, Confluence, Artifactory, Jenkins, and PingFederate, and post-auth RCE on Elasticsearch, Solr, Gerrit, and Spinnaker. Heap layout must be tuned per target, so there is no universal payload, but attackers can retry because failed attempts just crash the JVM. Mapped to T1190 (crafted Base64 to a public-facing app), T1059 (conditional shell launches post-exploitation), and T1499.004 (crash or repeated service failure). Intrusion set is unattributed.
-
-- Evidence to preserve: an unaligned heap overwrite often crashes the JVM, so hs_err_pid fatal error logs, SIGSEGV crashes, and unexpected container restarts are key to separating probes from routine errors. Pair them with java.util.Base64 IllegalArgumentException stack traces, HTTP 5xx bursts, spikes of malformed Base64 requests, and 401/403 authentication errors from WAF or reverse-proxy logs. Payload signatures alone can miss varied Base64 inputs, so correlate edge telemetry with host and runtime crashes. For post-exploitation, look for java or javaw spawning cmd.exe, powershell.exe, /bin/sh, bash, curl, wget, certutil, or bitsadmin, plus executable file writes, credential store access, and anomalous outbound connections or cloud metadata queries.
-
-Takeaway: scope first. On Linux, grep -o avx512vbmi /proc/cpuinfo | head -1 tells you whether a host can hit the code path. Then verify the live process, not the shell path: jcmd &lt;PID&gt; VM.version for the runtime and jcmd &lt;PID&gt; VM.flags for mitigations after restart. Fixed Oracle builds are 8u513, 17.0.21.1, 21.0.13.1, 25.0.5.1, and 27.0.1.1, with GraalVM 17.0.21.1, 21.0.13.1, and EE 21.3.20.1. Restart every JVM and rebuild containers from patched base layers. If you cannot patch, use the narrow mitigation, -XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics (via JAVA_TOOL_OPTIONS if you cannot edit the command line), or the broad x86-64 fallback -XX:UseAVX=2. Never use UseAVX on ARM64, where the JVM will fail to start. Treat community PoC toolkits as untrusted code, and keep hs_err_pid files, WAF logs, and EDR process telemetry until you have triaged exposed services.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124036559049461953</description>
-      <content:encoded><![CDATA[<p>Java4Shell (CVE-2026-114938) is a heap overflow in the AVX-512 Base64 decoder in OpenJDK-derived runtimes, and a public PoC now reproduces it reliably. No in-the-wild exploitation is confirmed yet, but expect scanning and JVM crash probing.</p><p>- The flaw: an integer underflow (CWE-191) in the HotSpot AVX-512 Base64 decoding intrinsic causes a 62 to 63 byte heap overflow (CWE-122). After the C2 JIT warms up and picks the vectorized stub, a short padded Base64 string makes the tail-length calculation go negative and writes past the destination array. The decoder still throws a normal IllegalArgumentException, but adjacent heap objects are already corrupted. Oracle scores it CVSS 3.1 8.1 (High), while several Linux vendors rate it 8.8 to 9.8.</p><p>- Exposure: it needs an affected build on x86-64 with AVX-512 VBMI, the intrinsic enabled, and attacker-controlled Base64 reaching java.util.Base64. That covers auth headers, tokens, SAML, cookies, API data, uploads, and client-side TLS to a malicious server. Affected lines are unpatched OpenJDK 17.x (from 17.0.6), 21.x, 25.x, and 27.x, plus Oracle Java SE 8u511b33-perf, GraalVM, and downstream builds like Corretto, Temurin, Zulu, Red Hat, and Microsoft OpenJDK. Standard Java 8 and 11 and ARM64 are not affected. Bundled JREs in appliances and containers will not be fixed by updating the host java package.</p><p>- Impact: researchers show a JVM crash, memory leaks of tokens and private keys (JavaBleed), or code execution as the Java service account. They demonstrated pre-auth RCE on default Keycloak, Jira, Confluence, Artifactory, Jenkins, and PingFederate, and post-auth RCE on Elasticsearch, Solr, Gerrit, and Spinnaker. Heap layout must be tuned per target, so there is no universal payload, but attackers can retry because failed attempts just crash the JVM. Mapped to T1190 (crafted Base64 to a public-facing app), T1059 (conditional shell launches post-exploitation), and T1499.004 (crash or repeated service failure). Intrusion set is unattributed.</p><p>- Evidence to preserve: an unaligned heap overwrite often crashes the JVM, so hs_err_pid fatal error logs, SIGSEGV crashes, and unexpected container restarts are key to separating probes from routine errors. Pair them with java.util.Base64 IllegalArgumentException stack traces, HTTP 5xx bursts, spikes of malformed Base64 requests, and 401/403 authentication errors from WAF or reverse-proxy logs. Payload signatures alone can miss varied Base64 inputs, so correlate edge telemetry with host and runtime crashes. For post-exploitation, look for java or javaw spawning cmd.exe, powershell.exe, /bin/sh, bash, curl, wget, certutil, or bitsadmin, plus executable file writes, credential store access, and anomalous outbound connections or cloud metadata queries.</p><p>Takeaway: scope first. On Linux, grep -o avx512vbmi /proc/cpuinfo | head -1 tells you whether a host can hit the code path. Then verify the live process, not the shell path: jcmd &lt;PID&gt; VM.version for the runtime and jcmd &lt;PID&gt; VM.flags for mitigations after restart. Fixed Oracle builds are 8u513, 17.0.21.1, 21.0.13.1, 25.0.5.1, and 27.0.1.1, with GraalVM 17.0.21.1, 21.0.13.1, and EE 21.3.20.1. Restart every JVM and rebuild containers from patched base layers. If you cannot patch, use the narrow mitigation, -XX:+UnlockDiagnosticVMOptions -XX:-UseBASE64Intrinsics (via JAVA_TOOL_OPTIONS if you cannot edit the command line), or the broad x86-64 fallback -XX:UseAVX=2. Never use UseAVX on ARM64, where the JVM will fail to start. Treat community PoC toolkits as untrusted code, and keep hs_err_pid files, WAF logs, and EDR process telemetry until you have triaged exposed services.</p><p>#DFIR_Radar</p><p><a href="https://www.deepwatch.com/labs/ca-26-050-public-poc-available-for-cve-2026-114938-java4shell/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124036559049461953">View on X</a></p>]]></content:encoded>
-      <dc:creator>Deepwatch</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124036559049461953</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2124036559049461953">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 07:05:53 +0000</pubDate>
-      <guid isPermaLink="false">2124036559049461953</guid>
     </item>
   </channel>
 </rss>
