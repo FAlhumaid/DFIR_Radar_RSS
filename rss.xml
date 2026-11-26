@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 26 Nov 2026 12:09:51 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 13:04:07 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>RedOps: WeaveLotus Targets Southeast Asian Governments for South China Sea Intelligence</title>
+      <link>https://socradar.io/blog/redops-weavelotus-southeast-asian-governments/</link>
+      <description>WeaveLotus, a Vietnam-sponsored actor, breached five Thai 🇹🇭 and Philippine 🇵🇭 government, military and legislative organizations in RedOps through exposed open-source apps and stole gigabytes of documents.
+
+- Initial access came from internet-facing open-source apps (T1190, T1078.001). GeoServer CVE-2024-36401 (CVSS 9.8), likely exploited with malicious XML payloads from 172.235.255[.]195. JasperReports with default jasperadmin:jasperadmin credentials. osTicket CVE-2021-42235 (CVSS 9.8), a blind SQL injection in the password-reset handler. A Laravel app with debug mode on, whose stack traces leaked server paths and source snippets. SOCRadar attributes with moderate confidence, citing Vietnamese-language code comments and UTC+7 working hours.
+
+- Thai 🇹🇭 military foothold: a script pulled a SOCKS5 proxy and opened a reverse SSH tunnel. On September 20, C2 moved to 172.235.245[.]49 and a cron job ran the self-healing watch[.]sh every three minutes (T1053.003), keeping an SSH tunnel on port 443 with 13 reverse port forwards (T1572). The operators wrote their recon output into GeoServer's public web directory, so their own results sat exposed. They then reached a Directus CMS with an unauthenticated file API and pulled about 31,418 files, sorted into Vietnamese-named folders and OCR'd with Thai 🇹🇭 and English packs.
+
+- Thai 🇹🇭 legislative intrusion: a malicious report uploaded to JasperReports loaded a custom Java class to run SQL on the backend Microsoft SQL Server, and was deleted after each run to limit traces. A custom stored procedure, xp_redops, wrapped xp_cmdshell and used GodPotato (dbsvc.bin) to run PowerShell as SYSTEM. An agent inside JasperReports beaconed every five minutes over TLS to a Python C2 (JRS C2), with the network path pattern {host}?b=JRS1. Via a third-party document management system, four password-spray rounds using employee names plus National ID numbers (T1110.003) yielded cleartext credentials, 1,502 user records and 88,575 documents' worth of folder data. 19 GB went to 45.61.144[.]206 over MinIO (T1567.002).
+
+- Cross-organization pivot: a rogue LDAP listener captured admin credentials for a separate Thai 🇹🇭 agency. They gave root SSH to a Keycloak 3.4 server, where the actor dumped over 40,000 user records, cracked PBKDF2-SHA256 hashes offline, and validated hits against the token endpoint. Two accounts held all 18 admin roles, and a script then pulled 349,782 records from a downstream app API. The Philippine 🇵🇭 osTicket intrusion yielded staff bcrypt hashes. Over 30 Indonesian 🇮🇩 government organizations saw only reconnaissance, including VPN fingerprinting and IMAP/POP3 banner grabs.
+
+- Attribution caveat: the report assesses a link to OceanLotus (APT32) at low confidence. WeaveLotus used no spear-phishing, APT32 malware families or cloud C2, and the evidence does not conclusively establish state sponsorship.
+
+Takeaway: hunt for cron entries that relaunch a script every few minutes to keep an SSH tunnel alive, outbound SSH over port 443, SOCKS proxies and bulk transfers to unfamiliar storage hosts. On SQL Server, look for xp_redops and xp_cmdshell activity, and check JasperReports servers for default credentials. Because reports were deleted after each run, reconstruct what the server executed, not what remains. In identity logs, look for password spraying and ROPC token requests, and treat any web-exposed GeoServer directory holding recon output as a compromise sign. Network IOCs, SHA256 hashes and the MITRE ATT&amp;CK table are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125938650081108090</description>
+      <content:encoded><![CDATA[<p>WeaveLotus, a Vietnam-sponsored actor, breached five Thai 🇹🇭 and Philippine 🇵🇭 government, military and legislative organizations in RedOps through exposed open-source apps and stole gigabytes of documents.</p><p>- Initial access came from internet-facing open-source apps (T1190, T1078.001). GeoServer CVE-2024-36401 (CVSS 9.8), likely exploited with malicious XML payloads from 172.235.255[.]195. JasperReports with default jasperadmin:jasperadmin credentials. osTicket CVE-2021-42235 (CVSS 9.8), a blind SQL injection in the password-reset handler. A Laravel app with debug mode on, whose stack traces leaked server paths and source snippets. SOCRadar attributes with moderate confidence, citing Vietnamese-language code comments and UTC+7 working hours.</p><p>- Thai 🇹🇭 military foothold: a script pulled a SOCKS5 proxy and opened a reverse SSH tunnel. On September 20, C2 moved to 172.235.245[.]49 and a cron job ran the self-healing watch[.]sh every three minutes (T1053.003), keeping an SSH tunnel on port 443 with 13 reverse port forwards (T1572). The operators wrote their recon output into GeoServer&#x27;s public web directory, so their own results sat exposed. They then reached a Directus CMS with an unauthenticated file API and pulled about 31,418 files, sorted into Vietnamese-named folders and OCR&#x27;d with Thai 🇹🇭 and English packs.</p><p>- Thai 🇹🇭 legislative intrusion: a malicious report uploaded to JasperReports loaded a custom Java class to run SQL on the backend Microsoft SQL Server, and was deleted after each run to limit traces. A custom stored procedure, xp_redops, wrapped xp_cmdshell and used GodPotato (dbsvc.bin) to run PowerShell as SYSTEM. An agent inside JasperReports beaconed every five minutes over TLS to a Python C2 (JRS C2), with the network path pattern {host}?b=JRS1. Via a third-party document management system, four password-spray rounds using employee names plus National ID numbers (T1110.003) yielded cleartext credentials, 1,502 user records and 88,575 documents&#x27; worth of folder data. 19 GB went to 45.61.144[.]206 over MinIO (T1567.002).</p><p>- Cross-organization pivot: a rogue LDAP listener captured admin credentials for a separate Thai 🇹🇭 agency. They gave root SSH to a Keycloak 3.4 server, where the actor dumped over 40,000 user records, cracked PBKDF2-SHA256 hashes offline, and validated hits against the token endpoint. Two accounts held all 18 admin roles, and a script then pulled 349,782 records from a downstream app API. The Philippine 🇵🇭 osTicket intrusion yielded staff bcrypt hashes. Over 30 Indonesian 🇮🇩 government organizations saw only reconnaissance, including VPN fingerprinting and IMAP/POP3 banner grabs.</p><p>- Attribution caveat: the report assesses a link to OceanLotus (APT32) at low confidence. WeaveLotus used no spear-phishing, APT32 malware families or cloud C2, and the evidence does not conclusively establish state sponsorship.</p><p>Takeaway: hunt for cron entries that relaunch a script every few minutes to keep an SSH tunnel alive, outbound SSH over port 443, SOCKS proxies and bulk transfers to unfamiliar storage hosts. On SQL Server, look for xp_redops and xp_cmdshell activity, and check JasperReports servers for default credentials. Because reports were deleted after each run, reconstruct what the server executed, not what remains. In identity logs, look for password spraying and ROPC token requests, and treat any web-exposed GeoServer directory holding recon output as a compromise sign. Network IOCs, SHA256 hashes and the MITRE ATT&amp;CK table are in the report.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/redops-weavelotus-southeast-asian-governments/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125938650081108090">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125938650081108090</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2125938650081108090">DFIR Radar</source>
+      <pubDate>Thu, 26 Nov 2026 13:04:07 +0000</pubDate>
+      <guid isPermaLink="false">2125938650081108090</guid>
+    </item>
     <item>
       <title>SYS010 malware abuses browser management to spy on Gmail, Outlook</title>
       <link>https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/</link>
@@ -2052,20 +2078,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124066634780262428">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 09:05:24 +0000</pubDate>
       <guid isPermaLink="false">2124066634780262428</guid>
-    </item>
-    <item>
-      <title>ROMULUS ClickFix Attacks Deliver RAT That Can Spy on Users and Control PCs</title>
-      <link>https://thehackernews.com/2026/11/romulus-clickfix-attacks-deliver-rat.html</link>
-      <description>Blackpoint reports the ROMULUS ClickFix service delivers the CNCMachineRMS RAT through a fake Stardock MSI, IconEdit2Turb.msi, sideloading I++u.dll. Hunt PowerShell launching msiexec and review DNS over HTTPS traffic.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124051714449748249</description>
-      <content:encoded><![CDATA[<p>Blackpoint reports the ROMULUS ClickFix service delivers the CNCMachineRMS RAT through a fake Stardock MSI, IconEdit2Turb.msi, sideloading I++u.dll. Hunt PowerShell launching msiexec and review DNS over HTTPS traffic.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/romulus-clickfix-attacks-deliver-rat.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124051714449748249">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124051714449748249</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2124051714449748249">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 08:06:07 +0000</pubDate>
-      <guid isPermaLink="false">2124051714449748249</guid>
     </item>
   </channel>
 </rss>
