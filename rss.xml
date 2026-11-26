@@ -5,8 +5,22 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 26 Nov 2026 07:08:58 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 08:09:31 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Three Attacks, Zero Exploits in Microsoft 365</title>
+      <link>https://www.huntress.com/blog/three-attacks-zero-exploits-microsoft-365</link>
+      <description>Huntress details three Microsoft 365 attacks with no exploits: ClickFix cookie theft, over-permissioned app abuse, and EvilTokens device code phishing. Revoke sessions and tokens, and audit app owners.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2125864508891562066</description>
+      <content:encoded><![CDATA[<p>Huntress details three Microsoft 365 attacks with no exploits: ClickFix cookie theft, over-permissioned app abuse, and EvilTokens device code phishing. Revoke sessions and tokens, and audit app owners.</p><p>#DFIR_Radar</p><p><a href="https://www.huntress.com/blog/three-attacks-zero-exploits-microsoft-365">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2125864508891562066">View on X</a></p>]]></content:encoded>
+      <dc:creator>Huntress</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2125864508891562066</comments>
+      <category>CLOUD SECURITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2125864508891562066">DFIR Radar</source>
+      <pubDate>Thu, 26 Nov 2026 08:09:31 +0000</pubDate>
+      <guid isPermaLink="false">2125864508891562066</guid>
+    </item>
     <item>
       <title>What Two Million Canary Prompts Reveal About AI Supply Chain Security</title>
       <link>https://blog.qualys.com/?p=44221</link>
@@ -2060,37 +2074,6 @@ Takeaway: Scope the hunt back to early September 2026. Review vCenter authentica
       <source url="https://x.com/DFIR_Radar/status/2123991293940351236">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 04:06:01 +0000</pubDate>
       <guid isPermaLink="false">2123991293940351236</guid>
-    </item>
-    <item>
-      <title>CVE-2026-123890: vCenter Zero-Day Exploited by Armory Castle</title>
-      <link>https://socradar.io/blog/cve-2026-123890-vcenter-0day-armory-castle/</link>
-      <description>CVE-2026-123890 (CVSS 9.8) is a vCenter vmdir authentication bypass exploited as a zero-day since early September 2026 by Armory Castle, a suspected Chinese 🇨🇳 espionage group. Broadcom patched it on November 19, 2026, and there is no workaround.
-
-- The flaw leaks a Secure Remote Password (SRP) session key through vmdir's RPC interface on TCP port 2012. Whoever holds the key is logged in as administrator[@]vsphere.local with no password. It applies with or without Enhanced Linked Mode. ESX hosts are not directly affected, but an attacker who controls vCenter can reach them. It is the second vmdir auth bypass this year after CVE-2026-59309 (fixed July 29), and the recovered exploit tool worked on a vCenter already patched for that one. Broadcom's advisory did not mention in-the-wild exploitation. No public exploit code has been reported.
-
-- The attack chain: the actor broke in through CVE-2026-102764, a BeyondTrust Remote Support zero-day abused since late August and added to CISA KEV on October 16. They pivoted to an internal Linux appliance with no EDR, planted SLIMSAVAGE web shells, got root, and probed for VMware systems on ports 443, 5480 and 2012. A custom Go tool, BONESAW, abused the vCenter bug to add an SSO administrator and pull the directory database (data.mdb) over the vmdird RPC interface. A second Go tool, SAWSNAKE, used the stolen SAML signing material to forge tokens (Golden SAML), impersonating users and sidestepping MFA.
-
-- After that, the operators enabled SSH through the appliance management interface, collected the vCenter master key and PostgreSQL credentials, then turned SSH off again. With vCenter owned, they reached ESXi hosts and extracted Active Directory database files from guest VM disks. The toolkit also included BEARBONES (a trojanized Dropbear SSH server that records passwords), CAGEMATCH (a JSP web shell) and LAZYBONES (a Slack-based backdoor seen in an earlier intrusion). BONESAW carries a July 13, 2026 build timestamp, but Go build metadata can be edited, so it is not conclusive. The PRC-nexus label is the researchers' hedged assessment. Broadcom has not attributed the activity.
-
-- Artifacts the researchers published to check:
- - A new account in vsphere.local whose name begins with "sps-".
- - PUT requests to /rest/appliance/access/ssh in appliance management logs, showing SSH toggled on and off.
- - Appliance files ActiveSer.jsp, u.jsp, /tmp/123, /tmp/sss, /tmp/dbr, /tmp/123.key and /usr/bin/vmtoolscs.
- - On ESXi: added keys in root authorized_keys, a hidden ".a" directory on datastores, an unexpected vmfs-pydist.tar.gz, and root or vpxuser logins from unusual sources.
- - Internal SSH services on high ports announcing "SSH-2.0-pulsesecure_23345".
-
-- Fixed builds are 9.1.1.0200, 9.0.2.0200 and 8.0 U3m. vCenter 7.0 has no public fix, though extended support customers can request one from Broadcom. VCF 5.x gets 8.0 U3m through asynchronous patching (KB 88287) plus SDDC Manager 5.2.5. Quick Patch cannot deliver these updates, and installing 8.0 U3m or 9.0.2.0200 blocks a later move to VCF 9.1.1. The same advisory fixes four lower-severity bugs (CVE-2026-123891 through CVE-2026-123894), none reported as exploited.
-
-Takeaway: patching closes the door but does not evict anyone already inside. Review who connected to port 2012 over the past few months, and restrict 443, 2012, 5480 and SSH to dedicated management hosts. If BeyondTrust Remote Support is in your environment, include it and every vCenter reachable from it in the hunt. If any check hits, rotate the vCenter STS (SAML) signing certificate, the master key, database credentials and all SSO credentials per Broadcom guidance, because forged tokens and stolen secrets keep working until rotated. Missing log entries are not proof of a clean environment: SSH was switched back off, and the Linux appliances had little telemetry.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2123976128486326471</description>
-      <content:encoded><![CDATA[<p>CVE-2026-123890 (CVSS 9.8) is a vCenter vmdir authentication bypass exploited as a zero-day since early September 2026 by Armory Castle, a suspected Chinese 🇨🇳 espionage group. Broadcom patched it on November 19, 2026, and there is no workaround.</p><p>- The flaw leaks a Secure Remote Password (SRP) session key through vmdir&#x27;s RPC interface on TCP port 2012. Whoever holds the key is logged in as administrator[@]vsphere.local with no password. It applies with or without Enhanced Linked Mode. ESX hosts are not directly affected, but an attacker who controls vCenter can reach them. It is the second vmdir auth bypass this year after CVE-2026-59309 (fixed July 29), and the recovered exploit tool worked on a vCenter already patched for that one. Broadcom&#x27;s advisory did not mention in-the-wild exploitation. No public exploit code has been reported.</p><p>- The attack chain: the actor broke in through CVE-2026-102764, a BeyondTrust Remote Support zero-day abused since late August and added to CISA KEV on October 16. They pivoted to an internal Linux appliance with no EDR, planted SLIMSAVAGE web shells, got root, and probed for VMware systems on ports 443, 5480 and 2012. A custom Go tool, BONESAW, abused the vCenter bug to add an SSO administrator and pull the directory database (data.mdb) over the vmdird RPC interface. A second Go tool, SAWSNAKE, used the stolen SAML signing material to forge tokens (Golden SAML), impersonating users and sidestepping MFA.</p><p>- After that, the operators enabled SSH through the appliance management interface, collected the vCenter master key and PostgreSQL credentials, then turned SSH off again. With vCenter owned, they reached ESXi hosts and extracted Active Directory database files from guest VM disks. The toolkit also included BEARBONES (a trojanized Dropbear SSH server that records passwords), CAGEMATCH (a JSP web shell) and LAZYBONES (a Slack-based backdoor seen in an earlier intrusion). BONESAW carries a July 13, 2026 build timestamp, but Go build metadata can be edited, so it is not conclusive. The PRC-nexus label is the researchers&#x27; hedged assessment. Broadcom has not attributed the activity.</p><p>- Artifacts the researchers published to check:<br> - A new account in vsphere.local whose name begins with &quot;sps-&quot;.<br> - PUT requests to /rest/appliance/access/ssh in appliance management logs, showing SSH toggled on and off.<br> - Appliance files ActiveSer.jsp, u.jsp, /tmp/123, /tmp/sss, /tmp/dbr, /tmp/123.key and /usr/bin/vmtoolscs.<br> - On ESXi: added keys in root authorized_keys, a hidden &quot;.a&quot; directory on datastores, an unexpected vmfs-pydist.tar.gz, and root or vpxuser logins from unusual sources.<br> - Internal SSH services on high ports announcing &quot;SSH-2.0-pulsesecure_23345&quot;.</p><p>- Fixed builds are 9.1.1.0200, 9.0.2.0200 and 8.0 U3m. vCenter 7.0 has no public fix, though extended support customers can request one from Broadcom. VCF 5.x gets 8.0 U3m through asynchronous patching (KB 88287) plus SDDC Manager 5.2.5. Quick Patch cannot deliver these updates, and installing 8.0 U3m or 9.0.2.0200 blocks a later move to VCF 9.1.1. The same advisory fixes four lower-severity bugs (CVE-2026-123891 through CVE-2026-123894), none reported as exploited.</p><p>Takeaway: patching closes the door but does not evict anyone already inside. Review who connected to port 2012 over the past few months, and restrict 443, 2012, 5480 and SSH to dedicated management hosts. If BeyondTrust Remote Support is in your environment, include it and every vCenter reachable from it in the hunt. If any check hits, rotate the vCenter STS (SAML) signing certificate, the master key, database credentials and all SSO credentials per Broadcom guidance, because forged tokens and stolen secrets keep working until rotated. Missing log entries are not proof of a clean environment: SSH was switched back off, and the Linux appliances had little telemetry.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/cve-2026-123890-vcenter-0day-armory-castle/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2123976128486326471">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCRadar</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2123976128486326471</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2123976128486326471">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 03:05:45 +0000</pubDate>
-      <guid isPermaLink="false">2123976128486326471</guid>
     </item>
   </channel>
 </rss>
