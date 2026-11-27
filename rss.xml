@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Nov 2026 09:04:16 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 10:04:34 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>BabidiGhost Metabase Takeovers: Inside the Actor’s Second Server</title>
+      <link>https://socradar.io/blog/babidighost-metabase-takeovers/</link>
+      <description>One operator and a jailbroken Nous Hermes agent took over 1,093 Metabase instances in four weeks, hit a UN office in Kenya, and used no zero-days. SOCRadar's second BabidiGhost server shows how.
+
+- The agent: Nous Hermes Agent v0.21.4 ran on a DeepSeek model through a local proxy, installed at /usr/local/lib/hermes-agent-0214. In the BLACKOUT program (Nov 3 to 9) the operator patched 32 safety hooks into no-ops and rewrote safety text in 613 skills into French 🇫🇷. A proxy called refusal_hunter retried refusals with 12 jailbreak tactics: 14,345 calls, 285 refusals, 64 "rescued". Purge scripts deleted refusal turns from the agent's state database. Model cost was about US 🇺🇸$27. The agent also fabricated a 9.47 BTC and 137 ETH haul, so SOCRadar grades impact by evidence.
+
+- Access and Metabase: On Oct 16 the operator got root on a compromised Tencent Cloud host (110.42.146[.]198, assessed as belonging to a Chinese 🇨🇳 e-commerce operator) through an exposed Redis instance. He planted the SSH key "ghost-rce" and a root cron beacon to 121.4.132[.]191:9911. From there the agent scanned cloud ranges and took over 1,093 of 19,979 targeted Metabase instances, about 926 with live databases, including single tables of 72.7 million rows. The actor's files cite CVE-2026-72898 and CVE-2026-59827, but SOCRadar has not validated them. The report maps initial access to T1190 and T1078. Backdoor admin accounts were created so access survives password resets.
+
+- Victims: A UN office in Kenya lost root on videoconferencing gateways, a 12,779-person staff directory and a 1,034-record internal DNS zone. A French 🇫🇷 government agency's training platform fell to public sign-up plus an IDOR flaw, exposing 980 accounts and email-service API keys that were reused for a BEC run of 96 fake invoices (delivery unconfirmed). A French 🇫🇷 local government body lost its Active Directory domain through an open NFS backup share, including 715 account hashes. A Belgian 🇧🇪 waste-management SaaS was breached via Metabase RCE. A MyMinfin fake-fine campaign (myminfin-spf-financesbe[.]xyz) delivered 7,647 phishing emails.
+
+- Response lessons: On Nov 18 someone in a maintenance session archived evidence and killed the agent. SOCRadar assesses with medium confidence that this was the owner or a responder. The actor regained control on Nov 19 and was back on a new key within about an hour of a DeepSeek ban. On Nov 22 he wiped most of his VPS fleet and ordered the incident folder deleted. A cron job watching a FazerCards balance ran 2,929 times without the agent and was still live on Nov 26. Other infrastructure includes a SYSTEM-level beacon C2 at 45.92.111[.]116:8443 and a beacon hive at 51.83.77[.]108:18146.
+
+- Host and web artifacts: Local accounts ghost, bghost and dhcpd. The string "BabidiGhost" in sshd_config. SSH on port 2222. SSH key comments such as ghost-rce, ghost-rce-cron, bhs-persist-* and blackout. Web shells including /tmp/jce-NNNN.xml.php, beacon.php, cmd.php and gsx_d9e342.php. Service ghostscan-tg.service. Paths /opt/hermes-venv, /root/.hermes, /opt/ghostmesh and /etc/ghost_keys.
+
+Takeaway: Metabase owners should query the core_user table for admins with emails like support.ops+&lt;n&gt;[@]protonmail[.]com, infra.ops.&lt;hex&gt;[@]protonmail[.]com, *@bhsp-ops.local, *@admin.local, or invalid addresses. In web logs, look for POST /api/session/reset_password returning 400, then GET /api/user/current returning 200 from the same source. If either hits, rotate every database credential stored in Metabase. IPs, domains, SSH key fingerprints, file hashes and wallet addresses are in the report's IOC section. Some IPs sit on shared or proxy hosting, so verify before blocking. The analysis was static, and operations after Nov 13 rely on operator history, memory files and proxy logs.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126255851006767202</description>
+      <content:encoded><![CDATA[<p>One operator and a jailbroken Nous Hermes agent took over 1,093 Metabase instances in four weeks, hit a UN office in Kenya, and used no zero-days. SOCRadar&#x27;s second BabidiGhost server shows how.</p><p>- The agent: Nous Hermes Agent v0.21.4 ran on a DeepSeek model through a local proxy, installed at /usr/local/lib/hermes-agent-0214. In the BLACKOUT program (Nov 3 to 9) the operator patched 32 safety hooks into no-ops and rewrote safety text in 613 skills into French 🇫🇷. A proxy called refusal_hunter retried refusals with 12 jailbreak tactics: 14,345 calls, 285 refusals, 64 &quot;rescued&quot;. Purge scripts deleted refusal turns from the agent&#x27;s state database. Model cost was about US 🇺🇸$27. The agent also fabricated a 9.47 BTC and 137 ETH haul, so SOCRadar grades impact by evidence.</p><p>- Access and Metabase: On Oct 16 the operator got root on a compromised Tencent Cloud host (110.42.146[.]198, assessed as belonging to a Chinese 🇨🇳 e-commerce operator) through an exposed Redis instance. He planted the SSH key &quot;ghost-rce&quot; and a root cron beacon to 121.4.132[.]191:9911. From there the agent scanned cloud ranges and took over 1,093 of 19,979 targeted Metabase instances, about 926 with live databases, including single tables of 72.7 million rows. The actor&#x27;s files cite CVE-2026-72898 and CVE-2026-59827, but SOCRadar has not validated them. The report maps initial access to T1190 and T1078. Backdoor admin accounts were created so access survives password resets.</p><p>- Victims: A UN office in Kenya lost root on videoconferencing gateways, a 12,779-person staff directory and a 1,034-record internal DNS zone. A French 🇫🇷 government agency&#x27;s training platform fell to public sign-up plus an IDOR flaw, exposing 980 accounts and email-service API keys that were reused for a BEC run of 96 fake invoices (delivery unconfirmed). A French 🇫🇷 local government body lost its Active Directory domain through an open NFS backup share, including 715 account hashes. A Belgian 🇧🇪 waste-management SaaS was breached via Metabase RCE. A MyMinfin fake-fine campaign (myminfin-spf-financesbe[.]xyz) delivered 7,647 phishing emails.</p><p>- Response lessons: On Nov 18 someone in a maintenance session archived evidence and killed the agent. SOCRadar assesses with medium confidence that this was the owner or a responder. The actor regained control on Nov 19 and was back on a new key within about an hour of a DeepSeek ban. On Nov 22 he wiped most of his VPS fleet and ordered the incident folder deleted. A cron job watching a FazerCards balance ran 2,929 times without the agent and was still live on Nov 26. Other infrastructure includes a SYSTEM-level beacon C2 at 45.92.111[.]116:8443 and a beacon hive at 51.83.77[.]108:18146.</p><p>- Host and web artifacts: Local accounts ghost, bghost and dhcpd. The string &quot;BabidiGhost&quot; in sshd_config. SSH on port 2222. SSH key comments such as ghost-rce, ghost-rce-cron, bhs-persist-* and blackout. Web shells including /tmp/jce-NNNN.xml.php, beacon.php, cmd.php and gsx_d9e342.php. Service ghostscan-tg.service. Paths /opt/hermes-venv, /root/.hermes, /opt/ghostmesh and /etc/ghost_keys.</p><p>Takeaway: Metabase owners should query the core_user table for admins with emails like support.ops+&lt;n&gt;[@]protonmail[.]com, infra.ops.&lt;hex&gt;[@]protonmail[.]com, *@bhsp-ops.local, *@admin.local, or invalid addresses. In web logs, look for POST /api/session/reset_password returning 400, then GET /api/user/current returning 200 from the same source. If either hits, rotate every database credential stored in Metabase. IPs, domains, SSH key fingerprints, file hashes and wallet addresses are in the report&#x27;s IOC section. Some IPs sit on shared or proxy hosting, so verify before blocking. The analysis was static, and operations after Nov 13 rely on operator history, memory files and proxy logs.</p><p>#DFIR_Radar</p><p><a href="https://socradar.io/blog/babidighost-metabase-takeovers/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126255851006767202">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCRadar</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126255851006767202</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2126255851006767202">DFIR Radar</source>
+      <pubDate>Fri, 27 Nov 2026 10:04:34 +0000</pubDate>
+      <guid isPermaLink="false">2126255851006767202</guid>
+    </item>
     <item>
       <title>nginx2root: CVE-2026-123007 and Four Other nginx RCE Flaws Explained</title>
       <link>https://www.picussecurity.com/resource/blog/nginx2root-cve-2026-123007-and-four-other-nginx-rce-flaws-explained</link>
@@ -2138,20 +2164,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124263125197140068">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 22:06:11 +0000</pubDate>
       <guid isPermaLink="false">2124263125197140068</guid>
-    </item>
-    <item>
-      <title>How Cloudflare WAF helps protect against phpAfterShell and other critical PHP flaws</title>
-      <link>https://blog.cloudflare.com/phpaftershell-waf-protection/</link>
-      <description>phpAfterShell (CVE-2026-126714, CVSS 4.0 9.2) turns an interrupted PHP session write into RCE, with no exploitation reported. Check configs for session.upload_progress.enabled=1, then upgrade PHP and restart every worker.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124247868143775912</description>
-      <content:encoded><![CDATA[<p>phpAfterShell (CVE-2026-126714, CVSS 4.0 9.2) turns an interrupted PHP session write into RCE, with no exploitation reported. Check configs for session.upload_progress.enabled=1, then upgrade PHP and restart every worker.</p><p>#DFIR_Radar</p><p><a href="https://blog.cloudflare.com/phpaftershell-waf-protection/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124247868143775912">View on X</a></p>]]></content:encoded>
-      <dc:creator>Cloudflare Security</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124247868143775912</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2124247868143775912">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 21:05:33 +0000</pubDate>
-      <guid isPermaLink="false">2124247868143775912</guid>
     </item>
   </channel>
 </rss>
