@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Nov 2026 15:08:20 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 16:08:19 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>CVE-2026-132165: Drupal Fail2Install RCE Exploited in the Wild</title>
+      <link>https://socprime.com/blog/cve-2026-132165-drupal-fail2install-rce-exploited-in-the-wild/</link>
+      <description>Drupal CVE-2026-132165 (Fail2Install) is exploited in the wild: an unauthenticated attacker reopens /core/install.php on live sites for takeover or pre-auth RCE. Listed in CISA KEV.
+
+- Exploitation status: Drupal disclosed it November 18, 2026 as Highly Critical (20/25). Exploitation on production sites was confirmed from November 19 at 19:00 UTC, one day after the release. CISA added it to KEV on November 24, with a November 27 deadline for US 🇺🇸 federal agencies. Multiple public repositories claim to reproduce takeover or RCE. Affected: Drupal core below 10.6.22, 11.0.0 through 11.3.21, and 11.4.0 through 11.4.12. Drupal 8 and 9 are end-of-life.
+
+- How it works: Searchlight Cyber found that temporary resource exhaustion makes the installer's "is this site already installed?" checks fail in a FAIL, FAIL, SUCCESS sequence. Drupal then treats an established site as new. Three exhaustion methods were shown: file descriptors (EMFILE), database connections, and TCP source ports. The attacker supplies their own database settings, Drupal writes them into settings.php, and the attacker creates the first admin user.
+
+- Path to RCE: The installer's SQLite option lets the attacker pick a database filename ending in .php under the web root. Attacker-controlled values such as the site name are stored in that file, so it becomes both an SQLite database and a carrier for PHP code. Searchlight Cyber showed Apache path-handling and rewrite behavior can be abused to bypass the .htaccess protections and execute it. Because exploitation needs only ordinary HTTP requests, there are no fixed domains, IPs, or hashes to block.
+
+- Follow-up flaw: CVE-2026-136716 (November 25) covers sites in unusual or incomplete installation states that stayed exploitable after the first fix, and it is also exploited in the wild. Drupal says sites that already blocked the installer are not affected by it.
+
+- Evidence to examine: Look in web access logs for /core/install.php requests, especially POSTs, repeats, or hits near database errors, PHP errors, or file-descriptor exhaustion. Check settings.php for changed database parameters. Review user 1 for email or password changes and for new privileged users. Hunt for SQLite files or .php files beneath the web root where databases or temp artifacts belong. On the host, Apache or PHP-FPM spawning sh, bash, curl, wget, python, or perl is high-confidence post-exploitation. Also check for web shells, cron entries, new SSH keys, and unusual outbound connections.
+
+Takeaway: Patch status does not prove a site was never compromised. If you patched after November 19, review installer access for the whole vulnerable window. Current targets are 10.6.23, 11.3.23, or 11.4.14 or later. Run update.php, then block /core/install.php. On Nginx use a prefix match (location ^~ /core/install.php { return 404; }), because an exact match can still route paths containing .php/ into PHP. Confirm an unauthenticated request gets a blocked response. Drupal's guidance is to check user 1 and confirm its email is still yours. If you find unexplained installer or admin activity, treat the site as potentially compromised. Review the full web root, database users, cron, SSH keys, and outbound traffic, rotate application secrets if compromise is confirmed, and verify backups predate the intrusion before restoring.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126347392857612404</description>
+      <content:encoded><![CDATA[<p>Drupal CVE-2026-132165 (Fail2Install) is exploited in the wild: an unauthenticated attacker reopens /core/install.php on live sites for takeover or pre-auth RCE. Listed in CISA KEV.</p><p>- Exploitation status: Drupal disclosed it November 18, 2026 as Highly Critical (20/25). Exploitation on production sites was confirmed from November 19 at 19:00 UTC, one day after the release. CISA added it to KEV on November 24, with a November 27 deadline for US 🇺🇸 federal agencies. Multiple public repositories claim to reproduce takeover or RCE. Affected: Drupal core below 10.6.22, 11.0.0 through 11.3.21, and 11.4.0 through 11.4.12. Drupal 8 and 9 are end-of-life.</p><p>- How it works: Searchlight Cyber found that temporary resource exhaustion makes the installer&#x27;s &quot;is this site already installed?&quot; checks fail in a FAIL, FAIL, SUCCESS sequence. Drupal then treats an established site as new. Three exhaustion methods were shown: file descriptors (EMFILE), database connections, and TCP source ports. The attacker supplies their own database settings, Drupal writes them into settings.php, and the attacker creates the first admin user.</p><p>- Path to RCE: The installer&#x27;s SQLite option lets the attacker pick a database filename ending in .php under the web root. Attacker-controlled values such as the site name are stored in that file, so it becomes both an SQLite database and a carrier for PHP code. Searchlight Cyber showed Apache path-handling and rewrite behavior can be abused to bypass the .htaccess protections and execute it. Because exploitation needs only ordinary HTTP requests, there are no fixed domains, IPs, or hashes to block.</p><p>- Follow-up flaw: CVE-2026-136716 (November 25) covers sites in unusual or incomplete installation states that stayed exploitable after the first fix, and it is also exploited in the wild. Drupal says sites that already blocked the installer are not affected by it.</p><p>- Evidence to examine: Look in web access logs for /core/install.php requests, especially POSTs, repeats, or hits near database errors, PHP errors, or file-descriptor exhaustion. Check settings.php for changed database parameters. Review user 1 for email or password changes and for new privileged users. Hunt for SQLite files or .php files beneath the web root where databases or temp artifacts belong. On the host, Apache or PHP-FPM spawning sh, bash, curl, wget, python, or perl is high-confidence post-exploitation. Also check for web shells, cron entries, new SSH keys, and unusual outbound connections.</p><p>Takeaway: Patch status does not prove a site was never compromised. If you patched after November 19, review installer access for the whole vulnerable window. Current targets are 10.6.23, 11.3.23, or 11.4.14 or later. Run update.php, then block /core/install.php. On Nginx use a prefix match (location ^~ /core/install.php { return 404; }), because an exact match can still route paths containing .php/ into PHP. Confirm an unauthenticated request gets a blocked response. Drupal&#x27;s guidance is to check user 1 and confirm its email is still yours. If you find unexplained installer or admin activity, treat the site as potentially compromised. Review the full web root, database users, cron, SSH keys, and outbound traffic, rotate application secrets if compromise is confirmed, and verify backups predate the intrusion before restoring.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/cve-2026-132165-drupal-fail2install-rce-exploited-in-the-wild/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126347392857612404">View on X</a></p>]]></content:encoded>
+      <dc:creator>SOCPrime</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126347392857612404</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2126347392857612404">DFIR Radar</source>
+      <pubDate>Fri, 27 Nov 2026 16:08:19 +0000</pubDate>
+      <guid isPermaLink="false">2126347392857612404</guid>
+    </item>
     <item>
       <title>ARTEX and the Attacks That Never Take a Weekend Off</title>
       <link>https://www.truesec.com/hub/blog/artex-and-the-attacks-that-never-take-a-weekend-off</link>
@@ -2190,20 +2216,6 @@ Takeaway: the per-framework IP lists are in the author's GitHub Daily-Hunt repos
       <source url="https://x.com/DFIR_Radar/status/2124353422833090640">DFIR Radar</source>
       <pubDate>Sun, 22 Nov 2026 04:05:00 +0000</pubDate>
       <guid isPermaLink="false">2124353422833090640</guid>
-    </item>
-    <item>
-      <title>New Attack Bypasses TPM Lockout to Crack Windows Hello and BitLocker PINs in Days, Not Years</title>
-      <link>https://thehackernews.com/2026/11/flash-chip-attack-bypasses-tpm-lockout.html</link>
-      <description>Researchers used a flash-chip interposer to bypass TPM lockout and guess Hello and BitLocker PINs in lab tests; AMD tracks CVE-2026-43613 (CVSS 5.1). Check devices for tampering; lengthen PINs.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124338421460332745</description>
-      <content:encoded><![CDATA[<p>Researchers used a flash-chip interposer to bypass TPM lockout and guess Hello and BitLocker PINs in lab tests; AMD tracks CVE-2026-43613 (CVSS 5.1). Check devices for tampering; lengthen PINs.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/flash-chip-attack-bypasses-tpm-lockout.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124338421460332745">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124338421460332745</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2124338421460332745">DFIR Radar</source>
-      <pubDate>Sun, 22 Nov 2026 03:05:23 +0000</pubDate>
-      <guid isPermaLink="false">2124338421460332745</guid>
     </item>
   </channel>
 </rss>
