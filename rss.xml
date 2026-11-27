@@ -5,8 +5,44 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Nov 2026 07:09:10 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 09:04:16 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>nginx2root: CVE-2026-123007 and Four Other nginx RCE Flaws Explained</title>
+      <link>https://www.picussecurity.com/resource/blog/nginx2root-cve-2026-123007-and-four-other-nginx-rce-flaws-explained</link>
+      <description>nginx2root chains five unauthenticated nginx RCE flaws, each CVSS 4.0 9.2, with an SCTP Linux kernel bug that was unpatched at disclosure. The result is root on the host, even from Docker. CVE-2026-123007 needs only HTTP/2 and spans nginx 1.9.5 through 1.31.8.
+
+- CVE-2026-123007 is an HTTP/2 flow control bug. ngx_http_v2_filter_cleanup() refunds credit to h2c-&gt;send_window with no maximum check. A WINDOW_UPDATE on Stream ID 0 plus an RST_STREAM returns the same credit twice and pushes the window past 2^31-1. The unsigned wraparound breaks the bounds check, so the attacker can drive the window to any 64-bit value. That yields a negative copy length in ngx_ssl_send_chain(), a heap leak, and an overwritten cleanup function pointer. The report says it worked on AWS, GCP and Azure, and on official 1.31.7 and 1.31.8 builds serving static files over HTTPS with no backend app or third-party module.
+
+- Four use-after-free bugs give independent paths. CVE-2026-123633 (HTTP/2 plus an upstream, 1.19.7 to 1.31.8) and CVE-2026-121810 (HTTP/3 plus an upstream, 1.25.0 to 1.31.8) both abuse connection draining. CVE-2026-123634 hits the DNS resolver when proxy_pass uses a request-derived name and mirror creates subrequests (0.6.18 to 1.31.8). CVE-2026-113425 hits the mail proxy with auth_http (0.5.33 to 1.31.8). In the tested setups, nginx had to open a TCP connection to the attacker for CVE-2026-123633. The CVE-2026-123634 path needed the resolver to reach the attacker's authoritative DNS server. That makes unexpected egress from the nginx host a useful signal.
+
+- Root comes from a use-after-free in the kernel SCTP send path, present since Linux 4.15. An attacker already running as the nginx worker moves an SCTP association to another socket mid-send, leaks KASLR, and gets an arbitrary kernel function call. It escaped a Docker container running nginx, and because containers share the kernel, the host and every container on it were exposed. Many distributions auto-load the SCTP module when a program opens an SCTP socket.
+
+- Scope: as of November 10, 2026, Shodan showed 56.7 million nginx hosts. Of the 11.94 million reporting a version, 98.9% fall in the CVE-2026-123007 range. Those are version strings only, and distributions backport fixes without changing what nginx -v prints. Fixes are nginx 1.31.9 and 1.30.7 (released November 18, 2026) and NGINX Plus 37.0.8.1 and 37.3.0.1. Plus 37.0.7.1 and 37.2.0.1 fix only CVE-2026-123633. Compare full package versions with the distro advisory, for example Ubuntu 24.04 1.24.0-2ubuntu7.20 for CVE-2026-123007.
+
+- Evidence is thin. nginx does not log WINDOW_UPDATE or RST_STREAM as requests, so a CVE-2026-123007 attack leaves little trace in access logs. The clearest sign of success is a child process of an nginx worker.
+
+Takeaway: if you cannot patch yet, disabling HTTP/2 blocks only CVE-2026-123007 and CVE-2026-123633. On hosts that do not use SCTP, add install sctp /bin/false to a .conf file under /etc/modprobe.d/. That does not unload an already loaded module. A reload leaves old workers serving old sessions, so restart nginx if ps still shows workers shutting down.
+
+For hunting, the report gives this auditd rule, with the numeric worker UID in place of NGINX_UID: auditctl -a always,exit -F arch=b64 -S execve,execveat -F euid=NGINX_UID -k nginx_worker_exec. Then run ausearch -k nginx_worker_exec -ts recent -i and look for /bin/sh, /bin/bash or any other program whose parent is an nginx worker. Weaker signals:
+
+- Worker crashes in the error log (exited on signal, segfault), which indicate attempts rather than confirmed execution.
+
+- A long-lived connection whose received bytes grow fast while nginx sends little back.
+
+- Many short TLS connections from the same IP.
+
+Correlate all three with process creation logs. Exposure check commands are in the report, which gives no IOC list.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126240677310722364</description>
+      <content:encoded><![CDATA[<p>nginx2root chains five unauthenticated nginx RCE flaws, each CVSS 4.0 9.2, with an SCTP Linux kernel bug that was unpatched at disclosure. The result is root on the host, even from Docker. CVE-2026-123007 needs only HTTP/2 and spans nginx 1.9.5 through 1.31.8.</p><p>- CVE-2026-123007 is an HTTP/2 flow control bug. ngx_http_v2_filter_cleanup() refunds credit to h2c-&gt;send_window with no maximum check. A WINDOW_UPDATE on Stream ID 0 plus an RST_STREAM returns the same credit twice and pushes the window past 2^31-1. The unsigned wraparound breaks the bounds check, so the attacker can drive the window to any 64-bit value. That yields a negative copy length in ngx_ssl_send_chain(), a heap leak, and an overwritten cleanup function pointer. The report says it worked on AWS, GCP and Azure, and on official 1.31.7 and 1.31.8 builds serving static files over HTTPS with no backend app or third-party module.</p><p>- Four use-after-free bugs give independent paths. CVE-2026-123633 (HTTP/2 plus an upstream, 1.19.7 to 1.31.8) and CVE-2026-121810 (HTTP/3 plus an upstream, 1.25.0 to 1.31.8) both abuse connection draining. CVE-2026-123634 hits the DNS resolver when proxy_pass uses a request-derived name and mirror creates subrequests (0.6.18 to 1.31.8). CVE-2026-113425 hits the mail proxy with auth_http (0.5.33 to 1.31.8). In the tested setups, nginx had to open a TCP connection to the attacker for CVE-2026-123633. The CVE-2026-123634 path needed the resolver to reach the attacker&#x27;s authoritative DNS server. That makes unexpected egress from the nginx host a useful signal.</p><p>- Root comes from a use-after-free in the kernel SCTP send path, present since Linux 4.15. An attacker already running as the nginx worker moves an SCTP association to another socket mid-send, leaks KASLR, and gets an arbitrary kernel function call. It escaped a Docker container running nginx, and because containers share the kernel, the host and every container on it were exposed. Many distributions auto-load the SCTP module when a program opens an SCTP socket.</p><p>- Scope: as of November 10, 2026, Shodan showed 56.7 million nginx hosts. Of the 11.94 million reporting a version, 98.9% fall in the CVE-2026-123007 range. Those are version strings only, and distributions backport fixes without changing what nginx -v prints. Fixes are nginx 1.31.9 and 1.30.7 (released November 18, 2026) and NGINX Plus 37.0.8.1 and 37.3.0.1. Plus 37.0.7.1 and 37.2.0.1 fix only CVE-2026-123633. Compare full package versions with the distro advisory, for example Ubuntu 24.04 1.24.0-2ubuntu7.20 for CVE-2026-123007.</p><p>- Evidence is thin. nginx does not log WINDOW_UPDATE or RST_STREAM as requests, so a CVE-2026-123007 attack leaves little trace in access logs. The clearest sign of success is a child process of an nginx worker.</p><p>Takeaway: if you cannot patch yet, disabling HTTP/2 blocks only CVE-2026-123007 and CVE-2026-123633. On hosts that do not use SCTP, add install sctp /bin/false to a .conf file under /etc/modprobe.d/. That does not unload an already loaded module. A reload leaves old workers serving old sessions, so restart nginx if ps still shows workers shutting down.</p><p>For hunting, the report gives this auditd rule, with the numeric worker UID in place of NGINX_UID: auditctl -a always,exit -F arch=b64 -S execve,execveat -F euid=NGINX_UID -k nginx_worker_exec. Then run ausearch -k nginx_worker_exec -ts recent -i and look for /bin/sh, /bin/bash or any other program whose parent is an nginx worker. Weaker signals:</p><p>- Worker crashes in the error log (exited on signal, segfault), which indicate attempts rather than confirmed execution.</p><p>- A long-lived connection whose received bytes grow fast while nginx sends little back.</p><p>- Many short TLS connections from the same IP.</p><p>Correlate all three with process creation logs. Exposure check commands are in the report, which gives no IOC list.</p><p>#DFIR_Radar</p><p><a href="https://www.picussecurity.com/resource/blog/nginx2root-cve-2026-123007-and-four-other-nginx-rce-flaws-explained">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126240677310722364">View on X</a></p>]]></content:encoded>
+      <dc:creator>Picus Security</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126240677310722364</comments>
+      <category>VULNERABILITY</category>
+      <source url="https://x.com/DFIR_Radar/status/2126240677310722364">DFIR Radar</source>
+      <pubDate>Fri, 27 Nov 2026 09:04:16 +0000</pubDate>
+      <guid isPermaLink="false">2126240677310722364</guid>
+    </item>
     <item>
       <title>Unpatched Cacti Zero-Day Enables RCE in Just Four HTTP Requests via Guest Access</title>
       <link>https://thehackernews.com/2026/11/unpatched-cacti-zero-day-enables-rce-in.html</link>
@@ -2116,20 +2152,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124247868143775912">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 21:05:33 +0000</pubDate>
       <guid isPermaLink="false">2124247868143775912</guid>
-    </item>
-    <item>
-      <title>Russian Espionage Actor Star Blizzard Focuses on Cloud Identities for Mass Data Theft</title>
-      <link>https://www.infosecurity-magazine.com/news/russian-star-blizzard-cloud-data/</link>
-      <description>Russian 🇷🇺 Star Blizzard abused MFA fatigue and phished Entra ID tokens to mass-download cloud drives at US 🇺🇸 organizations. Hunt new MFA devices, Customer Takeout exports, and deleted Alert Center notifications.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124232674156101769</description>
-      <content:encoded><![CDATA[<p>Russian 🇷🇺 Star Blizzard abused MFA fatigue and phished Entra ID tokens to mass-download cloud drives at US 🇺🇸 organizations. Hunt new MFA devices, Customer Takeout exports, and deleted Alert Center notifications.</p><p>#DFIR_Radar</p><p><a href="https://www.infosecurity-magazine.com/news/russian-star-blizzard-cloud-data/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124232674156101769">View on X</a></p>]]></content:encoded>
-      <dc:creator>InfoSecurity Magazine</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124232674156101769</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2124232674156101769">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 20:05:11 +0000</pubDate>
-      <guid isPermaLink="false">2124232674156101769</guid>
     </item>
   </channel>
 </rss>
