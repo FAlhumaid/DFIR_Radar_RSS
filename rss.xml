@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 26 Nov 2026 22:08:46 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 00:03:27 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Software Supply Chain Attack via the Official SoftwareOK Website: Tampering with Q-Dir and DesktopOK Installation Files</title>
+      <link>https://asec.ahnlab.com/en/96827/</link>
+      <description>Q-Dir and DesktopOK installers served from the official SoftwareOK site were tampered with to drop a Python RAT, and ASEC saw infections during in-app updates too. The installer launches the real, signed app, so nothing looks wrong to the user.
+
+ASEC (AhnLab) found that the SHA-256 of some installers downloaded from SoftwareOK did not match the hash published on the download page. This is a supply chain compromise through the official distribution path. The report says the cause and path of the file replacement have not been identified.
+
+- Affected builds: Q-Dir 12.85.0.0, 12.84.0.0 and 12.83.0.0, and DesktopOK 12.85.0.0 and 12.82.0.0. Several malicious hashes exist per version. The legitimate and malicious SHA-256 pairs are in the report's table. ASEC warns that users who installed or updated during the distribution window are at risk even if their version is not listed.
+
+- Execution chain: the malicious installer carries the legitimate Q-Dir or DesktopOK executable as a resource and runs it from C:\Users\Public\[file name]. That embedded binary matches the published hash and has a valid signature from developer Nenad Hrg, so a signature check on the dropped exe proves nothing. Check the outer installer instead. It then pulls hxxps://mail.c1a2[.]top/dl/7zr.exe, a legitimate 7-Zip, and hxxps://mail.c1a2[.]top/dl/dsv2_py39_agent.7z, which holds a Python runtime plus the RAT.
+
+- Persistence and footprint: the package unpacks to C:\ProgramData\Microsoft\DeviceSync\b2, with an alternative such as C:\ProgramData\DeviceSync\b2 as the fallback. A scheduled task named \UPnp\MicrosoftEdge_dcntel runs pythonw.exe from the py39 folder against agent\py_client_dsv2.py. The bundled interpreter means the RAT runs on hosts with no Python installed. C2 is 8.210.69[.]51:9876.
+
+- Capabilities: shell command execution, Python code execution, file upload and download, screenshots, and system information collection. The RAT also enumerates running processes against an internal list of 1,206 security product process names, covering AhnLab V3, ALYac, nProtect, ViRobot, CrowdStrike Falcon, SentinelOne, Cylance, Trend Micro, Kaspersky, Sophos, Elastic Security and others. The results go to the C2, so the operator can decide on follow-up or evasion per host. Chinese 🇨🇳 language comments in the code and the product list hint at a Chinese-speaking developer, which ASEC treats as a suggestion only.
+
+- Remediation trap: uninstalling and reinstalling Q-Dir or DesktopOK may not remove the RAT. It lives in its own directory with its own scheduled task.
+
+DFIR takeaway: if Q-Dir or DesktopOK was installed or updated recently, hash the cached installer and compare it to the published SHA-256. Then hunt endpoints for the \UPnp\MicrosoftEdge_dcntel task, pythonw.exe running from a DeviceSync\b2\py39 path, py_client_dsv2.py on disk, files under C:\Users\Public matching the app name, and any traffic to mail.c1a2[.]top or 8.210.69[.]51 on port 9876. Check proxy and DNS history for the 7zr.exe and .7z downloads to timeline first execution. If you find it, isolate the host and scope for follow-on malware and data theft, since the operator could take screenshots and pull files. Hashes, URLs, paths and the C2 are in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126104578097545229</description>
+      <content:encoded><![CDATA[<p>Q-Dir and DesktopOK installers served from the official SoftwareOK site were tampered with to drop a Python RAT, and ASEC saw infections during in-app updates too. The installer launches the real, signed app, so nothing looks wrong to the user.</p><p>ASEC (AhnLab) found that the SHA-256 of some installers downloaded from SoftwareOK did not match the hash published on the download page. This is a supply chain compromise through the official distribution path. The report says the cause and path of the file replacement have not been identified.</p><p>- Affected builds: Q-Dir 12.85.0.0, 12.84.0.0 and 12.83.0.0, and DesktopOK 12.85.0.0 and 12.82.0.0. Several malicious hashes exist per version. The legitimate and malicious SHA-256 pairs are in the report&#x27;s table. ASEC warns that users who installed or updated during the distribution window are at risk even if their version is not listed.</p><p>- Execution chain: the malicious installer carries the legitimate Q-Dir or DesktopOK executable as a resource and runs it from C:\Users\Public\[file name]. That embedded binary matches the published hash and has a valid signature from developer Nenad Hrg, so a signature check on the dropped exe proves nothing. Check the outer installer instead. It then pulls hxxps://mail.c1a2[.]top/dl/7zr.exe, a legitimate 7-Zip, and hxxps://mail.c1a2[.]top/dl/dsv2_py39_agent.7z, which holds a Python runtime plus the RAT.</p><p>- Persistence and footprint: the package unpacks to C:\ProgramData\Microsoft\DeviceSync\b2, with an alternative such as C:\ProgramData\DeviceSync\b2 as the fallback. A scheduled task named \UPnp\MicrosoftEdge_dcntel runs pythonw.exe from the py39 folder against agent\py_client_dsv2.py. The bundled interpreter means the RAT runs on hosts with no Python installed. C2 is 8.210.69[.]51:9876.</p><p>- Capabilities: shell command execution, Python code execution, file upload and download, screenshots, and system information collection. The RAT also enumerates running processes against an internal list of 1,206 security product process names, covering AhnLab V3, ALYac, nProtect, ViRobot, CrowdStrike Falcon, SentinelOne, Cylance, Trend Micro, Kaspersky, Sophos, Elastic Security and others. The results go to the C2, so the operator can decide on follow-up or evasion per host. Chinese 🇨🇳 language comments in the code and the product list hint at a Chinese-speaking developer, which ASEC treats as a suggestion only.</p><p>- Remediation trap: uninstalling and reinstalling Q-Dir or DesktopOK may not remove the RAT. It lives in its own directory with its own scheduled task.</p><p>DFIR takeaway: if Q-Dir or DesktopOK was installed or updated recently, hash the cached installer and compare it to the published SHA-256. Then hunt endpoints for the \UPnp\MicrosoftEdge_dcntel task, pythonw.exe running from a DeviceSync\b2\py39 path, py_client_dsv2.py on disk, files under C:\Users\Public matching the app name, and any traffic to mail.c1a2[.]top or 8.210.69[.]51 on port 9876. Check proxy and DNS history for the 7zr.exe and .7z downloads to timeline first execution. If you find it, isolate the host and scope for follow-on malware and data theft, since the operator could take screenshots and pull files. Hashes, URLs, paths and the C2 are in the report.</p><p>#DFIR_Radar</p><p><a href="https://asec.ahnlab.com/en/96827/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126104578097545229">View on X</a></p>]]></content:encoded>
+      <dc:creator>AhnLab ASEC</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126104578097545229</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2126104578097545229">DFIR Radar</source>
+      <pubDate>Fri, 27 Nov 2026 00:03:27 +0000</pubDate>
+      <guid isPermaLink="false">2126104578097545229</guid>
+    </item>
     <item>
       <title>Odd Jobs: Inside Telegram Recruitment Campaigns</title>
       <link>https://www.group-ib.com/blog/telegram-recruitment-campaigns/</link>
@@ -2102,20 +2130,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124217648032391524">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 19:05:28 +0000</pubDate>
       <guid isPermaLink="false">2124217648032391524</guid>
-    </item>
-    <item>
-      <title>ArcticRAT Enlists Grok to Analyze Stolen Financial Data</title>
-      <link>https://blog.polyswarm.io/arcticrat-enlists-grok-to-analyze-stolen-financial-data</link>
-      <description>ArcticRAT Android trojan sends stolen SMS and app lists to the xAI API to find financial data. Check devices for abused Accessibility Services and wireless ADB; hashes are in the report.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124202640024457522</description>
-      <content:encoded><![CDATA[<p>ArcticRAT Android trojan sends stolen SMS and app lists to the xAI API to find financial data. Check devices for abused Accessibility Services and wireless ADB; hashes are in the report.</p><p>#DFIR_Radar</p><p><a href="https://blog.polyswarm.io/arcticrat-enlists-grok-to-analyze-stolen-financial-data">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124202640024457522">View on X</a></p>]]></content:encoded>
-      <dc:creator>PolySwarm</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124202640024457522</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2124202640024457522">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 18:05:50 +0000</pubDate>
-      <guid isPermaLink="false">2124202640024457522</guid>
     </item>
   </channel>
 </rss>
