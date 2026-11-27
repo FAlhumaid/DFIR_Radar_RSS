@@ -5,8 +5,34 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Nov 2026 10:04:34 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 11:03:33 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>SeroRAT Uncovered: Hidden Desktops, Silent Surveillance and C2 Infrastructure</title>
+      <link>https://threatmon.io/serorat-uncovered-hidden-desktops-silent-surveillance-and-c2-infrastructure/</link>
+      <description>SeroRAT, a Windows C2 framework promoted on Telegram, bundles hidden desktop (HVNC), keylogging, SOCKS5 and a clipboard clipper. Its 2.0.0 source shows operator-side logs that can anchor a timeline.
+
+- Build and promotion: The operator app is a WPF application on .NET 10, and the client is a Windows x64 NativeAOT stub using TLS. A November 12 post in the Exclusive Hacking Tools Telegram group (1,702 members) forwarded from the SeroRAT channel (242 subscribers) pointed straight to the GitLab repo. The repo also holds hook and XMR miner projects, but whether a given executable contains them is a sample-level question.
+
+- Persistence: The client can write a Registry Run entry (T1547.001), drop a Startup shortcut, register a scheduled task (T1053.005), or create a permanent WMI event subscription (T1546.003). Flags choose the mechanism, so several can coexist. The WMI subscription and the machine-wide Run entry only install with admin rights. A watchdog can restore a deleted Startup shortcut while the client runs.
+
+- Evasion and hiding: AntiDebug and AntiSandbox checks (T1622, T1497) make the client exit at startup via ProtectionExit, so a short sandbox run may show nothing. HollowSelf (T1055.012) means a familiar process name may not match the code running. A separate DLL hooks NtQuerySystemInformation and NtQueryDirectoryFile, which could hide processes and files. The HVNC module calls CreateDesktop, so a user may see no window while process and network records show the app ran.
+
+- Collection and abuse: The keylogger (T1056.001) appends UTF-8 text to a local file on the endpoint. The clipper swaps copied crypto addresses for configured replacements. The SOCKS5 module (T1090) can make the victim host appear as the source of relayed connections. The miner project loads an embedded xmrig.bin resource (T1496.001).
+
+- Operator-side evidence: On a recovered operator box, DiagnosticLogger writes CONN+, CONN- and STRM entries, each carrying the client ID, to %LOCALAPPDATA%\SeroServer\logs (five rotating 5 MB files). Client history sits in clients.db under %APPDATA%\SeroServer, or in the legacy clients.json on older or unmigrated installs. LastIP is not timestamped, so use the logs for timing.
+
+Takeaway: Start from network telemetry to find which process opened the connection, then record its path, parent, account and timestamp. Inventory Run keys, Startup shortcuts, scheduled tasks and WMI filter, consumer and binding objects before removal, and preserve memory to test hollowed processes against their on-disk image. Where credentials may be exposed, check for recovered keylog files, then reset credentials from a trusted device and revoke sessions. Match STRM client IDs and times against endpoint and network records to place a desktop stream in a specific session.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126270697551061302</description>
+      <content:encoded><![CDATA[<p>SeroRAT, a Windows C2 framework promoted on Telegram, bundles hidden desktop (HVNC), keylogging, SOCKS5 and a clipboard clipper. Its 2.0.0 source shows operator-side logs that can anchor a timeline.</p><p>- Build and promotion: The operator app is a WPF application on .NET 10, and the client is a Windows x64 NativeAOT stub using TLS. A November 12 post in the Exclusive Hacking Tools Telegram group (1,702 members) forwarded from the SeroRAT channel (242 subscribers) pointed straight to the GitLab repo. The repo also holds hook and XMR miner projects, but whether a given executable contains them is a sample-level question.</p><p>- Persistence: The client can write a Registry Run entry (T1547.001), drop a Startup shortcut, register a scheduled task (T1053.005), or create a permanent WMI event subscription (T1546.003). Flags choose the mechanism, so several can coexist. The WMI subscription and the machine-wide Run entry only install with admin rights. A watchdog can restore a deleted Startup shortcut while the client runs.</p><p>- Evasion and hiding: AntiDebug and AntiSandbox checks (T1622, T1497) make the client exit at startup via ProtectionExit, so a short sandbox run may show nothing. HollowSelf (T1055.012) means a familiar process name may not match the code running. A separate DLL hooks NtQuerySystemInformation and NtQueryDirectoryFile, which could hide processes and files. The HVNC module calls CreateDesktop, so a user may see no window while process and network records show the app ran.</p><p>- Collection and abuse: The keylogger (T1056.001) appends UTF-8 text to a local file on the endpoint. The clipper swaps copied crypto addresses for configured replacements. The SOCKS5 module (T1090) can make the victim host appear as the source of relayed connections. The miner project loads an embedded xmrig.bin resource (T1496.001).</p><p>- Operator-side evidence: On a recovered operator box, DiagnosticLogger writes CONN+, CONN- and STRM entries, each carrying the client ID, to %LOCALAPPDATA%\SeroServer\logs (five rotating 5 MB files). Client history sits in clients.db under %APPDATA%\SeroServer, or in the legacy clients.json on older or unmigrated installs. LastIP is not timestamped, so use the logs for timing.</p><p>Takeaway: Start from network telemetry to find which process opened the connection, then record its path, parent, account and timestamp. Inventory Run keys, Startup shortcuts, scheduled tasks and WMI filter, consumer and binding objects before removal, and preserve memory to test hollowed processes against their on-disk image. Where credentials may be exposed, check for recovered keylog files, then reset credentials from a trusted device and revoke sessions. Match STRM client IDs and times against endpoint and network records to place a desktop stream in a specific session.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/serorat-uncovered-hidden-desktops-silent-surveillance-and-c2-infrastructure/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126270697551061302">View on X</a></p>]]></content:encoded>
+      <dc:creator>ThreatMon</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126270697551061302</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2126270697551061302">DFIR Radar</source>
+      <pubDate>Fri, 27 Nov 2026 11:03:33 +0000</pubDate>
+      <guid isPermaLink="false">2126270697551061302</guid>
+    </item>
     <item>
       <title>BabidiGhost Metabase Takeovers: Inside the Actor’s Second Server</title>
       <link>https://socradar.io/blog/babidighost-metabase-takeovers/</link>
@@ -2150,20 +2176,6 @@ Takeaway: Treat this as a credential-exposure investigation, not just a rotation
       <source url="https://x.com/DFIR_Radar/status/2124278255071183196">DFIR Radar</source>
       <pubDate>Sat, 21 Nov 2026 23:06:18 +0000</pubDate>
       <guid isPermaLink="false">2124278255071183196</guid>
-    </item>
-    <item>
-      <title>ARTEX, and the offensive tool powered by LLMjacking five months earlier</title>
-      <link>https://webflow.sysdig.com/blog/artex-and-the-offensive-tool-powered-by-llmjacking-five-months-earlier</link>
-      <description>FBI warns actors run ARTEX, an open source AI pentest platform partly fueled by LLMjacking. Check egress logs for unfamiliar LLM proxies and billing anomalies; IOCs are in the FLASH.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124263125197140068</description>
-      <content:encoded><![CDATA[<p>FBI warns actors run ARTEX, an open source AI pentest platform partly fueled by LLMjacking. Check egress logs for unfamiliar LLM proxies and billing anomalies; IOCs are in the FLASH.</p><p>#DFIR_Radar</p><p><a href="https://webflow.sysdig.com/blog/artex-and-the-offensive-tool-powered-by-llmjacking-five-months-earlier">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124263125197140068">View on X</a></p>]]></content:encoded>
-      <dc:creator>Sysdig</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124263125197140068</comments>
-      <category>THREAT INTELLIGENCE</category>
-      <source url="https://x.com/DFIR_Radar/status/2124263125197140068">DFIR Radar</source>
-      <pubDate>Sat, 21 Nov 2026 22:06:11 +0000</pubDate>
-      <guid isPermaLink="false">2124263125197140068</guid>
     </item>
   </channel>
 </rss>
