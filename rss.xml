@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Nov 2026 13:09:34 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 14:04:40 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Microsoft Store App Found Delivering Vinci RAT Capable of Remote System Control</title>
+      <link>https://thehackernews.com/2026/11/microsoft-store-app-found-delivering.html</link>
+      <description>A Microsoft Store app, Setup Assistant from publisher ETPS Ltd, was used to backdoor victims and deploy a previously undocumented PowerShell RAT called Vinci RAT. The lure was a fake snipping tool site, and the installer arrived through a trusted distribution channel.
+
+- Attack chain: eSentire says victims are redirected to a bogus site, snipp.codes-team[.]com, which serves a Microsoft-signed installer named Snipping-Tool.exe. Running it installs Setup Assistant, a heavily obfuscated Electron app that talks to C2, watches the Downloads folder, and runs C2-supplied PowerShell and JavaScript. That access launched a malicious PowerShell stager, set up a scheduled task, and pulled down the RAT.
+
+- Two triggers for remote code execution: Setup Assistant contacts setup-assistant[.]com and gets a config with a list of file names. If MSTeamsSetup.exe or Reader_install.exe shows up in the victim's Downloads directory, it sends an HTTP POST to the C2 and executes the response. The C2 can also force an update action through setup-assistant[.]com/api/update-status?device=&lt;victim_id&gt;.
+
+- Stager behavior: the PowerShell stager disables AMSI, generates a unique victim ID, and beacons to monkeysholder[.]info/api.php. It persists with a scheduled task that runs every 10 minutes, then downloads the RAT payload.
+
+- Vinci RAT capabilities: it fingerprints the host, enumerates installed security tools, and provides remote and reverse shell access. It can also deliver files and execute shellcode, DLL, EXE, and PowerShell payloads, so treat any affected host as fully hands-on-keyboard compromised.
+
+- Infrastructure and timeline: the root domain codes-team[.]com has subdomains spoofing Roblox and Microsoft Teams download pages: roblx.codes-team[.]com, teams.codes-team[.]com, teamsmac.codes-team[.]com, and teams-bing.codes-team[.]com. The domain was registered in late March 2026 and the app was first published June 1, 2026. eSentire reported the app via Microsoft's abuse form on November 10, 2026 and was told it was "not a violation of our terms." The app is no longer available, but it is unclear who pulled it.
+
+Why it matters: a Microsoft-signed installer and a Store listing carry implicit trust, so signature and publisher checks alone would not have flagged this. The app itself is the backdoor, and the RAT is staged afterward.
+
+Takeaway: scope for installs of Setup Assistant by ETPS Ltd and for Electron app processes spawning PowerShell. Look for any scheduled task that launches PowerShell on a 10-minute interval, and for AMSI tampering in PowerShell activity. Search proxy and DNS logs for setup-assistant[.]com, monkeysholder[.]info, and codes-team[.]com subdomains, including the update-status URL pattern. Check whether MSTeamsSetup.exe or Reader_install.exe landed in Downloads folders, since those names trigger C2 code execution. If you find a hit, preserve the Electron app directory and the scheduled task definition before cleanup. The domains and URLs above are in eSentire's report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126316272900047165</description>
+      <content:encoded><![CDATA[<p>A Microsoft Store app, Setup Assistant from publisher ETPS Ltd, was used to backdoor victims and deploy a previously undocumented PowerShell RAT called Vinci RAT. The lure was a fake snipping tool site, and the installer arrived through a trusted distribution channel.</p><p>- Attack chain: eSentire says victims are redirected to a bogus site, snipp.codes-team[.]com, which serves a Microsoft-signed installer named Snipping-Tool.exe. Running it installs Setup Assistant, a heavily obfuscated Electron app that talks to C2, watches the Downloads folder, and runs C2-supplied PowerShell and JavaScript. That access launched a malicious PowerShell stager, set up a scheduled task, and pulled down the RAT.</p><p>- Two triggers for remote code execution: Setup Assistant contacts setup-assistant[.]com and gets a config with a list of file names. If MSTeamsSetup.exe or Reader_install.exe shows up in the victim&#x27;s Downloads directory, it sends an HTTP POST to the C2 and executes the response. The C2 can also force an update action through setup-assistant[.]com/api/update-status?device=&lt;victim_id&gt;.</p><p>- Stager behavior: the PowerShell stager disables AMSI, generates a unique victim ID, and beacons to monkeysholder[.]info/api.php. It persists with a scheduled task that runs every 10 minutes, then downloads the RAT payload.</p><p>- Vinci RAT capabilities: it fingerprints the host, enumerates installed security tools, and provides remote and reverse shell access. It can also deliver files and execute shellcode, DLL, EXE, and PowerShell payloads, so treat any affected host as fully hands-on-keyboard compromised.</p><p>- Infrastructure and timeline: the root domain codes-team[.]com has subdomains spoofing Roblox and Microsoft Teams download pages: roblx.codes-team[.]com, teams.codes-team[.]com, teamsmac.codes-team[.]com, and teams-bing.codes-team[.]com. The domain was registered in late March 2026 and the app was first published June 1, 2026. eSentire reported the app via Microsoft&#x27;s abuse form on November 10, 2026 and was told it was &quot;not a violation of our terms.&quot; The app is no longer available, but it is unclear who pulled it.</p><p>Why it matters: a Microsoft-signed installer and a Store listing carry implicit trust, so signature and publisher checks alone would not have flagged this. The app itself is the backdoor, and the RAT is staged afterward.</p><p>Takeaway: scope for installs of Setup Assistant by ETPS Ltd and for Electron app processes spawning PowerShell. Look for any scheduled task that launches PowerShell on a 10-minute interval, and for AMSI tampering in PowerShell activity. Search proxy and DNS logs for setup-assistant[.]com, monkeysholder[.]info, and codes-team[.]com subdomains, including the update-status URL pattern. Check whether MSTeamsSetup.exe or Reader_install.exe landed in Downloads folders, since those names trigger C2 code execution. If you find a hit, preserve the Electron app directory and the scheduled task definition before cleanup. The domains and URLs above are in eSentire&#x27;s report.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/microsoft-store-app-found-delivering.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126316272900047165">View on X</a></p>]]></content:encoded>
+      <dc:creator>The Hacker News</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126316272900047165</comments>
+      <category>THREAT INTELLIGENCE</category>
+      <source url="https://x.com/DFIR_Radar/status/2126316272900047165">DFIR Radar</source>
+      <pubDate>Fri, 27 Nov 2026 14:04:40 +0000</pubDate>
+      <guid isPermaLink="false">2126316272900047165</guid>
+    </item>
     <item>
       <title>iOS Forensic Toolkit 10.14: app data extraction for iOS 27 and the iPhone 18 range</title>
       <link>https://blog.elcomsoft.com/2026/11/ios-forensic-toolkit-10-14-app-data-extraction-for-ios-27-and-the-iphone-18-range/</link>
@@ -2164,20 +2192,6 @@ Takeaway: the per-framework IP lists are in the author's GitHub Daily-Hunt repos
       <source url="https://x.com/DFIR_Radar/status/2124323279624393035">DFIR Radar</source>
       <pubDate>Sun, 22 Nov 2026 02:05:13 +0000</pubDate>
       <guid isPermaLink="false">2124323279624393035</guid>
-    </item>
-    <item>
-      <title>VMware patches vCenter zero-day exploited in attacks since September</title>
-      <link>https://www.bleepingcomputer.com/news/security/vmware-patches-vcenter-zero-day-exploited-in-attacks-since-september/</link>
-      <description>Suspected Chinese 🇨🇳 Armory Castle exploited vCenter zero-day CVE-2026-123890 since September with BONESAW. Hunt for administrator[@]vsphere.local sessions and vmdirdbcp RPC access to data.mdb, then patch.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124308206805557439</description>
-      <content:encoded><![CDATA[<p>Suspected Chinese 🇨🇳 Armory Castle exploited vCenter zero-day CVE-2026-123890 since September with BONESAW. Hunt for administrator[@]vsphere.local sessions and vmdirdbcp RPC access to data.mdb, then patch.</p><p>#DFIR_Radar</p><p><a href="https://www.bleepingcomputer.com/news/security/vmware-patches-vcenter-zero-day-exploited-in-attacks-since-september/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124308206805557439">View on X</a></p>]]></content:encoded>
-      <dc:creator>Bleeping Computer</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124308206805557439</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2124308206805557439">DFIR Radar</source>
-      <pubDate>Sun, 22 Nov 2026 01:05:19 +0000</pubDate>
-      <guid isPermaLink="false">2124308206805557439</guid>
     </item>
   </channel>
 </rss>
