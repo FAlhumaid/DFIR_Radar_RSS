@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Nov 2026 18:09:41 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Nov 2026 11:02:32 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>GPT LOCK Uncovered: Linux Encryption, Silent Wiping and the Tor Recovery Portal</title>
+      <link>https://threatmon.io/gpt-lock-uncovered-linux-encryption-silent-wiping-and-the-tor-recovery-portal/</link>
+      <description>GPT LOCK Linux ransomware encrypts with ChaCha20-Poly1305, but a separate branch zero-wipes and deletes selected files over 50 MiB, which no decryptor can restore. No AI found despite the name.
+
+ThreatMon's team reverse-engineered the sample statically from an exposed staging server. They treat that server as the sample's source, not as operator C2. Initial access is unknown, and there is no reliable first-seen date or victim count. The sample was never run, and no real encrypted victim file was available.
+
+- Sample: ELF64 x86-64, statically linked, stripped, a file named Linux. SHA-256 d53a409f790eb1e0d909e2595b74839663ad238b78282aa1648b7af87a4031ce. It renames its process to kworker/0:1-events (T1036), so it looks like a kernel worker in a process list, though it is a normal user-space process. It then stops, disables, and masks services via systemctl, with service and chkconfig fallbacks, and also looks for SQL-related services, likely to release files held open by databases (T1489).
+
+- Encryption (T1486): one 32-byte ChaCha20 key per run, wrapped with RSA-2048 OAEP-SHA256 into a 512-character hex "Personal KEY" that goes in the note. Each file gets a fresh 12-byte nonce and is processed in 1 MiB chunks, last to first, then renamed to .gptlock. Files start with a 28-byte header: ITM3 magic (49 54 4D 33), nonce, original size, chunk size. Each chunk is a 16-byte Poly1305 tag plus ciphertext. The note is written as README-RECOVER.txt.tmp, then renamed to README-RECOVER.txt.
+
+- Wipe branch (T1485): after path and name checks, files over 50 MiB can skip encryption. The code opens write-only without following symlinks, writes a 1 MiB zero buffer over the whole file, syncs, closes, then calls unlink(). The delete can run even if the open failed. A victim may see few .gptlock files and still have lost large files, paid or not. Earlier filters decide which files reach it. Snapshots, backups, copy-on-write filesystems, or an interrupted write loop may change what is recoverable.
+
+- Crypto flaw: ChaCha20 counters are handled correctly, but every chunk's Poly1305 key comes from block counter zero with the same file key and nonce, so the supposed one-time key is reused. That is a tag integrity problem. It does not expose the file key, and ThreatMon did not test exploitability.
+
+- Tor portal: "GPT LOCK TOR HIDDEN SERVICE v3" at hxxp://agznlsyqig44nihyodfjay3fnk33ktjduynv2kwcbsm5nbyarc42q4ad[.]onion/. It promises a free test decryption of one file up to 10 MB, Bitcoin payment, two confirmations, and a 48-hour decryptor. It also claims Windows support, but no Windows sample was found and none of it was verified. The page JavaScript shows an /api/blog leak page with no posts seen, a 0.02 BTC display value, and an operator console that logs visitor IP and country. Visit counts are not victims. No automated exfiltration or C2 path was found in the code inspected, though that is a limit of the review, not proof.
+
+Takeaway: alert on the combination, not single events. Look for a burst of renames to .gptlock, new README-RECOVER.txt files or a .tmp note being renamed, files starting with ITM3, systemctl stop, disable, or mask run across many services (especially databases), and a user-space process named kworker/0:1-events. Treat large sequential zero-byte writes followed by unlink() as its own alert. Hunt for both outcomes: encrypted files and deleted or zeroed large files, since a host with few .gptlock files may still have lost data. Check offline or immutable backups and snapshots now, because wiped files can only come back from there. Preserve the binary, notes, encrypted files with hashes, and process, filesystem, and auth logs, and build one timeline from service changes, shell commands, note writes, and file bursts. Treat the portal as hostile: it logs visitor IPs, and submitting a key, file, or payment is a legal and IR decision. Indicators are in the report's table, and ThreatMon says the full set is in its full report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126632829530374335</description>
+      <content:encoded><![CDATA[<p>GPT LOCK Linux ransomware encrypts with ChaCha20-Poly1305, but a separate branch zero-wipes and deletes selected files over 50 MiB, which no decryptor can restore. No AI found despite the name.</p><p>ThreatMon&#x27;s team reverse-engineered the sample statically from an exposed staging server. They treat that server as the sample&#x27;s source, not as operator C2. Initial access is unknown, and there is no reliable first-seen date or victim count. The sample was never run, and no real encrypted victim file was available.</p><p>- Sample: ELF64 x86-64, statically linked, stripped, a file named Linux. SHA-256 d53a409f790eb1e0d909e2595b74839663ad238b78282aa1648b7af87a4031ce. It renames its process to kworker/0:1-events (T1036), so it looks like a kernel worker in a process list, though it is a normal user-space process. It then stops, disables, and masks services via systemctl, with service and chkconfig fallbacks, and also looks for SQL-related services, likely to release files held open by databases (T1489).</p><p>- Encryption (T1486): one 32-byte ChaCha20 key per run, wrapped with RSA-2048 OAEP-SHA256 into a 512-character hex &quot;Personal KEY&quot; that goes in the note. Each file gets a fresh 12-byte nonce and is processed in 1 MiB chunks, last to first, then renamed to .gptlock. Files start with a 28-byte header: ITM3 magic (49 54 4D 33), nonce, original size, chunk size. Each chunk is a 16-byte Poly1305 tag plus ciphertext. The note is written as README-RECOVER.txt.tmp, then renamed to README-RECOVER.txt.</p><p>- Wipe branch (T1485): after path and name checks, files over 50 MiB can skip encryption. The code opens write-only without following symlinks, writes a 1 MiB zero buffer over the whole file, syncs, closes, then calls unlink(). The delete can run even if the open failed. A victim may see few .gptlock files and still have lost large files, paid or not. Earlier filters decide which files reach it. Snapshots, backups, copy-on-write filesystems, or an interrupted write loop may change what is recoverable.</p><p>- Crypto flaw: ChaCha20 counters are handled correctly, but every chunk&#x27;s Poly1305 key comes from block counter zero with the same file key and nonce, so the supposed one-time key is reused. That is a tag integrity problem. It does not expose the file key, and ThreatMon did not test exploitability.</p><p>- Tor portal: &quot;GPT LOCK TOR HIDDEN SERVICE v3&quot; at hxxp://agznlsyqig44nihyodfjay3fnk33ktjduynv2kwcbsm5nbyarc42q4ad[.]onion/. It promises a free test decryption of one file up to 10 MB, Bitcoin payment, two confirmations, and a 48-hour decryptor. It also claims Windows support, but no Windows sample was found and none of it was verified. The page JavaScript shows an /api/blog leak page with no posts seen, a 0.02 BTC display value, and an operator console that logs visitor IP and country. Visit counts are not victims. No automated exfiltration or C2 path was found in the code inspected, though that is a limit of the review, not proof.</p><p>Takeaway: alert on the combination, not single events. Look for a burst of renames to .gptlock, new README-RECOVER.txt files or a .tmp note being renamed, files starting with ITM3, systemctl stop, disable, or mask run across many services (especially databases), and a user-space process named kworker/0:1-events. Treat large sequential zero-byte writes followed by unlink() as its own alert. Hunt for both outcomes: encrypted files and deleted or zeroed large files, since a host with few .gptlock files may still have lost data. Check offline or immutable backups and snapshots now, because wiped files can only come back from there. Preserve the binary, notes, encrypted files with hashes, and process, filesystem, and auth logs, and build one timeline from service changes, shell commands, note writes, and file bursts. Treat the portal as hostile: it logs visitor IPs, and submitting a key, file, or payment is a legal and IR decision. Indicators are in the report&#x27;s table, and ThreatMon says the full set is in its full report.</p><p>#DFIR_Radar</p><p><a href="https://threatmon.io/gpt-lock-uncovered-linux-encryption-silent-wiping-and-the-tor-recovery-portal/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126632829530374335">View on X</a></p>]]></content:encoded>
+      <dc:creator>ThreatMon</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126632829530374335</comments>
+      <category>MALWARE ANALYSIS</category>
+      <source url="https://x.com/DFIR_Radar/status/2126632829530374335">DFIR Radar</source>
+      <pubDate>Sat, 28 Nov 2026 11:02:32 +0000</pubDate>
+      <guid isPermaLink="false">2126632829530374335</guid>
+    </item>
     <item>
       <title>Troubleshooting Extraction Agent OTA Installation</title>
       <link>https://blog.elcomsoft.com/2026/11/troubleshooting-extraction-agent-ota-installation/</link>
@@ -2152,20 +2180,6 @@ Takeaway: the per-framework IP lists are in the author's GitHub Daily-Hunt repos
       <source url="https://x.com/DFIR_Radar/status/2124338421460332745">DFIR Radar</source>
       <pubDate>Sun, 22 Nov 2026 03:05:23 +0000</pubDate>
       <guid isPermaLink="false">2124338421460332745</guid>
-    </item>
-    <item>
-      <title>CVE-2026-126714: phpAfterShell PHP Session Flaw Can Lead to Remote Code Execution</title>
-      <link>https://socprime.com/blog/cve-2026-126714-phpaftershell-php-session-flaw-can-lead-to-remote-code-execution/</link>
-      <description>CVE-2026-126714 (phpAfterShell, CVSS 9.2) lets interrupted PHP file-session writes become deserialization, with a public PoC but no reported exploitation. Hunt PHP workers for crashes, OOM events, and spawned shells.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124323279624393035</description>
-      <content:encoded><![CDATA[<p>CVE-2026-126714 (phpAfterShell, CVSS 9.2) lets interrupted PHP file-session writes become deserialization, with a public PoC but no reported exploitation. Hunt PHP workers for crashes, OOM events, and spawned shells.</p><p>#DFIR_Radar</p><p><a href="https://socprime.com/blog/cve-2026-126714-phpaftershell-php-session-flaw-can-lead-to-remote-code-execution/">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124323279624393035">View on X</a></p>]]></content:encoded>
-      <dc:creator>SOCPrime</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124323279624393035</comments>
-      <category>VULNERABILITY</category>
-      <source url="https://x.com/DFIR_Radar/status/2124323279624393035">DFIR Radar</source>
-      <pubDate>Sun, 22 Nov 2026 02:05:13 +0000</pubDate>
-      <guid isPermaLink="false">2124323279624393035</guid>
     </item>
   </channel>
 </rss>
