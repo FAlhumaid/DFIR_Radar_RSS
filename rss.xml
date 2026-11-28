@@ -5,8 +5,36 @@
     <link>https://x.com/DFIR_Radar</link>
     <description>Keeping DFIR Intelligence on your Radar. The latest DFIR research from hundreds of sources, ranked by relevance for practitioners.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 28 Nov 2026 16:02:23 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Nov 2026 19:02:48 +0000</lastBuildDate>
     <atom:link href="https://falhumaid.github.io/DFIR_Radar_RSS/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>When an IP Address Looks Like a Number</title>
+      <link>https://detect.fyi/when-an-ip-address-looks-like-a-number-a2aac799ebca?source=rss----d5fd8f494f6a---4</link>
+      <description>A ClickFix case had two curl.exe processes pulling files from 1566454813/455: no dots, no scheme, no domain. It is 93.94.52[.]29 written as a single 32-bit integer, and any hunt that only matches dotted IPs walks right past it.
+
+What happened: a fake CAPTCHA or "fix this error" page talks a user into pasting a command and running it themselves. In the process tree, explorer.exe led to cmd.exe, which spawned two curl.exe processes and powershell.exe. One curl wrote crandle.txt to the user's Temp folder and the other wrote Z797.ps1. PowerShell then started with a command naming that same script. PowerShell later led to csc.exe and ilasm.exe, then browser processes. Defender also raised possible process injection alerts during the wider incident.
+
+- The trick: an IPv4 address is four bytes, so it can be read as one unsigned 32-bit number. (93 x 256^3) + (94 x 256^2) + (52 x 256) + 29 = 1566454813. Nothing is encrypted or packed. curl accepts numeric IPv4 forms and URLs without a scheme, so a bare number plus a path works as a destination. The same address in hex would be 0x5D5E341D, though this incident did not use hex.
+
+- Why searches miss it: the process log keeps the text as typed, while the network log records the real RemoteIP. A string match on 93.94.52[.]29 or a regex for four dotted octets never connects the two. The report is careful that a large number alone means nothing, since command lines are full of timeouts, ports, and sizes. It becomes evidence when it sits in the destination position and the decoded address matches a successful connection from the same process.
+
+- The hunt logic: find a candidate number in the host position of a curl command, decode it with format_ipv4() in Advanced Hunting, then correlate with DeviceNetworkEvents where ConnectionSuccess and RemoteIP equals the decoded value. The report gives KQL for curl process creation, curl network confirmation, other tools (powershell, mshta, wscript, cscript, certutil, bitsadmin, wget), hex-form curl, and Run/RunOnce/RunMRU registry writes.
+
+- Known blind spots: the process hunt skips a bare number with no scheme and no path, and a URL right after a switch like -s. The Run-key hunt needs an explicit HTTP URL and a shell or network tool name in the value, and misses scheduled tasks, services, and startup folders. Proxies and redirects can make RemoteIP differ from the command's destination. The other-tools hunt is a hypothesis, since those tools may not parse numeric hosts the same way.
+
+- What the evidence does not prove: the report refuses to write the whole story from one tree. Nothing here shows persistence, and each bigger claim needs its own evidence.
+
+Takeaway: when a hunt hits, read the command first, then decode and compare against network events from the same process. Check what launched it and what ran before and after, whether the requested file was created and later executed, and check persistence as a separate question across Run keys, scheduled tasks, services, and startup items. Pivot on ProcessUniqueId plus DeviceId, never PID alone, because Windows reuses PIDs. Then search all telemetry for both the decimal number and the dotted IP. Keep any allowlist narrow and tied to verified business context, not just a process name or IP. The KQL for every hunt is in the report.
+
+#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2126753688983081409</description>
+      <content:encoded><![CDATA[<p>A ClickFix case had two curl.exe processes pulling files from 1566454813/455: no dots, no scheme, no domain. It is 93.94.52[.]29 written as a single 32-bit integer, and any hunt that only matches dotted IPs walks right past it.</p><p>What happened: a fake CAPTCHA or &quot;fix this error&quot; page talks a user into pasting a command and running it themselves. In the process tree, explorer.exe led to cmd.exe, which spawned two curl.exe processes and powershell.exe. One curl wrote crandle.txt to the user&#x27;s Temp folder and the other wrote Z797.ps1. PowerShell then started with a command naming that same script. PowerShell later led to csc.exe and ilasm.exe, then browser processes. Defender also raised possible process injection alerts during the wider incident.</p><p>- The trick: an IPv4 address is four bytes, so it can be read as one unsigned 32-bit number. (93 x 256^3) + (94 x 256^2) + (52 x 256) + 29 = 1566454813. Nothing is encrypted or packed. curl accepts numeric IPv4 forms and URLs without a scheme, so a bare number plus a path works as a destination. The same address in hex would be 0x5D5E341D, though this incident did not use hex.</p><p>- Why searches miss it: the process log keeps the text as typed, while the network log records the real RemoteIP. A string match on 93.94.52[.]29 or a regex for four dotted octets never connects the two. The report is careful that a large number alone means nothing, since command lines are full of timeouts, ports, and sizes. It becomes evidence when it sits in the destination position and the decoded address matches a successful connection from the same process.</p><p>- The hunt logic: find a candidate number in the host position of a curl command, decode it with format_ipv4() in Advanced Hunting, then correlate with DeviceNetworkEvents where ConnectionSuccess and RemoteIP equals the decoded value. The report gives KQL for curl process creation, curl network confirmation, other tools (powershell, mshta, wscript, cscript, certutil, bitsadmin, wget), hex-form curl, and Run/RunOnce/RunMRU registry writes.</p><p>- Known blind spots: the process hunt skips a bare number with no scheme and no path, and a URL right after a switch like -s. The Run-key hunt needs an explicit HTTP URL and a shell or network tool name in the value, and misses scheduled tasks, services, and startup folders. Proxies and redirects can make RemoteIP differ from the command&#x27;s destination. The other-tools hunt is a hypothesis, since those tools may not parse numeric hosts the same way.</p><p>- What the evidence does not prove: the report refuses to write the whole story from one tree. Nothing here shows persistence, and each bigger claim needs its own evidence.</p><p>Takeaway: when a hunt hits, read the command first, then decode and compare against network events from the same process. Check what launched it and what ran before and after, whether the requested file was created and later executed, and check persistence as a separate question across Run keys, scheduled tasks, services, and startup items. Pivot on ProcessUniqueId plus DeviceId, never PID alone, because Windows reuses PIDs. Then search all telemetry for both the decimal number and the dotted IP. Keep any allowlist narrow and tied to verified business context, not just a process name or IP. The KQL for every hunt is in the report.</p><p>#DFIR_Radar</p><p><a href="https://detect.fyi/when-an-ip-address-looks-like-a-number-a2aac799ebca?source=rss----d5fd8f494f6a---4">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2126753688983081409">View on X</a></p>]]></content:encoded>
+      <dc:creator>Detect FYI</dc:creator>
+      <comments>https://x.com/DFIR_Radar/status/2126753688983081409</comments>
+      <category>DETECTION</category>
+      <source url="https://x.com/DFIR_Radar/status/2126753688983081409">DFIR Radar</source>
+      <pubDate>Sat, 28 Nov 2026 19:02:48 +0000</pubDate>
+      <guid isPermaLink="false">2126753688983081409</guid>
+    </item>
     <item>
       <title>Q-Dir and DesktopOK Windows utilities compromised to push Python RAT</title>
       <link>https://www.bleepingcomputer.com/news/security/q-dir-and-desktopok-windows-utilities-compromised-to-push-python-rat/</link>
@@ -2166,20 +2194,6 @@ Takeaway: the per-framework IP lists are in the author's GitHub Daily-Hunt repos
       <source url="https://x.com/DFIR_Radar/status/2124368918227898800">DFIR Radar</source>
       <pubDate>Sun, 22 Nov 2026 05:06:34 +0000</pubDate>
       <guid isPermaLink="false">2124368918227898800</guid>
-    </item>
-    <item>
-      <title>Bazuka Android Malware Uses Fake Screen Overlays to Hide Credential Theft and Device Control</title>
-      <link>https://thehackernews.com/2026/11/bazuka-android-malware-uses-fake-screen.html</link>
-      <description>ThreatFabric details Bazuka, an Android framework with 23 modules, an AI-assisted panel, and screenshot overlays hiding theft. Hunt devices for com.tiktok.premium droppers and unexpected Wireless Debugging enablement.
-
-#DFIR_Radar | View on X: https://x.com/DFIR_Radar/status/2124353422833090640</description>
-      <content:encoded><![CDATA[<p>ThreatFabric details Bazuka, an Android framework with 23 modules, an AI-assisted panel, and screenshot overlays hiding theft. Hunt devices for com.tiktok.premium droppers and unexpected Wireless Debugging enablement.</p><p>#DFIR_Radar</p><p><a href="https://thehackernews.com/2026/11/bazuka-android-malware-uses-fake-screen.html">Read the report</a> | <a href="https://x.com/DFIR_Radar/status/2124353422833090640">View on X</a></p>]]></content:encoded>
-      <dc:creator>The Hacker News</dc:creator>
-      <comments>https://x.com/DFIR_Radar/status/2124353422833090640</comments>
-      <category>MALWARE ANALYSIS</category>
-      <source url="https://x.com/DFIR_Radar/status/2124353422833090640">DFIR Radar</source>
-      <pubDate>Sun, 22 Nov 2026 04:05:00 +0000</pubDate>
-      <guid isPermaLink="false">2124353422833090640</guid>
     </item>
   </channel>
 </rss>
